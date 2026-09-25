@@ -1,0 +1,5 @@
+# Install a PyTorch CUDA build compatible with the cluster driver if needed.
+# This reference environment is tested on CPU; training records actual versions.
+-r requirements.txt
+torch==2.6.0
+matplotlib==3.9.4

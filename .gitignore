@@ -1,0 +1,47 @@
+# Operating-system metadata anywhere in the course repository.
+.DS_Store
+
+# Keep ADNI-specific exclusions scoped to this project folder.
+# Local Python environments and generated caches.
+/recognition/ADNI_s4983666/**/.venv/
+/recognition/ADNI_s4983666/**/venv/
+/recognition/ADNI_s4983666/**/__pycache__/
+/recognition/ADNI_s4983666/**/*.py[cod]
+/recognition/ADNI_s4983666/**/.pytest_cache/
+/recognition/ADNI_s4983666/**/.mypy_cache/
+/recognition/ADNI_s4983666/**/.ruff_cache/
+/recognition/ADNI_s4983666/**/.coverage
+/recognition/ADNI_s4983666/**/htmlcov/
+
+# Local credential files.
+/recognition/ADNI_s4983666/**/.env
+/recognition/ADNI_s4983666/**/.env.*
+!/recognition/ADNI_s4983666/**/.env.example
+
+# Course data and generated patient-level manifests stay outside Git.
+/recognition/ADNI_s4983666/**/ADNI/
+/recognition/ADNI_s4983666/**/AD_NC/
+/recognition/ADNI_s4983666/**/data/
+/recognition/ADNI_s4983666/**/datasets/
+/recognition/ADNI_s4983666/**/adni_splits*/
+/recognition/ADNI_s4983666/**/meta_data_with_label.json
+/recognition/ADNI_s4983666/**/*.csv
+/recognition/ADNI_s4983666/**/*.jpg
+/recognition/ADNI_s4983666/**/*.jpeg
+/recognition/ADNI_s4983666/**/*.nii
+/recognition/ADNI_s4983666/**/*.nii.gz
+
+# Training outputs and derived data.
+/recognition/ADNI_s4983666/**/checkpoints/
+/recognition/ADNI_s4983666/**/outputs/
+/recognition/ADNI_s4983666/**/runs/
+/recognition/ADNI_s4983666/**/wandb/
+/recognition/ADNI_s4983666/**/*.pt
+/recognition/ADNI_s4983666/**/*.pth
+/recognition/ADNI_s4983666/**/*.ckpt
+/recognition/ADNI_s4983666/**/*.npy
+/recognition/ADNI_s4983666/**/*.npz
+/recognition/ADNI_s4983666/**/*.pkl
+
+# The supplied coursework brief is reference material, not project source.
+/recognition/ADNI_s4983666/**/COMP3710_Report_2026_draft_v2.pdf
