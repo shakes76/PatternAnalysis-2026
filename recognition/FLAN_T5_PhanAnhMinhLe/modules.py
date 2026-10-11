@@ -1,5 +1,37 @@
-"""Model components for Phan Anh Minh Le's radiology summarisation project.
+"""Pretrained FLAN-T5 baseline and parameter counts."""
 
-Scaffold only. Model selection, loading, and adaptation will be implemented
-after consultation with the project author.
-"""
+from pathlib import Path
+
+import torch
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
+MODEL_ID = "google/flan-t5-base"
+MODEL_DIR = Path(__file__).resolve().parent / "models" / "flan-t5-base"
+
+
+def load_baseline(model_name=None, device=None):
+    if model_name is None:
+        model_name = str(MODEL_DIR) if MODEL_DIR.exists() else MODEL_ID
+    device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(device)
+    revision_file = Path(model_name) / "download_revision.txt"
+    if revision_file.exists():
+        model.config._commit_hash = revision_file.read_text(encoding="utf-8-sig").strip()
+    model.eval()
+    return tokenizer, model
+
+
+def count_params(model):
+    """Evaluation mode does not change requires_grad."""
+    total = sum(parameter.numel() for parameter in model.parameters())
+    trainable = sum(parameter.numel() for parameter in model.parameters()
+                    if parameter.requires_grad)
+    return {
+        "total_parameters": total,
+        "trainable_parameters": trainable,
+        "non_trainable_parameters": total - trainable,
+        "trainable_layers": [name for name, layer in model.named_modules()
+                             if any(p.requires_grad for p in
+                                    layer.parameters(recurse=False))],
+    }
