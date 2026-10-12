@@ -13,7 +13,7 @@ import torch
 from rouge_score import rouge_scorer
 
 from dataset import PROJECT_DIR, load_reports, make_prompt
-from modules import MODEL_ID, count_params, load_baseline
+from modules import MODEL_ID, count_params, load_baseline, load_lora
 
 
 @torch.inference_mode()
@@ -27,7 +27,8 @@ def predict(report, tokenizer, model, max_input_length=512, max_new_tokens=256):
 
 def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
                       max_input_length=512, max_new_tokens=256, safety_cases=5,
-                      output_dir=PROJECT_DIR / "outputs" / "baseline"):
+                      output_dir=PROJECT_DIR / "outputs" / "baseline",
+                      training_info=None):
     """Score validation; export separate test cases for human safety review."""
     if limit is not None and limit < 1:
         raise ValueError("limit must be positive or None")
@@ -122,6 +123,9 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
         "rouge_convention": "mean per-report F1, stemming, punctuation sentence splitting",
         "clinical_safety": "Test cases require qualitative human review; ROUGE is not a safety score",
     }
+    if training_info is not None:
+        metrics.update(training_info)
+        metrics["packages"]["peft"] = version("peft")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     for name, value in (("metrics", metrics), ("predictions", predictions),
@@ -132,9 +136,66 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
     return metrics
 
 
+def compare_runs(run_dirs, output_dir):
+    """Match validation and safety examples across all runs."""
+    runs = {Path(path).name: {
+        name: json.loads((Path(path) / f"{name}.json").read_text(encoding="utf-8"))
+        for name in ("metrics", "predictions", "safety_cases")
+    } for path in run_dirs}
+    baseline = next(iter(runs.values()))
+    settings = ("seed", "max_input_length", "max_new_tokens", "decoding",
+                "model_revision", "rouge_convention")
+    for run in runs.values():
+        if any(run["metrics"][key] != baseline["metrics"][key] for key in settings):
+            raise ValueError("Comparison settings differ")
+        for name in ("predictions", "safety_cases"):
+            if [(r["index"], r["report"], r["reference"]) for r in run[name]] != [
+                (r["index"], r["report"], r["reference"]) for r in baseline[name]
+            ]:
+                raise ValueError("Comparison examples differ")
+    comparison = {
+        "metrics": {name: run["metrics"] for name, run in runs.items()},
+        "validation_examples": [], "safety_examples": [],
+    }
+    for source, target in (("predictions", "validation_examples"),
+                           ("safety_cases", "safety_examples")):
+        for position, row in enumerate(baseline[source]):
+            comparison[target].append({
+                "index": row["index"], "report": row["report"],
+                "reference": row["reference"],
+                "outputs": {name: run[source][position]["prediction"]
+                            for name, run in runs.items()},
+            })
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "comparison.json").write_text(
+        json.dumps(comparison, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    lines = ["# LoRA pilot comparison", "",
+             f"Validation sample: {baseline['metrics']['evaluated_reports']} reports; "
+             f"seed {baseline['metrics']['seed']}. Small pilot, not final model selection.", "",
+             "| Run | ROUGE-1 | ROUGE-2 | ROUGE-L | ROUGE-Lsum | Train seconds | Tokens/sec |",
+             "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+    for name, run in runs.items():
+        metrics = run["metrics"]
+        values = " | ".join(f"{value:.4f}" for value in metrics["rouge_f1"].values())
+        lines.append(f"| {name} | {values} | {metrics['training_seconds']:.2f} | "
+                     f"{metrics['inference_tokens_per_second']:.2f} |")
+    lines += ["", "## Matched test cases", "",
+              "No reference summaries are supplied for test. Review each output against "
+              "the source for hallucinations, omissions, certainty, and readability."]
+    for case in comparison["safety_examples"]:
+        lines += ["", f"### Test {case['index']}", "", f"Source: {case['report']}"]
+        for name, summary in case["outputs"].items():
+            lines += ["", f"**{name}:** {summary}"]
+    (output_dir / "comparison.md").write_text("\n".join(lines), encoding="utf-8")
+    return comparison
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--report", help="Predict one report instead of evaluating")
+    parser.add_argument("--adapter", type=Path, help="Saved LoRA adapter directory")
     parser.add_argument("--limit", type=int, help="Seeded validation sample; omit for full split")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--threads", type=int, default=4)
@@ -142,12 +203,16 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", type=Path, default=PROJECT_DIR / "outputs" / "baseline")
     args = parser.parse_args()
     torch.set_num_threads(args.threads)
-    tokenizer, model = load_baseline()
+    tokenizer, model = (load_lora(adapter_path=args.adapter) if args.adapter
+                        else load_baseline())
     if args.report:
         print(predict(args.report, tokenizer, model, max_new_tokens=args.max_new_tokens))
     else:
+        info_file = args.adapter / "training_info.json" if args.adapter else None
+        training_info = (json.loads(info_file.read_text(encoding="utf-8"))
+                         if info_file and info_file.exists() else None)
         metrics = evaluate_baseline(tokenizer, model, limit=args.limit, seed=args.seed,
                                     max_new_tokens=args.max_new_tokens,
-                                    output_dir=args.output_dir)
+                                    output_dir=args.output_dir, training_info=training_info)
         print(json.dumps({key: value for key, value in metrics.items()
                           if key != "trainable_layers"}, indent=2))

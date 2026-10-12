@@ -44,8 +44,22 @@ def make_prompt(report):
     )
 
 
+def remove_train_overlap(reports):
+    """Keep held-out splits fixed; remove matching training IDs and text."""
+    held_out = [reports[split] for split in ("validation", "test")]
+    ids = {key for data in held_out
+           for key in zip(data["source"], data["images_path"])}
+    texts = {text.strip().lower() for data in held_out
+             for text in data["radiology_report"]}
+    train = reports["train"]
+    keep = [index for index, row in enumerate(train)
+            if (row["source"], row["images_path"]) not in ids
+            and row["radiology_report"].strip().lower() not in texts]
+    return DatasetDict({**reports, "train": train.select(keep)})
+
+
 def get_tokenized_splits(tokenizer, reports=None, max_input_length=512,
-                         max_target_length=256):
+                         max_target_length=256, padding="max_length"):
     """Mask target padding with -100 for the seq2seq loss."""
     if reports is None:
         reports = load_reports()
@@ -53,13 +67,16 @@ def get_tokenized_splits(tokenizer, reports=None, max_input_length=512,
     def tokenize(batch):
         inputs = tokenizer(
             [make_prompt(text) for text in batch["radiology_report"]],
-            max_length=max_input_length, truncation=True, padding="max_length",
+            max_length=max_input_length, truncation=True, padding=padding,
         )
         if all(not text for text in batch["layman_report"]):
             return inputs
+        if any(not isinstance(text, str) or not text.strip()
+               for text in batch["layman_report"]):
+            raise ValueError("Mixed labelled and unlabelled reports")
         targets = tokenizer(
             text_target=batch["layman_report"], max_length=max_target_length,
-            truncation=True, padding="max_length",
+            truncation=True, padding=padding,
         )
         inputs["labels"] = [
             [token if token != tokenizer.pad_token_id else -100 for token in ids]

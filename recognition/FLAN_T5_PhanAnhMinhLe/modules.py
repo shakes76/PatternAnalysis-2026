@@ -35,3 +35,21 @@ def count_params(model):
                              if any(p.requires_grad for p in
                                     layer.parameters(recurse=False))],
     }
+
+
+def load_lora(rank=8, alpha=16, dropout=0.05, adapter_path=None, device=None):
+    """Train query/value adapters; requires peft==0.15.2."""
+    from peft import LoraConfig, PeftModel, TaskType, get_peft_model
+
+    tokenizer, model = load_baseline(device=device)
+    if adapter_path is not None:
+        model = PeftModel.from_pretrained(model, str(adapter_path))
+        model.eval()
+    else:
+        config = LoraConfig(
+            task_type=TaskType.SEQ_2_SEQ_LM, r=rank, lora_alpha=alpha,
+            lora_dropout=dropout, target_modules=["q", "v"], bias="none",
+        )
+        model = get_peft_model(model, config)
+        model.train()
+    return tokenizer, model
