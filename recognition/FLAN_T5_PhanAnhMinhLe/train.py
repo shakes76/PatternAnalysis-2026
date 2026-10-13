@@ -216,15 +216,16 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
         raise ValueError("generation_every must be nonnegative; 0 means checkpoints only")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    gpu = model.device.type == "cuda"
     collator = DataCollatorForSeq2Seq(tokenizer, model=model, label_pad_token_id=-100)
     train = DataLoader(tokens["train"], batch_size=batch_size, shuffle=True,
-                       collate_fn=collator, generator=torch.Generator().manual_seed(seed))
+                       collate_fn=collator, generator=torch.Generator().manual_seed(seed),
+                       pin_memory=gpu)
     validation = DataLoader(tokens["validation"], batch_size=batch_size,
                             collate_fn=collator)
     optimizers, partition = full_optimizers(model, learning_rate, optimizer_name)
     (output_dir / "optimizer_partition.json").write_text(
         json.dumps(partition, indent=2), encoding="utf-8")
-    gpu = model.device.type == "cuda"
     bf16 = gpu and torch.cuda.is_bf16_supported()
 
     def synchronize():
@@ -232,13 +233,36 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
             torch.cuda.synchronize(model.device)
 
     synchronize()
-    if gpu:
-        torch.cuda.reset_peak_memory_stats(model.device)
     wall_start = time.perf_counter()
     training_seconds, validation_seconds, step, peak_training_vram = 0.0, 0.0, 0, 0
     loss_seconds, generation_seconds, generation_steps = 0.0, 0.0, []
     history, step_losses, results = [], [], []
+    pending_losses, pending_norms = [], []
+    segment_start = None
+    training_segments = 0
     model.config.use_cache = False
+
+    def collect_losses():
+        if not pending_losses:
+            return
+        values = torch.stack((torch.stack(pending_losses), torch.stack(pending_norms))).cpu()
+        if not torch.isfinite(values).all():
+            raise ValueError("Non-finite training loss or gradient norm")
+        step_losses.extend(values[0].tolist())
+        pending_losses.clear()
+        pending_norms.clear()
+
+    def finish_training():
+        nonlocal training_seconds, peak_training_vram, segment_start
+        if segment_start is None:
+            return
+        collect_losses()
+        synchronize()
+        training_seconds += time.perf_counter() - segment_start
+        if gpu:
+            peak_training_vram = max(peak_training_vram,
+                                     torch.cuda.max_memory_allocated(model.device))
+        segment_start = None
 
     def info(epoch):
         return {
@@ -251,7 +275,11 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
             "training_seconds": training_seconds, "validation_seconds": validation_seconds,
             "validation_loss_seconds": loss_seconds, "generation_seconds": generation_seconds,
             "wall_seconds": time.perf_counter() - wall_start,
-            "training_scope": "forward, backward, clipping, optimizer updates; excludes validation/save",
+            "training_scope": "training segments including data collation/logging; excludes validation/save",
+            "training_gpu_sync": "training/evaluation boundaries",
+            "training_segments": training_segments, "scalar_check_every_steps": 25,
+            "pinned_training_batches": gpu, "nonblocking_training_transfers": gpu,
+            "peak_memory_reset_scope": "training segment boundaries",
             "training_gpu_resources": torch.cuda.get_device_name(model.device) if gpu else "CPU",
             "training_peak_gpu_vram_mib": peak_training_vram / 2**20 if gpu else None,
             "rocm_version": torch.version.hip, "torch_version": torch.__version__,
@@ -313,34 +341,38 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
         model.train()
         metrics = None
         for batch in train:
-            synchronize()
-            if gpu:
-                torch.cuda.reset_peak_memory_stats(model.device)
-            start = time.perf_counter()
-            batch = {key: value.to(model.device) for key, value in batch.items()}
+            if segment_start is None:
+                synchronize()
+                if gpu:
+                    torch.cuda.reset_peak_memory_stats(model.device)
+                segment_start = time.perf_counter()
+                training_segments += 1
             assert not torch.any(batch["labels"] == tokenizer.pad_token_id)
+            batch = {key: value.to(model.device, non_blocking=gpu)
+                     for key, value in batch.items()}
             for optimizer in optimizers:
                 optimizer.zero_grad(set_to_none=True)
             with torch.autocast("cuda", dtype=torch.bfloat16, enabled=bf16):
                 loss = model(**batch).loss
-            if not torch.isfinite(loss):
-                raise ValueError("Non-finite training loss")
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0, error_if_nonfinite=True)
+            norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0,
+                                                 error_if_nonfinite=False)
             for optimizer in optimizers:
                 optimizer.step()
-            synchronize()
-            if gpu:
-                peak_training_vram = max(peak_training_vram, torch.cuda.max_memory_allocated(model.device))
-            training_seconds += time.perf_counter() - start
             step += 1
-            step_losses.append(loss.item())
+            pending_losses.append(loss.detach())
+            pending_norms.append(norm.detach())
             if step % 25 == 0:
+                collect_losses()
                 print(f"{optimizer_name} lr={learning_rate} epoch={epoch} "
-                      f"step={step} loss={loss.item():.4f} train_seconds={training_seconds:.1f}", flush=True)
+                      f"step={step} loss={step_losses[-1]:.4f} "
+                      f"train_seconds={training_seconds + time.perf_counter() - segment_start:.1f}", flush=True)
             generation_due = generation_every > 0 and step % generation_every == 0
-            metrics = (validate(epoch, generate=generation_due)
-                       if step % eval_every == 0 or generation_due else None)
+            metrics = None
+            if step % eval_every == 0 or generation_due:
+                finish_training()
+                metrics = validate(epoch, generate=generation_due)
+        finish_training()
         if epoch in epoch_options:
             if metrics is None:
                 metrics = validate(epoch, generate=True)
