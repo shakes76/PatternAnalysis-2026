@@ -203,14 +203,17 @@ def full_optimizers(model, learning_rate, optimizer_name, weight_decay=0.01):
 
 def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
               optimizer_name="adamw", epoch_options=(1, 3), batch_size=16,
-              eval_every=500, eval_limit=150, seed=42):
-    """Save matched epoch checkpoints; validate every 500 optimiser steps."""
+              eval_every=500, eval_limit=150, seed=42, generation_every=None):
+    """Check validation loss periodically; generate at selected steps/checkpoints."""
     if not epoch_options or min(epoch_options) < 1 or batch_size < 1 or eval_every < 1:
         raise ValueError("Epochs, batch size, and evaluation interval must be positive")
     if not len(tokens["train"]) or not len(tokens["validation"]):
         raise ValueError("Training and validation must be nonempty")
     if not all(p.requires_grad for p in model.parameters()):
         raise ValueError("Full fine-tuning requires all parameters trainable")
+    generation_every = eval_every if generation_every is None else generation_every
+    if generation_every < 0:
+        raise ValueError("generation_every must be nonnegative; 0 means checkpoints only")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     collator = DataCollatorForSeq2Seq(tokenizer, model=model, label_pad_token_id=-100)
@@ -233,6 +236,7 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
         torch.cuda.reset_peak_memory_stats(model.device)
     wall_start = time.perf_counter()
     training_seconds, validation_seconds, step, peak_training_vram = 0.0, 0.0, 0, 0
+    loss_seconds, generation_seconds, generation_steps = 0.0, 0.0, []
     history, step_losses, results = [], [], []
     model.config.use_cache = False
 
@@ -242,8 +246,10 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
             "optimizer_fused": optimizers[0].defaults["fused"],
             "model_revision": getattr(model.config, "_commit_hash", None),
             "epochs": epoch, "batch_size": batch_size, "eval_every_steps": eval_every,
+            "generation_every_steps": generation_every, "generation_steps": generation_steps.copy(),
             "optimizer_steps": step, "train_reports": len(tokens["train"]),
             "training_seconds": training_seconds, "validation_seconds": validation_seconds,
+            "validation_loss_seconds": loss_seconds, "generation_seconds": generation_seconds,
             "wall_seconds": time.perf_counter() - wall_start,
             "training_scope": "forward, backward, clipping, optimizer updates; excludes validation/save",
             "training_gpu_resources": torch.cuda.get_device_name(model.device) if gpu else "CPU",
@@ -256,34 +262,51 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
             "loss_history": history.copy(), **count_params(model),
         }
 
-    def validate(epoch):
-        nonlocal validation_seconds
+    def validate(epoch, generate=False):
+        nonlocal validation_seconds, loss_seconds, generation_seconds
         synchronize()
         start = time.perf_counter()
         model.eval()
-        total_loss, total_tokens = 0.0, 0
-        with torch.inference_mode():
-            for batch in validation:
-                batch = {key: value.to(model.device) for key, value in batch.items()}
-                count = int((batch["labels"] != -100).sum())
-                with torch.autocast("cuda", dtype=torch.bfloat16, enabled=bf16):
-                    loss = model(**batch).loss
-                if not torch.isfinite(loss):
-                    raise ValueError("Non-finite validation loss")
-                total_loss += loss.item() * count
-                total_tokens += count
-        history.append({"epoch": epoch, "step": step,
-                        "validation_loss": total_loss / total_tokens})
-        # Same held-out examples and decoding as the existing comparison.
-        model.config.use_cache = True
-        metrics = evaluate_baseline(
-            tokenizer, model, reports=reports, limit=eval_limit, seed=seed,
-            output_dir=output_dir / "evaluations" / f"step_{step}", training_info=info(epoch),
-        )
+        evaluation_dir = output_dir / "evaluations" / f"step_{step}"
+        evaluation_dir.mkdir(parents=True, exist_ok=True)
+        if not history or history[-1]["step"] != step:
+            total_loss, total_tokens = 0.0, 0
+            with torch.inference_mode():
+                for batch in validation:
+                    batch = {key: value.to(model.device) for key, value in batch.items()}
+                    count = int((batch["labels"] != -100).sum())
+                    with torch.autocast("cuda", dtype=torch.bfloat16, enabled=bf16):
+                        loss = model(**batch).loss
+                    if not torch.isfinite(loss):
+                        raise ValueError("Non-finite validation loss")
+                    total_loss += loss.item() * count
+                    total_tokens += count
+            history.append({"epoch": epoch, "step": step,
+                            "validation_loss": total_loss / total_tokens})
+            synchronize()
+            loss_seconds += time.perf_counter() - start
+            (evaluation_dir / "validation_loss.json").write_text(
+                json.dumps(history[-1], indent=2), encoding="utf-8")
+            print(f"Validation loss step={step}: {history[-1]['validation_loss']:.4f}", flush=True)
+        metrics = None
+        if generate:
+            generation_start = time.perf_counter()
+            generation_steps.append(step)
+            model.config.use_cache = True
+            metrics = evaluate_baseline(
+                tokenizer, model, reports=reports, limit=eval_limit, seed=seed,
+                output_dir=evaluation_dir, training_info=info(epoch),
+            )
+            synchronize()
+            generation_seconds += time.perf_counter() - generation_start
         model.config.use_cache = False
         synchronize()
         validation_seconds += time.perf_counter() - start
         model.train()
+        if metrics is not None:
+            metrics.update(info(epoch))
+            (evaluation_dir / "metrics.json").write_text(
+                json.dumps(metrics, indent=2), encoding="utf-8")
         return metrics
 
     for epoch in range(1, max(epoch_options) + 1):
@@ -315,10 +338,12 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
             if step % 25 == 0:
                 print(f"{optimizer_name} lr={learning_rate} epoch={epoch} "
                       f"step={step} loss={loss.item():.4f} train_seconds={training_seconds:.1f}", flush=True)
-            metrics = validate(epoch) if step % eval_every == 0 else None
+            generation_due = generation_every > 0 and step % generation_every == 0
+            metrics = (validate(epoch, generate=generation_due)
+                       if step % eval_every == 0 or generation_due else None)
         if epoch in epoch_options:
             if metrics is None:
-                metrics = validate(epoch)
+                metrics = validate(epoch, generate=True)
             checkpoint = output_dir / f"epoch_{epoch}"
             checkpoint.mkdir(parents=True, exist_ok=True)
             model.config.use_cache = True
@@ -352,7 +377,8 @@ def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
 
 def run_full_experiments(train_limit=8000, eval_limit=150, output_dir=PROJECT_DIR / "outputs" / "full_finetuning",
                          learning_rates=(5e-5, 1e-4), optimizer_names=("adamw", "muon_adamw"),
-                         epoch_options=(1, 3), seed=42, batch_size=16):
+                         epoch_options=(1, 3), seed=42, batch_size=16,
+                         eval_every=500, generation_every=None):
     """Compare selected optimizers, rates, and epoch checkpoints."""
     if not torch.cuda.is_available() or not torch.version.hip:
         raise RuntimeError("AMD ROCm PyTorch is required for measured GPU experiments")
@@ -391,7 +417,8 @@ def run_full_experiments(train_limit=8000, eval_limit=150, output_dir=PROJECT_DI
             name = f"{optimizer_name}_lr{learning_rate:g}"
             runs.extend(fine_tune(tokenizer, model, published, tokens, output_dir / name,
                                   learning_rate, optimizer_name, epoch_options, seed=seed,
-                                  eval_limit=eval_limit, batch_size=batch_size))
+                                  eval_limit=eval_limit, batch_size=batch_size,
+                                  eval_every=eval_every, generation_every=generation_every))
             del model
             gc.collect()
             torch.cuda.empty_cache()
@@ -406,6 +433,8 @@ if __name__ == "__main__":
     parser.add_argument("--epochs", type=int, help="Default: LoRA 1; full sweep 1 and 3")
     parser.add_argument("--optimizer", choices=("adamw", "adamw_torch_fused", "muon_adamw"))
     parser.add_argument("--learning-rate", type=float)
+    parser.add_argument("--eval-every", type=int, default=500, help="Validation loss interval")
+    parser.add_argument("--generation-every", type=int, help="ROUGE interval; 0 for checkpoints only")
     parser.add_argument("--batch-size", type=int)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--threads", type=int, default=4)
@@ -421,6 +450,7 @@ if __name__ == "__main__":
             learning_rates=(args.learning_rate,) if args.learning_rate is not None else (5e-5, 1e-4),
             optimizer_names=(args.optimizer,) if args.optimizer else ("adamw", "muon_adamw"),
             epoch_options=(args.epochs,) if args.epochs is not None else (1, 3),
+            eval_every=args.eval_every, generation_every=args.generation_every,
         )
     else:
         run_experiments((128 if args.train_limit is None else args.train_limit) or None,
