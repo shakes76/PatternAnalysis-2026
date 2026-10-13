@@ -1,4 +1,4 @@
-"""Pretrained FLAN-T5 baseline and parameter counts."""
+"""FLAN-T5 loading, adaptation, and parameter counts."""
 
 from pathlib import Path
 
@@ -52,4 +52,14 @@ def load_lora(rank=8, alpha=16, dropout=0.05, adapter_path=None, device=None):
         )
         model = get_peft_model(model, config)
         model.train()
+    return tokenizer, model
+
+
+def load_full(model_name=None, device=None):
+    """Full fine-tuning updates every base parameter."""
+    tokenizer, model = load_baseline(model_name=model_name, device=device)
+    model.requires_grad_(True)
+    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.config.use_cache = False
+    model.train()
     return tokenizer, model

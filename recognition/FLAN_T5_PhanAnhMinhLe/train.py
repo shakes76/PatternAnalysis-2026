@@ -1,4 +1,4 @@
-"""Supervised LoRA experiments with a matched zero-shot comparison."""
+"""Supervised LoRA and full fine-tuning with matched comparisons."""
 
 import argparse
 import gc
@@ -17,6 +17,7 @@ from transformers import DataCollatorForSeq2Seq
 
 from dataset import PROJECT_DIR, get_tokenized_splits, load_reports, remove_train_overlap
 from modules import count_params, load_baseline, load_lora
+from modules import load_full
 from predict import compare_runs, evaluate_baseline
 
 # Hold alpha/rank at 2; isolate rank and learning-rate effects.
@@ -165,16 +166,264 @@ def run_experiments(train_limit=128, eval_limit=20, epochs=1, batch_size=4,
     return comparison
 
 
+def full_optimizers(model, learning_rate, optimizer_name, weight_decay=0.01):
+    """Muon: hidden Linear weights; AdamW: embeddings, norms, and other weights.
+
+    https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html
+    """
+    named = [(name, p) for name, p in model.named_parameters() if p.requires_grad]
+    if optimizer_name not in ("adamw", "adamw_torch_fused", "muon_adamw"):
+        raise ValueError("Use adamw, adamw_torch_fused, or muon_adamw")
+    hidden = {id(layer.weight) for name, layer in model.named_modules()
+              if isinstance(layer, torch.nn.Linear) and name != "lm_head"}
+    embeddings = {id(layer.weight) for layer in model.modules()
+                  if isinstance(layer, torch.nn.Embedding)}
+    hidden -= embeddings | {id(model.get_output_embeddings().weight)}
+    muon = [(name, p) for name, p in named
+            if optimizer_name == "muon_adamw" and id(p) in hidden and p.ndim == 2]
+    muon_ids = {id(p) for _, p in muon}
+    adam = [(name, p) for name, p in named if id(p) not in muon_ids]
+    groups = [{"params": [p for _, p in adam if p.ndim >= 2], "weight_decay": weight_decay},
+              {"params": [p for _, p in adam if p.ndim < 2], "weight_decay": 0.0}]
+    fused = optimizer_name == "adamw_torch_fused"
+    optimizers = [torch.optim.AdamW(groups, lr=learning_rate, foreach=False, fused=fused)]
+    if muon:
+        if not hasattr(torch.optim, "Muon"):
+            raise RuntimeError("Muon requires a newer PyTorch build (2.9 or later)")
+        optimizers.append(torch.optim.Muon(
+            [p for _, p in muon], lr=learning_rate, weight_decay=weight_decay,
+            momentum=0.95, adjust_lr_fn="match_rms_adamw",
+        ))
+    partition = {"muon": [name for name, _ in muon],
+                 "adamw": [name for name, _ in adam]}
+    assert len(named) == len(partition["muon"]) + len(partition["adamw"])
+    assert not muon_ids & {id(p) for _, p in adam}
+    return optimizers, partition
+
+
+def fine_tune(tokenizer, model, reports, tokens, output_dir, learning_rate=5e-5,
+              optimizer_name="adamw", epoch_options=(1, 3), batch_size=16,
+              eval_every=500, eval_limit=150, seed=42):
+    """Save matched epoch checkpoints; validate every 500 optimiser steps."""
+    if not epoch_options or min(epoch_options) < 1 or batch_size < 1 or eval_every < 1:
+        raise ValueError("Epochs, batch size, and evaluation interval must be positive")
+    if not len(tokens["train"]) or not len(tokens["validation"]):
+        raise ValueError("Training and validation must be nonempty")
+    if not all(p.requires_grad for p in model.parameters()):
+        raise ValueError("Full fine-tuning requires all parameters trainable")
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    collator = DataCollatorForSeq2Seq(tokenizer, model=model, label_pad_token_id=-100)
+    train = DataLoader(tokens["train"], batch_size=batch_size, shuffle=True,
+                       collate_fn=collator, generator=torch.Generator().manual_seed(seed))
+    validation = DataLoader(tokens["validation"], batch_size=batch_size,
+                            collate_fn=collator)
+    optimizers, partition = full_optimizers(model, learning_rate, optimizer_name)
+    (output_dir / "optimizer_partition.json").write_text(
+        json.dumps(partition, indent=2), encoding="utf-8")
+    gpu = model.device.type == "cuda"
+    bf16 = gpu and torch.cuda.is_bf16_supported()
+
+    def synchronize():
+        if gpu:
+            torch.cuda.synchronize(model.device)
+
+    synchronize()
+    if gpu:
+        torch.cuda.reset_peak_memory_stats(model.device)
+    wall_start = time.perf_counter()
+    training_seconds, validation_seconds, step, peak_training_vram = 0.0, 0.0, 0, 0
+    history, step_losses, results = [], [], []
+    model.config.use_cache = False
+
+    def info(epoch):
+        return {
+            "adaptation": "full", "optimizer": optimizer_name, "learning_rate": learning_rate,
+            "optimizer_fused": optimizers[0].defaults["fused"],
+            "model_revision": getattr(model.config, "_commit_hash", None),
+            "epochs": epoch, "batch_size": batch_size, "eval_every_steps": eval_every,
+            "optimizer_steps": step, "train_reports": len(tokens["train"]),
+            "training_seconds": training_seconds, "validation_seconds": validation_seconds,
+            "wall_seconds": time.perf_counter() - wall_start,
+            "training_scope": "forward, backward, clipping, optimizer updates; excludes validation/save",
+            "training_gpu_resources": torch.cuda.get_device_name(model.device) if gpu else "CPU",
+            "training_peak_gpu_vram_mib": peak_training_vram / 2**20 if gpu else None,
+            "rocm_version": torch.version.hip, "torch_version": torch.__version__,
+            "precision": "bfloat16 autocast" if bf16 else "float32",
+            "gradient_checkpointing": model.is_gradient_checkpointing,
+            "weight_decay": 0.01, "gradient_clip_norm": 1.0,
+            "learning_rate_schedule": "constant", "muon_lr_adjustment": "match_rms_adamw",
+            "loss_history": history.copy(), **count_params(model),
+        }
+
+    def validate(epoch):
+        nonlocal validation_seconds
+        synchronize()
+        start = time.perf_counter()
+        model.eval()
+        total_loss, total_tokens = 0.0, 0
+        with torch.inference_mode():
+            for batch in validation:
+                batch = {key: value.to(model.device) for key, value in batch.items()}
+                count = int((batch["labels"] != -100).sum())
+                with torch.autocast("cuda", dtype=torch.bfloat16, enabled=bf16):
+                    loss = model(**batch).loss
+                if not torch.isfinite(loss):
+                    raise ValueError("Non-finite validation loss")
+                total_loss += loss.item() * count
+                total_tokens += count
+        history.append({"epoch": epoch, "step": step,
+                        "validation_loss": total_loss / total_tokens})
+        # Same held-out examples and decoding as the existing comparison.
+        model.config.use_cache = True
+        metrics = evaluate_baseline(
+            tokenizer, model, reports=reports, limit=eval_limit, seed=seed,
+            output_dir=output_dir / "evaluations" / f"step_{step}", training_info=info(epoch),
+        )
+        model.config.use_cache = False
+        synchronize()
+        validation_seconds += time.perf_counter() - start
+        model.train()
+        return metrics
+
+    for epoch in range(1, max(epoch_options) + 1):
+        model.train()
+        metrics = None
+        for batch in train:
+            synchronize()
+            if gpu:
+                torch.cuda.reset_peak_memory_stats(model.device)
+            start = time.perf_counter()
+            batch = {key: value.to(model.device) for key, value in batch.items()}
+            assert not torch.any(batch["labels"] == tokenizer.pad_token_id)
+            for optimizer in optimizers:
+                optimizer.zero_grad(set_to_none=True)
+            with torch.autocast("cuda", dtype=torch.bfloat16, enabled=bf16):
+                loss = model(**batch).loss
+            if not torch.isfinite(loss):
+                raise ValueError("Non-finite training loss")
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0, error_if_nonfinite=True)
+            for optimizer in optimizers:
+                optimizer.step()
+            synchronize()
+            if gpu:
+                peak_training_vram = max(peak_training_vram, torch.cuda.max_memory_allocated(model.device))
+            training_seconds += time.perf_counter() - start
+            step += 1
+            step_losses.append(loss.item())
+            if step % 25 == 0:
+                print(f"{optimizer_name} lr={learning_rate} epoch={epoch} "
+                      f"step={step} loss={loss.item():.4f} train_seconds={training_seconds:.1f}", flush=True)
+            metrics = validate(epoch) if step % eval_every == 0 else None
+        if epoch in epoch_options:
+            if metrics is None:
+                metrics = validate(epoch)
+            checkpoint = output_dir / f"epoch_{epoch}"
+            checkpoint.mkdir(parents=True, exist_ok=True)
+            model.config.use_cache = True
+            save_start = time.perf_counter()
+            model.save_pretrained(checkpoint)
+            tokenizer.save_pretrained(checkpoint)
+            metadata = info(epoch)
+            metadata["checkpoint_save_seconds"] = time.perf_counter() - save_start
+            (checkpoint / "training_info.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+            metrics.update(metadata)
+            (checkpoint / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+            for name in ("predictions", "safety_cases"):
+                source = output_dir / "evaluations" / f"step_{step}" / f"{name}.json"
+                (checkpoint / f"{name}.json").write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+            results.append(checkpoint)
+            model.config.use_cache = False
+            print(f"Saved {checkpoint}; training {training_seconds:.1f}s", flush=True)
+    plt.plot(range(1, step + 1), step_losses, label="Training batch loss")
+    plt.plot([row["step"] for row in history], [row["validation_loss"] for row in history],
+             "o-", label="Validation loss")
+    plt.xlabel("Optimizer step")
+    plt.ylabel("Token cross-entropy")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(output_dir / "loss_curve.png")
+    plt.close()
+    model.config.use_cache = True
+    model.eval()
+    return results
+
+
+def run_full_experiments(train_limit=8000, eval_limit=150, output_dir=PROJECT_DIR / "outputs" / "full_finetuning",
+                         learning_rates=(5e-5, 1e-4), optimizer_names=("adamw", "muon_adamw"),
+                         epoch_options=(1, 3), seed=42, batch_size=16):
+    """Compare selected optimizers, rates, and epoch checkpoints."""
+    if not torch.cuda.is_available() or not torch.version.hip:
+        raise RuntimeError("AMD ROCm PyTorch is required for measured GPU experiments")
+    if not hasattr(torch.optim, "Muon") and "muon_adamw" in optimizer_names:
+        raise RuntimeError("Install an AMD PyTorch build with torch.optim.Muon")
+    published = load_reports()
+    clean = remove_train_overlap(published)
+    train_indices = list(range(len(clean["train"])))
+    if train_limit is not None:
+        train_indices = sorted(random.Random(seed).sample(train_indices, min(train_limit, len(train_indices))))
+    val_indices = list(range(len(clean["validation"])))
+    if eval_limit is not None:
+        val_indices = sorted(random.Random(seed).sample(val_indices, min(eval_limit, len(val_indices))))
+    selected = DatasetDict({"train": clean["train"].select(train_indices),
+                            "validation": clean["validation"].select(val_indices)})
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "split_audit.json").write_text(json.dumps({
+        "train_indices_after_filter": train_indices, "validation_indices": val_indices,
+        "removed_train": len(published["train"]) - len(clean["train"]),
+        "patient_separation": "unverified; patient IDs absent",
+    }, indent=2), encoding="utf-8")
+    tokenizer, baseline = load_baseline()
+    tokens = get_tokenized_splits(tokenizer, selected, padding=False)
+    runs = [output_dir / "baseline"]
+    evaluate_baseline(tokenizer, baseline, reports=published, limit=eval_limit,
+                      seed=seed, output_dir=runs[0])
+    del baseline
+    gc.collect()
+    torch.cuda.empty_cache()
+    for optimizer_name in optimizer_names:
+        for learning_rate in learning_rates:
+            random.seed(seed)
+            torch.manual_seed(seed)
+            tokenizer, model = load_full()
+            name = f"{optimizer_name}_lr{learning_rate:g}"
+            runs.extend(fine_tune(tokenizer, model, published, tokens, output_dir / name,
+                                  learning_rate, optimizer_name, epoch_options, seed=seed,
+                                  eval_limit=eval_limit, batch_size=batch_size))
+            del model
+            gc.collect()
+            torch.cuda.empty_cache()
+    return compare_runs(runs, output_dir)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train-limit", type=int, default=128, help="0 for all clean training rows")
-    parser.add_argument("--eval-limit", type=int, default=20, help="0 for full validation")
-    parser.add_argument("--epochs", type=int, default=1)
-    parser.add_argument("--batch-size", type=int, default=4)
+    parser.add_argument("--full", action="store_true", help="Full fine-tuning on AMD ROCm")
+    parser.add_argument("--train-limit", type=int, help="0 for all clean training rows")
+    parser.add_argument("--eval-limit", type=int, help="0 for full validation")
+    parser.add_argument("--epochs", type=int, help="Default: LoRA 1; full sweep 1 and 3")
+    parser.add_argument("--optimizer", choices=("adamw", "adamw_torch_fused", "muon_adamw"))
+    parser.add_argument("--learning-rate", type=float)
+    parser.add_argument("--batch-size", type=int)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--threads", type=int, default=4)
-    parser.add_argument("--output-dir", type=Path, default=PROJECT_DIR / "outputs" / "lora")
+    parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     torch.set_num_threads(args.threads)
-    run_experiments(args.train_limit or None, args.eval_limit or None, args.epochs,
-                    args.batch_size, args.seed, args.output_dir)
+    if args.full:
+        run_full_experiments(
+            (8000 if args.train_limit is None else args.train_limit) or None,
+            (150 if args.eval_limit is None else args.eval_limit) or None,
+            args.output_dir or PROJECT_DIR / "outputs" / "full_finetuning", seed=args.seed,
+            batch_size=args.batch_size if args.batch_size is not None else 16,
+            learning_rates=(args.learning_rate,) if args.learning_rate is not None else (5e-5, 1e-4),
+            optimizer_names=(args.optimizer,) if args.optimizer else ("adamw", "muon_adamw"),
+            epoch_options=(args.epochs,) if args.epochs is not None else (1, 3),
+        )
+    else:
+        run_experiments((128 if args.train_limit is None else args.train_limit) or None,
+                        (20 if args.eval_limit is None else args.eval_limit) or None,
+                        args.epochs if args.epochs is not None else 1, args.batch_size or 4, args.seed,
+                        args.output_dir or PROJECT_DIR / "outputs" / "lora")

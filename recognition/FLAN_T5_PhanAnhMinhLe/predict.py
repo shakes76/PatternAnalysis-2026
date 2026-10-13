@@ -138,7 +138,9 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
 
 def compare_runs(run_dirs, output_dir):
     """Match validation and safety examples across all runs."""
-    runs = {Path(path).name: {
+    output_dir = Path(output_dir)
+    runs = {(str(Path(path).relative_to(output_dir)) if Path(path).is_relative_to(output_dir)
+             else Path(path).name): {
         name: json.loads((Path(path) / f"{name}.json").read_text(encoding="utf-8"))
         for name in ("metrics", "predictions", "safety_cases")
     } for path in run_dirs}
@@ -196,6 +198,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--report", help="Predict one report instead of evaluating")
     parser.add_argument("--adapter", type=Path, help="Saved LoRA adapter directory")
+    parser.add_argument("--checkpoint", type=Path, help="Full fine-tuned model directory")
     parser.add_argument("--limit", type=int, help="Seeded validation sample; omit for full split")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--threads", type=int, default=4)
@@ -203,12 +206,15 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", type=Path, default=PROJECT_DIR / "outputs" / "baseline")
     args = parser.parse_args()
     torch.set_num_threads(args.threads)
+    if args.adapter and args.checkpoint:
+        parser.error("Choose either --adapter or --checkpoint")
     tokenizer, model = (load_lora(adapter_path=args.adapter) if args.adapter
-                        else load_baseline())
+                        else load_baseline(model_name=str(args.checkpoint) if args.checkpoint else None))
     if args.report:
         print(predict(args.report, tokenizer, model, max_new_tokens=args.max_new_tokens))
     else:
-        info_file = args.adapter / "training_info.json" if args.adapter else None
+        checkpoint = args.adapter or args.checkpoint
+        info_file = checkpoint / "training_info.json" if checkpoint else None
         training_info = (json.loads(info_file.read_text(encoding="utf-8"))
                          if info_file and info_file.exists() else None)
         metrics = evaluate_baseline(tokenizer, model, limit=args.limit, seed=args.seed,
