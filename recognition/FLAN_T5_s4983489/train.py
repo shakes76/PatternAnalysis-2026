@@ -1,7 +1,7 @@
-"""运行基线评估、全量微调或 LoRA，并保存结果。
+"""Run baseline evaluation, full fine-tuning or LoRA and save the results.
 
-训练接口：https://huggingface.co/docs/transformers/main_classes/trainer
-ROUGE 实现：https://github.com/google-research/google-research/tree/master/rouge
+Trainer API: https://huggingface.co/docs/transformers/main_classes/trainer
+ROUGE implementation: https://github.com/google-research/google-research/tree/master/rouge
 """
 
 import argparse
@@ -23,7 +23,7 @@ from transformers import (
 from dataset import load_data, tokenize_data
 from modules import count_parameters, load_model
 
-matplotlib.use("Agg")  # 直接保存图片，服务器运行时不需要图形界面。
+matplotlib.use("Agg")  # Save plots without requiring a display.
 import matplotlib.pyplot as plt
 
 
@@ -31,7 +31,7 @@ ROUGE_TYPES = ("rouge1", "rouge2", "rougeL", "rougeLsum")
 
 
 def calculate_rouge(predictions, references):
-    """返回逐条 F1 的平均值，采用 0–100 分制；Lsum 使用英文分句。"""
+    """Return mean per-example F1 on a 0–100 scale; Lsum uses English sentence splitting."""
     scorer = rouge_scorer.RougeScorer(
         ROUGE_TYPES, use_stemmer=True, split_summaries=True
     )
@@ -46,7 +46,7 @@ def calculate_rouge(predictions, references):
 
 
 def plot_history(history, output_path):
-    """按 epoch 绘制训练/验证损失和四种验证 ROUGE。"""
+    """Plot training/validation loss and four validation ROUGE scores by epoch."""
     training = [entry for entry in history if "loss" in entry]
     validation = [entry for entry in history if "eval_loss" in entry]
     epochs = [entry["epoch"] for entry in validation]
@@ -79,7 +79,7 @@ def plot_history(history, output_path):
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=["baseline", "full", "lora"], required=True)
-    parser.add_argument("--output-dir", required=True, help="使用新的目录保存本次实验")
+    parser.add_argument("--output-dir", required=True, help="New directory for this run")
     parser.add_argument("--model-name", default="google/flan-t5-base")
     parser.add_argument("--epochs", type=int, default=2)
     parser.add_argument("--learning-rate", type=float, default=5e-5)
@@ -87,8 +87,8 @@ def parse_args():
     parser.add_argument("--gradient-accumulation-steps", type=int, default=8)
     parser.add_argument("--max-input-length", type=int, default=512)
     parser.add_argument("--max-target-length", type=int, default=512)
-    parser.add_argument("--train-samples", type=int, help="仅用于小规模试跑")
-    parser.add_argument("--eval-samples", type=int, help="仅用于小规模试跑")
+    parser.add_argument("--train-samples", type=int, help="Limit training samples for a small test run")
+    parser.add_argument("--eval-samples", type=int, help="Limit evaluation samples for a small test run")
     parser.add_argument("--seed", type=int, default=42)
     return parser.parse_args()
 
@@ -106,7 +106,7 @@ def main():
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         eval_strategy="epoch",
         logging_strategy="epoch",
-        # 每轮验证后保存权重、优化器和随机状态，保留最新检查点用于续训。
+        # Save weights, optimizer and random states after validation; keep the latest checkpoint.
         save_strategy="epoch",
         save_total_limit=1,
         predict_with_generate=True,
@@ -114,18 +114,18 @@ def main():
         report_to=[],
         seed=args.seed,
     )
-    # 由主进程创建新目录，保留已有实验；其余进程等待创建完成。
+    # Only the main process creates the new run directory; other processes wait.
     with training_args.main_process_first(local=False):
         if training_args.process_index == 0:
             output_dir.mkdir(parents=True)
-            # 开始时就保存实验配置，作业中断后仍能查到原来的训练参数。
+            # Save settings before training so they survive an interrupted job.
             (output_dir / "run_config.json").write_text(
                 json.dumps(vars(args), indent=2), encoding="utf-8"
             )
 
     data = load_data()
     raw_train, raw_eval = data["train"], data["validation"]
-    # 试跑从各自官方划分内随机抽样，不把验证数据混入训练集。
+    # Sample within each official split to keep training and validation separate.
     if args.train_samples is not None:
         raw_train = raw_train.shuffle(seed=args.seed).select(range(args.train_samples))
     if args.eval_samples is not None:
@@ -143,7 +143,7 @@ def main():
     model = load_model(args.model_name, use_lora=args.mode == "lora")
     if args.mode == "baseline":
         model.requires_grad_(False)
-    # max_length 包含解码起始 token，因此比目标 token 上限多一个。
+    # max_length includes the decoder start token, so allow one extra token.
     model.generation_config.max_length = args.max_target_length + 1
     model.generation_config.num_beams = 1
     model.generation_config.do_sample = False
@@ -152,10 +152,10 @@ def main():
 
     def compute_metrics(result):
         nonlocal predictions
-        # Trainer 汇总不同批次时可能用 -100 补齐；解码前改回 pad token。
+        # Replace Trainer's -100 padding with pad tokens before decoding.
         ids = np.where(result.predictions == -100, tokenizer.pad_token_id, result.predictions)
         predictions = tokenizer.batch_decode(ids, skip_special_tokens=True)
-        # 使用完整参考文本，而不是训练时可能被截断的 labels。
+        # Score against complete references, rather than truncated training labels.
         return calculate_rouge(predictions, raw_eval["layman_report"])
 
     trainer = Seq2SeqTrainer(
@@ -175,7 +175,7 @@ def main():
         metrics = trainer.evaluate()
     else:
         result = trainer.train()
-        # 复用最后一轮的验证结果，避免重复生成整套验证数据。
+        # Reuse the final validation results to avoid generating the full set again.
         evaluations = [entry for entry in trainer.state.log_history if "eval_loss" in entry]
         metrics = {**result.metrics, **evaluations[-1]}
         trainer.save_model(str(output_dir / "model"))
@@ -194,7 +194,7 @@ def main():
         (output_dir / "metrics.json").write_text(
             json.dumps(metrics, indent=2), encoding="utf-8"
         )
-        # 保留原文、完整参考和生成结果，供后续临床错误案例分析。
+        # Keep source reports, complete references and predictions for error analysis.
         with (output_dir / "predictions.jsonl").open("w", encoding="utf-8") as file:
             for row, prediction in zip(raw_eval, predictions):
                 record = {
@@ -206,7 +206,7 @@ def main():
                 }
                 file.write(json.dumps(record, ensure_ascii=False) + "\n")
         if args.mode != "baseline":
-            # LoRA 的 adapter 文件不包含生成设置，因此单独保存。
+            # Save generation settings separately because adapter files do not include them.
             model.generation_config.save_pretrained(output_dir / "model")
             plot_history(trainer.state.log_history, output_dir / "training_curves.png")
         print(json.dumps(metrics, indent=2))

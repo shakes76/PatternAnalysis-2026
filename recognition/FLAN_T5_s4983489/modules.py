@@ -1,6 +1,6 @@
-"""加载 FLAN-T5，并选择全量微调或 LoRA。
+"""Load FLAN-T5 for full fine-tuning or LoRA.
 
-LoRA 接入参考：https://huggingface.co/docs/peft/quicktour
+LoRA integration reference: https://huggingface.co/docs/peft/quicktour
 """
 
 from peft import LoraConfig, TaskType, get_peft_model
@@ -8,12 +8,12 @@ from transformers import AutoModelForSeq2SeqLM
 
 
 def load_model(model_name="google/flan-t5-base", use_lora=False):
-    """每次从原始预训练权重加载模型，避免不同实验之间共享修改。"""
+    """Load a fresh model instance from the specified checkpoint."""
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
     if use_lora:
-        # T5 的注意力投影层名为 q 和 v；在这些层上加入低秩适配器。
-        # r 是低秩矩阵的秩，alpha 控制更新的缩放，dropout 用于训练时正则化。
+        # Add low-rank adapters to T5's q and v attention projections.
+        # r sets the rank, alpha scales the update, and dropout regularizes training.
         config = LoraConfig(
             task_type=TaskType.SEQ_2_SEQ_LM,
             target_modules=["q", "v"],
@@ -22,15 +22,15 @@ def load_model(model_name="google/flan-t5-base", use_lora=False):
             lora_dropout=0.05,
             bias="none",
         )
-        # PEFT 冻结原模型参数，只保留 LoRA 参数参与训练。
+        # PEFT freezes the base model and trains only the LoRA parameters.
         model = get_peft_model(model, config)
 
-    # 不使用 LoRA 时，原模型的全部参数均可训练。
+    # Without LoRA, all base model parameters remain trainable.
     return model
 
 
 def count_parameters(model):
-    """返回总参数量和可训练参数量，供实验结果表使用。"""
+    """Return total and trainable parameter counts for the results table."""
     total = sum(parameter.numel() for parameter in model.parameters())
     trainable = sum(
         parameter.numel() for parameter in model.parameters() if parameter.requires_grad

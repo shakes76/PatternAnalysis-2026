@@ -1,6 +1,6 @@
-"""读取并编码 LaymanRRG 数据，供 FLAN-T5 训练使用。
+"""Load and tokenize LaymanRRG data for FLAN-T5 training.
 
-分词与批次填充参考：https://huggingface.co/docs/transformers/tasks/summarization
+Tokenization and batch padding reference: https://huggingface.co/docs/transformers/tasks/summarization
 """
 
 from datasets import load_dataset
@@ -15,21 +15,21 @@ TASK_PREFIX = (
 
 
 def load_data():
-    """返回官方数据集，保留原有的 train、validation 和 test 划分。"""
+    """Load the dataset with its official train, validation, and test splits."""
     return load_dataset(DATASET_NAME)
 
 
 def tokenize_data(data, tokenizer, max_input_length=512, max_target_length=512):
-    """编码一个数据划分，返回 input_ids、attention_mask 和 labels。"""
+    """Tokenize one split into input_ids, attention_mask, and labels."""
 
     def tokenize_batch(batch):
-        # 编码器只接收任务提示和原报告，不接收参考答案。
+        # The encoder receives only the task prompt and report, not the reference.
         inputs = [TASK_PREFIX + report for report in batch["radiology_report"]]
         encoded = tokenizer(
             inputs, max_length=max_input_length, truncation=True
         )
 
-        # 参考解释单独编码，作为解码器学习的目标。
+        # Tokenize reference explanations separately as decoder targets.
         targets = tokenizer(
             text_target=batch["layman_report"],
             max_length=max_target_length,
@@ -38,8 +38,8 @@ def tokenize_data(data, tokenizer, max_input_length=512, max_target_length=512):
         encoded["labels"] = targets["input_ids"]
         return encoded
 
-    # 此处不填充；组批时再补齐，避免每条短文本都占用 512 个位置。
-    # map 返回新数据，原始 data 中的完整文本仍保留，供后续评估使用。
+    # Pad at batch time so short texts do not each occupy 512 positions.
+    # map returns new data, leaving the original full texts available for evaluation.
     return data.map(
         tokenize_batch, batched=True, remove_columns=data.column_names
     )
@@ -48,22 +48,22 @@ def tokenize_data(data, tokenizer, max_input_length=512, max_target_length=512):
 if __name__ == "__main__":
     data = load_data()
 
-    # 显示官方划分的样本数，方便确认数据已读入。
+    # Print split sizes to confirm that the dataset loaded.
     for split_name, split in data.items():
         print(f"{split_name}: {len(split)} samples")
 
-    # 输入是专业放射报告，训练目标是同一条记录中的通俗解释。
+    # Each record pairs a radiology report with its layperson explanation.
     example = data["train"][0]
     print("\nRadiology report (input):")
     print(example["radiology_report"])
     print("\nLayperson report (target):")
     print(example["layman_report"])
 
-    # 本步只加载分词器，用两条真实样本展示一个批次，不加载模型权重。
+    # Load only the tokenizer to demonstrate a batch of two real examples.
     tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
     examples = tokenize_data(data["train"].select(range(2)), tokenizer)
 
-    # 输入补齐为 pad token；目标补齐为 -100，使填充位置不参与损失计算。
+    # Pad inputs with the pad token and targets with -100 to exclude padding from loss.
     collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, label_pad_token_id=-100)
     batch = collator([examples[0], examples[1]])
     print("\nTokenized batch:")
