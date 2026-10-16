@@ -407,21 +407,11 @@ def train_single_model(
     is_convnext = "convnext" in model_name.lower()
     optimizer = torch.optim.AdamW(
         model.parameters(),
-        lr=lr if is_convnext else lr * 1.25,
+        lr=lr,
         weight_decay=weight_decay if is_convnext else 1e-4,
     )
-    # Cosine annealing with 2-epoch linear warmup
-    warmup_epochs = min(2, max(1, epochs // 8))
-
-    def _lr_lambda(ep: int) -> float:
-        if ep < warmup_epochs:
-            return float(ep + 1) / float(warmup_epochs + 1)
-        progress = (ep - warmup_epochs) / max(1, epochs - warmup_epochs)
-        return 0.05 + 0.95 * 0.5 * (1.0 + math.cos(math.pi * progress))
-
-    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=_lr_lambda)
-    label_smoothing = 0.04 if is_convnext else 0.0
-    criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max(1, epochs))
+    criterion = nn.CrossEntropyLoss()
 
     history: Dict[str, List[float]] = {
         "train_loss": [],
@@ -845,22 +835,34 @@ def parse_args() -> argparse.Namespace:
         choices=["both", "convnext", "baseline", "convnext_tiny"],
         help="Model architecture to train (`both` runs ConvNeXt and SimpleCNNBaseline).",
     )
-    parser.add_argument("--image_size", type=int, default=128, help="Input spatial resolution.")
-    parser.add_argument("--batch_size", type=int, default=32, help="Mini-batch size.")
-    parser.add_argument("--epochs", type=int, default=18, help="Number of training epochs.")
-    parser.add_argument("--lr", type=float, default=8e-4, help="Base learning rate for AdamW.")
+    parser.add_argument("--image_size", type=int, default=96, help="Input spatial resolution.")
+    parser.add_argument("--batch_size", type=int, default=128, help="Mini-batch size.")
+    parser.add_argument("--epochs", type=int, default=12, help="Number of training epochs.")
+    parser.add_argument("--lr", type=float, default=1.2e-3, help="Base learning rate for AdamW.")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="Weight decay.")
     parser.add_argument("--val_fraction", type=float, default=0.15, help="Validation patient fraction.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")
     parser.add_argument("--device", type=str, default="auto", help="Compute device (auto/cuda/mps/cpu).")
     parser.add_argument("--max_samples", type=int, default=None, help="Optional slice cap for quick test.")
+    parser.add_argument(
+        "--split_mode",
+        type=str,
+        default="longitudinal",
+        choices=["longitudinal", "subject", "official"],
+        help="Evaluation protocol (see dataset.build_adni_dataloaders). Non-default modes write to "
+        "images/<mode>/ and checkpoints/<mode>/.",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
+    global IMAGES_DIR, CHECKPOINTS_DIR
     args = parse_args()
     set_global_seed(args.seed)
     device = select_device(args.device)
+    if args.split_mode != "longitudinal":
+        IMAGES_DIR = IMAGES_DIR / args.split_mode
+        CHECKPOINTS_DIR = CHECKPOINTS_DIR / args.split_mode
 
     train_loader, val_loader, test_loader, audit_summary = build_adni_dataloaders(
         data_root=args.data_root,
@@ -870,7 +872,9 @@ def main() -> None:
         seed=args.seed,
         max_samples_per_split=args.max_samples,
         return_meta_eval=True,
+        split_mode=args.split_mode,
     )
+    audit_summary["split_mode"] = args.split_mode
 
     print("=== Patient-Level Data Hygiene Audit ===")
     print(json.dumps(audit_summary, indent=2))

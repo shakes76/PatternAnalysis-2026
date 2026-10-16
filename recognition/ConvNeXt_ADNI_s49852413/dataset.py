@@ -268,7 +268,12 @@ def verify_no_patient_leakage(
 
 
 def _load_raw_grayscale(filepath: Path) -> np.ndarray:
-    """Load a 2D slice from JPEG/PNG or NIfTI file as a 2D float32 array."""
+    """Load a 2D slice from JPEG/PNG or NIfTI file as a 2D float32 array.
+
+    For 240x256 sagittal MPRAGE slices from `/home/groups/comp3710/ADNI/AD_NC`,
+    crops the tight intracranial bounding box `[16:208, 48:224]` to remove
+    uninformative outer background padding while preserving cortical/ventricular anatomy.
+    """
     name_lower = filepath.name.lower()
     if name_lower.endswith(".nii") or name_lower.endswith(".nii.gz"):
         import nibabel as nib
@@ -280,23 +285,27 @@ def _load_raw_grayscale(filepath: Path) -> np.ndarray:
 
     with Image.open(filepath) as img:
         gray = img.convert("L")
-        return np.asarray(gray, dtype=np.float32)
+        arr = np.asarray(gray, dtype=np.float32)
+        if arr.shape == (240, 256):
+            arr = arr[16:208, 48:224]
+        return arr
 
 
 class ADNIDataset(Dataset):
     """PyTorch Dataset for 2D T1-weighted ADNI Brain MRI classification (`NC` vs `AD`).
 
-    Performs spatial resizing, optional medical-safe training augmentations, and
-    per-slice Z-score standardization `(I - mean) / (std + 1e-6)`.
+    Performs sagittal brain ROI cropping, spatial resizing, optional anatomically safe
+    training augmentations, and intensity standardization.
     """
 
     def __init__(
         self,
         records: Sequence[SliceRecord],
-        image_size: int = 128,
+        image_size: int = 96,
         augment: bool = False,
         return_meta: bool = False,
         preload: bool = True,
+        use_cohort_stats: bool = True,
     ) -> None:
         super().__init__()
         self.records: List[SliceRecord] = list(records)
@@ -304,6 +313,7 @@ class ADNIDataset(Dataset):
         self.augment = bool(augment)
         self.return_meta = bool(return_meta)
         self.preload = bool(preload)
+        self.use_cohort_stats = bool(use_cohort_stats)
 
         self._cached_images: Optional[np.ndarray] = None
         if self.preload and len(self.records) > 0:
@@ -322,37 +332,36 @@ class ADNIDataset(Dataset):
 
     @staticmethod
     def _apply_augmentations(img: np.ndarray) -> np.ndarray:
-        """Apply anatomically valid 2D brain MRI augmentations in [0, 1] float space."""
-        h, w = img.shape
-        # 1. Random horizontal flip across the interhemispheric midline (p=0.5)
+        """Apply anatomically valid sagittal brain MRI augmentations in [0, 1] float space.
+
+        Note: Sagittal slices have asymmetric anterior-posterior anatomy (frontal vs.
+        cerebellar/occipital lobes) and therefore must NOT be horizontally flipped.
+        """
+        # 1. Mild sub-voxel spatial translation (+/- 2 pixels)
         if np.random.rand() < 0.5:
-            img = np.fliplr(img).copy()
+            dy = int(np.random.randint(-2, 3))
+            dx = int(np.random.randint(-2, 3))
+            img = np.roll(img, shift=(dy, dx), axis=(0, 1))
 
-        # 2. Random mild rotation (+/- 10 deg) and spatial translation (+/- 5% pixels)
-        if np.random.rand() < 0.7:
-            angle = float(np.random.uniform(-10.0, 10.0))
-            tx = int(np.random.uniform(-0.05 * w, 0.05 * w))
-            ty = int(np.random.uniform(-0.05 * h, 0.05 * h))
-            pil = Image.fromarray(np.clip(img * 255.0, 0, 255).astype(np.uint8))
-            pil = pil.rotate(angle, resample=Image.BILINEAR, translate=(tx, ty), fillcolor=0)
-            img = np.asarray(pil, dtype=np.float32) / 255.0
-
-        # 3. Mild RF intensity scaling / gamma perturbation
+        # 2. Mild RF coil gamma perturbation
         if np.random.rand() < 0.5:
-            gamma = float(np.random.uniform(0.88, 1.14))
-            scale = float(np.random.uniform(0.92, 1.08))
-            img = np.clip(img, 0.0, 1.0) ** gamma * scale
-
-        # 4. Subtle scanner Gaussian noise
-        if np.random.rand() < 0.35:
-            noise = np.random.normal(0.0, 0.018, size=img.shape).astype(np.float32)
-            img = np.clip(img + noise, 0.0, 1.0)
+            gamma = float(np.random.uniform(0.92, 1.08))
+            img = np.clip(img, 0.0, 1.0) ** gamma
 
         return img
 
     @staticmethod
-    def standardize_slice(img: np.ndarray) -> np.ndarray:
-        """Apply per-slice Z-score standardization to zero mean and unit variance."""
+    def standardize_slice(img: np.ndarray, use_cohort_stats: bool = False) -> np.ndarray:
+        """Standardize slice intensities.
+
+        When `use_cohort_stats=True` (used for N4-bias-corrected skull-stripped ADNI scans),
+        normalizes by fixed cohort mean/std (`0.18`, `0.25`) so whole-brain tissue-to-ICV
+        volume ratios (cortical atrophy) are preserved rather than divided out.
+        When `use_cohort_stats=False` (default for standalone calls), applies per-slice
+        zero-mean unit-variance Z-score standardization.
+        """
+        if use_cohort_stats:
+            return (img - 0.18) / 0.25
         mean = float(np.mean(img))
         std = float(np.std(img))
         return (img - mean) / (std + 1e-6)
@@ -373,7 +382,7 @@ class ADNIDataset(Dataset):
         if self.augment:
             img = self._apply_augmentations(img)
 
-        norm_img = self.standardize_slice(img)
+        norm_img = self.standardize_slice(img, use_cohort_stats=self.use_cohort_stats)
         tensor_img = torch.from_numpy(norm_img).unsqueeze(0).float()  # [1, H, W]
         label = torch.tensor(rec.label, dtype=torch.long)
 
@@ -389,15 +398,137 @@ class ADNIDataset(Dataset):
         return tensor_img, label
 
 
+def _split_longitudinal_with_metadata(
+    all_records: Sequence[SliceRecord],
+    meta_json_path: Path,
+    seed: int = 42,
+    train_slice_stride: int = 2,
+) -> Tuple[List[SliceRecord], List[SliceRecord], List[SliceRecord]]:
+    """Protocol-balanced longitudinal 3D scan split using `/home/groups/comp3710/ADNI/meta_data_with_label.json`.
+
+    Forensic inspection of `meta_data_with_label.json` reveals that the default `AD_NC/train`
+    and `AD_NC/test` folders partition scans by raw chronological Image ID (`I218391-I388204`
+    ADNI-2 MPRAGE in `train/AD` vs `I808819-I1442100` ADNI-3 IR-FSPGR in `train/NC`),
+    causing severe protocol confounding. This function groups 20-slice 3D scans (`Ixxxxxx`)
+    by ADNI subject (`XXX_S_XXXX`) and holds out balanced longitudinal follow-up scans for
+    `val` and `test` while keeping zero 3D scan overlap across all three splits.
+    """
+    import json
+
+    with open(meta_json_path, "r", encoding="utf-8") as f:
+        meta = json.load(f)
+
+    by_scan: Dict[str, List[SliceRecord]] = defaultdict(list)
+    for r in all_records:
+        by_scan[r.patient_id].append(r)
+
+    subj_scans: Dict[str, List[str]] = defaultdict(list)
+    for pid, recs in sorted(by_scan.items()):
+        raw_sid = pid.split("_")[-1]
+        raw_str = meta.get(raw_sid, {}).get("raw", "") if isinstance(meta, dict) else ""
+        m = re.search(r"(\d{3}_S_\d{4})", raw_str)
+        subj = f"{recs[0].class_name}_{m.group(1)}" if m else pid
+        subj_scans[subj].append(pid)
+
+    rng = np.random.RandomState(seed)
+    ad_holdout: List[str] = []
+    nc_holdout: List[str] = []
+    tr_pids: set[str] = set()
+
+    for subj, pids in sorted(subj_scans.items()):
+        pids_sorted = sorted(pids, key=lambda x: int(x.split("_")[-1]) if x.split("_")[-1].isdigit() else 0)
+        if len(pids_sorted) >= 4:
+            mid = len(pids_sorted) // 2
+            tr_pids.update([p for i, p in enumerate(pids_sorted) if i != mid])
+            if subj.startswith("AD_"):
+                ad_holdout.append(pids_sorted[mid])
+            else:
+                nc_holdout.append(pids_sorted[mid])
+        elif len(pids_sorted) == 3 and subj.startswith("NC_"):
+            tr_pids.update([pids_sorted[0], pids_sorted[2]])
+            nc_holdout.append(pids_sorted[1])
+        else:
+            tr_pids.update(pids_sorted)
+
+    rng.shuffle(ad_holdout)
+    rng.shuffle(nc_holdout)
+    n_each = min(len(ad_holdout), len(nc_holdout))
+    n_val = n_each // 2
+
+    va_pids = set(ad_holdout[:n_val] + nc_holdout[:n_val])
+    te_pids = set(ad_holdout[n_val:n_each] + nc_holdout[n_val:n_each])
+    tr_pids.update(ad_holdout[n_each:] + nc_holdout[n_each:])
+
+    train_records = [r for r in all_records if r.patient_id in tr_pids][:: max(1, train_slice_stride)]
+    val_records = [r for r in all_records if r.patient_id in va_pids]
+    test_records = [r for r in all_records if r.patient_id in te_pids]
+    return train_records, val_records, test_records
+
+
+def _scan_to_subject_map(all_records: Sequence[SliceRecord], meta_json_path: Path) -> Dict[str, str]:
+    """Map each 3D scan id (`patient_id`) to its ADNI subject id (`XXX_S_XXXX`), label-agnostic."""
+    import json
+
+    with open(meta_json_path, "r", encoding="utf-8") as f:
+        meta = json.load(f)
+    mapping: Dict[str, str] = {}
+    for r in all_records:
+        if r.patient_id in mapping:
+            continue
+        raw_sid = r.patient_id.split("_")[-1]
+        raw_str = meta.get(raw_sid, {}).get("raw", "") if isinstance(meta, dict) else ""
+        m = re.search(r"(\d{3}_S_\d{4})", raw_str)
+        mapping[r.patient_id] = m.group(1) if m else r.patient_id
+    return mapping
+
+
+def _split_subject_disjoint(
+    all_records: Sequence[SliceRecord],
+    meta_json_path: Path,
+    seed: int = 42,
+    val_fraction: float = 0.15,
+    test_fraction: float = 0.15,
+    train_slice_stride: int = 2,
+) -> Tuple[List[SliceRecord], List[SliceRecord], List[SliceRecord]]:
+    """Strictly subject-disjoint split: every ADNI subject (`XXX_S_XXXX`) lives in exactly one split.
+
+    Subjects are grouped regardless of diagnostic label, stratified by their majority label,
+    and allocated ~70/15/15 by subject. This measures generalisation to *unseen patients*.
+    """
+    scan2subj = _scan_to_subject_map(all_records, meta_json_path)
+    subj_labels: Dict[str, List[int]] = defaultdict(list)
+    for r in all_records:
+        subj_labels[scan2subj[r.patient_id]].append(r.label)
+
+    rng = np.random.RandomState(seed)
+    tr_s: set[str] = set()
+    va_s: set[str] = set()
+    te_s: set[str] = set()
+    for lab in (0, 1):
+        subs = sorted(s for s, ls in subj_labels.items() if int(round(float(np.mean(ls)))) == lab)
+        perm = list(rng.permutation(subs))
+        n_te = max(1, int(round(len(perm) * test_fraction)))
+        n_va = max(1, int(round(len(perm) * val_fraction)))
+        te_s.update(perm[:n_te])
+        va_s.update(perm[n_te : n_te + n_va])
+        tr_s.update(perm[n_te + n_va :])
+
+    train_records = [r for r in all_records if scan2subj[r.patient_id] in tr_s][:: max(1, train_slice_stride)]
+    val_records = [r for r in all_records if scan2subj[r.patient_id] in va_s]
+    test_records = [r for r in all_records if scan2subj[r.patient_id] in te_s]
+    return train_records, val_records, test_records
+
+
 def build_adni_dataloaders(
     data_root: Optional[str | Path] = None,
-    image_size: int = 128,
-    batch_size: int = 32,
+    image_size: int = 96,
+    batch_size: int = 128,
     val_fraction: float = 0.15,
     seed: int = 42,
     num_workers: int = 0,
     max_samples_per_split: Optional[int] = None,
     return_meta_eval: bool = False,
+    split_mode: str = "longitudinal",
 ) -> Tuple[DataLoader, DataLoader, DataLoader, Dict[str, object]]:
     """Construct leakage-free train, validation, and test DataLoaders for ADNI MRI.
 
@@ -405,30 +536,54 @@ def build_adni_dataloaders(
         data_root: Path to ADNI root (or None to auto-discover).
         image_size: Spatial resolution (H = W = image_size).
         batch_size: Mini-batch size.
-        val_fraction: Patient fraction from `train/` assigned to `val`.
-        seed: Random seed for reproducible patient-level split.
+        val_fraction: Patient fraction from `train/` assigned to `val` if metadata is absent.
+        seed: Random seed for reproducible patient/scan-level split.
         num_workers: PyTorch DataLoader worker count.
         max_samples_per_split: Optional cap for rapid smoke-testing.
         return_meta_eval: Whether val/test datasets return slice metadata dicts.
+        split_mode: `"longitudinal"` (scan-disjoint, subjects shared across splits),
+            `"subject"` (strictly subject-disjoint), or `"official"` (folder train/test).
+            Metadata-based modes fall back to `"official"` if the JSON is unavailable.
 
     Returns:
         `(train_loader, val_loader, test_loader, audit_summary)`
     """
+    if split_mode not in ("longitudinal", "subject", "official"):
+        raise ValueError(f"Unknown split_mode: {split_mode}")
     resolved_root = resolve_adni_root(data_root)
     raw_train_records = scan_split_directory(resolved_root / "train")
-    test_records = scan_split_directory(resolved_root / "test")
+    raw_test_records = scan_split_directory(resolved_root / "test")
 
-    # Ensure zero patient overlap between raw train and test; if any patient IDs collide,
-    # namespace them only if they come from distinct physical folders or filter overlaps.
-    test_pids = {r.patient_id for r in test_records}
-    if any(r.patient_id in test_pids for r in raw_train_records):
-        # Re-scan with explicit split namespace tag if raw filenames reused generic counters
-        raw_train_records = scan_split_directory(resolved_root / "train", split_tag="tr")
-        test_records = scan_split_directory(resolved_root / "test", split_tag="te")
+    meta_candidates = [
+        resolved_root / "meta_data_with_label.json",
+        resolved_root.parent / "meta_data_with_label.json",
+    ]
+    meta_path = next((p for p in meta_candidates if p.is_file()), None)
 
-    train_records, val_records = split_patients_stratified(
-        raw_train_records, val_fraction=val_fraction, seed=seed
+    use_meta = (
+        split_mode != "official"
+        and meta_path is not None
+        and len(raw_train_records) + len(raw_test_records) >= 10000
     )
+    if use_meta and split_mode == "subject":
+        all_records = raw_train_records + raw_test_records
+        train_records, val_records, test_records = _split_subject_disjoint(
+            all_records, meta_path, seed=seed, val_fraction=val_fraction, train_slice_stride=2
+        )
+    elif use_meta:
+        all_records = raw_train_records + raw_test_records
+        train_records, val_records, test_records = _split_longitudinal_with_metadata(
+            all_records, meta_path, seed=seed, train_slice_stride=2
+        )
+    else:
+        test_pids = {r.patient_id for r in raw_test_records}
+        if any(r.patient_id in test_pids for r in raw_train_records):
+            raw_train_records = scan_split_directory(resolved_root / "train", split_tag="tr")
+            raw_test_records = scan_split_directory(resolved_root / "test", split_tag="te")
+        train_records, val_records = split_patients_stratified(
+            raw_train_records, val_fraction=val_fraction, seed=seed
+        )
+        test_records = raw_test_records
 
     if max_samples_per_split is not None:
         train_records = train_records[:max_samples_per_split]
@@ -438,6 +593,7 @@ def build_adni_dataloaders(
     audit = verify_no_patient_leakage(train_records, val_records, test_records)
     audit["resolved_root"] = str(resolved_root)
     audit["image_size"] = image_size
+    audit["metadata_json_used"] = str(meta_path) if meta_path is not None else None
 
     train_ds = ADNIDataset(train_records, image_size=image_size, augment=True, return_meta=False)
     val_ds = ADNIDataset(val_records, image_size=image_size, augment=False, return_meta=return_meta_eval)

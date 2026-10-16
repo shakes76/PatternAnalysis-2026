@@ -33,10 +33,10 @@ echo "Training Baseline SimpleCNN and Proposed ConvNeXt on ADNI ($ADNI_ROOT)..."
 python -u train.py \
     --data_root "$ADNI_ROOT" \
     --model both \
-    --image_size 128 \
-    --batch_size 32 \
-    --epochs 20 \
-    --lr 8e-4 \
+    --image_size 96 \
+    --batch_size 128 \
+    --epochs 12 \
+    --lr 1.2e-3 \
     --device cuda
 
 echo "Running Test Inference & Failure Case Autopsy..."

@@ -79,7 +79,7 @@ def plot_preprocessing_showcase(test_ds: ADNIDataset, out_path: Path) -> None:
     ):
         rec = test_ds.records[idx]
         raw = test_ds.get_raw_slice(idx)
-        z_norm = ADNIDataset.standardize_slice(raw)
+        z_norm = ADNIDataset.standardize_slice(raw, use_cohort_stats=test_ds.use_cohort_stats)
         np.random.seed(100 + row)
         aug = ADNIDataset._apply_augmentations(raw.copy())
 
@@ -92,19 +92,24 @@ def plot_preprocessing_showcase(test_ds: ADNIDataset, out_path: Path) -> None:
         axes[row, 0].axis("off")
 
         im_z = axes[row, 1].imshow(z_norm, cmap="coolwarm", vmin=-2.2, vmax=2.2)
-        axes[row, 1].set_title("Per-Slice Z-Score Standardized\n(μ = 0.0, σ = 1.0)", fontsize=9.5, fontweight="bold")
+        z_title = (
+            "Cohort Standardized\n(x - 0.18) / 0.25"
+            if test_ds.use_cohort_stats
+            else "Per-Slice Z-Score Standardized\n(μ = 0.0, σ = 1.0)"
+        )
+        axes[row, 1].set_title(z_title, fontsize=9.5, fontweight="bold")
         axes[row, 1].axis("off")
         fig.colorbar(im_z, ax=axes[row, 1], fraction=0.046, pad=0.04)
 
         axes[row, 2].imshow(aug, cmap="gray", vmin=0.0, vmax=1.0)
-        axes[row, 2].set_title("Training Augmentation Sample\n(Flip + ±10° Rot + Gamma)", fontsize=9.5, fontweight="bold")
+        axes[row, 2].set_title("Training Augmentation Sample\n(±2 px Shift + Gamma 0.92–1.08)", fontsize=9.5, fontweight="bold")
         axes[row, 2].axis("off")
 
         # Brain foreground pixel intensity distribution
         fg = z_norm[raw > 0.05]
         axes[row, 3].hist(fg, bins=32, color=color, alpha=0.72, edgecolor="black", density=True)
         axes[row, 3].axvline(float(np.mean(fg)), color="black", linestyle="--", lw=1.5, label=f"FG Mean={np.mean(fg):.2f}")
-        axes[row, 3].set_title("Parenchymal Z-Score Distribution", fontsize=9.5, fontweight="bold")
+        axes[row, 3].set_title("Parenchymal Standardized Distribution", fontsize=9.5, fontweight="bold")
         axes[row, 3].set_xlabel("Standardized Intensity (Z)")
         axes[row, 3].set_ylabel("Density")
         axes[row, 3].grid(True, linestyle="--", alpha=0.35)
@@ -482,29 +487,40 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--data_root", type=str, default=None, help="Path to ADNI/AD_NC directory.")
     parser.add_argument(
+        "--split_mode",
+        type=str,
+        default="longitudinal",
+        choices=["longitudinal", "subject", "official"],
+        help="Evaluation protocol; must match the one used in train.py.",
+    )
+    parser.add_argument(
         "--checkpoint",
         type=str,
-        default=str(CHECKPOINTS_DIR / "convnext_best.pt"),
-        help="Path to saved ConvNeXt checkpoint.",
+        default=None,
+        help="Path to saved ConvNeXt checkpoint (default: checkpoints[/<mode>]/convnext_best.pt).",
     )
     parser.add_argument(
         "--baseline_checkpoint",
         type=str,
-        default=str(CHECKPOINTS_DIR / "baseline_best.pt"),
+        default=None,
         help="Optional path to saved SimpleCNNBaseline checkpoint.",
     )
     parser.add_argument("--triage_threshold", type=float, default=0.80, help="Confidence gate tau*.")
-    parser.add_argument("--batch_size", type=int, default=32, help="Evaluation batch size.")
+    parser.add_argument("--batch_size", type=int, default=128, help="Evaluation batch size.")
     parser.add_argument("--device", type=str, default="auto", help="Compute device.")
     return parser.parse_args()
 
 
 def main() -> None:
+    global IMAGES_DIR, CHECKPOINTS_DIR
     args = parse_args()
     set_global_seed(42)
     device = select_device(args.device)
+    if args.split_mode != "longitudinal":
+        IMAGES_DIR = IMAGES_DIR / args.split_mode
+        CHECKPOINTS_DIR = CHECKPOINTS_DIR / args.split_mode
 
-    ckpt_path = Path(args.checkpoint)
+    ckpt_path = Path(args.checkpoint) if args.checkpoint else CHECKPOINTS_DIR / "convnext_best.pt"
     model, temperature, image_size = load_trained_model("convnext", ckpt_path, device)
 
     _, _, test_loader, audit = build_adni_dataloaders(
@@ -512,6 +528,7 @@ def main() -> None:
         image_size=image_size,
         batch_size=args.batch_size,
         return_meta_eval=True,
+        split_mode=args.split_mode,
     )
     test_ds: ADNIDataset = test_loader.dataset  # type: ignore[assignment]
 
@@ -521,7 +538,7 @@ def main() -> None:
     )
 
     baseline_probs: Optional[np.ndarray] = None
-    base_ckpt = Path(args.baseline_checkpoint)
+    base_ckpt = Path(args.baseline_checkpoint) if args.baseline_checkpoint else CHECKPOINTS_DIR / "baseline_best.pt"
     if base_ckpt.exists():
         b_model, b_temp, _ = load_trained_model("baseline", base_ckpt, device)
         b_logits, _, _ = collect_logits_and_labels(b_model, test_loader, device)

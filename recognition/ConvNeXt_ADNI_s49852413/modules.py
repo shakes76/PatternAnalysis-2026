@@ -123,9 +123,9 @@ class ConvNeXt(nn.Module):
         in_channels: int = 1,
         num_classes: int = 2,
         depths: Sequence[int] = (2, 2, 6, 2),
-        dims: Sequence[int] = (48, 96, 192, 384),
-        drop_path_rate: float = 0.15,
-        layer_scale_init_value: float = 1e-6,
+        dims: Sequence[int] = (32, 64, 128, 256),
+        drop_path_rate: float = 0.10,
+        layer_scale_init_value: float = 0.1,
         head_dropout: float = 0.2,
         stem_stride: int = 4,
     ) -> None:
@@ -237,11 +237,11 @@ class SimpleCNNBaseline(nn.Module):
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
-        self.pool = nn.AdaptiveAvgPool2d((2, 2))
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
         self.classifier = nn.Sequential(
             nn.Flatten(),
             nn.Dropout(p=dropout),
-            nn.Linear(c2 * 4, c2),
+            nn.Linear(c2, c2),
             nn.ReLU(inplace=True),
             nn.Linear(c2, num_classes),
         )
@@ -402,8 +402,9 @@ def build_model(
             in_channels=in_channels,
             num_classes=num_classes,
             depths=(2, 2, 6, 2),
-            dims=(48, 96, 192, 384),
+            dims=(32, 64, 128, 256),
             drop_path_rate=drop_path_rate,
+            layer_scale_init_value=0.1,
             stem_stride=4,
         )
     if name == "convnext_tiny":
