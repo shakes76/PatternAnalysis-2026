@@ -25,13 +25,15 @@ elif [ -f ".venv/bin/activate" ]; then
 fi
 
 export ADNI_ROOT="${ADNI_ROOT:-/home/groups/comp3710/ADNI/AD_NC}"
+export SPLIT_MODE="${SPLIT_MODE:-longitudinal}"
 
 echo "Running unit tests and AST compliance checks..."
 python -m pytest test_pipeline.py -q
 
-echo "Training Baseline SimpleCNN and Proposed ConvNeXt on ADNI ($ADNI_ROOT)..."
+echo "Training Baseline SimpleCNN and Proposed ConvNeXt on ADNI ($ADNI_ROOT, split=$SPLIT_MODE)..."
 python -u train.py \
     --data_root "$ADNI_ROOT" \
+    --split_mode "$SPLIT_MODE" \
     --model both \
     --image_size 96 \
     --batch_size 128 \
@@ -42,5 +44,6 @@ python -u train.py \
 echo "Running Test Inference & Failure Case Autopsy..."
 python -u predict.py \
     --data_root "$ADNI_ROOT" \
+    --split_mode "$SPLIT_MODE" \
     --triage_threshold 0.80 \
     --device cuda

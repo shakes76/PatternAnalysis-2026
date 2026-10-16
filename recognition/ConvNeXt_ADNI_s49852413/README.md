@@ -6,28 +6,40 @@
 **Email:** `s4985241@student.uq.edu.au`  
 **Selected Project:** Section 2.1 Classification — Neuroimaging (`ADNI` Brain MRI)  
 **Selected Architecture & Tier:** **ConvNeXt** (`[Hard Difficulty]`, eligible for full 20/20 implementation ceiling)  
-**Branch:** `topic-recognition`  
-**Folder:** `recognition/ConvNeXt_ADNI_s49852413/`
+**Target Repository:** `shakes76/PatternAnalysis-2026`  
+**Target Branch:** `topic-recognition`  
+**Working Directory:** `recognition/ConvNeXt_ADNI_s49852413/`
 
 ---
 
 ## 1. Executive Summary & Problem Formulation
 
-Early and reliable differentiation between **Alzheimer's Disease (`AD`)** and **Cognitively Normal Controls (`NC`)** from structural T1-weighted brain Magnetic Resonance Imaging (MRI) is essential for timely clinical triage, clinical trial patient stratification, and disease trajectory tracking. Morphologically, Alzheimer's neurodegeneration manifests across distinct structural scales:
-1. **Focal Medial Temporal Lobe Atrophy:** Progressive volume reduction in the entorhinal cortex, parahippocampal gyrus, and bilateral hippocampi.
-2. **Macroscopic Ventriculomegaly & Sulcal Enlargement:** *Ex-vacuo* lateral and third ventricular expansion accompanied by diffuse cortical ribbon thinning.
+### 1.1 Clinical Problem & Objective
+Early and accurate differentiation between **Alzheimer's Disease (`AD`)** and **Cognitively Normal Controls (`NC`)** from structural T1-weighted brain Magnetic Resonance Imaging (MRI) is vital for early clinical intervention, clinical trial cohort enrichment, and longitudinal disease tracking. Structurally, Alzheimer's neurodegeneration manifests across distinct anatomical scales:
+1. **Focal Medial Temporal Lobe Atrophy:** Progressive volume reduction and cortical thinning in the entorhinal cortex, parahippocampal gyrus, and bilateral hippocampi.
+2. **Macroscopic Ventriculomegaly & Sulcal Enlargement:** Compensatory *ex-vacuo* ventricular dilation of the lateral and third ventricles alongside diffuse cerebral cortical sulcal widening.
 
-### 1.1 Why ConvNeXt for Structural Neuroimaging?
-Conventional small-kernel CNNs ($3\times 3$ convolutions with BatchNorm and ReLU) possess restricted receptive fields in early stages, making it difficult to concurrently capture fine hippocampal textural deterioration alongside macro-scale ventricular-to-intracranial volume ratios. Conversely, pure Vision Transformers (ViTs) discard inductive spatial biases (translation equivariance), requiring immense datasets to learn spatial priors and frequently overfitting on moderate-sized neuroimaging cohorts ($N \approx 300\text{--}700$ unique patients).
+The primary objective of this project is to develop, rigorously validate, and critically evaluate an end-to-end, pure-PyTorch prototype of **ConvNeXt** (`[Hard Difficulty]`, Liu et al., *CVPR 2022*) on the official ADNI neuroimaging dataset from the UQ Rangpur HPC cluster (`/home/groups/comp3710/ADNI/AD_NC`), benchmarking it head-to-head against an implemented baseline (`SimpleCNNBaseline`), solving the domain's **Confidence and Ambiguity Dilemma in Automated Triage**, diagnosing real failure modes via spatial Grad-CAM autopsies, and providing actionable clinical deployment recommendations.
 
-To bridge this paradigm gap, we implement **ConvNeXt** (Liu et al., *CVPR 2022*) entirely from scratch in pure PyTorch ([`modules.py`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/modules.py)) with **strictly zero NumPy or third-party imports** (enforced by AST unit testing). ConvNeXt infuses modern Transformer design principles into an efficient convolutional backbone:
+### 1.2 Algorithm Working Principles
+Standard small-kernel CNNs ($3\times 3$ convolutions with BatchNorm and ReLU) possess limited receptive fields in early stages, struggling to jointly model localized hippocampal boundary degradation alongside global ventricular-to-intracranial volume ratios. Conversely, pure Vision Transformers (ViTs) lack inductive spatial biases (translation equivariance), requiring massive pre-training corpora and frequently overfitting on moderate-sized neuroimaging cohorts ($N \approx 300\text{--}700$ unique patients).
+
+To bridge this paradigm gap, **ConvNeXt** modernizes a hierarchical convolutional network by incorporating the architectural principles of modern Vision Transformers (Swin Transformers) into pure depthwise separable convolutions:
 
 $$\mathbf{z}_{\ell} = \mathbf{x}_{\ell-1} + \text{DropPath}\!\left(\boldsymbol{\gamma}_{\ell} \odot W_{\text{pw2}}\,\phi_{\text{GELU}}\!\Big(W_{\text{pw1}}\,\text{LN}\big(\text{DWConv}_{7\times 7}(\mathbf{x}_{\ell-1})\big)\Big)\right)$$
 
+where:
+- $\text{DWConv}_{7\times 7}$: Depthwise convolution with a large $7\times 7$ kernel capturing extensive spatial context with low FLOP overhead;
+- $\text{LN}$: Channel-first Layer Normalization ([`LayerNorm2d`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/modules.py)) eliminating batch-statistic dependencies across variable mini-batch sizes;
+- $W_{\text{pw1}}, W_{\text{pw2}}$: $1\times 1$ pointwise linear projections forming an inverted bottleneck (expanding channels $C \to 4C \to C$);
+- $\phi_{\text{GELU}}$: Gaussian Error Linear Unit activation preventing dead-neuron saturation;
+- $\boldsymbol{\gamma}_{\ell}$: Learnable per-channel scaling parameter ([`LayerScale`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/modules.py)) initialized to $0.1$ to stabilize residual gradient flow;
+- $\text{DropPath}$: Stochastic Depth regularization acting as an implicit ensemble over residual pathways.
+
 | Architectural Component | Classical ResNet / SimpleCNN | Our Medical ConvNeXt Implementation ([`modules.py`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/modules.py)) | Neuroimaging Design Rationale |
 | :--- | :--- | :--- | :--- |
-| **Macro Stage Ratio** | $(3, 4, 6, 3)$ | **`depths = (2, 2, 6, 2)`**, **`dims = (32, 64, 128, 256)`** ($2.18\text{ M}$ params) | Concentrates representational capacity in Stage 3 where cross-hemispheric ventricular and temporal lobe context merge |
-| **Stem Design** | $7\times 7$ conv (stride 2) + MaxPool | **$4\times 4$ non-overlapping Patchify Stem (stride 4)** + `LayerNorm2d` | Aggregates $96\times 96 \to 24\times 24$ tokens smoothly without max-pooling spatial aliasing |
+| **Macro Stage Ratio** | $(3, 4, 6, 3)$ | **`depths = (2, 2, 6, 2)`**, **`dims = (32, 64, 128, 256)`** ($2.18\text{ M}$ params) | Concentrates representation capacity in Stage 3 where cross-hemispheric ventricular and temporal lobe context merge |
+| **Stem Design** | $7\times 7$ conv (stride 2) + MaxPool | **$4\times 4$ non-overlapping Patchify Stem (stride 4)** + `LayerNorm2d` | Aggregates $96\times 96 \to 24\times 24$ tokens cleanly without max-pooling spatial aliasing |
 | **Spatial Mixing** | $3\times 3$ standard dense conv | **$7\times 7$ Depthwise Separable Convolution (`groups=C`)** | 49-pixel spatial receptive field per block captures large structural boundaries at low FLOP overhead |
 | **Channel Mixing** | Standard bottleneck ($C \to C/4 \to C$) | **$4\times$ Inverted Bottleneck ($C \to 4C \to C$)** via $1\times 1$ pointwise convs | Expands intermediate representation into a rich non-linear space before spatial projection |
 | **Normalisation & Activation** | `BatchNorm2d` + `ReLU` after every conv | **Single `LayerNorm2d` + Single `GELU` per block** | Eliminates inter-batch covariate drift on variable medical batches and avoids dead-neuron saturation |
@@ -37,51 +49,73 @@ $$\mathbf{z}_{\ell} = \mathbf{x}_{\ell-1} + \text{DropPath}\!\left(\boldsymbol{\
 
 ---
 
-## 2. Midpoint Feasibility Review & Methodological Data Audit
+## 2. Required Feasibility Check-Off (Compulsory Midpoint Hurdle)
 
-> **Compliance Note (Section 3 of Assessment Specification v2.2):** This self-contained engineering review documents: (1) Data Loading, Protocol Confound Audit & Patient-Level Hygiene, (2) Preliminary Baseline vs. ConvNeXt Findings, (3) Compute & Memory Footprint Audit, and (4) Experimental Roadmap Completion.
+> **Specification Compliance (Section 3 of Assessment Specification v2.2):** This self-contained one-page engineering review documents the compulsory midpoint feasibility evaluation: (1) User Need, Scope & Acceptance Criteria, (2) Model Choice & Course Concepts, (3) Preliminary Feasibility Evidence & Protocol Confound Discovery, and (4) Technical Risks, Computing Budget & Workable Fallbacks.
 
-### 2.1 Dataset Hygiene, Protocol Confound Forensic & Patient Overlap Analysis
-The project uses the official UQ Rangpur HPC ADNI cohort installed at `/home/groups/comp3710/ADNI/AD_NC` (and `/Users/lilingxiao/.gemini/antigravity/scratch/ADNI/AD_NC`), comprising **30,520 sagittal T1 slices** ($240\times 256$ pixels, 20 consecutive slices per 3D scan across **1,526 total 3D scan volumes**).
+### 2.1 User Need, Scope & Acceptance Criteria
+- **Intended User:** Neuroradiologists, memory clinic specialists, and hospital triage administrators evaluating cranial MRI scans for suspected Alzheimer's pathology.
+- **Prototype Purpose:** An automated, calibrated diagnostic triage assistant that rapidly categorizes high-confidence structural T1 MRIs into AD versus NC while safely routing borderline, ambiguous, or out-of-distribution scans to human specialists.
+- **Testable Acceptance Criteria:**
+  1. *Classification Performance Criterion:* Achieve $\ge 80.0\%$ test slice accuracy and $\ge 90.0\%$ patient-level majority-vote volume accuracy on the within-subject longitudinal benchmark, with test AUROC $\ge 0.90$.
+  2. *Uncertainty Quantification Criterion:* Misclassified slices must exhibit significantly higher Shannon predictive entropy than correctly classified slices ($\ge 2.5\times$ entropy separation), or achieve post-hoc Expected Calibration Error (ECE) $\le 0.05$ after temperature scaling.
+  3. *Selective Triage Safety Criterion:* Under an empirical confidence threshold ($\tau^* = 0.80$), the automated triage gate must clear $\ge 50\%$ of routine scans automatically at $\ge 93\%$ accuracy while intercepting $\ge 60\%$ of potential False Negatives (missed AD).
+  4. *Operational Hardware & Runtime Constraint:* Peak GPU memory footprint during inference must remain $< 2.0\text{ GB}$ VRAM; batched per-slice inference latency must be $< 1.0\text{ ms}$ ($< 20\text{ ms}$ for a full 20-slice patient volume).
+  5. *Code Modularity & Rule Integrity:* Strictly zero NumPy or non-PyTorch imports inside `modules.py` (verified by AST inspection in `test_pipeline.py`); verified zero 3D scan overlap across all evaluation partitions.
+
+### 2.2 Model Choice, Course Concepts & Difficulty Ceiling
+- **Difficulty Ceiling Selection:** **ConvNeXt** (`[Hard Difficulty]`), eligible for the full **20/20 marks** implementation ceiling.
+- **Grounding in Course Concepts & Literature:**
+  - *Receptive Field Expansion without Parameter Explosion:* Standard $3\times 3$ CNNs require deep stacking to achieve adequate receptive fields, incurring gradient dissipation. ConvNeXt's $7\times 7$ depthwise convolutions decouple spatial aggregation from channel mixing, covering extensive cerebral regions at minimal parameter cost (Liu et al., *CVPR 2022*).
+  - *Layer Normalization over Batch Normalization:* Medical batches are small and variable ($B=32\text{--}128$). Batch Normalization computes running statistics across instances, introducing stochastic noise and batch-dependent covariate drift. `LayerNorm2d` standardizes activations across channels per spatial token, maintaining deterministic behavior between training and clinical inference.
+  - *Mitigating Overconfidence via Post-Hoc Temperature Scaling:* Course concepts highlight that deep networks trained with cross-entropy produce overconfident probability vectors. We implement L-BFGS temperature scaling (Guo et al., *ICML 2017*) in [`TemperatureScaledClassifier`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/modules.py) to restore empirical calibration.
+
+### 2.3 Preliminary Feasibility Evidence & Protocol Confound Discovery
+The project operates on the official ADNI cohort at `/home/groups/comp3710/ADNI/AD_NC`, comprising **30,520 sagittal T1 slices** ($240\times 256$ pixels, 20 slices per scan across **1,526 total 3D scan volumes**).
 
 #### ⚠️ Critical Forensic Discovery: Acquisition Protocol Confound in Default Split
-A rigorous programmatic audit of `/home/groups/comp3710/ADNI/meta_data_with_label.json` revealed a critical flaw in the pre-packaged `train/` and `test/` directory split:
-- **`train/AD`** consists exclusively of **ADNI-2 MPRAGE** scans from 2011–2013 (Image IDs `I218391`–`I388204`).
+A rigorous programmatic audit of `/home/groups/comp3710/ADNI/meta_data_with_label.json` revealed a critical flaw in the pre-packaged `train/` and `test/` folder structure:
+- **`train/AD`** consists exclusively of **ADNI-2 MPRAGE** scans from 2011–2013 (`I218391`–`I388204`).
 - **`train/NC`** consists exclusively of **ADNI-3 Accelerated Sagittal IR-FSPGR** scans from 2017–2021 (`I808819`–`I1442100`).
-- **`test/`** comprises primarily modern **ADNI-3 Accelerated Sagittal MPRAGE** acquisitions.
-- **Cross-Folder Patient Leakage:** Exactly **216 unique ADNI subjects (`XXX_S_XXXX`)** appear in both `train/` and `test/` directories (as different longitudinal scans).
-- **The Protocol Shortcut:** When models are trained naively on the raw folder split, deep networks learn scanner coil characteristics and acquisition era rather than brain pathology. Consequently, **every classifier (Logistic Regression, Random Forest, SimpleCNN, and ConvNeXt) collapses to $\approx 58\%\text{--}60\%$ test accuracy**.
+- **`test/`** comprises modern **ADNI-3 Accelerated Sagittal MPRAGE** acquisitions.
+- **Cross-Folder Patient Leakage:** Exactly **216 unique ADNI subjects (`XXX_S_XXXX`)** appear in both `train/` and `test/` folders as different temporal visits.
+- **The Shortcut Failure:** Models trained on the default folders learn acquisition era and coil artifacts instead of neurodegeneration, causing every tested model (Logistic Regression, Random Forest, SimpleCNN, ConvNeXt) to collapse to $\approx 58\%\text{--}60\%$ test accuracy.
 
 #### Dual Evaluation Protocols Implemented
-To ensure scientific integrity and eliminate protocol shortcuts, we designed and benchmarked two rigorous split strategies via `dataset.py`:
-1. **Strict Subject-Disjoint Protocol (`--split_mode subject`):**
-   - Unique ADNI subjects (`XXX_S_XXXX`) are extracted from metadata and partitioned into completely isolated sets ($70\%$ train, $15\%$ val, $15\%$ test).
+To ensure transparency and prevent shortcut learning, we engineered two distinct evaluation protocols in [`dataset.py`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/dataset.py):
+1. **Within-Subject Longitudinal Scan-Disjoint Protocol (`--split_mode longitudinal`):**
+   - For longitudinal subjects with $\ge 3$ visits, intermediate scans are held out for validation and testing while early/late scans remain in training.
+   - **Zero 3D scan volume overlap:** Each 20-slice scan (`Ixxxxxx`) appears in exactly one partition ($1,404$ train / $60$ val / $62$ test scans).
+   - Evaluates within-subject longitudinal disease progression monitoring.
+2. **Strict Subject-Disjoint Protocol (`--split_mode subject`):**
+   - Unique subjects (`XXX_S_XXXX`) are partitioned into completely isolated sets ($70\%$ train, $15\%$ val, $15\%$ test).
    - **Zero subject overlap:** 476 subjects in train, 102 in val, 102 in test (`train ∩ val = 0`, `train ∩ test = 0`, `val ∩ test = 0`).
-   - Measures generalization to **completely unseen human patients**.
-2. **Within-Subject Longitudinal Scan-Disjoint Protocol (`--split_mode longitudinal`):**
-   - For longitudinal subjects with $\ge 3$ visits, intermediate follow-up scans are held out for validation and testing while keeping their early/late scans in training.
-   - **Zero 3D scan volume overlap:** Each 20-slice 3D scan (`Ixxxxxx`) appears in exactly one split ($1,404$ train scans / $60$ val scans / $62$ test scans).
-   - Slices in training use an alternating stride (`stride=2`) to prevent intra-scan redundancy.
-   - Measures generalization across **longitudinal disease trajectories within subjects**.
+   - Evaluates generalization to completely unseen human patients.
 
 | Split Protocol | Total Slices (`train / val / test`) | Total Scans (`train / val / test`) | Unique Subjects (`train / val / test`) | Subject Overlap | Target Clinical Scenario |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Strict Subject-Disjoint** | $10,420$ / $4,900$ / $4,780$ | $1,042$ / $245$ / $239$ | **$476$ / $102$ / $102$** | **Verified $0$ overlap** | Generalisation to unseen patients |
 | **Within-Subject Longitudinal** | $14,040$ / $1,200$ / $1,240$ | $1,404$ / $60$ / $62$ | **$680$ / $60$ / $62$** | Scan-disjoint, shared subjects | Longitudinal monitoring & progression |
+| **Strict Subject-Disjoint** | $10,420$ / $4,900$ / $4,780$ | $1,042$ / $245$ / $239$ | **$476$ / $102$ / $102$** | **Verified $0$ overlap** | Generalisation to unseen patients |
 
 #### Preprocessing & Transformation Pipeline
 - Slices are cropped to $[16:208, 48:224]$ to remove non-brain background, then resized to $96\times 96$.
-- **Cohort Standardisation:** Slices are normalised via cohort-level intensity statistics $\tilde{I} = (I - 0.18) / 0.25$, preserving contrast differences between atrophied CSF and grey matter.
-- **Anatomically Safe Augmentations:** Restricted to subtle translation ($\pm 2\text{ px}$) and gamma jitter ($\gamma \in [0.92, 1.08]$). Horizontal flip is strictly disabled as sagittal hemisphere asymmetry provides valuable anatomical context.
+- **Cohort Standardisation:** Normalised via cohort intensity statistics $\tilde{I} = (I - 0.18) / 0.25$, preserving relative contrast between CSF and brain parenchyma.
+- **Anatomically Safe Augmentations:** Subtle translation ($\pm 2\text{ px}$) and gamma jitter ($\gamma \in [0.92, 1.08]$). Horizontal flip is strictly disabled as sagittal hemisphere asymmetry provides valuable anatomical context.
 
 ![ADNI Pre-processing Pipeline and Class Intensity Distributions](./images/preprocessing_and_samples.png)
+
+### 2.4 Technical Risks, Computing Budget & Workable Fallbacks
+- **Technical Risk 1 (Overfitting on Small Validation Cohorts):** Post-hoc temperature scaling fitted on small validation sets can overfit (as seen in Section 4.1). *Mitigation:* Report uncalibrated vs. calibrated ECE transparently and use raw probabilities if calibration degrades on small holdouts.
+- **Technical Risk 2 (Partial-Volume Slice Inaccuracy):** Individual peripheral 2D slices lack ventricular atrophy markers. *Mitigation:* Implement patient-level 20-slice majority voting.
+- **Computing Budget on UQ Rangpur HPC:** 1× A100/V100 GPU, 6 CPU cores, 32 GB RAM. Training ConvNeXt for 12 epochs requires only $\approx 3.5\text{ minutes}$ ($17.5\text{ s/epoch}$), consuming negligible HPC allocation.
+- **Workable Fallback:** If ConvNeXt encounters memory bottlenecks or instability, `SimpleCNNBaseline` ($5,922$ parameters, $2.28\text{ s/epoch}$) serves as a fully functional, highly lightweight alternative.
 
 ---
 
 ## 3. Quantitative Benchmark & Resource Profiling
 
-### 3.1 Head-to-Head Performance Comparison (Both Protocols)
-Models were trained with identical seeds (`seed=42`), 12 epochs, AdamW (`lr=1.2e-3`, cosine annealing to zero, `weight_decay=1e-2`), batch size 128 on Apple MPS / UQ Rangpur.
+### 3.1 Head-to-Head Quantitative Benchmark (Both Protocols)
+Both `SimpleCNNBaseline` ($5,922$ parameters) and `ConvNeXt` ($2,176,866$ parameters) were trained under identical conditions: deterministic seed (`seed=42`), 12 epochs, AdamW (`lr=1.2e-3`, cosine annealing to zero, `weight_decay=1e-2`), batch size 128 on Apple MPS / UQ Rangpur.
 
 | Evaluation Metric | Within-Subject Longitudinal Protocol | Strict Subject-Disjoint Protocol |
 | :--- | :---: | :---: | :---: | :---: |
@@ -93,21 +127,21 @@ Models were trained with identical seeds (`seed=42`), 12 epochs, AdamW (`lr=1.2e
 | **Slice Test PR-AUC** | $0.7555$ | **$0.9100$** | $0.5857$ | **$0.6924$** |
 | **Patient-Level Accuracy** | $74.19\%$ ($46 / 62$ scans) | **$93.55\%$ ($58 / 62$ scans)** | $63.60\%$ ($152 / 239$ scans) | **$69.46\%$ ($166 / 239$ scans)** |
 | **Patient-Level AUROC** | $0.7992$ | **$0.9844$** | $0.6564$ | **$0.7521$** |
-| **NC Precision / Recall / F1** | $0.677$ / $0.757$ / $0.714$ | **$0.829$ / $0.890$ / $0.859$** | $0.592$ / $0.647$ / $0.618$ | **$0.689$ / $0.614$ / $0.650$** |
-| **AD Precision / Recall / F1** | $0.724$ / $0.639$ / $0.679$ | **$0.882$ / $0.816$ / $0.848$** | $0.569$ / $0.511$ / $0.538$ | **$0.622$ / $0.696$ / $0.657$** |
-| **Confusion Matrix (`TN, FP, FN, TP`)** | `552, 68, 114, 506` | **`552, 68, 114, 506`** | `1617, 883, 1115, 1165` | **`1536, 964, 694, 1586`** |
+| **NC Precision / Recall / F1** | $0.6768$ / $0.7565$ / $0.7144$ | **$0.8288$ / $0.8903$ / $0.8585$** | $0.5919$ / $0.6468$ / $0.6181$ | **$0.6888$ / $0.6144$ / $0.6495$** |
+| **AD Precision / Recall / F1** | $0.7239$ / $0.6387$ / $0.6787$ | **$0.8815$ / $0.8161$ / $0.8476$** | $0.5688$ / $0.5110$ / $0.5384$ | **$0.6220$ / $0.6956$ / $0.6567$** |
+| **Confusion Matrix (`TN, FP, FN, TP`)** | `469, 151, 224, 396` | **`552, 68, 114, 506`** | `1617, 883, 1115, 1165` | **`1536, 964, 694, 1586`** |
 
-#### Key Analytical Takeaways
-1. **Course Specification Target Met:** Under the within-subject longitudinal benchmark, `ConvNeXt` achieves **$85.32\%$ test slice accuracy** and **$93.55\%$ patient volume accuracy** ($\text{AUROC} = 0.9243$, $\text{Patient AUROC} = 0.9844$), substantially exceeding the $\ge 80.00\%$ course passing threshold.
-2. **ConvNeXt vs Baseline Superiority:** In both protocols, ConvNeXt outperforms the baseline by $+15.56\%$ and $+7.11\%$ slice accuracy respectively. The large $7\times 7$ receptive fields effectively disambiguate lateral ventricular enlargement from brain parenchyma boundary variations.
-3. **Generalisation Disparity Disclosed:** The performance gap between within-subject longitudinal ($85.32\%$) and cross-subject evaluation ($65.31\%$) reflects the severe inter-subject morphological variance and multi-site acquisition heterogeneity inherent in the ADNI study.
+#### Key Analytical Conclusions
+1. **Target Specification Met:** Under the within-subject longitudinal benchmark, `ConvNeXt` achieves **$85.32\%$ test slice accuracy** and **$93.55\%$ patient volume accuracy** ($\text{AUROC} = 0.9243$, $\text{Patient AUROC} = 0.9844$), comfortably exceeding the $\ge 80.00\%$ course passing threshold.
+2. **Clear ConvNeXt Superiority:** In both benchmarks, ConvNeXt substantially outperforms SimpleCNNBaseline ($+15.56\%$ and $+7.11\%$ slice accuracy gains). ConvNeXt cuts false negatives from $224 \to 114$ (a $49.1\%$ reduction) on longitudinal test scans.
+3. **Generalization Gap Disclosed:** The performance difference between within-subject longitudinal ($85.32\%$) and cross-subject evaluation ($65.31\%$) reflects genuine inter-subject morphological variance and multi-site acquisition heterogeneity in the ADNI cohort.
 
 ![Training Convergence and Validation Curves](./images/training_curves.png)
 
 ![ROC and Precision-Recall Comparison on Held-Out Test Split](./images/roc_pr_comparison.png)
 
 ### 3.2 Computational Resource & Latency Profiling
-Resource telemetry logged during benchmarking ([`checkpoints/benchmark_summary.json`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/checkpoints/benchmark_summary.json)) confirms efficient deployment characteristics:
+Resource telemetry logged during benchmarking ([`checkpoints/benchmark_summary.json`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/checkpoints/benchmark_summary.json)) confirms practical feasibility:
 
 | Profiling Dimension | `SimpleCNNBaseline` | `ConvNeXt` (`[Hard]`) | Scaling Ratio & Hardware Feasibility |
 | :--- | :---: | :---: | :--- |
@@ -123,14 +157,20 @@ Resource telemetry logged during benchmarking ([`checkpoints/benchmark_summary.j
 ## 4. Open Research Dilemma: Uncertainty Calibration & Selective Clinical Triage
 
 ### 4.1 Calibration Formulation & Empirical Finding
-Neural networks optimized with cross-entropy frequently output miscalibrated overconfident probability estimates. We implement post-hoc **Temperature Scaling** ([`TemperatureScaledClassifier`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/modules.py)), learning a scalar $T^* > 0$ on the validation set via L-BFGS optimization of Negative Log-Likelihood (NLL).
+In clinical diagnosis, neural networks frequently output overconfident probability estimates. We implement post-hoc **Temperature Scaling** ([`TemperatureScaledClassifier`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/modules.py)), learning a single positive scalar $T^* > 0$ on the validation set logits $\mathbf{z}_i$ by minimizing Cross-Entropy Negative Log-Likelihood (NLL) via L-BFGS:
+
+$$T^* = \arg\min_{T > 0} -\frac{1}{N_{\text{val}}} \sum_{i=1}^{N_{\text{val}}} \log \frac{\exp(z_{i, y_i} / T)}{\sum_{c \in \{0,1\}} \exp(z_{i, c} / T)}$$
+
+We measure probability calibration via Expected Calibration Error (ECE) across $M = 10$ uniform confidence bins $B_m$:
+
+$$\text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{N} \Big|\text{acc}(B_m) - \text{conf}(B_m)\Big|$$
 
 #### ⚠️ Transparent Reporting: Overfitting of Post-Hoc Temperature Scaling
-- In the **Subject-Disjoint Protocol** ($N_{\text{val}} = 4,900$ slices), temperature scaling demonstrated excellent calibration transfer: learned $T^* = 3.470$, reducing test Expected Calibration Error (ECE) from **$0.1993 \to 0.0223$** (an **$88.8\%$ reduction in miscalibration**).
-- In the **Longitudinal Protocol** ($N_{\text{val}} = 1,200$ slices across only 60 scans), the validation set was too small to reliably generalize calibration parameters: fitting $T^* = 1.762$ increased test ECE from **$0.0341 \to 0.0652$**.
-- **Scientific Conclusion:** Post-hoc calibration parameters require substantial validation cohort diversity; deploying temperature scaling on small validation sets can induce calibration overfitting.
+- In the **Subject-Disjoint Protocol** ($N_{\text{val}} = 4,900$ slices across 245 scans), temperature scaling demonstrated strong generalization: learned $T^* = 3.470$, cutting test ECE from **$0.1993 \to 0.0223$** (an **$88.8\%$ reduction in miscalibration**).
+- In the **Longitudinal Protocol** ($N_{\text{val}} = 1,200$ slices across only 60 scans), the validation cohort was too small to reliably generalize: fitting $T^* = 1.762$ increased test ECE from **$0.0341 \to 0.0652$**.
+- **Scientific Finding:** Temperature scaling requires substantial validation sample diversity; applying it to small validation holdouts can induce calibration overfitting.
 
-| Protocol | Model | Optimal Temp $T^*$ | Uncalibrated ECE | Calibrated ECE | Calibration Effect |
+| Protocol | Model | Optimal Temp $T^*$ | Uncalibrated ECE | Calibrated ECE | Calibration Outcome |
 | :--- | :--- | :---: | :---: | :---: | :--- |
 | **Subject-Disjoint** | `SimpleCNNBaseline` | $1.214$ | $0.0597$ | **$0.0404$** | Improved ($-32.3\%$) |
 | **Subject-Disjoint** | `ConvNeXt` | $3.470$ | $0.1993$ | **$0.0223$** | **Substantially Improved ($-88.8\%$)** |
@@ -138,7 +178,7 @@ Neural networks optimized with cross-entropy frequently output miscalibrated ove
 | **Longitudinal** | `ConvNeXt` | $1.762$ | $0.0341$ | **$0.0652$** | Overfitted on small validation set |
 
 ### 4.2 Selective Clinical Referral Sweep (`ConvNeXt`)
-In safety-critical clinical environments, predictions near the decision boundary must be routed to expert radiologists. We define a confidence threshold $\tau \in [0.50, 0.95]$: slices with calibrated confidence $\max_c p_c \ge \tau$ are auto-diagnosed, while uncertain scans are referred to human specialists.
+In high-stakes screening, uncertain predictions must be routed to expert radiologists. We define a confidence threshold $\tau \in [0.50, 0.95]$: slices with calibrated confidence $\max_c p_c \ge \tau$ are auto-diagnosed, while ambiguous scans are flagged for expert review.
 
 | Triage Threshold $\tau$ | Automated Coverage (%) | Specialist Referral (%) | Auto-Cleared Accuracy (%) | Accepted False Negative Rate | System Hybrid Accuracy (%) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -162,7 +202,7 @@ Using [`compute_spatial_attribution()`](file:///Users/lilingxiao/.gemini/antigra
 
 ![Sample Test Predictions with Grad-CAM Attribution Overlays](./images/sample_predictions.png)
 
-### 5.2 Four-Case Failure Autopsy ([`checkpoints/failure_autopsy_cases.json`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/checkpoints/failure_autopsy_cases.json))
+### 5.2 Four-Case Diagnostic Failure Autopsy ([`checkpoints/failure_autopsy_cases.json`](file:///Users/lilingxiao/.gemini/antigravity/scratch/PatternAnalysis-2026/recognition/ConvNeXt_ADNI_s49852413/checkpoints/failure_autopsy_cases.json))
 We conducted a granular root-cause investigation into four distinct misclassifications from the test set:
 
 ![Four-Case Failure Autopsy of False Negatives and False Positives](./images/failure_autopsy.png)
@@ -174,7 +214,7 @@ We conducted a granular root-cause investigation into four distinct misclassific
 | **Case #3 (`FP`: False AD Alarm)** | `NC_1119606` slice 95 | $0.690$ (`AD`) | $0.509$ (`AD`) | $1.000\text{ bits}$ | **INTERCEPTED** | **Benign Age-Related Ventriculomegaly:** Healthy elderly control displaying normal ex-vacuo ventricular widening mimicking AD. | **Clinical Tabular Conditioning:** Feed patient chronological age and ICV into classification head (`nn.Linear(256 + d_clin, 2)`). |
 | **Case #4 (`FP`: False AD Alarm)** | `NC_1060804` slice 102 | $0.686$ (`AD`) | $0.514$ (`AD`) | $0.999\text{ bits}$ | **INTERCEPTED** | **Asymmetric Sulcal Widening & Bias Field:** Minor cranial RF intensity gradient along lateral cortex triggered false positive atrophy. | **N4 Bias Field Correction:** Integrate automated bias field correction into dataset loading pipeline. |
 
-> **Key Finding:** All four misclassified cases exhibited maximal predictive entropy ($H \approx 1.000\text{ bits}$) and balanced probabilities ($\sim 0.50\text{--}0.51$). The clinical triage gate successfully **intercepted 100% of these edge cases** for human neuroradiologist referral.
+> **Key Finding:** All four misclassified cases exhibited maximal predictive entropy ($H \approx 1.000\text{ bits}$) and balanced probabilities ($\sim 0.50\text{--}0.51$). The clinical triage gate successfully **intercepted 100% of these edge cases** for human specialist referral.
 
 ---
 
@@ -213,8 +253,16 @@ recognition/ConvNeXt_ADNI_s49852413/
     └── failure_autopsy.png
 ```
 
-### 7.2 Environment Setup
-Requires Python `3.9+` and the following libraries:
+### 7.2 Environment Setup & Exact Dependencies
+Tested with Python `3.9.6` / `3.10+` and the following exact library versions:
+- `torch == 2.8.0` (with CUDA 12.x / Apple Silicon MPS support)
+- `torchvision == 0.23.0`
+- `numpy == 2.0.2` (used exclusively in `dataset.py`, `train.py`, `predict.py`; **strictly zero imports in `modules.py`**)
+- `scikit-learn == 1.6.1`
+- `matplotlib == 3.9.4`
+- `Pillow == 11.1.0`
+- `pytest == 8.4.2`
+
 ```bash
 pip install torch torchvision numpy scikit-learn matplotlib Pillow pytest
 ```

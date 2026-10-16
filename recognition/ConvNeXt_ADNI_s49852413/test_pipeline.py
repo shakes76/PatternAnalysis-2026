@@ -139,3 +139,73 @@ def test_filename_patient_extraction_and_zscore() -> None:
     normed = ADNIDataset.standardize_slice(arr)
     assert abs(float(np.mean(normed))) < 1e-5
     assert abs(float(np.std(normed)) - 1.0) < 1e-3
+
+
+def test_subject_disjoint_split_has_zero_subject_leakage(tmp_path: Path) -> None:
+    """Verify that _split_subject_disjoint guarantees zero subject overlap across splits."""
+    import json
+    from dataset import _scan_to_subject_map, _split_subject_disjoint
+
+    meta_file = tmp_path / "meta.json"
+    meta_payload = {}
+    records = []
+    # Create 12 synthetic subjects, each with 2 scans, each scan with 2 slices
+    for s_idx in range(12):
+        subj_str = f"999_S_{s_idx:04d}"
+        lab = s_idx % 2
+        c_name = "AD" if lab == 1 else "NC"
+        for scan_k in range(2):
+            scan_id = f"I{s_idx*10 + scan_k:06d}"
+            meta_payload[scan_id] = {"raw": f"ADNI_{subj_str}_MR_{scan_id}"}
+            for sl in range(2):
+                records.append(
+                    SliceRecord(
+                        filepath=tmp_path / f"{scan_id}_{sl}.jpg",
+                        label=lab,
+                        class_name=c_name,
+                        patient_id=f"{c_name}_{scan_id}",
+                        slice_index=sl,
+                    )
+                )
+
+    meta_file.write_text(json.dumps(meta_payload), encoding="utf-8")
+    scan2subj = _scan_to_subject_map(records, meta_file)
+    tr, va, te = _split_subject_disjoint(records, meta_file, seed=42, val_fraction=0.2, test_fraction=0.2)
+
+    tr_subjs = {scan2subj[r.patient_id] for r in tr}
+    va_subjs = {scan2subj[r.patient_id] for r in va}
+    te_subjs = {scan2subj[r.patient_id] for r in te}
+
+    assert len(tr_subjs & va_subjs) == 0, f"Leakage tr-va: {tr_subjs & va_subjs}"
+    assert len(tr_subjs & te_subjs) == 0, f"Leakage tr-te: {tr_subjs & te_subjs}"
+    assert len(va_subjs & te_subjs) == 0, f"Leakage va-te: {va_subjs & te_subjs}"
+    assert len(tr_subjs) + len(va_subjs) + len(te_subjs) == 12
+
+
+def test_selective_triage_routing_monotonicity() -> None:
+    """Verify that selective triage coverage decreases monotonically with increasing threshold tau."""
+    from train import evaluate_selective_triage
+
+    probs = np.array([
+        [0.95, 0.05],
+        [0.85, 0.15],
+        [0.75, 0.25],
+        [0.65, 0.35],
+        [0.55, 0.45],
+        [0.10, 0.90],
+        [0.20, 0.80],
+        [0.30, 0.70],
+        [0.40, 0.60],
+        [0.48, 0.52],
+    ], dtype=np.float32)
+    labels = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1], dtype=np.int64)
+
+    sweep = evaluate_selective_triage(probs, labels)
+    coverages = [entry["coverage"] for entry in sweep]
+    referrals = [entry["referral_rate"] for entry in sweep]
+
+    # As tau increases, coverage must be non-increasing and referral must be non-decreasing
+    for i in range(len(coverages) - 1):
+        assert coverages[i] >= coverages[i + 1]
+        assert referrals[i] <= referrals[i + 1]
+
