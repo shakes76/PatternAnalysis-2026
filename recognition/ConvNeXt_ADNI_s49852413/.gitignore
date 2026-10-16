@@ -1,0 +1,17 @@
+# Never commit datasets or model checkpoints (Strict Git Repository Rules - Section 4.1)
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.onnx
+*.nii
+*.nii.gz
+checkpoints/
+data/
+ADNI/
+AD_NC/
+logs/
+__pycache__/
+*.pyc
+.DS_Store
+.pytest_cache/
