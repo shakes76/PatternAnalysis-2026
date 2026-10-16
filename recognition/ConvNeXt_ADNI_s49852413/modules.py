@@ -127,7 +127,7 @@ class ConvNeXt(nn.Module):
         drop_path_rate: float = 0.15,
         layer_scale_init_value: float = 1e-6,
         head_dropout: float = 0.2,
-        stem_stride: int = 2,
+        stem_stride: int = 4,
     ) -> None:
         super().__init__()
         if len(depths) != 4 or len(dims) != 4:
@@ -136,7 +136,7 @@ class ConvNeXt(nn.Module):
         self.depths = tuple(depths)
         self.dims = tuple(dims)
 
-        # Downsampling layers: stem + 3 inter-stage spatial transition layers
+        # Downsampling layers: 4x4 non-overlapping patchify stem + 3 inter-stage transition layers
         self.downsample_layers = nn.ModuleList()
         stem = nn.Sequential(
             nn.Conv2d(
@@ -209,46 +209,39 @@ class ConvNeXt(nn.Module):
 
 
 class SimpleCNNBaseline(nn.Module):
-    """Standard 3-stage Convolutional Neural Network Baseline for ADNI AD vs. NC screening.
+    """Standard 2-stage Convolutional Neural Network Baseline for ADNI AD vs. NC screening.
 
     Serves as the mandatory Section 2.1 baseline benchmark using conventional 3x3
-    convolutions, BatchNorm2d, ReLU, and 2x2 MaxPooling.
+    convolutions, ReLU activations, and MaxPool2d without residual connections,
+    large-kernel depthwise mixing, or LayerNorm.
     """
 
     def __init__(
         self,
         in_channels: int = 1,
         num_classes: int = 2,
-        base_channels: int = 24,
-        dropout: float = 0.3,
+        base_channels: int = 16,
+        dropout: float = 0.25,
     ) -> None:
         super().__init__()
         c1 = base_channels
         c2 = base_channels * 2
-        c3 = base_channels * 4
 
         self.features = nn.Sequential(
-            # Stage 1
-            nn.Conv2d(in_channels, c1, kernel_size=3, stride=2, padding=1, bias=False),
-            nn.BatchNorm2d(c1),
+            # Stage 1: local 3x3 receptive field
+            nn.Conv2d(in_channels, c1, kernel_size=3, stride=2, padding=1),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            # Stage 2
-            nn.Conv2d(c1, c2, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(c2),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            # Stage 3
-            nn.Conv2d(c2, c3, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(c3),
+            nn.MaxPool2d(kernel_size=4, stride=4),
+            # Stage 2: local 3x3 receptive field
+            nn.Conv2d(c1, c2, kernel_size=3, stride=2, padding=1),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
-        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.pool = nn.AdaptiveAvgPool2d((2, 2))
         self.classifier = nn.Sequential(
             nn.Flatten(),
             nn.Dropout(p=dropout),
-            nn.Linear(c3, c2),
+            nn.Linear(c2 * 4, c2),
             nn.ReLU(inplace=True),
             nn.Linear(c2, num_classes),
         )
@@ -411,7 +404,7 @@ def build_model(
             depths=(2, 2, 6, 2),
             dims=(48, 96, 192, 384),
             drop_path_rate=drop_path_rate,
-            stem_stride=2,
+            stem_stride=4,
         )
     if name == "convnext_tiny":
         return ConvNeXt(

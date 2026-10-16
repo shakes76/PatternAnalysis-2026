@@ -17,9 +17,11 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib_cache")
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -215,19 +217,26 @@ def conduct_failure_case_autopsy(
     fn_indices = np.where((y_true == 1) & (y_pred == 0))[0]
     fp_indices = np.where((y_true == 0) & (y_pred == 1))[0]
 
-    # Pick 2 distinct patients for FN and 2 distinct patients for FP
+    # Pick 2 FN slices (preferring distinct patients) and 2 FP slices (preferring distinct patients)
     chosen_cases: List[Tuple[int, str]] = []
     seen_pids: set[str] = set()
+    seen_indices: set[int] = set()
 
-    # Sort FN so we inspect one borderline/routed FN and one challenging FN
     fn_sorted = sorted(fn_indices.tolist(), key=lambda i: cal_conf[i])
     for idx in fn_sorted:
         pid = test_ds.records[idx].patient_id
         if pid not in seen_pids:
             chosen_cases.append((idx, "False Negative (Missed AD)"))
             seen_pids.add(pid)
+            seen_indices.add(idx)
         if len(chosen_cases) >= 2:
             break
+    for idx in fn_sorted:
+        if len(chosen_cases) >= 2:
+            break
+        if idx not in seen_indices:
+            chosen_cases.append((idx, "False Negative (Missed AD)"))
+            seen_indices.add(idx)
 
     fp_sorted = sorted(fp_indices.tolist(), key=lambda i: cal_conf[i])
     for idx in fp_sorted:
@@ -235,8 +244,15 @@ def conduct_failure_case_autopsy(
         if pid not in seen_pids:
             chosen_cases.append((idx, "False Positive (False AD Alarm)"))
             seen_pids.add(pid)
+            seen_indices.add(idx)
         if len(chosen_cases) >= 4:
             break
+    for idx in fp_sorted[-1::-1]:
+        if len(chosen_cases) >= 4:
+            break
+        if idx not in seen_indices:
+            chosen_cases.append((idx, "False Positive (False AD Alarm)"))
+            seen_indices.add(idx)
 
     fig, axes = plt.subplots(len(chosen_cases), 4, figsize=(16.5, 3.6 * len(chosen_cases)), dpi=180)
     if len(chosen_cases) == 1:

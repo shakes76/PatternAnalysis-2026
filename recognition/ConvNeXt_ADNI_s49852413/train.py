@@ -23,6 +23,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib_cache")
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
