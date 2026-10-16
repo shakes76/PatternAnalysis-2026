@@ -1,0 +1,239 @@
+{
+  "model": "google/flan-t5-base",
+  "model_revision": "7bcac572ce56db69c1ea7c8af255c5d7c9672fc2",
+  "source_loop_commit": "4f0624c",
+  "hardware": "AMD Radeon RX 7900 XTX",
+  "python": "3.12.12",
+  "packages": {
+    "torch": "2.12.0+rocm10.0.0",
+    "transformers": "4.51.3",
+    "datasets": "4.4.1"
+  },
+  "torch_hip": "7.15.26333",
+  "data": {
+    "published_train": 150454,
+    "removed_train_overlaps": 42257,
+    "eligible_train": 108197,
+    "published_validation": 10000,
+    "published_test": 10537,
+    "overlap_filter": "Remove training source/image-ID or stripped lowercase report-text matches to validation/test.",
+    "validation_scope": "150 seed-42 validation reports reused across comparisons; excluded from training but used for model selection.",
+    "patient_level_separation": "Unverified; patient IDs unavailable.",
+    "test_reference_summaries": "All blank; no test ROUGE available."
+  },
+  "full_fine_tuning": {
+    "train_reports": 108197,
+    "total_parameters": 247577856,
+    "trainable_parameters": 247577856,
+    "epochs": 3,
+    "optimizer": "adamw_torch_fused",
+    "learning_rate": 0.0001,
+    "batch_size": 16,
+    "seed": 42,
+    "optimizer_steps": 20289,
+    "precision": "bfloat16 autocast",
+    "gradient_checkpointing": true,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "eval_every_steps": 500,
+    "generation_every_steps": 0,
+    "generation_steps": [
+      20289
+    ],
+    "evaluated_reports": 150,
+    "rouge_f1": {
+      "rouge1": 0.7547380583569021,
+      "rouge2": 0.5779285836177999,
+      "rougeL": 0.7137911207463581,
+      "rougeLsum": 0.7333464534607329
+    },
+    "training_seconds": 5032.061528499999,
+    "validation_seconds": 102.97084969999923,
+    "wall_seconds": 5135.892051,
+    "training_peak_gpu_vram_mib": 5466.69970703125,
+    "inference_tokens_per_second": 98.97156317290282,
+    "training_scope": "training segments including data collation/logging; excludes validation/save",
+    "max_input_length": 512,
+    "max_new_tokens": 256
+  },
+  "full_test_inference": {
+    "evaluated_reports": 10537,
+    "full_test": true,
+    "rouge_f1": null,
+    "rouge_unavailable_reason": "All published test reference summaries are blank.",
+    "precision": "FP32 weights and generation; no autocast",
+    "decoding": "greedy",
+    "batch_size": 16,
+    "max_input_length": 512,
+    "max_new_tokens": 256,
+    "generated_tokens": 723533,
+    "generation_seconds": 1412.387094000003,
+    "generation_tokens_per_second": 512.2767002570745,
+    "generation_reports_per_second": 7.460419345916211,
+    "end_to_end_seconds": 1424.8013087,
+    "end_to_end_reports_per_second": 7.395417126345878,
+    "end_to_end_tokens_per_second": 507.8132618085235,
+    "peak_gpu_allocated_mib": 1939.251953125,
+    "peak_gpu_reserved_mib": 2722.0,
+    "truncated_inputs": 64,
+    "outputs_reaching_token_limit_without_eos": 229,
+    "empty_outputs": 0,
+    "timing_scope": "Generation timer uses GPU synchronization before and after generate; excludes tokenization, transfer, decoding, audit, loading, warmup and benchmark. End-to-end includes tokenization, transfer, generation, decoding and incremental JSONL/status writes; excludes loading, audit, warmups, single-report benchmark and final report writing."
+  },
+  "single_report_test_benchmark": {
+    "reports": 64,
+    "batch_size": 1,
+    "generation_seconds": 39.62272719999987,
+    "generated_tokens": 3961,
+    "tokens_per_second": 99.96787904089582,
+    "generation_reports_per_second": 1.6152346020240678,
+    "mean_generation_latency_seconds": 0.619105112499998,
+    "median_generation_latency_seconds": 0.5304916999999136,
+    "p95_generation_latency_seconds": 1.1262201000000687,
+    "end_to_end_seconds": 39.73045030000003,
+    "peak_gpu_allocated_mib": 1066.68115234375
+  },
+  "lora_rank_sweep": {
+    "config": {
+      "model": "google/flan-t5-base",
+      "source_commit": "4f0624c",
+      "ranks": [
+        2,
+        4,
+        8,
+        16,
+        32,
+        64
+      ],
+      "train_reports": 8000,
+      "validation_reports": 150,
+      "epochs": 3,
+      "batch_size": 16,
+      "seed": 42,
+      "learning_rate": 0.001,
+      "alpha_over_rank": 2,
+      "dropout": 0.05,
+      "target_modules": [
+        "q",
+        "v"
+      ],
+      "optimizer": "AdamW",
+      "weight_decay": 0,
+      "gradient_clip_norm": 1,
+      "training_precision": "BF16 autocast forward/loss; FP32 weights and optimizer state; backward outside autocast",
+      "generation_precision": "FP32",
+      "limitations": "Single seed; reused validation sample; patient-level separation unverified. Earlier FP32 attempt incomplete and excluded."
+    },
+    "baseline_rouge_f1": {
+      "rouge1": 0.13913670890077387,
+      "rouge2": 0.03645089054492339,
+      "rougeL": 0.1244996742695528,
+      "rougeLsum": 0.12935431588175925
+    },
+    "results": [
+      {
+        "rank": 2,
+        "alpha": 4,
+        "rouge_f1": {
+          "rouge1": 0.6180680802464461,
+          "rouge2": 0.38766683935902474,
+          "rougeL": 0.5586927437054184,
+          "rougeLsum": 0.5841901638318739
+        },
+        "trainable_parameters": 221184,
+        "total_parameters": 247799040,
+        "training_seconds": 379.2962794999985,
+        "validation_loss": 0.9726253312001625,
+        "training_peak_gpu_vram_mib": 19204.68994140625,
+        "inference_tokens_per_second": 66.74783645391099
+      },
+      {
+        "rank": 4,
+        "alpha": 8,
+        "rouge_f1": {
+          "rouge1": 0.6285755252797574,
+          "rouge2": 0.4174171007993403,
+          "rougeL": 0.5747900333475282,
+          "rougeLsum": 0.5974666767819957
+        },
+        "trainable_parameters": 442368,
+        "total_parameters": 248020224,
+        "training_seconds": 389.60059080000065,
+        "validation_loss": 0.8955527183178782,
+        "training_peak_gpu_vram_mib": 19226.31884765625,
+        "inference_tokens_per_second": 71.61958848918711
+      },
+      {
+        "rank": 8,
+        "alpha": 16,
+        "rouge_f1": {
+          "rouge1": 0.6639939543160103,
+          "rouge2": 0.4554105736767593,
+          "rougeL": 0.6131090423096652,
+          "rougeLsum": 0.6393854798166576
+        },
+        "trainable_parameters": 884736,
+        "total_parameters": 248462592,
+        "training_seconds": 383.2292517999995,
+        "validation_loss": 0.8388310408457867,
+        "training_peak_gpu_vram_mib": 19235.57666015625,
+        "inference_tokens_per_second": 65.34288011165049
+      },
+      {
+        "rank": 16,
+        "alpha": 32,
+        "rouge_f1": {
+          "rouge1": 0.6550296608676498,
+          "rouge2": 0.45770543719262285,
+          "rougeL": 0.6025208386254589,
+          "rougeLsum": 0.6255443341639434
+        },
+        "trainable_parameters": 1769472,
+        "total_parameters": 249347328,
+        "training_seconds": 372.3505144999999,
+        "validation_loss": 0.7978071990100134,
+        "training_peak_gpu_vram_mib": 19254.09228515625,
+        "inference_tokens_per_second": 64.5272248092511
+      },
+      {
+        "rank": 32,
+        "alpha": 64,
+        "rouge_f1": {
+          "rouge1": 0.6663839487393866,
+          "rouge2": 0.45015264408967626,
+          "rougeL": 0.6125655967473391,
+          "rougeLsum": 0.6353193840133389
+        },
+        "trainable_parameters": 3538944,
+        "total_parameters": 251116800,
+        "training_seconds": 378.1745622999988,
+        "validation_loss": 0.7708511405002026,
+        "training_peak_gpu_vram_mib": 19291.12353515625,
+        "inference_tokens_per_second": 68.70098558378207
+      },
+      {
+        "rank": 64,
+        "alpha": 128,
+        "rouge_f1": {
+          "rouge1": 0.6753845064653486,
+          "rouge2": 0.47208736019578973,
+          "rougeL": 0.6221727960306506,
+          "rougeLsum": 0.6456621967835335
+        },
+        "trainable_parameters": 7077888,
+        "total_parameters": 254655744,
+        "training_seconds": 376.4651450000001,
+        "validation_loss": 0.7611752980334093,
+        "training_peak_gpu_vram_mib": 19365.18603515625,
+        "inference_tokens_per_second": 66.11628430680773
+      }
+    ],
+    "total_job_seconds": 3028.5442127999995
+  },
+  "verification": {
+    "full_test_prediction_coverage": "All 10,537 rows exactly once; source fields and metric totals verified.",
+    "lora_adapters": "All six configurations/parameter counts verified; each FP32 reload reproduced saved test-4012 prediction exactly."
+  },
+  "clinical_limitations": "Full-data CT example omitted the tumour conclusion at the 256-token output cap. ROUGE does not establish clinical safety; human review pending.",
+  "timing_limitations": "Full-data trajectory excludes data preparation, baseline evaluation, failed batch-8 attempt and later verification. LoRA times include validation-loss checks; loop has no gradient checkpointing. One seed and timing measurement per rank; no significance estimates."
+}
