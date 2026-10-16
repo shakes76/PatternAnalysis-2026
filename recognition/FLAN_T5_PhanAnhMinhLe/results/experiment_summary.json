@@ -232,8 +232,166 @@
   },
   "verification": {
     "full_test_prediction_coverage": "All 10,537 rows exactly once; source fields and metric totals verified.",
-    "lora_adapters": "All six configurations/parameter counts verified; each FP32 reload reproduced saved test-4012 prediction exactly."
+    "lora_adapters": "All six configurations/parameter counts verified; each FP32 reload reproduced saved test-4012 prediction exactly.",
+    "lora_rank64_full_data": "All 108,197 filtered indices and 20,289 logged updates verified; finite adapter weights; exact FP32 reload predictions on all five qualitative test cases; matched evaluation settings/reports against pilot and full tuning."
   },
-  "clinical_limitations": "Full-data CT example omitted the tumour conclusion at the 256-token output cap. ROUGE does not establish clinical safety; human review pending.",
-  "timing_limitations": "Full-data trajectory excludes data preparation, baseline evaluation, failed batch-8 attempt and later verification. LoRA times include validation-loss checks; loop has no gradient checkpointing. One seed and timing measurement per rank; no significance estimates."
+  "clinical_limitations": "Full-data CT example omitted the tumour conclusion at the 256-token output cap. ROUGE does not establish clinical safety; human review pending. The full-data rank-64 adapter also introduced unsupported fluid/inflammation wording and certainty changes in a qualitative case, and omitted the CT tumour conclusion at the output cap. Only five qualitative test cases were generated for this adapter; full_test_inference refers to the full-fine-tuned model.",
+  "timing_limitations": "Full-data trajectory excludes data preparation, baseline evaluation, failed batch-8 attempt and later verification. LoRA times include validation-loss checks; loop has no gradient checkpointing. One seed and timing measurement per rank; no significance estimates.",
+  "lora_rank64_full_data": {
+    "config": {
+      "model": "google/flan-t5-base",
+      "model_revision": "7bcac572ce56db69c1ea7c8af255c5d7c9672fc2",
+      "workspace_commit": "295b2d0",
+      "source_loop_commit": "4f0624c",
+      "train_reports": 108197,
+      "validation_reports": 150,
+      "rank": 64,
+      "alpha": 128,
+      "dropout": 0.05,
+      "learning_rate": 0.001,
+      "target_modules": [
+        "q",
+        "v"
+      ],
+      "epochs": 3,
+      "batch_size": 16,
+      "optimizer_steps": 20289,
+      "optimizer": "AdamW",
+      "weight_decay": 0,
+      "gradient_clip_norm": 1,
+      "seed": 42,
+      "training_precision": "BF16 forward/loss autocast; FP32 weights and optimizer state; backward outside autocast",
+      "generation_precision": "FP32",
+      "gradient_checkpointing": false,
+      "max_input_length": 512,
+      "max_target_length": 256,
+      "generation_max_new_tokens": 256,
+      "validation_scope": "Same 150 seed-42 validation reports used in previous comparisons; excluded from training but reused for model selection.",
+      "started_utc": "2026-10-16T04:48:41.753063+00:00"
+    },
+    "metrics": {
+      "model_revision": "7bcac572ce56db69c1ea7c8af255c5d7c9672fc2",
+      "split": "validation",
+      "evaluated_reports": 150,
+      "seed": 42,
+      "rouge_f1": {
+        "rouge1": 0.7177811354235263,
+        "rouge2": 0.5118222855873537,
+        "rougeL": 0.6623698648099452,
+        "rougeLsum": 0.6862723887347928
+      },
+      "total_parameters": 254655744,
+      "trainable_parameters": 7077888,
+      "non_trainable_parameters": 247577856,
+      "max_input_length": 512,
+      "max_new_tokens": 256,
+      "truncated_inputs": 0,
+      "decoding": "greedy",
+      "training_seconds": 4300.5693959000055,
+      "training_peak_gpu_vram_mib": 19378.47900390625,
+      "training_scope": "optimisation and validation loss; excludes tokenisation and generation",
+      "inference_tokens_per_second": 83.1623287363312,
+      "throughput_scope": "generation only; batch size 1; excludes warmup and safety cases",
+      "epochs": 3,
+      "optimizer": "AdamW",
+      "weight_decay": 0.0,
+      "gradient_clip_norm": 1.0,
+      "max_target_length": 256,
+      "batch_size": 16,
+      "train_reports": 108197,
+      "loss_history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.9670631562555283,
+          "validation_loss": 0.635165437314233
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.8349107730333601,
+          "validation_loss": 0.614623042883912
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.8144047328807615,
+          "validation_loss": 0.5967091900397351
+        }
+      ],
+      "precision": "bfloat16 autocast training/validation loss; float32 generation",
+      "target_modules": [
+        "q",
+        "v"
+      ],
+      "optimizer_steps": 20289,
+      "source_loop_commit": "4f0624c",
+      "workspace_commit": "295b2d0",
+      "gradient_checkpointing": false
+    },
+    "total_job_seconds": 4481.0869294,
+    "job_timing_scope": "Includes setup, data preparation, baseline evaluation, tokenization, training, validation loss, saving and final generation; excludes later reload checks and report writing.",
+    "adapter_path": "outputs/lora_rank64_all/rank64/adapter",
+    "verification": {
+      "status": "passed",
+      "all_108197_filtered_indices_used": true,
+      "logged_optimizer_updates": 20289,
+      "all_three_epochs_complete": true,
+      "adapter_rank_alpha_dropout_targets_correct": true,
+      "adapter_parameters": 7077888,
+      "adapter_weights_finite": true,
+      "reloaded_weights_fp32": true,
+      "loaded_for_frozen_inference": true,
+      "validation_inputs_references_and_generation_settings_match_pilot_and_full_finetuning": true,
+      "five_test_predictions_match_exactly_after_reload": true
+    },
+    "qualitative_generation_limits": [
+      {
+        "index": 409,
+        "exact_match_after_reload": true,
+        "input_tokens_before_truncation": 147,
+        "output_tokens_including_eos": 111,
+        "ended_with_eos": true
+      },
+      {
+        "index": 1824,
+        "exact_match_after_reload": true,
+        "input_tokens_before_truncation": 65,
+        "output_tokens_including_eos": 15,
+        "ended_with_eos": true
+      },
+      {
+        "index": 4012,
+        "exact_match_after_reload": true,
+        "input_tokens_before_truncation": 117,
+        "output_tokens_including_eos": 94,
+        "ended_with_eos": true
+      },
+      {
+        "index": 4506,
+        "exact_match_after_reload": true,
+        "input_tokens_before_truncation": 332,
+        "output_tokens_including_eos": 256,
+        "ended_with_eos": false
+      },
+      {
+        "index": 10476,
+        "exact_match_after_reload": true,
+        "input_tokens_before_truncation": 124,
+        "output_tokens_including_eos": 66,
+        "ended_with_eos": true
+      }
+    ]
+  },
+  "rank64_vs_full_fine_tuning": {
+    "train_reports_each": 108197,
+    "validation_reports_each": 150,
+    "matched_inputs_references_and_generation_settings": true,
+    "full_minus_lora_rouge_f1": {
+      "rouge1": 0.036956922933375824,
+      "rouge2": 0.06610629803044621,
+      "rougeL": 0.05142125593641289,
+      "rougeLsum": 0.04707406472594011
+    },
+    "full_to_lora_trainable_parameter_ratio": 34.97905815972222,
+    "lora_rougeLsum_gain_over_8000_report_pilot": 0.040610191951259256,
+    "limitations": "Single seed, reused validation sample. LoRA uses AdamW LR 0.001, no checkpointing, three validation-loss checks and a timer including validation loss. Full tuning uses fused AdamW LR 0.0001, gradient checkpointing, 41 validation-loss checks and a training timer excluding validation. Not a controlled implementation-only comparison."
+  }
 }

@@ -215,6 +215,46 @@ Exact aggregate metrics and settings are tracked in
 [`results/experiment_summary.json`](results/experiment_summary.json).
 Weights, raw reports, predictions and detailed logs remain local under `outputs/`.
 
+## Rank 64 versus full fine-tuning: all eligible training reports
+
+A fresh rank-64 adapter used all **108,197** filtered training reports for three
+epochs (20,289 updates). Settings match the rank sweep: alpha 128, dropout .05,
+query/value targets, AdamW LR .001, batch 16, seed 42, BF16 forwards and FP32 weights
+and generation. Only 7,077,888 adapter parameters were updated; the base stayed frozen.
+
+Both full-data models below used the same 150 validation reports, prompt, references,
+and greedy 512/256 input/output limits. This sample was excluded from training but
+reused for model selection; these are single-seed validation results, not test scores.
+
+| Method | Trainable parameters | ROUGE-1 | ROUGE-2 | ROUGE-L | ROUGE-Lsum |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| LoRA rank 64 | 7,077,888 | .7178 | .5118 | .6624 | .6863 |
+| Full fine-tuning | 247,577,856 | **.7547** | **.5779** | **.7138** | **.7333** |
+
+LoRA gained .0406 ROUGE-Lsum over its 8,000-report pilot. Full tuning remained
+.0471 higher on the full-data comparison; LoRA trained about 35x fewer parameters.
+LoRA training plus three validation-loss checks took **1h 11m 41s**; the job including
+setup, baseline evaluation, tokenisation, saving and generation took **1h 14m 41s**.
+Peak allocated training VRAM was **18.92 GiB**; batch-1 generation reached
+**83.16 tokens/s**. Final validation loss was .5967.
+
+Full tuning used LR .0001, fused AdamW, gradient checkpointing and 41 loss checks;
+LoRA used ordinary AdamW, no gradient checkpointing and three loss checks. Full-tuning
+training time excludes validation; the LoRA timer includes validation loss. Time and
+memory differences therefore reflect implementation and hyperparameter differences too.
+
+All filtered indices and 20,289 logged updates were verified. FP32 adapter reload
+reproduced all five saved qualitative test predictions exactly. These cases still
+show unsupported fluid/inflammation wording, altered certainty, and a CT tumour
+conclusion omitted at the 256-token output limit. Human clinical review remains pending.
+Only those five test cases were generated for this adapter; the earlier full-test
+inference run used the full-fine-tuned model. Test references remain blank.
+
+The adapter is local at `outputs/lora_rank64_all/rank64/adapter/`; detailed reports,
+matched outputs and verification are under `outputs/lora_rank64_all/`. Aggregate
+metrics and comparison settings are included in `results/experiment_summary.json`.
+The four Python source files are unchanged.
+
 ## Preliminary baseline clinical safety analysis
 
 Five test cases were randomly selected using seed 42. Test references are absent;
