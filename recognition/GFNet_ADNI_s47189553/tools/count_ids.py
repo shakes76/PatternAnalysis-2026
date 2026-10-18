@@ -3,8 +3,8 @@ Count unique patients in each AD_NC folder.
 
 """
 import os
-# DATA_DIR = "/home/groups/comp3710/ADNI"
-DATA_DIR = "/Users/ryanhuang/Documents/UQ/Sem 2 2026/COMP3710/ADNI"
+DATA_DIR = "/home/groups/comp3710/ADNI"
+# DATA_DIR = "/Users/ryanhuang/Documents/UQ/Sem 2 2026/COMP3710/ADNI"
 ROOT = os.path.join(DATA_DIR, "AD_NC")
  
  
