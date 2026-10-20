@@ -159,8 +159,43 @@ def load_imagenet_weights(model, variant="tiny"):
     return model
 
 
-def build_model(variant="tiny", pretrained=True, num_classes=2, in_chans=1,
+class ConvBNReLU(nn.Sequential):
+    def __init__(self, cin, cout):
+        super().__init__(
+            nn.Conv2d(cin, cout, kernel_size=3, padding=1, bias=False),
+            nn.BatchNorm2d(cout),
+            nn.ReLU(inplace=True),
+        )
+
+
+class BaselineCNN(nn.Module):
+    """Plain VGG-style CNN used as the comparison baseline.
+
+    Four stages of two 3x3 conv-BN-ReLU layers followed by 2x2 max-pooling,
+    then global average pooling, dropout and a linear classifier. Trained from
+    scratch, so it isolates what ConvNeXt's architecture + ImageNet pretraining add.
+    """
+
+    def __init__(self, in_chans=1, num_classes=2, widths=(32, 64, 128, 256), dropout=0.3):
+        super().__init__()
+        layers, cin = [], in_chans
+        for w in widths:
+            layers += [ConvBNReLU(cin, w), ConvBNReLU(w, w), nn.MaxPool2d(2)]
+            cin = w
+        self.features = nn.Sequential(*layers)
+        self.drop = nn.Dropout(dropout)
+        self.head = nn.Linear(cin, num_classes)
+
+    def forward(self, x):
+        x = self.features(x).mean(dim=(-2, -1))
+        return self.head(self.drop(x))
+
+
+def build_model(arch="convnext", variant="tiny", pretrained=True, num_classes=2, in_chans=1,
                 drop_path_rate=0.1, head_dropout=0.0):
+    """Factory used by train.py / predict.py. ``arch`` is "convnext" or "baseline"."""
+    if arch == "baseline":
+        return BaselineCNN(in_chans=in_chans, num_classes=num_classes)
     model = ConvNeXt(in_chans=in_chans, num_classes=num_classes,
                      drop_path_rate=drop_path_rate, head_dropout=head_dropout,
                      **CONFIGS[variant])
