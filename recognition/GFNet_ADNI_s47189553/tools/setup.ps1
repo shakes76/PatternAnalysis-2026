@@ -1,5 +1,5 @@
 <#
-setup.ps1 — one-shot setup for COMP3710 ADNI on a Windows + NVIDIA machine.
+setup.ps1 - one-shot setup for COMP3710 ADNI on a Windows + NVIDIA machine.
 
   1. Installs Miniconda (per-user, no admin) if it isn't already there
   2. Creates the conda env and installs CUDA PyTorch + deps
@@ -46,7 +46,7 @@ if (Test-Path $Conda) {
     Invoke-WebRequest "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe" -OutFile $installer
     Write-Host "Installing (silent, per-user)..."
     Start-Process $installer -Wait -ArgumentList "/InstallationType=JustMe", "/RegisterPython=0", "/AddToPath=0", "/S", "/D=$CondaRoot"
-    if (-not (Test-Path $Conda)) { throw "Miniconda install failed — check disk quota in $env:USERPROFILE" }
+    if (-not (Test-Path $Conda)) { throw "Miniconda install failed - check disk quota in $env:USERPROFILE" }
 }
 
 # ---------------------------------------------------------------- 2. Python env
@@ -92,7 +92,7 @@ if (Test-Path (Join-Path $AdniRoot "train")) {
     tar -xf $tar -C $DataDir                           # tar.exe ships with Windows 10/11
     Check "extract"
     Remove-Item $tar
-    if (-not (Test-Path (Join-Path $AdniRoot "train"))) { throw "Extracted, but $AdniRoot\train not found — check folder layout" }
+    if (-not (Test-Path (Join-Path $AdniRoot "train"))) { throw "Extracted, but $AdniRoot\train not found - check folder layout" }
 }
 
 # ---------------------------------------------------------------- 4. Done
