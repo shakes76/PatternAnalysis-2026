@@ -17,7 +17,7 @@ Options:
 param(
     [string]$EnvName     = "comp3710",
     [string]$RangpurUser = $env:USERNAME,
-    [string]$RangpurHost = "rangpur.compute.eng.uq.edu.au",
+    [string]$RangpurHost = "rangpur.compute.eait.uq.edu.au",
     [string]$RangpurPath = "/home/groups/comp3710/ADNI",
     [string]$DataDir     = ""
 )
