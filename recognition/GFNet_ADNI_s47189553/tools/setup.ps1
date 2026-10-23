@@ -22,7 +22,10 @@ param(
     [string]$DataDir     = ""
 )
 
-$ErrorActionPreference = "Stop"
+# "Continue", not "Stop": Windows PowerShell 5.1 turns any stderr line from a native
+# program (pip warnings, conda progress) into a fatal error under "Stop".
+# Native commands are checked with Check (exit code) instead.
+$ErrorActionPreference = "Continue"
 function Step($msg) { Write-Host "`n=== $msg ===" -ForegroundColor Cyan }
 function Check($what) { if ($LASTEXITCODE -ne 0) { throw "$what failed (exit code $LASTEXITCODE)" } }
 
@@ -43,9 +46,9 @@ if (Test-Path $Conda) {
     $installer = "$env:TEMP\Miniconda3-latest-Windows-x86_64.exe"
     Write-Host "Downloading installer..."
     $ProgressPreference = "SilentlyContinue"          # makes Invoke-WebRequest much faster
-    Invoke-WebRequest "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe" -OutFile $installer
+    Invoke-WebRequest "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe" -OutFile $installer -ErrorAction Stop
     Write-Host "Installing (silent, per-user)..."
-    Start-Process $installer -Wait -ArgumentList "/InstallationType=JustMe", "/RegisterPython=0", "/AddToPath=0", "/S", "/D=$CondaRoot"
+    Start-Process $installer -Wait -ErrorAction Stop -ArgumentList "/InstallationType=JustMe", "/RegisterPython=0", "/AddToPath=0", "/S", "/D=$CondaRoot"
     if (-not (Test-Path $Conda)) { throw "Miniconda install failed - check disk quota in $env:USERPROFILE" }
 }
 
@@ -57,7 +60,8 @@ if (-not (Test-Path $Py)) {
     Check "conda create"
 }
 
-& $Py -c "import torch" 2>$null
+# Probe for torch without printing a traceback
+& $Py -c "import importlib.util, sys; sys.exit(0 if importlib.util.find_spec('torch') else 1)"
 if ($LASTEXITCODE -ne 0) {
     & $Py -m pip install --upgrade pip
     & $Py -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
