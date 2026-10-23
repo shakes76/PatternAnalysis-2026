@@ -23,9 +23,9 @@ import numpy as np
 import torch
 from PIL import Image
 
-from dataset import CLASSES, DEFAULT_ROOT, TensorBatcher, load_split, preprocess
+from dataset import CLASSES, DEFAULT_ROOT, TensorBatcher, load_patient_splits, preprocess
 from modules import build_model
-from utils import classification_report, softmax_np, subject_level
+from utils import classification_report, scan_level, softmax_np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -87,7 +87,10 @@ def main():
             print(f"{os.path.basename(p):>22s}: P(AD)={pr[1]:.3f} -> {label} (confidence {conf:.3f})")
         labels = None
     else:
-        imgs, labels, paths = load_split("test", args.root)
+        # rebuild the same patient-disjoint test split that was used during training
+        splits, _ = load_patient_splits(args.root, val_frac=ckpt.get("val_frac", 0.1),
+                                        test_frac=ckpt.get("test_frac", 0.2), seed=ckpt.get("seed", 42))
+        imgs, labels, paths = splits["test"]
         probs = softmax_np(infer(model, imgs, ckpt["mean"], ckpt["std"], device), T)
         labels = labels.numpy()
         rep = classification_report(probs, labels)
@@ -98,9 +101,9 @@ def main():
             print(f"  {c}: precision {rep[f'precision_{c}']:.4f} recall {rep[f'recall_{c}']:.4f} "
                   f"F1 {rep[f'f1_{c}']:.4f}")
         print(f"  confusion [[TN, FP], [FN, TP]] = {rep['confusion']}")
-        sp, sl, _ = subject_level(probs, labels, paths)
-        print(f"Subject-level accuracy (mean of 20 slices): {(sp.argmax(1) == sl).mean():.4f} "
-              f"over {len(sl)} subjects")
+        sp, sl, _ = scan_level(probs, labels, paths)
+        print(f"Scan-level accuracy (mean of 20 slices): {(sp.argmax(1) == sl).mean():.4f} "
+              f"over {len(sl)} scans")
         keep = probs.max(1) >= thr
         print(f"Reject option @ {thr:.3f}: automated {keep.mean():.1%} of slices with accuracy "
               f"{(probs.argmax(1)[keep] == labels[keep]).mean():.4f}; referred {(~keep).sum()}")

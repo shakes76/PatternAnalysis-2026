@@ -11,7 +11,7 @@ from sklearn.metrics import (
     precision_recall_fscore_support, roc_auc_score, confusion_matrix, roc_curve,
 )
 
-from dataset import CLASSES, subject_id
+from dataset import CLASSES, scan_id
 
 
 def classification_report(probs, labels):
@@ -144,13 +144,17 @@ def softmax_np(logits, T=1.0):
     return e / e.sum(1, keepdims=True)
 
 
-def subject_level(probs, labels, paths):
-    """Average slice probabilities per subject -> (subject_probs, subject_labels, subject_ids)."""
+def scan_level(probs, labels, paths):
+    """Average the 20 slice probabilities of each MRI scan -> (scan_probs, scan_labels, scan_ids).
+
+    A scan (one visit) is the unit a radiologist would actually read, so this is the
+    clinically relevant decision level.
+    """
     groups = {}
     for i, p in enumerate(paths):
-        groups.setdefault(subject_id(p), []).append(i)
+        groups.setdefault(scan_id(p), []).append(i)
     ids = sorted(groups)
-    # averaging probabilities (soft voting) keeps a confidence value per subject
+    # averaging probabilities (soft voting) keeps a confidence value per scan
     sp = np.stack([probs[groups[s]].mean(0) for s in ids])
     sl = np.array([labels[groups[s][0]] for s in ids])
     return sp, sl, ids

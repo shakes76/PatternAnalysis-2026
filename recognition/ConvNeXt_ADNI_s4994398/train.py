@@ -27,10 +27,10 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from dataset import (TensorBatcher, compute_stats, gpu_augment, list_split, load_split,
-                     preprocess, subject_split, DEFAULT_ROOT)
+from dataset import (TensorBatcher, balanced_weights, compute_stats, gpu_augment, load_patient_splits,
+                     preprocess, DEFAULT_ROOT)
 from modules import build_model
-from utils import classification_report, fit_temperature, softmax_np, subject_level
+from utils import classification_report, fit_temperature, scan_level, softmax_np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,7 +48,10 @@ def parse_args():
     ap.add_argument("--warmup-epochs", type=float, default=1.0)
     ap.add_argument("--drop-path", type=float, default=0.2)
     ap.add_argument("--label-smoothing", type=float, default=0.0)
-    ap.add_argument("--val-frac", type=float, default=0.1)
+    ap.add_argument("--val-frac", type=float, default=0.1, help="fraction of patients for validation")
+    ap.add_argument("--test-frac", type=float, default=0.2, help="fraction of patients for testing")
+    ap.add_argument("--no-balance", action="store_true",
+                    help="sample slices uniformly instead of patient- and class-balanced")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--tag", default=None, help="name for outputs (defaults to --arch)")
     return ap.parse_args()
@@ -112,15 +115,14 @@ def main():
     os.makedirs(ckpt_dir, exist_ok=True)
     os.makedirs(res_dir, exist_ok=True)
 
-    # ---- data: subject-level train/val split of the official train set; test untouched ----
-    # The official train folder is split into train/val by subject; the official
-    # test folder is only loaded here and used once, after training, for reporting.
-    images, labels, paths = load_split("train", args.root)
-    tr_idx, va_idx = subject_split(list_split(args.root, "train")[0], labels.tolist(), args.val_frac, args.seed)
-    x_tr, y_tr = images[tr_idx], labels[tr_idx]
-    x_va, y_va = images[va_idx], labels[va_idx]
-    x_te, y_te, te_paths = load_split("test", args.root)
-    mean, std = compute_stats(x_tr)  # normalisation stats from training subjects only (no val/test info)
+    # ---- data: patient-disjoint train / val / test split (see dataset.py) ----
+    # The test split is only used once, after training, for reporting.
+    splits, patient_of = load_patient_splits(args.root, val_frac=args.val_frac, test_frac=args.test_frac,
+                                             seed=args.seed)
+    x_tr, y_tr, tr_paths = splits["train"]
+    x_va, y_va, _ = splits["val"]
+    x_te, y_te, te_paths = splits["test"]
+    mean, std = compute_stats(x_tr)  # normalisation stats from training patients only (no val/test info)
     print(f"train {len(y_tr)} | val {len(y_va)} | test {len(y_te)} | mean {mean:.4f} std {std:.4f}")
 
     # channels_last memory layout makes convolutions faster on tensor-core GPUs
@@ -136,7 +138,10 @@ def main():
     opt = torch.optim.AdamW([{"params": decay, "weight_decay": args.weight_decay},
                              {"params": no_decay, "weight_decay": 0.0}], lr=args.lr)
 
-    loader = TensorBatcher(x_tr, y_tr, args.batch_size, True, device, drop_last=True)
+    # Patient/class-balanced resampling stops the network from scoring well by memorising
+    # AD patients who appear many times (see dataset.balanced_weights).
+    weights = None if args.no_balance else balanced_weights(tr_paths, y_tr.tolist(), patient_of)
+    loader = TensorBatcher(x_tr, y_tr, args.batch_size, True, device, drop_last=True, weights=weights)
     total_steps = args.epochs * len(loader)  # LR schedule is defined per step, not per epoch
     warmup = int(args.warmup_epochs * len(loader))
 
@@ -183,7 +188,9 @@ def main():
         if rep["accuracy"] > best_acc:
             best_acc = rep["accuracy"]
             torch.save({"model": model.state_dict(), "arch": args.arch, "variant": args.variant,
-                        "mean": mean, "std": std, "epoch": epoch, "val_acc": best_acc},
+                        "mean": mean, "std": std, "epoch": epoch, "val_acc": best_acc,
+                        # split parameters, so predict.py can rebuild exactly the same test set
+                        "seed": args.seed, "val_frac": args.val_frac, "test_frac": args.test_frac},
                        os.path.join(ckpt_dir, f"{tag}_best.pt"))
         plot_history(hist, os.path.join(res_dir, f"{tag}_curves.png"), tag)
         with open(os.path.join(res_dir, f"{tag}_history.json"), "w") as f:
@@ -209,14 +216,14 @@ def main():
         "temperature": T, "args": vars(args),
         "test_slice": classification_report(test_probs, y_te.numpy()),
         "test_slice_temp_scaled": classification_report(softmax_np(test_logits, T), y_te.numpy()),
-        # subject-level: average the 20 slice probabilities of each subject, one decision per person
-        "test_subject": classification_report(*subject_level(test_probs, y_te.numpy(), te_paths)[:2]),
+        # scan-level: average the 20 slice probabilities of each scan, one decision per MRI
+        "test_scan": classification_report(*scan_level(test_probs, y_te.numpy(), te_paths)[:2]),
     }
     with open(os.path.join(res_dir, f"{tag}_test_metrics.json"), "w") as f:
         json.dump(report, f, indent=1)
     s = report["test_slice"]
     print(f"\nTEST ({tag}, best epoch {ckpt['epoch']}): acc {s['accuracy']:.4f} | macro-F1 {s['macro_f1']:.4f} "
-          f"| AUROC {s['auroc']:.4f} | ECE {s['ece']:.4f} | subject acc {report['test_subject']['accuracy']:.4f}")
+          f"| AUROC {s['auroc']:.4f} | ECE {s['ece']:.4f} | scan acc {report['test_scan']['accuracy']:.4f}")
 
 
 if __name__ == "__main__":

@@ -3,14 +3,22 @@ Data loading for the ADNI AD/NC brain MRI slice dataset.
 
 Expected layout (the preprocessed ADNI release used in COMP3710):
 
-    <root>/train/AD/<subject>_<slice>.jpeg
-    <root>/train/NC/<subject>_<slice>.jpeg
+    <root>/train/AD/<scan>_<slice>.jpeg
+    <root>/train/NC/<scan>_<slice>.jpeg
     <root>/test/AD/...
     <root>/test/NC/...
 
-Each subject contributes 20 axial slices (256 x 240, greyscale). Because
-slices of the same subject are highly correlated, the validation split is
-made at the *subject* level so no subject appears in both train and val.
+Each MRI *scan* contributes 20 axial slices (256 x 240, greyscale). The number
+in the file name is the ADNI image (scan) ID, NOT a patient ID: one patient can
+have up to 7 scans from different visits. ``meta_data_with_label.json`` maps
+scan IDs to patient IDs (e.g. ``068_S_0473``).
+
+Leakage found and fixed: the official train/ and test/ folders share 216
+patients, and a scan-level validation split puts other visits of the same
+patient on both sides. A model trained that way scored 0.97 on test patients it
+had already seen and 0.39 on unseen ones, i.e. it learned to recognise patients,
+not disease. ``patient_split`` therefore pools both folders and re-splits them
+so that every patient is in exactly one of train / val / test.
 
 All images are decoded once and cached as a uint8 array, which keeps every
 epoch I/O free. Augmentation is done on the GPU in batches (see
@@ -18,9 +26,11 @@ epoch I/O free. Augmentation is done on the GPU in batches (see
 where DataLoader worker processes are slow to start.
 """
 
+import json
 import os
 import random
-from collections import defaultdict
+import re
+from collections import Counter, defaultdict
 
 import numpy as np
 import torch
@@ -30,12 +40,25 @@ from PIL import Image
 CLASSES = ("NC", "AD")  # label 0 = cognitive normal, label 1 = Alzheimer's
 IMG_SIZE = 224
 DEFAULT_ROOT = os.environ.get("ADNI_ROOT", r"D:\ADNI\AD_NC")
-DEFAULT_CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache")
+HERE = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_CACHE = os.path.join(HERE, "cache")
+DEFAULT_META = os.environ.get("ADNI_META", os.path.join(HERE, "meta_data_with_label.json"))
 
 
-def subject_id(filename):
-    """``1003730_100.jpeg`` -> ``1003730``."""
+def scan_id(filename):
+    """``1003730_100.jpeg`` -> ``1003730`` (ADNI image ID of the scan)."""
     return os.path.basename(filename).split("_")[0]
+
+
+def load_patient_map(meta_path=DEFAULT_META):
+    """Map scan ID -> patient ID using the ADNI metadata file.
+
+    The patient ID (site_S_subject, e.g. ``068_S_0473``) is parsed from the raw
+    NIfTI file name stored for each scan.
+    """
+    with open(meta_path) as f:
+        meta = json.load(f)
+    return {k: re.search(r"ADNI_(\d+_S_\d+)_", v["raw"]).group(1) for k, v in meta.items()}
 
 
 def list_split(root, split):
@@ -50,33 +73,52 @@ def list_split(root, split):
     return paths, labels
 
 
-def subject_split(paths, labels, val_frac=0.1, seed=42):
-    """Split indices into train/val by subject, stratified by class.
+def patient_split(paths, labels, patient_of, val_frac=0.1, test_frac=0.2, seed=42):
+    """Split slice indices into train/val/test by *patient*, stratified by class.
 
-    Returns two lists of indices into ``paths``.
+    Returns three sorted lists of indices into ``paths``.
     """
-    # Group slice indices by the subject they came from. Every slice of a subject
-    # shares that subject's diagnosis, so one label per subject is enough.
-    by_subject = defaultdict(list)
-    subject_label = {}
+    # Group slice indices by patient. Each patient has a single diagnosis in this
+    # dataset (checked: no patient appears under both AD and NC).
+    by_patient = defaultdict(list)
+    patient_label = {}
     for i, (p, y) in enumerate(zip(paths, labels)):
-        s = subject_id(p)
-        by_subject[s].append(i)
-        subject_label[s] = y
+        pid = patient_of[scan_id(p)]
+        by_patient[pid].append(i)
+        assert patient_label.setdefault(pid, y) == y, f"patient {pid} has mixed labels"
 
-    # Shuffle the *subjects* (not slices) of each class separately, then send the
-    # first val_frac of them to validation. Doing it per class keeps the AD/NC ratio
-    # the same in both splits (stratification). The seeded RNG makes it reproducible.
+    # Shuffle the *patients* (not slices or scans) of each class separately and cut
+    # the list into test / val / train. Doing it per class keeps the AD/NC ratio the
+    # same in all splits (stratification). The seeded RNG makes it reproducible.
     rng = random.Random(seed)
-    train_idx, val_idx = [], []
+    splits = ([], [], [])  # train, val, test
     for label in range(len(CLASSES)):
-        subjects = sorted(s for s, y in subject_label.items() if y == label)  # sort first: deterministic order
-        rng.shuffle(subjects)
-        n_val = max(1, round(len(subjects) * val_frac))
-        for k, s in enumerate(subjects):
-            # all 20 slices of a subject go to the same side -> no leakage
-            (val_idx if k < n_val else train_idx).extend(by_subject[s])
-    return sorted(train_idx), sorted(val_idx)
+        patients = sorted(pid for pid, y in patient_label.items() if y == label)  # sort first: deterministic
+        rng.shuffle(patients)
+        n_test = round(len(patients) * test_frac)
+        n_val = round(len(patients) * val_frac)
+        for k, pid in enumerate(patients):
+            which = 2 if k < n_test else 1 if k < n_test + n_val else 0
+            # every slice of every scan of this patient goes to the same split -> no leakage
+            splits[which].extend(by_patient[pid])
+    return tuple(sorted(s) for s in splits)
+
+
+def balanced_weights(paths, labels, patient_of):
+    """Per-slice sampling weights so every *patient* and every *class* counts equally.
+
+    AD patients have ~3.4 scans each vs ~1.7 for NC, so uniform sampling lets the
+    network score well by memorising the frequently repeated AD brains. Weighting
+    each slice by 1 / (slices of its patient) gives every patient the same total
+    weight; dividing by the number of patients in the class then balances AD vs NC.
+    """
+    pids = [patient_of[scan_id(p)] for p in paths]
+    per_patient = Counter(pids)
+    patients_in_class = Counter()
+    for pid, y in set(zip(pids, labels)):
+        patients_in_class[y] += 1
+    w = [1.0 / (per_patient[pid] * patients_in_class[y]) for pid, y in zip(pids, labels)]
+    return torch.tensor(w, dtype=torch.double)
 
 
 def _load_images(paths):
@@ -106,19 +148,44 @@ def load_split(split, root=DEFAULT_ROOT, cache_dir=DEFAULT_CACHE):
     return torch.from_numpy(images), torch.tensor(labels, dtype=torch.long), paths
 
 
+def load_all(root=DEFAULT_ROOT, cache_dir=DEFAULT_CACHE):
+    """Both official folders concatenated (they are re-split by patient afterwards)."""
+    x1, y1, p1 = load_split("train", root, cache_dir)
+    x2, y2, p2 = load_split("test", root, cache_dir)
+    return torch.cat([x1, x2]), torch.cat([y1, y2]), p1 + p2
+
+
+def load_patient_splits(root=DEFAULT_ROOT, meta_path=DEFAULT_META, val_frac=0.1, test_frac=0.2, seed=42):
+    """Convenience wrapper used by train.py / predict.py.
+
+    Returns ``{"train"|"val"|"test": (images, labels, paths)}`` and the patient map.
+    """
+    images, labels, paths = load_all(root)
+    patient_of = load_patient_map(meta_path)
+    idx = patient_split(paths, labels.tolist(), patient_of, val_frac, test_frac, seed)
+    out = {}
+    for name, ii in zip(("train", "val", "test"), idx):
+        t = torch.tensor(ii)
+        out[name] = (images[t], labels[t], [paths[i] for i in ii])
+    return out, patient_of
+
+
 class TensorBatcher:
     """Minimal in-memory batch iterator over uint8 image tensors.
 
     Yields ``(images uint8 [B,H,W], labels [B], indices [B])`` on ``device``.
+    If ``weights`` is given, each epoch draws ``len(labels)`` samples *with
+    replacement* in proportion to the weights (like WeightedRandomSampler).
     """
 
-    def __init__(self, images, labels, batch_size, shuffle, device, drop_last=False):
+    def __init__(self, images, labels, batch_size, shuffle, device, drop_last=False, weights=None):
         self.images = images
         self.labels = labels
         self.batch_size = batch_size
         self.shuffle = shuffle
         self.device = device
         self.drop_last = drop_last
+        self.weights = weights
 
     def __len__(self):
         n = len(self.labels)
@@ -129,7 +196,12 @@ class TensorBatcher:
     # cost (slow on Windows) without any benefit. Indexing the tensor is enough.
     def __iter__(self):
         n = len(self.labels)
-        order = torch.randperm(n) if self.shuffle else torch.arange(n)  # new random order every epoch
+        if self.weights is not None:
+            order = torch.multinomial(self.weights, n, replacement=True)  # balanced resampling
+        elif self.shuffle:
+            order = torch.randperm(n)  # new random order every epoch
+        else:
+            order = torch.arange(n)
         for b in range(len(self)):
             idx = order[b * self.batch_size:(b + 1) * self.batch_size]
             yield (
@@ -198,13 +270,16 @@ def gpu_augment(batch_u8, mean, std, size=IMG_SIZE, max_rot=10.0, scale=(0.9, 1.
 
 
 if __name__ == "__main__":
-    # Quick sanity check of the split and loading.
-    paths, labels = list_split(DEFAULT_ROOT, "train")
-    tr, va = subject_split(paths, labels)
-    tr_subj = {subject_id(paths[i]) for i in tr}
-    va_subj = {subject_id(paths[i]) for i in va}
-    assert not tr_subj & va_subj, "subject leakage between train and val"
-    print(f"train slices {len(tr)} ({len(tr_subj)} subjects), val slices {len(va)} ({len(va_subj)} subjects)")
-    images, y, _ = load_split("train")
-    print("train array", tuple(images.shape), "label counts", torch.bincount(y).tolist())
-    print("mean/std", compute_stats(images))
+    # Sanity check: patient-disjoint splits and their sizes.
+    splits, patient_of = load_patient_splits()
+    pats = {}
+    for name, (x, y, paths) in splits.items():
+        pats[name] = {patient_of[scan_id(p)] for p in paths}
+        scans = {scan_id(p) for p in paths}
+        print(f"{name:5s}: {len(y):5d} slices, {len(scans):4d} scans, {len(pats[name]):3d} patients, "
+              f"AD slice fraction {y.float().mean():.3f}")
+    assert not pats["train"] & pats["val"] and not pats["train"] & pats["test"] and not pats["val"] & pats["test"], \
+        "patient leakage between splits"
+    print("OK: no patient appears in more than one split")
+    x_tr = splits["train"][0]
+    print("train mean/std", compute_stats(x_tr))
