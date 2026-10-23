@@ -31,7 +31,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def load_model(ckpt_path, device):
+    """Rebuild the architecture recorded in the checkpoint and load its weights."""
     ckpt = torch.load(ckpt_path, map_location=device)
+    # pretrained=False: no need to download ImageNet weights, they are overwritten anyway
     model = build_model(ckpt["arch"], ckpt.get("variant", "tiny"), pretrained=False)
     model.load_state_dict(ckpt["model"])
     return model.to(device).eval(), ckpt
@@ -41,7 +43,7 @@ def load_model(ckpt_path, device):
 def infer(model, images_u8, mean, std, device, batch_size=128):
     """uint8 [N,H,W] tensor -> logits [N,2] numpy."""
     out = []
-    dummy = torch.zeros(len(images_u8), dtype=torch.long)
+    dummy = torch.zeros(len(images_u8), dtype=torch.long)  # TensorBatcher expects labels; unused here
     for xb, _, _ in TensorBatcher(images_u8, dummy, batch_size, False, device):
         with torch.autocast("cuda", dtype=torch.bfloat16, enabled=device.type == "cuda"):
             out.append(model(preprocess(xb, mean, std)).float().cpu())
@@ -49,6 +51,7 @@ def infer(model, images_u8, mean, std, device, batch_size=128):
 
 
 def describe(prob, threshold):
+    """Reject option: return the class only if the model is confident enough, else "REFER"."""
     conf = prob.max()
     label = CLASSES[prob.argmax()] if conf >= threshold else "REFER"
     return label, conf
@@ -69,6 +72,8 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model, ckpt = load_model(args.ckpt, device)
+    # evaluate.py stores the validation-fitted temperature and referral threshold in the
+    # checkpoint; command-line values override them. 0.5 = never refer (binary task).
     T = args.temperature or ckpt.get("temperature", 1.0)
     thr = args.threshold or ckpt.get("threshold", 0.5)
     print(f"Loaded {ckpt['arch']} from epoch {ckpt['epoch']} (val acc {ckpt['val_acc']:.4f}); T={T:.3f}, "
@@ -100,7 +105,8 @@ def main():
         print(f"Reject option @ {thr:.3f}: automated {keep.mean():.1%} of slices with accuracy "
               f"{(probs.argmax(1)[keep] == labels[keep]).mean():.4f}; referred {(~keep).sum()}")
 
-    # visualise a random selection
+    # Visualise a random selection; title colour: green = correct, red = wrong,
+    # orange = referred to a human.
     rng = np.random.default_rng(0)
     idx = rng.choice(len(imgs), size=min(args.n_show, len(imgs)), replace=False)
     cols = 6

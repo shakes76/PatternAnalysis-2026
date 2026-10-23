@@ -62,16 +62,22 @@ def seed_everything(seed):
 
 
 def cosine_lr(step, total, warmup, base_lr):
+    """Learning rate at optimiser step ``step``.
+
+    Linear warm-up for the first ``warmup`` steps (avoids large, noisy updates
+    wrecking the pretrained weights at the start), then half a cosine wave from
+    ``base_lr`` down to 0 at the last step.
+    """
     if step < warmup:
         return base_lr * (step + 1) / warmup
     progress = (step - warmup) / max(1, total - warmup)
     return base_lr * 0.5 * (1 + math.cos(math.pi * progress))
 
 
-@torch.no_grad()
+@torch.no_grad()  # no gradients needed for evaluation: saves memory and time
 def predict_logits(model, images, labels, mean, std, device, batch_size=128):
     """Deterministic (no augmentation) forward pass over a whole split."""
-    model.eval()
+    model.eval()  # disables dropout / stochastic depth, BatchNorm uses running stats
     out = []
     for xb, _, _ in TensorBatcher(images, labels, batch_size, False, device):
         with torch.autocast("cuda", dtype=torch.bfloat16, enabled=device.type == "cuda"):
@@ -107,27 +113,31 @@ def main():
     os.makedirs(res_dir, exist_ok=True)
 
     # ---- data: subject-level train/val split of the official train set; test untouched ----
+    # The official train folder is split into train/val by subject; the official
+    # test folder is only loaded here and used once, after training, for reporting.
     images, labels, paths = load_split("train", args.root)
     tr_idx, va_idx = subject_split(list_split(args.root, "train")[0], labels.tolist(), args.val_frac, args.seed)
     x_tr, y_tr = images[tr_idx], labels[tr_idx]
     x_va, y_va = images[va_idx], labels[va_idx]
     x_te, y_te, te_paths = load_split("test", args.root)
-    mean, std = compute_stats(x_tr)
+    mean, std = compute_stats(x_tr)  # normalisation stats from training subjects only (no val/test info)
     print(f"train {len(y_tr)} | val {len(y_va)} | test {len(y_te)} | mean {mean:.4f} std {std:.4f}")
 
+    # channels_last memory layout makes convolutions faster on tensor-core GPUs
     model = build_model(args.arch, args.variant, pretrained=not args.no_pretrained,
                         drop_path_rate=args.drop_path).to(device).to(memory_format=torch.channels_last)
     n_params = sum(p.numel() for p in model.parameters())
     print(f"{args.arch}: {n_params / 1e6:.2f}M parameters")
 
-    # no weight decay on norms, biases and layer-scale parameters
+    # No weight decay on norms, biases and layer-scale parameters (all 1-D tensors):
+    # shrinking them towards 0 does not regularise anything useful and can hurt.
     decay = [p for n, p in model.named_parameters() if p.ndim > 1]
     no_decay = [p for n, p in model.named_parameters() if p.ndim <= 1]
     opt = torch.optim.AdamW([{"params": decay, "weight_decay": args.weight_decay},
                              {"params": no_decay, "weight_decay": 0.0}], lr=args.lr)
 
     loader = TensorBatcher(x_tr, y_tr, args.batch_size, True, device, drop_last=True)
-    total_steps = args.epochs * len(loader)
+    total_steps = args.epochs * len(loader)  # LR schedule is defined per step, not per epoch
     warmup = int(args.warmup_epochs * len(loader))
 
     hist, best_acc, step = [], -1.0, 0
@@ -135,24 +145,30 @@ def main():
         torch.cuda.reset_peak_memory_stats()
     t0 = time.time()
     for epoch in range(1, args.epochs + 1):
-        model.train()
-        tl, tc, tn = 0.0, 0, 0
+        model.train()  # enables dropout / stochastic depth
+        tl, tc, tn = 0.0, 0, 0  # running loss sum, correct count, sample count
         for xb, yb, _ in loader:
             for g in opt.param_groups:
                 g["lr"] = cosine_lr(step, total_steps, warmup, args.lr)
+            # xb is still uint8; augmentation, resizing and normalisation happen on the GPU
             x = gpu_augment(xb, mean, std).contiguous(memory_format=torch.channels_last)
+            # bf16 autocast: matmuls/convs run in bfloat16 (about 2x faster, half the memory).
+            # bf16 has the same exponent range as fp32, so no gradient scaler is needed.
             with torch.autocast("cuda", dtype=torch.bfloat16, enabled=device.type == "cuda"):
                 logits = model(x)
+                # loss computed in fp32 for numerical accuracy
                 loss = F.cross_entropy(logits.float(), yb, label_smoothing=args.label_smoothing)
             opt.zero_grad(set_to_none=True)
             loss.backward()
+            # cap the gradient norm so a single bad batch cannot blow up the weights
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             opt.step()
             step += 1
-            tl += loss.item() * len(yb)
+            tl += loss.item() * len(yb)  # .item() syncs with the GPU; fine at this batch size
             tc += (logits.argmax(1) == yb).sum().item()
             tn += len(yb)
 
+        # ---- validation at the end of every epoch (no augmentation) ----
         val_logits = predict_logits(model, x_va, y_va, mean, std, device)
         val_loss = F.cross_entropy(val_logits, y_va).item()
         rep = classification_report(val_logits.softmax(1).numpy(), y_va.numpy())
@@ -162,6 +178,8 @@ def main():
         print(f"ep {epoch:3d} | train loss {tl / tn:.4f} acc {tc / tn:.4f} | val loss {val_loss:.4f} "
               f"acc {rep['accuracy']:.4f} auroc {rep['auroc']:.4f} | {time.time() - t0:.0f}s", flush=True)
 
+        # Keep the checkpoint with the best validation accuracy (early-stopping style
+        # model selection). mean/std are saved with it so inference normalises identically.
         if rep["accuracy"] > best_acc:
             best_acc = rep["accuracy"]
             torch.save({"model": model.state_dict(), "arch": args.arch, "variant": args.variant,
@@ -182,6 +200,7 @@ def main():
     np.savez(os.path.join(ckpt_dir, f"{tag}_logits.npz"), val_logits=val_logits, val_labels=y_va.numpy(),
              test_logits=test_logits, test_labels=y_te.numpy(), test_paths=np.array(te_paths))
 
+    # Temperature is fitted on validation only, then applied to test (see utils.fit_temperature).
     T = fit_temperature(val_logits, y_va.numpy())
     test_probs = softmax_np(test_logits)
     report = {
@@ -190,6 +209,7 @@ def main():
         "temperature": T, "args": vars(args),
         "test_slice": classification_report(test_probs, y_te.numpy()),
         "test_slice_temp_scaled": classification_report(softmax_np(test_logits, T), y_te.numpy()),
+        # subject-level: average the 20 slice probabilities of each subject, one decision per person
         "test_subject": classification_report(*subject_level(test_probs, y_te.numpy(), te_paths)[:2]),
     }
     with open(os.path.join(res_dir, f"{tag}_test_metrics.json"), "w") as f:

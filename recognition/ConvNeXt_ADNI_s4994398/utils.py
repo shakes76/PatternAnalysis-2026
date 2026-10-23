@@ -22,17 +22,20 @@ def classification_report(probs, labels):
     """
     probs = np.asarray(probs)
     labels = np.asarray(labels)
-    pred = probs.argmax(1)
+    pred = probs.argmax(1)  # predicted class = the more probable one (threshold 0.5)
+    # per-class precision / recall / F1, index 0 = NC, index 1 = AD
     p, r, f, _ = precision_recall_fscore_support(labels, pred, labels=[0, 1], zero_division=0)
-    cm = confusion_matrix(labels, pred, labels=[0, 1])
-    tn, fp, fn, tp = cm.ravel()
+    cm = confusion_matrix(labels, pred, labels=[0, 1])  # rows = true class, cols = predicted
+    tn, fp, fn, tp = cm.ravel()  # AD is the "positive" class
     out = {
         "accuracy": float((pred == labels).mean()),
         "macro_f1": float(f.mean()),
+        # AUROC uses the continuous P(AD), so it measures ranking quality independent of threshold
         "auroc": float(roc_auc_score(labels, probs[:, 1])),
-        "sensitivity": float(tp / max(tp + fn, 1)),
-        "specificity": float(tn / max(tn + fp, 1)),
+        "sensitivity": float(tp / max(tp + fn, 1)),  # fraction of AD cases caught (= AD recall)
+        "specificity": float(tn / max(tn + fp, 1)),  # fraction of NC cases correctly cleared
         "ece": expected_calibration_error(probs, labels),
+        # negative log-likelihood of the true class: penalises confident mistakes heavily
         "nll": float(-np.log(np.clip(probs[np.arange(len(labels)), labels], 1e-12, 1)).mean()),
         "confusion": cm.tolist(),
     }
@@ -44,7 +47,12 @@ def classification_report(probs, labels):
 
 
 def reliability_bins(probs, labels, n_bins=15):
-    """Bin by top-class confidence; returns (bin_conf, bin_acc, bin_count)."""
+    """Bin by top-class confidence; returns (bin_conf, bin_acc, bin_count, edges).
+
+    For a well-calibrated model, the mean confidence of each bin equals the
+    fraction of correct predictions in that bin (e.g. predictions made with 80%
+    confidence are right 80% of the time).
+    """
     conf = probs.max(1)
     correct = probs.argmax(1) == labels
     edges = np.linspace(0.5, 1.0, n_bins + 1)  # binary: confidence is always >= 0.5
@@ -59,6 +67,8 @@ def reliability_bins(probs, labels, n_bins=15):
 
 
 def expected_calibration_error(probs, labels, n_bins=15):
+    """ECE = sum_b (n_b / N) * |accuracy_b - confidence_b|: the average gap between how
+    sure the model is and how often it is right, weighted by how many samples fall in each bin."""
     bc, ba, bn, _ = reliability_bins(np.asarray(probs), np.asarray(labels), n_bins)
     return float((bn / bn.sum() * np.abs(bc - ba)).sum())
 
@@ -70,9 +80,11 @@ def risk_coverage(probs, labels):
     """
     conf = probs.max(1)
     correct = (probs.argmax(1) == labels).astype(float)
-    order = np.argsort(-conf, kind="stable")
+    order = np.argsort(-conf, kind="stable")  # most confident first
+    # If we automate the k most confident cases, accuracy on them is cum[k-1] / k.
     cum = np.cumsum(correct[order])
     n = np.arange(1, len(conf) + 1)
+    # coverage = fraction automated, accuracy on those, and the confidence cut-off reached
     return n / len(conf), cum / n, conf[order]
 
 
@@ -83,7 +95,7 @@ def threshold_for_accuracy(probs, labels, target):
     cases as possible while keeping accepted-case accuracy >= target.
     """
     cov, acc, thr = risk_coverage(probs, labels)
-    ok = np.where(acc >= target)[0]
+    ok = np.where(acc >= target)[0]  # all operating points that meet the accuracy target
     if len(ok) == 0:
         return 1.0, 0.0
     i = ok.max()
@@ -94,18 +106,25 @@ def apply_threshold(probs, labels, thr):
     """Accuracy / coverage / missed-AD count when cases with confidence < thr are referred."""
     conf = probs.max(1)
     pred = probs.argmax(1)
-    keep = conf >= thr
+    keep = conf >= thr  # True = automated, False = referred to a radiologist
     acc = float((pred[keep] == labels[keep]).mean()) if keep.any() else float("nan")
+    # the dangerous error: AD predicted as NC *and* not referred, so no human sees it
     missed_ad = int(((pred == 0) & (labels == 1) & keep).sum())
     return {"threshold": float(thr), "coverage": float(keep.mean()), "accepted_accuracy": acc,
             "referred": int((~keep).sum()), "auto_false_negatives": missed_ad}
 
 
 def fit_temperature(logits, labels, iters=200):
-    """Temperature scaling (Guo et al., 2017): single scalar T minimising validation NLL."""
+    """Temperature scaling (Guo et al., 2017): single scalar T minimising validation NLL.
+
+    Calibrated probabilities are softmax(logits / T). T > 1 softens over-confident
+    predictions, T < 1 sharpens under-confident ones. Dividing all logits by the same
+    positive T never changes the argmax, so accuracy and AUROC are unchanged;
+    only the confidence values move.
+    """
     logits = torch.as_tensor(logits, dtype=torch.float32)
     labels = torch.as_tensor(labels, dtype=torch.long)
-    log_t = torch.zeros(1, requires_grad=True)
+    log_t = torch.zeros(1, requires_grad=True)  # optimise log T so T = exp(log_t) stays positive
     opt = torch.optim.LBFGS([log_t], lr=0.1, max_iter=iters)
 
     def closure():
@@ -120,7 +139,7 @@ def fit_temperature(logits, labels, iters=200):
 
 def softmax_np(logits, T=1.0):
     z = np.asarray(logits, dtype=np.float64) / T
-    z = z - z.max(1, keepdims=True)
+    z = z - z.max(1, keepdims=True)  # subtract the max for numerical stability (exp cannot overflow)
     e = np.exp(z)
     return e / e.sum(1, keepdims=True)
 
@@ -131,6 +150,7 @@ def subject_level(probs, labels, paths):
     for i, p in enumerate(paths):
         groups.setdefault(subject_id(p), []).append(i)
     ids = sorted(groups)
+    # averaging probabilities (soft voting) keeps a confidence value per subject
     sp = np.stack([probs[groups[s]].mean(0) for s in ids])
     sl = np.array([labels[groups[s][0]] for s in ids])
     return sp, sl, ids
