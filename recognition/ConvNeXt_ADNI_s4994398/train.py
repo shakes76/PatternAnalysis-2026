@@ -30,7 +30,7 @@ import torch.nn.functional as F
 from dataset import (TensorBatcher, balanced_weights, compute_stats, gpu_augment, load_patient_splits,
                      preprocess, DEFAULT_ROOT)
 from modules import build_model
-from utils import classification_report, fit_temperature, scan_level, softmax_np
+from utils import classification_report, fit_temperature, patient_level, scan_level, softmax_np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -218,12 +218,15 @@ def main():
         "test_slice_temp_scaled": classification_report(softmax_np(test_logits, T), y_te.numpy()),
         # scan-level: average the 20 slice probabilities of each scan, one decision per MRI
         "test_scan": classification_report(*scan_level(test_probs, y_te.numpy(), te_paths)[:2]),
+        # patient-level: average over all scans of the patient (acceptance criterion 1)
+        "test_patient": classification_report(*patient_level(test_probs, y_te.numpy(), te_paths, patient_of)[:2]),
     }
     with open(os.path.join(res_dir, f"{tag}_test_metrics.json"), "w") as f:
         json.dump(report, f, indent=1)
     s = report["test_slice"]
     print(f"\nTEST ({tag}, best epoch {ckpt['epoch']}): acc {s['accuracy']:.4f} | macro-F1 {s['macro_f1']:.4f} "
-          f"| AUROC {s['auroc']:.4f} | ECE {s['ece']:.4f} | scan acc {report['test_scan']['accuracy']:.4f}")
+          f"| AUROC {s['auroc']:.4f} | ECE {s['ece']:.4f} | scan acc {report['test_scan']['accuracy']:.4f} "
+          f"| patient acc {report['test_patient']['accuracy']:.4f}")
 
 
 if __name__ == "__main__":

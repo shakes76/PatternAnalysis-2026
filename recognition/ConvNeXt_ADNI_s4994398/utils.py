@@ -37,6 +37,9 @@ def classification_report(probs, labels):
         "ece": expected_calibration_error(probs, labels),
         # negative log-likelihood of the true class: penalises confident mistakes heavily
         "nll": float(-np.log(np.clip(probs[np.arange(len(labels)), labels], 1e-12, 1)).mean()),
+        # Brier score: mean squared error between P(AD) and the 0/1 label (0 = perfect;
+        # unlike accuracy it rewards well-judged confidence, unlike NLL it is bounded)
+        "brier": float(((probs[:, 1] - labels) ** 2).mean()),
         "confusion": cm.tolist(),
     }
     for i, c in enumerate(CLASSES):
@@ -142,6 +145,24 @@ def softmax_np(logits, T=1.0):
     z = z - z.max(1, keepdims=True)  # subtract the max for numerical stability (exp cannot overflow)
     e = np.exp(z)
     return e / e.sum(1, keepdims=True)
+
+
+def _group_mean(probs, labels, keys):
+    """Average probabilities over all slices sharing a key -> (probs, labels, keys)."""
+    groups = {}
+    for i, k in enumerate(keys):
+        groups.setdefault(k, []).append(i)
+    ids = sorted(groups)
+    return (np.stack([probs[groups[k]].mean(0) for k in ids]),
+            np.array([labels[groups[k][0]] for k in ids]), ids)
+
+
+def patient_level(probs, labels, paths, patient_of):
+    """Average every slice of every scan of each patient -> one decision per patient.
+
+    This is the unit of acceptance criterion 1 (>= 0.80 patient-level accuracy).
+    """
+    return _group_mean(probs, labels, [patient_of[scan_id(p)] for p in paths])
 
 
 def scan_level(probs, labels, paths):
