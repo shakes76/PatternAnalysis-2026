@@ -1,0 +1,212 @@
+"""
+Nearest-neighbour audit of the patient-level splits.
+
+Hypothesis: ADNI is longitudinal, so one subject can appear under several
+scan IDs. If two scans of the same subject land in our train and val splits,
+validation accuracy is inflated, while the official test split (separated by
+subject) is not affected.
+
+Method (model-independent, raw pixels only):
+  * Each scan ID -> fingerprint = all 20 slices, resized to 32x32, flattened,
+    zero-mean / unit-norm.
+  * For every val and test scan, find its most similar TRAIN scan (cosine
+    similarity) and record that similarity and whether the labels agree.
+  * If val scans have far closer train neighbours than test scans, the val
+    split contains repeat scans of training subjects.
+
+Fix (--make-groups):
+  * Scan IDs in the official train set whose fingerprints are more similar
+    than `threshold` are linked; connected components (union-find) become
+    "subject groups", saved to splits/train_groups.json. dataset.py then
+    splits train/val by group instead of by scan ID.
+  * Default threshold = 99th percentile of test->train similarity, i.e. a
+    pair is merged only if it is closer than 99% of genuinely different
+    subjects (the official test set is subject-disjoint from train).
+
+  * The same threshold is used to group near-duplicate scan IDs inside the
+    official test folder (splits/test_groups.json), which dataset.py splits
+    into val / held-out test halves.
+
+Usage:
+    python audit_split.py                    # audit the current split -> outputs/audit/
+    python audit_split.py --make-groups      # build subject groups, then audit the new split
+    python audit_split.py --split train      # audit the legacy train-folder validation split
+"""
+import argparse
+import json
+import os
+from collections import defaultdict
+
+import torch
+import torch.nn.functional as F
+from PIL import Image
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+from dataset import get_splits, collect, patient_id, DATA_ROOT, GROUPS_FILE, TEST_GROUPS_FILE
+
+SIZE = 32
+
+
+def fingerprints(items):
+    """Return (ids, labels, (N, D) unit-norm fingerprint matrix) for a split."""
+    by_pid = defaultdict(list)
+    label = {}
+    for p, y in items:
+        by_pid[patient_id(p)].append(p)
+        label[patient_id(p)] = y
+    ids = sorted(by_pid)
+    feats = []
+    for pid in ids:
+        # sort slices by slice index so fingerprints are aligned across scans
+        paths = sorted(by_pid[pid], key=lambda p: int(os.path.basename(p).split("_")[1].split(".")[0]))
+        slices = []
+        for p in paths:
+            img = Image.open(p).convert("L").resize((SIZE, SIZE), Image.BILINEAR)
+            slices.append(torch.frombuffer(bytearray(img.tobytes()), dtype=torch.uint8).float())
+        v = torch.cat(slices)
+        v = v - v.mean()
+        feats.append(v / (v.norm() + 1e-8))
+    return ids, torch.tensor([label[i] for i in ids]), torch.stack(feats)
+
+
+def nearest(query, ref, exclude_self=False):
+    """Max cosine similarity and index of the nearest ref row for each query row."""
+    sim = query @ ref.T
+    if exclude_self:
+        sim.fill_diagonal_(-1.0)
+    return sim.max(dim=1)
+
+
+def describe(name, s, agree):
+    q = torch.quantile(s, torch.tensor([0.1, 0.5, 0.9]))
+    return {"split": name, "n": len(s), "p10": q[0].item(), "median": q[1].item(), "p90": q[2].item(),
+            "nn_label_agreement": agree.float().mean().item()}
+
+
+def make_groups(ids, labels, feats, threshold, name="train"):
+    """Union-find over scan IDs: link every pair with similarity > threshold."""
+    parent = list(range(len(ids)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    sim = feats @ feats.T
+    sim.fill_diagonal_(-1.0)
+    for i, j in torch.nonzero(torch.triu(sim > threshold)).tolist():
+        parent[find(i)] = find(j)
+
+    groups = {pid: f"g{ids[find(k)]}" for k, pid in enumerate(ids)}
+    members = defaultdict(list)
+    for k, pid in enumerate(ids):
+        members[groups[pid]].append(k)
+    sizes = sorted((len(m) for m in members.values()), reverse=True)
+    mixed = sum(1 for m in members.values() if len({labels[k].item() for k in m}) > 1)
+    size_hist = {s: sizes.count(s) for s in sorted(set(sizes))}
+    print(f"\n[{name}] grouping @ threshold {threshold:.4f}: {len(ids)} scan IDs -> {len(members)} subject groups")
+    print(f"  group size histogram {{size: count}}: {size_hist}")
+    print(f"  largest group: {sizes[0]}   groups with mixed AD/NC labels: {mixed}")
+    return groups, {"threshold": threshold, "n_scans": len(ids), "n_groups": len(members),
+                    "size_histogram": size_hist, "mixed_label_groups": mixed}
+
+
+def audit(train, val, test, feats, out):
+    """Nearest-train-neighbour statistics for the current train/val/test split."""
+    def subset(items):
+        keep = sorted({patient_id(p) for p, _ in items})
+        idx = torch.tensor([feats["index"][k] for k in keep])
+        return keep, feats["labels"][idx], feats["matrix"][idx]
+
+    tr_ids, tr_y, tr_f = subset(train)
+    va_ids, va_y, va_f = subset(val)
+    te_ids, te_y, te_f = subset(test)
+
+    s_tt, i_tt = nearest(tr_f, tr_f, exclude_self=True)   # train vs other train (reference)
+    s_va, i_va = nearest(va_f, tr_f)
+    s_te, i_te = nearest(te_f, tr_f)
+
+    rows = [describe("train->train", s_tt, tr_y[i_tt] == tr_y),
+            describe("val->train", s_va, tr_y[i_va] == va_y),
+            describe("test->train", s_te, tr_y[i_te] == te_y)]
+
+    # "Suspicious" = closer to a train scan than 99% of test scans are.
+    thr = torch.quantile(s_te, 0.99).item()
+    for r, s in zip(rows, (s_tt, s_va, s_te)):
+        r["frac_above_test_p99"] = (s > thr).float().mean().item()
+        r["max"] = s.max().item()
+
+    print(f"\n{'split':13s} {'n':>5s} {'p10':>7s} {'median':>7s} {'p90':>7s} {'max':>7s} "
+          f"{'>test p99':>10s} {'1-NN label agree':>17s}")
+    for r in rows:
+        print(f"{r['split']:13s} {r['n']:5d} {r['p10']:7.3f} {r['median']:7.3f} {r['p90']:7.3f} {r['max']:7.4f} "
+              f"{r['frac_above_test_p99']:10.1%} {r['nn_label_agreement']:17.1%}")
+    print(f"(test p99 similarity threshold = {thr:.3f})")
+
+    # Most similar val/train pairs for visual inspection
+    top = torch.argsort(s_va, descending=True)[:10]
+    pairs = [{"val_id": va_ids[k], "train_id": tr_ids[i_va[k]], "similarity": s_va[k].item()} for k in top]
+    print("\nMost similar val/train pairs:")
+    for p in pairs:
+        print(f"  val {p['val_id']}  <->  train {p['train_id']}   sim={p['similarity']:.4f}")
+
+    # Histogram
+    plt.figure(figsize=(7, 4))
+    bins = torch.linspace(min(s.min().item() for s in (s_tt, s_va, s_te)), 1.0, 60).tolist()
+    for s, lab in [(s_tt, "train → nearest other train"), (s_va, "val → nearest train"),
+                   (s_te, "test → nearest train")]:
+        plt.hist(s.tolist(), bins=bins, alpha=0.5, density=True, label=lab)
+    plt.axvline(thr, color="k", ls="--", lw=1, label="test 99th percentile")
+    plt.xlabel("cosine similarity to nearest training scan (raw pixels)")
+    plt.ylabel("density"); plt.legend(); plt.title("Nearest-neighbour audit of splits")
+    plt.tight_layout(); plt.savefig(os.path.join(out, "nn_audit.png"), dpi=150)
+    plt.close()
+    return {"summary": rows, "threshold_test_p99": thr, "top_val_pairs": pairs}
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data-root", default=DATA_ROOT)
+    ap.add_argument("--out", default="outputs/audit")
+    ap.add_argument("--split", default="official", choices=["official", "train"])
+    ap.add_argument("--make-groups", action="store_true",
+                    help="build splits/train_groups.json and splits/test_groups.json")
+    ap.add_argument("--threshold", type=float, default=None,
+                    help="similarity above which two scan IDs are merged (default: test->train p99)")
+    args = ap.parse_args()
+    os.makedirs(args.out, exist_ok=True)
+
+    print("Building fingerprints (CPU, a few minutes)...")
+    tr_ids, tr_y, tr_f = fingerprints(collect(os.path.join(args.data_root, "train")))
+    te_ids, te_y, te_f = fingerprints(collect(os.path.join(args.data_root, "test")))
+    all_ids = tr_ids + te_ids
+    feats = {"index": {pid: k for k, pid in enumerate(all_ids)},
+             "labels": torch.cat([tr_y, te_y]), "matrix": torch.cat([tr_f, te_f])}
+
+    report = {}
+    if args.make_groups:
+        thr = args.threshold
+        if thr is None:
+            thr = torch.quantile(nearest(te_f, tr_f)[0], 0.99).item()
+        os.makedirs(os.path.dirname(GROUPS_FILE), exist_ok=True)
+        for name, ids, y, f, path in [("train", tr_ids, tr_y, tr_f, GROUPS_FILE),
+                                      ("test", te_ids, te_y, te_f, TEST_GROUPS_FILE)]:
+            groups, stats = make_groups(ids, y, f, thr, name)
+            with open(path, "w") as fh:
+                json.dump({**stats, "groups": groups}, fh, indent=1)
+            print(f"Saved {path}")
+            report[f"grouping_{name}"] = stats
+
+    train, val, test = get_splits(args.data_root, args.split)
+    print(f"\nAuditing split '{args.split}': train={len(train)} val={len(val)} test={len(test)} slices")
+    report.update(audit(train, val, test, feats, args.out))
+    with open(os.path.join(args.out, "nn_audit.json"), "w") as f:
+        json.dump(report, f, indent=2)
+    print(f"\nSaved nn_audit.png and nn_audit.json to {args.out}/")
+
+
+if __name__ == "__main__":
+    main()
