@@ -41,40 +41,95 @@ The model is implemented from scratch in [`modules.py`](modules.py). It is initi
 
 ## 2. Feasibility review
 
-**User need and scope.** The intended user is a neuroradiology screening service. The prototype pre-reads axial T1 MRI slices of a subject, flags likely AD, and must *refer* cases it is unsure about rather than silently automating them. It is a decision-support prototype, not a diagnostic device.
+*The one-page review presented at the midpoint check-off, reproduced as submitted. The changes made after it are listed at the end of this section.*
 
-**Acceptance criteria.**
-1. Slice-level test accuracy ≥ 0.80 on the held-out ADNI test split (course requirement).
-2. Strict subject-level separation: no subject's slices appear in more than one of train / validation / test.
-3. Report per-class precision/recall, macro-F1, AUROC and expected calibration error (ECE), and compare against a from-scratch CNN baseline on identical splits.
-4. A referral (reject-option) threshold chosen on *validation* data only, with its test accuracy, coverage and number of automated missed-AD cases reported.
-5. Resource budget: training fits in an 8 GB laptop GPU in under 1 h per model; inference under 10 ms per slice.
+### 2.1 User need, scope and acceptance criteria
 
-**Model choice and course concepts.** ConvNeXt-T (Hard band) uses ideas from the course (residual CNNs, normalisation, depthwise-separable convolutions, transfer learning) and borrows the ViT design choices discussed in lectures. Fine-tuning ImageNet weights was chosen over training from scratch because only ~1,000 training subjects are available, and the 20 slices per subject are highly correlated. A VGG-style CNN is the baseline.
+This prototype will classify ADNI structural brain MRI scans as Alzheimer's disease (AD) or cognitively normal (CN), supporting specialist review. The investigation is whether ConvNeXt produces more reliable confidence estimates than a simple CNN, or remains overconfident on incorrect predictions. It is a research prototype, not a diagnostic system.
 
-**Preliminary feasibility evidence.** Data audit: 21,520 training slices (1,076 subjects: 520 AD, 556 NC) and 9,000 test slices (450 subjects: 223 AD, 227 NC), 20 slices per subject, 256×240 greyscale, roughly balanced classes. A one-epoch smoke test of ConvNeXt-T took 88 s and reached 0.89 validation and 0.72 test accuracy. This showed the pipeline works, and also that validation (drawn from the training subjects) is noticeably easier than the official test split.
+Acceptance criteria:
+1. target ≥0.80 patient-level test accuracy;
+2. report per-class precision/recall, macro-F1 and AUROC for both models;
+3. assess calibration and report error rate versus retained-case coverage under a validation-selected rejection threshold;
+4. analyse five representative failures; and
+5. record parameters, peak VRAM and per-patient inference latency, targeting <16 GB peak VRAM.
 
-**Risks, budget and fallback.** *Risk:* the validation/test gap means early stopping on validation could overfit to the training distribution. *Mitigation:* strong augmentation, stochastic depth and weight decay, plus reporting both splits honestly. *Risk:* overconfident errors. *Mitigation:* temperature scaling and a referral rule. *Budget:* ~45 min per ConvNeXt run and ~15 min per baseline run on an RTX 5070 Laptop GPU (8 GB). *Fallback:* if slice-level accuracy fell short, aggregate the 20 slices per subject (subject-level voting), or move to ConvNeXt-S / higher resolution.
+### 2.2 Model choice, data and experimental design
+
+I propose a 2D ConvNeXt-Tiny architecture and a small CNN baseline using the course ADNI data at `/home/groups/comp3710/ADNI`. ConvNeXt applies convolution, residual learning, normalisation and hierarchical feature extraction. Both models will use identical patient splits, preprocessing and evaluation. Implementation and any pretrained-weight use will follow course requirements and be documented.
+
+The supplied metadata contains three numeric labels without a diagnostic codebook, 0 being CN, 1 MDI, and 2 being AD. Subject IDs can be extracted consistently from the scan paths. I will initially select one eligible scan per subject using a fixed rule: after confirming the chosen image variant and applying predefined image-quality checks, retain the scan with the lowest numeric metadata image ID. This is a reproducible tie-breaker, not a claim that the scan is the earliest visit. All variants and slices from a subject will stay in one split, with patient separation established before slice extraction. I will average selected-slice probabilities within that single scan to produce one patient prediction.
+
+Training-only augmentation and consistently defined anatomical slice selection will limit shortcuts. Validation data will select hyperparameters, temperature scaling and the reject threshold; the test set will remain untouched until final evaluation. Reliability diagrams and Brier scores will supplement classification metrics.
+
+### 2.3 Preliminary feasibility evidence and next experiment
+
+An initial audit of `meta_data_with_label.json` found 2,189 scan records covering 942 subjects; 567 subjects have multiple records. Codes 0, 1 and 2 have 810, 625 and 754 records respectively (459, 262 and 221 subjects). All records contain raw, masked and c1-c5 image paths and a label; subject IDs agree across the paths, and no subject has conflicting codes in this file. However, the diagnostic code mapping, image availability, spatial dimensions and quality remain unverified. Counts describe the complete metadata, not the final AD/CN cohort.
+
+On 19 October 2026, a local torchvision ConvNeXt-Tiny benchmark using synthetic 224 × 224 three-channel inputs, batch size 8, FP16 mixed precision and AdamW completed 10 warm-up and 30 measured steps on an RTX 5070 Laptop GPU. Peak allocated/reserved VRAM was 0.949/1.015 GB, and mean measured step time was 0.0874 seconds, with all 30 measured optimiser updates completing. This supports local memory feasibility for the tested configuration; it excludes data loading and does not establish ADNI accuracy or Rangpur performance. The <16 GB target is a planning constraint, not a repository-specified minimum.
+
+### 2.4 Risks, budget, fallback and recommendation
+
+Risks include patient leakage, small cohorts, class imbalance, scanner-related shortcuts and misleading confidence. I will inspect five false-positive/false-negative or confidently wrong cases and document uncertainty in the results. A provisional 12 GPU-hour budget on GPU Lab's A10G or Rangpur will cover pilots and model comparisons, with checkpoints and time reserved for evaluation. This is a budget, not a runtime estimate.
+
+If GPU memory is insufficient, I will reduce batch size and use gradient accumulation to retain a larger effective batch size. If training time exceeds the budget, I will reduce the shared slice count for both models while retaining patient separation. With fixed-size batches, reducing the total slice count mainly reduces training time rather than peak GPU memory. The final recommendation will weigh accuracy, calibration, coverage and compute cost, specifying which cases require specialist review; model confidence alone will not establish clinical safety.
+
+*Reference:* [1] Liu et al. (2022), *A ConvNet for the 2020s*, CVPR. https://github.com/facebookresearch/ConvNeXt
+
+### 2.5 Changes since the feasibility review
+
+| Planned | Implemented | Reason |
+|---|---|---|
+| One scan per patient (lowest image ID) | **All scans** of each patient, kept in the same split, with patient- and class-balanced sampling | The provided AD_NC slice folders contain 1,526 scans from 680 patients. Using all of them gives ~2.2× more training data while keeping the patient-separation guarantee; balanced sampling stops patients with many visits from dominating (see §3). |
+| Patient split built from the metadata | Same, but the official `train/` / `test/` folders were **pooled and re-split** by patient | The audit found that the official folders share 216 patients (§3.1). |
+| Average slices of the single selected scan | Slice-, scan- and patient-level metrics are all reported; patient level averages every slice of every scan of that patient | Matches acceptance criterion 1 while keeping finer-grained results. |
+| Slice selection | The 20 slices already supplied for each scan are used as given | The pre-processed release fixes the slices per scan; slice numbers are not aligned across scans, so no further anatomical selection was possible. |
+| FP16 mixed precision | bf16 autocast | Same speed on the RTX 5070, with no loss scaling needed. |
 
 ---
 
 ## 3. Data, pre-processing and splits
 
-**Dataset.** The pre-processed ADNI release used in COMP3710 (`AD_NC/{train,test}/{AD,NC}/<subject>_<slice>.jpeg`). Each subject contributes 20 consecutive axial slices. Slice numbers are not aligned across subjects (each subject's 20 slices start at a different index), so position analyses use the slice's *rank* within its subject.
+**Dataset.** The pre-processed ADNI release used in COMP3710 (`AD_NC/{train,test}/{AD,NC}/<scan>_<slice>.jpeg`): 1,526 T1 MRI scans, each supplied as 20 consecutive axial slices (256×240, greyscale). The number in each file name is the ADNI **image (scan) ID**, not a patient ID. `meta_data_with_label.json` maps every scan to its patient (e.g. `068_S_0473`). The 1,526 scans come from **680 patients**: 221 AD patients with 743 scans (≈3.4 visits each) and 459 NC patients with 783 scans (≈1.7 each). No patient has scans under both labels. Slice numbers are not aligned across scans (each scan's 20 slices start at a different index), so position analyses use the slice's *rank* within its scan.
 
 ![Example input slices](results/data_examples.png)
 
-**Splits and leakage prevention** ([`dataset.py`](dataset.py)).
-* **Test:** the official `test/` folder (9,000 slices, 450 subjects), used only for final evaluation.
-* **Train / validation:** the official `train/` folder is split **by subject**, stratified by class, with 10% of subjects held out for validation (108 subjects, 2,160 slices; 968 subjects, 19,360 slices remain for training). Splitting by slice would put near-identical neighbouring slices of the same brain on both sides and inflate validation accuracy. `python dataset.py` asserts that the train and validation subject sets are disjoint.
-* Validation is used for model selection (best epoch), for fitting the calibration temperature and for choosing the referral threshold. The test set is never used to pick anything.
+### 3.1 Leakage audit: why the official split was not used
 
-**Pre-processing.**
+The first full ConvNeXt run used the official `test/` folder as the test set and split `train/` into train/validation by file-name ID. It reached 0.97 validation accuracy but only **0.748** test accuracy. Mapping scans to patients explained the gap:
+
+* the validation split was really a *scan*-level split, so other visits of the same patients sat in both train and validation;
+* the official `train/` and `test/` folders **share 216 patients** (5,560 of the 9,000 test slices).
+
+Breaking that test result down by whether the patient had been seen during training shows what the model had learned:
+
+| Official test patients | Patients | Slices | Accuracy | AD recall | NC recall |
+|---|---|---|---|---|---|
+| also in training (other visits) | 216 | 5,560 | 0.973 | 0.958 | 0.983 |
+| **never seen** | 115 | 3,440 | **0.385** | **0.141** | 0.933 |
+
+The network had largely learned to **recognise individual brains**, not Alzheimer's. AD patients appear many times in training (≈3.4 scans each), so "familiar anatomy" became a proxy for AD. On new AD patients it predicted NC 86% of the time, which is the most dangerous failure for a screening tool, and the leaky validation set would have hidden it. Everything below uses the patient-disjoint split instead.
+
+### 3.2 Patient-disjoint splits ([`dataset.py`](dataset.py))
+
+Both official folders are pooled, and **patients** (not scans or slices) are shuffled per class with a fixed seed and assigned 70 / 10 / 20 % to train / validation / test. Every slice of every scan of a patient lands in exactly one split. `python dataset.py` asserts that the three patient sets are disjoint.
+
+| Split | Patients | Scans | Slices | AD slice fraction |
+|---|---|---|---|---|
+| Train | 476 | 1,068 | 21,360 | 0.478 |
+| Validation | 68 | 155 | 3,100 | 0.581 |
+| Test | 136 | 303 | 6,060 | 0.469 |
+
+* The 20 % test share leaves 136 unseen patients (44 AD, 92 NC). That is enough for usable patient-level estimates while keeping most patients for training.
+* Validation is used for model selection (best epoch), for fitting the calibration temperature and for choosing the referral threshold. The test split is never used to pick anything.
+* **Balanced sampling.** Each training epoch draws 21,360 slices *with replacement*, with each slice weighted by 1 / (slices of its patient × patients in its class). Every patient, and both classes, then contribute equally, which removes the "many visits ⇒ AD" shortcut found above.
+
+### 3.3 Pre-processing and augmentation
+
 * All slices are decoded once into a cached `uint8` array (`cache/`, git-ignored), so training has no per-epoch disk I/O.
-* Intensities are scaled to [0, 1] and standardised with the mean/std of the *training* subjects (0.115 / 0.225). The statistics are stored in the checkpoint and reused at inference.
+* Intensities are scaled to [0, 1] and standardised with the mean/std of the *training* patients (0.116 / 0.226). The statistics are stored in the checkpoint and reused at inference.
 * Slices are resized to 224×224 (bilinear) to match ConvNeXt's pretraining resolution.
-
-**Augmentation** (training only, applied per sample on the GPU with `affine_grid` / `grid_sample`): rotation ±10°, scale 0.9–1.1, translation ±6%, horizontal flip (p = 0.5; AD atrophy is broadly bilateral), and brightness/contrast jitter of ±10%. These reflect plausible variation in head position and scanner intensity without changing anatomy.
+* **Augmentation** (training only, applied per sample on the GPU with `affine_grid` / `grid_sample`): rotation ±10°, scale 0.9–1.1, translation ±6%, horizontal flip (p = 0.5; AD atrophy is broadly bilateral), and brightness/contrast jitter of ±10%. These reflect plausible variation in head position and scanner intensity without changing anatomy.
 
 ---
 
