@@ -1,0 +1,15 @@
+# Style: PEP 8, enforced by Ruff. Docstrings: Google style (PEP 257).
+# Check with:  ruff check . && ruff format --check .
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/W pycodestyle (PEP 8), F pyflakes, I isort, N pep8-naming, D pydocstyle,
+# B bugbear, UP pyupgrade, SIM simplify
+select = ["E", "W", "F", "I", "N", "D", "B", "UP", "SIM"]
+# N812: allow `import torch.nn.functional as F`, the PyTorch convention.
+ignore = ["N812"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

@@ -1,0 +1,10 @@
+# Exact versions used for every result in README.md (Python 3.12.10, macOS, CPU).
+torch==2.14.1
+torch_geometric==2.8.1
+scikit-learn==1.9.1
+numpy==2.5.4
+scipy==1.18.1
+matplotlib==3.11.2
+networkx==3.7
+# Style check only (not needed to run the code)
+ruff==0.14.0

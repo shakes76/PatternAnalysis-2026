@@ -1,0 +1,145 @@
+node,page_name,true,predicted,mean_confidence,degree,own_class_share,n_company,n_government,n_politician,n_tvshow,type
+6163,Cámara de Diputados - H. Congreso de la Unión,government,politician,1.0,48,0.167,0,8,40,0,wrong-neighbours+confident
+9603,EPP Group in the European Committee of the Regions,government,politician,1.0,148,0.318,1,47,97,3,wrong-neighbours+confident
+9708,Fractal,tvshow,company,1.0,1,0.0,1,0,0,0,wrong-neighbours+few-links+confident
+9762,Senado de la República,government,politician,1.0,35,0.086,0,3,32,0,wrong-neighbours+confident
+9891,Wizard World,company,tvshow,1.0,30,0.033,1,0,0,29,wrong-neighbours+confident
+10440,Harish Rawat,politician,government,1.0,44,0.023,1,42,1,0,wrong-neighbours+confident
+11332,NASA - National Aeronautics and Space Administration,company,government,1.0,328,0.064,21,289,9,9,wrong-neighbours+confident
+13098,European Committee of the Regions,government,politician,1.0,157,0.229,0,36,121,0,wrong-neighbours+confident
+16813,Horacio Cartes,politician,government,1.0,33,0.091,0,30,3,0,wrong-neighbours+confident
+4593,Chef's Table,tvshow,company,0.999,1,0.0,1,0,0,0,wrong-neighbours+few-links+confident
+7251,Turbo,tvshow,company,0.999,20,0.25,15,0,0,5,wrong-neighbours+confident
+14872,laSexta,company,tvshow,0.999,12,0.25,3,1,0,8,wrong-neighbours+confident
+8362,ENERGY STAR au Canada,government,company,0.998,16,0.312,11,5,0,0,wrong-neighbours+confident
+247,GO! Das Motormagazin,tvshow,company,0.997,11,0.182,9,0,0,2,wrong-neighbours+confident
+5878,e-Democracia,government,politician,0.997,28,0.179,0,5,23,0,wrong-neighbours+confident
+21912,La Vache Qui Rit Arabia البقرة الضاحكة,company,tvshow,0.997,1,0.0,0,0,0,1,wrong-neighbours+few-links+confident
+20309,Masterchef Dining & Bar,tvshow,company,0.996,4,0.25,3,0,0,1,wrong-neighbours+confident
+1626,The Pioneer,company,politician,0.992,16,0.062,1,1,14,0,wrong-neighbours+confident
+2950,Tomás Gómez,politician,tvshow,0.992,4,0.25,0,0,1,3,wrong-neighbours+confident
+2641,MaltaGov,government,politician,0.991,9,0.111,0,1,8,0,wrong-neighbours+confident
+3836,Netflix,company,tvshow,0.991,3,0.0,0,0,0,3,wrong-neighbours+confident
+8964,Dubai Police - Official Page,government,company,0.988,4,0.25,3,1,0,0,wrong-neighbours+confident
+10170,Das Ding des Jahres,tvshow,company,0.988,1,0.0,1,0,0,0,wrong-neighbours+few-links+confident
+19534,The Voice Teens Abscbn,tvshow,company,0.981,1,0.0,1,0,0,0,wrong-neighbours+few-links+confident
+16213,Congressman Dan Lipinski,politician,government,0.979,15,0.067,0,13,1,1,wrong-neighbours+confident
+17849,Ralf Jäger,politician,government,0.978,16,0.438,0,9,7,0,wrong-neighbours+confident
+162,Jayant Sinha,politician,government,0.976,3,0.0,0,3,0,0,wrong-neighbours+confident
+2376,Banco Popular y de Desarrollo Comunal de Costa Rica,company,tvshow,0.976,2,0.0,0,0,0,2,wrong-neighbours+few-links+confident
+13371,Status PR,company,tvshow,0.975,2,0.0,0,0,0,2,wrong-neighbours+few-links+confident
+13635,Die Muppets,tvshow,company,0.972,5,0.2,4,0,0,1,wrong-neighbours+confident
+8237,Correios,company,government,0.971,29,0.103,3,24,2,0,wrong-neighbours+confident
+5465,Port of Portland,government,company,0.966,13,0.231,10,3,0,0,wrong-neighbours+confident
+22297,Candice Renoir - série,tvshow,company,0.965,4,0.5,2,0,0,2,confident
+20176,Juego de Tronos,tvshow,company,0.963,5,0.2,4,0,0,1,wrong-neighbours+confident
+19001,Umweltbundesamt,government,tvshow,0.959,51,0.431,0,22,8,21,wrong-neighbours+confident
+10345,National Memorial Day Concert (PBS),tvshow,government,0.956,20,0.05,2,17,0,1,wrong-neighbours+confident
+5023,Neil Abercrombie,politician,government,0.954,23,0.261,2,14,6,1,wrong-neighbours+confident
+18689,Gobierno de la Provincia de Buenos Aires,government,politician,0.954,15,0.267,0,4,11,0,wrong-neighbours+confident
+10931,SAS Software,company,politician,0.953,1,0.0,0,0,1,0,wrong-neighbours+few-links+confident
+17123,Pennsylvania Turnpike,company,government,0.953,4,0.25,1,3,0,0,wrong-neighbours+confident
+17858,NRMA Insurance,company,government,0.953,23,0.174,4,18,1,0,wrong-neighbours+confident
+1421,Senado Colombia,government,politician,0.952,9,0.333,1,3,5,0,wrong-neighbours+confident
+14876,Aso Rock Villa,government,politician,0.952,1,0.0,0,0,1,0,wrong-neighbours+few-links+confident
+2326,The PMO,government,politician,0.951,11,0.091,0,1,10,0,wrong-neighbours+confident
+4708,kinder Riegel,company,tvshow,0.946,1,0.0,0,0,0,1,wrong-neighbours+few-links+confident
+21686,Eni,company,government,0.944,1,0.0,0,1,0,0,wrong-neighbours+few-links+confident
+22202,The Gadget Show,tvshow,company,0.944,8,0.375,5,0,0,3,wrong-neighbours+confident
+2619,Tennessee Valley Authority,company,government,0.942,19,0.158,3,15,0,1,wrong-neighbours+confident
+3631,Hollywood Music in Media Awards,company,tvshow,0.941,5,0.2,1,0,0,4,wrong-neighbours+confident
+20770,Air Force NYC,government,tvshow,0.939,65,0.554,3,36,0,26,confident
+14249,ENERGY STAR,government,company,0.929,65,0.6,25,39,0,1,confident
+169,Laboratório Hacker - Câmara dos Deputados,government,politician,0.925,4,0.5,0,2,2,0,confident
+16355,Duke Energy,company,government,0.923,24,0.167,4,19,0,1,wrong-neighbours+confident
+13742,Fort Bliss Soldier for Life - Transition Assistance Program,government,company,0.92,109,0.587,44,64,0,1,confident
+8706,Rachel Khoo,company,tvshow,0.916,4,0.25,1,0,0,3,wrong-neighbours+confident
+13332,Assembleia Legislativa do Ceará,government,politician,0.914,5,0.6,0,3,2,0,confident
+17681,Tony Awards,tvshow,company,0.911,6,0.333,3,1,0,2,wrong-neighbours+confident
+20512,"Village of Elk Grove, Illinois",government,company,0.906,5,0.4,2,2,0,1,wrong-neighbours+confident
+8346,DVD Netflix,company,tvshow,0.903,3,0.333,1,0,0,2,wrong-neighbours+confident
+13965,WCHE 1520 AM Radio,company,tvshow,0.9,6,0.333,2,0,0,4,wrong-neighbours
+12067,Visita Acapulco,company,government,0.897,10,0.2,2,7,1,0,wrong-neighbours
+15539,Économie Québec,government,politician,0.896,3,0.333,0,1,2,0,wrong-neighbours
+15565,Looking,tvshow,company,0.896,1,1.0,0,0,0,1,few-links
+12399,Facebook,company,government,0.894,14,0.214,3,9,2,0,wrong-neighbours
+21299,Lean Cuisine Australia,company,tvshow,0.886,4,0.5,2,0,0,2,other
+11836,Najib Razak,politician,government,0.885,21,0.19,2,15,4,0,wrong-neighbours
+20048,Open House,tvshow,company,0.885,2,0.5,1,0,0,1,few-links
+20319,PSEG Long Island,company,government,0.872,13,0.154,2,11,0,0,wrong-neighbours
+4699,Fromages d'ici,company,tvshow,0.869,3,0.333,1,0,0,2,wrong-neighbours
+11936,Polygraph.Info,company,government,0.869,1,0.0,0,1,0,0,wrong-neighbours+few-links
+21536,Oaxaca Travel,government,company,0.868,42,0.429,17,18,3,4,wrong-neighbours
+9792,Melitta Deutschland,company,tvshow,0.86,2,0.5,1,0,0,1,few-links
+14800,The Arrangement,tvshow,company,0.856,1,1.0,0,0,0,1,few-links
+15275,António José Seguro,politician,government,0.855,1,0.0,0,1,0,0,wrong-neighbours+few-links
+18854,Monkey Mat,company,tvshow,0.853,3,0.333,1,0,0,2,wrong-neighbours
+3503,Night of Too Many Stars,tvshow,company,0.85,1,0.0,1,0,0,0,wrong-neighbours+few-links
+15867,Emilio Basavilbaso,politician,government,0.849,53,0.34,1,34,18,0,wrong-neighbours
+2087,Chris Christie,politician,tvshow,0.845,11,0.273,0,1,3,7,wrong-neighbours
+3549,Malta Communications Authority - MCA,company,government,0.839,9,0.333,3,4,2,0,wrong-neighbours
+10563,三立華劇,tvshow,company,0.83,1,1.0,0,0,0,1,few-links
+21188,City of Oak Creek Government,government,company,0.826,7,0.429,4,3,0,0,wrong-neighbours
+572,Governo de Pernambuco,government,politician,0.821,14,0.357,0,5,9,0,wrong-neighbours
+15759,André Corrêa,politician,government,0.807,14,0.143,0,12,2,0,wrong-neighbours
+11975,Euronews Italiano,company,government,0.806,6,0.167,1,5,0,0,wrong-neighbours
+9441,KING 5 Evening,tvshow,company,0.802,23,0.435,9,4,0,10,wrong-neighbours
+1400,박근혜 Park Geun-Hye,politician,government,0.8,5,0.0,0,5,0,0,wrong-neighbours
+7303,Get In Go Far,government,politician,0.797,9,0.222,2,2,5,0,wrong-neighbours
+13529,Push Travel,company,government,0.795,3,0.333,1,2,0,0,wrong-neighbours
+12865,Chronicle on WCVB Channel 5,tvshow,company,0.792,2,0.5,1,0,0,1,few-links
+18442,Sargento Cheese,company,tvshow,0.789,1,1.0,1,0,0,0,few-links
+2636,"끝없는 발견, 캐나다에 오신 것을 환영합니다.",government,company,0.787,8,0.125,7,1,0,0,wrong-neighbours
+1149,Robert Goguen,politician,government,0.776,40,0.525,1,18,21,0,other
+18441,Quinta Colonna,tvshow,politician,0.773,1,0.0,0,0,1,0,wrong-neighbours+few-links
+10601,광주지방경찰청,government,company,0.765,5,0.6,2,3,0,0,other
+2476,Today's Shopping Choice,company,tvshow,0.762,11,0.455,5,0,0,6,wrong-neighbours
+6009,David Elliott MP,politician,government,0.756,10,0.5,0,5,5,0,other
+22069,TwoTube,tvshow,company,0.754,2,0.5,1,0,0,1,few-links
+14774,Magic of Rahat,company,tvshow,0.753,2,0.5,1,0,0,1,few-links
+19585,Land Salzburg,government,politician,0.753,5,0.4,0,2,3,0,wrong-neighbours
+8866,Kogan.com,company,tvshow,0.752,1,0.0,0,0,0,1,wrong-neighbours+few-links
+20583,George Galloway,politician,tvshow,0.748,3,0.333,0,0,1,2,wrong-neighbours
+21092,Erik Christensen,politician,tvshow,0.748,3,0.667,0,0,2,1,other
+14933,TVBS 看板人物,tvshow,politician,0.742,2,0.5,0,0,1,1,few-links
+8716,Zeit im Bild,tvshow,politician,0.741,15,0.267,0,3,8,4,wrong-neighbours
+4823,Purina Pro Plan for Professionals,company,tvshow,0.74,2,0.5,1,0,0,1,few-links
+16275,Headspace,company,politician,0.735,3,0.0,0,0,2,1,wrong-neighbours
+5372,NYS Film,government,tvshow,0.733,16,0.562,1,9,0,6,other
+3313,Patrick Testin,politician,company,0.723,1,1.0,0,0,1,0,few-links
+10382,三立華劇,tvshow,company,0.723,2,1.0,0,0,0,2,few-links
+545,I Love Lucy,tvshow,company,0.706,4,0.5,2,0,0,2,other
+1265,Baked by Melissa,company,tvshow,0.691,7,0.571,4,0,0,3,other
+22295,Dr. Mahathir bin Mohamad,politician,government,0.69,9,0.222,2,5,2,0,wrong-neighbours
+2076,Cidade Alerta Espírito Santo,tvshow,government,0.685,1,0.0,0,0,1,0,wrong-neighbours+few-links
+10501,Stephen Cowan,politician,tvshow,0.685,16,0.5,0,0,8,8,other
+13725,Singapore Ministry of Foreign Affairs,government,politician,0.68,12,0.833,0,10,2,0,other
+21532,TODAY's Take,tvshow,company,0.672,4,0.5,2,0,0,2,other
+15319,Abdullah Gül,politician,government,0.664,6,0.333,0,4,2,0,wrong-neighbours
+642,Two Nation Vacation,company,government,0.662,4,0.25,1,3,0,0,wrong-neighbours
+22055,CNN Talk Asia,tvshow,company,0.658,3,0.667,1,0,0,2,other
+7974,The Muppets,tvshow,company,0.651,22,0.318,14,1,0,7,wrong-neighbours
+2421,Communication for Development Ltd,company,government,0.647,8,0.25,2,6,0,0,wrong-neighbours
+5828,John Dingell,politician,government,0.645,35,0.257,4,18,9,4,wrong-neighbours
+7034,Iraqi Air Force - القوة الجوية العراقية,government,company,0.636,2,0.5,1,1,0,0,few-links
+15045,David Davies MP,politician,government,0.635,11,0.364,0,7,4,0,wrong-neighbours
+10905,Destination British Columbia,company,government,0.632,30,0.433,13,17,0,0,wrong-neighbours
+21114,Con Edison,company,government,0.629,8,0.25,2,5,1,0,wrong-neighbours
+781,Spirit Halloween,company,tvshow,0.627,20,0.4,8,0,1,11,wrong-neighbours
+11664,Ine Eriksen Søreide,politician,government,0.627,1,0.0,0,1,0,0,wrong-neighbours+few-links
+20523,Aspirina Forte,company,government,0.623,1,0.0,0,1,0,0,wrong-neighbours+few-links
+13188,Editorial SM México,company,government,0.608,5,0.4,2,3,0,0,wrong-neighbours
+7256,CNN Football Club,tvshow,company,0.598,1,1.0,0,0,0,1,few-links
+22347,Gina Parody,politician,government,0.596,8,0.25,0,6,2,0,wrong-neighbours
+21522,New to New Zealand,government,company,0.595,7,0.571,3,4,0,0,other
+10516,משה (בוגי) יעלון - Moshe (Bogie) Ya'alon,politician,government,0.572,6,0.167,0,5,1,0,wrong-neighbours
+14554,CTV Question Period,tvshow,government,0.572,3,0.333,0,1,1,1,wrong-neighbours
+9300,Studio 512,tvshow,company,0.566,9,0.444,2,3,0,4,wrong-neighbours
+13786,Арсеній Яценюк,politician,government,0.549,5,0.4,0,3,2,0,wrong-neighbours
+13672,Town of North Hempstead - Government,government,tvshow,0.526,2,0.5,0,1,0,1,few-links
+18118,Queensland Ambulance Service (QAS),government,tvshow,0.515,50,0.3,3,15,24,8,wrong-neighbours
+17317,Queensland Corrective Services,government,politician,0.493,5,0.6,0,3,2,0,other
+6493,Carlos Menchaca,politician,government,0.478,5,0.2,0,4,1,0,wrong-neighbours
+21433,Finding Your Roots,tvshow,government,0.476,3,0.333,0,2,0,1,wrong-neighbours
+154,City of Kitchener,government,company,0.391,6,0.333,2,2,1,1,wrong-neighbours
+20330,Pearland Parks and Recreation,government,company,0.371,3,0.333,0,1,1,1,wrong-neighbours

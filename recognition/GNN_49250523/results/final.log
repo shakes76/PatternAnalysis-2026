@@ -1,0 +1,12 @@
+gcn seed 3: test F1 0.9429, best epoch 185
+gcn seed 4: test F1 0.9467, best epoch 351
+gcn seed 5: test F1 0.9424, best epoch 203
+gcn seed 6: test F1 0.9463, best epoch 345
+gcn seed 7: test F1 0.9458, best epoch 315
+mlp seed 3: test F1 0.7805, best epoch 556
+mlp seed 4: test F1 0.7789, best epoch 397
+mlp seed 5: test F1 0.7733, best epoch 352
+mlp seed 6: test F1 0.7711, best epoch 350
+mlp seed 7: test F1 0.7780, best epoch 412
+gcn: test macro-F1 0.9448 ± 0.0020
+mlp: test macro-F1 0.7764 ± 0.0040

@@ -1,0 +1,51 @@
+{
+  "gcn": {
+    "config": {
+      "model": "gcn",
+      "num_layers": 4,
+      "dropout": 0.5,
+      "p_edge": 0.0,
+      "lr": 0.01,
+      "hidden_dim": 64,
+      "weight_decay": 0.0005,
+      "max_epochs": 100000,
+      "patience": 50
+    },
+    "params": 16836,
+    "test_f1_mean": 0.9448367357254028,
+    "test_f1_std": 0.0020305351354181767,
+    "train_seconds_mean": 52.757034133200065,
+    "best_epochs": [
+      185,
+      351,
+      203,
+      345,
+      315
+    ]
+  },
+  "mlp": {
+    "config": {
+      "model": "mlp",
+      "num_layers": 2,
+      "dropout": 0.5,
+      "p_edge": 0.0,
+      "lr": 0.01,
+      "hidden_dim": 64,
+      "weight_decay": 0.0005,
+      "max_epochs": 100000,
+      "patience": 50
+    },
+    "params": 8516,
+    "test_f1_mean": 0.776374340057373,
+    "test_f1_std": 0.003990578930824995,
+    "train_seconds_mean": 3.73235594201833,
+    "best_epochs": [
+      556,
+      397,
+      352,
+      350,
+      412
+    ]
+  },
+  "peak_memory_gb": 0.869351424
+}
