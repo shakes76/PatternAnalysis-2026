@@ -1,0 +1,35 @@
+{
+  "status": "project_label_dictionary_supported_by_official_description_and_exact_samples",
+  "description_url": "https://data.csiro.au/dap/ws/v2/collections/52549/support/5034",
+  "description_sha256": "dc3a99204684ced859872d79a75707af3c0ad31d00f5f3213063ce5e30727ee6",
+  "selection": "first training slice containing all labels 0-5 from each of the first three qualifying distinct case groups in the sorted private acquisition inventory",
+  "samples_checked": 3,
+  "distinct_training_case_groups": 3,
+  "validation_or_test_samples_used": false,
+  "method": "compare every compatible original array plane with optional in-plane flips; require unique exact equality of BOTH the image and mask; no label remapping or interpolation",
+  "all_image_arrays_exactly_match": true,
+  "all_mask_arrays_exactly_match": true,
+  "labels_present_in_every_sample": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "raw_labels": {
+    "0": "Background",
+    "1": "Body",
+    "2": "Bones",
+    "3": "Bladder",
+    "4": "Rectum",
+    "5": "Prostate"
+  },
+  "prostate_raw_label": 5,
+  "private_overlay": "private_data/source_metadata/label_4_5_overlays.png",
+  "limitations": [
+    "Three training cases, not exhaustive voxel equivalence across the course dataset.",
+    "The overlays are ground-truth comparisons, not model outputs or independent clinical annotation review.",
+    "Unit affines and unknown course physical units remain unresolved."
+  ]
+}

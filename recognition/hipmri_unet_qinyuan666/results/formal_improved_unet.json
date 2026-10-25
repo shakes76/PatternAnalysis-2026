@@ -1,0 +1,1967 @@
+{
+  "status": "completed",
+  "data_kind": "HipMRI_manifest",
+  "clinical_performance_claim": false,
+  "config": {
+    "model": "improved_unet",
+    "synthetic": false,
+    "manifest": "private_data/manifests/course_v1.csv",
+    "label_values": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "prostate_label": 5,
+    "image_size": 256,
+    "resize_mode": "pad",
+    "base_channels": 16,
+    "batch_size": 4,
+    "epochs": 20,
+    "samples": 32,
+    "lr": 0.001,
+    "seed": 3710,
+    "device": "cuda",
+    "threads": 4,
+    "augment": false,
+    "output": "runs/real_improved_unet_20ep_s3710",
+    "num_classes": 6,
+    "data_kind": "HipMRI_manifest",
+    "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3"
+  },
+  "training_samples": 11460,
+  "validation_samples": 660,
+  "test_used_for_selection": false,
+  "parameter_count": 3186802,
+  "environment": {
+    "python": "3.10.19",
+    "torch": "2.5.1",
+    "numpy": "1.26.4",
+    "cuda_runtime": "11.8",
+    "device": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "os": "Windows-10-10.0.26200-SP0",
+    "dtype": "float32"
+  },
+  "initial_validation": {
+    "loss": 2.9836686885718144,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.3419901698096704,
+        "iou": 0.206265465730328,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.055480220088960495,
+        "iou": 0.028531579190980857,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.0942561178904644,
+        "iou": 0.04945896391183948,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.015480747344638585,
+        "iou": 0.007800754426506451,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.0045612614122354615,
+        "iou": 0.002285843871841243,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.005117689595216042,
+        "iou": 0.0025654092818024965,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.034979207266303
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "loss": 0.3363251346750201,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9966902467586232,
+            "iou": 0.9934023301763306,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9639536591567215,
+            "iou": 0.9304155819633724,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8523056131989482,
+            "iou": 0.7426241889834143,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9115687545102935,
+            "iou": 0.8375069700430742,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.6361624946028919,
+            "iou": 0.4664503594346165,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7068780053214625,
+            "iou": 0.5466444838386562,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.8141737053580634
+      },
+      "val": {
+        "loss": 0.46860866221514613,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9987134941387419,
+            "iou": 0.9974302942190327,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9751282614946277,
+            "iou": 0.9514637050258715,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9018112424808131,
+            "iou": 0.8211805450622246,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8211455497195657,
+            "iou": 0.6965622851270789,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7907221683692491,
+            "iou": 0.6538796525385191,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.791863273448244,
+            "iou": 0.6554417691682689,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8561340991024998
+      }
+    },
+    {
+      "epoch": 2,
+      "train": {
+        "loss": 0.217650246986856,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9987235068798825,
+            "iou": 0.9974502684745156,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9804029494425008,
+            "iou": 0.9615592247019863,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9195272701492132,
+            "iou": 0.8510416271923862,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9570597132841859,
+            "iou": 0.9176553302950227,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8435727811505396,
+            "iou": 0.7294646540660099,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.826917649723463,
+            "iou": 0.7049101450793538,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9054960727499806
+      },
+      "val": {
+        "loss": 0.4444484060460871,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9989650847794063,
+            "iou": 0.9979323094432412,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9790042744926214,
+            "iou": 0.9588720599257261,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9236708278863973,
+            "iou": 0.8581676050576348,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8167284694128196,
+            "iou": 0.6902291218039621,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8745907758264765,
+            "iou": 0.7771313376863045,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7850073744736336,
+            "iou": 0.6461005260287469,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8758003444183897
+      }
+    },
+    {
+      "epoch": 3,
+      "train": {
+        "loss": 0.1972710919369786,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9989412574656067,
+            "iou": 0.9978847544316672,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9823613233065787,
+            "iou": 0.9653341070904771,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9270600009743428,
+            "iou": 0.8640371333124045,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9611521418628808,
+            "iou": 0.9252097256921107,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8618052482487274,
+            "iou": 0.7571685310644061,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8488717932230554,
+            "iou": 0.7374259341622945,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.916250101523117
+      },
+      "val": {
+        "loss": 0.4422810530120676,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9991263597044916,
+            "iou": 0.9982542445712719,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9790010424879155,
+            "iou": 0.9588658590538554,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9263145707290339,
+            "iou": 0.8627429836297609,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8075585567903103,
+            "iou": 0.677231206101499,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8845645808135464,
+            "iou": 0.7930217792964709,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8269668041716708,
+            "iou": 0.7049815871474242,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8848811109984954
+      }
+    },
+    {
+      "epoch": 4,
+      "train": {
+        "loss": 0.1891907407897305,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.999081646955647,
+            "iou": 0.9981649791083164,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9837696316797201,
+            "iou": 0.9680576986749432,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.932464150744567,
+            "iou": 0.8734733839570131,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9638180833381974,
+            "iou": 0.9301630030789044,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8759557346709643,
+            "iou": 0.7792893586931386,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8691582376555624,
+            "iou": 0.7685940390578092,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9250331676178023
+      },
+      "val": {
+        "loss": 0.4333997552141999,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9990840632659445,
+            "iou": 0.9981698028766647,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9808435658296228,
+            "iou": 0.9624072742356357,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.934239390842504,
+            "iou": 0.8765940332332586,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8060473184015332,
+            "iou": 0.6751082608419582,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8996024593199832,
+            "iou": 0.8175249635364075,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8313835408721224,
+            "iou": 0.7114254932645502,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8904232550531532
+      }
+    },
+    {
+      "epoch": 5,
+      "train": {
+        "loss": 0.18189891833571448,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9991800734128415,
+            "iou": 0.9983614902833631,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9844952968026948,
+            "iou": 0.9694640445317705,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9350917963868124,
+            "iou": 0.8780961525266555,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9652251720034163,
+            "iou": 0.9327876421889564,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8864616195652092,
+            "iou": 0.7960763949771381,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.875172112601657,
+            "iou": 0.7780497998017063,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9292891994719579
+      },
+      "val": {
+        "loss": 0.4229467997045228,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992830735614731,
+            "iou": 0.9985671743535338,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9821432999930182,
+            "iou": 0.9649131355978512,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9347365570248543,
+            "iou": 0.8774698532921148,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8555295077540092,
+            "iou": 0.7475330413063397,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8822353577035594,
+            "iou": 0.7892854401719241,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.824830274921019,
+            "iou": 0.7018818280615455,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8958949994792921
+      }
+    },
+    {
+      "epoch": 6,
+      "train": {
+        "loss": 0.1790891072200855,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992207421993823,
+            "iou": 0.998442697938544,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9850545286876793,
+            "iou": 0.970549213263652,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9372642007297342,
+            "iou": 0.8819352856780701,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9666889999875291,
+            "iou": 0.9355257032740989,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8903226869458803,
+            "iou": 0.8023257540477974,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.884678034395829,
+            "iou": 0.793204170346092,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9328016901493305
+      },
+      "val": {
+        "loss": 0.436924168919072,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992251393241701,
+            "iou": 0.9984514785367279,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9809182292756904,
+            "iou": 0.9625510508136216,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9351486614703874,
+            "iou": 0.8781964464276079,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.7969822468954193,
+            "iou": 0.6624858567869665,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.888803635216587,
+            "iou": 0.7998618996470769,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8241444436050465,
+            "iou": 0.7008891858552632,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8851994432926261
+      }
+    },
+    {
+      "epoch": 7,
+      "train": {
+        "loss": 0.1728079046345402,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992825902300675,
+            "iou": 0.9985662090757522,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9855889310162316,
+            "iou": 0.9715873191364023,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9391023899838198,
+            "iou": 0.8851960652164134,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9678068697282434,
+            "iou": 0.9376218862001516,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8984708258694314,
+            "iou": 0.8156577664668663,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8901291106123947,
+            "iou": 0.8020114043206794,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9362196254420242
+      },
+      "val": {
+        "loss": 0.43050348876100597,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9990002471379155,
+            "iou": 0.9980024912908799,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9810269652606992,
+            "iou": 0.9627604772796465,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9367168563565075,
+            "iou": 0.880966525197336,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8024005667071749,
+            "iou": 0.670007470278236,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9036228946301552,
+            "iou": 0.8241898615032943,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8315388256396203,
+            "iou": 0.7116529362602125,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8910612217188314
+      }
+    },
+    {
+      "epoch": 8,
+      "train": {
+        "loss": 0.17165328112754313,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992979757216518,
+            "iou": 0.9985969364279952,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9858267883517418,
+            "iou": 0.972049721910474,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9401196173638644,
+            "iou": 0.887005394915979,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9682162541822387,
+            "iou": 0.938390683228741,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9018919390559104,
+            "iou": 0.8213143780043978,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.89284219080924,
+            "iou": 0.80642721696723,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.937779357952599
+      },
+      "val": {
+        "loss": 0.43015049262480304,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.998939468805696,
+            "iou": 0.9978811846811326,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9813062508996219,
+            "iou": 0.963298588772363,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9365059121726635,
+            "iou": 0.880593435254442,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8143885281955482,
+            "iou": 0.6868932593542489,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9076068254114803,
+            "iou": 0.8308426366297608,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8350451249175931,
+            "iou": 0.716804695854441,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8949705283193815
+      }
+    },
+    {
+      "epoch": 9,
+      "train": {
+        "loss": 0.17071860976530204,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9993321761758146,
+            "iou": 0.9986652437336634,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9861020499329068,
+            "iou": 0.9725851106293814,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9411886720741568,
+            "iou": 0.8889106559880662,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9682689324278507,
+            "iou": 0.9384896538071337,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9036332411863178,
+            "iou": 0.8242070766210473,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8983349104319915,
+            "iou": 0.815433763798626,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9395055612106447
+      },
+      "val": {
+        "loss": 0.4194540863687342,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9993119030168217,
+            "iou": 0.9986247523374112,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9823953118700753,
+            "iou": 0.9653997503445524,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9378565721779233,
+            "iou": 0.8829848658961215,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8412098435927633,
+            "iou": 0.7259380302305006,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8987855252417819,
+            "iou": 0.8161766357449294,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8349025743137534,
+            "iou": 0.7165946434239118,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8990299654392594
+      }
+    },
+    {
+      "epoch": 10,
+      "train": {
+        "loss": 0.16289711804446125,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9993389500894981,
+            "iou": 0.9986787735756059,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9864008835945626,
+            "iou": 0.9731666766765456,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9424394927497175,
+            "iou": 0.8911447489658193,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9687798444178384,
+            "iou": 0.9394500671594483,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9084950603157509,
+            "iou": 0.8323325230012799,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9006845579094575,
+            "iou": 0.8193140234586777,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9413599677974653
+      },
+      "val": {
+        "loss": 0.4251451945666111,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9990919689629351,
+            "iou": 0.998185585470577,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9819506882535297,
+            "iou": 0.9645413801901078,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9372341968941396,
+            "iou": 0.881882155179567,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8363589916485592,
+            "iou": 0.7187431395473505,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8966094256899472,
+            "iou": 0.812594784263582,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8402180891329136,
+            "iou": 0.7244621434944976,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8984742783238179
+      }
+    },
+    {
+      "epoch": 11,
+      "train": {
+        "loss": 0.16390337182589226,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.999349153911444,
+            "iou": 0.998699154473111,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9865319769788953,
+            "iou": 0.9734219083085481,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9428696423387324,
+            "iou": 0.891914261571942,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9693646527077245,
+            "iou": 0.9405505596664003,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9106224280798452,
+            "iou": 0.8359107545006338,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9033687085826512,
+            "iou": 0.8237670360610319,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9425514817375695
+      },
+      "val": {
+        "loss": 0.4152701567519795,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9991383011069414,
+            "iou": 0.9982780859852831,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9825580368137092,
+            "iou": 0.9657140872553196,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9377376583829364,
+            "iou": 0.8827740772165892,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8664226820028456,
+            "iou": 0.7643260572059368,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8943221198288044,
+            "iou": 0.8088450857770019,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8319777254393409,
+            "iou": 0.7122961124626512,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.9026036444935274
+      }
+    },
+    {
+      "epoch": 12,
+      "train": {
+        "loss": 0.1626820681229832,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9993664782282907,
+            "iou": 0.9987337586480461,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.986642020383132,
+            "iou": 0.9736362077655549,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9432965881704246,
+            "iou": 0.8926786623478407,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9691086874687659,
+            "iou": 0.9400687305136288,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9101328821652478,
+            "iou": 0.8350861011142497,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9054293805141447,
+            "iou": 0.827200515339472,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9429219117403431
+      },
+      "val": {
+        "loss": 0.42858169945803554,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9989631040025893,
+            "iou": 0.9979283560844626,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9812093614103599,
+            "iou": 0.963111874259754,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9363553775773135,
+            "iou": 0.8803272802193616,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8353369639109526,
+            "iou": 0.7172348894286404,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.887294867142454,
+            "iou": 0.7974213841036085,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.828872264050571,
+            "iou": 0.707755643220769,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8938137668183301
+      }
+    },
+    {
+      "epoch": 13,
+      "train": {
+        "loss": 0.16031566286690363,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9993786917633855,
+            "iou": 0.9987581550952388,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9868440040252913,
+            "iou": 0.9740296735606802,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9440288947342844,
+            "iou": 0.8939912181562364,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9699902072666232,
+            "iou": 0.9417291118102118,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9135513730997887,
+            "iou": 0.8408601663074283,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9079397260578611,
+            "iou": 0.8314007456569809,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9444708410367697
+      },
+      "val": {
+        "loss": 0.4443241868055228,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9990393279137353,
+            "iou": 0.9980804998376961,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9807599134259141,
+            "iou": 0.9622462129825436,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9367368187879859,
+            "iou": 0.8810018397516588,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.7889955862692071,
+            "iou": 0.6515216437886586,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8983705736258559,
+            "iou": 0.8154925350738991,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8027511689793663,
+            "iou": 0.6704965151605409,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8815228122176659
+      }
+    },
+    {
+      "epoch": 14,
+      "train": {
+        "loss": 0.16038813721551112,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994058636582064,
+            "iou": 0.9988124328931892,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9870147401845845,
+            "iou": 0.9743623913781693,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9447268615628569,
+            "iou": 0.8952439204147611,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9699595144917242,
+            "iou": 0.9416712528664303,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9157032503638467,
+            "iou": 0.8445135067232472,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9084316493822618,
+            "iou": 0.8322260799043542,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9451672031970547
+      },
+      "val": {
+        "loss": 0.4167785677945975,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9990640872679144,
+            "iou": 0.9981299247630531,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9824675622179161,
+            "iou": 0.9655393044367225,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9383799449951019,
+            "iou": 0.8839131670235567,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8619203491543918,
+            "iou": 0.7573462441877187,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8995368966005379,
+            "iou": 0.817416680142897,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8278348587784613,
+            "iou": 0.7062442224785465,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.9020279223492818
+      }
+    },
+    {
+      "epoch": 15,
+      "train": {
+        "loss": 0.15986285563720876,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994138865887287,
+            "iou": 0.9988284598328612,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9872257004977234,
+            "iou": 0.9747736499463809,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9455213244253046,
+            "iou": 0.89667183066551,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9707995338972486,
+            "iou": 0.943256018502743,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9174295197033935,
+            "iou": 0.8474547721382841,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9123164144347421,
+            "iou": 0.8387700490677358,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9466584985916825
+      },
+      "val": {
+        "loss": 0.4221453902396289,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9991335396218035,
+            "iou": 0.998268579450911,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9821877151448369,
+            "iou": 0.9649988802056997,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9391303487837761,
+            "iou": 0.8852457488128905,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.837511893573676,
+            "iou": 0.7204477094809362,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9022574592991588,
+            "iou": 0.8219208291983681,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8246707588225233,
+            "iou": 0.7016508480605365,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8971516351247942
+      }
+    },
+    {
+      "epoch": 16,
+      "train": {
+        "loss": 0.15632653007670638,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994045752441646,
+            "iou": 0.9988098591276675,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.987240994356051,
+            "iou": 0.9748034713631869,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.945603249802195,
+            "iou": 0.8968191998171463,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9707443743371628,
+            "iou": 0.9431518761065859,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.918289756730962,
+            "iou": 0.8489239724270311,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.914001944804794,
+            "iou": 0.841623924124343,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.947176064006233
+      },
+      "val": {
+        "loss": 0.42811152095144445,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992545774596997,
+            "iou": 0.9985102654011485,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9821460566007045,
+            "iou": 0.9649184570830089,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9383312472534858,
+            "iou": 0.8838267537082948,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.83116312965906,
+            "iou": 0.711102764423077,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8929711429953249,
+            "iou": 0.8066376385268462,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.828299089176022,
+            "iou": 0.7069202400752043,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8945821331369196
+      }
+    },
+    {
+      "epoch": 17,
+      "train": {
+        "loss": 0.1545188027032591,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994314298829622,
+            "iou": 0.9988635059424837,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9875772550897045,
+            "iou": 0.9754593721392615,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9469113488990489,
+            "iou": 0.8991753428442144,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9715704899767823,
+            "iou": 0.9447127688458185,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9212732057448434,
+            "iou": 0.8540375660001731,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9175647385688731,
+            "iou": 0.8476855579849897,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9489794076558505
+      },
+      "val": {
+        "loss": 0.4213312041578871,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9986166549735658,
+            "iou": 0.9972371319469115,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.981962012841755,
+            "iou": 0.964563233620395,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.935518843920865,
+            "iou": 0.8788496053483144,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8652578167077699,
+            "iou": 0.7625148949670625,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8969622124771074,
+            "iou": 0.8131745100876625,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8153570361517777,
+            "iou": 0.6882723833543506,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8990115844198548
+      }
+    },
+    {
+      "epoch": 18,
+      "train": {
+        "loss": 0.15312710371499078,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994290086185795,
+            "iou": 0.998858668927365,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9875842093911429,
+            "iou": 0.9754729416035869,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9470515673680032,
+            "iou": 0.8994282512019236,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9710106217505099,
+            "iou": 0.9436546598784009,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.92165239664303,
+            "iou": 0.854689521054123,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9168011933330938,
+            "iou": 0.8463831271695804,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.948819997697156
+      },
+      "val": {
+        "loss": 0.41713723729957236,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9991950754572543,
+            "iou": 0.9983914456793594,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9822104458372903,
+            "iou": 0.9650427652947483,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9371224887434295,
+            "iou": 0.8816843698532403,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8630011738883393,
+            "iou": 0.7590167677126405,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8824383509473483,
+            "iou": 0.7896104449319503,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8269485405434719,
+            "iou": 0.7049550417222064,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8983441999919759
+      }
+    },
+    {
+      "epoch": 19,
+      "train": {
+        "loss": 0.15223230781589503,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994379733673948,
+            "iou": 0.9988765781278014,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9877808921692288,
+            "iou": 0.9758567927907282,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.947854800962989,
+            "iou": 0.9008783215762662,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.971720865572049,
+            "iou": 0.9449971637444863,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9223296656183747,
+            "iou": 0.855855112823175,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9188792108300976,
+            "iou": 0.8499320520287322,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9497130870305478
+      },
+      "val": {
+        "loss": 0.42675484030535726,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992543816564063,
+            "iou": 0.9985098743778108,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9817791887171327,
+            "iou": 0.9642104913178688,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9354890401761842,
+            "iou": 0.8787970020816077,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.833059253053668,
+            "iou": 0.7138830786684156,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8917269991051818,
+            "iou": 0.8046095126247798,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8145625077131926,
+            "iou": 0.6871408345132006,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8913233977530719
+      }
+    },
+    {
+      "epoch": 20,
+      "train": {
+        "loss": 0.15347599309412388,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994506645410324,
+            "iou": 0.9989019322895945,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9878951434829628,
+            "iou": 0.9760798371056261,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9483105006159247,
+            "iou": 0.9017019768394618,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9717947794029701,
+            "iou": 0.9451369823221623,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9236002177204579,
+            "iou": 0.8580457121279851,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.9211809694465155,
+            "iou": 0.8538790504779163,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.9505563221337662
+      },
+      "val": {
+        "loss": 0.4185860687133038,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9992810309248175,
+            "iou": 0.998563094939937,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9829483292109328,
+            "iou": 0.9664684277528636,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9402313647394991,
+            "iou": 0.8872043703278513,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8511243488837696,
+            "iou": 0.7408324373981031,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.9049768966148961,
+            "iou": 0.8264454821247993,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8333006518755172,
+            "iou": 0.71423769389696,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.902516318264923
+      }
+    }
+  ],
+  "best_epoch": 11,
+  "best_validation": {
+    "loss": 0.4152701567519795,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9991383011069414,
+        "iou": 0.9982780859852831,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.9825580368137092,
+        "iou": 0.9657140872553196,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.9377376583829364,
+        "iou": 0.8827740772165892,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.8664226820028456,
+        "iou": 0.7643260572059368,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.8943221198288044,
+        "iou": 0.8088450857770019,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.8319777254393409,
+        "iou": 0.7122961124626512,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.9026036444935274
+  },
+  "training_seconds_including_validation_and_checkpoint": 4001.982996200095,
+  "peak_training_allocated_bytes": 695323648,
+  "peak_training_reserved_bytes": 918552576,
+  "memory_scope": "PyTorch CUDA allocator; excludes driver and other processes",
+  "inference": {
+    "batch_size": 1,
+    "warmup": 5,
+    "repeats": 20,
+    "median_ms": 5.149099975824356,
+    "mean_ms": 5.925039999419823,
+    "scope": "model only; excludes disk I/O and preprocessing; CUDA synchronized"
+  },
+  "checkpoint_reload_exact": true,
+  "checkpoint_reload_max_abs_error": 0.0,
+  "limitations": [
+    "One seed and four validation Cases; no statistical superiority or clinical performance claim.",
+    "Checkpoint selected by minimum validation CE plus foreground soft Dice loss, not prostate Dice.",
+    "Pixel pooling and equal-Case averaging have different weighting; all weeks pooled within each Case.",
+    "Padding included in loss/metrics; physical spacing not established.",
+    "Training metrics accumulate during parameter updates, not a final-model training-set evaluation.",
+    "CUDA cross-entropy nondeterminism warning observed; exact reload does not guarantee bitwise retraining equality.",
+    "Laptop timings are single-run observations, not controlled speed comparisons or per-Case inference times."
+  ],
+  "provenance": {
+    "implementation_commit": "e8ec23651d4c386d3637fd9b86d2afe8e7c84e40",
+    "source_sha256": {
+      "train.py": "4fd13e7c54e806672cd7af17ef216a28291870cefcf8de523b11b07214bdbe14",
+      "evaluate_cases.py": "b4ea081f38d3c3a081bedaddb1a581c23a1a4b85918799a6a90958f828b8cc06",
+      "dataset.py": "31111039daac26b2832244eed96e9c19728eacfdbf7df73277b7692840ec8285",
+      "modules.py": "e1be1efb5e1a389ff7c59fae0e19dc0cb77218ae97be0b30e38c8b90f4adc5ee",
+      "metrics.py": "fc9929c523aabe602383d5f39e4cbb2c8a9dd1bb35a7e996e7d43aaf64c5e158",
+      "labels.json": "a48cf3cf50047ef1e31ad9b92585f78b1b748e72b6c20b3df81b0eb07c81f7b7",
+      "run_improved_experiment.py": "8d2912e872f63290c2d6ffb825621b34ab4012a578cc7969832cdf3621ea3ffc"
+    },
+    "source_hashes_match_launch_snapshot": true,
+    "private_summary_sha256": "44e6226a666d9db5edc5305322ba64723fa8446ddd197d595e16054231e2b83e",
+    "checkpoint_sha256": "7ed4f8516e1c058a5dd2b3ca1f0c6dc9b1e90ff78aa1b8f1bde20e4d15bcecae",
+    "case_evaluation": "results/formal_improved_unet_cases.json",
+    "matched_baseline": "results/formal_unet.json",
+    "matched_config_fields": [
+      "synthetic",
+      "label_values",
+      "prostate_label",
+      "image_size",
+      "resize_mode",
+      "base_channels",
+      "batch_size",
+      "epochs",
+      "samples",
+      "lr",
+      "seed",
+      "device",
+      "threads",
+      "augment",
+      "num_classes",
+      "data_kind",
+      "manifest_sha256"
+    ],
+    "scope": "Fresh fixed-budget 20-epoch run and validation only; no test evaluation.",
+    "config_samples_note": "Synthetic-only default; real run used all 11460 training slices."
+  },
+  "validation_examples": {
+    "private_grid": "runs/real_improved_unet_20ep_s3710/case_examples/prostate_examples.png",
+    "same_selection_as_formal_baseline": true,
+    "selection_policy": "For each validation Case, take lower median of prostate-positive slices sorted by ground-truth prostate area, breaking ties by manifest index; no model scores used.",
+    "examples": [
+      {
+        "case_alias": "Case 01",
+        "slice_dice": 0.9018036072144289,
+        "false_positive_pixels": 95,
+        "false_negative_pixels": 52
+      },
+      {
+        "case_alias": "Case 02",
+        "slice_dice": 0.8984848484848484,
+        "false_positive_pixels": 58,
+        "false_negative_pixels": 76
+      },
+      {
+        "case_alias": "Case 03",
+        "slice_dice": 0.5964912280701754,
+        "false_positive_pixels": 0,
+        "false_negative_pixels": 92
+      },
+      {
+        "case_alias": "Case 04",
+        "slice_dice": 0.928654970760234,
+        "false_positive_pixels": 29,
+        "false_negative_pixels": 32
+      }
+    ],
+    "interpretation": "Selected positive slices only, not representative of all slices or a complete failure analysis; CPU inference."
+  }
+}

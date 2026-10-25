@@ -1,0 +1,291 @@
+{
+  "status": "both_formal_20_epoch_runs_and_validation_comparison_completed",
+  "source": {
+    "title": "Labelled weekly MR images of the male pelvis",
+    "publisher": "CSIRO",
+    "authors": [
+      "Jason Dowling",
+      "Peter Greer"
+    ],
+    "doi": "10.25919/45t8-p065",
+    "collection_version": 2,
+    "metadata_url": "https://data.csiro.au/dap/ws/v2/collections/52549",
+    "file_list_url": "https://data.csiro.au/dap/ws/v2/collections/52549/data",
+    "download_url": "https://data.csiro.au/dap/ws/v2/collections/52549/data/58895460",
+    "description_url": "https://data.csiro.au/dap/ws/v2/collections/52549/support/5034",
+    "licence": "CC BY-NC-ND 4.0",
+    "acquired_date_australia_brisbane": "2026-10-23"
+  },
+  "archive": {
+    "filename": "HipMRI_study_complete_release_v1.zip",
+    "bytes": 1373932069,
+    "expected_bytes_from_csiro": 1373932069,
+    "sha256": "09bec67de2193ace4cb889ad7741c1ffbaf90542b577118659827eb3da88700a",
+    "sha256_kind": "locally_computed; not an independently published checksum"
+  },
+  "integrity": {
+    "size_matches_official_metadata": true,
+    "zip_crc_passed": true,
+    "extracted_file_count": 422,
+    "uncompressed_bytes": 1402581779,
+    "official_independent_checksum_compared": false
+  },
+  "inventory": {
+    "scope": "official_original_zip; not the Rangpur course directory",
+    "archive_entries": 424,
+    "nifti_file_count": 422,
+    "image_volumes": 211,
+    "mask_volumes": 211,
+    "matched_case_week_pairs": 211,
+    "unmatched_image_keys": 0,
+    "unmatched_mask_keys": 0,
+    "unrecognised_filenames": 0,
+    "observed_case_groups": 38,
+    "observed_week_numbers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "uncompressed_bytes": 1402581779,
+    "course_2d_directory_present": false,
+    "identity_note": "Case/week pairing follows observed archive filenames. Patient metadata and repeated-scan policy must be documented before splitting."
+  },
+  "documented_raw_labels": {
+    "0": "Background",
+    "1": "Body",
+    "2": "Bones",
+    "3": "Bladder",
+    "4": "Rectum",
+    "5": "Prostate"
+  },
+  "label_mapping_scope": "Project mapping adopted from the official original description and exact all-class image/mask matches in three distinct training cases; not exhaustive anatomical reannotation.",
+  "description_sha256": "dc3a99204684ced859872d79a75707af3c0ad31d00f5f3213063ce5e30727ee6",
+  "sample_check": {
+    "pairs_checked": 3,
+    "selection": "first, middle and last image in sorted archive names; no train/test split",
+    "all_image_mask_shapes_match": true,
+    "all_image_mask_affines_match": true,
+    "all_images_and_masks_finite": true,
+    "all_masks_integer": true,
+    "observed_shapes": [
+      [
+        256,
+        256,
+        128
+      ]
+    ],
+    "observed_mask_values": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "scope": "Three-volume acquisition sanity check, not a complete anatomical audit or clinical evaluation."
+  },
+  "local_paths_relative_to_project": {
+    "archive": "private_data/downloads/HipMRI_study_complete_release_v1.zip",
+    "extracted_volumes": "private_data/hipmri_csiro_v2",
+    "description": "private_data/source_metadata/BriefDataDescription_v2.txt",
+    "course_sample": "private_data/course_sample",
+    "course_slices": "private_data/keras_slices_data",
+    "training_manifest": "private_data/manifests/course_v1.csv"
+  },
+  "rangpur_access": {
+    "student_reported_successful_login": true,
+    "assistant_noninteractive_ssh_result": "port 22 connection timed out",
+    "course_directory_listing_received": true,
+    "evidence": "user-supplied terminal screenshot; not an assistant SSH session",
+    "reported_hostname": "login0.compute.eait.uq.edu.au",
+    "reported_python_version": "3.14.7",
+    "project_dependencies_verified_on_reported_python": false,
+    "course_root": "/home/groups/comp3710/HipMRI_Study_open",
+    "observed_root_entries": [
+      "data_use_agreement.txt",
+      "keras_slices_data",
+      "semantic_labels_only",
+      "semantic_MRs"
+    ],
+    "observed_slice_directories": [
+      "keras_slices_seg_test",
+      "keras_slices_seg_train",
+      "keras_slices_seg_validate",
+      "keras_slices_test",
+      "keras_slices_train",
+      "keras_slices_validate"
+    ],
+    "course_file_examples_received": true,
+    "course_filename_evidence": {
+      "scope": "first five names from each training directory in user-supplied screenshot",
+      "image_pattern": "case_<case_id>_week_<week>_slice_<slice>.nii.gz",
+      "mask_pattern": "seg_<case_id>_week_<week>_slice_<slice>.nii.gz",
+      "matching_name_keys_observed": 5,
+      "candidate_pair_key": [
+        "case_id",
+        "week",
+        "slice"
+      ],
+      "pairs_with_nifti_contents_checked": 1,
+      "patient_identity_mapping_verified": false
+    },
+    "course_data_use_agreement_read": true,
+    "course_data_use_agreement_scope": "visible head -80 output in user-supplied screenshot; source file not acquired",
+    "course_data_use_terms_observed": {
+      "no_identification_or_contact_of_participants": true,
+      "noncommercial_use_only": true,
+      "acknowledgement_and_at_least_one_listed_publication_required": true,
+      "data_correctness_not_guaranteed": true,
+      "listed_publication_urls": [
+        "https://doi.org/10.1016/j.ijrobp.2015.08.045",
+        "https://arxiv.org/abs/2011.13615"
+      ],
+      "segmentation_publication_url_visible": false
+    },
+    "course_patient_disjointness_verified": false,
+    "course_case_groups_disjoint_by_filename": true
+  },
+  "course_sample_check": {
+    "scope": "one user-transferred training pair, not a full course dataset audit",
+    "pairs_checked": 1,
+    "image_shape": [
+      256,
+      128
+    ],
+    "mask_shape": [
+      256,
+      128
+    ],
+    "image_dtype": "float32",
+    "mask_dtype": "uint8",
+    "image_mask_shapes_match": true,
+    "image_mask_affines_match_atol_1e_5_rtol_0": true,
+    "both_affines_are_identity": true,
+    "spatial_units_in_header": "unknown",
+    "physical_spacing_verified": false,
+    "images_and_masks_finite": true,
+    "mask_integer": true,
+    "observed_mask_values": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "observed_values_are_not_a_global_class_dictionary": true,
+    "existing_load_nifti_pair_passed": true,
+    "original_volume_comparison": {
+      "scope": "one same-case/week volume; no general preprocessing rule established",
+      "image_and_mask_exactly_equal_after_plane_selection_and_flip": true,
+      "original_array_slice_axis_zero_based": 1,
+      "in_plane_flipped_axis_zero_based": 0,
+      "course_filename_slice_index_matches_original_array_index": false
+    },
+    "full_course_label_semantics_verified": false
+  },
+  "course_acquisition": {
+    "user_reported_transfer_complete": true,
+    "transfer_methods": [
+      "scp",
+      "sftp_recursive_resume"
+    ],
+    "server_du_output_reported": "795M; allocated space, not an exact file-byte inventory",
+    "local_check_date_australia_brisbane": "2026-10-24",
+    "local_integrity_passed": true,
+    "local_files": 25320,
+    "local_image_mask_pairs": 12660,
+    "local_compressed_file_bytes": 629732130,
+    "aggregate_report": "results/course_download_audit.json",
+    "private_inventory": "private_data/source_metadata/course_download_audit_private.json",
+    "source_file_manifest_or_hashes_compared": false,
+    "original_release_case_week_key_comparison": {
+      "course_groups": 211,
+      "original_groups": 211,
+      "keys_equal": true,
+      "scope": "filename case/week keys only, not full array correspondence"
+    },
+    "audit_tool_targeted_tests_passed": 6
+  },
+  "readiness": {
+    "original_data_acquired": true,
+    "course_preprocessed_2d_acquired": true,
+    "course_preprocessed_2d_acquired_scope": "six course directories locally present and checked; no server file-manifest comparison",
+    "course_sample_pair_acquired": true,
+    "patient_split_created": false,
+    "ready_for_existing_2d_loader": true,
+    "real_data_training_run": true,
+    "course_split_manifest_created": true,
+    "split_policy": "Existing course splits preserved; no new random patient split created.",
+    "project_label_dictionary_adopted": true,
+    "ready_for_initial_training_pilot": true
+  },
+  "real_data_pilot": {
+    "model": "unet",
+    "epochs": 1,
+    "summary": "results/pilot_unet.json",
+    "notes": "REAL_DATA_PILOT.md",
+    "checkpoint_reload_exact": true,
+    "validation_prediction_examples_checked": 4,
+    "test_set_model_evaluation_performed": false,
+    "patient_level_evaluation_completed": true,
+    "real_improved_unet_comparison_completed": false,
+    "patient_level_evaluation_scope": "Validation only; equal-weight manifest Case groups after pooling all slices and weeks. Not final test evaluation.",
+    "case_validation_summary": "results/pilot_unet_cases.json"
+  },
+  "formal_unet": {
+    "epochs_completed": 20,
+    "selected_epoch": 5,
+    "selection_rule": "Minimum validation CE plus foreground soft Dice loss",
+    "summary": "results/formal_unet.json",
+    "case_validation_summary": "results/formal_unet_cases.json",
+    "notes": "FORMAL_UNET.md",
+    "checkpoint_reload_exact": true,
+    "case_confusions_reproduce_pooled_validation_scores": true,
+    "validation_positive_examples_checked": 4,
+    "test_set_model_evaluation_performed": false,
+    "real_improved_unet_comparison_completed": false
+  },
+  "real_improved_unet_pilot": {
+    "epochs_completed": 1,
+    "summary": "results/pilot_improved_unet.json",
+    "case_validation_summary": "results/pilot_improved_unet_cases.json",
+    "notes": "IMPROVED_UNET_PILOT.md",
+    "checkpoint_reload_exact": true,
+    "case_confusions_reproduce_pooled_validation_scores": true,
+    "validation_positive_examples_checked": 4,
+    "same_example_selection_as_formal_baseline": true,
+    "matched_baseline_pilot_configuration_verified": true,
+    "formal_20_epoch_run_completed": false,
+    "test_set_model_evaluation_performed": false
+  },
+  "formal_improved_unet": {
+    "epochs_completed": 20,
+    "selected_epoch": 11,
+    "selection_rule": "Minimum validation CE plus foreground soft Dice loss",
+    "summary": "results/formal_improved_unet.json",
+    "case_validation_summary": "results/formal_improved_unet_cases.json",
+    "notes": "FORMAL_IMPROVED_UNET.md",
+    "checkpoint_reload_exact": true,
+    "case_confusions_reproduce_pooled_validation_scores": true,
+    "validation_positive_examples_checked": 4,
+    "same_example_selection_as_formal_baseline": true,
+    "matched_baseline_configuration_verified": true,
+    "source_hashes_match_launch_snapshot": true,
+    "validation_comparison_completed": true,
+    "test_set_model_evaluation_performed": false
+  },
+  "historical_flags_note": "Completion flags inside pilot/formal_unet records describe those earlier milestones; current formal Improved U-Net progress is in formal_improved_unet.",
+  "preparation": {
+    "label_dictionary": "labels.json",
+    "label_evidence": "results/label_verification.json",
+    "manifest_report": "results/data_preparation.json",
+    "input_check": "results/preprocessing_check.json",
+    "input_size": 256,
+    "resize_mode": "pad",
+    "prostate_raw_label": 5
+  }
+}

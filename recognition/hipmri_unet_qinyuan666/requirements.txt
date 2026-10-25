@@ -1,0 +1,6 @@
+# Tested Python: 3.10.19. Install the torch build suitable for your machine.
+torch==2.5.1
+numpy==1.26.4
+matplotlib==3.10.7
+Pillow==10.4.0
+nibabel==5.3.2

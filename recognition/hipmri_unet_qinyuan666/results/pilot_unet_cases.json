@@ -1,0 +1,308 @@
+{
+  "case_count": 4,
+  "slice_count": 660,
+  "cases": [
+    {
+      "case_alias": "Case 01",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9920819314839502,
+          "iou": 0.9842882695262968,
+          "support_pixels": 2227378
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9315701930337621,
+          "iou": 0.871905844408176,
+          "support_pixels": 1309004
+        },
+        {
+          "class_index": 2,
+          "dice": 0.7757819721399734,
+          "iou": 0.6336959222011015,
+          "support_pixels": 339706
+        },
+        {
+          "class_index": 3,
+          "dice": 0.4149242883101151,
+          "iou": 0.26176938126681343,
+          "support_pixels": 28973
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8521303258145363,
+          "iou": 0.74235807860262,
+          "support_pixels": 8883
+        },
+        {
+          "class_index": 5,
+          "dice": 0.793777423214998,
+          "iou": 0.658068783068783,
+          "support_pixels": 18216
+        }
+      ],
+      "macro_foreground_dice": 0.753636840502677
+    },
+    {
+      "case_alias": "Case 02",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9988445180655378,
+          "iou": 0.9976917033261815,
+          "support_pixels": 2170758
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9631807709594564,
+          "iou": 0.9289765698604655,
+          "support_pixels": 1342149
+        },
+        {
+          "class_index": 2,
+          "dice": 0.878887039117882,
+          "iou": 0.7839415561000679,
+          "support_pixels": 334006
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9208571884361096,
+          "iou": 0.8533228211950987,
+          "support_pixels": 53304
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7986874236874237,
+          "iou": 0.6648456358785415,
+          "support_pixels": 5848
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6365802254192248,
+          "iou": 0.46689965723502924,
+          "support_pixels": 26095
+        }
+      ],
+      "macro_foreground_dice": 0.8396385295240194
+    },
+    {
+      "case_alias": "Case 03",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.996756541245334,
+          "iou": 0.9935340545181481,
+          "support_pixels": 2275436
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9120340915194958,
+          "iou": 0.8382928954026494,
+          "support_pixels": 1192889
+        },
+        {
+          "class_index": 2,
+          "dice": 0.7717772682297559,
+          "iou": 0.6283691453238202,
+          "support_pixels": 336477
+        },
+        {
+          "class_index": 3,
+          "dice": 0.5898783034317336,
+          "iou": 0.4183173018806017,
+          "support_pixels": 111189
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7655349135169763,
+          "iou": 0.6201349247535028,
+          "support_pixels": 13093
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6473737888832228,
+          "iou": 0.47860508953817155,
+          "support_pixels": 3076
+        }
+      ],
+      "macro_foreground_dice": 0.7373196731162369
+    },
+    {
+      "case_alias": "Case 04",
+      "slices": 480,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9977833650816553,
+          "iou": 0.9955765353694709,
+          "support_pixels": 17928969
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9696770811602573,
+          "iou": 0.9411389996567491,
+          "support_pixels": 11366494
+        },
+        {
+          "class_index": 2,
+          "dice": 0.8504169535702932,
+          "iou": 0.7397612170877587,
+          "support_pixels": 1824006
+        },
+        {
+          "class_index": 3,
+          "dice": 0.8692466835661752,
+          "iou": 0.7687323759594263,
+          "support_pixels": 184474
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8039676732924874,
+          "iou": 0.6721956048677071,
+          "support_pixels": 93505
+        },
+        {
+          "class_index": 5,
+          "dice": 0.7396819599359424,
+          "iou": 0.586901033248994,
+          "support_pixels": 59832
+        }
+      ],
+      "macro_foreground_dice": 0.8465980703050311
+    }
+  ],
+  "pixel_pooled": {
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9972628991868896,
+        "iou": 0.9945407409162562,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.9610718546948418,
+        "iou": 0.9250609477063997,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.8365420729716417,
+        "iou": 0.71901360035278,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.7814917926636767,
+        "iou": 0.6413512752384567,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.8037765131919297,
+        "iou": 0.6719283829952861,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.7243960275369935,
+        "iou": 0.5678847378769836,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.8214556522118167
+  },
+  "case_macro_per_class": [
+    {
+      "class_index": 0,
+      "mean_dice": 0.9963665889691193,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.9927726406850244,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 1,
+      "mean_dice": 0.9441155341682429,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.89507857733201,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 2,
+      "mean_dice": 0.8192158082644762,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.696441960178187,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 3,
+      "mean_dice": 0.6987266159360334,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.575535470075485,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 4,
+      "mean_dice": 0.8050800840778559,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.6748835610255929,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 5,
+      "mean_dice": 0.704353349363347,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.5476186407727445,
+      "defined_iou_cases": 4
+    }
+  ],
+  "prostate_case_dice": {
+    "mean": 0.704353349363347,
+    "median": 0.6935278744095826,
+    "std_population": 0.0653541168383238,
+    "min": 0.6365802254192248,
+    "max": 0.793777423214998,
+    "defined_cases": 4,
+    "undefined_cases": 0
+  },
+  "model": "unet",
+  "epoch": 1,
+  "split": "val",
+  "label_values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "prostate_raw_label": 5,
+  "prostate_class_index": 5,
+  "image_size": 256,
+  "resize_mode": "pad",
+  "batch_size": 4,
+  "device": "cuda",
+  "test_evaluated": false,
+  "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3",
+  "checkpoint_sha256": "5e265c4948b56f9c7d98d70e0e326bed513fe030e787a02146b515ae1efe77ef",
+  "evaluator_sha256": "b4ea081f38d3c3a081bedaddb1a581c23a1a4b85918799a6a90958f828b8cc06",
+  "aggregation": "Sum confusion matrices across every slice and week of each manifest patient_id (Case), then average defined Case scores equally.",
+  "empty_policy": "Both truth and prediction empty: null, excluded from mean with count reported. One empty: zero.",
+  "limitations": [
+    "Case grouping follows the adopted pseudonymous dataset convention.",
+    "Weeks are pooled within each Case; not a per-scan average or reconstructed 3D volume metric.",
+    "Metrics include the padded input grid; not physical-space boundary measurements.",
+    "Validation used for model development; not final test evidence or a clinical claim."
+  ],
+  "provenance": {
+    "evaluator_commit": "a9391290dd4f1e4aec1215d8a3a5c682fe0c766f",
+    "checkpoint_training_record": "results/pilot_unet.json",
+    "targeted_tests_passed": 5,
+    "existing_metric_tests_passed": 9,
+    "pooled_metrics_match_training_summary_exactly": true
+  }
+}

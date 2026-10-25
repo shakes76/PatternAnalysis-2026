@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "automated_suite": {
+    "tests_passed": 73,
+    "failures": 0,
+    "scope": "unittest discover -s tests -v; artificial fixtures, not clinical validation",
+    "test_source_sha256": {
+      "test_analyze_boundaries.py": "bcbe0670da62e6a2f243e408eb6c4964ea38b48f91e2662f63ac38fd2a80d14d",
+      "test_audit_course_download.py": "2d9c0bd6fa1b296edca7ae2f38d51b0403b19d09fbaced4efab798cec3fcb982",
+      "test_benchmark_cases.py": "7a747b2900c3724f246913c8fba76b1a5a967f9dc0e3325e48a6c89be775a008",
+      "test_dataset.py": "53640f6cd05036492af5098efa48f55de6aa852ddb219e2ba3ccc366bd9fcca0",
+      "test_evaluate_cases.py": "820ea3360c7e3541ce68151b8b791390f566d3e65ad71258aa9554b1ce3976a3",
+      "test_inspect_rangpur.py": "9912ae04f514de3ebcd92eb5797622059386dade0357f95da262b988e4371e54",
+      "test_metrics.py": "ea509e58166e780b362b995dfa4296f4103770605fb8710a401acb98c1d1704d",
+      "test_models.py": "75df47974262fed8d27a8deb2476239bac2ae1c23aee1b8e36644e78a4287fc8",
+      "test_predict.py": "fc4ff2940710a9a327c5218703a0e52e413030b53ed3c6b98cd3da773c61189a",
+      "test_prepare_course_manifest.py": "0a562def1b56072c0205a063475e4d42edbb7278642b3a9f7536f79888c3d422",
+      "test_preprocessing.py": "39b53e62429647150043ba2ee27fd869fc8a0818f349bbee63d6a21c900989a5",
+      "test_run_improved_experiment.py": "3a5a32a3c5be48d83b5940a8d45346e02150ea2d0abfda61a866c7a67969c627",
+      "test_train.py": "1b63b3f7a13f510de698202ff82f0ab6d5c76bbfeb54c6a35a8e45ef4737cc72"
+    }
+  },
+  "documented_synthetic_cli_train_and_predict_passed": true,
+  "frozen_test_overlap_reproduced_by_boundary_analysis": true,
+  "case_benchmark_repeated_predictions_match": true,
+  "failure_renderer_reproduces_selected_slice_dice": true,
+  "report": {
+    "pages": 14,
+    "readme_sha256": "c6bd128e83d2d455c8a8c20d1854cfc1e2e6e981eda4503ea6f1c7a563507cd7",
+    "pdf_sha256": "c1c7f7a180bbdd5fc20a208888ded54b1c6e491fbaf0aa71cb8ecc26b3ed21b3",
+    "builder_sha256": "5d8f69a623adcf416c9b94be6543c56f1d1694dbfbb3a54235ea92224e14115e",
+    "all_markdown_file_links_exist": true,
+    "pdf_text_within_page_bounds": true,
+    "historical_feasibility_text_preserved": true,
+    "failure_figures": 5
+  },
+  "limitations": [
+    "One seed and three test Cases",
+    "Physical spacing and orientation not established",
+    "No clinical validation",
+    "Turnitin upload and future reviewer responses are student actions"
+  ]
+}

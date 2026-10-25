@@ -1,0 +1,600 @@
+{
+  "split": "test",
+  "slices": 540,
+  "cases": 3,
+  "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3",
+  "checkpoints": {
+    "unet": {
+      "checkpoint_sha256": "d4dc369bcfdd279e5337c12c4e2d454e88a9a957771bb17b14e84b8813ee7fd7",
+      "epoch": 5
+    },
+    "improved_unet": {
+      "checkpoint_sha256": "7ed4f8516e1c058a5dd2b3ca1f0c6dc9b1e90ff78aa1b8f1bde20e4d15bcecae",
+      "epoch": 11
+    }
+  },
+  "tolerance_pixels": 2,
+  "distance": "Chebyshev",
+  "grid": "256x256 pad",
+  "aggregation": "Arithmetic mean of defined per-slice boundary F1; both-empty excluded, one-empty zero. Truth-positive means use the same slices for both models.",
+  "endpoint_definition": "First and last prostate-positive filename slice index within each Case/week. Annotation-transition proxy only; not verified anatomical apex/base.",
+  "small_target_definition": "1 to 100 GT prostate pixels; descriptive subgroup, not a tuned operating threshold.",
+  "models": {
+    "unet": {
+      "per_class_boundary_f1": [
+        {
+          "class_index": 1,
+          "all_slices": {
+            "mean": 0.9641547634824791,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          },
+          "truth_positive_slices": {
+            "mean": 0.9641547634824791,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 2,
+          "all_slices": {
+            "mean": 0.9389708209640977,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          },
+          "truth_positive_slices": {
+            "mean": 0.9389708209640977,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 3,
+          "all_slices": {
+            "mean": 0.9185182398217299,
+            "defined_slices": 428,
+            "undefined_slices": 112
+          },
+          "truth_positive_slices": {
+            "mean": 0.9803636075902753,
+            "defined_slices": 401,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 4,
+          "all_slices": {
+            "mean": 0.802604006885474,
+            "defined_slices": 237,
+            "undefined_slices": 303
+          },
+          "truth_positive_slices": {
+            "mean": 0.8646234074175333,
+            "defined_slices": 220,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 5,
+          "all_slices": {
+            "mean": 0.8017593055431674,
+            "defined_slices": 211,
+            "undefined_slices": 329
+          },
+          "truth_positive_slices": {
+            "mean": 0.8675446844595299,
+            "defined_slices": 195,
+            "undefined_slices": 0
+          }
+        }
+      ],
+      "prostate_subgroups": {
+        "positive": {
+          "slices": 195,
+          "boundary_f1": {
+            "mean": 0.8675446844595299,
+            "defined_slices": 195,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.7783689955508076,
+            "defined_slices": 195,
+            "undefined_slices": 0
+          }
+        },
+        "small_positive_le_100_pixels": {
+          "slices": 28,
+          "boundary_f1": {
+            "mean": 0.6146746981946347,
+            "defined_slices": 28,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.39533776642995466,
+            "defined_slices": 28,
+            "undefined_slices": 0
+          }
+        },
+        "larger_positive_gt_100_pixels": {
+          "slices": 167,
+          "boundary_f1": {
+            "mean": 0.9099420474260992,
+            "defined_slices": 167,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.8425898004333459,
+            "defined_slices": 167,
+            "undefined_slices": 0
+          }
+        },
+        "annotation_endpoints": {
+          "slices": 18,
+          "boundary_f1": {
+            "mean": 0.5251614804317781,
+            "defined_slices": 18,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.2769240461611945,
+            "defined_slices": 18,
+            "undefined_slices": 0
+          }
+        },
+        "positive_non_endpoints": {
+          "slices": 177,
+          "boundary_f1": {
+            "mean": 0.9023633153776064,
+            "defined_slices": 177,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.8293633971836496,
+            "defined_slices": 177,
+            "undefined_slices": 0
+          }
+        }
+      },
+      "prostate_absent_slices": 345,
+      "prostate_absent_with_false_positive": 16,
+      "prostate_false_positive_pixels": 8308,
+      "prostate_false_negative_pixels": 9930,
+      "prostate_predictions_on_truth_bladder_pixels": 542,
+      "prostate_predictions_on_truth_rectum_pixels": 289
+    },
+    "improved_unet": {
+      "per_class_boundary_f1": [
+        {
+          "class_index": 1,
+          "all_slices": {
+            "mean": 0.9696712524331362,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          },
+          "truth_positive_slices": {
+            "mean": 0.9696712524331362,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 2,
+          "all_slices": {
+            "mean": 0.9536155957604996,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          },
+          "truth_positive_slices": {
+            "mean": 0.9536155957604996,
+            "defined_slices": 540,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 3,
+          "all_slices": {
+            "mean": 0.926109631740436,
+            "defined_slices": 425,
+            "undefined_slices": 115
+          },
+          "truth_positive_slices": {
+            "mean": 0.9815376396251504,
+            "defined_slices": 401,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 4,
+          "all_slices": {
+            "mean": 0.843270355305366,
+            "defined_slices": 228,
+            "undefined_slices": 312
+          },
+          "truth_positive_slices": {
+            "mean": 0.8739347318619248,
+            "defined_slices": 220,
+            "undefined_slices": 0
+          }
+        },
+        {
+          "class_index": 5,
+          "all_slices": {
+            "mean": 0.781755953090923,
+            "defined_slices": 216,
+            "undefined_slices": 324
+          },
+          "truth_positive_slices": {
+            "mean": 0.865945055731484,
+            "defined_slices": 195,
+            "undefined_slices": 0
+          }
+        }
+      ],
+      "prostate_subgroups": {
+        "positive": {
+          "slices": 195,
+          "boundary_f1": {
+            "mean": 0.865945055731484,
+            "defined_slices": 195,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.7861310577801632,
+            "defined_slices": 195,
+            "undefined_slices": 0
+          }
+        },
+        "small_positive_le_100_pixels": {
+          "slices": 28,
+          "boundary_f1": {
+            "mean": 0.5925301412112136,
+            "defined_slices": 28,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.39944623383393474,
+            "defined_slices": 28,
+            "undefined_slices": 0
+          }
+        },
+        "larger_positive_gt_100_pixels": {
+          "slices": 167,
+          "boundary_f1": {
+            "mean": 0.9117870773276969,
+            "defined_slices": 167,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.8509644414358183,
+            "defined_slices": 167,
+            "undefined_slices": 0
+          }
+        },
+        "annotation_endpoints": {
+          "slices": 18,
+          "boundary_f1": {
+            "mean": 0.5079202299989098,
+            "defined_slices": 18,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.3111895865662204,
+            "defined_slices": 18,
+            "undefined_slices": 0
+          }
+        },
+        "positive_non_endpoints": {
+          "slices": 177,
+          "boundary_f1": {
+            "mean": 0.9023543600432712,
+            "defined_slices": 177,
+            "undefined_slices": 0
+          },
+          "dice": {
+            "mean": 0.834430190445988,
+            "defined_slices": 177,
+            "undefined_slices": 0
+          }
+        }
+      },
+      "prostate_absent_slices": 345,
+      "prostate_absent_with_false_positive": 21,
+      "prostate_false_positive_pixels": 8721,
+      "prostate_false_negative_pixels": 9268,
+      "prostate_predictions_on_truth_bladder_pixels": 307,
+      "prostate_predictions_on_truth_rectum_pixels": 1004
+    }
+  },
+  "pooled_overlap_check": {
+    "unet": {
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9993839832981404,
+          "iou": 0.9987687250821948,
+          "support_pixels": 20555559
+        },
+        {
+          "class_index": 1,
+          "dice": 0.983291945988741,
+          "iou": 0.9671330350038242,
+          "support_pixels": 12083597
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9284921726182023,
+          "iou": 0.8665285953971512,
+          "support_pixels": 2167899
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9637668895094638,
+          "iou": 0.9300676457377741,
+          "support_pixels": 419651
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8624877029021151,
+          "iou": 0.7582227507364666,
+          "support_pixels": 102699
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8460252600297177,
+          "iou": 0.7331401899243521,
+          "support_pixels": 60035
+        }
+      ],
+      "macro_foreground_dice": 0.9168127942096479
+    },
+    "improved_unet": {
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9994668512658074,
+          "iou": 0.9989342707238293,
+          "support_pixels": 20555559
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9847137552087619,
+          "iou": 0.9698878126840353,
+          "support_pixels": 12083597
+        },
+        {
+          "class_index": 2,
+          "dice": 0.936818996208181,
+          "iou": 0.8811472297445404,
+          "support_pixels": 2167899
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9646804480171264,
+          "iou": 0.931770723511927,
+          "support_pixels": 419651
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8691050433355061,
+          "iou": 0.7685108490525758,
+          "support_pixels": 102699
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8494934029433665,
+          "iou": 0.7383646518122055,
+          "support_pixels": 60035
+        }
+      ],
+      "macro_foreground_dice": 0.9209623291425885
+    }
+  },
+  "source_sha256": {
+    "analyze_boundaries.py": "942cc231679950d3c9ef4377edb8d94a49df840379d34c2c3b83555f193547e7",
+    "metrics.py": "fc9929c523aabe602383d5f39e4cbb2c8a9dd1bb35a7e996e7d43aaf64c5e158",
+    "dataset.py": "31111039daac26b2832244eed96e9c19728eacfdbf7df73277b7692840ec8285",
+    "modules.py": "e1be1efb5e1a389ff7c59fae0e19dc0cb77218ae97be0b30e38c8b90f4adc5ee",
+    "predict.py": "1a64134926c8c81cac06fc1b6443c5b4e2baa3b2062f22f5c096bc039b378278"
+  },
+  "examples": [
+    {
+      "example": "F1",
+      "case_alias": "Case 01",
+      "selection_reason": "Lowest Improved prostate Dice among positive slices in this Case",
+      "prostate_truth_pixels": 5,
+      "annotation_endpoint": true,
+      "models": {
+        "unet": {
+          "boundary_f1": [
+            0.9127618156205881,
+            0.8095123670889678,
+            1.0,
+            null,
+            0.0
+          ],
+          "prostate_dice": 0.0,
+          "false_positive_pixels": 0,
+          "false_negative_pixels": 5,
+          "on_bladder": 0,
+          "on_rectum": 0
+        },
+        "improved_unet": {
+          "boundary_f1": [
+            0.9375886988552072,
+            0.8552458179112571,
+            1.0,
+            null,
+            0.0
+          ],
+          "prostate_dice": 0.0,
+          "false_positive_pixels": 0,
+          "false_negative_pixels": 5,
+          "on_bladder": 0,
+          "on_rectum": 0
+        }
+      },
+      "figure": "figures/failure_F1.png"
+    },
+    {
+      "example": "F2",
+      "case_alias": "Case 02",
+      "selection_reason": "Lowest Improved prostate Dice among positive slices in this Case",
+      "prostate_truth_pixels": 3,
+      "annotation_endpoint": true,
+      "models": {
+        "unet": {
+          "boundary_f1": [
+            0.9408343279331229,
+            0.8999478442280945,
+            1.0,
+            null,
+            0.0
+          ],
+          "prostate_dice": 0.0,
+          "false_positive_pixels": 0,
+          "false_negative_pixels": 3,
+          "on_bladder": 0,
+          "on_rectum": 0
+        },
+        "improved_unet": {
+          "boundary_f1": [
+            0.9429190496117543,
+            0.9074299167952411,
+            1.0,
+            null,
+            0.0
+          ],
+          "prostate_dice": 0.0,
+          "false_positive_pixels": 0,
+          "false_negative_pixels": 3,
+          "on_bladder": 0,
+          "on_rectum": 0
+        }
+      },
+      "figure": "figures/failure_F2.png"
+    },
+    {
+      "example": "F3",
+      "case_alias": "Case 03",
+      "selection_reason": "Lowest Improved prostate Dice among positive slices in this Case",
+      "prostate_truth_pixels": 8,
+      "annotation_endpoint": true,
+      "models": {
+        "unet": {
+          "boundary_f1": [
+            0.9993112947658402,
+            0.9973799126637556,
+            1.0,
+            null,
+            0.5
+          ],
+          "prostate_dice": 0.0,
+          "false_positive_pixels": 36,
+          "false_negative_pixels": 8,
+          "on_bladder": 0,
+          "on_rectum": 0
+        },
+        "improved_unet": {
+          "boundary_f1": [
+            0.9722705540875355,
+            0.9561090080346106,
+            1.0,
+            null,
+            0.0
+          ],
+          "prostate_dice": 0.0,
+          "false_positive_pixels": 0,
+          "false_negative_pixels": 8,
+          "on_bladder": 0,
+          "on_rectum": 0
+        }
+      },
+      "figure": "figures/failure_F3.png"
+    },
+    {
+      "example": "F4",
+      "case_alias": "Case 03",
+      "selection_reason": "Largest remaining Improved false_negative_pixels",
+      "prostate_truth_pixels": 457,
+      "annotation_endpoint": false,
+      "models": {
+        "unet": {
+          "boundary_f1": [
+            0.9705532335155905,
+            0.9763618069486086,
+            1.0,
+            null,
+            0.7355669127389741
+          ],
+          "prostate_dice": 0.7496688741721854,
+          "false_positive_pixels": 15,
+          "false_negative_pixels": 174,
+          "on_bladder": 0,
+          "on_rectum": 0
+        },
+        "improved_unet": {
+          "boundary_f1": [
+            0.9795282791359419,
+            0.9881796690307328,
+            1.0,
+            null,
+            0.7012302284710018
+          ],
+          "prostate_dice": 0.739010989010989,
+          "false_positive_pixels": 2,
+          "false_negative_pixels": 188,
+          "on_bladder": 0,
+          "on_rectum": 0
+        }
+      },
+      "figure": "figures/failure_F4.png"
+    },
+    {
+      "example": "F5",
+      "case_alias": "Case 02",
+      "selection_reason": "Largest remaining Improved false_positive_pixels",
+      "prostate_truth_pixels": 97,
+      "annotation_endpoint": false,
+      "models": {
+        "unet": {
+          "boundary_f1": [
+            0.9526878971587173,
+            0.9669023422866283,
+            1.0,
+            0.0,
+            0.3304484657749803
+          ],
+          "prostate_dice": 0.47317073170731705,
+          "false_positive_pixels": 216,
+          "false_negative_pixels": 0,
+          "on_bladder": 0,
+          "on_rectum": 0
+        },
+        "improved_unet": {
+          "boundary_f1": [
+            0.9699567348630288,
+            0.9934746244049331,
+            1.0,
+            0.0,
+            0.3157894736842105
+          ],
+          "prostate_dice": 0.39835728952772076,
+          "false_positive_pixels": 293,
+          "false_negative_pixels": 0,
+          "on_bladder": 0,
+          "on_rectum": 5
+        }
+      },
+      "figure": "figures/failure_F5.png"
+    }
+  ],
+  "clinical_performance_claim": false,
+  "provenance": {
+    "analysis_commit": "b510e9e",
+    "raw_summary_sha256": "2e0d3cad0f6c80caeab20a92ec593b4321b4302f1582568ce76db8fda3e5a329",
+    "pooled_test_scores_match_exactly": true,
+    "figure_renderer": "render_failure_details.py",
+    "figure_renderer_sha256": "8c32fb9c28e2ba145450883240c3c423da584368f1e7701c586e476bdd0448f0",
+    "figure_scope": "Anonymous derived report crops; source NIfTI files and source identifiers are not distributed."
+  }
+}

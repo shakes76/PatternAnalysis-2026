@@ -1,0 +1,41 @@
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+
+# Datasets and model artifacts must stay outside Git.
+data/
+datasets/
+checkpoints/
+weights/
+runs/
+wandb/
+*.nii
+*.nii.gz
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.hdf5
+*.keras
+*.onnx
+*.safetensors
+private_data/
+manifest*.csv
+!manifest.example.csv
+
+# Keep curated report figures in a separate, tracked figures/ folder.
+Thumbs.db
+.DS_Store

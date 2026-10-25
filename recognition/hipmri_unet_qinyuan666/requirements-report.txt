@@ -1,0 +1,5 @@
+-r requirements.txt
+reportlab==4.4.4
+pypdf==6.1.1
+# Used to render the generated one-page PDF for visual inspection.
+PyMuPDF==1.26.4

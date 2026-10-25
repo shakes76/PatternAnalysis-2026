@@ -1,0 +1,16 @@
+{
+  "label_values": [0, 1, 2, 3, 4, 5],
+  "raw_label_names": {
+    "0": "Background",
+    "1": "Body",
+    "2": "Bones",
+    "3": "Bladder",
+    "4": "Rectum",
+    "5": "Prostate"
+  },
+  "prostate_raw_label": 5,
+  "prostate_class_index": 5,
+  "source_description_url": "https://data.csiro.au/dap/ws/v2/collections/52549/support/5034",
+  "evidence": "results/label_verification.json",
+  "scope": "Project dictionary adopted from the official original description and exact image/mask matches in three distinct training cases; not exhaustive anatomical reannotation."
+}

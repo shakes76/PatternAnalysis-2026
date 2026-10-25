@@ -1,0 +1,77 @@
+{
+  "scope": "local course acquisition check; no training, resplitting or anatomical validation",
+  "local_integrity_passed": true,
+  "source_manifest_or_hashes_compared": false,
+  "files_observed": 25320,
+  "compressed_file_bytes": 629732130,
+  "pairs_checked": 12660,
+  "pairs_passed": 12660,
+  "gzip_and_nifti_files_read": 25320,
+  "splits": {
+    "train": {
+      "images": 11460,
+      "masks": 11460,
+      "matched_pairs": 11460,
+      "case_groups_from_names": 31,
+      "case_week_groups": 191,
+      "slice_counts_per_case_week": {
+        "60": 191
+      }
+    },
+    "validate": {
+      "images": 660,
+      "masks": 660,
+      "matched_pairs": 660,
+      "case_groups_from_names": 4,
+      "case_week_groups": 11,
+      "slice_counts_per_case_week": {
+        "60": 11
+      }
+    },
+    "test": {
+      "images": 540,
+      "masks": 540,
+      "matched_pairs": 540,
+      "case_groups_from_names": 3,
+      "case_week_groups": 9,
+      "slice_counts_per_case_week": {
+        "60": 9
+      }
+    }
+  },
+  "case_groups_from_names": 38,
+  "case_group_overlap_counts": {
+    "train_validate": 0,
+    "train_test": 0,
+    "validate_test": 0
+  },
+  "case_groups_disjoint_by_filename": true,
+  "patient_identity_mapping_independently_verified": false,
+  "inventory_issue_counts": {},
+  "pair_error_counts": {},
+  "valid_pair_shapes": {
+    "256x128": 12600,
+    "256x144": 60
+  },
+  "image_dtypes": {
+    "float32": 12660
+  },
+  "mask_dtypes": {
+    "uint8": 12660
+  },
+  "observed_mask_values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "pairs_with_identity_affines": 12660,
+  "spatial_units_file_counts": {
+    "unknown": 25320
+  },
+  "global_label_semantics_verified": false,
+  "physical_spacing_verified": false,
+  "training_ready": false
+}

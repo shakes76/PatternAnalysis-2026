@@ -1,0 +1,31 @@
+{
+  "data_kind": "random_tensor_resource_probe",
+  "clinical_performance_claim": false,
+  "model": "improved_unet",
+  "image_size": 256,
+  "batch_size": 4,
+  "base_channels": 16,
+  "num_classes": 2,
+  "dtype": "float32",
+  "parameters": 3186342,
+  "optimizer": "Adam, lr=0.001",
+  "train_warmup": 3,
+  "train_repeats": 10,
+  "median_training_step_ms": 41.31085000699386,
+  "peak_allocated_bytes": 686405632,
+  "peak_reserved_bytes": 880803840,
+  "memory_scope": "PyTorch allocator, model/Adam states/gradients/activations; not total device VRAM",
+  "inference": {
+    "batch_size": 1,
+    "warmup": 5,
+    "repeats": 20,
+    "median_ms": 4.22410000464879,
+    "mean_ms": 4.353854998043971,
+    "scope": "model only; excludes disk I/O and preprocessing; CUDA synchronized"
+  },
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "torch": "2.5.1",
+  "cuda_runtime": "11.8",
+  "python": "3.10.19",
+  "limitations": "Tensor workload only. Two output classes. Real data I/O and multiclass cost not measured."
+}
