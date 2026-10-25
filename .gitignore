@@ -1,0 +1,16 @@
+# Datasets
+/ISIC2018/
+/ISIC2018_yolo/
+
+# macOS
+.DS_Store
+.vscode
+
+# Python
+__pycache__/
+*.pyc
+
+# Trained models and outputs
+*.pt
+*.pth
+/runs/
