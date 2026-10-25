@@ -3,7 +3,7 @@ Count unique patients in each AD_NC folder.
 
 Usage:
     python tools/count_ids.py                                  # Rangpur default
-    python tools/count_ids.py data                             # folder containing AD_NC
+    python tools/count_ids.py "/Users/ryanhuang/Documents/UQ/Sem 2 2026/COMP3710/ADNI"                             # folder containing AD_NC
     python tools/count_ids.py "path/to/AD_NC"                  # or AD_NC itself
 """
 import argparse
