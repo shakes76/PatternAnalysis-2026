@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Data, caches and model weights must never be committed
+*.nii
+*.nii.gz
+*.pt
+*.pth
+cache/
+checkpoints/
+runs/
+
+# Evaluation outputs: only the README figures are committed
+images/*.json
+images_native/
+
+# Rangpur / Slurm logs
+slurm-*.out
+logs/

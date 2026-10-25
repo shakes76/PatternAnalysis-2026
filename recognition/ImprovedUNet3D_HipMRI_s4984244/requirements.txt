@@ -1,0 +1,7 @@
+# Versions used for all reported results (Python 3.11.15, Rangpur, NVIDIA A100).
+# Install a PyTorch build matching your CUDA version first if needed.
+torch==2.13.0
+nibabel==5.4.2
+numpy==2.4.6
+scipy==1.17.1
+matplotlib==3.11.1
