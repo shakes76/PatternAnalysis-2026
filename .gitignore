@@ -14,3 +14,4 @@ __pycache__/
 *.pt
 *.pth
 /runs/
+/COMP3710_results/
