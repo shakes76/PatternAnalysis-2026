@@ -1,6 +1,6 @@
 # FLAN-T5 for Layperson Radiology Report Generation
 
-COMP3710 / COMP7710 — s4983489 — Hard difficulty
+COMP3710 — s4983489 — Hard difficulty
 
 ## Problem and Approach
 
