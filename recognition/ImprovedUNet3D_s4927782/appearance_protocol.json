@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "experiment_id": "appearance_augmentation_v2",
+  "planned_at_utc": "2026-10-26T19:06:14.182327+00:00",
+  "status_at_plan": "D0/D1/D2 and original v1 TEST have been inspected. Neither new appearance training arm nor synthetic VAL stress has run.",
+  "test_informed_design_acknowledged": true,
+  "scope": "Exploratory TRAIN/VAL appearance-robustness ablation; no new TEST evaluation, no replacement of v1.",
+  "allowed_splits": [
+    "train",
+    "validation"
+  ],
+  "manifest": "artifacts/cache64/manifest.json",
+  "cache_identity": "artifacts/cache64/cache_identity.json",
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+  "training_seed": 42,
+  "training_epochs_per_model": 30,
+  "training_conditions": {
+    "model": "improved3d",
+    "num_classes": 6,
+    "base_channels": 16,
+    "workers": 0,
+    "eval_batch_size": 32,
+    "batch_size": 1,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "clip_grad": 5.0,
+    "amp": true,
+    "class_weighting": "sqrt_inverse_frequency",
+    "training_class_voxel_counts": [
+      89486887,
+      54027990,
+      5145467,
+      905964,
+      218323,
+      161737
+    ],
+    "resolved_class_weights": [
+      0.0997283011674881,
+      0.12834788858890533,
+      0.4158969521522522,
+      0.9911574721336365,
+      2.0190560817718506,
+      2.345813274383545
+    ],
+    "max_batches": null,
+    "development_only": false,
+    "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+    "label_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "target_shape_dhw": [
+      64,
+      128,
+      128
+    ],
+    "patient_splits": {
+      "train": [
+        "B006",
+        "B038",
+        "C032",
+        "D031",
+        "G021",
+        "H007",
+        "H017",
+        "J005",
+        "K019",
+        "K042",
+        "M004",
+        "M013",
+        "M023",
+        "M036",
+        "N010",
+        "O025",
+        "R016",
+        "R024",
+        "R039",
+        "S028",
+        "S033",
+        "S035",
+        "T009",
+        "T014",
+        "V027",
+        "W012"
+      ],
+      "validation": [
+        "B040",
+        "J026",
+        "K008",
+        "K018",
+        "M030",
+        "S022"
+      ],
+      "test": [
+        "B037",
+        "L011",
+        "M015",
+        "M020",
+        "W029",
+        "W041"
+      ]
+    },
+    "seed": 42
+  },
+  "models": {
+    "seed42_reference": {
+      "kind": "frozen_v1",
+      "checkpoint": "artifacts/full_seed42/improved3d/best.pt",
+      "checkpoint_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "seed": 42,
+      "selected_epoch": 29
+    },
+    "seed43_reference": {
+      "kind": "frozen_v1",
+      "checkpoint": "artifacts/followup_seed43/improved3d/best.pt",
+      "checkpoint_sha256": "3b9cb27f01004720ebcdda377369c0fe2a488fcfe04d778cf24ff7cac3a4539e",
+      "seed": 43,
+      "selected_epoch": 27
+    },
+    "gamma_only": {
+      "kind": "appearance_arm",
+      "checkpoint": "artifacts/appearance_A1/gamma_only/best.pt",
+      "seed": 42,
+      "experiment_tag": "gamma_only"
+    },
+    "gamma_polarity": {
+      "kind": "appearance_arm",
+      "checkpoint": "artifacts/appearance_A1/gamma_polarity/best.pt",
+      "seed": 42,
+      "experiment_tag": "gamma_polarity"
+    }
+  },
+  "conditions": [
+    "clean",
+    "gamma_0.7",
+    "gamma_1.5",
+    "polarity",
+    "spatial_gain"
+  ],
+  "inference": {
+    "split": "validation",
+    "amp": true,
+    "postprocessing": "main-head hard argmax; none",
+    "saved_arrays": false
+  },
+  "augmentation": {
+    "both_arms": "Original synchronized H/W flips plus image-only signed gamma, independently keyed by case/epoch.",
+    "gamma_probability": 0.5,
+    "gamma_range_log_uniform": [
+      0.7,
+      1.5
+    ],
+    "gamma_mapping": "sign(x)*abs(x)**gamma, then clip[-5,5]; preserve input-zero locations; GT never used.",
+    "gamma_polarity_extra_probability": 0.25,
+    "polarity_mapping": "Multiply nonzero image values by -1 after same gamma; independent keyed stream, no geometric/mask change.",
+    "rng": "SHA256 of fixed policy/seed/epoch/patient-visit/stream; A and B share gamma draws and do not consume original Torch RNG.",
+    "not_claimed": "A global monotone gamma does not intentionally reverse tissue ordering. Polarity inversion is a synthetic invariance probe, not identified MRI acquisition physics."
+  },
+  "fixed_val_stress": {
+    "clean": "Unchanged frozen cache.",
+    "gamma_0.7": "Signed gamma .7 and clamp5, preserving input zeros.",
+    "gamma_1.5": "Signed gamma1.5 and clamp5, preserving input zeros.",
+    "polarity": "Multiply original cached nonzero inputs by -1.",
+    "spatial_gain": "Multiply original cached input by linearH gain .7..1.3; clamp5. Synthetic cache-space perturbation, not physical bias-field simulation."
+  },
+  "selection_metric": "Original patient-balanced foreground Dice on clean38 VAL; every epoch evaluated; ties earlier. Stress never selects epoch.",
+  "primary_comparisons": [
+    "gamma_polarity minus gamma_only patient-balanced prostate Dice on clean VAL and separately under polarity stress; retain all6 patient pairs.",
+    "Record original seed42 and43 references on the same five conditions; the two references are not new training arms."
+  ],
+  "secondary_comparisons": [
+    "Every class Dice/IoU in every condition, worst patient prostate Dice, all38 cases, all6 patient means, training curves and resources.",
+    "Describe all five stress responses without picking the best condition or calling repeated conditions independent patients."
+  ],
+  "engineering_gate": {
+    "purpose": "Only a prespecified development indication for future work, not a statistical superiority claim or replacement v1 selection.",
+    "B_clean_prostate_Dice_minus_A_min": -0.02,
+    "B_clean_foreground_Dice_minus_A_min": -0.02,
+    "B_polarity_prostate_Dice_minus_A_min": 0.05,
+    "otherwise": "Report lack of support and all negative outcomes; do not tune this recipe or evaluate M015 in response."
+  },
+  "compute": {
+    "one_gpu_sequential": true,
+    "formal_runs": 2,
+    "epochs_each": 30,
+    "train_volumes_each_epoch": 143,
+    "max_requested_walltime_hours": 1.5,
+    "preferred": "Use immediately available original Rangpur A100 environment; no duplicate cloud allocation. If queued, cloud is an authorized fallback only after both arms can run on the same verified platform.",
+    "paired_initial_state_and_runtime": "Check both new arm initial parameter SHA and runtime equality after execution; otherwise report a confound and do not claim isolated augmentation effect.",
+    "smoke": "Before full runs, each arm gets1development epoch with5TRAIN batches and2VAL cases, requiring at least one successful optimizer update. Separate output paths, never used as formal scores."
+  },
+  "limits": [
+    "Post-test motivated design; no untouched new TEST claim or proof M015 is repaired.",
+    "Same six validation patients also select checkpoints; stress variants are not new independent patients or clinical acquisition domains.",
+    "Only one paired new seed; original CE/maxpool kernels remain warn-only nondeterministic. No bitwise-isolated causal effect or population p-value.",
+    "Changing appearance can reduce clean performance; preserve all runs and conditions including failures.",
+    "Do not change labels, cached data, original model/loss/optimizer/epochs/selector, v1 scores or Release.",
+    "No extra arms, threshold/TTA/ensemble/seed searches or TEST inference in this protocol."
+  ],
+  "method_sources": [
+    {
+      "url": "https://github.com/MIC-DKFZ/nnUNet/blob/master/nnunetv2/training/nnUNetTrainer/nnUNetTrainer.py",
+      "use": "Gamma range inspiration only; signed cached-space formula is an explicit project adaptation, not nnU-Net reproduction."
+    },
+    {
+      "url": "https://arxiv.org/abs/2111.12525",
+      "use": "General appearance-randomization motivation; this simple gamma/polarity ablation does not implement or claim GIN/IPA."
+    }
+  ],
+  "required_file_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/cache_identity.py": "d1761ac39d4c3e9121a2217381545c7f5a0e08c82c9535134cb5c85617cc4e86",
+    "tools/diagnose_model_mechanism.py": "9b5cb92c85297388519daeb5665fcd7751a60f4c44f9d5ae17bea5566e8630a9",
+    "tools/diagnose_frozen_inference.py": "c8e086647a92516eaa7a0e1dcb6624cba0375ee1fffce6304fb130fd50cf8476",
+    "experiments/appearance.py": "b776ef949ec903c97cfa2b681c9c87cdce30c42bb3a9d8e1897b0281e34179a3",
+    "experiments/train_appearance.py": "55f2e2ad689979bf87a8e1c91b9c5c0bb76fe79210d848cca0583ba783c664a8",
+    "experiments/evaluate_appearance.py": "8fca64f6cc3ae0306bfda10d987b9733b099071fe45cd548fef3b855cbb07129",
+    "tests/test_appearance.py": "6de5cff1ea55830ce97a5bbd03b4605a3a4ac5d257037b661d87be3af0c7e5dd",
+    "tests/test_evaluate_appearance.py": "78ce1ad08d3b3da71d380030aaa275d7c86f8c8b0441041058a10fd10214d964",
+    "jobs/train_appearance_A1.slurm": "1dd692ff516fd7f5bd07572dec629c4b29101adecefb341ea1f99c06e41f7dc0",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a"
+  }
+}
