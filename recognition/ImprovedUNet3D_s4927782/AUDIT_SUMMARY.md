@@ -8,6 +8,13 @@ data-integrity audit.
 - Authenticated access to Rangpur and read access to the course HipMRI root.
 - `semantic_MRs` contains **211 NIfTI filenames**; `semantic_labels_only` also
   contains **211**. Equal counts alone do not establish correct pairing.
+- The subsequent strict audit matched **211 image/mask pairs from 38 anonymous
+  patient codes**. Every pair passed shape, affine, orientation and spacing
+  checks. This establishes matching grids, not anatomical registration quality.
+- Seed 3710 gives **26/6/6 patients** in train/validation/test and **143/38/30
+  volumes**, respectively. Patient lists are disjoint and cover every pair.
+- Three inspected masks contained finite integer IDs 0-5. Their anatomical
+  meanings and the remaining masks' voxel contents are not yet verified.
 - The existing `torch` environment has Python **3.11.15**, PyTorch **2.13.0**,
   NumPy **2.4.6** and Matplotlib **3.11.2**, as read from package metadata.
 - Nibabel and SciPy are not installed in that environment. A project-specific
@@ -19,12 +26,14 @@ data-integrity audit.
   the cluster's configured memory default and one CPU, matching the existing
   course workflow; this metadata is not a measurement of physical RAM.
 - The audit utility passed **seven local automated checks**.
+- The pairing/header/split audit passed **14 synthetic-data checks** on a CPU
+  node. Initial 2D/3D model checks also passed five tests and a synthetic
+  forward/backward/checkpoint roundtrip on CPU. GPU profiling is queued.
 
 ## Still to validate
 
-- Unique patient count and identities for grouping, repeated scans, exact
-  image/mask correspondence, label meanings, shapes, affines and spacing.
-- A disjoint patient split, spatial preprocessing and foreground coverage.
+- Label meanings, full voxel validation, visual image/mask registration,
+  spatial preprocessing and foreground coverage.
 - A real-data model forward/backward test, measured memory and runtime.
 - The official final deadline in Learn.UQ.
 

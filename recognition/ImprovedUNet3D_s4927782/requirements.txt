@@ -1,0 +1,8 @@
+# Versions verified in the project environment on Rangpur, 26 October 2026.
+# Install a PyTorch build compatible with the cluster driver; record CUDA in runs.
+torch==2.13.0
+numpy==2.4.6
+matplotlib==3.11.2
+nibabel==5.3.2
+scipy==1.16.3
+importlib_resources==7.1.0
