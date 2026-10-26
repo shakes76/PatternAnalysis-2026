@@ -306,14 +306,7 @@ Training defaults match the experiment table and use complete official splits. E
 
 Prediction requires the run configuration and, for adapted models, its saved `model/`. The custom input above corresponds to case 19. Use `--split validation` to generate and score validation reports; test/custom text has no ROUGE. Sampling uses the saved seed. `--output` needs a new file in an existing directory; omitting it prints the result. `--help` lists the remaining options.
 
-### Recorded Inputs and Artifacts
-
-| Input | Recorded revision |
-| --- | --- |
-| `google/flan-t5-base` | `7bcac572ce56db69c1ea7c8af255c5d7c9672fc2` |
-| BioLaySumm LaymanRRG dataset | `6783ab38f9de28c4372799346f51d3927ae7eb9a` |
-
-Formal jobs used the verified cache at `/home/Student/s4983489/comp3710-ass2/hf-cache` with `HF_HUB_OFFLINE=1` and two OpenMP/MKL threads. The commands above load by name; exact snapshot reproduction needs the recorded cache/revisions. Seed 42 alone does not guarantee identical results across environments. Single-GPU execution was tested; distributed execution was not.
+### Experiment Records
 
 Records are kept outside Git. Local paths below are relative to the repository root; remote paths are in my Rangpur account.
 
@@ -324,7 +317,7 @@ Records are kept outside Git. Local paths below are relative to the repository r
 | Remote baseline and original logs | `/home/Student/s4983489/comp3710-ass2/runs/20261003-formal/` |
 | Remote full/LoRA weights and checkpoints | `/home/Student/s4983489/comp3710-ass2/runs/20261004-epochs2/{full,lora}/` |
 
-Local copies contain metrics, configurations, complete validation predictions, 100 test outputs per method and training histories/curves where applicable. Launch records retain the source snapshot, SHA-256 manifest, environment and `requirements-freeze.txt`. Trained weights and optimizer checkpoints remain on Rangpur and are absent from a fresh clone. Datasets, caches and model weights are excluded from Git.
+Trained weights and checkpoints are stored on Rangpur and are not included in this repository.
 
 ## Artificial Intelligence Usage Disclosure
 

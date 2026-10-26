@@ -1,19 +1,15 @@
-"""Load FLAN-T5 for full fine-tuning or LoRA.
-
-LoRA integration reference: https://huggingface.co/docs/peft/quicktour
-"""
+"""Load FLAN-T5 for full fine-tuning or LoRA."""
 
 from peft import LoraConfig, TaskType, get_peft_model
 from transformers import AutoModelForSeq2SeqLM
 
 
 def load_model(model_name="google/flan-t5-base", use_lora=False):
-    """Load a fresh model instance from the specified checkpoint."""
+    """Load FLAN-T5, optionally with LoRA adapters."""
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
     if use_lora:
         # Add low-rank adapters to T5's q and v attention projections.
-        # r sets the rank, alpha scales the update, and dropout regularizes training.
         config = LoraConfig(
             task_type=TaskType.SEQ_2_SEQ_LM,
             target_modules=["q", "v"],
@@ -22,15 +18,14 @@ def load_model(model_name="google/flan-t5-base", use_lora=False):
             lora_dropout=0.05,
             bias="none",
         )
-        # PEFT freezes the base model and trains only the LoRA parameters.
+        # PEFT freezes the base weights; only the adapters remain trainable.
         model = get_peft_model(model, config)
 
-    # Without LoRA, all base model parameters remain trainable.
     return model
 
 
 def count_parameters(model):
-    """Return total and trainable parameter counts for the results table."""
+    """Return total and trainable parameter counts."""
     total = sum(parameter.numel() for parameter in model.parameters())
     trainable = sum(
         parameter.numel() for parameter in model.parameters() if parameter.requires_grad

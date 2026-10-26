@@ -1,8 +1,4 @@
-"""Run baseline evaluation, full fine-tuning or LoRA and save the results.
-
-Trainer API: https://huggingface.co/docs/transformers/main_classes/trainer
-ROUGE implementation: https://github.com/google-research/google-research/tree/master/rouge
-"""
+"""Run baseline evaluation, full fine-tuning or LoRA and save the results."""
 
 import argparse
 import json
@@ -106,7 +102,7 @@ def main():
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         eval_strategy="epoch",
         logging_strategy="epoch",
-        # Save weights, optimizer and random states after validation; keep the latest checkpoint.
+        # Keep the latest checkpoint, including optimizer and random states.
         save_strategy="epoch",
         save_total_limit=1,
         predict_with_generate=True,
@@ -114,7 +110,7 @@ def main():
         report_to=[],
         seed=args.seed,
     )
-    # Only the main process creates the new run directory; other processes wait.
+    # Create the run directory once before other processes use it.
     with training_args.main_process_first(local=False):
         if training_args.process_index == 0:
             output_dir.mkdir(parents=True)
@@ -194,7 +190,6 @@ def main():
         (output_dir / "metrics.json").write_text(
             json.dumps(metrics, indent=2), encoding="utf-8"
         )
-        # Keep source reports, complete references and predictions for error analysis.
         with (output_dir / "predictions.jsonl").open("w", encoding="utf-8") as file:
             for row, prediction in zip(raw_eval, predictions):
                 record = {

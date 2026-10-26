@@ -1,8 +1,4 @@
-"""Load a saved run and explain custom reports or official dataset examples.
-
-LoRA loading: https://huggingface.co/docs/peft/developer_guides/checkpoint
-Generation settings: https://huggingface.co/docs/transformers/main_classes/text_generation
-"""
+"""Load a saved run and generate radiology report explanations."""
 
 import argparse
 import json
@@ -19,21 +15,20 @@ from train import calculate_rouge
 
 
 def load_saved_model(run_dir, device):
-    """Reload the baseline, full model or base model with its saved LoRA adapter."""
+    """Load the baseline, full model or base model with its saved LoRA adapter."""
     run_dir = Path(run_dir)
     config = json.loads((run_dir / "run_config.json").read_text(encoding="utf-8"))
     model_dir = run_dir / "model"
     if config["mode"] == "baseline":
         model = load_model(config["model_name"])
         tokenizer = AutoTokenizer.from_pretrained(config["model_name"])
-        # Restore baseline decoding settings from the run configuration.
         model.generation_config.max_length = config["max_target_length"] + 1
         model.generation_config.num_beams = 1
         model.generation_config.do_sample = False
     else:
         tokenizer = AutoTokenizer.from_pretrained(model_dir)
         if config["mode"] == "lora":
-            # Attach the saved adapter to the original pretrained base model.
+            # LoRA adapters require the original base model.
             base_model = load_model(config["model_name"])
             model = PeftModel.from_pretrained(base_model, model_dir)
         else:
@@ -57,7 +52,7 @@ def generate_report(model, tokenizer, report, max_input_length):
     if model.device.type == "cuda":
         torch.cuda.synchronize(model.device)
     start = perf_counter()
-    # Pass saved settings explicitly so the underlying model also uses them with LoRA.
+    # Pass saved generation settings through the LoRA wrapper.
     output = model.generate(**inputs, generation_config=model.generation_config)
     if model.device.type == "cuda":
         torch.cuda.synchronize(model.device)
@@ -140,7 +135,7 @@ def main():
         "predictions": records,
     }
     if args.output is not None:
-        # Exclusive creation preserves any previously saved predictions.
+        # Avoid overwriting saved predictions.
         with Path(args.output).open("x", encoding="utf-8") as file:
             json.dump(result, file, ensure_ascii=False, indent=2)
         print(json.dumps(metrics, indent=2))
