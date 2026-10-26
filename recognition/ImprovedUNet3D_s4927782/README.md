@@ -19,8 +19,10 @@ discussed using measured failure cases.
   Its encoder/decoder and training experience are a starting point, not a new
   HipMRI experiment or evidence of 3D feasibility.
 - The personal course fork and `topic-recognition` checkout have been created.
-- Actual HipMRI filenames, patient identities, image/label pairing, label
-  meanings, spatial alignment, GPU model and peak VRAM remain to be checked.
+- The first real-data filename inventory found 211 MRI files and 211 label
+  files. See [initial measured evidence](AUDIT_SUMMARY.md).
+- Patient grouping, image/label pairing, label meanings, spatial alignment,
+  the allocated GPU and peak VRAM remain to be checked.
 - No dataset-specific success, model accuracy or resource result is claimed.
 - The author plans a tutor check-off on **28 October 2026**. The final deadline
   has not been confirmed; **30 October is only a planning assumption** and must

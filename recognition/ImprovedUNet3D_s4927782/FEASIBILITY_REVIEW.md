@@ -18,7 +18,7 @@ An imaging specialist needs draft prostate contours for review. This prototype i
 
 The Hard model will use volumetric convolutions, residual units, skip connections and deep supervision on downsampled HipMRI volumes. Relevant course concepts include convolutional spatial context, segmentation losses, generalisation and computational complexity. Isensee et al., [arXiv:1802.10508](https://arxiv.org/abs/1802.10508), is an architectural starting reference.
 
-Existing demo2 code already implements a standard 2D U-Net and offers reusable components. **The new 3D model, real HipMRI pipeline, patient metadata, GPU availability and achievable metrics have not yet been validated.** No completed data audit or training results are claimed.
+An initial Rangpur inventory found **211 MRI filenames and 211 label filenames**. The existing Python 3.11.15/PyTorch 2.13.0 environment is accessible; the course queue lists A100 nodes. The read-only audit tool passed seven software checks. Demo2 supplies a standard 2D U-Net starting point. **Pairing, patient splits, geometry, the 3D model and real-data performance remain unvalidated.** Equal file counts do not establish alignment.
 
 ## Risks, budget and next experiment
 
