@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn.functional as F
+from sklearn.metrics import roc_auc_score
 
 from dataset import CLASSES, load_patient_map, load_patient_splits, preprocess, scan_id
 from modules import build_model
@@ -29,14 +30,15 @@ from utils import (apply_threshold, classification_report, fit_temperature, reli
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CKPT = os.path.join(HERE, "checkpoints")
-RES = os.path.join(HERE, "results")
+RESULTS_IN = os.path.join(HERE, "results")  # where train.py wrote <tag>_test_metrics.json
+RES = RESULTS_IN                             # where figures / summary go (overridable with --out-dir)
 NAMES = {"convnext": "ConvNeXt-T", "baseline": "Baseline CNN"}
 COLORS = {"convnext": "#1f77b4", "baseline": "#d62728"}
 
 
 def load_run(tag):
     z = np.load(os.path.join(CKPT, f"{tag}_logits.npz"))
-    with open(os.path.join(RES, f"{tag}_test_metrics.json")) as f:
+    with open(os.path.join(RESULTS_IN, f"{tag}_test_metrics.json")) as f:
         meta = json.load(f)
     return dict(z), meta
 
@@ -278,7 +280,19 @@ def main():
     ap.add_argument("--tags", nargs="+", default=["convnext", "baseline"])
     ap.add_argument("--target-acc", type=float, default=0.95,
                     help="accepted-case accuracy the referral threshold must reach on validation")
+    ap.add_argument("--out-dir", default=None,
+                    help="write figures and summary.json here instead of results/ (e.g. for ablations)")
     args = ap.parse_args()
+    global RES
+    if args.out_dir:
+        RES = args.out_dir
+        os.makedirs(RES, exist_ok=True)
+    # tags such as "convnext_noflip" reuse the display name / colour of their architecture
+    for tag in args.tags:
+        if tag not in NAMES:
+            base = "convnext" if tag.startswith("convnext") else "baseline"
+            NAMES[tag] = f"{NAMES[base]} ({tag[len(base):].strip('_') or tag})"
+            COLORS[tag] = COLORS[base]
     device = torch.device("cuda")
 
     runs, summary = {}, {}
@@ -324,6 +338,13 @@ def main():
         conf = r["probs_ts"].max(1)
         s["mean_conf_correct"], s["mean_conf_wrong"] = float(conf[ok].mean()), float(conf[~ok].mean())
         s["wrong_with_conf_over_0.9"] = int(((~ok) & (conf > 0.9)).sum())
+        # "Does confidence track correctness?" as one number: AUROC of confidence for
+        # separating correct from wrong predictions (0.5 = confidence is useless for
+        # spotting errors, 1.0 = every error is less confident than every correct case).
+        # Temperature scaling is monotonic in the margin, so this is the same raw or scaled.
+        s["confidence_auroc_slice"] = float(roc_auc_score(ok, conf))
+        s_ok = r["subj_probs"].argmax(1) == r["subj_labels"]
+        s["confidence_auroc_scan"] = float(roc_auc_score(s_ok, r["subj_probs"].max(1)))
         summary[tag] = s
 
         # store calibration + referral rule in the checkpoint for predict.py

@@ -48,6 +48,9 @@ def parse_args():
     ap.add_argument("--warmup-epochs", type=float, default=1.0)
     ap.add_argument("--drop-path", type=float, default=0.2)
     ap.add_argument("--label-smoothing", type=float, default=0.0)
+    ap.add_argument("--hflip", type=float, default=0.5,
+                    help="horizontal-flip probability in augmentation (0 disables it; the slices are "
+                         "sagittal, so a horizontal flip swaps anterior and posterior)")
     ap.add_argument("--val-frac", type=float, default=0.1, help="fraction of patients for validation")
     ap.add_argument("--test-frac", type=float, default=0.2, help="fraction of patients for testing")
     ap.add_argument("--no-balance", action="store_true",
@@ -156,7 +159,7 @@ def main():
             for g in opt.param_groups:
                 g["lr"] = cosine_lr(step, total_steps, warmup, args.lr)
             # xb is still uint8; augmentation, resizing and normalisation happen on the GPU
-            x = gpu_augment(xb, mean, std).contiguous(memory_format=torch.channels_last)
+            x = gpu_augment(xb, mean, std, hflip=args.hflip).contiguous(memory_format=torch.channels_last)
             # bf16 autocast: matmuls/convs run in bfloat16 (about 2x faster, half the memory).
             # bf16 has the same exponent range as fp32, so no gradient scaler is needed.
             with torch.autocast("cuda", dtype=torch.bfloat16, enabled=device.type == "cuda"):
