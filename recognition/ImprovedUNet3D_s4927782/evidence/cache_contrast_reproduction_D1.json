@@ -1,0 +1,12 @@
+{
+  "diagnostic_only": true,
+  "n_cases": 189,
+  "all_case_descriptors_exactly_equal": true,
+  "old_report_sha256": "c829da792735663cc947e20f5a0014e396e7f1b58c086c674ce803c89ae538ea",
+  "new_report_sha256": "36ca9265be79b4e81c9389157777796a692bff0efdccb0fba748d0a321f8c73b",
+  "old_script_sha256": "635a153e3efb31d8402c145d7a72e9aadc16b845f80135ceb0a9b899d0ba6a07",
+  "new_script_sha256": "a79548262b632e4a5c9af11ff8688e4888a9cd27dbb0f32e47e65af56b10e247",
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "cache_identity_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+  "cache_archive_sha256": "9ec72a61e69e7ce5f40e78e2323f55ecf4f8df58b7ceb4f1019661ac15c5c3ed"
+}

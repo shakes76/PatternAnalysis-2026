@@ -109,6 +109,46 @@ record the completed integrity checks and experiments; final results are in READ
   were unused after the original queued A100 job started; no cloud training
   or hardware/software comparison is reported. The public v1 release is unchanged.
 
+## Source provenance and frozen-model investigation: 27 October 2026
+
+- D1 CPU **702061** completed in 4m30s and GPU **702062** in 14s, both exit
+  0:0. The 11 source/NiBabel, four archive-identity and 11 Torch fixtures all
+  passed on the actual cluster. Commit **a085386** recorded the diagnostic
+  methods before execution; the scope was fixed after the earlier failures.
+- All 211 course MRI gzip files match the official ZIP catalogue's byte
+  lengths/CRC32. All eight M015 masks and one TRAIN mask have whole decompressed
+  NIfTI bytes and SHA-256 identical to the official files. Their gzip-header
+  differences are not voxel corruption. This exact-content check covers nine
+  masks, not the remaining 202, and does not establish anatomical truth.
+- All 422 source headers match frozen geometry. Fourteen explicit cases were
+  inspected from source through five processing stages. M015's negative global
+  bladder-minus-Body contrast already exists in the original scaled images.
+  Independently, cached descriptors cover 143 TRAIN, 38 VAL and only the eight
+  already-examined M015 TEST visits: their Body-IQR-standardized contrast is
+  [-0.6664,-0.4615], below the TRAIN minimum -0.3318. This GT-based association
+  is not proof of a particular sequence, acquisition error or unique cause.
+- Forty-two head/target checks agree with independent nearest targets and
+  CE/Dice/weighted losses. Three selected backward checks have finite, nonzero
+  gradients in all 58 parameter tensors. M015 Week2's mean GT-prostate class-5
+  probability is 0.0274/0.0399/0.0400 at the three 3D heads, versus 0.4362 in
+  2D; the main 3D head strongly prefers Body/Bladder. These fixed-weight checks
+  do not reconstruct historical training gradients or certify all code.
+- D1 directly observed only 16/10,521 M015 prostate voxels changed by support
+  zeroing, but substantial whole-image changes left an indirect explanation.
+  Commit **b233b15** froze a single-factor D2 intervention before GPU **702134**.
+  That job completed in 1m06s, exit 0:0; all six actual fixtures and all 14
+  exact baseline reconstructions passed. Removing only final support zeroing
+  lowers 3D prostate Dice in seven/eight M015 visits, including Week2
+  0.0014514 to zero. It does not rescue the 3D failure. All original weights,
+  protected files and parameter/buffer states remain unchanged. No input
+  policy or replacement TEST result is selected from this intervention.
+- The CAN3D paper documents propagated prostate labels and N4 in its experiments,
+  but no per-case sequence/registration records establish M015-specific errors
+  or whether released images were already corrected. Appearance-related
+  generalization failure is a supported interpretation; its unique causal
+  mechanism remains unresolved. The report preserves counterexamples and the
+  original unmet target rather than concealing negative evidence.
+
 ## Remaining external requirements
 
 - The official final deadline in Learn.UQ.

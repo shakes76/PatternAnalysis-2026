@@ -311,8 +311,8 @@ outlier explanation is not consistently supported. M015 spacing is within TRAIN 
 intensity mean and standard deviation exceed TRAIN values, but MRI scale is
 arbitrary and per-case normalization removes a pure gain/offset change on
 unchanged nonzero support.
-Appearance, spatial coverage and class confusion remain investigation leads,
-**not established causes**. No acquisition-level causal audit was performed.
+The source-to-model investigation below quantifies an appearance difference
+and strong class confusion, but does **not establish an acquisition-level cause**.
 Prediction-only intermodel Dice averages 0.229 for M015; disagreement could be
 studied as a future review flag, but no detector or threshold is validated here.
 
@@ -390,6 +390,78 @@ failure. In the examined cases and recorded configurations, it rules against
 the specific checked resampling, inference-order, saved-prediction and
 inference-precision explanations. The five original
 failures and the unmet prostate target remain part of the report.
+
+### Source-to-model investigation and one-factor intervention
+
+The subsequent **D1** audit (CPU **702061**, GPU **702062**) examines original
+sources and frozen v1 computations. **D2** (**702134**) then tests one specific
+input operation suggested by D1. Both are exploratory, after the observed test
+failure. All **14** declared cases are retained: eight M015 visits, four original
+TRAIN/VAL controls, and two TRAIN cases selected after descriptive contrast
+ranking. The [anonymized evidence](evidence/source_diagnostic_review.json)
+retains the per-case results, identities, scopes and counterevidence.
+
+**Source identity and image handling.** All 211 course MRI files match the
+official ZIP's byte lengths and CRC32 values; CRC32 is an accidental-integrity
+check, not cryptographic proof. Course/official label gzip containers differ,
+but all eight M015 labels and one TRAIN control have **identical complete
+decompressed NIfTI bytes and SHA-256**. Their differences are gzip metadata,
+not changed labels. The remaining 202 label contents were not compared this way.
+All 422 source headers agree with frozen geometry. Across M015, cached GT
+prostate volume retains **98.07%–100.07%** of native physical volume; none of
+its target intensities reach the clipping boundaries. This does not certify
+the original anatomical annotations.
+
+**Measured appearance difference.** Define global contrast as the bladder
+median minus the class-1 Body median, divided by the Body IQR. In the frozen
+cache, M015's eight values are **[-0.6664, -0.4615]**, below all **143 TRAIN**
+scans (minimum **-0.3318**); all 38 VAL values are positive (minimum **0.3127**).
+M015's negative contrast is already present in the original scaled MRI,
+before normalization, and remains through all five inspected stages. Raw
+pixels were inspected for the 14 declared cases, not all 189 descriptive
+cache cases. This GT-based, global reference is neither a local boundary
+measure nor a deployable detector. Two low-contrast TRAIN controls nevertheless
+have high 3D GT-prostate probabilities (**0.778/0.971**); contrast alone is
+not a sufficient explanation, and these seen TRAIN cases are not matched unseen
+counterfactual patients.
+
+**Model behaviour.** For M015 Week2's GT prostate, mean class-5 probability is
+**0.4362** in 2D but **0.0274/0.0399/0.0400** in the 3D main/half/quarter heads.
+The main head instead assigns mean probabilities **0.5071** to Body and
+**0.4512** to Bladder. Its median class-5 margin against the strongest rival
+is **-4.7805**; class 5 ranks third or worse in **1,140/1,335** target voxels.
+The auxiliary targets still contain **167/20** prostate voxels. Independently
+computed CE/Dice/weighted losses agree within **4.77e-7/1.79e-7/1.87e-7**;
+three real-case backward checks give finite, nonzero gradients to all 58
+parameter tensors. These checks constrain current frozen computations, not
+the unrecorded historical gradients or all possible implementation defects.
+
+**Single-factor D2 check.** D1 found that final nearest-support zeroing directly
+affects only **16/10,521** M015 prostate voxels, but changes tens of thousands
+of whole-image voxels, leaving an indirect context explanation open. D2 removes
+only that operation at fixed weights in FP32, with autocast and TF32 disabled.
+Reinstating it must reproduce each baseline input exactly before inference.
+All 14 reconstructions pass; checkpoint and parameter hashes remain unchanged.
+Removing zeroing makes 3D prostate Dice **worse in seven of eight M015 visits**;
+Week2 changes from **0.0014514 to 0** (TP **1 to 0**, FP **42 to 172**).
+Week5 improves slightly (**0.1574 to 0.1693**), so the effect is not uniform.
+This intervention does not rescue the demonstrated 3D failure. It does not
+isolate GroupNorm mediation or test training from scratch with another policy.
+No new aggregate TEST benchmark or replacement input policy is selected.
+
+![Global cached contrast and fixed-weight support intervention](figures/source_model_diagnostics.png)
+
+The best-supported interpretation is **patient-specific generalization failure
+associated with a real appearance difference and strong multiscale class-5
+suppression**, not a confirmed unique cause. The original CAN3D paper describes
+LFOV T2 SPACE inputs, prostate labels propagated from SFOV T2, and N4 correction
+in its experiments [7]. No per-case sequence/registration records establish a
+M015-specific error, and whether the released MRI already received N4 is
+unknown. Neither a T1 mix-up, incorrect official label nor omitted-N4 cause
+is demonstrated. The concrete next experiment is a prespecified TRAIN/VAL
+robustness study of appearance handling, with patient-level validation and
+independent data for any later test claim; repeating the same training merely
+to obtain a better M015 score would not resolve this evidence gap.
 
 ### Completed validation robustness study
 
@@ -473,6 +545,8 @@ that test result or remove its patient-level failure.
 Next work should be planned using training/validation data: investigate spatial
 translations and intensity augmentation, improved end-region resolution or
 ROI localization, and loss/sampling choices for the tiny prostate class.
+The D1 contrast measurements prioritize an appearance-robustness experiment;
+the D2 results give no basis for adopting removal of support zeroing as a repair.
 Ablate residual blocks and deep supervision separately before attributing any
 benefit to one component. Validate prediction-only disagreement or volume-based
 review flags with independent labels and prespecified thresholds. Evaluate any
@@ -515,6 +589,24 @@ nodes with `jobs/diagnose_native_cache.slurm` and
 `jobs/diagnose_frozen_inference.slurm`; the latter names the selected test
 cases and explicitly acknowledges retrospective use. Diagnostic outputs use
 new job-specific directories and do not overwrite v1 predictions.
+
+The source/mechanism D1 jobs passed **11 source + 4 archive + 11 Torch**
+fixtures; D2 passed **6** further fixtures on the cluster, with no dependency
+skips. Their recorded scripts and pre-execution hashes are in
+`jobs/diagnose_source_inputs_D1.slurm`, `jobs/diagnose_model_mechanism_D1.slurm`,
+`jobs/diagnose_support_D2.slurm` and the two diagnostic protocol JSONs.
+The [official ZIP catalogue](evidence/official_zip_catalog_D1.json) contains
+metadata only; copy it to `artifacts/official_zip_catalog_D1.json` for the
+source-identity check. Reconstruct the all-split frozen cache before examining
+the declared TRAIN/VAL controls. `tools/describe_cache_contrast.py` reproduces
+the 189-case descriptive comparison with decoded-array identity checks.
+Its independent rerun reproduced **all 189 descriptor records exactly**;
+the [reproduction record](evidence/cache_contrast_reproduction_D1.json) retains
+the original and reusable-script identities.
+Original execution guards bind the original report bytes. For a new D2
+repetition, use `tools/diagnose_support_intervention.py` with an explicit
+`--d1-source-report` from the completed new D1 run and a fresh output directory;
+preserve the original plans and results as historical evidence.
 
 Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
 deterministic kernels are requested with warnings for unsupported operations.
@@ -676,7 +768,10 @@ chronological engineering evidence. Original experiments completed as Slurm
 and real cache rebuild), and 701590 (retrospective localization).
 Additional milestones record independent diagnosis (701739/701740), the
 post-test fixed validation robustness plan (27527d3), completed paired training
-(701767) and independent analysis (701791). The original v1 test remains unchanged.
+(701767), independent analysis (701791), source/mechanism audit (702061/702062)
+and one-factor input intervention (702134). D1/D2 plans were committed before
+their respective executions, after the earlier diagnostic observations.
+The original v1 test remains unchanged.
 
 The project belongs under `recognition/ImprovedUNet3D_s4927782` on
 `topic-recognition`. The initial submission consists of the upstream PR and a
@@ -702,6 +797,9 @@ official window; initial submission does not complete that future requirement.
    MRI Sequences*: https://doi.org/10.1016/j.ijrobp.2015.08.045.
 6. Ronneberger, O.; Fischer, P.; Brox, T. (2015), *U-Net: Convolutional Networks
    for Biomedical Image Segmentation*: https://arxiv.org/abs/1505.04597.
+7. Dai et al. (2021), *CAN3D: Fast 3D Medical Image Segmentation via Compact
+   Context Aggregation*, section 4.1 (source acquisition, annotation propagation
+   and experimental preprocessing): https://arxiv.org/abs/2109.05443.
 
 Data were provided by HipMRI Study and Calvary Mater Newcastle Hospital
 (Professor Peter Greer). Use follows the dataset's non-commercial research

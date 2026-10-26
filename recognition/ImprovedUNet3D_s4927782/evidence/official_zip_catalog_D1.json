@@ -1,0 +1,4298 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-26T17:52:05.326323+00:00",
+  "source_kind": "Official CSIRO ZIP central-directory metadata, fetched with bounded HTTP Range requests",
+  "official_collection_url": "https://data.csiro.au/collection/csiro:51392",
+  "official_metadata_url": "https://data.csiro.au/dap/ws/v2/collections/52549",
+  "official_file_listing_url": "https://data.csiro.au/dap/ws/v2/collections/52549/data",
+  "official_archive_url": "https://data.csiro.au/dap/ws/v2/collections/52549/data/58895460",
+  "archive": {
+    "filename": "HipMRI_study_complete_release_v1.zip",
+    "file_id": 58895460,
+    "bytes": 1373932069,
+    "listing_last_updated": "2021-07-28T11:09:48.000+10:00",
+    "http_headers": {
+      "ETag": "\"c199e658ce2bedb268234765a62f8640-263\"",
+      "Content-MD5": null,
+      "Last-Modified": "Fri, 19 May 2023 06:34:53 GMT",
+      "Accept-Ranges": "bytes",
+      "x-amz-meta-md5": null,
+      "x-amz-meta-sha256": null
+    },
+    "etag_interpretation": "Opaque multipart ETag ending -263; not the archive MD5/SHA256. No Content-MD5 or custom MD5/SHA256 header was provided."
+  },
+  "version_identity": {
+    "collection_metadata_version": 2,
+    "data_version_number": 1,
+    "version_1_collection_id": 51392,
+    "version_2_collection_id": 52549,
+    "note": "Official v1/v2 /data list the same file ID 58895460, filename, byte length and lastUpdated; v2 metadata is not evidence of replacement/corrected MRI payloads."
+  },
+  "central_directory": {
+    "offset": 1373876140,
+    "bytes": 55907,
+    "sha256": "bbc0ee41e6ebdf13a9de3b29ede3b32ee61743d7073f6ea096a88f2c28bef5c2",
+    "entry_count": 424,
+    "non_directory_entries": 422,
+    "metadata_bytes_read_for_this_catalog": 55929,
+    "mri_file_payload_bytes_read_for_this_catalog": 0
+  },
+  "coverage": {
+    "directories": [
+      "semantic_MRs_anon/",
+      "semantic_labels_anon/"
+    ],
+    "nifti_gz_count": 422,
+    "sfov_transform_or_case_metadata_files": [],
+    "note": "All 422 non-directory entries are .nii.gz LFOV images or semantic labels; no SFOV, registration transforms, CSV/JSON case-specific sequence table or README is listed inside this archive."
+  },
+  "identity_limits": [
+    "Each entry CRC32 is for the ZIP-uncompressed file payload, i.e. the .nii.gz bytes, not decoded NIfTI voxel arrays. CRC32 is not a cryptographic identity proof.",
+    "Mapping official Case_015 to course M015 (and other numeric suffixes/visits) is only a candidate until content is checked. Names, numeric IDs and matching counts alone do not prove identity.",
+    "A mismatch in .nii.gz byte count/CRC32 does not establish a voxel error: gzip metadata, NIfTI headers or anonymization may differ. Decoded-array/geometry comparison would then be required.",
+    "No MRI, label voxel payload, temporary presigned URL, credentials or connection metadata is saved in this catalog.",
+    "The official intended acquisition is LFOV T2 SPACE according to the primary paper; this file list provides no per-case TR/TE/SeriesDescription. Dark bladder appearance alone does not establish T1 contamination or M015 failure causality."
+  ],
+  "entries": [
+    {
+      "filename": "semantic_labels_anon/",
+      "uncompressed_bytes": 0,
+      "compressed_bytes": 0,
+      "crc32": "00000000",
+      "header_offset": 0,
+      "compression_method": 0,
+      "general_purpose_flags": 0,
+      "is_directory": true
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 423475,
+      "compressed_bytes": 349405,
+      "crc32": "7400a241",
+      "header_offset": 51,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 426624,
+      "compressed_bytes": 352720,
+      "crc32": "ab678128",
+      "header_offset": 349542,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 436494,
+      "compressed_bytes": 363414,
+      "crc32": "48409088",
+      "header_offset": 702348,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 408658,
+      "compressed_bytes": 330333,
+      "crc32": "b7803244",
+      "header_offset": 1065848,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 447054,
+      "compressed_bytes": 375863,
+      "crc32": "17e6b946",
+      "header_offset": 1396267,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 419570,
+      "compressed_bytes": 343837,
+      "crc32": "e7d48a5e",
+      "header_offset": 1772216,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 399291,
+      "compressed_bytes": 316574,
+      "crc32": "a8826c83",
+      "header_offset": 2116139,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_004_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 400163,
+      "compressed_bytes": 318646,
+      "crc32": "37c785d2",
+      "header_offset": 2432799,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_005_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 418160,
+      "compressed_bytes": 326932,
+      "crc32": "bd02c1d9",
+      "header_offset": 2751531,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_005_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 378885,
+      "compressed_bytes": 288325,
+      "crc32": "954d9139",
+      "header_offset": 3078549,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_005_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384228,
+      "compressed_bytes": 292612,
+      "crc32": "984ce2a9",
+      "header_offset": 3366960,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_005_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 374134,
+      "compressed_bytes": 284418,
+      "crc32": "8a1fb2ec",
+      "header_offset": 3659658,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_005_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 383908,
+      "compressed_bytes": 293994,
+      "crc32": "c17d015b",
+      "header_offset": 3944162,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_006_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388831,
+      "compressed_bytes": 300966,
+      "crc32": "a179bea3",
+      "header_offset": 4238242,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_006_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 396661,
+      "compressed_bytes": 306970,
+      "crc32": "b78066e8",
+      "header_offset": 4539294,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_007_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 404487,
+      "compressed_bytes": 314426,
+      "crc32": "cf4b93e0",
+      "header_offset": 4846350,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_008_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 396814,
+      "compressed_bytes": 312580,
+      "crc32": "87246bc3",
+      "header_offset": 5160862,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_009_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 426869,
+      "compressed_bytes": 340975,
+      "crc32": "ccfa43e4",
+      "header_offset": 5473528,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 446067,
+      "compressed_bytes": 370851,
+      "crc32": "9904d386",
+      "header_offset": 5814589,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 415771,
+      "compressed_bytes": 332739,
+      "crc32": "efa44b59",
+      "header_offset": 6185526,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 394508,
+      "compressed_bytes": 310033,
+      "crc32": "018cc4be",
+      "header_offset": 6518351,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 429281,
+      "compressed_bytes": 350209,
+      "crc32": "b04fac3a",
+      "header_offset": 6828470,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 407667,
+      "compressed_bytes": 324594,
+      "crc32": "a0c96c42",
+      "header_offset": 7178765,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 430709,
+      "compressed_bytes": 350118,
+      "crc32": "f14d551e",
+      "header_offset": 7503445,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 398880,
+      "compressed_bytes": 315413,
+      "crc32": "2c04964f",
+      "header_offset": 7853649,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_010_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 391107,
+      "compressed_bytes": 305992,
+      "crc32": "d6c3f00f",
+      "header_offset": 8169148,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 398363,
+      "compressed_bytes": 311070,
+      "crc32": "7a889afe",
+      "header_offset": 8475226,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 393179,
+      "compressed_bytes": 306510,
+      "crc32": "8cb54c4b",
+      "header_offset": 8786382,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382963,
+      "compressed_bytes": 294254,
+      "crc32": "87707ee7",
+      "header_offset": 9092978,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382576,
+      "compressed_bytes": 293533,
+      "crc32": "f6367101",
+      "header_offset": 9387318,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 386941,
+      "compressed_bytes": 298377,
+      "crc32": "5462edd2",
+      "header_offset": 9680937,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385802,
+      "compressed_bytes": 299258,
+      "crc32": "f08bd648",
+      "header_offset": 9979400,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382985,
+      "compressed_bytes": 296056,
+      "crc32": "2c39bd3d",
+      "header_offset": 10278744,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_011_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 395627,
+      "compressed_bytes": 308848,
+      "crc32": "e0393b55",
+      "header_offset": 10574886,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 400369,
+      "compressed_bytes": 313919,
+      "crc32": "e481ca0e",
+      "header_offset": 10883820,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 404200,
+      "compressed_bytes": 319409,
+      "crc32": "830967a0",
+      "header_offset": 11197825,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 404298,
+      "compressed_bytes": 320824,
+      "crc32": "2d00022c",
+      "header_offset": 11517320,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382135,
+      "compressed_bytes": 293772,
+      "crc32": "143576c8",
+      "header_offset": 11838230,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 406597,
+      "compressed_bytes": 321280,
+      "crc32": "4a37f547",
+      "header_offset": 12132088,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 386553,
+      "compressed_bytes": 300499,
+      "crc32": "15ccd0bc",
+      "header_offset": 12453454,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 386413,
+      "compressed_bytes": 301297,
+      "crc32": "943b6716",
+      "header_offset": 12754039,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_012_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384672,
+      "compressed_bytes": 297678,
+      "crc32": "650b8f4c",
+      "header_offset": 13055422,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 402817,
+      "compressed_bytes": 322341,
+      "crc32": "3ce50393",
+      "header_offset": 13353186,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 389595,
+      "compressed_bytes": 303038,
+      "crc32": "1042b318",
+      "header_offset": 13675613,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387800,
+      "compressed_bytes": 302264,
+      "crc32": "1111877d",
+      "header_offset": 13978737,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384254,
+      "compressed_bytes": 295108,
+      "crc32": "c0ebd377",
+      "header_offset": 14281087,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384723,
+      "compressed_bytes": 295513,
+      "crc32": "e37ed6cb",
+      "header_offset": 14576281,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379994,
+      "compressed_bytes": 291190,
+      "crc32": "0f8ba510",
+      "header_offset": 14871880,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 403960,
+      "compressed_bytes": 316351,
+      "crc32": "c75562e3",
+      "header_offset": 15163156,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_013_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 392994,
+      "compressed_bytes": 304550,
+      "crc32": "09e47ec9",
+      "header_offset": 15479593,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384159,
+      "compressed_bytes": 293147,
+      "crc32": "60709ef9",
+      "header_offset": 15784229,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 406137,
+      "compressed_bytes": 320194,
+      "crc32": "07b0b89c",
+      "header_offset": 16077462,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385600,
+      "compressed_bytes": 299012,
+      "crc32": "efc8736d",
+      "header_offset": 16397742,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387403,
+      "compressed_bytes": 303271,
+      "crc32": "6db9a6d6",
+      "header_offset": 16696840,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387106,
+      "compressed_bytes": 302306,
+      "crc32": "15cc4221",
+      "header_offset": 17000197,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 393670,
+      "compressed_bytes": 309308,
+      "crc32": "e2ababcf",
+      "header_offset": 17302589,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385673,
+      "compressed_bytes": 299952,
+      "crc32": "af6db2d1",
+      "header_offset": 17611983,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_014_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 383608,
+      "compressed_bytes": 297585,
+      "crc32": "36b5b269",
+      "header_offset": 17912021,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388860,
+      "compressed_bytes": 312855,
+      "crc32": "98748e6e",
+      "header_offset": 18209692,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 395183,
+      "compressed_bytes": 320131,
+      "crc32": "0fe160e2",
+      "header_offset": 18522633,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 392737,
+      "compressed_bytes": 316606,
+      "crc32": "d72eebc7",
+      "header_offset": 18842850,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387683,
+      "compressed_bytes": 309359,
+      "crc32": "40d3cb9c",
+      "header_offset": 19159542,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 402278,
+      "compressed_bytes": 327202,
+      "crc32": "66bcf209",
+      "header_offset": 19468987,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 412999,
+      "compressed_bytes": 341633,
+      "crc32": "6dc1b961",
+      "header_offset": 19796275,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 400173,
+      "compressed_bytes": 327280,
+      "crc32": "4c7da9e5",
+      "header_offset": 20137994,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_015_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384667,
+      "compressed_bytes": 310061,
+      "crc32": "e3c32e48",
+      "header_offset": 20465360,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 399649,
+      "compressed_bytes": 318185,
+      "crc32": "ef7b0ccc",
+      "header_offset": 20775507,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382991,
+      "compressed_bytes": 299776,
+      "crc32": "801f44fd",
+      "header_offset": 21093778,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 365479,
+      "compressed_bytes": 282572,
+      "crc32": "e43bb02b",
+      "header_offset": 21393640,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379884,
+      "compressed_bytes": 298974,
+      "crc32": "f5678f1c",
+      "header_offset": 21676298,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384547,
+      "compressed_bytes": 303181,
+      "crc32": "e9148baa",
+      "header_offset": 21975358,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 380220,
+      "compressed_bytes": 297722,
+      "crc32": "085ee506",
+      "header_offset": 22278625,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 374074,
+      "compressed_bytes": 290991,
+      "crc32": "c7a89f0a",
+      "header_offset": 22576433,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_016_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388664,
+      "compressed_bytes": 306598,
+      "crc32": "1c3211f6",
+      "header_offset": 22867510,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 410596,
+      "compressed_bytes": 326377,
+      "crc32": "48fa79e8",
+      "header_offset": 23174194,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387007,
+      "compressed_bytes": 295624,
+      "crc32": "6f017eea",
+      "header_offset": 23500657,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 381961,
+      "compressed_bytes": 290603,
+      "crc32": "f329e276",
+      "header_offset": 23796367,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 383486,
+      "compressed_bytes": 292982,
+      "crc32": "5936012a",
+      "header_offset": 24087056,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 377088,
+      "compressed_bytes": 285421,
+      "crc32": "93e042df",
+      "header_offset": 24380124,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 371003,
+      "compressed_bytes": 280037,
+      "crc32": "b9b5fc2a",
+      "header_offset": 24665631,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 374452,
+      "compressed_bytes": 282840,
+      "crc32": "fa825372",
+      "header_offset": 24945754,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_017_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 377229,
+      "compressed_bytes": 286311,
+      "crc32": "0dd22c8e",
+      "header_offset": 25228680,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384583,
+      "compressed_bytes": 296832,
+      "crc32": "e51da10b",
+      "header_offset": 25515077,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 375566,
+      "compressed_bytes": 289652,
+      "crc32": "9fcac2cb",
+      "header_offset": 25811995,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 367358,
+      "compressed_bytes": 277206,
+      "crc32": "ed9cc56d",
+      "header_offset": 26101733,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 374051,
+      "compressed_bytes": 284124,
+      "crc32": "3277b77b",
+      "header_offset": 26379025,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 363392,
+      "compressed_bytes": 272150,
+      "crc32": "1d277d0e",
+      "header_offset": 26663235,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 362094,
+      "compressed_bytes": 271922,
+      "crc32": "703c8c3c",
+      "header_offset": 26935471,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 362146,
+      "compressed_bytes": 271139,
+      "crc32": "3b70e542",
+      "header_offset": 27207479,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_018_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 362943,
+      "compressed_bytes": 271280,
+      "crc32": "154da0e7",
+      "header_offset": 27478704,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 413397,
+      "compressed_bytes": 332078,
+      "crc32": "91f0dd20",
+      "header_offset": 27750070,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 450349,
+      "compressed_bytes": 359460,
+      "crc32": "3aad74e3",
+      "header_offset": 28082234,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 409726,
+      "compressed_bytes": 329354,
+      "crc32": "66eb1d0b",
+      "header_offset": 28441780,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 386736,
+      "compressed_bytes": 301238,
+      "crc32": "7fd6671b",
+      "header_offset": 28771220,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 413672,
+      "compressed_bytes": 333084,
+      "crc32": "6479b7db",
+      "header_offset": 29072544,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 413519,
+      "compressed_bytes": 332668,
+      "crc32": "c3046719",
+      "header_offset": 29405714,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 404343,
+      "compressed_bytes": 324979,
+      "crc32": "36d797a9",
+      "header_offset": 29738468,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_019_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 401331,
+      "compressed_bytes": 320859,
+      "crc32": "a6d4fd5b",
+      "header_offset": 30063533,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_020_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379706,
+      "compressed_bytes": 287970,
+      "crc32": "687a5e7d",
+      "header_offset": 30384478,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_020_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 373255,
+      "compressed_bytes": 284752,
+      "crc32": "0810b484",
+      "header_offset": 30672534,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_020_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 372501,
+      "compressed_bytes": 282447,
+      "crc32": "a3ed8245",
+      "header_offset": 30957372,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_020_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379594,
+      "compressed_bytes": 289558,
+      "crc32": "f41a141f",
+      "header_offset": 31239905,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 395155,
+      "compressed_bytes": 302998,
+      "crc32": "9002856b",
+      "header_offset": 31529549,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382592,
+      "compressed_bytes": 288706,
+      "crc32": "b1f62af8",
+      "header_offset": 31832633,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 377631,
+      "compressed_bytes": 282437,
+      "crc32": "0bd4bacb",
+      "header_offset": 32121425,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385800,
+      "compressed_bytes": 291797,
+      "crc32": "03047bfa",
+      "header_offset": 32403948,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 397155,
+      "compressed_bytes": 301623,
+      "crc32": "6acbcd7b",
+      "header_offset": 32695831,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385581,
+      "compressed_bytes": 292414,
+      "crc32": "d6d5acbf",
+      "header_offset": 32997540,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 380629,
+      "compressed_bytes": 286686,
+      "crc32": "3e37f22d",
+      "header_offset": 33290040,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_021_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 394918,
+      "compressed_bytes": 299778,
+      "crc32": "a4531ff3",
+      "header_offset": 33576812,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 398145,
+      "compressed_bytes": 315539,
+      "crc32": "21a78b21",
+      "header_offset": 33876676,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 407397,
+      "compressed_bytes": 330008,
+      "crc32": "7b46d78e",
+      "header_offset": 34192301,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385069,
+      "compressed_bytes": 303416,
+      "crc32": "3f386774",
+      "header_offset": 34522395,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 395314,
+      "compressed_bytes": 316617,
+      "crc32": "82175db5",
+      "header_offset": 34825897,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 399161,
+      "compressed_bytes": 322000,
+      "crc32": "c087ddda",
+      "header_offset": 35142600,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 413463,
+      "compressed_bytes": 336647,
+      "crc32": "9dd4669b",
+      "header_offset": 35464686,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 428563,
+      "compressed_bytes": 354595,
+      "crc32": "bba7bf8d",
+      "header_offset": 35801419,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_022_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 399158,
+      "compressed_bytes": 320253,
+      "crc32": "e7a6ac36",
+      "header_offset": 36156100,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_023_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 426458,
+      "compressed_bytes": 338650,
+      "crc32": "3d7e117c",
+      "header_offset": 36476439,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 394978,
+      "compressed_bytes": 315217,
+      "crc32": "3d1cd728",
+      "header_offset": 36815175,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387188,
+      "compressed_bytes": 308368,
+      "crc32": "848ce524",
+      "header_offset": 37130478,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 392470,
+      "compressed_bytes": 313033,
+      "crc32": "1aacf3f4",
+      "header_offset": 37438932,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 393181,
+      "compressed_bytes": 313389,
+      "crc32": "13c6302d",
+      "header_offset": 37752051,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 393911,
+      "compressed_bytes": 314845,
+      "crc32": "25e663cf",
+      "header_offset": 38065526,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388788,
+      "compressed_bytes": 306859,
+      "crc32": "2cd37b6f",
+      "header_offset": 38380457,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 423273,
+      "compressed_bytes": 350524,
+      "crc32": "a1611917",
+      "header_offset": 38687402,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_024_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 398113,
+      "compressed_bytes": 317679,
+      "crc32": "a4d4d5f3",
+      "header_offset": 39038012,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 424091,
+      "compressed_bytes": 349246,
+      "crc32": "d056f3b9",
+      "header_offset": 39355777,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382544,
+      "compressed_bytes": 300406,
+      "crc32": "193d3db6",
+      "header_offset": 39705109,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379047,
+      "compressed_bytes": 297217,
+      "crc32": "41152197",
+      "header_offset": 40005601,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 392801,
+      "compressed_bytes": 311252,
+      "crc32": "ad4217b4",
+      "header_offset": 40302904,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 390252,
+      "compressed_bytes": 311101,
+      "crc32": "0d74b7dc",
+      "header_offset": 40614242,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 390829,
+      "compressed_bytes": 310317,
+      "crc32": "bd29ef6e",
+      "header_offset": 40925429,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 411515,
+      "compressed_bytes": 335593,
+      "crc32": "2c3f5f2e",
+      "header_offset": 41235832,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_025_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 397855,
+      "compressed_bytes": 319728,
+      "crc32": "cfbc7b5f",
+      "header_offset": 41571511,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 430910,
+      "compressed_bytes": 350894,
+      "crc32": "b310750a",
+      "header_offset": 41891325,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 415894,
+      "compressed_bytes": 330989,
+      "crc32": "77b3403e",
+      "header_offset": 42242305,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 394917,
+      "compressed_bytes": 307619,
+      "crc32": "938edc9a",
+      "header_offset": 42573380,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 396850,
+      "compressed_bytes": 312087,
+      "crc32": "6996dc7d",
+      "header_offset": 42881085,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 397344,
+      "compressed_bytes": 311331,
+      "crc32": "e5979735",
+      "header_offset": 43193258,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 421267,
+      "compressed_bytes": 336240,
+      "crc32": "efacb3a0",
+      "header_offset": 43504675,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 408072,
+      "compressed_bytes": 323969,
+      "crc32": "1d3879f5",
+      "header_offset": 43841001,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_026_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 399897,
+      "compressed_bytes": 312749,
+      "crc32": "d06bdab0",
+      "header_offset": 44165056,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 417557,
+      "compressed_bytes": 333360,
+      "crc32": "b9ee61da",
+      "header_offset": 44477891,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387398,
+      "compressed_bytes": 301609,
+      "crc32": "70ddcb9b",
+      "header_offset": 44811337,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 389387,
+      "compressed_bytes": 304831,
+      "crc32": "19049362",
+      "header_offset": 45113032,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388055,
+      "compressed_bytes": 300936,
+      "crc32": "bec1e1a9",
+      "header_offset": 45417949,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 403161,
+      "compressed_bytes": 316896,
+      "crc32": "917e59cc",
+      "header_offset": 45718971,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 400464,
+      "compressed_bytes": 313477,
+      "crc32": "2ecc9bf4",
+      "header_offset": 46035953,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385109,
+      "compressed_bytes": 298172,
+      "crc32": "70e910be",
+      "header_offset": 46349516,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_027_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 392896,
+      "compressed_bytes": 306964,
+      "crc32": "1fa0f3f0",
+      "header_offset": 46647774,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_028_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 419732,
+      "compressed_bytes": 340477,
+      "crc32": "ced4d11a",
+      "header_offset": 46954824,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 403732,
+      "compressed_bytes": 322400,
+      "crc32": "1575ffae",
+      "header_offset": 47295387,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 383462,
+      "compressed_bytes": 298522,
+      "crc32": "124f92de",
+      "header_offset": 47617873,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379304,
+      "compressed_bytes": 293936,
+      "crc32": "16f8ff01",
+      "header_offset": 47916481,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388772,
+      "compressed_bytes": 305485,
+      "crc32": "73e262de",
+      "header_offset": 48210503,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 401118,
+      "compressed_bytes": 317049,
+      "crc32": "332ada08",
+      "header_offset": 48516074,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 391005,
+      "compressed_bytes": 307045,
+      "crc32": "66b89fc1",
+      "header_offset": 48833209,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384347,
+      "compressed_bytes": 301340,
+      "crc32": "31e7885b",
+      "header_offset": 49140340,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_029_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 392753,
+      "compressed_bytes": 309546,
+      "crc32": "21cd69cb",
+      "header_offset": 49441766,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_030_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 386250,
+      "compressed_bytes": 304166,
+      "crc32": "4ac2f974",
+      "header_offset": 49751398,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_030_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 381601,
+      "compressed_bytes": 298329,
+      "crc32": "1072bcb2",
+      "header_offset": 50055650,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_030_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 373433,
+      "compressed_bytes": 289092,
+      "crc32": "449f67a3",
+      "header_offset": 50354065,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_030_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388767,
+      "compressed_bytes": 304865,
+      "crc32": "aa783eb7",
+      "header_offset": 50643243,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_030_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 390254,
+      "compressed_bytes": 305350,
+      "crc32": "e242fecf",
+      "header_offset": 50948194,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_030_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 400174,
+      "compressed_bytes": 315147,
+      "crc32": "c3d28a41",
+      "header_offset": 51253630,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387704,
+      "compressed_bytes": 303885,
+      "crc32": "696d3bac",
+      "header_offset": 51568863,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 381141,
+      "compressed_bytes": 293503,
+      "crc32": "978ab4cc",
+      "header_offset": 51872834,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 382702,
+      "compressed_bytes": 295729,
+      "crc32": "433e4137",
+      "header_offset": 52166423,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 385397,
+      "compressed_bytes": 298961,
+      "crc32": "24346364",
+      "header_offset": 52462238,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379000,
+      "compressed_bytes": 291201,
+      "crc32": "b3433117",
+      "header_offset": 52761285,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 395045,
+      "compressed_bytes": 308014,
+      "crc32": "bba46913",
+      "header_offset": 53052572,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387615,
+      "compressed_bytes": 299914,
+      "crc32": "ea1e7204",
+      "header_offset": 53360672,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_031_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 379209,
+      "compressed_bytes": 290985,
+      "crc32": "f95a3823",
+      "header_offset": 53660672,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 420682,
+      "compressed_bytes": 335497,
+      "crc32": "7ea77aa3",
+      "header_offset": 53951743,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 407318,
+      "compressed_bytes": 320008,
+      "crc32": "97d5a7b4",
+      "header_offset": 54287326,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 395946,
+      "compressed_bytes": 308940,
+      "crc32": "5c853a07",
+      "header_offset": 54607420,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387805,
+      "compressed_bytes": 299176,
+      "crc32": "aa18f09d",
+      "header_offset": 54916446,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 390517,
+      "compressed_bytes": 303826,
+      "crc32": "bca394f2",
+      "header_offset": 55215708,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 391110,
+      "compressed_bytes": 302561,
+      "crc32": "25bf99b6",
+      "header_offset": 55519620,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 388668,
+      "compressed_bytes": 299376,
+      "crc32": "9983951a",
+      "header_offset": 55822267,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_032_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 390558,
+      "compressed_bytes": 302789,
+      "crc32": "8ce7229a",
+      "header_offset": 56121729,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 420896,
+      "compressed_bytes": 346222,
+      "crc32": "471d8937",
+      "header_offset": 56424604,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 427802,
+      "compressed_bytes": 354963,
+      "crc32": "75ae9734",
+      "header_offset": 56770912,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 424023,
+      "compressed_bytes": 350046,
+      "crc32": "a07fb3fa",
+      "header_offset": 57125961,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 422939,
+      "compressed_bytes": 349284,
+      "crc32": "29df7f1c",
+      "header_offset": 57476093,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 415596,
+      "compressed_bytes": 340418,
+      "crc32": "3447281e",
+      "header_offset": 57825463,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 413276,
+      "compressed_bytes": 337753,
+      "crc32": "b6c2108d",
+      "header_offset": 58165967,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 404254,
+      "compressed_bytes": 328523,
+      "crc32": "5f588168",
+      "header_offset": 58503806,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_033_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 409179,
+      "compressed_bytes": 334938,
+      "crc32": "bb0bedec",
+      "header_offset": 58832415,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_035_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 384328,
+      "compressed_bytes": 300447,
+      "crc32": "794f6939",
+      "header_offset": 59167439,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_036_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 421214,
+      "compressed_bytes": 337715,
+      "crc32": "6c82b92a",
+      "header_offset": 59467972,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_037_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 424598,
+      "compressed_bytes": 340579,
+      "crc32": "af1c155c",
+      "header_offset": 59805773,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_038_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 439517,
+      "compressed_bytes": 352317,
+      "crc32": "29e01c82",
+      "header_offset": 60146438,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 406246,
+      "compressed_bytes": 323315,
+      "crc32": "89a01443",
+      "header_offset": 60498841,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 414237,
+      "compressed_bytes": 333606,
+      "crc32": "89c5a3e9",
+      "header_offset": 60822242,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 389445,
+      "compressed_bytes": 307983,
+      "crc32": "82b990ed",
+      "header_offset": 61155934,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 394281,
+      "compressed_bytes": 313410,
+      "crc32": "65759877",
+      "header_offset": 61464003,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 394694,
+      "compressed_bytes": 314562,
+      "crc32": "5267f63a",
+      "header_offset": 61777499,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 394107,
+      "compressed_bytes": 311471,
+      "crc32": "11f6f601",
+      "header_offset": 62092147,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week6_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 401603,
+      "compressed_bytes": 322973,
+      "crc32": "85e8aa23",
+      "header_offset": 62403704,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_039_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 397316,
+      "compressed_bytes": 318307,
+      "crc32": "04b99225",
+      "header_offset": 62726763,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_040_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 421249,
+      "compressed_bytes": 336456,
+      "crc32": "eb9132c7",
+      "header_offset": 63045156,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_040_Week1_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 393326,
+      "compressed_bytes": 305475,
+      "crc32": "1179d822",
+      "header_offset": 63381698,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_040_Week2_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 390270,
+      "compressed_bytes": 302875,
+      "crc32": "d70fc40d",
+      "header_offset": 63687259,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_040_Week3_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 386135,
+      "compressed_bytes": 299434,
+      "crc32": "54d486bb",
+      "header_offset": 63990220,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_040_Week4_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 378971,
+      "compressed_bytes": 289452,
+      "crc32": "bead8953",
+      "header_offset": 64289740,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_040_Week5_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 377032,
+      "compressed_bytes": 288663,
+      "crc32": "dba15a20",
+      "header_offset": 64579278,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_040_Week7_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 387817,
+      "compressed_bytes": 299389,
+      "crc32": "1fb2492f",
+      "header_offset": 64868027,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_041_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 395265,
+      "compressed_bytes": 307021,
+      "crc32": "fb39e45b",
+      "header_offset": 65167502,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_labels_anon/Case_042_Week0_SEMANTIC_LFOV.nii.gz",
+      "uncompressed_bytes": 409879,
+      "compressed_bytes": 335654,
+      "crc32": "f5bb5911",
+      "header_offset": 65474609,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/",
+      "uncompressed_bytes": 0,
+      "compressed_bytes": 0,
+      "crc32": "00000000",
+      "header_offset": 65810349,
+      "compression_method": 0,
+      "general_purpose_flags": 0,
+      "is_directory": true
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 7626385,
+      "compressed_bytes": 7563163,
+      "crc32": "b2dfcbe8",
+      "header_offset": 65810397,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 7867437,
+      "compressed_bytes": 7803674,
+      "crc32": "892088e0",
+      "header_offset": 73373634,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 7486842,
+      "compressed_bytes": 7422458,
+      "crc32": "59482f24",
+      "header_offset": 81177382,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 6959214,
+      "compressed_bytes": 6902372,
+      "crc32": "ff37dd8f",
+      "header_offset": 88599914,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 8180164,
+      "compressed_bytes": 8117370,
+      "crc32": "50c61243",
+      "header_offset": 95502360,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 7289275,
+      "compressed_bytes": 7228917,
+      "crc32": "49693f9d",
+      "header_offset": 103619804,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5868015,
+      "compressed_bytes": 5811969,
+      "crc32": "7cfe1d84",
+      "header_offset": 110848795,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_004_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6619872,
+      "compressed_bytes": 6567230,
+      "crc32": "b6871b25",
+      "header_offset": 116660838,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_005_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6471617,
+      "compressed_bytes": 6417905,
+      "crc32": "9f2439ed",
+      "header_offset": 123228142,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_005_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5367834,
+      "compressed_bytes": 5317273,
+      "crc32": "53c3d175",
+      "header_offset": 129646121,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_005_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5278235,
+      "compressed_bytes": 5227282,
+      "crc32": "90ac52d6",
+      "header_offset": 134963468,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_005_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5193841,
+      "compressed_bytes": 5138177,
+      "crc32": "b0dfbce9",
+      "header_offset": 140190824,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_005_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5327487,
+      "compressed_bytes": 5277101,
+      "crc32": "29c962b9",
+      "header_offset": 145329075,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_006_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6053001,
+      "compressed_bytes": 6005830,
+      "crc32": "beaa19e3",
+      "header_offset": 150606250,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_006_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6253857,
+      "compressed_bytes": 6204719,
+      "crc32": "83e4f74d",
+      "header_offset": 156612154,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_007_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6277534,
+      "compressed_bytes": 6226542,
+      "crc32": "74be4b9c",
+      "header_offset": 162816947,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_008_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6050030,
+      "compressed_bytes": 6000430,
+      "crc32": "e055624a",
+      "header_offset": 169043563,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_009_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6676200,
+      "compressed_bytes": 6623367,
+      "crc32": "0a4bf230",
+      "header_offset": 175044067,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 7684400,
+      "compressed_bytes": 7609220,
+      "crc32": "6f02b62a",
+      "header_offset": 181667508,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 7203663,
+      "compressed_bytes": 7136412,
+      "crc32": "76dfb1b0",
+      "header_offset": 189276802,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 6461998,
+      "compressed_bytes": 6406624,
+      "crc32": "7a59335a",
+      "header_offset": 196413288,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 7153196,
+      "compressed_bytes": 7090642,
+      "crc32": "adf75364",
+      "header_offset": 202819986,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6616894,
+      "compressed_bytes": 6560182,
+      "crc32": "535e84c2",
+      "header_offset": 209910702,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 7535425,
+      "compressed_bytes": 7465621,
+      "crc32": "ac61f9b1",
+      "header_offset": 216470958,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 7167413,
+      "compressed_bytes": 7106878,
+      "crc32": "7043eea4",
+      "header_offset": 223936653,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_010_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6515204,
+      "compressed_bytes": 6460987,
+      "crc32": "0ebe269f",
+      "header_offset": 231043605,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6233681,
+      "compressed_bytes": 6188843,
+      "crc32": "bc174b2f",
+      "header_offset": 237504666,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5796392,
+      "compressed_bytes": 5752703,
+      "crc32": "a4eab3af",
+      "header_offset": 243693583,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5574535,
+      "compressed_bytes": 5531557,
+      "crc32": "a8a5a575",
+      "header_offset": 249446360,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5475092,
+      "compressed_bytes": 5433046,
+      "crc32": "21352b56",
+      "header_offset": 254977991,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5615542,
+      "compressed_bytes": 5573760,
+      "crc32": "6d8ba6b6",
+      "header_offset": 260411111,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6067276,
+      "compressed_bytes": 6017004,
+      "crc32": "599e1099",
+      "header_offset": 265984945,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5832000,
+      "compressed_bytes": 5788067,
+      "crc32": "db5da788",
+      "header_offset": 272002023,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_011_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5895733,
+      "compressed_bytes": 5850508,
+      "crc32": "7a24efdb",
+      "header_offset": 277790164,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6301637,
+      "compressed_bytes": 6253376,
+      "crc32": "d2d77f7b",
+      "header_offset": 283640746,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5909371,
+      "compressed_bytes": 5858679,
+      "crc32": "d549a9ce",
+      "header_offset": 289894196,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 6313784,
+      "compressed_bytes": 6260073,
+      "crc32": "84a1475e",
+      "header_offset": 295752949,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5747541,
+      "compressed_bytes": 5703261,
+      "crc32": "315fa9ca",
+      "header_offset": 302013096,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6489500,
+      "compressed_bytes": 6435508,
+      "crc32": "7c82425e",
+      "header_offset": 307716431,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5816132,
+      "compressed_bytes": 5768438,
+      "crc32": "89e6d8e6",
+      "header_offset": 314152013,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6167308,
+      "compressed_bytes": 6114891,
+      "crc32": "444bc260",
+      "header_offset": 319920525,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_012_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5944684,
+      "compressed_bytes": 5893987,
+      "crc32": "7a8df7c5",
+      "header_offset": 326035490,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6878431,
+      "compressed_bytes": 6823899,
+      "crc32": "8e3a951f",
+      "header_offset": 331929551,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5559504,
+      "compressed_bytes": 5517243,
+      "crc32": "f5fc9e83",
+      "header_offset": 338753524,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5605889,
+      "compressed_bytes": 5564279,
+      "crc32": "5b9e111d",
+      "header_offset": 344270841,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5533314,
+      "compressed_bytes": 5490206,
+      "crc32": "6b999b5e",
+      "header_offset": 349835194,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5938542,
+      "compressed_bytes": 5890056,
+      "crc32": "fb7ba5b3",
+      "header_offset": 355325474,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5590273,
+      "compressed_bytes": 5546942,
+      "crc32": "822d8c78",
+      "header_offset": 361215604,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5570411,
+      "compressed_bytes": 5522635,
+      "crc32": "9121cae0",
+      "header_offset": 366762620,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_013_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5258183,
+      "compressed_bytes": 5215813,
+      "crc32": "4c516d56",
+      "header_offset": 372285329,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 5419832,
+      "compressed_bytes": 5364577,
+      "crc32": "42f28f5f",
+      "header_offset": 377501216,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6153658,
+      "compressed_bytes": 6104442,
+      "crc32": "06ea3cfb",
+      "header_offset": 382865867,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 6075258,
+      "compressed_bytes": 6027425,
+      "crc32": "d9d32afc",
+      "header_offset": 388970383,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 6190621,
+      "compressed_bytes": 6141858,
+      "crc32": "586ef7b7",
+      "header_offset": 394997882,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6165301,
+      "compressed_bytes": 6116698,
+      "crc32": "7030d086",
+      "header_offset": 401139814,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5925678,
+      "compressed_bytes": 5876245,
+      "crc32": "da7995cb",
+      "header_offset": 407256586,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6210497,
+      "compressed_bytes": 6162771,
+      "crc32": "c7d42504",
+      "header_offset": 413132905,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_014_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6025610,
+      "compressed_bytes": 5974166,
+      "crc32": "99eba6b4",
+      "header_offset": 419295750,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 8480356,
+      "compressed_bytes": 8415089,
+      "crc32": "95de948d",
+      "header_offset": 425269990,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 9060261,
+      "compressed_bytes": 8994202,
+      "crc32": "0e6cd9f9",
+      "header_offset": 433685153,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 8796639,
+      "compressed_bytes": 8735137,
+      "crc32": "bcc89609",
+      "header_offset": 442679429,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 8185518,
+      "compressed_bytes": 8125922,
+      "crc32": "7aa86398",
+      "header_offset": 451414640,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 8603386,
+      "compressed_bytes": 8534822,
+      "crc32": "9e44061d",
+      "header_offset": 459540636,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 9560719,
+      "compressed_bytes": 9492698,
+      "crc32": "541655af",
+      "header_offset": 468075532,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 9039975,
+      "compressed_bytes": 8977012,
+      "crc32": "fa69cc5c",
+      "header_offset": 477568304,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_015_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 8715008,
+      "compressed_bytes": 8649809,
+      "crc32": "dd2bb6ea",
+      "header_offset": 486545390,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 7029212,
+      "compressed_bytes": 6964125,
+      "crc32": "5f1383c8",
+      "header_offset": 495195273,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6386566,
+      "compressed_bytes": 6330894,
+      "crc32": "8150a895",
+      "header_offset": 502159472,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 6445606,
+      "compressed_bytes": 6390490,
+      "crc32": "470997a8",
+      "header_offset": 508490440,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 6825388,
+      "compressed_bytes": 6763341,
+      "crc32": "d8dc6598",
+      "header_offset": 514881004,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6657307,
+      "compressed_bytes": 6599252,
+      "crc32": "ea23c8c4",
+      "header_offset": 521644419,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 7135998,
+      "compressed_bytes": 7077017,
+      "crc32": "fc3798e3",
+      "header_offset": 528243745,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6456731,
+      "compressed_bytes": 6402290,
+      "crc32": "28aae9f9",
+      "header_offset": 535320836,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_016_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 8013941,
+      "compressed_bytes": 7953502,
+      "crc32": "6249c9f0",
+      "header_offset": 541723200,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 5909306,
+      "compressed_bytes": 5859041,
+      "crc32": "8fcbc3c2",
+      "header_offset": 549676776,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 4950021,
+      "compressed_bytes": 4907662,
+      "crc32": "bf451d6b",
+      "header_offset": 555535891,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5251940,
+      "compressed_bytes": 5205074,
+      "crc32": "a4b29051",
+      "header_offset": 560443627,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5588102,
+      "compressed_bytes": 5537522,
+      "crc32": "eb93684b",
+      "header_offset": 565648775,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 4923230,
+      "compressed_bytes": 4880684,
+      "crc32": "3768b9c9",
+      "header_offset": 571186371,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 4812316,
+      "compressed_bytes": 4770664,
+      "crc32": "b6f1e774",
+      "header_offset": 576067129,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5761043,
+      "compressed_bytes": 5711501,
+      "crc32": "86577a55",
+      "header_offset": 580837867,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_017_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 4524499,
+      "compressed_bytes": 4480193,
+      "crc32": "bea24c49",
+      "header_offset": 586549442,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 5661756,
+      "compressed_bytes": 5612438,
+      "crc32": "e91d2925",
+      "header_offset": 591029709,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5080816,
+      "compressed_bytes": 5039501,
+      "crc32": "4c051e8b",
+      "header_offset": 596642221,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 4564533,
+      "compressed_bytes": 4525863,
+      "crc32": "6b596ba1",
+      "header_offset": 601681796,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 4732912,
+      "compressed_bytes": 4693369,
+      "crc32": "6615f23e",
+      "header_offset": 606207733,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 4261147,
+      "compressed_bytes": 4220755,
+      "crc32": "2811dadc",
+      "header_offset": 610901176,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 4264122,
+      "compressed_bytes": 4226405,
+      "crc32": "0ea24a5e",
+      "header_offset": 615122005,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 4212487,
+      "compressed_bytes": 4173807,
+      "crc32": "ca02ffe6",
+      "header_offset": 619348484,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_018_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 4041472,
+      "compressed_bytes": 3997100,
+      "crc32": "0bbf7196",
+      "header_offset": 623522365,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 7295030,
+      "compressed_bytes": 7235105,
+      "crc32": "69126e46",
+      "header_offset": 627519539,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 8258562,
+      "compressed_bytes": 8190536,
+      "crc32": "16ac6bfa",
+      "header_offset": 634754718,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 7241368,
+      "compressed_bytes": 7181340,
+      "crc32": "f866f03a",
+      "header_offset": 642945328,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 6776363,
+      "compressed_bytes": 6723832,
+      "crc32": "a9dc13fa",
+      "header_offset": 650126742,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 7467904,
+      "compressed_bytes": 7406924,
+      "crc32": "97afc8d3",
+      "header_offset": 656850648,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 7587034,
+      "compressed_bytes": 7519836,
+      "crc32": "610d7917",
+      "header_offset": 664257646,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 7663674,
+      "compressed_bytes": 7598073,
+      "crc32": "88592fb5",
+      "header_offset": 671777556,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_019_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 7096569,
+      "compressed_bytes": 7040450,
+      "crc32": "f617fa92",
+      "header_offset": 679375703,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_020_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 5972391,
+      "compressed_bytes": 5926139,
+      "crc32": "455d0a28",
+      "header_offset": 686416227,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_020_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5941696,
+      "compressed_bytes": 5894003,
+      "crc32": "9bb92d39",
+      "header_offset": 692342440,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_020_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5968685,
+      "compressed_bytes": 5921902,
+      "crc32": "128ecfe4",
+      "header_offset": 698236517,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_020_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5843522,
+      "compressed_bytes": 5798239,
+      "crc32": "8bd05429",
+      "header_offset": 704158493,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 5622382,
+      "compressed_bytes": 5576745,
+      "crc32": "e32a59b0",
+      "header_offset": 709956806,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 4797442,
+      "compressed_bytes": 4754619,
+      "crc32": "fd07b8a9",
+      "header_offset": 715533625,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 4697403,
+      "compressed_bytes": 4656463,
+      "crc32": "f5748794",
+      "header_offset": 720288318,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 4902796,
+      "compressed_bytes": 4862469,
+      "crc32": "7870a96b",
+      "header_offset": 724944855,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 4798010,
+      "compressed_bytes": 4758623,
+      "crc32": "91a33706",
+      "header_offset": 729807398,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5272615,
+      "compressed_bytes": 5227518,
+      "crc32": "dc911f8f",
+      "header_offset": 734566095,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5452004,
+      "compressed_bytes": 5405799,
+      "crc32": "6af7652d",
+      "header_offset": 739793687,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_021_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5150346,
+      "compressed_bytes": 5110023,
+      "crc32": "dff03934",
+      "header_offset": 745199560,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6362594,
+      "compressed_bytes": 6313055,
+      "crc32": "e3b0eb30",
+      "header_offset": 750309657,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6850391,
+      "compressed_bytes": 6796736,
+      "crc32": "e1b5ce0e",
+      "header_offset": 756622786,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5878494,
+      "compressed_bytes": 5826549,
+      "crc32": "fcb49abe",
+      "header_offset": 763419596,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 6993053,
+      "compressed_bytes": 6932462,
+      "crc32": "c7f3bd2d",
+      "header_offset": 769246219,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6380981,
+      "compressed_bytes": 6330357,
+      "crc32": "f4a58408",
+      "header_offset": 776178755,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 7572238,
+      "compressed_bytes": 7510217,
+      "crc32": "2c1bbf3e",
+      "header_offset": 782509186,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 7945804,
+      "compressed_bytes": 7875056,
+      "crc32": "de970974",
+      "header_offset": 790019477,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_022_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6979770,
+      "compressed_bytes": 6921190,
+      "crc32": "5050af99",
+      "header_offset": 797894607,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_023_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6963542,
+      "compressed_bytes": 6905792,
+      "crc32": "aa704f78",
+      "header_offset": 804815871,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6898234,
+      "compressed_bytes": 6845250,
+      "crc32": "35dc0ce3",
+      "header_offset": 811721737,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6148878,
+      "compressed_bytes": 6098143,
+      "crc32": "62ed65c6",
+      "header_offset": 818567061,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 6812112,
+      "compressed_bytes": 6757685,
+      "crc32": "1a72b710",
+      "header_offset": 824665278,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5945313,
+      "compressed_bytes": 5891097,
+      "crc32": "6742a043",
+      "header_offset": 831423037,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6831396,
+      "compressed_bytes": 6772086,
+      "crc32": "6a319b01",
+      "header_offset": 837314208,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6295226,
+      "compressed_bytes": 6240931,
+      "crc32": "98e73a98",
+      "header_offset": 844086368,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 7418046,
+      "compressed_bytes": 7353148,
+      "crc32": "99402f91",
+      "header_offset": 850327373,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_024_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6517862,
+      "compressed_bytes": 6466987,
+      "crc32": "3b499f5b",
+      "header_offset": 857680595,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6353247,
+      "compressed_bytes": 6299745,
+      "crc32": "963bbb5b",
+      "header_offset": 864147656,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5355109,
+      "compressed_bytes": 5305931,
+      "crc32": "69ac3d9a",
+      "header_offset": 870447475,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5304628,
+      "compressed_bytes": 5258941,
+      "crc32": "b587f6d5",
+      "header_offset": 875753480,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5473277,
+      "compressed_bytes": 5424805,
+      "crc32": "943ca890",
+      "header_offset": 881012495,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6070021,
+      "compressed_bytes": 6018096,
+      "crc32": "78064981",
+      "header_offset": 886437374,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5704300,
+      "compressed_bytes": 5658749,
+      "crc32": "761107d8",
+      "header_offset": 892455544,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6755748,
+      "compressed_bytes": 6697189,
+      "crc32": "ad4d43a4",
+      "header_offset": 898114367,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_025_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6175603,
+      "compressed_bytes": 6126304,
+      "crc32": "00a5cbba",
+      "header_offset": 904811630,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6836225,
+      "compressed_bytes": 6777505,
+      "crc32": "b9d922c7",
+      "header_offset": 910938008,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5853452,
+      "compressed_bytes": 5806350,
+      "crc32": "5281a28b",
+      "header_offset": 917715587,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5319814,
+      "compressed_bytes": 5276126,
+      "crc32": "dddc12f4",
+      "header_offset": 923522011,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5661116,
+      "compressed_bytes": 5616296,
+      "crc32": "16bf7f8b",
+      "header_offset": 928798211,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5979486,
+      "compressed_bytes": 5928384,
+      "crc32": "035437e8",
+      "header_offset": 934414581,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6716028,
+      "compressed_bytes": 6658884,
+      "crc32": "c1722259",
+      "header_offset": 940343039,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5849628,
+      "compressed_bytes": 5798728,
+      "crc32": "cf197f52",
+      "header_offset": 947001997,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_026_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5218285,
+      "compressed_bytes": 5172421,
+      "crc32": "e3aa6c10",
+      "header_offset": 952800799,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6751283,
+      "compressed_bytes": 6696907,
+      "crc32": "3eeea112",
+      "header_offset": 957973294,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5519877,
+      "compressed_bytes": 5474512,
+      "crc32": "c93d1a94",
+      "header_offset": 964670275,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5715717,
+      "compressed_bytes": 5669347,
+      "crc32": "64fdfb00",
+      "header_offset": 970144861,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5303912,
+      "compressed_bytes": 5259391,
+      "crc32": "6891bc7c",
+      "header_offset": 975814282,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5568642,
+      "compressed_bytes": 5523535,
+      "crc32": "3f925e9f",
+      "header_offset": 981073747,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5286097,
+      "compressed_bytes": 5240812,
+      "crc32": "5f0262b9",
+      "header_offset": 986597356,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5303374,
+      "compressed_bytes": 5255903,
+      "crc32": "8b966990",
+      "header_offset": 991838242,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_027_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5463095,
+      "compressed_bytes": 5417799,
+      "crc32": "d1d99b66",
+      "header_offset": 997094219,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_028_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 7090352,
+      "compressed_bytes": 7033796,
+      "crc32": "02b2971a",
+      "header_offset": 1002512092,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6713783,
+      "compressed_bytes": 6659732,
+      "crc32": "1a37a87d",
+      "header_offset": 1009545962,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6555341,
+      "compressed_bytes": 6504274,
+      "crc32": "192c7980",
+      "header_offset": 1016205768,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5850639,
+      "compressed_bytes": 5801292,
+      "crc32": "65729450",
+      "header_offset": 1022710116,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 6419085,
+      "compressed_bytes": 6365497,
+      "crc32": "e8091ed1",
+      "header_offset": 1028511482,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6597855,
+      "compressed_bytes": 6545662,
+      "crc32": "78cf3b36",
+      "header_offset": 1034877053,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6347036,
+      "compressed_bytes": 6296872,
+      "crc32": "72081293",
+      "header_offset": 1041422789,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6295395,
+      "compressed_bytes": 6243955,
+      "crc32": "8b0118e7",
+      "header_offset": 1047719735,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_029_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6419493,
+      "compressed_bytes": 6368482,
+      "crc32": "13139ab1",
+      "header_offset": 1053963764,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_030_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6224950,
+      "compressed_bytes": 6175744,
+      "crc32": "a2ae3fcf",
+      "header_offset": 1060332320,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_030_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5805034,
+      "compressed_bytes": 5758214,
+      "crc32": "fe907411",
+      "header_offset": 1066508138,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_030_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5760213,
+      "compressed_bytes": 5712261,
+      "crc32": "9e9de1a0",
+      "header_offset": 1072266426,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_030_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5955468,
+      "compressed_bytes": 5905154,
+      "crc32": "44afcf77",
+      "header_offset": 1077978761,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_030_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5296570,
+      "compressed_bytes": 5243810,
+      "crc32": "b5c2e512",
+      "header_offset": 1083883989,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_030_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6342639,
+      "compressed_bytes": 6287761,
+      "crc32": "76460006",
+      "header_offset": 1089127873,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6254534,
+      "compressed_bytes": 6206171,
+      "crc32": "486b97e3",
+      "header_offset": 1095415708,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5155958,
+      "compressed_bytes": 5112431,
+      "crc32": "251c74e6",
+      "header_offset": 1101621953,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5479685,
+      "compressed_bytes": 5434942,
+      "crc32": "ee452d50",
+      "header_offset": 1106734458,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5120815,
+      "compressed_bytes": 5071127,
+      "crc32": "e66eeff7",
+      "header_offset": 1112169474,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5555723,
+      "compressed_bytes": 5510542,
+      "crc32": "3e5b7417",
+      "header_offset": 1117240675,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5218788,
+      "compressed_bytes": 5171668,
+      "crc32": "84f0d424",
+      "header_offset": 1122751291,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 5283029,
+      "compressed_bytes": 5235996,
+      "crc32": "4ee0e7c6",
+      "header_offset": 1127923033,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_031_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5355540,
+      "compressed_bytes": 5312321,
+      "crc32": "26b11488",
+      "header_offset": 1133159103,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6357452,
+      "compressed_bytes": 6304152,
+      "crc32": "f6981949",
+      "header_offset": 1138471498,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6428729,
+      "compressed_bytes": 6375724,
+      "crc32": "e1d1adfd",
+      "header_offset": 1144775724,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 6156401,
+      "compressed_bytes": 6103540,
+      "crc32": "f3b01ffa",
+      "header_offset": 1151151522,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5854887,
+      "compressed_bytes": 5803835,
+      "crc32": "420cdcab",
+      "header_offset": 1157255136,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5645118,
+      "compressed_bytes": 5593605,
+      "crc32": "63248db3",
+      "header_offset": 1163059045,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 5836393,
+      "compressed_bytes": 5787849,
+      "crc32": "5770762e",
+      "header_offset": 1168652724,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6089955,
+      "compressed_bytes": 6038416,
+      "crc32": "37f9f7da",
+      "header_offset": 1174440647,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_032_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5920403,
+      "compressed_bytes": 5869603,
+      "crc32": "538cccb3",
+      "header_offset": 1180479137,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6684532,
+      "compressed_bytes": 6630395,
+      "crc32": "0c3a7237",
+      "header_offset": 1186348814,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 7421366,
+      "compressed_bytes": 7357501,
+      "crc32": "603d5197",
+      "header_offset": 1192979283,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 7911879,
+      "compressed_bytes": 7844779,
+      "crc32": "bc4a677c",
+      "header_offset": 1200336858,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 7726870,
+      "compressed_bytes": 7661381,
+      "crc32": "a5665143",
+      "header_offset": 1208181711,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 7165121,
+      "compressed_bytes": 7103603,
+      "crc32": "784b0000",
+      "header_offset": 1215843166,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6828227,
+      "compressed_bytes": 6770922,
+      "crc32": "c69a8dea",
+      "header_offset": 1222946843,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6955118,
+      "compressed_bytes": 6901570,
+      "crc32": "61055e0e",
+      "header_offset": 1229717839,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_033_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 7101010,
+      "compressed_bytes": 7047017,
+      "crc32": "4dfe954c",
+      "header_offset": 1236619483,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_035_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 5935309,
+      "compressed_bytes": 5884660,
+      "crc32": "5bb05c78",
+      "header_offset": 1243666574,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_036_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6004072,
+      "compressed_bytes": 5953934,
+      "crc32": "8031c605",
+      "header_offset": 1249551308,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_037_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6434990,
+      "compressed_bytes": 6385546,
+      "crc32": "dc40b783",
+      "header_offset": 1255505316,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_038_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 7101346,
+      "compressed_bytes": 7040030,
+      "crc32": "cc90b20d",
+      "header_offset": 1261890936,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6413092,
+      "compressed_bytes": 6358453,
+      "crc32": "5e3d2c01",
+      "header_offset": 1268931040,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 6515671,
+      "compressed_bytes": 6456948,
+      "crc32": "860c9655",
+      "header_offset": 1275289567,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 6378402,
+      "compressed_bytes": 6326562,
+      "crc32": "2e125b94",
+      "header_offset": 1281746589,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 6138140,
+      "compressed_bytes": 6080863,
+      "crc32": "84c32818",
+      "header_offset": 1288073225,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 6535361,
+      "compressed_bytes": 6480667,
+      "crc32": "b7886936",
+      "header_offset": 1294154162,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6146185,
+      "compressed_bytes": 6092957,
+      "crc32": "34365de6",
+      "header_offset": 1300634903,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week6_LFOV.nii.gz",
+      "uncompressed_bytes": 6538252,
+      "compressed_bytes": 6480798,
+      "crc32": "1a86b229",
+      "header_offset": 1306727934,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_039_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 6813285,
+      "compressed_bytes": 6758588,
+      "crc32": "9d048ced",
+      "header_offset": 1313208806,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_040_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 6759433,
+      "compressed_bytes": 6705948,
+      "crc32": "2f7d009c",
+      "header_offset": 1319967468,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_040_Week1_LFOV.nii.gz",
+      "uncompressed_bytes": 5909281,
+      "compressed_bytes": 5861555,
+      "crc32": "ca1745d9",
+      "header_offset": 1326673490,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_040_Week2_LFOV.nii.gz",
+      "uncompressed_bytes": 5864289,
+      "compressed_bytes": 5817429,
+      "crc32": "22f88321",
+      "header_offset": 1332535119,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_040_Week3_LFOV.nii.gz",
+      "uncompressed_bytes": 5676555,
+      "compressed_bytes": 5631483,
+      "crc32": "143845ad",
+      "header_offset": 1338352622,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_040_Week4_LFOV.nii.gz",
+      "uncompressed_bytes": 5395034,
+      "compressed_bytes": 5342118,
+      "crc32": "efaf1ae6",
+      "header_offset": 1343984179,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_040_Week5_LFOV.nii.gz",
+      "uncompressed_bytes": 6086827,
+      "compressed_bytes": 6032131,
+      "crc32": "d98451a4",
+      "header_offset": 1349326371,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_040_Week7_LFOV.nii.gz",
+      "uncompressed_bytes": 5835026,
+      "compressed_bytes": 5785623,
+      "crc32": "819994e8",
+      "header_offset": 1355358576,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_041_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 5333355,
+      "compressed_bytes": 5289540,
+      "crc32": "3d6d3563",
+      "header_offset": 1361144273,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    },
+    {
+      "filename": "semantic_MRs_anon/Case_042_Week0_LFOV.nii.gz",
+      "uncompressed_bytes": 7508785,
+      "compressed_bytes": 7442179,
+      "crc32": "cecde2dd",
+      "header_offset": 1366433887,
+      "compression_method": 8,
+      "general_purpose_flags": 0,
+      "is_directory": false
+    }
+  ]
+}
