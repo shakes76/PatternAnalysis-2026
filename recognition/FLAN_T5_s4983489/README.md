@@ -1,6 +1,6 @@
 # FLAN-T5 for Layperson Radiology Report Generation
 
-COMP3710 — s4983489 — Hard difficulty
+COMP3710 — Junrong Tang(s4983489) — Hard difficulty
 
 ## Problem and Approach
 
@@ -9,6 +9,8 @@ This project uses FLAN-T5 to rewrite radiology reports in plain English for pati
 `google/flan-t5-base` is an instruction-tuned encoder-decoder transformer. The encoder uses self-attention to process the instruction and report. The decoder uses causal self-attention and cross-attention to produce the explanation. Training uses teacher-forced token-level cross-entropy, covering attention, transfer learning and supervised sequence prediction. The zero-shot baseline has no parameter updates. Full fine-tuning updates all weights, while LoRA trains low-rank attention updates with the base model frozen. The code uses PyTorch, Transformers, PEFT and Accelerate.
 
 [Chung et al.](https://arxiv.org/abs/2210.11416) report better held-out benchmark performance after instruction tuning, although this does not directly measure performance on radiology reports. [Hu et al.](https://arxiv.org/abs/2106.09685) describe LoRA updates as `W = W₀ + (α/r)BA` and discuss limitations of small ranks. LoRA updates can be merged into the base weights for inference, but the adapter in this project is kept separate.
+
+![FLAN-T5 pipeline comparing zero-shot generation, full fine-tuning and LoRA](figures/flan-t5-pipeline.svg)
 
 ## Dataset and Preprocessing
 
