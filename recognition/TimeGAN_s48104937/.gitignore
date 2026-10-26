@@ -1,0 +1,8 @@
+# --- Data ---
+data/
+*.csv
+*.npz
+
+# --- Models ---
+models/
+*.pt
