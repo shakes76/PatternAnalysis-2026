@@ -1,0 +1,1980 @@
+{
+  "schema_version": 1,
+  "study": "post-v1-TEST fixed TRAIN/VAL seed robustness follow-up",
+  "split": "validation",
+  "v1_test_already_observed": true,
+  "validation_patients_unique": 6,
+  "training_seeds": [
+    42,
+    43
+  ],
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "protocol_sha256": "da653bea48613d98202a124aab60132fdff0936a8fb8f4e6cad13d1486d448b3",
+  "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+  "analysis_source_sha256": "aacc51cffd29baadc9940814f5b0696bd7b4efa9e74acfbc7e2a34f03ce184be",
+  "required_file_sha256_verified": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/record_provenance.py": "94b5f299f1a65c63ed0661586c2fad5f2abbe31f2be9fb41dac4a45422d5f4d2",
+    "jobs/train_pair_seed43.slurm": "b2a42dcb2198aaba3ce26cd1c48e1908688df06adb2f9d98b309216fcd7e7c96"
+  },
+  "created_at_utc": "2026-10-26T17:26:33.915372+00:00",
+  "runs": {
+    "42": {
+      "unet2d": {
+        "seed": 42,
+        "model": "unet2d",
+        "selected_epoch": 26,
+        "epochs": 30,
+        "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+        "checkpoint_sha256": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+        "checkpoint_digest_origin": "evaluation and training provenance metadata; checkpoint bytes are not loaded",
+        "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+        "training_code_commit": "69400a70b9b7bbed1971408e74785e926236410a",
+        "input_evidence": {
+          "run": {
+            "path": "artifacts/full_seed42/unet2d/run.json",
+            "sha256": "9b18bf1642d2c0b361f65e351282c0f710a09d60a89bfbf8f2382ff9995884d8"
+          },
+          "history": {
+            "path": "artifacts/full_seed42/unet2d/history.json",
+            "sha256": "b7bd9419a552a21f15e3bdc3423afa301bb1b82bec00b84f3a84ee51a0659e03"
+          },
+          "provenance": {
+            "path": "artifacts/full_seed42/unet2d/source_provenance.json",
+            "sha256": "4332b839e435270aeba5da4447cf32b19b6c82f2f899b2521e6d67d0305a9e9f"
+          },
+          "evaluation": {
+            "path": "artifacts/validation_seed42/unet2d/evaluation.json",
+            "sha256": "fcff701ebb0c65cf93076ec6590956f90bf90e51aabae92a0aec58d03cbb3745"
+          }
+        },
+        "config": {
+          "model": "unet2d",
+          "num_classes": 6,
+          "base_channels": 16,
+          "seed": 42,
+          "workers": 0,
+          "eval_batch_size": 32,
+          "batch_size": 16,
+          "lr": 0.001,
+          "weight_decay": 0.0001,
+          "clip_grad": 5.0,
+          "amp": true,
+          "class_weighting": "sqrt_inverse_frequency",
+          "training_class_voxel_counts": [
+            89486887,
+            54027990,
+            5145467,
+            905964,
+            218323,
+            161737
+          ],
+          "resolved_class_weights": [
+            0.0997283011674881,
+            0.12834788858890533,
+            0.4158969521522522,
+            0.9911574721336365,
+            2.0190560817718506,
+            2.345813274383545
+          ],
+          "max_batches": null,
+          "development_only": false,
+          "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+          "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+          "label_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "target_shape_dhw": [
+            64,
+            128,
+            128
+          ],
+          "patient_splits": {
+            "train": [
+              "B006",
+              "B038",
+              "C032",
+              "D031",
+              "G021",
+              "H007",
+              "H017",
+              "J005",
+              "K019",
+              "K042",
+              "M004",
+              "M013",
+              "M023",
+              "M036",
+              "N010",
+              "O025",
+              "R016",
+              "R024",
+              "R039",
+              "S028",
+              "S033",
+              "S035",
+              "T009",
+              "T014",
+              "V027",
+              "W012"
+            ],
+            "validation": [
+              "B040",
+              "J026",
+              "K008",
+              "K018",
+              "M030",
+              "S022"
+            ],
+            "test": [
+              "B037",
+              "L011",
+              "M015",
+              "M020",
+              "W029",
+              "W041"
+            ]
+          }
+        },
+        "foreground": {
+          "dice": 0.8674987171843047,
+          "iou": 0.7766384285715416
+        },
+        "prostate": {
+          "dice": 0.792048410938667,
+          "iou": 0.6588415469904044
+        },
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9967227786508417,
+            "iou": 0.9934706703975493
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9805167116297654,
+            "iou": 0.9617960455758673
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8878192527816897,
+            "iou": 0.7984291365762948
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8964900540204762,
+            "iou": 0.820352417244408
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7806191565509254,
+            "iou": 0.643772996470734
+          },
+          {
+            "class_index": 5,
+            "dice": 0.792048410938667,
+            "iou": 0.6588415469904044
+          }
+        ],
+        "patients": [
+          {
+            "patient": "B040",
+            "num_cases": 7,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9972114814255857,
+                "iou": 0.994439925941973
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9806302370074603,
+                "iou": 0.9620040417976762
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8873359513541778,
+                "iou": 0.797529033416518
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9305599810422602,
+                "iou": 0.8713838521488378
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7723434050940586,
+                "iou": 0.6356227286358832
+              },
+              {
+                "class_index": 5,
+                "dice": 0.848198187413359,
+                "iou": 0.7405995790397556
+              }
+            ],
+            "foreground_mean_dice": 0.8838135523822632,
+            "foreground_mean_iou": 0.8014278470077342
+          },
+          {
+            "patient": "J026",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9969934089276629,
+                "iou": 0.9940059048685705
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9808189692249396,
+                "iou": 0.9623717250470181
+              },
+              {
+                "class_index": 2,
+                "dice": 0.9020845318625842,
+                "iou": 0.8217088425934985
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9003891265244831,
+                "iou": 0.8258516957546399
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7737374634448377,
+                "iou": 0.6370249674402865
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7886177549384339,
+                "iou": 0.6532220573005296
+              }
+            ],
+            "foreground_mean_dice": 0.8691295691990557,
+            "foreground_mean_iou": 0.7800358576271945
+          },
+          {
+            "patient": "K008",
+            "num_cases": 1,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9973545354267918,
+                "iou": 0.9947230308884221
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9833431887147366,
+                "iou": 0.9672321847444159
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8893999463859926,
+                "iou": 0.8008282941206362
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9265565438373571,
+                "iou": 0.8631628787878788
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7659574468085106,
+                "iou": 0.6206896551724138
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7984819734345351,
+                "iou": 0.6645609602021478
+              }
+            ],
+            "foreground_mean_dice": 0.8727478198362263,
+            "foreground_mean_iou": 0.7832947946054984
+          },
+          {
+            "patient": "K018",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9970708198972767,
+                "iou": 0.9941591991132666
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9768973933083587,
+                "iou": 0.954840301964361
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8892587667607282,
+                "iou": 0.8006593707694483
+              },
+              {
+                "class_index": 3,
+                "dice": 0.7798905252013791,
+                "iou": 0.6529174115391674
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7656325753258615,
+                "iou": 0.621095375098496
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7223364928448329,
+                "iou": 0.5668094246099964
+              }
+            ],
+            "foreground_mean_dice": 0.8268031506882321,
+            "foreground_mean_iou": 0.7192643767962937
+          },
+          {
+            "patient": "M030",
+            "num_cases": 6,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9959114703113198,
+                "iou": 0.9918646797372505
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9796559036865036,
+                "iou": 0.9601403074118112
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8741296826832001,
+                "iou": 0.7764960206221563
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9389263841247639,
+                "iou": 0.8858875003508465
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7780692480824286,
+                "iou": 0.6395631375700727
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7914105482338538,
+                "iou": 0.6550945622577197
+              }
+            ],
+            "foreground_mean_dice": 0.87243835336215,
+            "foreground_mean_iou": 0.7834363056425212
+          },
+          {
+            "patient": "S022",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9957949559164133,
+                "iou": 0.9916312818358136
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9817545778365937,
+                "iou": 0.9641877124899213
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8847066376434551,
+                "iou": 0.7933532579355111
+              },
+              {
+                "class_index": 3,
+                "dice": 0.902617763392614,
+                "iou": 0.8229111648850771
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8279748005498558,
+                "iou": 0.7086421149072525
+              },
+              {
+                "class_index": 5,
+                "dice": 0.803245508766987,
+                "iou": 0.6727626985322777
+              }
+            ],
+            "foreground_mean_dice": 0.8800598576379011,
+            "foreground_mean_iou": 0.792371389750008
+          }
+        ],
+        "validation_cases": 38,
+        "validation_patients": 6,
+        "resources": {
+          "parameters": 481830,
+          "train_loop_seconds": 264.16833092598245,
+          "successful_optimizer_steps": 17152,
+          "amp_overflow_skipped_steps": 8,
+          "training_batches": 17160,
+          "peak_training_allocated_cuda_bytes": 165103616,
+          "validation_mean_inference_ms": 11.07659532786592,
+          "validation_peak_allocated_cuda_bytes": 150851072,
+          "training_gpu": "NVIDIA A100-PCIE-40GB",
+          "evaluation_gpu": "NVIDIA A100-PCIE-40GB",
+          "torch_version": "2.13.0+cu130",
+          "cuda_version": "13.0",
+          "latency_protocol": "One full-case warmup; synchronized transfer+forward+argmax+output-transfer, excluding loading/preprocessing/metrics/plots."
+        },
+        "selected_history_matches_standalone": true
+      },
+      "improved3d": {
+        "seed": 42,
+        "model": "improved3d",
+        "selected_epoch": 29,
+        "epochs": 30,
+        "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+        "checkpoint_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+        "checkpoint_digest_origin": "evaluation and training provenance metadata; checkpoint bytes are not loaded",
+        "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+        "training_code_commit": "69400a70b9b7bbed1971408e74785e926236410a",
+        "input_evidence": {
+          "run": {
+            "path": "artifacts/full_seed42/improved3d/run.json",
+            "sha256": "b9974fb211c23e14661bfd83f447ad527f7c0c1f8046e939e05c026720c01f75"
+          },
+          "history": {
+            "path": "artifacts/full_seed42/improved3d/history.json",
+            "sha256": "66afa2df1fd427d34935168d590849f84d0bef73a55b2c3205cea2f26dbcb14c"
+          },
+          "provenance": {
+            "path": "artifacts/full_seed42/improved3d/source_provenance.json",
+            "sha256": "0493e0cd2cd0f9dc88af6905dd220436036f2f137784b8d28a31a431f764a2f9"
+          },
+          "evaluation": {
+            "path": "artifacts/validation_seed42/improved3d/evaluation.json",
+            "sha256": "cd54f762680b9ebea5aed41dd76dd8f467a6a8b3ef8ca4f81029078205a071d6"
+          }
+        },
+        "config": {
+          "model": "improved3d",
+          "num_classes": 6,
+          "base_channels": 16,
+          "seed": 42,
+          "workers": 0,
+          "eval_batch_size": 32,
+          "batch_size": 1,
+          "lr": 0.001,
+          "weight_decay": 0.0001,
+          "clip_grad": 5.0,
+          "amp": true,
+          "class_weighting": "sqrt_inverse_frequency",
+          "training_class_voxel_counts": [
+            89486887,
+            54027990,
+            5145467,
+            905964,
+            218323,
+            161737
+          ],
+          "resolved_class_weights": [
+            0.0997283011674881,
+            0.12834788858890533,
+            0.4158969521522522,
+            0.9911574721336365,
+            2.0190560817718506,
+            2.345813274383545
+          ],
+          "max_batches": null,
+          "development_only": false,
+          "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+          "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+          "label_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "target_shape_dhw": [
+            64,
+            128,
+            128
+          ],
+          "patient_splits": {
+            "train": [
+              "B006",
+              "B038",
+              "C032",
+              "D031",
+              "G021",
+              "H007",
+              "H017",
+              "J005",
+              "K019",
+              "K042",
+              "M004",
+              "M013",
+              "M023",
+              "M036",
+              "N010",
+              "O025",
+              "R016",
+              "R024",
+              "R039",
+              "S028",
+              "S033",
+              "S035",
+              "T009",
+              "T014",
+              "V027",
+              "W012"
+            ],
+            "validation": [
+              "B040",
+              "J026",
+              "K008",
+              "K018",
+              "M030",
+              "S022"
+            ],
+            "test": [
+              "B037",
+              "L011",
+              "M015",
+              "M020",
+              "W029",
+              "W041"
+            ]
+          }
+        },
+        "foreground": {
+          "dice": 0.8748048615380072,
+          "iou": 0.7867982461521975
+        },
+        "prostate": {
+          "dice": 0.8332346073040963,
+          "iou": 0.7153683924024185
+        },
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9953766668282543,
+            "iou": 0.9908012162619423
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9765309569932482,
+            "iou": 0.9541964797120044
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8736696531861825,
+            "iou": 0.7757955375415834
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9036023854860832,
+            "iou": 0.8353963616764393
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7869867047204258,
+            "iou": 0.6532344594285423
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8332346073040963,
+            "iou": 0.7153683924024185
+          }
+        ],
+        "patients": [
+          {
+            "patient": "B040",
+            "num_cases": 7,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9966860013037845,
+                "iou": 0.9933944058732093
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9784447290596152,
+                "iou": 0.9578010325459868
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8797104441671645,
+                "iou": 0.7852877036381319
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9392878817879385,
+                "iou": 0.8859015750783625
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7372030265133525,
+                "iou": 0.5914654856545171
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8606248126340432,
+                "iou": 0.7559714988761453
+              }
+            ],
+            "foreground_mean_dice": 0.8790541788324228,
+            "foreground_mean_iou": 0.7952854591586288
+          },
+          {
+            "patient": "J026",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9959501561653475,
+                "iou": 0.9919356385061635
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9771924575070108,
+                "iou": 0.9554241358635842
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8832942165953317,
+                "iou": 0.7910620760177252
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9187222468965336,
+                "iou": 0.8557800202107375
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8100363525693292,
+                "iou": 0.6849180632689088
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8272459957755576,
+                "iou": 0.7063913939368287
+              }
+            ],
+            "foreground_mean_dice": 0.8832982538687526,
+            "foreground_mean_iou": 0.798715137859557
+          },
+          {
+            "patient": "K008",
+            "num_cases": 1,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9956829615695615,
+                "iou": 0.9914030365606756
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9799068263045905,
+                "iou": 0.9606052187907119
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8750668770148844,
+                "iou": 0.7778834662569205
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9496097408679363,
+                "iou": 0.9040542147188206
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7522541863460713,
+                "iou": 0.6028905712319339
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8303914044512664,
+                "iou": 0.7099737532808399
+              }
+            ],
+            "foreground_mean_dice": 0.8774458069969497,
+            "foreground_mean_iou": 0.7910814448558454
+          },
+          {
+            "patient": "K018",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9932438671649154,
+                "iou": 0.9865798273620455
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9654237250874509,
+                "iou": 0.9331678781628804
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8686772034211008,
+                "iou": 0.767917646527862
+              },
+              {
+                "class_index": 3,
+                "dice": 0.7750957200001496,
+                "iou": 0.658217819173944
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7759436195410119,
+                "iou": 0.6357428716190169
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8336217334081504,
+                "iou": 0.7152215985987509
+              }
+            ],
+            "foreground_mean_dice": 0.8437524002915727,
+            "foreground_mean_iou": 0.7420535628164908
+          },
+          {
+            "patient": "M030",
+            "num_cases": 6,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9957820354425011,
+                "iou": 0.9916023444015969
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9790929728511891,
+                "iou": 0.9590464558951072
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8630133552616099,
+                "iou": 0.7590960965012927
+              },
+              {
+                "class_index": 3,
+                "dice": 0.953740172577251,
+                "iou": 0.9119931497634549
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8445084704234048,
+                "iou": 0.7321830821298926
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8406277305935772,
+                "iou": 0.7272284909333008
+              }
+            ],
+            "foreground_mean_dice": 0.8961965403414064,
+            "foreground_mean_iou": 0.8179094550446097
+          },
+          {
+            "patient": "S022",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9949149793234162,
+                "iou": 0.9898920448679625
+              },
+              {
+                "class_index": 1,
+                "dice": 0.979125031149633,
+                "iou": 0.9591341570137559
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8722558226570034,
+                "iou": 0.7735262363075679
+              },
+              {
+                "class_index": 3,
+                "dice": 0.8851585507866896,
+                "iou": 0.7964313911133161
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8019745729293852,
+                "iou": 0.6722066826669845
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8068959669619822,
+                "iou": 0.6774236187886451
+              }
+            ],
+            "foreground_mean_dice": 0.8690819888969387,
+            "foreground_mean_iou": 0.7757444171780539
+          }
+        ],
+        "validation_cases": 38,
+        "validation_patients": 6,
+        "resources": {
+          "parameters": 1627634,
+          "train_loop_seconds": 999.7965580602176,
+          "successful_optimizer_steps": 4288,
+          "amp_overflow_skipped_steps": 2,
+          "training_batches": 4290,
+          "peak_training_allocated_cuda_bytes": 2391642112,
+          "validation_mean_inference_ms": 52.22680764640436,
+          "validation_peak_allocated_cuda_bytes": 1864605696,
+          "training_gpu": "NVIDIA A100-PCIE-40GB",
+          "evaluation_gpu": "NVIDIA A100-PCIE-40GB",
+          "torch_version": "2.13.0+cu130",
+          "cuda_version": "13.0",
+          "latency_protocol": "One full-case warmup; synchronized transfer+forward+argmax+output-transfer, excluding loading/preprocessing/metrics/plots."
+        },
+        "selected_history_matches_standalone": true
+      }
+    },
+    "43": {
+      "unet2d": {
+        "seed": 43,
+        "model": "unet2d",
+        "selected_epoch": 25,
+        "epochs": 30,
+        "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+        "checkpoint_sha256": "345aafeee15a6b7c543edab40c9177ee2012ef6ce09b95ac2740f574fb1bce03",
+        "checkpoint_digest_origin": "evaluation and training provenance metadata; checkpoint bytes are not loaded",
+        "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+        "training_code_commit": "69400a70b9b7bbed1971408e74785e926236410a",
+        "input_evidence": {
+          "run": {
+            "path": "artifacts/followup_seed43/unet2d/run.json",
+            "sha256": "7b995e58c8b7100b2b32f8e406f912bd31c3ae8e57f8d42b6ccb5558eec8ef05"
+          },
+          "history": {
+            "path": "artifacts/followup_seed43/unet2d/history.json",
+            "sha256": "6f76255c1814a1eca6611feb92a8d2966fc1abae4dd8cf25898ea14a9c511c3f"
+          },
+          "provenance": {
+            "path": "artifacts/followup_seed43/unet2d/source_provenance.json",
+            "sha256": "2ae43d6806cb818abd995359c5481d5114cc0afbc49272940cd229680eecd297"
+          },
+          "evaluation": {
+            "path": "artifacts/validation_seed43/unet2d/evaluation.json",
+            "sha256": "391e1803e384cb99452e11625941f140ce9aa538ff09c216cc64f8ad0f20231f"
+          }
+        },
+        "config": {
+          "model": "unet2d",
+          "num_classes": 6,
+          "base_channels": 16,
+          "seed": 43,
+          "workers": 0,
+          "eval_batch_size": 32,
+          "batch_size": 16,
+          "lr": 0.001,
+          "weight_decay": 0.0001,
+          "clip_grad": 5.0,
+          "amp": true,
+          "class_weighting": "sqrt_inverse_frequency",
+          "training_class_voxel_counts": [
+            89486887,
+            54027990,
+            5145467,
+            905964,
+            218323,
+            161737
+          ],
+          "resolved_class_weights": [
+            0.0997283011674881,
+            0.12834788858890533,
+            0.4158969521522522,
+            0.9911574721336365,
+            2.0190560817718506,
+            2.345813274383545
+          ],
+          "max_batches": null,
+          "development_only": false,
+          "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+          "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+          "label_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "target_shape_dhw": [
+            64,
+            128,
+            128
+          ],
+          "patient_splits": {
+            "train": [
+              "B006",
+              "B038",
+              "C032",
+              "D031",
+              "G021",
+              "H007",
+              "H017",
+              "J005",
+              "K019",
+              "K042",
+              "M004",
+              "M013",
+              "M023",
+              "M036",
+              "N010",
+              "O025",
+              "R016",
+              "R024",
+              "R039",
+              "S028",
+              "S033",
+              "S035",
+              "T009",
+              "T014",
+              "V027",
+              "W012"
+            ],
+            "validation": [
+              "B040",
+              "J026",
+              "K008",
+              "K018",
+              "M030",
+              "S022"
+            ],
+            "test": [
+              "B037",
+              "L011",
+              "M015",
+              "M020",
+              "W029",
+              "W041"
+            ]
+          }
+        },
+        "foreground": {
+          "dice": 0.8622454215376042,
+          "iou": 0.7679843360465056
+        },
+        "prostate": {
+          "dice": 0.7809148705032661,
+          "iou": 0.6436547222140894
+        },
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9962540712786044,
+            "iou": 0.9925411321642539
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9788269231378691,
+            "iou": 0.9585594489167607
+          },
+          {
+            "class_index": 2,
+            "dice": 0.880837021617722,
+            "iou": 0.7872357195232803
+          },
+          {
+            "class_index": 3,
+            "dice": 0.89046264671823,
+            "iou": 0.8071933471816782
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7801856457109332,
+            "iou": 0.6432784423967198
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7809148705032661,
+            "iou": 0.6436547222140894
+          }
+        ],
+        "patients": [
+          {
+            "patient": "B040",
+            "num_cases": 7,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9969129922197183,
+                "iou": 0.9938469127113905
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9792075495225677,
+                "iou": 0.959270263029178
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8800491945200001,
+                "iou": 0.7858243822592778
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9218262516456835,
+                "iou": 0.856864844094134
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7938315336399988,
+                "iou": 0.6612181355644395
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8443972303062105,
+                "iou": 0.731606595169717
+              }
+            ],
+            "foreground_mean_dice": 0.8838623519268921,
+            "foreground_mean_iou": 0.7989568440233492
+          },
+          {
+            "patient": "J026",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9965898571459376,
+                "iou": 0.9932037846316484
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9789016158868207,
+                "iou": 0.9586886756831003
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8911714158747385,
+                "iou": 0.8038053996418526
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9093356337529386,
+                "iou": 0.838105554967949
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7765901615802847,
+                "iou": 0.6413256340246186
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7420060857080749,
+                "iou": 0.5931958723508752
+              }
+            ],
+            "foreground_mean_dice": 0.8596009825605715,
+            "foreground_mean_iou": 0.7670242273336791
+          },
+          {
+            "patient": "K008",
+            "num_cases": 1,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9966921551007951,
+                "iou": 0.9934061217281978
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9811345003431193,
+                "iou": 0.9629676347599679
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8844446957062498,
+                "iou": 0.7928290890662613
+              },
+              {
+                "class_index": 3,
+                "dice": 0.8676389653274629,
+                "iou": 0.766221142162819
+              },
+              {
+                "class_index": 4,
+                "dice": 0.767277856135402,
+                "iou": 0.6224256292906178
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7749699157641395,
+                "iou": 0.6326129666011788
+              }
+            ],
+            "foreground_mean_dice": 0.8550931866552748,
+            "foreground_mean_iou": 0.7554112923761689
+          },
+          {
+            "patient": "K018",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.996213037952337,
+                "iou": 0.9924627552757407
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9743916027795256,
+                "iou": 0.9501061443752733
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8794288704051603,
+                "iou": 0.7848775806819852
+              },
+              {
+                "class_index": 3,
+                "dice": 0.8545091688584363,
+                "iou": 0.75289947376265
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7399877913242375,
+                "iou": 0.5892524413241248
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7457088026373192,
+                "iou": 0.5976124304362118
+              }
+            ],
+            "foreground_mean_dice": 0.8388052472009357,
+            "foreground_mean_iou": 0.734949614116049
+          },
+          {
+            "patient": "M030",
+            "num_cases": 6,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9956673537997925,
+                "iou": 0.991380346907682
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9783367695368899,
+                "iou": 0.9576048805199849
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8625859829020636,
+                "iou": 0.7584313216732523
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9436302513776513,
+                "iou": 0.8938669400135928
+              },
+              {
+                "class_index": 4,
+                "dice": 0.784336905343503,
+                "iou": 0.6496514542448494
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7800880146116717,
+                "iou": 0.6409537188569202
+              }
+            ],
+            "foreground_mean_dice": 0.8697955847543559,
+            "foreground_mean_iou": 0.7801016630617199
+          },
+          {
+            "patient": "S022",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.995449031453046,
+                "iou": 0.9909468717308639
+              },
+              {
+                "class_index": 1,
+                "dice": 0.980989500758292,
+                "iou": 0.9627190951330599
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8873419702981206,
+                "iou": 0.7976465438170528
+              },
+              {
+                "class_index": 3,
+                "dice": 0.8458356093472084,
+                "iou": 0.7352021280889246
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8190896262421732,
+                "iou": 0.6957973599316689
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7983191739921813,
+                "iou": 0.665946749869633
+              }
+            ],
+            "foreground_mean_dice": 0.8663151761275951,
+            "foreground_mean_iou": 0.7714623753680678
+          }
+        ],
+        "validation_cases": 38,
+        "validation_patients": 6,
+        "resources": {
+          "parameters": 481830,
+          "train_loop_seconds": 245.00929784681648,
+          "successful_optimizer_steps": 17152,
+          "amp_overflow_skipped_steps": 8,
+          "training_batches": 17160,
+          "peak_training_allocated_cuda_bytes": 165103616,
+          "validation_mean_inference_ms": 10.87292514153217,
+          "validation_peak_allocated_cuda_bytes": 150851072,
+          "training_gpu": "NVIDIA A100-PCIE-40GB",
+          "evaluation_gpu": "NVIDIA A100-PCIE-40GB",
+          "torch_version": "2.13.0+cu130",
+          "cuda_version": "13.0",
+          "latency_protocol": "One full-case warmup; synchronized transfer+forward+argmax+output-transfer, excluding loading/preprocessing/metrics/plots."
+        },
+        "selected_history_matches_standalone": true
+      },
+      "improved3d": {
+        "seed": 43,
+        "model": "improved3d",
+        "selected_epoch": 27,
+        "epochs": 30,
+        "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+        "checkpoint_sha256": "3b9cb27f01004720ebcdda377369c0fe2a488fcfe04d778cf24ff7cac3a4539e",
+        "checkpoint_digest_origin": "evaluation and training provenance metadata; checkpoint bytes are not loaded",
+        "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+        "training_code_commit": "69400a70b9b7bbed1971408e74785e926236410a",
+        "input_evidence": {
+          "run": {
+            "path": "artifacts/followup_seed43/improved3d/run.json",
+            "sha256": "069c5aa899845e3339f422ff53cf37859147fa65529ee06f6c0c55ab872bf7c7"
+          },
+          "history": {
+            "path": "artifacts/followup_seed43/improved3d/history.json",
+            "sha256": "fde84cdb723e64e9c2f48c429e36046186b7a970404ae2ec1b1a982f050d6567"
+          },
+          "provenance": {
+            "path": "artifacts/followup_seed43/improved3d/source_provenance.json",
+            "sha256": "1d2f28bbc1855e88a4dcac62f74ed97b93701dcc02d28e15f93c52f13da91773"
+          },
+          "evaluation": {
+            "path": "artifacts/validation_seed43/improved3d/evaluation.json",
+            "sha256": "6b4fa0b7ec9cc779813bddd3131e2b959fbbae452fe8d5d2809d992471627c17"
+          }
+        },
+        "config": {
+          "model": "improved3d",
+          "num_classes": 6,
+          "base_channels": 16,
+          "seed": 43,
+          "workers": 0,
+          "eval_batch_size": 32,
+          "batch_size": 1,
+          "lr": 0.001,
+          "weight_decay": 0.0001,
+          "clip_grad": 5.0,
+          "amp": true,
+          "class_weighting": "sqrt_inverse_frequency",
+          "training_class_voxel_counts": [
+            89486887,
+            54027990,
+            5145467,
+            905964,
+            218323,
+            161737
+          ],
+          "resolved_class_weights": [
+            0.0997283011674881,
+            0.12834788858890533,
+            0.4158969521522522,
+            0.9911574721336365,
+            2.0190560817718506,
+            2.345813274383545
+          ],
+          "max_batches": null,
+          "development_only": false,
+          "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+          "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+          "label_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "target_shape_dhw": [
+            64,
+            128,
+            128
+          ],
+          "patient_splits": {
+            "train": [
+              "B006",
+              "B038",
+              "C032",
+              "D031",
+              "G021",
+              "H007",
+              "H017",
+              "J005",
+              "K019",
+              "K042",
+              "M004",
+              "M013",
+              "M023",
+              "M036",
+              "N010",
+              "O025",
+              "R016",
+              "R024",
+              "R039",
+              "S028",
+              "S033",
+              "S035",
+              "T009",
+              "T014",
+              "V027",
+              "W012"
+            ],
+            "validation": [
+              "B040",
+              "J026",
+              "K008",
+              "K018",
+              "M030",
+              "S022"
+            ],
+            "test": [
+              "B037",
+              "L011",
+              "M015",
+              "M020",
+              "W029",
+              "W041"
+            ]
+          }
+        },
+        "foreground": {
+          "dice": 0.876415578721606,
+          "iou": 0.787964394271594
+        },
+        "prostate": {
+          "dice": 0.8351302395987408,
+          "iou": 0.7184587148502217
+        },
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9962347100127703,
+            "iou": 0.9925003178451851
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9782207120668982,
+            "iou": 0.9573862283569334
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8748552240992739,
+            "iou": 0.7777251812713258
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8789505130491416,
+            "iou": 0.7957795402273865
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8149212047939756,
+            "iou": 0.6904723066521025
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8351302395987408,
+            "iou": 0.7184587148502217
+          }
+        ],
+        "patients": [
+          {
+            "patient": "B040",
+            "num_cases": 7,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9970085377843595,
+                "iou": 0.9940354508100894
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9777374947992863,
+                "iou": 0.956450904629637
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8703533304994062,
+                "iou": 0.7705155879198003
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9259650740978851,
+                "iou": 0.8622771237452069
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7938746658754161,
+                "iou": 0.6627596779052956
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8639790311664678,
+                "iou": 0.760954997998086
+              }
+            ],
+            "foreground_mean_dice": 0.8863819192876923,
+            "foreground_mean_iou": 0.8025916584396052
+          },
+          {
+            "patient": "J026",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9968083430386097,
+                "iou": 0.9936377004129512
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9791343266030718,
+                "iou": 0.9591330819104753
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8878452917039515,
+                "iou": 0.7983982754567353
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9126264894863787,
+                "iou": 0.8439604439779402
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8419704815693744,
+                "iou": 0.7316164620693402
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8385728980265721,
+                "iou": 0.7229157566680331
+              }
+            ],
+            "foreground_mean_dice": 0.8920298974778696,
+            "foreground_mean_iou": 0.8112048040165047
+          },
+          {
+            "patient": "K008",
+            "num_cases": 1,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9961795800242749,
+                "iou": 0.9923882401678629
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9808046921050159,
+                "iou": 0.9623324249115127
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8750935774114722,
+                "iou": 0.7779256654947263
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9374320570117164,
+                "iou": 0.8822325792883938
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7898062342038753,
+                "iou": 0.652627915071354
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8408910103420844,
+                "iou": 0.7254632807137955
+              }
+            ],
+            "foreground_mean_dice": 0.8848055142148329,
+            "foreground_mean_iou": 0.8001163730959565
+          },
+          {
+            "patient": "K018",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9963034017447601,
+                "iou": 0.9926352068623173
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9737071054656042,
+                "iou": 0.948766988164615
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8773222893143169,
+                "iou": 0.7815273334489934
+              },
+              {
+                "class_index": 3,
+                "dice": 0.7375798980149574,
+                "iou": 0.5971850055939428
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8034796397724219,
+                "iou": 0.6720100931847359
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8404969926493091,
+                "iou": 0.7259324674863703
+              }
+            ],
+            "foreground_mean_dice": 0.846517185043322,
+            "foreground_mean_iou": 0.7450843775757315
+          },
+          {
+            "patient": "M030",
+            "num_cases": 6,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9958168582310533,
+                "iou": 0.9916768661039236
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9783800114818743,
+                "iou": 0.9576848048820364
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8608826873370335,
+                "iou": 0.7559053326843993
+              },
+              {
+                "class_index": 3,
+                "dice": 0.9412977194012465,
+                "iou": 0.8905795378634825
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8472613624274912,
+                "iou": 0.7359212371608558
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8191764954251308,
+                "iou": 0.6949767264455522
+              }
+            ],
+            "foreground_mean_dice": 0.8893996552145552,
+            "foreground_mean_iou": 0.8070135278072653
+          },
+          {
+            "patient": "S022",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9952915392535646,
+                "iou": 0.9906284427139667
+              },
+              {
+                "class_index": 1,
+                "dice": 0.979560641946537,
+                "iou": 0.959949165643324
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8776341683294624,
+                "iou": 0.7820788926233005
+              },
+              {
+                "class_index": 3,
+                "dice": 0.818801840282666,
+                "iou": 0.6984425508953528
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8131348449152742,
+                "iou": 0.6878984545210329
+              },
+              {
+                "class_index": 5,
+                "dice": 0.8076650099828807,
+                "iou": 0.6805090597894937
+              }
+            ],
+            "foreground_mean_dice": 0.8593593010913642,
+            "foreground_mean_iou": 0.7617756246945009
+          }
+        ],
+        "validation_cases": 38,
+        "validation_patients": 6,
+        "resources": {
+          "parameters": 1627634,
+          "train_loop_seconds": 955.4879857683554,
+          "successful_optimizer_steps": 4288,
+          "amp_overflow_skipped_steps": 2,
+          "training_batches": 4290,
+          "peak_training_allocated_cuda_bytes": 2391642112,
+          "validation_mean_inference_ms": 38.34435331488126,
+          "validation_peak_allocated_cuda_bytes": 1864605696,
+          "training_gpu": "NVIDIA A100-PCIE-40GB",
+          "evaluation_gpu": "NVIDIA A100-PCIE-40GB",
+          "torch_version": "2.13.0+cu130",
+          "cuda_version": "13.0",
+          "latency_protocol": "One full-case warmup; synchronized transfer+forward+argmax+output-transfer, excluding loading/preprocessing/metrics/plots."
+        },
+        "selected_history_matches_standalone": true
+      }
+    }
+  },
+  "per_seed_prostate_3d_minus_2d": {
+    "42": {
+      "support": {
+        "dice": {
+          "eligible_n": 6,
+          "eligible_patient_ids": [
+            "B040",
+            "J026",
+            "K008",
+            "K018",
+            "M030",
+            "S022"
+          ],
+          "excluded_ids": []
+        },
+        "iou": {
+          "eligible_n": 6,
+          "eligible_patient_ids": [
+            "B040",
+            "J026",
+            "K008",
+            "K018",
+            "M030",
+            "S022"
+          ],
+          "excluded_ids": []
+        }
+      },
+      "dice": 0.041186196365429216,
+      "iou": 0.05652684541201399
+    },
+    "43": {
+      "support": {
+        "dice": {
+          "eligible_n": 6,
+          "eligible_patient_ids": [
+            "B040",
+            "J026",
+            "K008",
+            "K018",
+            "M030",
+            "S022"
+          ],
+          "excluded_ids": []
+        },
+        "iou": {
+          "eligible_n": 6,
+          "eligible_patient_ids": [
+            "B040",
+            "J026",
+            "K008",
+            "K018",
+            "M030",
+            "S022"
+          ],
+          "excluded_ids": []
+        }
+      },
+      "dice": 0.05421536909547462,
+      "iou": 0.07480399263613245
+    }
+  },
+  "per_seed_patient_prostate_3d_minus_2d": {
+    "42": [
+      {
+        "patient": "B040",
+        "dice": 0.012426625220684273,
+        "iou": 0.015371919836389747
+      },
+      {
+        "patient": "J026",
+        "dice": 0.038628240837123684,
+        "iou": 0.05316933663629908
+      },
+      {
+        "patient": "K008",
+        "dice": 0.03190943101673127,
+        "iou": 0.04541279307869206
+      },
+      {
+        "patient": "K018",
+        "dice": 0.11128524056331746,
+        "iou": 0.1484121739887545
+      },
+      {
+        "patient": "M030",
+        "dice": 0.04921718235972339,
+        "iou": 0.0721339286755811
+      },
+      {
+        "patient": "S022",
+        "dice": 0.0036504581949952097,
+        "iou": 0.00466092025636744
+      }
+    ],
+    "43": [
+      {
+        "patient": "B040",
+        "dice": 0.019581800860257292,
+        "iou": 0.029348402828368925
+      },
+      {
+        "patient": "J026",
+        "dice": 0.09656681231849717,
+        "iou": 0.12971988431715786
+      },
+      {
+        "patient": "K008",
+        "dice": 0.06592109457794482,
+        "iou": 0.09285031411261668
+      },
+      {
+        "patient": "K018",
+        "dice": 0.0947881900119899,
+        "iou": 0.1283200370501585
+      },
+      {
+        "patient": "M030",
+        "dice": 0.03908848081345917,
+        "iou": 0.05402300758863199
+      },
+      {
+        "patient": "S022",
+        "dice": 0.00934583599069938,
+        "iou": 0.014562309919860739
+      }
+    ]
+  },
+  "secondary_prostate_difference_of_separate_aggregate_means": {
+    "42": {
+      "dice": 0.041186196365429306,
+      "iou": 0.056526845412014026
+    },
+    "43": {
+      "dice": 0.05421536909547464,
+      "iou": 0.07480399263613235
+    }
+  },
+  "seed43_minus_seed42": {
+    "unet2d": {
+      "foreground": {
+        "dice": -0.005253295646700518,
+        "iou": -0.008654092525036017
+      },
+      "prostate": {
+        "dice": -0.011133540435400824,
+        "iou": -0.015186824776315055
+      },
+      "patients": [
+        {
+          "patient": "B040",
+          "dice": -0.0038009571071484505,
+          "iou": -0.008992983870038551
+        },
+        {
+          "patient": "J026",
+          "dice": -0.046611669230358976,
+          "iou": -0.06002618494965439
+        },
+        {
+          "patient": "K008",
+          "dice": -0.023512057670395548,
+          "iou": -0.031947993600969005
+        },
+        {
+          "patient": "K018",
+          "dice": 0.02337230979248628,
+          "iou": 0.030803005826215424
+        },
+        {
+          "patient": "M030",
+          "dice": -0.011322533622182163,
+          "iou": -0.014140843400799463
+        },
+        {
+          "patient": "S022",
+          "dice": -0.004926334774805641,
+          "iou": -0.0068159486626446775
+        }
+      ]
+    },
+    "improved3d": {
+      "foreground": {
+        "dice": 0.001610717183598842,
+        "iou": 0.0011661481193965262
+      },
+      "prostate": {
+        "dice": 0.0018956322946445114,
+        "iou": 0.003090322447803273
+      },
+      "patients": [
+        {
+          "patient": "B040",
+          "dice": 0.003354218532424569,
+          "iou": 0.004983499121940627
+        },
+        {
+          "patient": "J026",
+          "dice": 0.011326902251014515,
+          "iou": 0.01652436273120439
+        },
+        {
+          "patient": "K008",
+          "dice": 0.010499605890817998,
+          "iou": 0.015489527432955619
+        },
+        {
+          "patient": "K018",
+          "dice": 0.0068752592411587266,
+          "iou": 0.010710868887619407
+        },
+        {
+          "patient": "M030",
+          "dice": -0.02145123516844638,
+          "iou": -0.03225176448774858
+        },
+        {
+          "patient": "S022",
+          "dice": 0.0007690430208985299,
+          "iou": 0.003085441000848621
+        }
+      ]
+    }
+  },
+  "limits": [
+    "This fixed follow-up was planned after v1 TEST was observed; it uses TRAIN/VAL only and cannot replace v1 TEST or claim to rescue M015.",
+    "The same six validation patients recur across models/seeds; they are not twelve independent patients. No pooled significance test or two-seed confidence interval is computed.",
+    "Only undefined metrics are excluded from means; every zero is retained. Null differences remain null if either operand is undefined.",
+    "Primary per-seed model differences average defined paired patient differences; support is reported separately for Dice/IoU. Secondary differences of separate aggregate means can use different patient support.",
+    "Comparisons describe seed sensitivity of the complete models, not an isolated residual/deep-supervision/3D-context ablation.",
+    "Training loop time excludes validation, checkpoint writing and queue wait. CUDA figures are allocated memory, not total device usage.",
+    "Checkpoint hashes are checked between JSON provenance/evaluations and pinned seed-42 protocol metadata; this tool does not load or rehash checkpoint bytes."
+  ],
+  "figure": "patient_seed_prostate_dice.png",
+  "publication_note": "Only absolute local evidence paths have been made project-relative. Numeric results and evidence-file SHA256 identities are unchanged.",
+  "independent_verification": {
+    "remote_summary_sha256": "29d93193db88b8871bdaa53461a26dac11b461f2e0d72bcb272786268a9dec68",
+    "local_summary_sha256": "381c0339e345261f7b0c56fdd71fff84cd016803c81cc9d8d5d37bc133b66d7d",
+    "remote_analysis_source_sha256": "3512e4938cd79501c0956c3e5ef0456bd8eb9fb780c34bedcdeb89344a7bf5a3",
+    "local_analysis_source_sha256": "aacc51cffd29baadc9940814f5b0696bd7b4efa9e74acfbc7e2a34f03ce184be",
+    "remote_local_runs_metrics_patient_deltas_and_source_identities_match": true,
+    "checkpoint_bytes_rehashed": {
+      "seed42/unet2d": {
+        "path": "artifacts/full_seed42/unet2d/best.pt",
+        "sha256": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+        "bytes": 6527259,
+        "gpu_name": "NVIDIA A100-PCIE-40GB",
+        "python_version": "3.11.15",
+        "torch_version": "2.13.0+cu130",
+        "cuda_version": "13.0"
+      },
+      "seed42/improved3d": {
+        "path": "artifacts/full_seed42/improved3d/best.pt",
+        "sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+        "bytes": 20383339,
+        "gpu_name": "NVIDIA A100-PCIE-40GB",
+        "python_version": "3.11.15",
+        "torch_version": "2.13.0+cu130",
+        "cuda_version": "13.0"
+      },
+      "seed43/unet2d": {
+        "path": "artifacts/followup_seed43/unet2d/best.pt",
+        "sha256": "345aafeee15a6b7c543edab40c9177ee2012ef6ce09b95ac2740f574fb1bce03",
+        "bytes": 6499355,
+        "gpu_name": "NVIDIA A100-PCIE-40GB",
+        "python_version": "3.11.15",
+        "torch_version": "2.13.0+cu130",
+        "cuda_version": "13.0"
+      },
+      "seed43/improved3d": {
+        "path": "artifacts/followup_seed43/improved3d/best.pt",
+        "sha256": "3b9cb27f01004720ebcdda377369c0fe2a488fcfe04d778cf24ff7cac3a4539e",
+        "bytes": 20329003,
+        "gpu_name": "NVIDIA A100-PCIE-40GB",
+        "python_version": "3.11.15",
+        "torch_version": "2.13.0+cu130",
+        "cuda_version": "13.0"
+      }
+    },
+    "slurm_jobs": {
+      "701767": {
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "start_aest": "2026-10-27T03:00:44+10:00",
+        "end_aest": "2026-10-27T03:24:34+10:00"
+      },
+      "701791": {
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "end_aest": "2026-10-27T03:24:40+10:00",
+        "analysis_fixture_tests_passed": 13
+      }
+    },
+    "original_test_recomputed": false,
+    "cloud_training_used": false,
+    "notes": [
+      "The remote deployed pre-cloud analysis passed its 13 fixture tests; the current local cloud-aware analysis had independently passed all 18 fixtures. Both analyses agree on the actual non-cloud study.",
+      "Both original and follow-up runs report the same A100 GPU model and Python/Torch/CUDA versions. Warn-only deterministic mode still permits unsupported nondeterministic categorical-CE and 3D-maxpool backward kernels; bitwise retraining is not guaranteed."
+    ]
+  }
+}

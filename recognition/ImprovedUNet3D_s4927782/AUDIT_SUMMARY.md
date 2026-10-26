@@ -79,6 +79,36 @@ record the completed integrity checks and experiments; final results are in READ
   scores, without raw MRI, mask or prediction arrays. Its GitHub asset size and
   SHA-256 match the independently verified local archive; README links the release.
 
+## Retrospective diagnostics and fixed follow-up: 27 October 2026
+
+- CPU diagnostic 701739 passed 114 checks, audited 136 old prediction files,
+  and independently reconstructed 12 native-to-cache cases exactly. All 12
+  three-plane panels were reviewed. GPU diagnostic 701740 reproduced all 20
+  comparable old AMP predictions voxel-for-voxel; independent GT metrics agree.
+  All 48 diagnostic forwards were finite. Maximum AMP/FP32 prostate Dice change
+  was 0.0014603. These scoped checks found no actionable discrepancy and do not
+  identify M015's root cause or prove the full implementation is bug-free.
+- Commit 27527d3 fixed `followup_protocol.json` before the second-seed run.
+  Job 701767 completed both original models at seed43 for 30 epochs each on
+  one A100; CPU analysis 701791 also completed with exit 0:0. Only TRAIN/VAL
+  were evaluated. No seed43 TEST was run and v1 was not replaced or retuned.
+- Selected epochs are 25/27 for 2D/3D at seed43. Validation prostate Dice is
+  0.7809149/0.8351302; the paired-patient 3D-minus-2D mean is +0.0542154,
+  versus +0.0411862 at seed42. All six validation patients favour 3D in each
+  run. They remain the same six people, also used for checkpoint selection;
+  these results are not a new independent test or evidence that M015 is fixed.
+- Remote analysis passed 13 fixtures; the subsequent cloud-aware local version
+  had passed 18 fixtures. Independent local recomputation matches all actual
+  metrics and evidence identities. Both analysis-source hashes are retained;
+  they are not falsely presented as the same program bytes. Actual bytes of
+  all four selected checkpoints were rehashed and match their provenance and
+  evaluations. Public evidence and the patient plot are linked in README.
+- All four runs report A100-PCIE-40GB, Python 3.11.15, PyTorch 2.13.0+cu130 and
+  CUDA 13.0. Unsupported deterministic CE/max-pool backward operations still
+  warn, so retraining is not promised bitwise identical. Prepared cloud tools
+  were unused after the original queued A100 job started; no cloud training
+  or hardware/software comparison is reported. The public v1 release is unchanged.
+
 ## Remaining external requirements
 
 - The official final deadline in Learn.UQ.
@@ -86,8 +116,10 @@ record the completed integrity checks and experiments; final results are in READ
 - The teaching team's later PR review and response window.
 
 The raw inventory remains under ignored `artifacts/`; scan files and trained
-weights are never committed. All development-stage model checks must use
-training/validation data.
+weights are never committed. Training comparisons and model selection use
+training/validation data. The explicitly retrospective selected TEST replays
+above diagnose frozen results; they do not authorize tuning or replace the
+original complete test benchmark.
 
 ## Data acknowledgement
 

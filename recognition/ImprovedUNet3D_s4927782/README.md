@@ -2,9 +2,10 @@
 
 Author: Baoxu Wang (s4927782). COMP3710, 2026.
 
-**Completed experiment:** a residual, deeply supervised **3D Improved U-Net
+**Original v1 experiment (seed42):** a residual, deeply supervised **3D Improved U-Net
 (Hard)** versus a standard **2D U-Net**, with 30 epochs each on one A100.
-Independent test evaluation covers 30 scans from six unseen patients.
+The original test evaluation covers 30 scans from six patients held out during
+v1 training and model selection.
 Patient-balanced foreground Dice is **0.8375 (3D)** versus **0.8409 (2D)**;
 prostate Dice is **0.6772** versus **0.6790**. The 3D model improves prostate
 Dice for five patients, but a severe failure on M015 offsets those gains.
@@ -305,8 +306,8 @@ CPU diagnostic compares GT descriptors with the 26 training-patient means:
 M015's normalized H centroid is **0.4516**, below their range **0.4581–0.5322**;
 its mean volume and D/W centroids remain within the training ranges. However,
 the worst visit, Week2, has H centroid **0.4749**, inside the TRAIN visit range
-**0.4319–0.5499**; other ordinary-position visits also fail. Location alone
-does not explain the pattern. M015 spacing is within TRAIN ranges. Its raw
+**0.4319–0.5499**; other ordinary-position visits also fail. A simple H-centroid
+outlier explanation is not consistently supported. M015 spacing is within TRAIN ranges. Its raw
 intensity mean and standard deviation exceed TRAIN values, but MRI scale is
 arbitrary and per-case normalization removes a pure gain/offset change on
 unchanged nonzero support.
@@ -385,30 +386,89 @@ visible, but is not by itself proof of the failure mechanism.
 No actionable discrepancy was found **within these checks**. This does not
 prove the whole implementation is bug-free, certify full-volume anatomical
 labels, exclude training-time AMP effects, or identify the cause of M015's
-failure. It rules against the specific checked resampling, inference-order,
-saved-prediction and inference-precision explanations. The five original
+failure. In the examined cases and recorded configurations, it rules against
+the specific checked resampling, inference-order, saved-prediction and
+inference-precision explanations. The five original
 failures and the unmet prostate target remain part of the report.
 
-### Planned validation robustness study
+### Completed validation robustness study
 
 [followup_protocol.json](followup_protocol.json) was committed as **27527d3**
 before submitting job **701767**. It changes only the training seed to **43**
 for both original models: the same split, cache, architecture, losses,
 30-epoch budget and foreground-validation checkpoint selector remain fixed.
-The models train sequentially on one GPU into new directories and are evaluated
-on **validation only**. At this revision the job is queued; no seed43 outcome
-is claimed. This study checks sensitivity to a second training random sequence,
-not the cause of M015's failure or whether v1's test target has been repaired.
-Both seeds will be reported; six repeated validation patients do not become
-twelve independent patients, and no seed is chosen to replace frozen v1.
+Both models completed all 30 epochs sequentially on one A100 in job **701767**;
+dependent analysis **701791** also completed successfully. The same A100 model,
+Python 3.11.15, PyTorch 2.13.0+cu130 and CUDA 13.0 are recorded for both seeds.
+Prepared cloud migration tools were not used for training. New outputs are
+separate from v1 and cover **validation only**, with all 38 scans and six
+validation patients retained. [Machine-readable evidence](evidence/seed_followup_review.json)
+records the independently matching remote/local summaries and actual byte-hash
+checks of all four selected checkpoints.
+
+All values below are patient-balanced validation results. Checkpoint selection
+continues to maximize foreground Dice, not prostate Dice.
+
+| Seed | Model | Selected epoch | Foreground Dice | Prostate Dice | Prostate IoU |
+|---|---|---|---|---|---|
+| 42 | 2D | 26 | 0.8675 | 0.7920 | 0.6588 |
+| 42 | 3D | 29 | 0.8748 | 0.8332 | 0.7154 |
+| 43 | 2D | 25 | 0.8622 | 0.7809 | 0.6437 |
+| 43 | 3D | 27 | 0.8764 | 0.8351 | 0.7185 |
+
+The prespecified mean of paired patient prostate Dice differences (3D minus 2D)
+is **+0.0412** for seed42 and **+0.0542** for seed43. Every validation patient
+has a positive difference in each run; all six are eligible and none is excluded.
+For IoU, the corresponding paired means are **+0.0565** and **+0.0748**.
+
+| Validation patient | Dice difference, seed42 | Dice difference, seed43 |
+|---|---|---|
+| B040 | +0.0124 | +0.0196 |
+| J026 | +0.0386 | +0.0966 |
+| K008 | +0.0319 | +0.0659 |
+| K018 | +0.1113 | +0.0948 |
+| M030 | +0.0492 | +0.0391 |
+| S022 | +0.0037 | +0.0093 |
+| Mean, same six patients | +0.0412 | +0.0542 |
+
+![Validation prostate Dice by patient, model and training seed](figures/patient_seed_prostate_dice.png)
+
+The 3D prostate mean changes by **+0.0019** between seeds, while the 2D mean
+changes by **-0.0111**. This supports a consistent direction of the complete
+3D model's advantage on **these validation patients in these two runs**. It
+does not identify M015's failure cause, establish superiority on new patients,
+or show that the frozen test target has been repaired. No seed43 TEST evaluation
+was performed and no seed is selected to replace v1. These validation patients
+also select checkpoints, so their scores are not an independent estimate of
+generalization. Repeated measurements on
+six patients do not become twelve independent patients; two runs do not support
+a seed-population confidence interval or a pooled significance claim. Unsupported
+categorical-CE and 3D max-pool backward kernels still permit nondeterminism under
+the recorded warn-only setting, so the comparison is not a bitwise seed-effect
+isolation. It is also not an ablation of residual blocks or deep supervision.
+
+Resource observations retain the same measurement definitions as the original
+study. Training-loop seconds exclude validation, checkpoint writes and queue
+waiting. Peaks are allocated CUDA memory, not total device use. These validation
+latencies use each run's full-case warmup protocol; timing variation between runs
+is not an architectural change or an improved inference implementation.
+
+| Seed / model | Train loop (s) | Train peak (MiB) | VAL latency (ms) | VAL peak (MiB) |
+|---|---|---|---|---|
+| 42 / 2D | 264.17 | 157.46 | 11.08 | 143.86 |
+| 42 / 3D | 999.80 | 2280.85 | 52.23 | 1778.23 |
+| 43 / 2D | 245.01 | 157.46 | 10.87 | 143.86 |
+| 43 / 3D | 955.49 | 2280.85 | 38.34 | 1778.23 |
 
 ## Engineering recommendation and limitations
 
-Retain the **2D baseline as the lower-cost research comparator**. The measured
-3D model offers no reliable mean prostate Dice benefit, worsens mean HD95 and
+Retain the **2D baseline as the lower-cost research comparator**. On the frozen
+v1 TEST, the 3D model offers no reliable mean prostate Dice benefit, worsens mean HD95 and
 has a severe patient-level failure at substantially higher cost. Neither model
 is justified for unattended contouring; draft masks require specialist review.
 A nonempty-mask check alone would miss the demonstrated near-total omission.
+The consistent validation ranking across two training runs does not overturn
+that test result or remove its patient-level failure.
 
 Next work should be planned using training/validation data: investigate spatial
 translations and intensity augmentation, improved end-region resolution or
@@ -584,6 +644,25 @@ The job verifies the frozen protocol's source hashes, uses only TRAIN/VAL,
 checks resumed-run and validation identities, and records new checkpoint
 provenance under `artifacts/followup_seed43`. Do not run it concurrently with
 another writer or use its validation results to replace the v1 test model.
+After both models and their independent validation finish, reproduce the
+strict summary from JSON evidence without loading TEST or prediction arrays:
+
+```bash
+python tools/analyze_seed_followup.py \
+  --seed42-root artifacts/full_seed42 \
+  --seed43-root artifacts/followup_seed43 \
+  --seed42-val artifacts/validation_seed42 \
+  --seed43-val artifacts/validation_seed43 \
+  --manifest artifacts/cache64/manifest.json \
+  --protocol followup_protocol.json \
+  --output-dir artifacts/reproduced_seed_followup
+```
+
+Use a fresh output directory. The evidence checks require complete 30-epoch
+histories, the original sourcebook and frozen file hashes, selected-checkpoint
+provenance, all six validation patients, and agreement between selected history
+and standalone validation. Rehash checkpoint files separately against the
+recorded digests; the JSON summarizer does not open checkpoint bytes.
 
 ## Development evidence and submission
 
@@ -595,8 +674,9 @@ chronological engineering evidence. Original experiments completed as Slurm
 700974 (pilot), 700981 (30 epochs), 701513 (independent validation), 701544
 (final test), 701555 (paired analysis), 701560 (ROI figures), 701569 (95 checks
 and real cache rebuild), and 701590 (retrospective localization).
-Additional milestones record independent diagnosis (701739/701740) and the
-post-test fixed validation robustness plan (27527d3; queued job 701767).
+Additional milestones record independent diagnosis (701739/701740), the
+post-test fixed validation robustness plan (27527d3), completed paired training
+(701767) and independent analysis (701791). The original v1 test remains unchanged.
 
 The project belongs under `recognition/ImprovedUNet3D_s4927782` on
 `topic-recognition`. The initial submission consists of the upstream PR and a
