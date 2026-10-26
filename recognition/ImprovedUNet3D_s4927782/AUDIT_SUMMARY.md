@@ -75,7 +75,9 @@ record the completed integrity checks and experiments; final results are in READ
   establish a causal acquisition or clinical diagnosis.
 - Both selected checkpoint SHA-256 values were verified locally against the
   predictor output and source-provenance sidecars. Data, arrays and weights
-  remain outside Git; the weight release contains metadata and scores only.
+  remain outside Git. The prepared local weight bundle includes metadata and
+  scores, without raw MRI, mask or prediction arrays; public release is pending
+  explicit authorization.
 
 ## Remaining external requirements
 
