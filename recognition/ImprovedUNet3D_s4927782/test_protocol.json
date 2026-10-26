@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "frozen_at_utc": "2026-10-26T14:32:33+00:00",
+  "test_evaluated_at_freeze": false,
+  "training_epochs_per_model": 30,
+  "training_seed": 42,
+  "patient_split_seed": 3710,
+  "selection_metric": "Best patient-balanced whole-volume foreground Dice on validation only; ties retain earlier epoch.",
+  "selection_review": "Completed 30-epoch histories and independent whole-volume validation agree exactly; adequate fixed-budget comparison, not proof of full convergence.",
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "training_code_commit": "69400a70b9b7bbed1971408e74785e926236410a",
+  "inference": {
+    "split": "test",
+    "final_test": true,
+    "device": "cuda",
+    "amp": true,
+    "slice_batch_size": 32,
+    "target_class": 5,
+    "postprocessing": "none; main-head hard argmax"
+  },
+  "paired_analysis": {
+    "bootstrap_samples": 2000,
+    "bootstrap_seed": 3710,
+    "unit": "patient",
+    "gallery": "worst defined 3D visit per patient, five worst distinct patients; GT thirds and each model maximum full-depth FP/FN slice"
+  },
+  "models": {
+    "unet2d": {
+      "checkpoint": "artifacts/full_seed42/unet2d/best.pt",
+      "checkpoint_sha256": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+      "selected_epoch": 26,
+      "validation_foreground_dice": 0.8674987171843047,
+      "validation_prostate_dice": 0.792048410938667
+    },
+    "improved3d": {
+      "checkpoint": "artifacts/full_seed42/improved3d/best.pt",
+      "checkpoint_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "selected_epoch": 29,
+      "validation_foreground_dice": 0.8748048615380073,
+      "validation_prostate_dice": 0.833234607304096
+    }
+  }
+}

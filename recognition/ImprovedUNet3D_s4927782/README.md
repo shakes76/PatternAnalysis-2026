@@ -2,9 +2,9 @@
 
 Author: Baoxu Wang (s4927782). COMP3710, 2026.
 
-**Status: all 211 cached volumes and 85 checks passed. A two-epoch full-data
-pilot completed for both models on an A100; continuation to 30 epochs each is
-queued. Final test accuracy remains unmeasured.** The final model is a **3D Improved
+**Status: all 211 cached volumes and 85 checks passed. Both models completed
+30 epochs and independent whole-volume validation on an A100. Their selected
+checkpoints and final test protocol are frozen; final test results are pending.** The final model is a **3D Improved
 U-Net (Hard)** with residual units and deep supervision, evaluated against a
 standard **2D U-Net** on the same patient-level splits of the HipMRI study.
 
@@ -29,8 +29,8 @@ discussed using measured failure cases.
   confirms the mapping below. It is recorded with provenance in
   [label_schema.json](label_schema.json).
 - The A100 synthetic forward/backward/checkpoint check passed. This is model
-  feasibility evidence; final six-class model accuracy and resources remain
-  unmeasured.
+  feasibility evidence; final six-class test accuracy remains unmeasured; full-model training
+  and independent validation are complete.
 - The author plans a tutor check-off on **28 October 2026**. The final deadline
   has not been confirmed; **30 October is only a planning assumption** and must
   be checked in Learn.UQ.
@@ -215,18 +215,35 @@ worker subprocesses, keeping one such cache. Augmentations cannot modify it.
 
 ## Results, failure analysis and engineering recommendation
 
-Pending real experiments. The final report will include:
+### Validation-based model selection
 
-- Training/validation curves and a baseline/model metric and resource table.
-- Three to five representative held-out failure cases, with image, ground
-  truth, each model's prediction and class-specific FP/FN overlays.
-- Anatomical explanations of improvement and remaining errors, including
-  base/apex and nearby-organ interfaces where represented in the test data.
-- A recommendation stating when 3D context is worth its resource cost and
-  which cases still require careful human review.
+Both models completed the predeclared 30 epochs. Whole-volume validation uses
+38 scans from six patients, weighted equally by patient. Checkpoints were
+selected by foreground Dice, independently of the test split. The separately
+reloaded checkpoints reproduce the selected history metrics exactly.
 
-No sample figures, synthetic smoke tests or previous Demo 2 scores will be
-reported as final HipMRI test results.
+| Model | Epochs | Selected epoch | Foreground Dice | Prostate Dice | Prostate IoU |
+|---|---:|---:|---:|---:|---:|
+| 2D U-Net | 30 | 26 | 0.8675 | 0.7920 | 0.6588 |
+| 3D Improved U-Net | 30 | 29 | 0.8748 | 0.8332 | 0.7154 |
+
+This fixed-budget validation comparison supports proceeding to the final test.
+The 3D model improves late, so these results do not establish full convergence.
+The immutable checkpoint identities and the test protocol were recorded in
+[test_protocol.json](test_protocol.json) before any final test evaluation.
+Postprocessing remains main-head argmax, without test-tuned adjustments.
+
+![2D training loss and validation Dice over 30 epochs](figures/training_unet2d.png)
+
+![3D training loss and validation Dice over 30 epochs](figures/training_improved3d.png)
+
+### Final test and failure analysis
+
+Final test results and the engineering recommendation remain pending. The
+planned comparison reports per-class and per-patient Dice/IoU, common-support
+HD95, approximate inferior/mid/superior regions, resource costs and three to five
+patient-distinct failure autopsies. Validation and synthetic smoke scores are
+not presented as final test results.
 
 ## Environment and reproducibility
 
