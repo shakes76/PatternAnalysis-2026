@@ -1,7 +1,7 @@
 # Initial feasibility evidence: 26 October 2026
 
-This is an environment and filename inventory, not a model result or a complete
-data-integrity audit.
+The first inventory below is retained as development evidence. Later entries
+record the completed integrity checks and experiments; final results are in README.
 
 ## Confirmed
 
@@ -52,11 +52,36 @@ data-integrity audit.
   verified eleven source/environment/job files against commit 69400a7 and the
   frozen manifest digest, then wrote sidecars beside both experiment runs.
 
-## Still to validate
+## Completed experiment evidence: 27 October 2026
 
-- Complete-epoch real-data GPU training, final-model memory/runtime and held-out
-  validation/test evidence. Tiny real-data CPU updates are already verified.
+- Job 700974 completed a two-epoch full-data pilot; 700981 resumed each model
+  to 30 total epochs on one A100 (22m15s for the continuation). Best validation
+  epochs are 26 for 2D and 29 for 3D. Independent predictor job 701513 exactly
+  reproduced both selected validation metrics.
+- `test_protocol.json` was committed in c1edf16 before final test job 701544.
+  The fixed comparison evaluated 30 scans from six held-out patients once per
+  model. Patient-balanced prostate Dice is 0.67898 (2D), 0.67719 (3D); the
+  original feasibility target of 0.70 was not met. Foreground Dice is 0.84091
+  and 0.83753. No setting was retuned using these results.
+- Job 701555 completed paired patient bootstrap, matched-support HD95 and five
+  preselected patient-distinct failures. Job 701560 generated larger ROI panels
+  without changing selection or predictions. The report preserves M015's severe
+  failure rather than excluding it from the means.
+- Job 701569 passed the final **95 checks**, exported decoded array digests for
+  all 211 caches and rebuilt one actual TRAIN NIfTI pair (B006 Week0) with
+  identical decoded image/mask/spacing arrays, without rewriting the manifest.
+- Job 701590 completed retrospective CPU-only location/size descriptors against
+  the training distribution. These diagnostics support hypotheses rather than
+  establish a causal acquisition or clinical diagnosis.
+- Both selected checkpoint SHA-256 values were verified locally against the
+  predictor output and source-provenance sidecars. Data, arrays and weights
+  remain outside Git; the weight release contains metadata and scores only.
+
+## Remaining external requirements
+
 - The official final deadline in Learn.UQ.
+- Physical tutor check-off, final report organization and LMS submission.
+- The teaching team's later PR review and response window.
 
 The raw inventory remains under ignored `artifacts/`; scan files and trained
 weights are never committed. All development-stage model checks must use
@@ -66,6 +91,5 @@ training/validation data.
 
 Data were provided by HipMRI Study. The dataset usage note requires attribution,
 an appropriate study citation, research/non-commercial use, and no attempt to
-identify or contact participants. The final report will include the exact
-study attribution and publication are now included in README with the original
-CSIRO v2 label key and data DOI.
+identify or contact participants. README includes the exact study attribution and publication, the original
+CSIRO v2 label key and the data DOI.
