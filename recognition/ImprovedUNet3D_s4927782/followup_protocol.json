@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "experiment_id": "paired_seed43_validation",
+  "planned_at_utc": "2026-10-26T16:07:57.878650+00:00",
+  "status_at_plan": "No seed43 training submitted or results inspected.",
+  "v1_test_already_observed": true,
+  "scope": "Post-test planned TRAIN/VAL robustness study; does not replace or retune the frozen v1 TEST comparison.",
+  "research_question": "Does the validation ranking of the original 3D and 2D configurations persist with a second paired training seed?",
+  "training_seeds": [
+    42,
+    43
+  ],
+  "training_seed": 43,
+  "training_epochs_per_model": 30,
+  "patient_split_seed": 3710,
+  "allowed_splits": [
+    "train",
+    "validation"
+  ],
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+  "training_code_commit": "69400a70b9b7bbed1971408e74785e926236410a",
+  "seed42_models": {
+    "unet2d": {
+      "checkpoint_sha256": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+      "selected_epoch": 26
+    },
+    "improved3d": {
+      "checkpoint_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "selected_epoch": 29
+    }
+  },
+  "training_conditions": {
+    "unet2d": {
+      "model": "unet2d",
+      "num_classes": 6,
+      "base_channels": 16,
+      "workers": 0,
+      "eval_batch_size": 32,
+      "batch_size": 16,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip_grad": 5.0,
+      "amp": true,
+      "class_weighting": "sqrt_inverse_frequency",
+      "training_class_voxel_counts": [
+        89486887,
+        54027990,
+        5145467,
+        905964,
+        218323,
+        161737
+      ],
+      "resolved_class_weights": [
+        0.0997283011674881,
+        0.12834788858890533,
+        0.4158969521522522,
+        0.9911574721336365,
+        2.0190560817718506,
+        2.345813274383545
+      ],
+      "max_batches": null,
+      "development_only": false,
+      "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+      "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+      "label_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "target_shape_dhw": [
+        64,
+        128,
+        128
+      ],
+      "patient_splits": {
+        "train": [
+          "B006",
+          "B038",
+          "C032",
+          "D031",
+          "G021",
+          "H007",
+          "H017",
+          "J005",
+          "K019",
+          "K042",
+          "M004",
+          "M013",
+          "M023",
+          "M036",
+          "N010",
+          "O025",
+          "R016",
+          "R024",
+          "R039",
+          "S028",
+          "S033",
+          "S035",
+          "T009",
+          "T014",
+          "V027",
+          "W012"
+        ],
+        "validation": [
+          "B040",
+          "J026",
+          "K008",
+          "K018",
+          "M030",
+          "S022"
+        ],
+        "test": [
+          "B037",
+          "L011",
+          "M015",
+          "M020",
+          "W029",
+          "W041"
+        ]
+      }
+    },
+    "improved3d": {
+      "model": "improved3d",
+      "num_classes": 6,
+      "base_channels": 16,
+      "workers": 0,
+      "eval_batch_size": 32,
+      "batch_size": 1,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip_grad": 5.0,
+      "amp": true,
+      "class_weighting": "sqrt_inverse_frequency",
+      "training_class_voxel_counts": [
+        89486887,
+        54027990,
+        5145467,
+        905964,
+        218323,
+        161737
+      ],
+      "resolved_class_weights": [
+        0.0997283011674881,
+        0.12834788858890533,
+        0.4158969521522522,
+        0.9911574721336365,
+        2.0190560817718506,
+        2.345813274383545
+      ],
+      "max_batches": null,
+      "development_only": false,
+      "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+      "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+      "label_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "target_shape_dhw": [
+        64,
+        128,
+        128
+      ],
+      "patient_splits": {
+        "train": [
+          "B006",
+          "B038",
+          "C032",
+          "D031",
+          "G021",
+          "H007",
+          "H017",
+          "J005",
+          "K019",
+          "K042",
+          "M004",
+          "M013",
+          "M023",
+          "M036",
+          "N010",
+          "O025",
+          "R016",
+          "R024",
+          "R039",
+          "S028",
+          "S033",
+          "S035",
+          "T009",
+          "T014",
+          "V027",
+          "W012"
+        ],
+        "validation": [
+          "B040",
+          "J026",
+          "K008",
+          "K018",
+          "M030",
+          "S022"
+        ],
+        "test": [
+          "B037",
+          "L011",
+          "M015",
+          "M020",
+          "W029",
+          "W041"
+        ]
+      }
+    }
+  },
+  "selection_metric": "Best patient-balanced whole-volume foreground Dice on validation only; ties retain earlier epoch.",
+  "inference": {
+    "split": "validation",
+    "amp": true,
+    "slice_batch_size": 32,
+    "target_class": 5,
+    "postprocessing": "none; main-head hard argmax"
+  },
+  "primary_outcome": "For each seed separately: mean over the same six validation patients of prostate Dice(3D) minus prostate Dice(2D), after averaging visits within each patient.",
+  "secondary_outcomes": [
+    "Selected validation foreground Dice and prostate IoU",
+    "All six paired patient values",
+    "Selected and final epochs, training curves and observed resource costs",
+    "Change between seeds for each model"
+  ],
+  "decision_rules": [
+    "Report both seeds and every completed run, including worse results; do not choose a replacement v1 model from these results.",
+    "If paired validation rankings differ, describe ranking sensitivity in these two runs; otherwise report only directional agreement in these two runs.",
+    "Two seeds are insufficient for a reliable population distribution over seeds; the same six patients are not twelve independent patients.",
+    "Do not evaluate seed43 on TEST or claim the original prostate TEST target is met by a validation result.",
+    "Stop and diagnose confirmed errors, OOM, or non-finite training. Resume technical interruption only with identical configuration to 30 total epochs.",
+    "Do not add epochs, change seed, augmentation, architecture, selection metric or postprocessing in response to the observed scores."
+  ],
+  "diagnostic_gate": {
+    "approved_to_proceed": true,
+    "basis": "No actionable discrepancy found in the specified checks; this is not proof of bug-free code or a known M015 failure mechanism.",
+    "saved_evidence_audit": {
+      "job_id": 701739,
+      "files": 136,
+      "status": "pass",
+      "json_sha256": "82a6eb1230743e7b177721840afe7901765a4c69972346c675150b62166d8d7f",
+      "limits": "Counts/algebra/aggregation audit alone does not independently remeasure GT intersections."
+    },
+    "native_cache": {
+      "job_id": 701739,
+      "case_count": 12,
+      "status": "pass",
+      "json_sha256": "41cb6a6ad7fd93e415bd9602376c3deeff6ec3d6e37014b74c0db30ffc0fda97",
+      "result": "All image arrays and masks exactly reproduce under independent resampling; 12 three-plane panels visually reviewed.",
+      "limits": "Displayed-slice alignment is not whole-volume anatomical annotation certification or patient-identity verification."
+    },
+    "frozen_forward": {
+      "job_id": 701740,
+      "case_model_pairs": 24,
+      "old_prediction_comparisons": 20,
+      "status": "pass",
+      "json_sha256": "898bd7b4db943eb92c72e119582eb38ef34b26f3ce4d0033eb6603c16cae33d6",
+      "result": "All 20 available AMP old predictions reproduced voxel-for-voxel; independent GT confusion/metrics agree; AMP versus FP32 prostate Dice maximum absolute difference 0.00146026022.",
+      "limits": "Direct inference still shares frozen model modules and does not isolate training-time AMP or establish the biological/scanner cause."
+    },
+    "unit_checks": {
+      "remote_tests_passed": 114,
+      "job_id": 701739
+    }
+  },
+  "new_training_output_root": "artifacts/followup_seed43",
+  "new_validation_output_root": "artifacts/validation_seed43",
+  "required_file_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/record_provenance.py": "94b5f299f1a65c63ed0661586c2fad5f2abbe31f2be9fb41dac4a45422d5f4d2",
+    "jobs/train_pair_seed43.slurm": "b2a42dcb2198aaba3ce26cd1c48e1908688df06adb2f9d98b309216fcd7e7c96"
+  }
+}
