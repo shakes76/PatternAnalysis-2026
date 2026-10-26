@@ -112,7 +112,7 @@ Inference used the same **100 test reports sampled with seed 42**, batch size on
 
 Timing includes only CUDA-synchronized `generate()` calls. It excludes loading, tokenization, input transfer, decoding and scoring. There was no warm-up. Token counts exclude decoder start and padding tokens but include EOS. The baseline generated shorter outputs, which partly explains its lower time per report. Timing was measured once per method.
 
-## Qualitative Analysis of Five Test Cases
+## Clinical Safety Autopsy: Five Test Cases
 
 I inspected the first 30 predictions from the 100-report test sample and selected five cases with clear omissions, unsupported statements or readability problems. Case numbers refer to positions in the seed-42 sample, not the original dataset indices. I compared the generated text with its source report because test references are not publicly available. This review used AI assistance and was not independently checked by a clinician.
 
@@ -138,7 +138,7 @@ Source: **PadChest**. Identifier: `216840111366964013590140476722013044085724775
 
 > The images of the lingular and right basal areas are consistent with bronchiectasis and COPD. A small nodule of small size is seen in the left parahilar region. There is an increase in thickening of the pleural pleural pleural pleural thickening on the left. It is recommended to have a full study with a chest CT scan.
 
-**Analysis.** The baseline gives only the CT recommendation and leaves out every finding. Full fine-tuning covers most of the report but replaces the lingular location with the less precise “left lower lung” and does not explain bronchiectasis or hilum. LoRA repeats “pleural” four times, omits the apical location and keeps several technical terms. It also changes “nodular image” to the more definite “nodule.”
+**Analysis.** The baseline gives only the CT recommendation and leaves out every finding. Full fine-tuning covers most of the report but replaces the lingular location with the less precise “left lower lung” and does not explain bronchiectasis or hilum. LoRA repeats “pleural” four times, omits the apical location and keeps several technical terms. It also changes “nodular image” to the more definite “nodule.” The report contains several findings with specific anatomical locations, and the main failure is losing those details while simplifying the language.
 
 ### Case 15: Unsupported fluid findings
 
@@ -160,7 +160,7 @@ Source: **BIMCV-COVID19**. Identifier: `ses-E67984`.
 
 > The chest x-ray taken from the front shows signs of fluid buildup in the lower right part of the lung and a thickening of the lung tissue at the top. There are also signs of fluid buildup in the outer parts of the lungs. A skin fold is seen over the right side of the chest.
 
-**Analysis.** The baseline returns only “A chest radiograph” and omits the findings. Full fine-tuning includes most findings and the possible inflammatory or infectious origin, but interprets “extrapleural opacity” as “fluid buildup.” The source does not mention fluid. LoRA also introduces fluid, while leaving out the lingular finding, chronic lung changes, the possible cause and the right-sided apical detail. Full fine-tuning still leaves “lingular” unexplained.
+**Analysis.** The baseline returns only “A chest radiograph” and omits the findings. Full fine-tuning includes most findings and the possible inflammatory or infectious origin, but interprets “extrapleural opacity” as “fluid buildup.” The source does not mention fluid. LoRA also introduces fluid, while leaving out the lingular finding, chronic lung changes, the possible cause and the right-sided apical detail. Full fine-tuning still leaves “lingular” unexplained. The error occurs when an imaging term is rewritten as a more specific clinical finding, which could make a patient believe fluid was observed.
 
 ### Case 18: Incorrect symptom description
 
@@ -182,7 +182,7 @@ Source: **PadChest**. Identifier: `216840111366964012373310883942009104090852549
 
 > The patient came in because they were having trouble breathing, coughing, and were looking for a good night. The chest x-ray was taken from the front and the side. There is no sign of lung tissue becoming solidified.
 
-**Analysis.** The baseline adds pulmonary edema, which the report does not state, and omits both the symptoms and the negative consolidation finding. Full fine-tuning retains most of the report, although “a lot of coughing up” is unclear. LoRA inserts the unrelated phrase “looking for a good night” and replaces wheezing and abundant expectoration with a general mention of coughing. It does, however, preserve the absence of consolidation.
+**Analysis.** The baseline adds pulmonary edema, which the report does not state, and omits both the symptoms and the negative consolidation finding. Full fine-tuning retains most of the report, although “a lot of coughing up” is unclear. LoRA inserts the unrelated phrase “looking for a good night” and replaces wheezing and abundant expectoration with a general mention of coughing. It does, however, preserve the absence of consolidation. The unrelated wording appears while paraphrasing the symptoms, showing that preserving one negative finding does not ensure the rest of the report is accurate.
 
 ### Case 19: Negation and uncertainty
 
@@ -204,7 +204,7 @@ Source: **BIMCV-COVID19**. Identifier: `ses-E46467`.
 
 > There are no clear signs of lung infections, but there might be a possible cloudiness at the bottom right part of the lung that should be checked over time.
 
-**Analysis.** The baseline changes “no clear pulmonary infiltrates” into a positive claim about an infiltrate. It also drops the uncertain right basal opacity and the follow-up recommendation. Both adapted models keep the location, uncertainty and follow-up, but translate “infiltrates” as “lung infections,” which is more specific than the original report. Both also use the redundant phrase “might be a possible.”
+**Analysis.** The baseline changes “no clear pulmonary infiltrates” into a positive claim about an infiltrate. It also drops the uncertain right basal opacity and the follow-up recommendation. Both adapted models keep the location, uncertainty and follow-up, but translate “infiltrates” as “lung infections,” which is more specific than the original report. Both also use the redundant phrase “might be a possible.” This sentence contains both qualified negation and a separate uncertain finding. The baseline fails to keep that distinction, which could make the finding seem confirmed.
 
 ### Case 20: Incorrect explanation and examination limits
 
@@ -226,11 +226,11 @@ Source: **BIMCV-COVID19**. Identifier: `ses-E28411`.
 
 > The patient is a 22-year-old woman who has a severe appendicitis. She has a positive PCR test for coronavirus. She wanted to have an examination done. The examination was not very good because both the top parts of the lungs are not included. The lungs look clear without any signs of pneumonia or other lung infections. There is no fluid around the lungs. The heart and the areas where the lungs connect to the heart are normal in shape and size.
 
-**Analysis.** The baseline only includes the patient background and leaves out the imaging findings. Full fine-tuning incorrectly calls appendicitis “a type of apex infection,” although it correctly limits the negative lung findings to the visible regions. LoRA changes “acute” to “severe” and says that the patient requested the examination, which is not stated in the source. It also says “the lungs look clear” without limiting this to the visible areas, even though both lung apices were excluded. Both adapted outputs describe the findings as infections rather than consolidation or infiltrates. LoRA also leaves PCR unexplained.
+**Analysis.** The baseline only includes the patient background and leaves out the imaging findings. Full fine-tuning incorrectly calls appendicitis “a type of apex infection,” although it correctly limits the negative lung findings to the visible regions. LoRA changes “acute” to “severe” and says that the patient requested the examination, which is not stated in the source. It also says “the lungs look clear” without limiting this to the visible areas, even though both lung apices were excluded. Both adapted outputs describe the findings as infections rather than consolidation or infiltrates. LoRA also leaves PCR unexplained. Here, the key risk is losing the limit of the examination: the source only describes the visible lung tissue, not both lungs in full.
 
 ### What the Cases Show
 
-In these five examples, the baseline often leaves out most of the findings. Full fine-tuning and LoRA cover more of the reports but sometimes add unsupported medical statements. Cases 15, 19 and 20 contain incorrect or overly specific explanations. Case 14 shows repetition, and case 18 includes an unrelated phrase.
+In these five examples, the baseline often leaves out most of the findings. Full fine-tuning and LoRA cover more of the reports but sometimes add unsupported medical statements. Cases 15, 19 and 20 contain incorrect or overly specific explanations. Case 14 shows repetition, and case 18 includes an unrelated phrase. Across the cases, problems arise around unfamiliar anatomy, medical terms, qualified negation and examination limits.
 
 ROUGE measures overlap with reference text, so it may not detect changes in negation, severity or which parts of the body were actually examined. The higher validation ROUGE scores do not rule out the errors shown here. Because the cases were selected to illustrate problems, they cannot be used to estimate the overall error rate or rank the models by clinical safety.
 
@@ -238,11 +238,11 @@ ROUGE measures overlap with reference text, so it may not detect changes in nega
 
 Full fine-tuning gave the highest ROUGE scores and faster measured generation than LoRA in these runs. LoRA used less training memory and saved a **3.56 MB** adapter, compared with **990.35 MB** for the full model weights (decimal MB). The adapter still requires the base model for inference.
 
-The completed runs met the data-separation, ROUGE and resource criteria. However, the five reviewed outputs contained factual and readability problems, so the models should not be used to explain reports to patients without review. Further work would need:
+The completed runs met the data-separation, ROUGE and resource criteria. However, the five reviewed outputs contained factual and readability problems. Full fine-tuning is the better starting point for further evaluation based on its ROUGE scores and measured generation speed, but neither model is ready for independent patient-facing use. Until clinical validation is completed, any generated summary should be checked against the source by a qualified reviewer. Further work would need:
 
 - Source checks for findings, location, negation and uncertainty, including unsupported additions and severity changes.
 - Coverage checks for important findings, follow-up recommendations and examination limitations.
-- Verified plain-language definitions, repetition checks and clinician review before release.
+- Verified plain-language definitions, repetition checks and clinician review before release. Summaries that change negation, omit important findings or add unsupported claims should be corrected before use.
 
 These checks were not implemented in this project. The experiments used one seed and one checkpoint/prompt, with different learning rates and no rank or hyperparameter search. I did not measure reading grade, patient comprehension or clinical outcomes. Longer reports may be affected by truncation, patient-level independence of the dataset splits was not verified, and possible pretraining contamination was not assessed. The selected examples were not independently reviewed by a clinician. A larger, representative sample with clinician ratings would be needed to assess factual accuracy and readability. Any future confidence filter would also need to be tested against clinician-labelled errors.
 
@@ -270,7 +270,7 @@ Formal runs used the following environment on Rangpur:
 | NLTK | 3.10.0; `punkt_tab` installed |
 | NumPy / Matplotlib | 2.4.6 / 3.11.1 |
 
-The separate local `ICLR3.0` environment used Python 3.12.13, PyTorch 2.12.1, NumPy 2.5.1 and Matplotlib 3.11.2, with the same other listed package versions, for CPU checks. To install the direct dependencies into an environment with compatible Python and PyTorch:
+To install the direct dependencies into an environment with compatible Python and PyTorch:
 
 ```bash
 python -m pip install transformers==4.57.6 peft==0.19.1 \
