@@ -48,9 +48,10 @@ def parse_args():
     ap.add_argument("--warmup-epochs", type=float, default=1.0)
     ap.add_argument("--drop-path", type=float, default=0.2)
     ap.add_argument("--label-smoothing", type=float, default=0.0)
-    ap.add_argument("--hflip", type=float, default=0.5,
-                    help="horizontal-flip probability in augmentation (0 disables it; the slices are "
-                         "sagittal, so a horizontal flip swaps anterior and posterior)")
+    # Default 0: the slices are sagittal, so a horizontal flip swaps anterior and posterior,
+    # which never happens in a real scan. --hflip 0.5 reproduces the ablation in the README.
+    ap.add_argument("--hflip", type=float, default=0.0,
+                    help="horizontal-flip probability in augmentation (default 0 = off)")
     ap.add_argument("--val-frac", type=float, default=0.1, help="fraction of patients for validation")
     ap.add_argument("--test-frac", type=float, default=0.2, help="fraction of patients for testing")
     ap.add_argument("--no-balance", action="store_true",

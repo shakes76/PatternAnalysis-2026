@@ -228,8 +228,11 @@ def preprocess(batch_u8, mean, std, size=IMG_SIZE):
 
 
 def gpu_augment(batch_u8, mean, std, size=IMG_SIZE, max_rot=10.0, scale=(0.9, 1.1),
-                max_shift=0.06, hflip=0.5, intensity=0.1):
-    """Per-sample random affine (rotation, scale, shift, flip) + brightness/contrast jitter.
+                max_shift=0.06, hflip=0.0, intensity=0.1):
+    """Per-sample random affine (rotation, scale, shift, optional flip) + brightness/contrast jitter.
+
+    ``hflip`` defaults to 0: on these sagittal slices a horizontal flip swaps anterior and
+    posterior, an anatomically impossible image (the README's ablation measures its cost).
 
     Implemented with ``affine_grid``/``grid_sample`` so each image in the batch gets
     its own random transform, all on the GPU.
