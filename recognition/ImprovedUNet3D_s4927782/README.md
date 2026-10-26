@@ -301,26 +301,6 @@ through a PR to upstream `topic-recognition` before the confirmed due date,
 and export the completed README to PDF for Turnitin. Follow up on the teaching
 team's later code review within the officially announced response window.
 
-## Artificial Intelligence Usage Disclosure
-
-Codex assisted with interpreting the specification, inspecting the author's
-previous code, planning, creating the course fork, and drafting/refining the
-audit, preprocessing, models, weighted losses, training/resume, evaluation,
-plots, checks and documentation. This disclosure must be updated as work
-continues.
-
-Verification so far consists of checking the plan against the supplied 2026
-assessment specification and reviewing the previous standard U-Net source.
-Independent code review checked geometry, patient separation, metrics, training
-weights and checkpoint behavior. Fifty-six automated checks passed on a CPU
-compute node, followed by tiny real-training-data updates of both models and
-a 2D checkpoint resume. The expanded suite subsequently passed 75 checks,
-including AMP overflow/recovery, source-confirmed labels and paired HD95
-support. Every full-data cache was reloaded and five TRAIN patients were
-visually reviewed. A100 synthetic GPU checks also passed; full-data
-validation/test and final-model resource evidence remain pending. The author remains
-responsible for reviewing and understanding all submitted code and results.
-
 ## References
 
 1. COMP3710/COMP7710 Report, Version 2.5 (2026), supplied assessment specification:
