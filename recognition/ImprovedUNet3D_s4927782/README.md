@@ -458,10 +458,10 @@ LFOV T2 SPACE inputs, prostate labels propagated from SFOV T2, and N4 correction
 in its experiments [7]. No per-case sequence/registration records establish a
 M015-specific error, and whether the released MRI already received N4 is
 unknown. Neither a T1 mix-up, incorrect official label nor omitted-N4 cause
-is demonstrated. The concrete next experiment is a prespecified TRAIN/VAL
-robustness study of appearance handling, with patient-level validation and
-independent data for any later test claim; repeating the same training merely
-to obtain a better M015 score would not resolve this evidence gap.
+is demonstrated. These findings motivated the prespecified TRAIN/VAL appearance
+ablation below. Independent data remain necessary for a later test claim;
+repeating training merely to obtain a better M015 score would not resolve
+this evidence gap.
 
 ### Completed validation robustness study
 
@@ -532,6 +532,70 @@ is not an architectural change or an improved inference implementation.
 | 43 / 2D | 245.01 | 157.46 | 10.87 | 143.86 |
 | 43 / 3D | 955.49 | 2280.85 | 38.34 | 1778.23 |
 
+### Completed appearance ablation: robustness has a clean-image cost
+
+Commit **5c49de3** fixed [the A1 protocol](appearance_protocol.json) before
+training; GPU job **702249** completed both new 30-epoch runs and all
+**4 models × 5 conditions × 38 VAL scans** in **40m06s**, exit 0:0.
+Both new arms retain the original 3D architecture, loss, optimizer, 143 TRAIN
+volumes, seed42 and clean foreground-VAL selector. Their initial parameter
+SHA-256 and recorded A100/software environments match. The added image RNG is
+keyed independently by case/epoch, preserving the original shuffle/flip RNG.
+CUDA's warn-only nondeterminism still prevents a bitwise causal-isolation claim.
+
+**A: gamma only** applies signed gamma with probability 0.5, drawing its exponent
+log-uniformly from [0.7,1.5], then clipping to [-5,5]. **B: gamma + polarity**
+uses identical gamma draws and independently negates intensities with probability
+0.25. Both preserve input-zero locations; neither uses GT for augmentation or
+changes labels/geometry. Positive gamma cannot intentionally reverse intensity
+ordering; polarity is an explicitly synthetic reversal. This is a project
+adaptation inspired by standard intensity augmentation [8], not nnU-Net/GIN
+reproduction or a known simulation of M015 acquisition.
+
+After clean-VAL checkpoint selection (A epoch **30**, B **29**), every model
+is evaluated on clean inputs and four separately applied, fixed stress inputs:
+signed gamma 0.7, signed gamma 1.5, polarity inversion, and a linear H-axis
+gain of 0.7–1.3. All are **cache-space synthetic perturbations**. The gain is
+not claimed to simulate a physical MRI bias field. The
+[complete anonymous evidence](evidence/appearance_review.json) retains all
+760 case evaluations' prostate counts, all patient values, six-class summaries,
+resources and receipt identities. Independent reaggregation from TP/predicted/GT
+counts agrees with all 20 evaluations and every training epoch's clean-VAL scores.
+
+| 3D configuration | Clean prostate Dice | Polarity prostate Dice | Clean foreground Dice |
+|---|---|---|---|
+| Original seed42 | 0.83323 | 0.00000 | 0.87480 |
+| Reference seed43 | 0.83513 | 0.00000 | 0.87642 |
+| A: gamma only | 0.83356 | 0.00000 | 0.87351 |
+| B: gamma + polarity | 0.80714 | 0.78817 | 0.86238 |
+
+![All appearance conditions and six paired patient differences](figures/appearance_robustness.png)
+
+The extra polarity augmentation learns useful invariance to this synthetic
+condition: all six patients improve under polarity. However, clean prostate
+Dice falls by **0.02642** versus A, with **five of six patients worse**.
+The largest clean drops are K018 (**-0.06219**) and S022 (**-0.05850**);
+K008 improves (**+0.01727**). The minimum patient mean changes from **0.79091**
+(A, K008) to **0.75240** (B, S022). A's clean mean is close to the original
+seed42 value and below the seed43 reference, not a demonstrated overall advance.
+
+The predeclared engineering indication required B's clean prostate and
+foreground drops each to be no more than **0.02**, and polarity prostate gain
+to be at least **0.05**. The observed differences are
+**-0.02642 / -0.01113 / +0.78817**: the prostate guard fails, so the overall
+indication **fails**. B is not adopted as a replacement. Training-loop time is
+**1,023.29/1,021.84 s** for A/B, each peaking at **2.23 GiB**; each records
+**4,287 successful updates and 3 AMP overflow skips**, all disclosed.
+The job wall time also includes checks, smokes, validation, plotting and saving.
+
+This establishes a measured synthetic robustness/clean-image trade-off in
+this experiment, not M015's unique cause or its repair. These remain the same
+six checkpoint-selecting VAL patients across all conditions, not thirty
+independent patients. No new TEST was run, no favourable condition was selected
+for reporting, and no extra arm or parameter adjustment follows the observed
+scores. The original test benchmark and public v1 release remain unchanged;
+later weights are retained outside Git and are not added to that release.
+
 ## Engineering recommendation and limitations
 
 Retain the **2D baseline as the lower-cost research comparator**. On the frozen
@@ -540,13 +604,15 @@ has a severe patient-level failure at substantially higher cost. Neither model
 is justified for unattended contouring; draft masks require specialist review.
 A nonempty-mask check alone would miss the demonstrated near-total omission.
 The consistent validation ranking across two training runs does not overturn
-that test result or remove its patient-level failure.
+that test result or remove its patient-level failure. The appearance ablation
+also fails its clean-prostate guard, despite improving synthetic polarity
+robustness, so it supplies no basis for replacing the original configuration.
 
-Next work should be planned using training/validation data: investigate spatial
-translations and intensity augmentation, improved end-region resolution or
-ROI localization, and loss/sampling choices for the tiny prostate class.
-The D1 contrast measurements prioritize an appearance-robustness experiment;
-the D2 results give no basis for adopting removal of support zeroing as a repair.
+Further work should use a new prespecified TRAIN/VAL design: investigate spatial
+translations, improved end-region resolution or ROI localization, and
+loss/sampling choices for the tiny prostate class. The completed appearance
+ablation shows why clean-image harm must be measured alongside stress gains;
+D2 gives no basis for removing support zeroing as a repair.
 Ablate residual blocks and deep supervision separately before attributing any
 benefit to one component. Validate prediction-only disagreement or volume-based
 review flags with independent labels and prespecified thresholds. Evaluate any
@@ -607,6 +673,30 @@ Original execution guards bind the original report bytes. For a new D2
 repetition, use `tools/diagnose_support_intervention.py` with an explicit
 `--d1-source-report` from the completed new D1 run and a fresh output directory;
 preserve the original plans and results as historical evidence.
+
+For the appearance study, `jobs/train_appearance_A1.slurm` runs the two new
+arms sequentially, then all fixed validation conditions under
+`appearance_protocol.json`. Its two 8-test suites passed on the actual GPU
+environment, followed by isolated five-batch smokes requiring a successful
+optimizer update. The postrun summary's **7 additional fixtures** passed;
+two independent audits also reaggregated the actual class/patient results.
+After recreating the declared artifacts, use fresh outputs:
+
+```bash
+python experiments/summarize_appearance.py \
+  --protocol appearance_protocol.json \
+  --evaluation artifacts/appearance_evaluation_A1_702249/appearance_evaluation.json \
+  --output artifacts/reproduced_appearance_review.json
+python experiments/plot_appearance.py \
+  --summary artifacts/reproduced_appearance_review.json \
+  --output artifacts/reproduced_appearance_plot.png
+```
+
+The A1 summary verifies the original protocol/source hashes, checkpoint and
+receipt identities, full 30-epoch histories, earliest-tie clean selection and
+all 20 complete evaluations. It recomputes metrics from recorded counts;
+this audit does not certify anatomical labels. Retraining uses the protocol's
+same fixed conditions but is not promised bitwise identical.
 
 Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
 deterministic kernels are requested with warnings for unsupported operations.
@@ -771,6 +861,8 @@ post-test fixed validation robustness plan (27527d3), completed paired training
 (701767), independent analysis (701791), source/mechanism audit (702061/702062)
 and one-factor input intervention (702134). D1/D2 plans were committed before
 their respective executions, after the earlier diagnostic observations.
+Appearance plan **5c49de3** and audit-tool milestone **4e23d40** preceded the
+completed A1 job **702249**, whose failed clean-prostate guard is retained.
 The original v1 test remains unchanged.
 
 The project belongs under `recognition/ImprovedUNet3D_s4927782` on
@@ -800,6 +892,10 @@ official window; initial submission does not complete that future requirement.
 7. Dai et al. (2021), *CAN3D: Fast 3D Medical Image Segmentation via Compact
    Context Aggregation*, section 4.1 (source acquisition, annotation propagation
    and experimental preprocessing): https://arxiv.org/abs/2109.05443.
+8. Isensee et al. (2021), *nnU-Net: a self-configuring method for deep
+   learning-based biomedical image segmentation*, and the authors' intensity
+   augmentation implementation (inspiration, not a reproduction):
+   https://github.com/MIC-DKFZ/nnUNet/blob/master/nnunetv2/training/nnUNetTrainer/nnUNetTrainer.py.
 
 Data were provided by HipMRI Study and Calvary Mater Newcastle Hospital
 (Professor Peter Greer). Use follows the dataset's non-commercial research

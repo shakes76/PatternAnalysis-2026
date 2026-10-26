@@ -149,6 +149,45 @@ record the completed integrity checks and experiments; final results are in READ
   mechanism remains unresolved. The report preserves counterexamples and the
   original unmet target rather than concealing negative evidence.
 
+## Completed appearance ablation A1: 27 October 2026
+
+- Pre-result commit **5c49de3** froze `appearance_protocol.json`; **4e23d40**
+  added independent audit/plot tools before results. Job **702249** completed
+  in **40m06s**, exit 0:0, at **05:48:20 AEST**. Both 8-test suites and two
+  isolated five-batch smokes passed before the two formal 30-epoch arms and
+  all four-model/five-condition/38-VAL-volume evaluations. No cloud was needed.
+- Both arms retain the exact original 3D training configuration at seed42;
+  A adds keyed gamma, B adds the same gamma plus independently keyed polarity.
+  Actual initial parameter SHA, runtime dictionaries and complete configurations
+  match. The runtime remains A100-PCIE-40GB / Python 3.11.15 / Torch 2.13.0+cu130 /
+  CUDA 13.0. CUDA warn-only nondeterminism remains a limitation.
+- Selected clean-foreground epochs are **A30/B29**. Clean patient-balanced
+  prostate Dice is **0.8335597/0.8071380**; under synthetic polarity it is
+  **0/0.7881705**. Original seed42/43 references have clean **0.8332346/0.8351302**
+  and polarity zero. Their clean predictions' six-class counts and metrics
+  exactly match the earlier validation evidence.
+- B-minus-A differences are clean prostate **-0.0264218**, clean foreground
+  **-0.0111258**, polarity prostate **+0.7881705**. The fixed allowed clean
+  drops were 0.02 each, with polarity gain at least 0.05. Thus the clean-prostate
+  guard and overall indication **fail**, despite the synthetic-stress gain.
+  Five of six clean patient means worsen; no threshold or recipe is changed.
+- A/B training loops take **1,023.29/1,021.84 s**, each with **4,287 successful
+  updates, 3 AMP overflow skips**, and peak **2.227 GiB** allocated CUDA memory.
+  Job wall time includes validation, smokes, saving, checks and evaluation.
+- Downloaded private archive: 34 whitelisted protocol/metadata/log/best-weight
+  files, **48,373,760 bytes**, SHA256
+  `65826f430f6ae811bd42d14632b18cec0fb01d601c4adbc9cb51384daa722465`.
+  Safe extraction refused changed existing files; no raw data or predictions
+  were included. New weights remain ignored and outside the v1 public release.
+- The summary's seven fixtures passed, then actual source/receipt/epoch/case
+  checks passed. Two independent audits recomputed all **240** class-level
+  patient-balanced Dice/IoU means from all 20 evaluations, with agreement;
+  GT voxel counts remain identical across conditions. Public anonymous evidence
+  and a complete four-by-five/paired-patient plot are linked in README.
+- These are the same six checkpoint-selecting validation patients. The result
+  shows a synthetic invariance/clean-performance trade-off; it neither repairs
+  the original TEST nor establishes M015's unique cause. V1 remains unchanged.
+
 ## Remaining external requirements
 
 - The official final deadline in Learn.UQ.
