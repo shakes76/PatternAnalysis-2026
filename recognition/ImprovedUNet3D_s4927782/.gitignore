@@ -1,0 +1,19 @@
+# Medical images, local inventories, trained weights and machine-specific output.
+data/
+datasets/
+artifacts/
+checkpoints/
+runs/
+logs/
+*.nii
+*.nii.gz
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.hdf5
+*.onnx
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
