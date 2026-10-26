@@ -170,9 +170,10 @@ independently reloaded for validation. Their scores exactly match the selected
 history. [test_protocol.json](test_protocol.json) was committed **before the
 first final test**, frozen at **2026-10-26 14:32:33 UTC** (27 October 00:32 AEST).
 It fixes checkpoint and manifest digests, 30 epochs, main-head argmax without
-postprocessing, bootstrap and failure selection. Each final model was then
-evaluated once on the same test cases. Subsequent diagnostics do not alter
-weights, predictions or the protocol.
+postprocessing, bootstrap and failure selection. Each final model then underwent
+one complete benchmark on the same test cases. Later selected-case inference
+replays are explicitly retrospective correctness diagnostics; they do not
+replace the benchmark, change weights or authorize test-based tuning.
 
 ## Results
 
@@ -302,10 +303,15 @@ Across M015 visits, mean 3D predicted/GT volume ratio is **0.074** and mean
 centroid error **25.11 mm**, versus **0.404** and **4.26 mm** for 2D. A post-test
 CPU diagnostic compares GT descriptors with the 26 training-patient means:
 M015's normalized H centroid is **0.4516**, below their range **0.4581–0.5322**;
-its mean volume and D/W centroids remain within the training ranges. This
-supports investigating sensitivity to spatial coverage or location, alongside
-appearance and class confusion. It does **not** prove field-of-view or scanner
-shift caused the failure. No acquisition-level causal audit was performed.
+its mean volume and D/W centroids remain within the training ranges. However,
+the worst visit, Week2, has H centroid **0.4749**, inside the TRAIN visit range
+**0.4319–0.5499**; other ordinary-position visits also fail. Location alone
+does not explain the pattern. M015 spacing is within TRAIN ranges. Its raw
+intensity mean and standard deviation exceed TRAIN values, but MRI scale is
+arbitrary and per-case normalization removes a pure gain/offset change on
+unchanged nonzero support.
+Appearance, spatial coverage and class confusion remain investigation leads,
+**not established causes**. No acquisition-level causal audit was performed.
 Prediction-only intermodel Dice averages 0.229 for M015; disagreement could be
 studied as a future review flag, but no detector or threshold is validated here.
 
@@ -353,6 +359,49 @@ whole-organ score. All 146 3D FN voxels become Body. Small coarse-grid boundary
 changes matter, and 3D context does not resolve every interface.
 [Full-depth context](figures/failure_full_05.png).
 
+## Retrospective correctness diagnostics
+
+These checks were planned **after inspecting the v1 test failures**. They
+investigate implementation errors and preserve all original results; they
+are not a new independent test or a model-selection exercise. The machine-readable
+[diagnostic evidence](evidence/diagnostic_review.json) records scope and limits.
+
+| Check | Actual evidence | What remains unverified |
+|---|---|---|
+| Saved evidence | 136 prediction files across both models' validation and test evaluations: counts, metric algebra and patient aggregation agree | This audit alone does not independently remeasure GT intersections |
+| Native-to-cache alignment | Independent resampling of all eight M015 visits and four TRAIN/VAL controls: 12/12 images exact, maximum error 0; 12/12 masks have zero differing voxels | Anatomical annotation correctness and unexamined source cases |
+| Frozen direct inference | 20/20 available saved AMP predictions reproduced voxel-for-voxel; independently recomputed GT confusion and metrics agree | Shared model modules and training-time behaviour |
+| Precision sensitivity | All 48 forwards finite; largest absolute AMP/FP32 prostate Dice change 0.0014603; M015 Week2 remains 0.0014514 in both | Training-time AMP effects and other numerical configurations |
+
+The independent resampler uses Nibabel's affine resampling rather than the
+original cache-preparation function. Twelve three-plane panels were reviewed;
+the displayed slices show no obvious relative image/label displacement,
+mirror or axis swap. Below, the failed M015 Week2 retains its labelled target
+in both cached and independently reconstructed views. Coarse-grid blurring is
+visible, but is not by itself proof of the failure mechanism.
+
+![M015 Week2 native, cached and independently resampled image/label views](figures/native_cache_M015_Week2.png)
+
+No actionable discrepancy was found **within these checks**. This does not
+prove the whole implementation is bug-free, certify full-volume anatomical
+labels, exclude training-time AMP effects, or identify the cause of M015's
+failure. It rules against the specific checked resampling, inference-order,
+saved-prediction and inference-precision explanations. The five original
+failures and the unmet prostate target remain part of the report.
+
+### Planned validation robustness study
+
+[followup_protocol.json](followup_protocol.json) was committed as **27527d3**
+before submitting job **701767**. It changes only the training seed to **43**
+for both original models: the same split, cache, architecture, losses,
+30-epoch budget and foreground-validation checkpoint selector remain fixed.
+The models train sequentially on one GPU into new directories and are evaluated
+on **validation only**. At this revision the job is queued; no seed43 outcome
+is claimed. This study checks sensitivity to a second training random sequence,
+not the cause of M015's failure or whether v1's test target has been repaired.
+Both seeds will be reported; six repeated validation patients do not become
+twelve independent patients, and no seed is chosen to replace frozen v1.
+
 ## Engineering recommendation and limitations
 
 Retain the **2D baseline as the lower-cost research comparator**. The measured
@@ -370,7 +419,7 @@ review flags with independent labels and prespecified thresholds. Evaluate any
 new settings on a **new held-out cohort**, since this test split has now been
 examined. These are proposed experiments, not claimed improvements.
 
-Limitations include one training seed, six test patients, uneven visit counts,
+The v1 test comparison has one training seed, six test patients, uneven visit counts,
 a fixed 30-epoch budget, no architecture ablation, possible annotation error
 and information lost in downsampling. Patient weighting addresses repeated
 visits but does not establish representativeness or eliminate acquisition
@@ -389,7 +438,7 @@ project directory, create `logs`, then submit `jobs/setup_cpu.slurm` and wait
 for completion. On another machine install `requirements.txt` in Python 3.11
 with a compatible PyTorch/driver build. This CUDA build lacks Pascal/P100 support.
 
-The final CPU suite passed **95 checks** in job 701569, including split/cache
+The original final CPU suite passed **95 checks** in job 701569, including split/cache
 geometry, model gradients, metrics/empty classes, AMP recovery, checkpoint
 resume, provenance, HD95 support, failure selection and cache reconstruction.
 The same job rebuilt one real TRAIN NIfTI pair with byte-identical decoded
@@ -398,6 +447,14 @@ arrays under the unchanged manifest. Run checks with:
 ```bash
 .venv/bin/python -m unittest discover -s tests -v
 ```
+
+The later diagnostic CPU job **701739** passed **114 checks**, adding independent
+resampling and frozen-forward diagnostic checks. Its real-data audit and GPU
+job **701740** produced the retrospective evidence above. Reproduce on compute
+nodes with `jobs/diagnose_native_cache.slurm` and
+`jobs/diagnose_frozen_inference.slurm`; the latter names the selected test
+cases and explicitly acknowledges retrospective use. Diagnostic outputs use
+new job-specific directories and do not overwrite v1 predictions.
 
 Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
 deterministic kernels are requested with warnings for unsupported operations.
@@ -521,6 +578,13 @@ sequentially on one GPU; the latter skips models already at 30 epochs.
 A new experiment must record new source/manifest identities rather than reuse
 the original provenance claim.
 
+For the fixed second-seed study, rebuild the identical **all-split** cache and
+verify its immutable manifest, then submit `jobs/train_pair_seed43.slurm`.
+The job verifies the frozen protocol's source hashes, uses only TRAIN/VAL,
+checks resumed-run and validation identities, and records new checkpoint
+provenance under `artifacts/followup_seed43`. Do not run it concurrently with
+another writer or use its validation results to replace the v1 test model.
+
 ## Development evidence and submission
 
 Progressive commits record real milestones: environment/feasibility, patient
@@ -531,6 +595,8 @@ chronological engineering evidence. Original experiments completed as Slurm
 700974 (pilot), 700981 (30 epochs), 701513 (independent validation), 701544
 (final test), 701555 (paired analysis), 701560 (ROI figures), 701569 (95 checks
 and real cache rebuild), and 701590 (retrospective localization).
+Additional milestones record independent diagnosis (701739/701740) and the
+post-test fixed validation robustness plan (27527d3; queued job 701767).
 
 The project belongs under `recognition/ImprovedUNet3D_s4927782` on
 `topic-recognition`. The initial submission consists of the upstream PR and a
