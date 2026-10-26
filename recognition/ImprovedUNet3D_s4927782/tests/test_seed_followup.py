@@ -4,6 +4,7 @@ import copy
 import importlib.util
 import json
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 
@@ -111,6 +112,56 @@ class FollowupFixtureTests(unittest.TestCase):
         transform(data)
         write(path, data)
 
+    def prepare_cloud(self):
+        training = self.root / "artifacts/followup_seed43_cloud"
+        validation_root = self.root / "artifacts/validation_seed43_cloud"
+        shutil.copytree(self.root / "seed43", training)
+        shutil.copytree(self.root / "val43", validation_root)
+        environment = {"python_version": "3.11.9", "torch_version": "2.5.1+cu124",
+                       "cuda_version": "12.4", "numpy_version": "2.0.2"}
+        for seed in (42, 43):
+            for model in analysis.MODELS:
+                for kind, path in (("run", (self.root / "seed42" if seed == 42 else training) / model / "run.json"),
+                                   ("evaluation", (self.root / "val42" if seed == 42 else validation_root) / model / "evaluation.json")):
+                    data = json.loads(path.read_text())
+                    data.update({k: v for k, v in environment.items() if k != "numpy_version"})
+                    data.update(gpu_name="NVIDIA A100-PCIE-40GB" if seed == 42 else "NVIDIA L40S", device="cuda")
+                    if kind == "evaluation": data["amp"] = True
+                    write(path, data)
+        runner = self.root / "jobs/train_pair_seed43_cloud.sh"
+        runner.parent.mkdir()
+        runner.write_text("# frozen fixture runner\n")
+        source = self.root / "tools/analyze_seed_followup.py"
+        source.parent.mkdir()
+        source.write_bytes(Path(analysis.__file__).read_bytes())
+        required = dict(self.protocol["required_file_sha256"])
+        required.update({"followup_protocol.json": analysis.sha256(self.protocol_path),
+                         "jobs/train_pair_seed43_cloud.sh": analysis.sha256(runner),
+                         "tools/analyze_seed_followup.py": analysis.sha256(source)})
+        platform = {"provider": "Virtual GPU Lab", "region": "ap-northeast-1", "instance_type": "g6e.xlarge",
+                    "gpu_name": "NVIDIA L40S", "cuda_device_count": 1, "allocation_id": 1860}
+        roots = {"training": "artifacts/followup_seed43_cloud", "validation": "artifacts/validation_seed43_cloud"}
+        amendment = {"amendment_id": "paired_seed43_cloud_validation", "authorized": True,
+                     "base_protocol_sha256": analysis.sha256(self.protocol_path), "training_seed": 43,
+                     "training_epochs_per_model": 30, "allowed_splits": ["train", "validation"],
+                     "platform": platform, "environment": environment, "output_roots": roots,
+                     "required_file_sha256": required}
+        amendment_path = self.root / "cloud_amendment.json"
+        write(amendment_path, amendment)
+        execution = {"amendment_sha256": analysis.sha256(amendment_path),
+                     "base_protocol_sha256": analysis.sha256(self.protocol_path), "runner_sha256": analysis.sha256(runner),
+                     "manifest_sha256": self.protocol["manifest_sha256"], "training_sources_sha256": self.protocol["training_sources_sha256"],
+                     "platform_operator_declaration": platform, "output_roots": roots,
+                     "required_file_sha256_verified": required, "visible_cuda_device_count": 1,
+                     "measured_gpu_name": "NVIDIA L40S", "measured_environment": environment,
+                     "measured_extra_packages": {"matplotlib": "3.9.4"}}
+        write(training / "cloud_execution.json", execution)
+        return training, validation_root, amendment_path
+
+    def cloud_summary(self, training, validation_root, amendment_path):
+        return analysis.build_summary(self.root / "seed42", training, self.root / "val42", validation_root,
+                                      self.manifest_path, self.protocol_path, cloud_amendment=amendment_path)
+
     def test_complete_fixture_preserves_zero_null_patient_identity_and_resources(self):
         result = self.summary()
         self.assertEqual(result["validation_patients_unique"], 6)
@@ -166,6 +217,65 @@ class FollowupFixtureTests(unittest.TestCase):
         result = analysis.paired_patient_summary([{"patient": "A", "dice": 0.0, "iou": 0.0}])
         self.assertEqual(result["dice"], 0.0)
         self.assertEqual(result["support"]["dice"]["eligible_n"], 1)
+
+    def test_cloud_identity_changes_interpretation_without_changing_paired_estimator(self):
+        original = self.summary()
+        self.assertNotIn("cloud", original)
+        training, validation_root, amendment_path = self.prepare_cloud()
+        result = self.cloud_summary(training, validation_root, amendment_path)
+        self.assertEqual(result["per_seed_prostate_3d_minus_2d"], original["per_seed_prostate_3d_minus_2d"])
+        self.assertEqual(result["cloud"]["amendment_sha256"], analysis.sha256(amendment_path))
+        self.assertEqual(result["cloud"]["cloud_execution_sha256"], analysis.sha256(training / "cloud_execution.json"))
+        self.assertIn("joint seed + cloud", result["study"])
+        self.assertFalse(result["isolated_seed_effect_claimed"])
+        self.assertFalse(any(line.startswith("Comparisons describe seed sensitivity") for line in result["limits"]))
+
+    def test_cloud_roots_require_explicit_amendment_flag(self):
+        training, validation_root, _ = self.prepare_cloud()
+        with self.assertRaisesRegex(ValueError, "requires --cloud-amendment"):
+            analysis.build_summary(self.root / "seed42", training, self.root / "val42", validation_root,
+                                   self.manifest_path, self.protocol_path)
+
+    def test_cloud_rejects_wrong_amendment_authorization_base_or_root(self):
+        training, validation_root, amendment_path = self.prepare_cloud()
+        original = amendment_path.read_text()
+        for field, value in (("authorized", False), ("base_protocol_sha256", "wrong"),
+                             ("output_roots", {"training": "artifacts/followup_seed43", "validation": "artifacts/validation_seed43"})):
+            with self.subTest(field=field):
+                data = json.loads(original)
+                data[field] = value
+                write(amendment_path, data)
+                with self.assertRaises(ValueError): self.cloud_summary(training, validation_root, amendment_path)
+        amendment_path.write_text(original)
+
+    def test_cloud_rejects_execution_and_run_runtime_gpu_mismatches(self):
+        training, validation_root, amendment_path = self.prepare_cloud()
+        execution_path = training / "cloud_execution.json"
+        original = execution_path.read_text()
+        for field, value in (("amendment_sha256", "wrong"), ("measured_gpu_name", "NVIDIA A100"),
+                             ("measured_environment", {"python_version": "wrong"})):
+            with self.subTest(field=field):
+                data = json.loads(original)
+                data[field] = value
+                write(execution_path, data)
+                with self.assertRaises(ValueError): self.cloud_summary(training, validation_root, amendment_path)
+        execution_path.write_text(original)
+        for path in (training / "unet2d/run.json", validation_root / "improved3d/evaluation.json"):
+            original = path.read_text()
+            data = json.loads(original)
+            data["gpu_name"] = "wrong GPU"
+            write(path, data)
+            with self.assertRaisesRegex(ValueError, "runtime/GPU"):
+                self.cloud_summary(training, validation_root, amendment_path)
+            path.write_text(original)
+
+    @unittest.skipUnless(importlib.util.find_spec("matplotlib"), "Matplotlib required for cloud figure rendering")
+    def test_cloud_plot_renders_with_joint_change_context(self):
+        training, validation_root, amendment_path = self.prepare_cloud()
+        summary = self.cloud_summary(training, validation_root, amendment_path)
+        output = self.root / "cloud_plot.png"
+        analysis.plot_patients(summary, output)
+        self.assertGreater(output.stat().st_size, 1000)
 
     def test_repeated_visits_do_not_count_as_extra_patients(self):
         manifest = copy.deepcopy(self.manifest)

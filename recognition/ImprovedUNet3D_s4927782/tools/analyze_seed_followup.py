@@ -5,6 +5,8 @@ No model selection, training, significance test or replacement final score occur
 Protocol fields: training_seeds, training_epochs_per_model, manifest_sha256,
 v1_test_already_observed, allowed_splits, training_sources_sha256, seed42_models.
 The original training_sources.json must be beside the supplied protocol.
+Cloud roots additionally require --cloud-amendment and their execution identity;
+cloud comparisons jointly change seed and platform/software, not seed alone.
 """
 
 from __future__ import annotations
@@ -236,8 +238,99 @@ def load_run(seed, model, run_root, val_root, manifest, manifest_sha, protocol, 
             "resources": resources(history, run, evaluation), "selected_history_matches_standalone": True}
 
 
-def build_summary(seed42_root, seed43_root, seed42_val, seed43_val, manifest_path, protocol_path):
+def check_cloud_evidence(amendment_path, protocol_path, protocol, seed43_root, seed43_val, runs):
+    amendment_path = Path(amendment_path).expanduser().resolve()
+    amendment = read_json(amendment_path)
+    base_sha = sha256(protocol_path)
+    if (amendment.get("amendment_id") != "paired_seed43_cloud_validation" or amendment.get("authorized") is not True
+            or amendment.get("base_protocol_sha256") != base_sha or amendment.get("training_seed") != 43
+            or amendment.get("training_epochs_per_model") != 30
+            or set(amendment.get("allowed_splits", [])) != {"train", "validation"}):
+        raise ValueError("Cloud amendment authorization/base protocol/TRAIN-VAL scope differs.")
+    platform = amendment["platform"]
+    if (platform.get("provider") != "Virtual GPU Lab" or platform.get("region") != "ap-northeast-1"
+            or platform.get("instance_type") != "g6e.xlarge" or platform.get("cuda_device_count") != 1
+            or type(platform.get("cuda_device_count")) is not int
+            or not isinstance(platform.get("gpu_name"), str) or not platform["gpu_name"]):
+        raise ValueError("Cloud amendment platform/GPU identity is incomplete or unauthorized.")
+    for field, supplied, prefix in (("training", seed43_root, "followup_seed43_cloud"),
+                                    ("validation", seed43_val, "validation_seed43_cloud")):
+        relative = Path(amendment["output_roots"][field])
+        expected = (protocol_path.parent / relative).resolve()
+        if (len(relative.parts) != 2 or relative.parts[0] != "artifacts"
+                or not (relative.parts[1] == prefix or relative.parts[1].startswith(prefix + "_"))
+                or not expected.is_relative_to(protocol_path.parent) or expected != Path(supplied).resolve()):
+            raise ValueError("Cloud CLI roots must match the independent amended cloud output roots.")
+        for protected in ("full_seed42", "validation_seed42", "followup_seed43", "validation_seed43", "test_final"):
+            path = (protocol_path.parent / "artifacts" / protected).resolve()
+            if expected == path or expected.is_relative_to(path) or path.is_relative_to(expected):
+                raise ValueError("Cloud outputs overlap protected Rangpur/v1 evidence.")
+        if any((expected / model).resolve().parent != expected for model in MODELS):
+            raise ValueError("Cloud model directory symlink escapes its amended output root.")
+    required = amendment.get("required_file_sha256", {})
+    mandatory = dict(protocol["required_file_sha256"])
+    mandatory.update({"followup_protocol.json": base_sha,
+                      "tools/analyze_seed_followup.py": sha256(__file__)})
+    if "jobs/train_pair_seed43_cloud.sh" not in required or any(required.get(k) != v for k, v in mandatory.items()):
+        raise ValueError("Cloud amendment does not freeze the base inputs, runner and this analysis source.")
+    for name, expected in required.items():
+        relative = Path(name)
+        path = (protocol_path.parent / relative).resolve()
+        if (relative.is_absolute() or ".." in relative.parts or not path.is_relative_to(protocol_path.parent)
+                or str(relative).startswith("artifacts/test") or path.suffix not in (".json", ".py", ".sh", ".slurm", ".txt")
+                or sha256(path) != expected):
+            raise ValueError(f"Cloud required frozen file identity differs: {name}.")
+    execution_path = Path(seed43_root).resolve() / "cloud_execution.json"
+    execution = read_json(execution_path)
+    if (execution["amendment_sha256"] != sha256(amendment_path) or execution["base_protocol_sha256"] != base_sha
+            or execution["runner_sha256"] != required["jobs/train_pair_seed43_cloud.sh"]
+            or execution["manifest_sha256"] != protocol["manifest_sha256"]
+            or execution["training_sources_sha256"] != protocol["training_sources_sha256"]
+            or execution["platform_operator_declaration"] != platform
+            or execution["output_roots"] != amendment["output_roots"]
+            or execution["required_file_sha256_verified"] != required
+            or type(execution["visible_cuda_device_count"]) is not int or execution["visible_cuda_device_count"] != 1
+            or execution["measured_gpu_name"] != platform["gpu_name"]):
+        raise ValueError("Cloud execution identity differs from amendment/protocol/GPU.")
+    environment = amendment["environment"]
+    measured = execution["measured_environment"]
+    fields = ("python_version", "torch_version", "cuda_version", "numpy_version")
+    if set(measured) != set(fields) or set(environment) - set(fields) - {"extra_versions"}:
+        raise ValueError("Unexpected/incomplete amended cloud environment fields.")
+    if any(not isinstance(environment.get(k), str) or environment[k] != measured[k] for k in fields):
+        raise ValueError("Cloud execution runtime differs from its authorized environment.")
+    extras = environment.get("extra_versions", {})
+    packages = execution["measured_extra_packages"]
+    if (not isinstance(extras, dict) or not isinstance(packages, dict) or not isinstance(packages.get("matplotlib"), str)
+            or any(not isinstance(v, str) or not v or packages.get(k) != v for k, v in extras.items())):
+        raise ValueError("Cloud execution package versions differ from amendment.")
+    for model in MODELS:
+        for kind in ("run", "evaluation"):
+            data = read_json(runs["43"][model]["input_evidence"][kind]["path"])
+            if (data.get("gpu_name") != platform["gpu_name"]
+                    or any(data.get(k) != measured[k] for k in fields if k != "numpy_version")
+                    or not str(data.get("device", "")).startswith("cuda")):
+                raise ValueError(f"Cloud {model} {kind} runtime/GPU differs from its execution identity.")
+            if kind == "evaluation" and data.get("amp") is not True:
+                raise ValueError("Cloud validation must use the authorized AMP inference setting.")
+    reference_gpus = {runs["42"][model]["resources"][kind] for model in MODELS
+                      for kind in ("training_gpu", "evaluation_gpu")}
+    if len(reference_gpus) != 1 or not isinstance(next(iter(reference_gpus)), str) or "A100" not in next(iter(reference_gpus)):
+        raise ValueError("Cloud comparison requires the recorded seed-42 A100 reference.")
+    return {"amendment_path": str(amendment_path), "amendment_sha256": sha256(amendment_path),
+            "cloud_execution_path": str(execution_path), "cloud_execution_sha256": sha256(execution_path),
+            "reference_gpu": next(iter(reference_gpus)), "followup_gpu": platform["gpu_name"],
+            "platform_operator_declaration": platform, "measured_environment": measured,
+            "measured_extra_packages": execution["measured_extra_packages"], "required_file_sha256_verified": required,
+            "runtime_validation_scope": "Run/evaluation metadata independently match GPU/Python/Torch/CUDA; NumPy and extra package versions are recorded in cloud_execution, not in the original run/evaluation schemas.",
+            "platform_attestation_limit": "Provider/region/instance are operator declarations, not independent cloud attestation."}
+
+
+def build_summary(seed42_root, seed43_root, seed42_val, seed43_val, manifest_path, protocol_path, cloud_amendment=None):
     manifest_path, protocol_path = Path(manifest_path).resolve(), Path(protocol_path).resolve()
+    if cloud_amendment is None and ((Path(seed43_root) / "cloud_execution.json").exists()
+                                    or Path(seed43_root).name.startswith("followup_seed43_cloud")):
+        raise ValueError("Cloud output requires --cloud-amendment; it cannot be labelled a pure seed study.")
     manifest, protocol = read_json(manifest_path), read_json(protocol_path)
     manifest_sha = sha256(manifest_path)
     if (protocol["manifest_sha256"] != manifest_sha or protocol["training_seeds"] != [42, 43]
@@ -289,7 +382,7 @@ def build_summary(seed42_root, seed43_root, seed42_val, seed43_val, manifest_pat
         changes[model] = {field: {m: difference(a[field][m], b[field][m]) for m in ("dice", "iou")} for field in ("foreground", "prostate")}
         changes[model]["patients"] = [{"patient": x["patient"], **{m: difference(x["per_class"][5][m], y["per_class"][5][m]) for m in ("dice", "iou")}}
                                        for x, y in zip(a["patients"], b["patients"])]
-    return {"schema_version": 1, "study": "post-v1-TEST fixed TRAIN/VAL seed robustness follow-up", "split": "validation",
+    summary = {"schema_version": 1, "study": "post-v1-TEST fixed TRAIN/VAL seed robustness follow-up", "split": "validation",
             "v1_test_already_observed": True, "validation_patients_unique": 6, "training_seeds": [42, 43],
             "manifest_sha256": manifest_sha, "protocol_sha256": sha256(protocol_path), "training_sources_sha256": source_sha,
             "analysis_source_sha256": sha256(__file__),
@@ -305,6 +398,19 @@ def build_summary(seed42_root, seed43_root, seed42_val, seed43_val, manifest_pat
                        "Comparisons describe seed sensitivity of the complete models, not an isolated residual/deep-supervision/3D-context ablation.",
                        "Training loop time excludes validation, checkpoint writing and queue wait. CUDA figures are allocated memory, not total device usage.",
                        "Checkpoint hashes are checked between JSON provenance/evaluations and pinned seed-42 protocol metadata; this tool does not load or rehash checkpoint bytes."]}
+    if cloud_amendment is not None:
+        summary["cloud"] = check_cloud_evidence(cloud_amendment, protocol_path, protocol, seed43_root, seed43_val, runs)
+        summary["study"] = "post-v1-TEST TRAIN/VAL joint seed + cloud platform/software follow-up"
+        summary["comparison_factors"] = ["training_seed", "GPU/platform", "software_environment"]
+        summary["isolated_seed_effect_claimed"] = False
+        summary["seed43_minus_seed42_interpretation"] = "Between seed42+A100 reference and seed43+amended cloud GPU/software; jointly confounded, not an isolated seed effect."
+        summary["limits"] = [line for line in summary["limits"] if not line.startswith("Comparisons describe seed sensitivity")]
+        summary["limits"].extend([
+            "Seed42 is the A100 reference; seed43 changes seed, cloud GPU/platform and software together. Effects cannot be attributed independently to seed, hardware or software.",
+            "Within-run paired 3D-minus-2D retains the original prespecified common-patient estimator. Cross-platform resource changes are hardware/software observations, not isolated seed or architecture effects.",
+            "Within-run comparisons remain comparisons of complete models, not isolated residual/deep-supervision/3D-context component ablations.",
+            "Cloud authorization is checked against recorded execution and run/evaluation metadata; this analysis does not independently attest the physical cloud instance."])
+    return summary
 
 
 def plot_patients(summary, path):
@@ -320,19 +426,25 @@ def plot_patients(summary, path):
             run = summary["runs"][str(seed)][model]
             values = [row["per_class"][5]["dice"] for row in run["patients"]]
             undefined.extend(f"{names[i]}/{model}/{seed}" for i, value in enumerate(values) if value is None)
+            context = f"seed {seed}"
+            if "cloud" in summary:
+                context = "seed 42 / A100 reference" if seed == 42 else f"seed 43 / {summary['cloud']['followup_gpu']} / amended software"
             axis.plot(range(6), [v if v is not None else float("nan") for v in values],
                       color=color, linestyle="-" if seed == 42 else "--", marker="o" if seed == 42 else "s",
-                      label=f"{model}, seed {seed}, selected epoch {run['selected_epoch']}")
+                      label=f"{model}, {context}, selected epoch {run['selected_epoch']}")
     axis.set_xticks(range(6), names)
     axis.set(ylabel="Validation prostate Dice (mean visits per patient)", xlabel="Same six validation patients", ylim=(-0.03, 1.03))
-    axis.set_title("Post-v1-TEST TRAIN/VAL robustness follow-up: frozen models, two seeds")
+    axis.set_title("Post-v1-TEST TRAIN/VAL robustness follow-up: frozen models, two seeds" if "cloud" not in summary
+                   else "Post-v1-TEST TRAIN/VAL: joint seed + platform/software change\nSeed 42 / A100 reference vs seed 43 / amended cloud GPU and software")
     axis.grid(alpha=0.25)
     axis.legend(fontsize=9)
     caption = "No test scores, pooled significance or replacement v1 result. Zero values retained; undefined values shown as gaps."
+    if "cloud" in summary:
+        caption += "\nCloud comparison cannot isolate a seed effect; within-run paired estimator is unchanged."
     if undefined:
         caption += "\nUndefined: " + ", ".join(undefined)
     figure.text(0.5, 0.015, caption, ha="center", fontsize=8, wrap=True)
-    figure.tight_layout(rect=(0, 0.08 if undefined else 0.05, 1, 1))
+    figure.tight_layout(rect=(0, 0.12 if "cloud" in summary else 0.08 if undefined else 0.05, 1, 1))
     figure.savefig(path, dpi=160)
     plt.close(figure)
 
@@ -341,11 +453,12 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("seed42-root", "seed43-root", "seed42-val", "seed43-val", "manifest", "protocol", "output-dir"):
         parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--cloud-amendment", type=Path, help="Required for cloud roots; validates joint seed/platform/software follow-up identity.")
     args = parser.parse_args(argv)
     output = args.output_dir.expanduser().resolve()
     if output.exists():
         raise ValueError("Use a new output directory; prior evidence must not be overwritten.")
-    summary = build_summary(args.seed42_root, args.seed43_root, args.seed42_val, args.seed43_val, args.manifest, args.protocol)
+    summary = build_summary(args.seed42_root, args.seed43_root, args.seed42_val, args.seed43_val, args.manifest, args.protocol, args.cloud_amendment)
     output.mkdir(parents=True, exist_ok=False)
     plot_patients(summary, output / "patient_seed_prostate_dice.png")
     summary["figure"] = "patient_seed_prostate_dice.png"
