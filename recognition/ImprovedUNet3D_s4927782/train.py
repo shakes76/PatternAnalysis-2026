@@ -64,6 +64,30 @@ def save_checkpoint(path, payload):
     temporary.replace(path)
 
 
+def optimizer_step(model, optimizer, scaler, clip_grad, amp):
+    """Let GradScaler skip AMP overflows; keep ordinary training strict.
+
+    A finite loss can still have overflowing scaled gradients. unscale_ records
+    these for scaler.step/update, which skip the update and reduce the scale.
+    Nonfinite norms are returned as None so the JSON history stays standards
+    compliant. The actual skipped-step count is determined from scale backoff.
+    """
+    previous_scale = scaler.get_scale()
+    scaler.unscale_(optimizer)
+    norm = torch.nn.utils.clip_grad_norm_(model.parameters(), clip_grad, error_if_nonfinite=not amp)
+    finite_norm = bool(torch.isfinite(norm).item())
+    if amp and not finite_norm:
+        # A reduction can theoretically overflow even when its input gradients
+        # are finite. GradScaler cannot detect that case from individual grads.
+        if all(parameter.grad is None or bool(torch.isfinite(parameter.grad).all().item())
+               for parameter in model.parameters()):
+            raise RuntimeError("Gradient norm overflowed despite finite gradients; optimizer update aborted.")
+    scaler.step(optimizer)
+    scaler.update()
+    skipped = bool(amp and scaler.get_scale() < previous_scale)
+    return float(norm.item()) if finite_norm else None, skipped
+
+
 def resolve_training_class_weights(manifest_path, manifest, method, device):
     """Count training volumes once; validation/test never inform CE weights.
 
@@ -228,7 +252,7 @@ def main(argv=None):
             if device.type == "cuda":
                 torch.cuda.reset_peak_memory_stats(device)
             start = time.perf_counter()
-            loss_sum, examples, batches = 0.0, 0, 0
+            loss_sum, examples, batches, skipped_steps = 0.0, 0, 0, 0
             for batch_index, batch in enumerate(loader):
                 if args.max_batches is not None and batch_index >= args.max_batches:
                     break
@@ -241,10 +265,8 @@ def main(argv=None):
                 if not bool(torch.isfinite(loss).item()):
                     raise RuntimeError("Nonfinite training loss; checkpoint not advanced.")
                 scaler.scale(loss).backward()
-                scaler.unscale_(optimizer)
-                gradient_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip_grad, error_if_nonfinite=True)
-                scaler.step(optimizer)
-                scaler.update()
+                gradient_norm, skipped = optimizer_step(model, optimizer, scaler, args.clip_grad, args.amp)
+                skipped_steps += int(skipped)
                 count = int(images.shape[0])
                 loss_sum += float(loss.item()) * count
                 examples += count
@@ -266,7 +288,9 @@ def main(argv=None):
             row = {"epoch": epoch, "train_loss": loss_sum / examples, "training_batches": batches,
                    "training_examples": examples, "train_seconds": train_seconds,
                    "peak_allocated_cuda_bytes_training": train_peak,
-                   "last_gradient_norm_before_clipping": float(gradient_norm.item()),
+                   "last_gradient_norm_before_clipping": gradient_norm,
+                   "amp_overflow_skipped_optimizer_steps": skipped_steps,
+                   "optimizer_steps": batches - skipped_steps,
                    "validation_foreground_dice": score,
                    "validation_foreground_iou": evaluation["aggregate"]["foreground_mean_iou"] if evaluation else None,
                    "validation": evaluation, "development_only": development}

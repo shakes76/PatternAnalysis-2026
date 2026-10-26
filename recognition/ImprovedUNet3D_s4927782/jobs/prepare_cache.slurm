@@ -3,7 +3,7 @@
 #SBATCH --account=comp3710
 #SBATCH --partition=cpu
 #SBATCH --cpus-per-task=1
-#SBATCH --time=00:30:00
+#SBATCH --time=01:00:00
 #SBATCH --output=logs/%x-%j.out
 #SBATCH --error=logs/%x-%j.err
 
@@ -29,5 +29,7 @@ if [[ -n "$smoke_cache" ]]; then
 fi
 .venv/bin/python tools/prepare_cache.py --audit artifacts/dataset_audit.json \
   --output-dir artifacts/cache64 --shape 64 128 128 --label-ids 0 1 2 3 4 5
+.venv/bin/python tools/attach_label_schema.py \
+  --manifest artifacts/cache64/manifest.json --schema label_schema.json
 .venv/bin/python tools/inspect_cache.py --manifest artifacts/cache64/manifest.json \
   --output artifacts/alignment_full.png --target-class 5

@@ -43,9 +43,12 @@ def main():
                 axes[dimension, 1].contour(selected, levels=[0.5], colors=[palette(label)], linewidths=0.7)
         axes[dimension, 0].set_title(f'{name}: image', fontsize=10)
         axes[dimension, 1].set_title('Same grid with ground-truth contours', fontsize=10)
-    legend = [Line2D([0], [0], color=palette(label), label=f'Class {label}') for label in range(1, dataset.num_classes)]
+    semantics = dataset.manifest.get('label_semantics', {})
+    names = semantics.get('class_index_to_name', {})
+    legend = [Line2D([0], [0], color=palette(label), label=names.get(str(label), f'Class {label}')) for label in range(1, dataset.num_classes)]
     figure.legend(handles=legend, loc='lower center', ncol=dataset.num_classes - 1, fontsize=9)
-    figure.suptitle(f"Training-only alignment QA: {item['patient']} / {item['visit']}\nCanonical RAS / resampled grid; anatomical label names unverified", fontsize=11)
+    label_status = 'official HipMRI label names' if semantics.get('status') == 'official_source_confirmed' else 'class IDs; label names not attached'
+    figure.suptitle(f"Training-only alignment QA: {item['patient']} / {item['visit']}\nCanonical RAS / resampled grid; {label_status}", fontsize=11)
     figure.tight_layout(rect=(0, 0.035, 1, 0.94))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     figure.savefig(args.output, dpi=150)

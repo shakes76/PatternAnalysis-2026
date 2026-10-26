@@ -30,7 +30,7 @@ def main(argv=None):
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
     parser.add_argument("--amp", action=argparse.BooleanOptionalAction, default=None,
                         help="Default uses the checkpoint's AMP setting on CUDA, full precision on CPU.")
-    parser.add_argument("--target-class", type=int, default=1, help="Class index for FP/FN overlays, without inferred organ names.")
+    parser.add_argument("--target-class", type=int, default=5, help="Class index for FP/FN overlays; HipMRI class 5 is prostate.")
     parser.add_argument("--figure-count", type=int, default=5, help="Plot this many lowest-Dice cases; zero disables plots.")
     args = parser.parse_args(argv)
     if args.batch_size < 1 or args.figure_count < 0:
@@ -96,6 +96,7 @@ def main(argv=None):
         "checkpoint_epoch": checkpoint["epoch"], "checkpoint_best_epoch": checkpoint.get("best_epoch"),
         "manifest": str(manifest_path), "manifest_sha256": file_sha256(manifest_path),
         "model_config": config, "device": str(device), "amp": amp,
+        "label_semantics": manifest.get("label_semantics", {"status": "unverified"}),
         "python_version": platform.python_version(), "torch_version": str(torch.__version__),
         "cuda_version": torch.version.cuda,
         "gpu_name": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
@@ -127,7 +128,8 @@ def main(argv=None):
             score = f"{dice:.3f}" if dice is not None else "undefined"
             plot_case(item["image"], item["mask"], prediction, figure_dir / name,
                       config["num_classes"], args.target_class,
-                      title=f"{key[0]} / {key[1]} | {config['model']} | foreground Dice {score}")
+                      title=f"{key[0]} / {key[1]} | {config['model']} | foreground Dice {score}",
+                      class_names=[manifest.get("label_semantics", {}).get("class_index_to_name", {}).get(str(i), f"Class {i}") for i in range(config["num_classes"])])
             figures.append(f"figures/{name}")
     evaluation["figures"] = figures
     write_json(output_dir / "evaluation.json", evaluation)

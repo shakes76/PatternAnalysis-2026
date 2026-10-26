@@ -16,13 +16,13 @@ An imaging specialist needs draft prostate contours for review. This prototype i
 
 ## Model choice and preliminary evidence
 
-The Hard model will use volumetric convolutions, residual units, skip connections and deep supervision on downsampled HipMRI volumes. Relevant course concepts include convolutional spatial context, segmentation losses, generalisation and computational complexity. Isensee et al., [arXiv:1802.10508](https://arxiv.org/abs/1802.10508), is an architectural starting reference.
+The Hard model uses volumetric convolutions, residual units, skip connections and deep supervision on downsampled HipMRI volumes. Relevant course concepts include convolutional spatial context, segmentation losses, generalisation and computational complexity. Isensee et al., [arXiv:1802.10508](https://arxiv.org/abs/1802.10508), is an architectural starting reference.
 
-An initial Rangpur inventory found **211 MRI filenames and 211 label filenames**. The existing Python 3.11.15/PyTorch 2.13.0 environment is accessible; the course queue lists A100 nodes. The read-only audit tool passed seven software checks. Demo2 supplies a standard 2D U-Net starting point. **Pairing, patient splits, geometry, the 3D model and real-data performance remain unvalidated.** Equal file counts do not establish alignment.
+The audit verified **211 image/mask grids from 38 patients**, split **26/6/6** (143/38/30 scans). **56 checks passed**; tiny training-only runs verified preprocessing, models and CPU checkpoint resume. A100 synthetic checks passed; sampled image/label contours align. [CSIRO's original key](https://data.csiro.au/dap/ws/v2/collections/52549/support/5034) confirms **class 5 is prostate**. **Final accuracy, full-training memory and patient-level generalisation remain untested.**
 
 ## Risks, budget and next experiment
 
-Main risks are patient-identification mistakes, image/mask misalignment, class imbalance, anisotropic spacing, GPU memory limits and short turnaround. First audit sample pairs and patient identifiers, then run forward/loss/backward smoke tests and profile one real-data batch. Start with a provisional budget of **18 GPU-hours** (6 baseline, 12 3D), revising it after profiling. Produce an executable prototype before longer runs.
+Main risks are severe class imbalance, thin-boundary loss during downsampling, GPU memory limits and short turnaround. Next inspect more patients and profile complete real-data GPU epochs. Both models use class weights derived only from training voxels. Start with a provisional budget of **18 GPU-hours** (6 baseline, 12 3D), revising it after profiling. Complete the pilot before longer runs.
 
 The preselected fallback reduces 3D patch size and channel counts while retaining residual units and deep supervision, preserving the approved Hard architecture. Moving instead to a Normal model would cap implementation at 15/20.
 

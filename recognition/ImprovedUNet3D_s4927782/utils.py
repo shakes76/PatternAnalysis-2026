@@ -214,10 +214,10 @@ def plot_training(history, destination):
     plt.close(figure)
 
 
-def plot_case(image, target, prediction, destination, num_classes, target_class=1, title=""):
+def plot_case(image, target, prediction, destination, num_classes, target_class=1, title="", class_names=None):
     """Show target-extent endpoints and a maximum-error slice, including outer FP.
 
-    Class labels remain index-based until their anatomical meanings are verified.
+    Optional class names must come from the manifest's documented label schema.
     All panels share the preprocessed image grid; this is not native geometry.
     """
     import matplotlib
@@ -242,6 +242,7 @@ def plot_case(image, target, prediction, destination, num_classes, target_class=
     class_cmap = plt.get_cmap("tab20", num_classes)
     class_norm = BoundaryNorm(np.arange(-0.5, num_classes + 0.5), num_classes)
     errors_cmap = ListedColormap(["black", "red", "cyan"])
+    display_names = class_names or [f"Class {i}" for i in range(num_classes)]
     for row, depth in enumerate(indices):
         actual, predicted = target[depth], prediction[depth]
         errors = np.zeros_like(actual)
@@ -251,10 +252,11 @@ def plot_case(image, target, prediction, destination, num_classes, target_class=
         gt_plot = axes[row, 1].imshow(actual, cmap=class_cmap, norm=class_norm, interpolation="nearest")
         axes[row, 2].imshow(predicted, cmap=class_cmap, norm=class_norm, interpolation="nearest")
         axes[row, 3].imshow(errors, cmap=errors_cmap, vmin=0, vmax=2, interpolation="nearest")
-        for axis, label in zip(axes[row], [f"Input slice {depth}", "Ground truth (class IDs)", "Prediction (class IDs)", f"Class {target_class}: red FP / cyan FN"]):
+        for axis, label in zip(axes[row], [f"Input slice {depth}", "Ground truth", "Prediction", f"{display_names[target_class]}: red FP / cyan FN"]):
             axis.set_title(label, fontsize=9)
             axis.axis("off")
-    figure.colorbar(gt_plot, ax=axes[:, 1:3].ravel().tolist(), ticks=range(num_classes), fraction=0.025, pad=0.02, label="Class index")
+    bar = figure.colorbar(gt_plot, ax=axes[:, 1:3].ravel().tolist(), ticks=range(num_classes), fraction=0.025, pad=0.02)
+    bar.ax.set_yticklabels(display_names, fontsize=8)
     figure.suptitle(title + " — preprocessed grid", fontsize=10)
     figure.subplots_adjust(top=0.9, bottom=0.03, left=0.02, right=0.87, wspace=0.06, hspace=0.22)
     figure.savefig(destination, dpi=150)

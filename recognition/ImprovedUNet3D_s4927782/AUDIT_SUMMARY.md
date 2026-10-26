@@ -14,11 +14,13 @@ data-integrity audit.
 - Seed 3710 gives **26/6/6 patients** in train/validation/test and **143/38/30
   volumes**, respectively. Patient lists are disjoint and cover every pair.
 - Three inspected masks contained finite integer IDs 0-5. Their anatomical
-  meanings and the remaining masks' voxel contents are not yet verified.
+  meanings were then independently confirmed from the CSIRO v2 original
+  `BriefDataDescription.txt`: 0 Background, 1 Body, 2 Bones, 3 Bladder, 4 Rectum,
+  5 Prostate. `label_schema.json` records the source URL and verified digest.
 - The existing `torch` environment has Python **3.11.15**, PyTorch **2.13.0**,
   NumPy **2.4.6** and Matplotlib **3.11.2**, as read from package metadata.
-- Nibabel and SciPy are not installed in that environment. A project-specific
-  environment is being prepared on a CPU compute node.
+- Nibabel and SciPy were absent from that environment. The isolated project
+  environment now provides Nibabel 5.3.2 and SciPy 1.16.3 without modifying it.
 - Slurm exists under `/opt/slurm/bin/`. The course `comp3710` partition reports
   **10 A100 GPU nodes**. No GPU was allocated or model trained by this inventory.
 - Scheduler metadata advertises 1 MiB of host memory per node and an unlimited
@@ -28,13 +30,27 @@ data-integrity audit.
 - The audit utility passed **seven local automated checks**.
 - The pairing/header/split audit passed **14 synthetic-data checks** on a CPU
   node. Initial 2D/3D model checks also passed five tests and a synthetic
-  forward/backward/checkpoint roundtrip on CPU. GPU profiling is queued.
+  forward/backward/checkpoint roundtrip on CPU. A later A100 check also passed.
+- The integrated pipeline then passed **56 checks**, including the new cache,
+  metrics and weighted loss. A training-only cache of two scans supported one
+  real-data update of each model and a successful 2D checkpoint resume. These
+  deliberately tiny runs have no validation/test accuracy claim.
+- A100 synthetic GPU smoke job 700900 completed successfully in 22 seconds.
+  For the base-8, three-synthetic-class 3D prototype at 64x128x128, peak allocated
+  memory was 737,915,904 bytes (0.687 GiB) and warmed model-only forward time
+  22.20 ms. These are not final six-class/base-16 model resource results.
+- Job 700962 reloaded all **211** complete cache volumes, checked image/mask/
+  spacing validity and verified every mask's class counts against the manifest.
+  The official label metadata is attached before formal training. Five distinct
+  TRAIN patients were plotted and visually reviewed; sampled contours align.
+- The latest integrated suite passed **75 checks** in job 700969, including
+  actual CPU GradScaler overflow/recovery, official-label attachment and paired
+  HD95 comparisons on common nonempty support. No final test score is implied.
 
 ## Still to validate
 
-- Label meanings, full voxel validation, visual image/mask registration,
-  spatial preprocessing and foreground coverage.
-- A real-data model forward/backward test, measured memory and runtime.
+- Complete-epoch real-data GPU training, final-model memory/runtime and held-out
+  validation/test evidence. Tiny real-data CPU updates are already verified.
 - The official final deadline in Learn.UQ.
 
 The raw inventory remains under ignored `artifacts/`; scan files and trained
@@ -46,4 +62,5 @@ training/validation data.
 Data were provided by HipMRI Study. The dataset usage note requires attribution,
 an appropriate study citation, research/non-commercial use, and no attempt to
 identify or contact participants. The final report will include the exact
-study attribution and relevant publication after checking the study source.
+study attribution and publication are now included in README with the original
+CSIRO v2 label key and data DOI.
