@@ -46,6 +46,11 @@ data-integrity audit.
 - The latest integrated suite passed **75 checks** in job 700969, including
   actual CPU GradScaler overflow/recovery, official-label attachment and paired
   HD95 comparisons on common nonempty support. No final test score is implied.
+- The expanded suite passed **85 checks** in job 701148. Failure galleries now
+  choose distinct patients and show each model's largest full-depth FP/FN slice,
+  including errors outside the ground-truth extent. Remote provenance checks
+  verified eleven source/environment/job files against commit 69400a7 and the
+  frozen manifest digest, then wrote sidecars beside both experiment runs.
 
 ## Still to validate
 

@@ -249,6 +249,65 @@ def _read_case(root, record, evaluations, key, manifest):
     return image, target, spacing, predictions
 
 
+def select_failure_cases(cases, limit=5):
+    """Choose each patient's worst defined 3D visit, then rank those patients.
+
+    Zero Dice remains a defined failure. Ties use patient/visit identifiers and
+    therefore do not depend on input order. Patients with only undefined Dice
+    cannot contribute a ranked failure case.
+    """
+    if type(limit) is not int or limit < 0:
+        raise ValueError("Failure-gallery limit must be a nonnegative integer.")
+    ranked = sorted((case for case in cases if case["model"]["dice"] is not None),
+                    key=lambda case: (case["model"]["dice"], case["patient"], case["visit"]))
+    selected, seen = [], set()
+    for case in ranked:
+        if len(selected) == limit:
+            break
+        if case["patient"] not in seen:
+            selected.append(case)
+            seen.add(case["patient"])
+    return selected
+
+
+def select_gallery_slices(target, predictions, target_class):
+    """Show GT-third centres plus each model's largest full-depth FP+FN slice.
+
+    The two model-specific maxima can occur outside the GT extent. Their ties
+    use the lowest depth index. Repeated depths share one row with every
+    selection label preserved; absent GT thirds use explicitly labelled grid
+    fallbacks rather than claiming an anatomical region.
+    """
+    target = np.asarray(target)
+    predictions = [np.asarray(prediction) for prediction in predictions]
+    if target.ndim != 3 or not target.size or len(predictions) != 2 or any(
+            prediction.shape != target.shape for prediction in predictions):
+        raise ValueError("Expected a nonempty D,H,W target and two matching predictions.")
+    actual = target == target_class
+    regions = region_metrics(predictions[1] == target_class, actual)["regions"]
+    rows = []
+
+    def add(depth, label):
+        depth = int(depth)
+        for row in rows:
+            if row["depth"] == depth:
+                row["labels"].append(label)
+                return
+        rows.append({"depth": depth, "labels": [label]})
+
+    for index, name in enumerate(REGIONS):
+        depths = regions[name]["depth_indices"]
+        if depths:
+            add(depths[len(depths) // 2], name + " GT third")
+        else:
+            add(round(index * (target.shape[0] - 1) / 2), name + " (no GT third; grid fallback)")
+    for prediction, model_name in zip(predictions, ("2D", "3D")):
+        errors = np.logical_xor(prediction == target_class, actual).sum(axis=(1, 2))
+        depth = int(errors.argmax())
+        add(depth, f"max {model_name} FP+FN ({int(errors[depth])} voxels)")
+    return rows
+
+
 def plot_evidence(output, bootstrap, selected, root, records, evaluations, manifest, target_class):
     import matplotlib
     matplotlib.use("Agg")
@@ -264,10 +323,10 @@ def plot_evidence(output, bootstrap, selected, root, records, evaluations, manif
     for rank, case in enumerate(selected, 1):
         key = (case["patient"], case["visit"])
         image, target, _, predictions = _read_case(root, records[key], evaluations, key, manifest)
-        depths = [case["model"]["regions"][name]["depth_indices"] for name in REGIONS]
-        chosen = [int(group[len(group) // 2]) if group else int(round(i * (target.shape[0] - 1) / 2)) for i, group in enumerate(depths)]
-        fig, axes = plt.subplots(3, 6, figsize=(16, 8), squeeze=False)
-        for row, depth in enumerate(chosen):
+        chosen = select_gallery_slices(target, predictions, target_class)
+        fig, axes = plt.subplots(len(chosen), 6, figsize=(16, 2.7 * len(chosen)), squeeze=False)
+        for row, selection in enumerate(chosen):
+            depth = selection["depth"]
             panels = [image[depth], target[depth], predictions[0][depth], predictions[1][depth]]
             for prediction in predictions:
                 panels.append(np.where((prediction[depth] == target_class) & (target[depth] != target_class), 1,
@@ -277,8 +336,10 @@ def plot_evidence(output, bootstrap, selected, root, records, evaluations, manif
                 axis.imshow(panel, cmap="gray" if column == 0 else "tab20" if column < 4 else ListedColormap(["black", "red", "cyan"]),
                             vmin=None if column == 0 else 0, vmax=None if column == 0 else manifest["num_classes"] - 1 if column < 4 else 2,
                             interpolation="nearest")
-                region = REGIONS[row] if depths[row] else REGIONS[row] + " (no GT third; fallback)"
-                axis.set_title(f"{title} | {region} D={depth}", fontsize=8); axis.axis("off")
+                axis.set_title(f"{title} | D={depth}", fontsize=8); axis.axis("off")
+            # axis('off') suppresses normal axis labels, so use explicit text.
+            axes[row, 0].text(0, -0.08, " / ".join(selection["labels"]),
+                              transform=axes[row, 0].transAxes, fontsize=7, va="top")
         fig.suptitle(f"{key[0]} / {key[1]} | class {target_class} | resampled grid | red FP / cyan FN")
         fig.tight_layout(); name = f"worst_3d_{rank:02d}.png"; fig.savefig(output / name, dpi=150); plt.close(fig)
         figures.append(name)
@@ -302,8 +363,7 @@ def analyze(manifest_path, baseline_path, model_path, output_dir, target_class=5
                           **confusion_counts(prediction, target, target_class, manifest["num_classes"])}
         cases.append(case)
     bootstrap = paired_bootstrap(cases, bootstrap_samples, seed)
-    ranked = sorted(cases, key=lambda c: (c["model"]["dice"] if c["model"]["dice"] is not None else float("inf"), c["patient"], c["visit"]))
-    selected = [case for case in ranked if case["model"]["dice"] is not None][:5]
+    selected = select_failure_cases(cases)
     report = {"schema_version": 1, "split": evaluations[0][1]["split"], "target_class": target_class,
               "class_name": manifest.get("label_semantics", {}).get("class_index_to_name", {}).get(str(target_class), f"class {target_class}"), "label_semantics": manifest.get("label_semantics", {"status": "unverified"}),
               "manifest_sha256": hashlib.sha256(Path(manifest_path).expanduser().read_bytes()).hexdigest(),
@@ -312,7 +372,8 @@ def analyze(manifest_path, baseline_path, model_path, output_dir, target_class=5
               "aggregation_protocol": "Mean visits per patient, then equal mean patients. Confusion and outer-FP summaries are patient-balanced mean voxel counts; case counts remain raw. Undefined values alone are excluded.",
               "cases": cases, "baseline": patient_summary(cases, "baseline"), "model": patient_summary(cases, "model"),
               "paired_bootstrap": bootstrap, "paired_hd95": paired_hd95_summary(cases),
-              "failure_selection": "Up to five lowest defined 3D target Dice, including zero; deterministic patient/visit ties. Fewer than three cases cannot support a 3-case gallery.",
+              "failure_selection": "Each patient's worst defined 3D target-Dice visit, then up to five distinct patients ranked by that Dice, including zero; deterministic patient/visit ties. Fewer than three eligible patients cannot support a three-patient gallery.",
+              "figure_selection": "For each selected visit: approximate inferior/mid/superior GT-extent third centres plus each model's maximum target FP+FN slice across the entire depth, including outside GT extent. Error-maximum ties use the lowest depth; duplicate depths share a row with all selection labels. Missing GT thirds use explicitly labelled grid fallbacks.",
               "selected_failure_keys": [[c["patient"], c["visit"]] for c in selected],
               "resources": {name: {field: item[1].get(field) for field in ("parameters", "mean_inference_ms", "peak_allocated_cuda_bytes")}
                             for name, item in zip(("baseline", "model"), evaluations)},

@@ -123,6 +123,49 @@ class PairMathTests(unittest.TestCase):
         for metric in ("baseline_hd95_mm", "model_hd95_mm", "delta_hd95_mm"):
             self.assertIsNone(result[metric])
 
+    def test_failure_gallery_uses_distinct_patients_and_their_worst_visit(self):
+        def case(patient, visit, dice):
+            return {"patient": patient, "visit": visit, "model": {"dice": dice}}
+
+        cases = [case("A", "Week2", 0.0), case("A", "Week0", 0.0),
+                 case("A", "Week1", 0.9), case("B", "Week0", 0.1),
+                 case("C", "Week0", 0.2), case("D", "Week0", 0.3),
+                 case("E", "Week0", 0.4), case("F", "Week0", 0.5),
+                 case("G", "Week0", None)]
+        selected = analysis.select_failure_cases(cases)
+        self.assertEqual([(item["patient"], item["visit"]) for item in selected],
+                         [("A", "Week0"), ("B", "Week0"), ("C", "Week0"),
+                          ("D", "Week0"), ("E", "Week0")])
+        self.assertEqual(len({item["patient"] for item in selected}), 5)
+        self.assertEqual(selected[0]["model"]["dice"], 0.0)
+        self.assertEqual(selected, analysis.select_failure_cases(list(reversed(cases))))
+
+    def test_gallery_keeps_gt_thirds_and_both_models_maximum_outer_error_slices(self):
+        target = np.zeros((12, 4, 4), dtype=np.uint8)
+        target[3:9, 1, 1] = 5
+        baseline, model = target.copy(), target.copy()
+        baseline[0] = 5
+        model[11] = 5
+        rows = analysis.select_gallery_slices(target, [baseline, model], 5)
+        self.assertEqual([row["depth"] for row in rows], [4, 6, 8, 0, 11])
+        self.assertIn("max 2D FP+FN (16 voxels)", rows[3]["labels"])
+        self.assertIn("max 3D FP+FN (16 voxels)", rows[4]["labels"])
+
+    def test_gallery_coalesces_repeated_depths_and_labels_absent_gt(self):
+        target = np.zeros((12, 4, 4), dtype=np.uint8)
+        target[3:9, 1, 1] = 5
+        prediction = target.copy()
+        prediction[0] = 5
+        rows = analysis.select_gallery_slices(target, [prediction, prediction], 5)
+        self.assertEqual([row["depth"] for row in rows], [4, 6, 8, 0])
+        self.assertEqual(len(rows[-1]["labels"]), 2)
+        empty = np.zeros((4, 4, 4), dtype=np.uint8)
+        false_positive = empty.copy(); false_positive[3] = 5
+        absent_rows = analysis.select_gallery_slices(empty, [empty, false_positive], 5)
+        self.assertTrue(any("no GT third" in label for row in absent_rows for label in row["labels"]))
+        self.assertTrue(any(row["depth"] == 3 and any("max 3D" in label for label in row["labels"])
+                            for row in absent_rows))
+
 
 @unittest.skipIf(analysis is None, "NumPy and SciPy required for paired analysis")
 class EvidenceContractTests(unittest.TestCase):

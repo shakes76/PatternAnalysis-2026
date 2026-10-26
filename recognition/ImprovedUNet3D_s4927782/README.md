@@ -2,7 +2,7 @@
 
 Author: Baoxu Wang (s4927782). COMP3710, 2026.
 
-**Status: all 211 cached volumes and 75 checks passed. A two-epoch full-data
+**Status: all 211 cached volumes and 85 checks passed. A two-epoch full-data
 pilot completed for both models on an A100; continuation to 30 epochs each is
 queued. Final test accuracy remains unmeasured.** The final model is a **3D Improved
 U-Net (Hard)** with residual units and deep supervision, evaluated against a
@@ -161,6 +161,14 @@ are development checks, not final experiments.
 
 ### Architecture and loss
 
+![Implemented six-class 2D and 3D U-Net architectures with feature-map sizes and deep supervision](figures/model_architecture.png)
+
+The diagram shows base width 16 and the actual cached input grid. Dashed lateral
+arrows concatenate encoder features; orange heads supply auxiliary training
+losses. Forward computes all 3D heads, while evaluation uses the main head's
+argmax. The [editable SVG](figures/model_architecture.svg) can be regenerated
+with `tools/plot_architecture.py`.
+
 The 2D baseline has three pooling levels, double-convolution encoder/decoder
 blocks, transposed-convolution upsampling and skip concatenation. The 3D model
 has three volumetric pooling levels, residual blocks, GroupNorm, LeakyReLU,
@@ -226,12 +234,59 @@ The verified direct versions are in `requirements.txt`; the active cluster
 build is PyTorch 2.13.0+cu130 / CUDA 13.0, Python 3.11.15. Rangpur's existing
 PyTorch environment is reused read-only through a project virtual environment;
 only the extra packages in `requirements-extra.txt` were installed there.
+On Rangpur, the one-time setup assumes a working PyTorch environment at
+`~/miniconda3/envs/torch`. From the project directory, create the log folder and
+submit the isolated environment setup, then wait for that job to succeed:
+
+```bash
+mkdir -p logs
+/opt/slurm/bin/sbatch jobs/setup_cpu.slurm
+```
+
+The setup creates `.venv` using that Python with `--system-site-packages` and
+installs the pinned extra dependencies. On a different machine, create a Python
+3.11 environment and install `requirements.txt` with a PyTorch CUDA build
+compatible with the GPU and driver. The actual experiments use an A100;
+this CUDA 13 PyTorch build does not include Pascal/P100 support. Record the
+resolved build rather than assuming every GPU is compatible.
+
 Datasets and checkpoints stay outside Git. A final trained-weight location will
 be supplied after the experiments finish.
 
 For the supplied trained checkpoint, use the exact provided manifest alongside
 the cache. Checkpoints verify its hash, patient assignments, labels and grid.
 Retraining generates a new auditable manifest and new checkpoints.
+The audit includes a creation timestamp, so regenerating it and the manifest
+does not reproduce the exact digest expected by an existing checkpoint. Use the
+frozen manifest supplied with those weights for inference; use a newly generated
+manifest for a new training run. The fixed patient-split seed is **3710**;
+model initialization/shuffling seed is **42**.
+Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
+deterministic kernels are requested with warnings for unsupported operations.
+This CUDA build warns that its categorical-CE kernel lacks a deterministic
+implementation. These settings improve repeatability but do not guarantee
+bit-identical retraining across runs, software builds or hardware.
+
+The training source is frozen at commit
+`69400a70b9b7bbed1971408e74785e926236410a`. [training_sources.json](training_sources.json)
+records SHA-256 digests for the eleven training, preprocessing, inference,
+environment and job files, plus the frozen manifest digest. Documentation and
+analysis helpers may receive later commits without changing model behavior.
+The actual remote files are checked before a provenance sidecar is recorded:
+
+```bash
+.venv/bin/python tools/record_provenance.py --expected training_sources.json \
+  --manifest artifacts/cache64/manifest.json \
+  --output artifacts/full_seed42/improved3d/source_provenance.json
+```
+
+Use the corresponding 2D directory for its sidecar. The tool can also hash a
+finished checkpoint with `--checkpoint`; explicit `--replace` updates a sidecar.
+It does not modify or deserialize weights and never changes the manifest or
+training configuration. Final weight digests and selected epochs remain pending.
+This digest book describes the original experiment. A new training experiment
+must record its own source identities and new manifest digest rather than
+claiming compatibility with the original checkpoint.
 
 From this project directory, the preparation sequence on a CPU compute node is:
 
@@ -270,9 +325,31 @@ done
 
 `jobs/train_pilot.slurm` requests one A100 for at most 20 minutes. The longer
 `jobs/train_pair.slurm` requests the course GPU partition and resumes each
-model's latest complete epoch. Actual duration and training continuation remain
-subject to measured pilot cost and validation behavior. Interrupted epochs are
-repeated from the previous saved epoch.
+model's latest complete epoch. After the pilot completed, the formal 30-epoch
+continuation was submitted with a one-hour limit, based on measured cost:
+
+```bash
+/opt/slurm/bin/sbatch --time=01:00:00 jobs/train_pair.slurm 30
+```
+
+Submit only one job writing these output directories at a time. The script skips
+a model already at the requested total; otherwise it passes the model's
+`--resume artifacts/full_seed42/<model>/latest.pt`. For an allocated GPU compute
+node, the explicit equivalent for the 3D model is:
+
+```bash
+.venv/bin/python train.py --manifest artifacts/cache64/manifest.json \
+  --model improved3d --output-dir artifacts/full_seed42/improved3d \
+  --epochs 30 --batch-size 1 --base-channels 16 --lr 0.001 \
+  --workers 0 --seed 42 --device cuda --amp --eval-batch-size 32 \
+  --resume artifacts/full_seed42/improved3d/latest.pt
+```
+
+The direct command requires a checkpoint below epoch 30. For 2D, change the
+model/output/resume paths to `unet2d` and batch size to 16; keep the remaining
+settings. Interrupted epochs repeat from the last saved epoch. Equal epoch
+counts cover the same training volumes, while batch units, optimizer-step
+counts and elapsed compute differ and must be reported separately.
 
 Validation inference uses `predict.py --split validation`. Only after model
 decisions are fixed, the same command may use `--split test --final-test`:
@@ -287,6 +364,41 @@ decisions are fixed, the same command may use `--split test --final-test`:
 Run the equivalent command for `unet2d/best.pt` with its own output directory.
 Never overwrite an earlier evaluation. This section describes executable
 commands, not evidence that a formal training or evaluation has finished.
+
+After all decisions are frozen using validation, final test inference on a GPU
+compute node uses both selected checkpoints under the same settings:
+
+```bash
+for model in unet2d improved3d; do
+  .venv/bin/python predict.py --manifest artifacts/cache64/manifest.json \
+    --checkpoint "artifacts/full_seed42/$model/best.pt" \
+    --split test --final-test --output-dir "artifacts/test_final/$model" \
+    --batch-size 32 --device cuda --target-class 5
+done
+```
+
+Then on a CPU compute node, analyze paired predictions and produce the failure
+gallery and prostate boundary summaries:
+
+```bash
+.venv/bin/python tools/analyze_pair.py --manifest artifacts/cache64/manifest.json \
+  --baseline-eval artifacts/test_final/unet2d/evaluation.json \
+  --model-eval artifacts/test_final/improved3d/evaluation.json \
+  --output-dir artifacts/test_final/paired --target-class 5 \
+  --bootstrap-samples 2000 --seed 3710
+```
+
+This seed controls paired patient bootstrap sampling, separately from training.
+The held-out test contains six patients and 30 visits; visits from one patient
+are correlated. A single training seed and six independent test patients limit
+certainty about small improvements. Report the paired confidence interval and
+case-level failures alongside the point estimates.
+
+The failure gallery selects each patient's worst defined 3D prostate Dice visit,
+then the five worst distinct patients. Zero Dice remains eligible. Each figure
+shows GT extent thirds and each model's largest prostate FP/FN slice across the
+full volume, including errors outside the GT extent; duplicate depths share a
+row. The selection rule is fixed before final test evaluation.
 
 ## Development history and submission
 
@@ -316,6 +428,8 @@ team's later code review within the officially announced response window.
 5. Dowling et al. (2015), *Automatic Substitute Computed Tomography Generation
    and Contouring for MRI-Alone External Beam Radiation Therapy From Standard
    MRI Sequences*: https://doi.org/10.1016/j.ijrobp.2015.08.045.
+6. Ronneberger, O.; Fischer, P.; Brox, T. (2015), *U-Net: Convolutional Networks
+   for Biomedical Image Segmentation*: https://arxiv.org/abs/1505.04597.
 
 Data were provided by HipMRI Study and Calvary Mater Newcastle Hospital
 (Professor Peter Greer). Use follows the dataset's non-commercial research
