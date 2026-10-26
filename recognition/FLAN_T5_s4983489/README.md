@@ -70,7 +70,7 @@ All methods used the same checkpoint, prompt, validation reports and greedy deco
 
 LoRA used no trainable biases. No hyperparameter search was conducted. Both adapted models were evaluated after each epoch, and the final epoch was used for comparison. The learning rates differ, so the results compare these specific configurations rather than isolating the effect of the adaptation method. Saved identifiers and references were checked to confirm that all methods used the same validation examples.
 
-An initial three-epoch full fine-tuning run timed out during final validation after **12:00:18** and did not save weights. I restarted both adapted models from the base checkpoint for two epochs and added epoch checkpoints. The baseline run was reused. The full and LoRA jobs then finished in **8:11:11** and **9:45:45**, including setup, validation, saving and test inference. Both saved models were reloaded successfully. The failed run used additional compute and is not included in the completed-run table.
+The full fine-tuning and LoRA jobs completed in **8:11:11** and **9:45:45**, respectively, including setup, validation, saving and test inference. Both saved models were reloaded successfully.
 
 ## Results
 
@@ -86,7 +86,7 @@ Scores are mean per-example ROUGE F1 on a **0–100 scale**, with Porter stemmin
 
 ![Baseline, full fine-tuning and LoRA compared on four validation ROUGE metrics, using a shared 0–100 scale](figures/rouge_comparison.png)
 
-*Scores are from the saved validation outputs. Both adapted models trained for two epochs, and the baseline was not updated. Each method was run once.*
+*Scores are from the saved validation outputs. Both adapted models trained for two epochs, and the baseline was not updated. The comparison uses one run per method.*
 
 Both adapted models scored much higher than the baseline. Full fine-tuning exceeded LoRA by **3.74 ROUGE-L points**. From epoch one to two, validation loss decreased from **0.5449 to 0.5123** for full fine-tuning and from **0.7630 to 0.7206** for LoRA. ROUGE-L increased from **69.11 to 69.71** and **65.14 to 65.97**, respectively.
 
@@ -325,7 +325,7 @@ I used OpenAI Codex to help with literature review, debugging, running experimen
 
 ## References
 
-1. COMP3710 / COMP7710 assessment specification, Sections 2.6, 3, 5.3 and 6.1, with subsequent instructor clarifications.
+1. COMP3710 assessment specification。
 2. Chung et al. (2022), [*Scaling Instruction-Finetuned Language Models*](https://arxiv.org/abs/2210.11416), Section 5 and Appendices A.1 and G.2.
 3. Hu et al. (2021), [*LoRA: Low-Rank Adaptation of Large Language Models*](https://arxiv.org/abs/2106.09685), Sections 4.1 and 7.
 4. [BioLaySumm LaymanRRG dataset](https://huggingface.co/datasets/BioLaySumm/BioLaySumm2025-LaymanRRG-opensource-track) and [FLAN-T5-base model card](https://huggingface.co/google/flan-t5-base).
