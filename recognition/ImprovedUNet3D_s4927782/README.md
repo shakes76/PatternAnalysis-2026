@@ -406,11 +406,11 @@ kernels. Seeded retraining is not guaranteed bit-identical across runs or builds
 
 ### Trained weights and exact cache reconstruction
 
-The prepared **24.77 MB** bundle `demo3_hipmri_seed42.zip` contains both selected
-checkpoints, **the frozen manifest, decoded-array digest book, source sidecars,
-histories and score JSON**, with no raw MRI, mask or prediction arrays. Its
-public download is pending authorization; until then obtain the local bundle
-from the author. ZIP SHA-256:
+The public [24.77 MB result bundle](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/tag/demo3-hipmri-seed42-v1)
+contains both selected checkpoints, **the frozen manifest, decoded-array digest
+book, source sidecars, histories and score JSON**, with no raw MRI, mask or
+prediction arrays. Download `demo3_hipmri_seed42.zip` from the release assets;
+GitHub's uploaded-asset digest matches the verified local archive. ZIP SHA-256:
 `2b2904d92afc73fb93ebb129ffea01161379cee3bcb4e256a7bb7347516d3365`.
 Extract `demo3_hipmri_seed42.zip` in a fresh checkout's project directory to
 populate ignored `artifacts/`. Obtain HipMRI separately through the course or
