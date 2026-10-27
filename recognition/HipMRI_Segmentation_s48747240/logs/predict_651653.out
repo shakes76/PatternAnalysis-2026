@@ -1,0 +1,38 @@
+Job 651653 on a100-9, started Mon Oct 12 03:08:26 AEST 2026
+Mon Oct 12 03:08:26 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          Off |   00000000:0B:00.0 Off |                    0 |
+| N/A   35C    P0             57W /  250W |       0MiB /  40960MiB |    100%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Volumes train/val/test: 136/48/27
+Test patients: ['J026', 'K008', 'S028', 'T009', 'T014', 'V027']
+
+--- Per-class Dice, test volumes ---
+  Class 0: where present 0.9983 (present in 27/27 volumes, all volumes 0.9983)
+  Class 1: where present 0.9873 (present in 27/27 volumes, all volumes 0.9873)
+  Class 2: where present 0.9209 (present in 27/27 volumes, all volumes 0.9209)
+  Class 3: where present 0.9460 (present in 27/27 volumes, all volumes 0.9460)
+  Class 4: where present 0.8472 (present in 27/27 volumes, all volumes 0.8472)
+  Class 5: where present 0.8369 (present in 27/27 volumes, all volumes 0.8369)
+  Mean foreground Dice (classes 1-5): 0.9077
+
+Weakest class: 5. Figures for volumes: ['T014_Week2_LFOV.nii.gz', 'J026_Week1_LFOV.nii.gz', 'K008_Week0_LFOV.nii.gz', 'J026_Week7_LFOV.nii.gz']
+  T014_Week2_LFOV.nii.gz: class 5 Dice=0.75
+  J026_Week1_LFOV.nii.gz: class 5 Dice=0.77
+  K008_Week0_LFOV.nii.gz: class 5 Dice=0.78
+  J026_Week7_LFOV.nii.gz: class 5 Dice=0.90

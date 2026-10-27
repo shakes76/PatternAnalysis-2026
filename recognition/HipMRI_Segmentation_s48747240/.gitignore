@@ -1,0 +1,4 @@
+__pycache__/ and echo *.out and echo *.err
+__pycache__/
+*.out
+*.err

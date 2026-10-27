@@ -1,0 +1,41 @@
+Job 704883 on a100-5, started Tue Oct 27 19:10:50 AEST 2026
+Tue Oct 27 19:10:50 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          Off |   00000000:0B:00.0 Off |                    0 |
+| N/A   31C    P0             55W /  250W |       0MiB /  40960MiB |     24%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Volumes train/val/test: 136/48/27
+Test patients: ['J026', 'K008', 'S028', 'T009', 'T014', 'V027']
+
+--- Per-class Dice and IoU, test volumes ---
+  Class 0: Dice 0.9982  IoU 0.9963 (present in 27/27 volumes; all-volume Dice 0.9982)
+  Class 1: Dice 0.9860  IoU 0.9723 (present in 27/27 volumes; all-volume Dice 0.9860)
+  Class 2: Dice 0.9118  IoU 0.8381 (present in 27/27 volumes; all-volume Dice 0.9118)
+  Class 3: Dice 0.9306  IoU 0.8777 (present in 27/27 volumes; all-volume Dice 0.9306)
+  Class 4: Dice 0.8422  IoU 0.7306 (present in 27/27 volumes; all-volume Dice 0.8422)
+  Class 5: Dice 0.8166  IoU 0.6934 (present in 27/27 volumes; all-volume Dice 0.8166)
+  Mean foreground Dice (classes 1-5): 0.8974
+  Mean foreground IoU  (classes 1-5): 0.8224
+
+Saved per-slice Dice profile to predictions_improved3d/zprofile_improved3d.png
+
+Weakest class: 5. Figures for volumes: ['J026_Week1_LFOV.nii.gz', 'J026_Week6_LFOV.nii.gz', 'T014_Week1_LFOV.nii.gz', 'V027_Week7_LFOV.nii.gz']
+  J026_Week1_LFOV.nii.gz: class 5 Dice=0.70  IoU=0.54
+  J026_Week6_LFOV.nii.gz: class 5 Dice=0.71  IoU=0.55
+  T014_Week1_LFOV.nii.gz: class 5 Dice=0.75  IoU=0.60
+  V027_Week7_LFOV.nii.gz: class 5 Dice=0.91  IoU=0.83

@@ -1,0 +1,50 @@
+Job 648722 on a100-3, started Sun Oct 11 00:30:06 AEST 2026
+Sun Oct 11 00:30:06 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          Off |   00000000:0B:00.0 Off |                    0 |
+| N/A   27C    P0             30W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Loading trained model from checkpoints/baseline2d_best.keras...
+Loading test data...
+Pass 1: scoring every test slice...
+
+--- Per-class mean Dice score on test set ---
+  Class 0: 0.9949 (only slices where present: 0.9949, present in 540/540)
+  Class 1: 0.9781 (only slices where present: 0.9781, present in 540/540)
+  Class 2: 0.8842 (only slices where present: 0.8842, present in 540/540)
+  Class 3: 0.6750 (only slices where present: 0.9090, present in 401/540)
+  Class 4: 0.2637 (only slices where present: 0.6473, present in 220/540)
+  Class 5: 0.2523 (only slices where present: 0.6985, present in 195/540)
+  Overall mean Dice: 0.6747
+
+Worst classes targeted: [4, 5]
+Selected test-slice indices: [482, 539, 185, 207, 431]
+  slice 482: GT present c4/c5 = False/True, GT pixels c4/c5 = 0/55
+  slice 539: GT present c4/c5 = False/True, GT pixels c4/c5 = 0/8
+  slice 185: GT present c4/c5 = False/True, GT pixels c4/c5 = 0/5
+  slice 207: GT present c4/c5 = True/False, GT pixels c4/c5 = 89/0
+  slice 431: GT present c4/c5 = False/True, GT pixels c4/c5 = 0/3
+
+Contrast slices for class 4: good=54, partial=155
+  good slice 54: class 4 Dice=0.86, GT pixels=1056
+  partial slice 155: class 4 Dice=0.39, GT pixels=327
+
+Pass 2: re-running inference on selected slices for figures...
+
+Saved 7 failure-case visualizations to predictions_baseline/
+Use these for the failure-case autopsy (3-5 representative cases).
