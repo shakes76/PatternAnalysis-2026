@@ -1,0 +1,10 @@
+{
+  "python": "3.11.15",
+  "scipy": "1.16.3",
+  "nibabel": "5.3.2",
+  "numpy": "2.4.6",
+  "torch": "2.13.0+cu130",
+  "cuda": "13.0",
+  "sources_verified": true,
+  "archive_sha256": "d817073818de03d4b0d40c6d78d7f6cf1c5c13c8bcdebf7a658192a01848fa44"
+}

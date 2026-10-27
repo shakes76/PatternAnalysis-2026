@@ -1,0 +1,25 @@
+{
+  "status": "preparation_complete_with_recorded_timeout_recovery",
+  "original_job": {
+    "job_id": 704519,
+    "state": "TIMEOUT",
+    "walltime_seconds": 1523,
+    "allocated_cpus": 1,
+    "final_npz_before_timeout": 159,
+    "manifest_committed": false
+  },
+  "recovery_job": {
+    "job_id": 705294,
+    "state": "COMPLETED",
+    "walltime_seconds": 486,
+    "allocated_cpus": 4,
+    "decoded_records_verified": 181,
+    "test_files_prepared": 0
+  },
+  "combined_preparation_job_wall_seconds": 2009,
+  "original_time_limit_overrun_seconds": 23,
+  "scientific_configuration_changed": false,
+  "failed_arrays_preserved": true,
+  "gpu_budget_used_for_preparation": 0,
+  "note": "Walltime sums are not actualCPUutilisation orGPUtrainingloopcost; original25min and explicitone20minrecovery both reported."
+}

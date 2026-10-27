@@ -1,0 +1,20 @@
+{
+  "experiment_id": "independent_resolution_sampling_v2",
+  "recorded_at": "2026-10-27T21:42:29.205004+10:00",
+  "original_protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "engineering_only": true,
+  "scientific_configuration_changed": false,
+  "wrapper_sha256": "5a8535d1c8aa7bdafef0fd0d46f7285f03d65531924d879d366ed388267b6ec5",
+  "new_driver_sha256": "fcb5df23f197a29b90f8322fd13d8cae5b30cfd9704bd954b8da6d845ffc883c",
+  "reason": "Static source review confirms train initialises cuDNN/deterministic flags while the standalone evaluation entry did not. No numerical discrepancy or new candidate score has been observed. This explicit adapter invokes the identical frozen evaluation after setting the originally specified seed3711 and same training flags, and writes a new runtime sidecar.",
+  "affected_experiments": "Only this not-yet-started v2 formal pair. Originalv1 and historicalstudies remainunchanged.",
+  "model_sampling_loss_selector_budget_changed": false,
+  "gpu_walltime_limit_minutes": 90,
+  "formal_models": [
+    "unet2d",
+    "improved3d"
+  ],
+  "old_frozen_driver_preserved": true,
+  "actual_driver_file": "formal_v2_deterministic_gpu.slurm",
+  "preflight_script_sha256": "a7498b296171d6a538d3197da367e64364d1f514234a830f6a5ed7180471892a"
+}

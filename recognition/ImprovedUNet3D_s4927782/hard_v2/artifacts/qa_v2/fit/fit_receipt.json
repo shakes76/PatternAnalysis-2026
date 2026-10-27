@@ -1,0 +1,570 @@
+{
+  "status": "failed_fit_gate",
+  "purpose": "TRAIN-only finite memorisation QA; no generalisation claim",
+  "protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "case": [
+    "B006",
+    "Week0"
+  ],
+  "crop_start_dhw": [
+    31,
+    32,
+    30
+  ],
+  "crop_shape_dhw": [
+    64,
+    128,
+    128
+  ],
+  "crop_class_counts": [
+    274796,
+    652270,
+    97063,
+    12555,
+    7626,
+    4266
+  ],
+  "cache_file_sha256": "8a6547294908802b7a5d83e0eaff3ea4170043c3621f612ee5d6fc0b1884ae94",
+  "required_original_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "artifacts/full_seed42/unet2d/best.pt": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+    "artifacts/full_seed42/improved3d/best.pt": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a"
+  },
+  "amp": false,
+  "seed": 3711,
+  "steps": 400,
+  "models": {
+    "unet2d": {
+      "passed": false,
+      "history": [
+        {
+          "step": 0,
+          "loss": 2.6289497017860413,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 274796,
+              "dice": 0.0
+            },
+            {
+              "class_index": 1,
+              "tp": 597649,
+              "fp": 384383,
+              "fn": 54621,
+              "dice": 0.7313813481229295
+            },
+            {
+              "class_index": 2,
+              "tp": 0,
+              "fp": 0,
+              "fn": 97063,
+              "dice": 0.0
+            },
+            {
+              "class_index": 3,
+              "tp": 0,
+              "fp": 0,
+              "fn": 12555,
+              "dice": 0.0
+            },
+            {
+              "class_index": 4,
+              "tp": 0,
+              "fp": 0,
+              "fn": 7626,
+              "dice": 0.0
+            },
+            {
+              "class_index": 5,
+              "tp": 585,
+              "fp": 65959,
+              "fn": 3681,
+              "dice": 0.016523089959045334
+            }
+          ],
+          "foreground_dice": 0.14958088761639496,
+          "prostate_dice": 0.016523089959045334
+        },
+        {
+          "step": 100,
+          "loss": 1.4192191362380981,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 270465,
+              "fp": 12741,
+              "fn": 4331,
+              "dice": 0.9694051275801879
+            },
+            {
+              "class_index": 1,
+              "tp": 498215,
+              "fp": 69943,
+              "fn": 154055,
+              "dice": 0.8164594715952108
+            },
+            {
+              "class_index": 2,
+              "tp": 40102,
+              "fp": 126405,
+              "fn": 56961,
+              "dice": 0.304298668285465
+            },
+            {
+              "class_index": 3,
+              "tp": 9262,
+              "fp": 21443,
+              "fn": 3293,
+              "dice": 0.42820157189089225
+            },
+            {
+              "class_index": 4,
+              "tp": 0,
+              "fp": 0,
+              "fn": 7626,
+              "dice": 0.0
+            },
+            {
+              "class_index": 5,
+              "tp": 0,
+              "fp": 0,
+              "fn": 4266,
+              "dice": 0.0
+            }
+          ],
+          "foreground_dice": 0.3097919423543136,
+          "prostate_dice": 0.0
+        },
+        {
+          "step": 200,
+          "loss": 0.9328292012214661,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 267253,
+              "fp": 3371,
+              "fn": 7543,
+              "dice": 0.9799897326830699
+            },
+            {
+              "class_index": 1,
+              "tp": 457612,
+              "fp": 17695,
+              "fn": 194658,
+              "dice": 0.8116731717656532
+            },
+            {
+              "class_index": 2,
+              "tp": 87440,
+              "fp": 166349,
+              "fn": 9623,
+              "dice": 0.4984437882639974
+            },
+            {
+              "class_index": 3,
+              "tp": 11712,
+              "fp": 5461,
+              "fn": 843,
+              "dice": 0.7879440258342304
+            },
+            {
+              "class_index": 4,
+              "tp": 6596,
+              "fp": 7102,
+              "fn": 1030,
+              "dice": 0.6186456574751453
+            },
+            {
+              "class_index": 5,
+              "tp": 3451,
+              "fp": 14534,
+              "fn": 815,
+              "dice": 0.3101883061435441
+            }
+          ],
+          "foreground_dice": 0.6053789898965141,
+          "prostate_dice": 0.3101883061435441
+        },
+        {
+          "step": 300,
+          "loss": 0.6645595282316208,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 264732,
+              "fp": 521,
+              "fn": 10064,
+              "dice": 0.9803999266733204
+            },
+            {
+              "class_index": 1,
+              "tp": 515775,
+              "fp": 14912,
+              "fn": 136495,
+              "dice": 0.8720097180201817
+            },
+            {
+              "class_index": 2,
+              "tp": 92590,
+              "fp": 123307,
+              "fn": 4473,
+              "dice": 0.5917050102249489
+            },
+            {
+              "class_index": 3,
+              "tp": 12355,
+              "fp": 2713,
+              "fn": 200,
+              "dice": 0.8945444014046265
+            },
+            {
+              "class_index": 4,
+              "tp": 7408,
+              "fp": 2423,
+              "fn": 218,
+              "dice": 0.8487139829294839
+            },
+            {
+              "class_index": 5,
+              "tp": 4039,
+              "fp": 7801,
+              "fn": 227,
+              "dice": 0.5015522165652552
+            }
+          ],
+          "foreground_dice": 0.7417050658288992,
+          "prostate_dice": 0.5015522165652552
+        },
+        {
+          "step": 400,
+          "loss": 0.42893778905272484,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 269906,
+              "fp": 477,
+              "fn": 4890,
+              "dice": 0.9901555269003391
+            },
+            {
+              "class_index": 1,
+              "tp": 620643,
+              "fp": 14735,
+              "fn": 31627,
+              "dice": 0.9639948184597033
+            },
+            {
+              "class_index": 2,
+              "tp": 87423,
+              "fp": 23485,
+              "fn": 9640,
+              "dice": 0.8407229854162359
+            },
+            {
+              "class_index": 3,
+              "tp": 12424,
+              "fp": 2294,
+              "fn": 131,
+              "dice": 0.9110842224911084
+            },
+            {
+              "class_index": 4,
+              "tp": 7605,
+              "fp": 3706,
+              "fn": 21,
+              "dice": 0.8031895231557269
+            },
+            {
+              "class_index": 5,
+              "tp": 4171,
+              "fp": 1707,
+              "fn": 95,
+              "dice": 0.8223580441640379
+            }
+          ],
+          "foreground_dice": 0.8682699187373626,
+          "prostate_dice": 0.8223580441640379
+        }
+      ],
+      "seconds": 8.169065192108974,
+      "final_loss_ratio": 0.16315937454463866
+    },
+    "improved3d": {
+      "passed": true,
+      "history": [
+        {
+          "step": 0,
+          "loss": 2.722151279449463,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 3287,
+              "fp": 9012,
+              "fn": 271509,
+              "dice": 0.022898343753809714
+            },
+            {
+              "class_index": 1,
+              "tp": 81660,
+              "fp": 52781,
+              "fn": 570610,
+              "dice": 0.2075984700862197
+            },
+            {
+              "class_index": 2,
+              "tp": 18327,
+              "fp": 255890,
+              "fn": 78736,
+              "dice": 0.09872333548804137
+            },
+            {
+              "class_index": 3,
+              "tp": 630,
+              "fp": 13073,
+              "fn": 11925,
+              "dice": 0.04798537588544444
+            },
+            {
+              "class_index": 4,
+              "tp": 4318,
+              "fp": 596745,
+              "fn": 3308,
+              "dice": 0.014187869338857774
+            },
+            {
+              "class_index": 5,
+              "tp": 97,
+              "fp": 12756,
+              "fn": 4169,
+              "dice": 0.011332437642385654
+            }
+          ],
+          "foreground_dice": 0.0759654976881898,
+          "prostate_dice": 0.011332437642385654
+        },
+        {
+          "step": 100,
+          "loss": 0.18547466397285461,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 271123,
+              "fp": 932,
+              "fn": 3673,
+              "dice": 0.9915790590124184
+            },
+            {
+              "class_index": 1,
+              "tp": 623307,
+              "fp": 8048,
+              "fn": 28963,
+              "dice": 0.9711668127373649
+            },
+            {
+              "class_index": 2,
+              "tp": 93238,
+              "fp": 24503,
+              "fn": 3825,
+              "dice": 0.8681216364685946
+            },
+            {
+              "class_index": 3,
+              "tp": 12279,
+              "fp": 1333,
+              "fn": 276,
+              "dice": 0.9385103374479306
+            },
+            {
+              "class_index": 4,
+              "tp": 7407,
+              "fp": 1200,
+              "fn": 219,
+              "dice": 0.9125854740343744
+            },
+            {
+              "class_index": 5,
+              "tp": 4184,
+              "fp": 1022,
+              "fn": 82,
+              "dice": 0.8834459459459459
+            }
+          ],
+          "foreground_dice": 0.914766041326842,
+          "prostate_dice": 0.8834459459459459
+        },
+        {
+          "step": 200,
+          "loss": 0.12948057055473328,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 273868,
+              "fp": 1884,
+              "fn": 928,
+              "dice": 0.9948923617922506
+            },
+            {
+              "class_index": 1,
+              "tp": 635220,
+              "fp": 6466,
+              "fn": 17050,
+              "dice": 0.9818262753911261
+            },
+            {
+              "class_index": 2,
+              "tp": 92285,
+              "fp": 13354,
+              "fn": 4778,
+              "dice": 0.9105484899014317
+            },
+            {
+              "class_index": 3,
+              "tp": 12224,
+              "fp": 690,
+              "fn": 331,
+              "dice": 0.959912049943068
+            },
+            {
+              "class_index": 4,
+              "tp": 7351,
+              "fp": 671,
+              "fn": 275,
+              "dice": 0.9395449897750511
+            },
+            {
+              "class_index": 5,
+              "tp": 4079,
+              "fp": 484,
+              "fn": 187,
+              "dice": 0.9240004530524408
+            }
+          ],
+          "foreground_dice": 0.9431664516126237,
+          "prostate_dice": 0.9240004530524408
+        },
+        {
+          "step": 300,
+          "loss": 0.0803900733590126,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 273395,
+              "fp": 691,
+              "fn": 1401,
+              "dice": 0.9961886161324291
+            },
+            {
+              "class_index": 1,
+              "tp": 640043,
+              "fp": 2983,
+              "fn": 12227,
+              "dice": 0.9882575102524829
+            },
+            {
+              "class_index": 2,
+              "tp": 95691,
+              "fp": 8769,
+              "fn": 1372,
+              "dice": 0.9496782005031684
+            },
+            {
+              "class_index": 3,
+              "tp": 12462,
+              "fp": 1107,
+              "fn": 93,
+              "dice": 0.9540652273771245
+            },
+            {
+              "class_index": 4,
+              "tp": 7547,
+              "fp": 1075,
+              "fn": 79,
+              "dice": 0.9289758739537174
+            },
+            {
+              "class_index": 5,
+              "tp": 4208,
+              "fp": 605,
+              "fn": 58,
+              "dice": 0.9269743363806586
+            }
+          ],
+          "foreground_dice": 0.9495902296934304,
+          "prostate_dice": 0.9269743363806586
+        },
+        {
+          "step": 400,
+          "loss": 0.06609950959682465,
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 273967,
+              "fp": 925,
+              "fn": 829,
+              "dice": 0.9968090989797849
+            },
+            {
+              "class_index": 1,
+              "tp": 642535,
+              "fp": 2565,
+              "fn": 9735,
+              "dice": 0.9905192813152763
+            },
+            {
+              "class_index": 2,
+              "tp": 95622,
+              "fp": 6783,
+              "fn": 1441,
+              "dice": 0.9587703290753404
+            },
+            {
+              "class_index": 3,
+              "tp": 12372,
+              "fp": 687,
+              "fn": 183,
+              "dice": 0.9660342000468494
+            },
+            {
+              "class_index": 4,
+              "tp": 7504,
+              "fp": 691,
+              "fn": 122,
+              "dice": 0.948612603501675
+            },
+            {
+              "class_index": 5,
+              "tp": 4243,
+              "fp": 682,
+              "fn": 23,
+              "dice": 0.9232945272549233
+            }
+          ],
+          "foreground_dice": 0.957446188238813,
+          "prostate_dice": 0.9232945272549233
+        }
+      ],
+      "seconds": 129.3548422998283,
+      "final_loss_ratio": 0.024282085310921013
+    }
+  },
+  "gpu_name": "NVIDIA A100-PCIE-40GB",
+  "torch_version": "2.13.0+cu130",
+  "generalisation_evidence": false
+}

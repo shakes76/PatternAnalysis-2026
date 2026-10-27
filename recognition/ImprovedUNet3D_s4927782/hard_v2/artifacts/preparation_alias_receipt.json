@@ -1,0 +1,11 @@
+{
+  "status": "verified_and_aliased",
+  "failed_job": 704519,
+  "recovery_job": 705294,
+  "failed_cache_preserved_as": "artifacts/cache_v2_incomplete_704519",
+  "unchanged_frozen_command_alias": "artifacts/cache_v2",
+  "complete_manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "decoded_records_verified": 181,
+  "test_cache_files": 0,
+  "scientific_configuration_changed": false
+}

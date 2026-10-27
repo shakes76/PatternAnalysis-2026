@@ -1,0 +1,944 @@
+{
+  "status": "completed",
+  "purpose": "Descriptive illustrations, no inference, tuning or candidate selection",
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "synthetic_fixture": false,
+  "selection_algorithm": "For each patient, choose the visit with the lowest new Hard improved3d complete-volume prostate Dice; undefined values sort after defined values; ties by patient/visit. Sort patient minima the same way and show the first five distinct patients. All30 cases remain in the complete common-grid report. This selects illustrations, never models.",
+  "selected_case_keys": [
+    [
+      "W029",
+      "Week6"
+    ],
+    [
+      "M015",
+      "Week0"
+    ],
+    [
+      "B037",
+      "Week0"
+    ],
+    [
+      "L011",
+      "Week7"
+    ],
+    [
+      "M020",
+      "Week0"
+    ]
+  ],
+  "all_test_cases_retained_in_report": 30,
+  "model_order": [
+    "v1_unet2d",
+    "v1_improved3d",
+    "hard_improved3d"
+  ],
+  "score_grid": "original unchanged downsampled grid",
+  "native_resolution_accuracy_claimed": false,
+  "source_files": {
+    "comparison": {
+      "path": "artifacts/hard_common_test/comparison.json",
+      "sha256": "4dc03f4312fe8366afd8f283b962587b77a34f69677e2dedd7a11b5541cf91ce"
+    },
+    "scope_plan": {
+      "path": "/home/Student/s4927782/comp3710-independent-20261027/hard_followup_protocol.json",
+      "sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a"
+    },
+    "v1_manifest": {
+      "path": "/home/Student/s4927782/comp3710-demo3/artifacts/cache64/manifest.json",
+      "sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424"
+    },
+    "new_manifest": {
+      "path": "artifacts/cache_v2/manifest.json",
+      "sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d"
+    },
+    "v1_cache_identity": {
+      "path": "/home/Student/s4927782/comp3710-demo3/artifacts/cache64/cache_identity.json",
+      "sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a"
+    },
+    "selection": {
+      "path": "artifacts/hard_selection.json",
+      "sha256": "408bb6d059b2f5a86841bb12d0eb3a0b6772981cebe9e889c47f13ee320ee85c"
+    },
+    "v1_unet2d_evaluation": {
+      "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/unet2d/evaluation.json",
+      "sha256": "49d9640106a59f4cf6b729812e0176b9c3f0269778df8383b9ab0191ac1d6bd1"
+    },
+    "v1_improved3d_evaluation": {
+      "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/improved3d/evaluation.json",
+      "sha256": "7337bedbbf8cb7529d9b16743e68306fdef58b0ca009897dd08d85351797cea0"
+    },
+    "hard_improved3d_evaluation": {
+      "path": "artifacts/hard_test/improved3d/evaluation.json",
+      "sha256": "49b18c0a52636adb7a77518a99b0e5179ada11ca3e73a853a8a1c50d091bbdb4"
+    }
+  },
+  "script_sha256": "50f421623f11ce81d53c3f8bd8679bf780d52d37c93a13530744d1735e719fe1",
+  "mapping_source_sha256": "76136bc2aa410ac36609e95727939dc3e1455ae3612a34e3254420dc9e405d85",
+  "display_helpers_source_sha256": "9ead70ae07844f088e4648b9b3f3bbf97882c6badc46f918c3cf182a58a522d8",
+  "context_class_index_names": {
+    "0": "Background",
+    "1": "Body",
+    "2": "Bones",
+    "3": "Bladder",
+    "4": "Rectum",
+    "5": "Prostate"
+  },
+  "error_context_limit": "Label-class confusion, not measured organ-wall contact distance, anatomical apex/base annotation or causal mechanism.",
+  "recorded_at_utc": "2026-10-27T13:43:37.780463+00:00",
+  "cases": [
+    {
+      "patient": "W029",
+      "visit": "Week6",
+      "display_slices": [
+        {
+          "z": 31,
+          "roles": [
+            "inferior label extent"
+          ]
+        },
+        {
+          "z": 36,
+          "roles": [
+            "largest GT area"
+          ]
+        },
+        {
+          "z": 42,
+          "roles": [
+            "superior label extent"
+          ]
+        }
+      ],
+      "display_roi_hw": [
+        48,
+        80,
+        48,
+        80
+      ],
+      "duplicated_slice_roles_collapsed": false,
+      "roi_rule": "Full-depth GT+three-prediction prostate union projected to H/W, +8voxel padding; visualization only.",
+      "complete_volume_metrics": {
+        "v1_unet2d": {
+          "tp": 331,
+          "fp": 417,
+          "fn": 87,
+          "target_voxels": 418,
+          "predicted_voxels": 748,
+          "intersection": 331,
+          "union": 835,
+          "dice": 0.5677530017152659,
+          "iou": 0.3964071856287425,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 313,
+            "2": 0,
+            "3": 62,
+            "4": 42
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 79,
+            "2": 0,
+            "3": 8,
+            "4": 0
+          },
+          "outside_gt_depth_false_positive_voxels": 2,
+          "maximum_error_slice_z": 38,
+          "empty_status": "both_present",
+          "hd95_mm": 14.252621058291348
+        },
+        "v1_improved3d": {
+          "tp": 332,
+          "fp": 469,
+          "fn": 86,
+          "target_voxels": 418,
+          "predicted_voxels": 801,
+          "intersection": 332,
+          "union": 887,
+          "dice": 0.5447087776866284,
+          "iou": 0.3742953776775648,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 351,
+            "2": 0,
+            "3": 118,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 86,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "outside_gt_depth_false_positive_voxels": 44,
+          "maximum_error_slice_z": 40,
+          "empty_status": "both_present",
+          "hd95_mm": 11.853526126883947
+        },
+        "hard_improved3d": {
+          "tp": 89,
+          "fp": 0,
+          "fn": 329,
+          "target_voxels": 418,
+          "predicted_voxels": 89,
+          "intersection": 89,
+          "union": 418,
+          "dice": 0.3510848126232742,
+          "iou": 0.21291866028708134,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 300,
+            "2": 0,
+            "3": 8,
+            "4": 21
+          },
+          "outside_gt_depth_false_positive_voxels": 0,
+          "maximum_error_slice_z": 38,
+          "empty_status": "both_present",
+          "hd95_mm": 10.496672166106483
+        }
+      },
+      "cache_file_sha256": "aca22439a2627b887d46e9e5b62ad1b371fcdf31e1389b96119699d6d5495726",
+      "prediction_sources": {
+        "v1_unet2d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/unet2d/predictions/W029__Week6_6db3906d.npz",
+          "sha256": "dccf60d29c6e40352269fb0aeb98fcdc106632655c37a9182699ca15d899e140"
+        },
+        "v1_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/improved3d/predictions/W029__Week6_6db3906d.npz",
+          "sha256": "a45be492093bdff5321fd471375fbf94dcdfe3ec98e847c11105784d043b1584"
+        },
+        "hard_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-independent-20261027/artifacts/hard_test/improved3d/predictions/W029__Week6_6db3906d.npz",
+          "sha256": "345026d0a8323ebd0b8bb05ec6398eaa9510f12d93aa501ab27944e902c17597"
+        }
+      },
+      "figures": {
+        "full_fov": {
+          "file": "W029_Week6_full_fov.png",
+          "sha256": "c105804af13ac319141656de68e5b57e78de63794692a33645d4c56a79d494f1",
+          "intensity_window": [
+            -0.8612205386161804,
+            2.892040729522705
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            0,
+            128,
+            0,
+            128
+          ],
+          "physical_in_plane_aspect": 1.0
+        },
+        "display_roi": {
+          "file": "W029_Week6_display_roi.png",
+          "sha256": "73db91058473574e09b8d8f667ab6fd0c37d87292cad30d36756e0a311e04190",
+          "intensity_window": [
+            -0.8612205386161804,
+            2.892040729522705
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            48,
+            80,
+            48,
+            80
+          ],
+          "physical_in_plane_aspect": 1.0
+        }
+      }
+    },
+    {
+      "patient": "M015",
+      "visit": "Week0",
+      "display_slices": [
+        {
+          "z": 28,
+          "roles": [
+            "inferior label extent"
+          ]
+        },
+        {
+          "z": 36,
+          "roles": [
+            "largest GT area"
+          ]
+        },
+        {
+          "z": 42,
+          "roles": [
+            "superior label extent"
+          ]
+        }
+      ],
+      "display_roi_hw": [
+        40,
+        69,
+        47,
+        78
+      ],
+      "duplicated_slice_roles_collapsed": false,
+      "roi_rule": "Full-depth GT+three-prediction prostate union projected to H/W, +8voxel padding; visualization only.",
+      "complete_volume_metrics": {
+        "v1_unet2d": {
+          "tp": 411,
+          "fp": 23,
+          "fn": 844,
+          "target_voxels": 1255,
+          "predicted_voxels": 434,
+          "intersection": 411,
+          "union": 1278,
+          "dice": 0.4866785079928952,
+          "iou": 0.3215962441314554,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 23,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 654,
+            "2": 0,
+            "3": 177,
+            "4": 13
+          },
+          "outside_gt_depth_false_positive_voxels": 0,
+          "maximum_error_slice_z": 38,
+          "empty_status": "both_present",
+          "hd95_mm": 9.944625840444562
+        },
+        "v1_improved3d": {
+          "tp": 39,
+          "fp": 0,
+          "fn": 1216,
+          "target_voxels": 1255,
+          "predicted_voxels": 39,
+          "intersection": 39,
+          "union": 1255,
+          "dice": 0.06027820710973725,
+          "iou": 0.031075697211155377,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 670,
+            "2": 0,
+            "3": 542,
+            "4": 4
+          },
+          "outside_gt_depth_false_positive_voxels": 0,
+          "maximum_error_slice_z": 36,
+          "empty_status": "both_present",
+          "hd95_mm": 29.067484349276587
+        },
+        "hard_improved3d": {
+          "tp": 463,
+          "fp": 0,
+          "fn": 792,
+          "target_voxels": 1255,
+          "predicted_voxels": 463,
+          "intersection": 463,
+          "union": 1255,
+          "dice": 0.5389988358556461,
+          "iou": 0.36892430278884464,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 764,
+            "2": 0,
+            "3": 0,
+            "4": 28
+          },
+          "outside_gt_depth_false_positive_voxels": 0,
+          "maximum_error_slice_z": 40,
+          "empty_status": "both_present",
+          "hd95_mm": 9.765493379135057
+        }
+      },
+      "cache_file_sha256": "30b9ffb583a3cb57c03807241d44dd3c1b765ec2d7aa38c6ea976509db50b342",
+      "prediction_sources": {
+        "v1_unet2d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/unet2d/predictions/M015__Week0_8e59d275.npz",
+          "sha256": "4dfb516262e1150edc2a25687c9588bc498401f3ec3d1c1c0b0d5d9452726f6f"
+        },
+        "v1_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/improved3d/predictions/M015__Week0_8e59d275.npz",
+          "sha256": "9b4579b633163998758ff529eaa6b22b9e3df5105d8acd39389cc9c310db3f3f"
+        },
+        "hard_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-independent-20261027/artifacts/hard_test/improved3d/predictions/M015__Week0_8e59d275.npz",
+          "sha256": "ae2203ef1ef617b9b9cacf50659afd21e5c570f803d127781872cc44a7edd9c7"
+        }
+      },
+      "figures": {
+        "full_fov": {
+          "file": "M015_Week0_full_fov.png",
+          "sha256": "dee19253845e6e4047a1b5b94c284a20c01fe7874842dd953d0b0d4e220d4643",
+          "intensity_window": [
+            -0.8347195982933044,
+            2.241760492324829
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            0,
+            128,
+            0,
+            128
+          ],
+          "physical_in_plane_aspect": 1.0
+        },
+        "display_roi": {
+          "file": "M015_Week0_display_roi.png",
+          "sha256": "05b5ebfa3345739ddf611c4a5abefc36888282627f23abd5bba905debde047ca",
+          "intensity_window": [
+            -0.8347195982933044,
+            2.241760492324829
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            40,
+            69,
+            47,
+            78
+          ],
+          "physical_in_plane_aspect": 1.0
+        }
+      }
+    },
+    {
+      "patient": "B037",
+      "visit": "Week0",
+      "display_slices": [
+        {
+          "z": 21,
+          "roles": [
+            "inferior label extent"
+          ]
+        },
+        {
+          "z": 32,
+          "roles": [
+            "largest GT area"
+          ]
+        },
+        {
+          "z": 39,
+          "roles": [
+            "superior label extent"
+          ]
+        }
+      ],
+      "display_roi_hw": [
+        45,
+        82,
+        43,
+        82
+      ],
+      "duplicated_slice_roles_collapsed": false,
+      "roi_rule": "Full-depth GT+three-prediction prostate union projected to H/W, +8voxel padding; visualization only.",
+      "complete_volume_metrics": {
+        "v1_unet2d": {
+          "tp": 1362,
+          "fp": 164,
+          "fn": 1831,
+          "target_voxels": 3193,
+          "predicted_voxels": 1526,
+          "intersection": 1362,
+          "union": 3357,
+          "dice": 0.5772409408773045,
+          "iou": 0.40571939231456655,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 164,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 563,
+            "2": 0,
+            "3": 1259,
+            "4": 9
+          },
+          "outside_gt_depth_false_positive_voxels": 19,
+          "maximum_error_slice_z": 31,
+          "empty_status": "both_present",
+          "hd95_mm": 15.5999755859375
+        },
+        "v1_improved3d": {
+          "tp": 2194,
+          "fp": 258,
+          "fn": 999,
+          "target_voxels": 3193,
+          "predicted_voxels": 2452,
+          "intersection": 2194,
+          "union": 3451,
+          "dice": 0.7773250664304694,
+          "iou": 0.6357577513764127,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 244,
+            "2": 0,
+            "3": 14,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 715,
+            "2": 0,
+            "3": 264,
+            "4": 20
+          },
+          "outside_gt_depth_false_positive_voxels": 9,
+          "maximum_error_slice_z": 34,
+          "empty_status": "both_present",
+          "hd95_mm": 8.838834764831844
+        },
+        "hard_improved3d": {
+          "tp": 2205,
+          "fp": 241,
+          "fn": 988,
+          "target_voxels": 3193,
+          "predicted_voxels": 2446,
+          "intersection": 2205,
+          "union": 3434,
+          "dice": 0.7820535555949637,
+          "iou": 0.6421083284799068,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 231,
+            "2": 0,
+            "3": 10,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 614,
+            "2": 0,
+            "3": 367,
+            "4": 7
+          },
+          "outside_gt_depth_false_positive_voxels": 29,
+          "maximum_error_slice_z": 34,
+          "empty_status": "both_present",
+          "hd95_mm": 10.362944539621633
+        }
+      },
+      "cache_file_sha256": "957bd240695b0c6eb18b77092fcf5a936c840bc2bed03dd4b813de345d3f23f3",
+      "prediction_sources": {
+        "v1_unet2d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/unet2d/predictions/B037__Week0_71b4ea1b.npz",
+          "sha256": "5b12d444152d96385f9821bd8e47fda0890ca837f90b31cfb0e1de69777d9b5b"
+        },
+        "v1_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/improved3d/predictions/B037__Week0_71b4ea1b.npz",
+          "sha256": "5a8ba33fb793dd469c97729bfe03b25dbb71023137c043f15eb9704cf51d2b44"
+        },
+        "hard_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-independent-20261027/artifacts/hard_test/improved3d/predictions/B037__Week0_71b4ea1b.npz",
+          "sha256": "92313d5ba760a91c9729b84af93ec8b4c92a4969f00a56bfd6cf66e3b70783c7"
+        }
+      },
+      "figures": {
+        "full_fov": {
+          "file": "B037_Week0_full_fov.png",
+          "sha256": "8dcb7e916e8888b35d383f57e71062fa5c44133fb9d20acc3a36c0398f404e43",
+          "intensity_window": [
+            -0.8207204341888428,
+            3.1455187797546387
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            0,
+            128,
+            0,
+            128
+          ],
+          "physical_in_plane_aspect": 1.0
+        },
+        "display_roi": {
+          "file": "B037_Week0_display_roi.png",
+          "sha256": "56807d82586663f5c64e687d8a6a51388c3b1c391f03d6a6618b8685cab53566",
+          "intensity_window": [
+            -0.8207204341888428,
+            3.1455187797546387
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            45,
+            82,
+            43,
+            82
+          ],
+          "physical_in_plane_aspect": 1.0
+        }
+      }
+    },
+    {
+      "patient": "L011",
+      "visit": "Week7",
+      "display_slices": [
+        {
+          "z": 25,
+          "roles": [
+            "inferior label extent"
+          ]
+        },
+        {
+          "z": 32,
+          "roles": [
+            "largest GT area"
+          ]
+        },
+        {
+          "z": 36,
+          "roles": [
+            "superior label extent"
+          ]
+        }
+      ],
+      "display_roi_hw": [
+        48,
+        76,
+        49,
+        78
+      ],
+      "duplicated_slice_roles_collapsed": false,
+      "roi_rule": "Full-depth GT+three-prediction prostate union projected to H/W, +8voxel padding; visualization only.",
+      "complete_volume_metrics": {
+        "v1_unet2d": {
+          "tp": 619,
+          "fp": 224,
+          "fn": 116,
+          "target_voxels": 735,
+          "predicted_voxels": 843,
+          "intersection": 619,
+          "union": 959,
+          "dice": 0.7845373891001267,
+          "iou": 0.6454640250260688,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 218,
+            "2": 0,
+            "3": 6,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 72,
+            "2": 0,
+            "3": 44,
+            "4": 0
+          },
+          "outside_gt_depth_false_positive_voxels": 11,
+          "maximum_error_slice_z": 35,
+          "empty_status": "both_present",
+          "hd95_mm": 5.683763745312066
+        },
+        "v1_improved3d": {
+          "tp": 683,
+          "fp": 260,
+          "fn": 52,
+          "target_voxels": 735,
+          "predicted_voxels": 943,
+          "intersection": 683,
+          "union": 995,
+          "dice": 0.8140643623361145,
+          "iou": 0.6864321608040201,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 259,
+            "2": 0,
+            "3": 0,
+            "4": 1
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 30,
+            "2": 0,
+            "3": 22,
+            "4": 0
+          },
+          "outside_gt_depth_false_positive_voxels": 34,
+          "maximum_error_slice_z": 26,
+          "empty_status": "both_present",
+          "hd95_mm": 4.58473226283704
+        },
+        "hard_improved3d": {
+          "tp": 683,
+          "fp": 220,
+          "fn": 52,
+          "target_voxels": 735,
+          "predicted_voxels": 903,
+          "intersection": 683,
+          "union": 955,
+          "dice": 0.833943833943834,
+          "iou": 0.7151832460732984,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 218,
+            "2": 0,
+            "3": 2,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 37,
+            "2": 0,
+            "3": 15,
+            "4": 0
+          },
+          "outside_gt_depth_false_positive_voxels": 39,
+          "maximum_error_slice_z": 27,
+          "empty_status": "both_present",
+          "hd95_mm": 5.683763745312066
+        }
+      },
+      "cache_file_sha256": "2618078cdff4a6f6e18232dcbf2f3ef0a1abf7d4fa4f759a57c8e54418f63372",
+      "prediction_sources": {
+        "v1_unet2d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/unet2d/predictions/L011__Week7_fc165e50.npz",
+          "sha256": "1745c8abe9adc940f0d2809335a9be98b3cb39ba1d3e53d291867864363c2c78"
+        },
+        "v1_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/improved3d/predictions/L011__Week7_fc165e50.npz",
+          "sha256": "b464bade31442aa3d51228bff8400a03477972f6e738f599f6c4af3d86c18eb2"
+        },
+        "hard_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-independent-20261027/artifacts/hard_test/improved3d/predictions/L011__Week7_fc165e50.npz",
+          "sha256": "d52a6396bc179206a9b77f596f5bfa41b8a6cb35ff1c3433f44ada3cc9629c04"
+        }
+      },
+      "figures": {
+        "full_fov": {
+          "file": "L011_Week7_full_fov.png",
+          "sha256": "7970b698c786a6f7232ee4c1afc3e3adce2c2ae1613863b039589cd36b9438f5",
+          "intensity_window": [
+            -0.724762499332428,
+            3.1201982498168945
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            0,
+            128,
+            0,
+            128
+          ],
+          "physical_in_plane_aspect": 1.0
+        },
+        "display_roi": {
+          "file": "L011_Week7_display_roi.png",
+          "sha256": "7735b189ee98974d9e3920b9b88a133c74a4a29fa9034af1683a8459e4908a6c",
+          "intensity_window": [
+            -0.724762499332428,
+            3.1201982498168945
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            48,
+            76,
+            49,
+            78
+          ],
+          "physical_in_plane_aspect": 1.0
+        }
+      }
+    },
+    {
+      "patient": "M020",
+      "visit": "Week0",
+      "display_slices": [
+        {
+          "z": 37,
+          "roles": [
+            "inferior label extent"
+          ]
+        },
+        {
+          "z": 43,
+          "roles": [
+            "largest GT area"
+          ]
+        },
+        {
+          "z": 50,
+          "roles": [
+            "superior label extent"
+          ]
+        }
+      ],
+      "display_roi_hw": [
+        47,
+        84,
+        48,
+        80
+      ],
+      "duplicated_slice_roles_collapsed": false,
+      "roi_rule": "Full-depth GT+three-prediction prostate union projected to H/W, +8voxel padding; visualization only.",
+      "complete_volume_metrics": {
+        "v1_unet2d": {
+          "tp": 879,
+          "fp": 126,
+          "fn": 185,
+          "target_voxels": 1064,
+          "predicted_voxels": 1005,
+          "intersection": 879,
+          "union": 1190,
+          "dice": 0.8496858385693572,
+          "iou": 0.738655462184874,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 126,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 157,
+            "2": 0,
+            "3": 24,
+            "4": 4
+          },
+          "outside_gt_depth_false_positive_voxels": 4,
+          "maximum_error_slice_z": 45,
+          "empty_status": "both_present",
+          "hd95_mm": 4.415879813952577
+        },
+        "v1_improved3d": {
+          "tp": 945,
+          "fp": 171,
+          "fn": 119,
+          "target_voxels": 1064,
+          "predicted_voxels": 1116,
+          "intersection": 945,
+          "union": 1235,
+          "dice": 0.8669724770642202,
+          "iou": 0.7651821862348178,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 165,
+            "2": 0,
+            "3": 6,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 103,
+            "2": 0,
+            "3": 16,
+            "4": 0
+          },
+          "outside_gt_depth_false_positive_voxels": 0,
+          "maximum_error_slice_z": 46,
+          "empty_status": "both_present",
+          "hd95_mm": 4.415879813952577
+        },
+        "hard_improved3d": {
+          "tp": 932,
+          "fp": 239,
+          "fn": 132,
+          "target_voxels": 1064,
+          "predicted_voxels": 1171,
+          "intersection": 932,
+          "union": 1303,
+          "dice": 0.8340044742729307,
+          "iou": 0.7152724481964697,
+          "false_positive_by_true_class": {
+            "0": 0,
+            "1": 215,
+            "2": 0,
+            "3": 24,
+            "4": 0
+          },
+          "false_negative_by_predicted_class": {
+            "0": 0,
+            "1": 116,
+            "2": 3,
+            "3": 2,
+            "4": 11
+          },
+          "outside_gt_depth_false_positive_voxels": 0,
+          "maximum_error_slice_z": 48,
+          "empty_status": "both_present",
+          "hd95_mm": 6.25
+        }
+      },
+      "cache_file_sha256": "169ced8d62895f5c1b777caa174a66cf6f132a5543069df8b54d5e17bcc7b8e9",
+      "prediction_sources": {
+        "v1_unet2d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/unet2d/predictions/M020__Week0_bdb6bfdc.npz",
+          "sha256": "8e98d4e6772e69ad3eeba29a2b7b825d30759a0c0e654122f468405f2347c209"
+        },
+        "v1_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-demo3/artifacts/test_final/improved3d/predictions/M020__Week0_bdb6bfdc.npz",
+          "sha256": "e5e010d696de418177140e64503cceee7228657854d23b0a4b55e5f0e34e35a4"
+        },
+        "hard_improved3d": {
+          "path": "/home/Student/s4927782/comp3710-independent-20261027/artifacts/hard_test/improved3d/predictions/M020__Week0_bdb6bfdc.npz",
+          "sha256": "75d6cd4ea17553e407409db7e2099d46fc8986f357be4af241faebdd7890ba77"
+        }
+      },
+      "figures": {
+        "full_fov": {
+          "file": "M020_Week0_full_fov.png",
+          "sha256": "6fd47a2e80a25f623bc1a9002563cda70fce0e592bc5346ddf04983ec1edc47d",
+          "intensity_window": [
+            -0.8217560648918152,
+            2.728771924972534
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            0,
+            128,
+            0,
+            128
+          ],
+          "physical_in_plane_aspect": 1.0
+        },
+        "display_roi": {
+          "file": "M020_Week0_display_roi.png",
+          "sha256": "546abc6ad9374467baddcf9c5e5bb1f24fe62506482a8f8cade14426d8b95f4f",
+          "intensity_window": [
+            -0.8217560648918152,
+            2.728771924972534
+          ],
+          "intensity_window_rule": "Per-case nonzero MRI1st/99th percentiles, identical across all models/views.",
+          "display_roi_hw": [
+            47,
+            84,
+            48,
+            80
+          ],
+          "physical_in_plane_aspect": 1.0
+        }
+      }
+    }
+  ],
+  "elapsed_wall_seconds": 12.006991888396442,
+  "elapsed_cpu_seconds": 11.412418501000001,
+  "raw_arrays_saved": false,
+  "model_or_threshold_changed": false
+}

@@ -1,0 +1,25 @@
+{
+  "status": "counts_and_gates_independently_verified",
+  "qa_overall": "failed_fit_gate",
+  "qa_receipt_sha256": "dfdbe1fca062565a3f187e74350ed1970c214ffbcd9bbb1c314ceaeb09b1e285",
+  "fit_receipt_sha256": "ea96fc3986c3c6e0e61c3b40eb661cb5ee7db86053149f82cfa6698d8e826831",
+  "models": {
+    "unet2d": {
+      "passed": false,
+      "final_step": 400,
+      "prostate_dice": 0.8223580441640379,
+      "foreground_dice": 0.8682699187373626,
+      "loss_ratio": 0.16315937454463866,
+      "seconds": 8.169065192108974
+    },
+    "improved3d": {
+      "passed": true,
+      "final_step": 400,
+      "prostate_dice": 0.9232945272549233,
+      "foreground_dice": 0.957446188238813,
+      "loss_ratio": 0.024282085310921013,
+      "seconds": 129.3548422998283
+    }
+  },
+  "class_rows_checked": 60
+}

@@ -1,0 +1,493 @@
+{
+  "status": "completed",
+  "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "selection_freeze_sha256": "408bb6d059b2f5a86841bb12d0eb3a0b6772981cebe9e889c47f13ee320ee85c",
+  "actual_scope": "oneHard_after_stopped_pair",
+  "started_at": "2026-10-27T13:36:42.382217+00:00",
+  "records": [
+    {
+      "patient": "B037",
+      "visit": "Week0",
+      "cache_path": "volumes/B037__Week0_71b4ea1b.npz",
+      "cache_sha256": "30c1dcb79169df6d7b1c61136d81ae3b67c94901a6427e0c206229c747815eca",
+      "source_image_sha256": "ee7d4de85f582dd12d76ebe48891bab1ebc45f6b6a03a434c552b509d5df5f26",
+      "source_mask_sha256": "b4a4641b098eed7e238cbe699d50f8b67dd11ef5da935c7c08ce812f151303e7",
+      "class_voxel_counts": [
+        1998672,
+        1326402,
+        163980,
+        33418,
+        5543,
+        10929
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week0",
+      "cache_path": "volumes/L011__Week0_ecdcedfa.npz",
+      "cache_sha256": "e649f2e7e15a3ca03a81e4016135c2a0b4ea4eb0358ddc098603486f2ff43cc1",
+      "source_image_sha256": "b1337c22530f3a440080ddbc6c704cd9ff12a9070ec631a3006efa24e0dd291b",
+      "source_mask_sha256": "1c3d6ad65e87d5b6ebc2e74e4446595962da2689ea68efbca48e299b91a43b7d",
+      "class_voxel_counts": [
+        2149829,
+        1224116,
+        135205,
+        18973,
+        7669,
+        3152
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week1",
+      "cache_path": "volumes/L011__Week1_28250c6e.npz",
+      "cache_sha256": "1ff14da566282b11e4cfaf5ed72a48908b1fac88f056e2fe15fcdac05bd938d3",
+      "source_image_sha256": "75a5b6c13f077b2af778b2a50b3f2d1fd405ffeade1c1e0cfa9d01000615a6a2",
+      "source_mask_sha256": "ff9f4d13631118f01bc6d343712d15c647683151261f745f125b7850ad9c81a7",
+      "class_voxel_counts": [
+        2279477,
+        1106612,
+        130717,
+        14834,
+        4492,
+        2812
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week2",
+      "cache_path": "volumes/L011__Week2_4ec6efda.npz",
+      "cache_sha256": "ac3a034cbde0abe57a689464a6c913fa36d68af19516bf3077849d54f3c237b8",
+      "source_image_sha256": "9658875d10b34e8abb8904a18e246e656b6e3017b5e8665083d2ae8fc3d2c30a",
+      "source_mask_sha256": "810ade32ce89a42bc5ca3d54fbcec778eaeebb408dd0544c79c3ff56aafe6176",
+      "class_voxel_counts": [
+        2302080,
+        1106594,
+        110191,
+        14196,
+        3225,
+        2658
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week3",
+      "cache_path": "volumes/L011__Week3_cff59a99.npz",
+      "cache_sha256": "0a1aa742318a011f863fb6431be289b0170eacec81dfc51f8239ccece10f6afe",
+      "source_image_sha256": "ece8b6ae597ed1e48b0450b93e130a3edbcf52f80ed6521b2eb0bc533b5e58b6",
+      "source_mask_sha256": "f36814a8c36b60e37ab5a1523ed2b628606e18c0e5e522ddd313d08176ebc620",
+      "class_voxel_counts": [
+        2314045,
+        1095825,
+        109600,
+        13656,
+        3167,
+        2651
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week4",
+      "cache_path": "volumes/L011__Week4_2232c661.npz",
+      "cache_sha256": "5ffa52482a6cde5b1dbedd352dff3de2d1a73f77f49b02110322550c558557c2",
+      "source_image_sha256": "072681a8da57788af704fc62f32996e12093628779ca42db2e307a3a48e214f1",
+      "source_mask_sha256": "9975986097dfe4b8c992881a42607618f5dca65b5ad93a4bace118e7bd1c4804",
+      "class_voxel_counts": [
+        2302423,
+        1104633,
+        112643,
+        13157,
+        3541,
+        2547
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week5",
+      "cache_path": "volumes/L011__Week5_e07cef7e.npz",
+      "cache_sha256": "c15191f6501cd3ff89baf8f77a8c311337d3a89e617b29ecc86b7b3d723e6c55",
+      "source_image_sha256": "455179e9364eb405695463a3fee651968c8ff29783eecfdab6f48e9348a2cc79",
+      "source_mask_sha256": "86929595aee618c66d165ef326276db34fb0bf965ed1dcea0117ba7ee6787aef",
+      "class_voxel_counts": [
+        2286928,
+        1112668,
+        119439,
+        13143,
+        4406,
+        2360
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week6",
+      "cache_path": "volumes/L011__Week6_b3b1dd1d.npz",
+      "cache_sha256": "d8bb4dde6a61b190b330caa87f2b3ea8dfee242e87caa0ecc61881668cf45199",
+      "source_image_sha256": "f197bfc277412c5f994632e828cc65fe4a1ecff76d163ba54e5f2897efd794b7",
+      "source_mask_sha256": "1cf54ea2c172e2fa1942b1991d3114c18f177628134bb4b865f941f87d40cb38",
+      "class_voxel_counts": [
+        2300029,
+        1107195,
+        113221,
+        12667,
+        3248,
+        2584
+      ]
+    },
+    {
+      "patient": "L011",
+      "visit": "Week7",
+      "cache_path": "volumes/L011__Week7_fc165e50.npz",
+      "cache_sha256": "53ac9fb11b595566b2e585c7ac917c0c4e85c4b7fd9d086a9c56247383a1f05c",
+      "source_image_sha256": "d2fb355a99bbd555840774c3d98b8988b02874d5f6095444f70db08df03dce9f",
+      "source_mask_sha256": "b0c5c803c3f87c1327250bd0aa0c028cb3d145c1ec1cf565250e382c4b98e83b",
+      "class_voxel_counts": [
+        2287933,
+        1095897,
+        130199,
+        16889,
+        5563,
+        2463
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week0",
+      "cache_path": "volumes/M015__Week0_8e59d275.npz",
+      "cache_sha256": "954d37109da9b0c8a69f98cee109dcb662e1ee6f108506621fe52ddb53736003",
+      "source_image_sha256": "891ea2908519e470ac30acf0b08c85e1a9d16e1899221bb48cd9c0cc381cb5ef",
+      "source_mask_sha256": "896a67f5fab3d96a067b661fb4da56ed5810db068f5891cf55fc5dedd320d9cf",
+      "class_voxel_counts": [
+        1929647,
+        1472985,
+        111606,
+        17731,
+        2762,
+        4213
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week1",
+      "cache_path": "volumes/M015__Week1_9e62e422.npz",
+      "cache_sha256": "f586c59e3a2bccd4339bc8d8dc6c65172d73bd59cc37505fa98583263cc1ae99",
+      "source_image_sha256": "8eb38be3b889add9d9adc139c7d71eba6c5e11ec2d3f2644c368c67004f7aee4",
+      "source_mask_sha256": "1692bcfec6a55bcbd2854a032d6c1a96988a36e1d20e11b73976adb2dad25d11",
+      "class_voxel_counts": [
+        1891319,
+        1496947,
+        114804,
+        28133,
+        3228,
+        4513
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week2",
+      "cache_path": "volumes/M015__Week2_0209d7c7.npz",
+      "cache_sha256": "4d2f3e85ea7791d5f52eb2844a9de267370aa84a71d2ad416c96d075bd1d1975",
+      "source_image_sha256": "7237e0d5d8f4656217a4fd7b5a2726b7a614d8edca867b2738bf590e9f3eb6ee",
+      "source_mask_sha256": "5e44867f629aa64595299d1b5e90415e884c23ab0acd53153574ceea32da2987",
+      "class_voxel_counts": [
+        1976014,
+        1432618,
+        110422,
+        12890,
+        2478,
+        4522
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week3",
+      "cache_path": "volumes/M015__Week3_d268f978.npz",
+      "cache_sha256": "c0f10be4770228ead8173b2bafba986666faad3a88dd1cf1a7c02f7100a0a1c5",
+      "source_image_sha256": "9177058083b77f62a59e96d59e128e4c2f008e1f56d3ac737493e3f79a8d8fb0",
+      "source_mask_sha256": "915f031a44dc81d39b3e14b43f2e6f41ed0396916494e8b7f66c748eee6e43f5",
+      "class_voxel_counts": [
+        2084586,
+        1325705,
+        102514,
+        19374,
+        2562,
+        4203
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week4",
+      "cache_path": "volumes/M015__Week4_01b9663a.npz",
+      "cache_sha256": "962b6d533bdaed57887ce5cb36ba485cdf4300c26aac38208fb8a39fc5b37d8a",
+      "source_image_sha256": "5851a05556fff0b54356023d74e54abeca6d2ac5692053eeaa28b2f8d05ba5fe",
+      "source_mask_sha256": "bf59894a60bc194197e168c9f201ef46a095fa0c9a6cdc8dc74df4f08382810e",
+      "class_voxel_counts": [
+        1962414,
+        1421797,
+        112156,
+        35090,
+        3189,
+        4298
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week5",
+      "cache_path": "volumes/M015__Week5_ef0467f7.npz",
+      "cache_sha256": "1deb7fc7c8934a890bb8b2300d2111204adece9a86e668fdcb903a71593321ee",
+      "source_image_sha256": "f12542200b83a99373c1365f73227dba016fb97e1f7cdcbb920389ac256e34a0",
+      "source_mask_sha256": "b3b227531d32a8e503ea8a58312e2909d64c1bd6a40bee82c800771526d80d99",
+      "class_voxel_counts": [
+        1776835,
+        1600201,
+        139520,
+        13496,
+        3972,
+        4920
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week6",
+      "cache_path": "volumes/M015__Week6_67191a8c.npz",
+      "cache_sha256": "e7e117a47f7ed002e358bbfe3fee2030d16cdd64456792e9a12e7fd6094a7291",
+      "source_image_sha256": "78d2cfeb83716c97cd08c881d325a4e8ccb591e4ba97c79ed529bed4981501a1",
+      "source_mask_sha256": "f7b9bfc559c397bc99a55f94754482071e0458a288ce0905b5f7c9db232f9693",
+      "class_voxel_counts": [
+        1838089,
+        1553064,
+        119967,
+        19890,
+        3451,
+        4483
+      ]
+    },
+    {
+      "patient": "M015",
+      "visit": "Week7",
+      "cache_path": "volumes/M015__Week7_e7dea748.npz",
+      "cache_sha256": "2f6f29ec603469158f96a1aa4f26faaaeaa9170b325ab0ff568741a879ef8872",
+      "source_image_sha256": "9309a54f644558de1a70eed8a678e362b6de44abdeda5d011a2ed5a2acfd4339",
+      "source_mask_sha256": "cfa0dbbefb6131e9fd5916ee09cb32b78ca641e2bfcb662d4c34e1808844d921",
+      "class_voxel_counts": [
+        1903121,
+        1504033,
+        107657,
+        16872,
+        2782,
+        4479
+      ]
+    },
+    {
+      "patient": "M020",
+      "visit": "Week0",
+      "cache_path": "volumes/M020__Week0_bdb6bfdc.npz",
+      "cache_sha256": "92d772301f8dd130951b469d7a1c272618b59b961cfd91c4c65ea98d0d804e88",
+      "source_image_sha256": "06d7e0d4ef02fb3f51c1bc13ed8a6e34256305cbeeada4e7fd36a74a437456ee",
+      "source_mask_sha256": "f3d85a6b566241e7d57185dc302aa69e7b43707e3cb22a6d5008e150c56f1bd2",
+      "class_voxel_counts": [
+        2200440,
+        1207921,
+        98909,
+        20406,
+        7627,
+        3641
+      ]
+    },
+    {
+      "patient": "M020",
+      "visit": "Week1",
+      "cache_path": "volumes/M020__Week1_c1af652c.npz",
+      "cache_sha256": "c26e3df8b1800413da3cb9753d01b2557986617b64a3f7bf1e654533d7eda9b8",
+      "source_image_sha256": "b00927429fddc92f46553f458dc88de85d2c4e6fbd3baceda5e39f034a70b604",
+      "source_mask_sha256": "b3e6b3e3e49a34956179594cf248791d0565f40063b16d158d374093f76c8b18",
+      "class_voxel_counts": [
+        2310313,
+        1110856,
+        99976,
+        10033,
+        4427,
+        3339
+      ]
+    },
+    {
+      "patient": "M020",
+      "visit": "Week2",
+      "cache_path": "volumes/M020__Week2_8288f68f.npz",
+      "cache_sha256": "24895941cee4d3d888ad9ff9437d16cefe7a7c43ac5127d424e0da8b2d91bf8a",
+      "source_image_sha256": "1f8979eb36bcb7883463f66e5241f55ff36c1cabd849448cdc1c59b7a95832df",
+      "source_mask_sha256": "f05aadfbb74eddfc77d46cf4c94bdbf3abe0fccd60625ffdf25f0c686acb368c",
+      "class_voxel_counts": [
+        2300155,
+        1114595,
+        105471,
+        11110,
+        4531,
+        3082
+      ]
+    },
+    {
+      "patient": "M020",
+      "visit": "Week3",
+      "cache_path": "volumes/M020__Week3_f56bece3.npz",
+      "cache_sha256": "fa0f35915990d12be730a2f5125b63d57cad9f9957676f3f4a7f1405aab7ef22",
+      "source_image_sha256": "c5c5218a6743676e4765c6cff6b92bce657bf8ce79c72f563f2c0e00fa78e9cc",
+      "source_mask_sha256": "67ebbd4c691b6b8a1c80161787a40a88b4795bcb81da7dcdeec790aa4a03e6ef",
+      "class_voxel_counts": [
+        2294122,
+        1111884,
+        106062,
+        19324,
+        4359,
+        3193
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week0",
+      "cache_path": "volumes/W029__Week0_df048166.npz",
+      "cache_sha256": "78b892d2bdae29bdbd90c87b4ffda7ec93707550fd943e23e87c44e2ad128389",
+      "source_image_sha256": "af90011b9aa6782247eb7f1b1bb7c97ede62539747496a0a31cb57f3bca90555",
+      "source_mask_sha256": "7fd94184039586ea563a5dd0734c8abbd6cf526644520500ddb5e2a68be664f1",
+      "class_voxel_counts": [
+        1992317,
+        1392992,
+        124329,
+        24788,
+        2664,
+        1854
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week1",
+      "cache_path": "volumes/W029__Week1_fe5a7133.npz",
+      "cache_sha256": "24a9993b1641684d6a7a3a88289c96c30c2b5ac92acda0ae5bfee273689baa6e",
+      "source_image_sha256": "c3b08b84c7e10b04f0f9b92f9f0278cabaca8f7ae3c3ece9966e787889570b9e",
+      "source_mask_sha256": "3c952ef542332ff9498ece2891ad9f7f4d74b463ffe30aaf8972bbd99e48d743",
+      "class_voxel_counts": [
+        2095720,
+        1311850,
+        119626,
+        7374,
+        3321,
+        1053
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week2",
+      "cache_path": "volumes/W029__Week2_c4b962d6.npz",
+      "cache_sha256": "62216404af8ba433655dd97a3132b457cb680ef2d3313907c67371bc3aec5506",
+      "source_image_sha256": "883257265676fb813934e9186c9bac08a3dcc826bebd465442ff416a4de0d6f6",
+      "source_mask_sha256": "af7bb9dfb38edb16f0f26165b384a8ecf8bda785cf1c7f814755338491ccb425",
+      "class_voxel_counts": [
+        2204353,
+        1215876,
+        108907,
+        5314,
+        3632,
+        862
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week3",
+      "cache_path": "volumes/W029__Week3_b144d9a9.npz",
+      "cache_sha256": "d3c069019fae4640da728c4f1f7bdfbaf7f9013d79f624379e7c0a31f1269586",
+      "source_image_sha256": "37d619dc17c2cae85be10932b3d9fe6d9faee6cc6b90e47f3cfa7c8fa75a2027",
+      "source_mask_sha256": "923331d2f446708097f991909c0e45c7a0769ca6ab2466c8285b3adeea7f9025",
+      "class_voxel_counts": [
+        2083739,
+        1322131,
+        121235,
+        7459,
+        3451,
+        929
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week4",
+      "cache_path": "volumes/W029__Week4_f050af13.npz",
+      "cache_sha256": "7c28404f1e6be246af57a01437d17feacdebf55455ef6694fb96e2da4ae6b997",
+      "source_image_sha256": "b2674a295349f792e7fb7109fec555e3e302a940491f43dccd09821fb71e5a75",
+      "source_mask_sha256": "ee3d02f26c396e7e1d85235cec66e403eb3652c18190d1201f2c6a35bd058ca9",
+      "class_voxel_counts": [
+        2041595,
+        1339046,
+        148401,
+        5237,
+        3818,
+        847
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week5",
+      "cache_path": "volumes/W029__Week5_0f8afd97.npz",
+      "cache_sha256": "bdce70f74d1d491896cc931ea81589f53daed01c65995bbb2aabf02f393353c6",
+      "source_image_sha256": "bc010c425c6097eec7246bfd0193215296ba902e48651dc7720a64f4f1a7f0d3",
+      "source_mask_sha256": "78cc4eb89250aabe34c4127f5476f2fc0c55de36341252b57826ccb4eb0ba456",
+      "class_voxel_counts": [
+        2081373,
+        1312147,
+        131462,
+        9017,
+        4143,
+        802
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week6",
+      "cache_path": "volumes/W029__Week6_6db3906d.npz",
+      "cache_sha256": "fc7b43d35edb684adf0c3fc214450622717e4925576131da855ca2e876d24dbc",
+      "source_image_sha256": "73a18d0eb5e47ab895591d1a29aaece64239a1c57d6d7643c06acacbb70e09bc",
+      "source_mask_sha256": "f9d461b9254e6e95d33fa4dacc72c9c75ca8d3d89eee0a70c673794ce34662ce",
+      "class_voxel_counts": [
+        2099451,
+        1313211,
+        115859,
+        5139,
+        3977,
+        1307
+      ]
+    },
+    {
+      "patient": "W029",
+      "visit": "Week7",
+      "cache_path": "volumes/W029__Week7_a3515f2b.npz",
+      "cache_sha256": "59dca548bbfa78342d7bd861d44f028ebc63ca4a0890d73df21ac5cf2d57d8b9",
+      "source_image_sha256": "b8f3939f32c7cb3df1bf656b771eff02d5f4c0796b0761bc0d03866654fa6f15",
+      "source_mask_sha256": "5d0c69aa148dbf0e7db66c51122aa351c3ab0d572265cea296f893148c51612f",
+      "class_voxel_counts": [
+        2065517,
+        1325864,
+        133786,
+        7583,
+        5243,
+        951
+      ]
+    },
+    {
+      "patient": "W041",
+      "visit": "Week0",
+      "cache_path": "volumes/W041__Week0_48cfdb60.npz",
+      "cache_sha256": "ace6aece08c55305798653a0a0117012cd9a7d7ac664b8f7e66c2a9d32fd428d",
+      "source_image_sha256": "7935ff938e32656c3aa09b86c442370990a309608f19846a1687b762c6e4dac8",
+      "source_mask_sha256": "baac59e9a2cd619cb02b1449bc97af8916ed54f58faaf57af219cc389c37889c",
+      "class_voxel_counts": [
+        2212973,
+        1173104,
+        110784,
+        30114,
+        9195,
+        2774
+      ]
+    }
+  ],
+  "completed_at": "2026-10-27T13:40:59.747606+00:00",
+  "manifest_bytes_unchanged": true
+}

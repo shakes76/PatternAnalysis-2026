@@ -1,0 +1,20 @@
+{
+  "experiment_id": "independent_resolution_sampling_v2",
+  "recorded_at": "2026-10-27T21:32:52.735691+10:00",
+  "original_protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "failed_job_id": 704519,
+  "engineering_only": true,
+  "scientific_configuration_changed": false,
+  "reason": "Original sequential1CPU preparation actually hit its25min limit (TIMEOUT25:23), with159completeNPZ/zero pendingNPZ and no manifest. No GPU fitting or candidate training started; no v2 performance score has been read. Preserve failed directory; one fresh parallel rebuild removes the compression bottleneck and validates every decoded cache.",
+  "recovery": {
+    "workers": 4,
+    "maximum_walltime_minutes": 20
+  },
+  "helper_sha256": "0dc7549636a9922aa6016b4b099c33fdb211f04edb91dee0c65519e55e6f18a4",
+  "job_script_sha256": "4efa4787fa184b7028a5998fbe65218004ac706a6a3c859faf5f4fbdb47b9250",
+  "old_directory_policy": "Preserve cache_v2 as cache_v2_incomplete_704519 only after recovery completes; then symlink cache_v2 to cache_v2_recovered for the unchanged frozen job commands.",
+  "additional_arms": 0,
+  "additional_hyperparameters": 0,
+  "additional_gpu_budget": 0,
+  "cumulative_cpu_preparation_walltime_limit": "original25min plus one20min recovery; actual original overrun23s reported separately"
+}

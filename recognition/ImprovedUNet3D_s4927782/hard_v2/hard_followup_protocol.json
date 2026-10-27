@@ -1,0 +1,102 @@
+{
+  "experiment_id": "hard_only_after_stopped_v2_pair",
+  "status": "frozen_before_formal_training_or_new_model_validation_test_performance",
+  "recorded_at": "2026-10-27T22:10:29.432321+10:00",
+  "base_protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "stopped_pair_status": "stopped_after_QA_failure",
+  "scope_change_is_scientific_plan_revision_not_engineering_fix": true,
+  "reason": "The originally prespecified all-or-none new pair failed its2D TRAIN-fit gate and is stopped. Only the original-gate-passing Hard3D may enter this separate reduced-scope study; the already trained/frozen/independently verified original2D and3D serve as references. No new model VAL/TEST performance was read to choose this scope.",
+  "qa_receipt_sha256": "dfdbe1fca062565a3f187e74350ed1970c214ffbcd9bbb1c314ceaeb09b1e285",
+  "fit_receipt_sha256": "ea96fc3986c3c6e0e61c3b40eb661cb5ee7db86053149f82cfa6698d8e826831",
+  "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "base_manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "configuration_exactly_inherited": true,
+  "configuration": {
+    "target_shape_dhw": [
+      96,
+      192,
+      192
+    ],
+    "patch_shape_dhw": [
+      64,
+      128,
+      128
+    ],
+    "seed": 3711,
+    "num_classes": 6,
+    "base_channels": 16,
+    "epochs": 30,
+    "train_patches_per_scan": 2,
+    "train_slices_per_scan": 32,
+    "train_batch_size_2d": 16,
+    "train_batch_size_3d": 1,
+    "eval_slice_batch_size": 32,
+    "foreground_sampling_probability": 0.5,
+    "absent_selected_class": "uniform_spatial_fallback_recorded",
+    "augmentation": "random_hw_flips",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "clip_grad": 5.0,
+    "amp": true,
+    "workers": 0,
+    "validation_epochs": [
+      1,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30
+    ],
+    "selection": "patient_balanced_class5_dice_strict_max_earliest_tie",
+    "inference_overlap": 0.5,
+    "inference_blending": "uniform_softmax_mean",
+    "class_weighting": "sqrt_inverse_frequency"
+  },
+  "formal_models": [
+    "improved3d"
+  ],
+  "reused_reference_models": [
+    "v1_unet2d",
+    "v1_improved3d"
+  ],
+  "max_gpu_walltime_minutes": 60,
+  "seed": 3711,
+  "epochs": 30,
+  "test_status": "previously_inspected_retrospective",
+  "no_new_parameters_or_candidates": true,
+  "qa_policy": "OriginaloverallQA remainsfailed; only existingimproved3d must meet identical400-final-step .90P5/.90FG/.25lossratio+allrealpipelinechecks. Do not retrainfailed2D, extenditssteps, loosenanythreshold or useanyQAweights.",
+  "selection": "patient_balanced_class5_dice_strict_max_earliest_tie",
+  "adoption": {
+    "basis": "validation on COMMON ORIGINAL GRID; calculate separately for each same-model v2−v1 pair",
+    "minimum_prostate_dice_gain": 0.01,
+    "minimum_foreground_dice_difference": -0.01,
+    "additional": "No automatic medical use. Report known TEST safety failures even if VAL passes; a VAL pass is only an exploratory research recommendation, not proof of generalization. No eligible model means retain originals.",
+    "no_posthoc_relaxation": true,
+    "floating_comparison_tolerance": 1e-12
+  },
+  "comparison": {
+    "models": 3,
+    "common_grid": "Immutable original64x128x128 GT/spacing; new96categoricalpredictionaffine-nearesttocoarse",
+    "aggregation": "per-class hard confusion Dice and IoU; visits within patient, then equal patients; background reported separately; both-empty excluded, false-positive absent-GT zero",
+    "boundary": "prostate symmetric surface HD95 in mm on common downsampled grid; empty surface pairs reported separately; not native-resolution accuracy",
+    "primary_comparison": "newHard3D vs frozenoriginal3D; original2D contextual reference",
+    "test": "Afterexact30epochs andonecheckpointchoiceusingonlyVAL, freezeactualHardSHA thenevaluateall30knownTESTcasesonce regardlessVALgate; reportallnegativecases. NoTESTchoiceorpostprocessing.",
+    "confounds": "Resolution,sampling/exposure,checkpointselector,slidingcontext and seed3711(vsoriginal42)change. This is threecompletepipelines, not amatchednew2D/new3D comparison or isolateddimensionality/causalablation.",
+    "independence": "No freshblindtest; originalTESTinspection and repeatedVALuse remain; scope is alsoadaptedafterTRAINQA."
+  },
+  "stop_conditions": [
+    "Hardgateoranyinputidentitymismatch",
+    "nonfinitetrainloss/gradients beyond documentedAMPoverflowhandling",
+    "completed30epochs or60minallocationlimit; nevercallunfinishedcompleted",
+    "ifoneHardoutcomefailsimprovementendthisroute; noextraarm/seed/probability/threshold/search"
+  ],
+  "required_scope_sha256": {
+    "train_hard_followup.py": "a6068be233fa199e3ace53703728c8f5544527644666f51514c7615b2ff0cafe",
+    "hard_followup_gpu.slurm": "b60d1485b9d88b7596b45cc0ee0c94b0dc0fa906ddf8093272c62cd5f4146022",
+    "test_train_hard_followup.py": "5c0f1d0f5c9b1c6f037c76d6d5a163b4b858fbd49c5842cdaa3eb38fd9410680",
+    "evaluate_v2_deterministic.py": "5a8535d1c8aa7bdafef0fd0d46f7285f03d65531924d879d366ed388267b6ec5"
+  },
+  "preservation": "Originalv2protocol18sources/failedQA/timeouts/rawdata/oldweights/PR/historyallretained; new study writesonlyfreshhard_followup paths.",
+  "frozen_at": "2026-10-27T22:16:13.715062+10:00"
+}

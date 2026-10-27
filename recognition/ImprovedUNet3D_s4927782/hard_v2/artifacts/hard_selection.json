@@ -1,0 +1,24 @@
+{
+  "status": "frozen",
+  "created_at_utc": "2026-10-27T13:36:40.382121+00:00",
+  "experiment_id": "hard_only_after_stopped_v2_pair",
+  "original_pair_status": "stopped_after_QA_failure",
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "base_protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "training_executor_sha256": "a6068be233fa199e3ace53703728c8f5544527644666f51514c7615b2ff0cafe",
+  "scope_driver_sha256": "b60d1485b9d88b7596b45cc0ee0c94b0dc0fa906ddf8093272c62cd5f4146022",
+  "scope_execution_sha256": "4cb280087ab4365311845e14fd0dedb81912db48bc78339e28e6d880c6be7d3d",
+  "models": {
+    "improved3d": {
+      "completed_epochs": 30,
+      "checkpoint_sha256": "852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf",
+      "checkpoint_epoch": 30,
+      "validation_prostate_dice": 0.8399783705985268,
+      "run_sha256": "ae5994710c1b32ad03d4c2dcd55f8c12d2bbd73cf658d1ae95553bae8d9bfade",
+      "history_sha256": "092548a6d4ddc8b9061b0f337874aff4d3fcd0da71a1a4cbad0a7f28ec8b75f1"
+    }
+  },
+  "test_status": "Previously inspected cohort; next evaluation is retrospective, not a new blind test"
+}

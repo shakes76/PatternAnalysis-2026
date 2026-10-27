@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "purpose": "TRAIN B006 image-only deployment/native-geometry check; no new generalisation evidence",
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "selection_freeze_sha256": "408bb6d059b2f5a86841bb12d0eb3a0b6772981cebe9e889c47f13ee320ee85c",
+  "checkpoint_sha256": "852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf",
+  "image_only_receipt_sha256": "98dd6c4eeb284688a681875b79932effa7a58b6079c05e96afd18ca620ebd1d0",
+  "original_failed_pair_preserved": true
+}

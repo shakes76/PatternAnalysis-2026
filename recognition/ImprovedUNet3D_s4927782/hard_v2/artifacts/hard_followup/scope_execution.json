@@ -1,0 +1,28 @@
+{
+  "status": "completed",
+  "started_at": "2026-10-27T12:54:46.465083+00:00",
+  "experiment_id": "hard_only_after_stopped_v2_pair",
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "base_protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "training_executor_sha256": "a6068be233fa199e3ace53703728c8f5544527644666f51514c7615b2ff0cafe",
+  "scope_driver_sha256": "b60d1485b9d88b7596b45cc0ee0c94b0dc0fa906ddf8093272c62cd5f4146022",
+  "original_pair_status": "stopped_after_QA_failure",
+  "original_combined_qa_status": "failed_fit_gate",
+  "failed_new2d_preserved": true,
+  "qa_receipt_sha256": "dfdbe1fca062565a3f187e74350ed1970c214ffbcd9bbb1c314ceaeb09b1e285",
+  "fit_receipt_sha256": "ea96fc3986c3c6e0e61c3b40eb661cb5ee7db86053149f82cfa6698d8e826831",
+  "formal_models": [
+    "improved3d"
+  ],
+  "optimisation_body": "Static frozen-v2.train body; only the entry QA validator is named differently",
+  "warmstart": false,
+  "resume": false,
+  "new_validation_or_test_performance_used_for_scope_choice": false,
+  "completed_at": "2026-10-27T13:35:46.893250+00:00",
+  "completed_epochs": 30,
+  "best_checkpoint_sha256": "852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf",
+  "final_checkpoint_sha256": "d886ea654372f7d75b46d809592c6c058391d1d137d632fbfd19f4a456cb9827",
+  "run_sha256": "ae5994710c1b32ad03d4c2dcd55f8c12d2bbd73cf658d1ae95553bae8d9bfade",
+  "history_sha256": "092548a6d4ddc8b9061b0f337874aff4d3fcd0da71a1a4cbad0a7f28ec8b75f1"
+}

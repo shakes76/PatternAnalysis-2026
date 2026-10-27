@@ -1,0 +1,24 @@
+{
+  "sha256": {
+    "compare_hard_followup.py": "314d16bdfeb530a66022ee2b283072cb9b57edb99760a2590d2c4aa108b5a942",
+    "test_compare_hard_followup.py": "65680090a01317ff7e42369a4b2b16be4e496d14bf9142035e500a1681a3f65b",
+    "summarize_v2.py": "d42442d9a477e1abdafc8f3fcfe288dadb449e84f1f6ce1ebe42e5546c4cab98",
+    "test_summarize_v2.py": "acf06ec4c9a8f403e7a73395fa1bcb127868f5c8b1e5c10c9f215bc3ded9743c",
+    "compare_common_grid.py": "76136bc2aa410ac36609e95727939dc3e1455ae3612a34e3254420dc9e405d85",
+    "plot_hard_followup.py": "89211b397436ee2a27d957d4a7a7f8a3bd19e601ef76200f7d9946ba51c2d334",
+    "test_plot_hard_followup.py": "47dce4a5c19d158b98bb7f9b56c59aa7ec736b119dcfdbaf91442b09aaa06464",
+    "plot_failure_gallery_v2.py": "9ead70ae07844f088e4648b9b3f3bbf97882c6badc46f918c3cf182a58a522d8",
+    "plot_hard_failure_gallery.py": "50f421623f11ce81d53c3f8bd8679bf780d52d37c93a13530744d1735e719fe1",
+    "test_plot_hard_failure_gallery.py": "c8f3be06bb2d7b41d37d560e8bec9ce6ae5b250172488aea188b32fc796f0375"
+  },
+  "actual_execution_dependencies": [
+    "compare_hard_followup.py",
+    "summarize_v2.py",
+    "compare_common_grid.py",
+    "plot_hard_followup.py",
+    "plot_hard_failure_gallery.py",
+    "plot_failure_gallery_v2.py"
+  ],
+  "fixture_only_dependency": "test_summarize_v2.py is imported by test_compare_hard_followup.py; never opened by actual comparison",
+  "no_actual_new_scores_read": true
+}

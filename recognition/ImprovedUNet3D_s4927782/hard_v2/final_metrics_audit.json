@@ -1,0 +1,391 @@
+{
+  "status": "passed",
+  "created_at_utc": "2026-10-27T14:02:15.204547+00:00",
+  "method": "Independent Python standard-library arithmetic; no original metric or aggregate helpers imported.",
+  "inputs": {
+    "artifacts/hard_common_validation/comparison.json": "12344ba91e8c9e00577ac5c4dbc808ce20acda4c77f6987fde782e00cdfb2adf",
+    "artifacts/hard_validation/improved3d/evaluation.json": "0bb48214b22f711b8ef25b6d37679aa308e52dfd40807dae50cd600d9e0ef3f7",
+    "artifacts/hard_common_test/comparison.json": "4dc03f4312fe8366afd8f283b962587b77a34f69677e2dedd7a11b5541cf91ce",
+    "artifacts/hard_test/improved3d/evaluation.json": "49b18c0a52636adb7a77518a99b0e5179ada11ca3e73a853a8a1c50d091bbdb4"
+  },
+  "common_grid": {
+    "validation": {
+      "models": {
+        "v1_unet2d": {
+          "foreground_dice": 0.8674987171843047,
+          "prostate_dice": 0.792048410938667,
+          "hd95_mm_conditional": 6.463034451373439,
+          "empty_status_counts": {
+            "both_present": 38
+          },
+          "patient_prostate_dice": {
+            "B040": 0.848198187413359,
+            "J026": 0.7886177549384339,
+            "K008": 0.7984819734345351,
+            "K018": 0.722336492844833,
+            "M030": 0.7914105482338537,
+            "S022": 0.803245508766987
+          }
+        },
+        "v1_improved3d": {
+          "foreground_dice": 0.8748048615380073,
+          "prostate_dice": 0.8332346073040963,
+          "hd95_mm_conditional": 5.014227909323324,
+          "empty_status_counts": {
+            "both_present": 38
+          },
+          "patient_prostate_dice": {
+            "B040": 0.8606248126340433,
+            "J026": 0.8272459957755576,
+            "K008": 0.8303914044512664,
+            "K018": 0.8336217334081504,
+            "M030": 0.8406277305935772,
+            "S022": 0.8068959669619822
+          }
+        },
+        "hard_improved3d": {
+          "foreground_dice": 0.8807233810676975,
+          "prostate_dice": 0.8406386345873876,
+          "hd95_mm_conditional": 4.801728619243415,
+          "empty_status_counts": {
+            "both_present": 38
+          },
+          "patient_prostate_dice": {
+            "B040": 0.8414782081407388,
+            "J026": 0.8322491336352793,
+            "K008": 0.8215035699286014,
+            "K018": 0.8707339914486978,
+            "M030": 0.870538655240826,
+            "S022": 0.8073282491301819
+          }
+        }
+      },
+      "adoption_gate": {
+        "use_for_selection": false,
+        "scope": "validation_adoption_gate",
+        "prostate_dice_delta": 0.00740402728329137,
+        "foreground_dice_delta": 0.005918519529690247,
+        "minimum_prostate_delta": 0.01,
+        "minimum_foreground_delta": -0.01,
+        "floating_point_tolerance": 1e-12,
+        "numeric_conditions_pass": false,
+        "replacement_supported_by_validation_gate": false,
+        "interpretation": "Prespecified development indication, not independent generalization or an automatic clinical acceptance rule."
+      },
+      "hard_cases_below_point7": []
+    },
+    "test": {
+      "models": {
+        "v1_unet2d": {
+          "foreground_dice": 0.8409114127266032,
+          "prostate_dice": 0.6789820823324884,
+          "hd95_mm_conditional": 9.572844576924291,
+          "empty_status_counts": {
+            "both_present": 30
+          },
+          "patient_prostate_dice": {
+            "B037": 0.5772409408773045,
+            "L011": 0.791894426257983,
+            "M015": 0.5601428700010811,
+            "M020": 0.862864662372598,
+            "W029": 0.5327223571318782,
+            "W041": 0.7490272373540856
+          }
+        },
+        "v1_improved3d": {
+          "foreground_dice": 0.8375276214082796,
+          "prostate_dice": 0.6771907283701126,
+          "hd95_mm_conditional": 10.615361526121594,
+          "empty_status_counts": {
+            "both_present": 30
+          },
+          "patient_prostate_dice": {
+            "B037": 0.7773250664304694,
+            "L011": 0.8326296396205193,
+            "M015": 0.11361980346492953,
+            "M020": 0.8642591351723254,
+            "W029": 0.6028352494793443,
+            "W041": 0.8724754760530872
+          }
+        },
+        "hard_improved3d": {
+          "foreground_dice": 0.8628688260082561,
+          "prostate_dice": 0.7817839094346838,
+          "hd95_mm_conditional": 6.263557418949458,
+          "empty_status_counts": {
+            "both_present": 30
+          },
+          "patient_prostate_dice": {
+            "B037": 0.7820535555949637,
+            "L011": 0.8599662492618192,
+            "M015": 0.6656213488240728,
+            "M020": 0.8719840633567908,
+            "W029": 0.6359413282889661,
+            "W041": 0.8751369112814896
+          }
+        }
+      },
+      "adoption_gate": {
+        "use_for_selection": false,
+        "scope": "retrospective_description_only",
+        "prostate_dice_delta": 0.10459318106457116,
+        "foreground_dice_delta": 0.025341204599976463,
+        "minimum_prostate_delta": 0.01,
+        "minimum_foreground_delta": -0.01,
+        "floating_point_tolerance": 1e-12,
+        "numeric_conditions_pass": true,
+        "replacement_supported_by_validation_gate": null,
+        "interpretation": "Prespecified development indication, not independent generalization or an automatic clinical acceptance rule."
+      },
+      "hard_cases_below_point7": [
+        {
+          "patient": "W029",
+          "visit": "Week6",
+          "prostate_dice": 0.3510848126232742,
+          "foreground_dice": 0.7661972932964757,
+          "hd95_mm": 10.496672166106483,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            300,
+            0,
+            8,
+            21
+          ]
+        },
+        {
+          "patient": "M015",
+          "visit": "Week0",
+          "prostate_dice": 0.5389988358556461,
+          "foreground_dice": 0.7110176074597134,
+          "hd95_mm": 9.765493379135057,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            764,
+            0,
+            0,
+            28
+          ]
+        },
+        {
+          "patient": "W029",
+          "visit": "Week0",
+          "prostate_dice": 0.5481852315394243,
+          "foreground_dice": 0.8198460645620594,
+          "hd95_mm": 11.183482938024959,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            9,
+            0,
+            0,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            161,
+            0,
+            173,
+            18
+          ]
+        },
+        {
+          "patient": "M015",
+          "visit": "Week1",
+          "prostate_dice": 0.5702349869451697,
+          "foreground_dice": 0.6773731810077166,
+          "hd95_mm": 10.623276514628149,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            9,
+            0,
+            1,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            787,
+            0,
+            2,
+            24
+          ]
+        },
+        {
+          "patient": "W029",
+          "visit": "Week1",
+          "prostate_dice": 0.5934065934065934,
+          "foreground_dice": 0.8310156661130591,
+          "hd95_mm": 6.755556017917924,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            90,
+            0,
+            82,
+            13
+          ]
+        },
+        {
+          "patient": "M015",
+          "visit": "Week7",
+          "prostate_dice": 0.6044303797468354,
+          "foreground_dice": 0.7298731772008563,
+          "hd95_mm": 9.765493379135057,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            728,
+            0,
+            22,
+            0
+          ]
+        },
+        {
+          "patient": "W029",
+          "visit": "Week4",
+          "prostate_dice": 0.6470588235294118,
+          "foreground_dice": 0.8409707074713315,
+          "hd95_mm": 4.750873686097116,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            98,
+            0,
+            22,
+            2
+          ]
+        },
+        {
+          "patient": "M015",
+          "visit": "Week5",
+          "prostate_dice": 0.6764436296975253,
+          "foreground_dice": 0.7529181442236496,
+          "hd95_mm": 9.16946452567408,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            23,
+            0,
+            5,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            656,
+            0,
+            3,
+            19
+          ]
+        },
+        {
+          "patient": "M015",
+          "visit": "Week6",
+          "prostate_dice": 0.6776379477250726,
+          "foreground_dice": 0.7575089902187785,
+          "hd95_mm": 8.133969922450317,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            37,
+            0,
+            11,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            595,
+            0,
+            0,
+            23
+          ]
+        },
+        {
+          "patient": "W029",
+          "visit": "Week3",
+          "prostate_dice": 0.6878727634194831,
+          "foreground_dice": 0.855020334459609,
+          "hd95_mm": 5.683763745312066,
+          "prostate_fp_by_gt_class0to4": [
+            0,
+            62,
+            0,
+            0,
+            0
+          ],
+          "prostate_fn_by_predicted_class0to4": [
+            0,
+            47,
+            0,
+            48,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "new_grid_96_descriptive_only": {
+    "validation": {
+      "prostate_dice": 0.8399783705985268,
+      "foreground_dice": 0.888228201735791,
+      "mean_inference_ms": 975.1404969168728,
+      "not_used_for_old_pipeline_comparison": true
+    },
+    "test": {
+      "prostate_dice": 0.7788168447234334,
+      "foreground_dice": 0.8688371356890551,
+      "mean_inference_ms": 1073.4080305633445,
+      "not_used_for_old_pipeline_comparison": true
+    }
+  },
+  "limitations": [
+    "No raw MRI/GT or prediction arrays were transferred. Pixel-wise confusion counts and actual HD95 nearest-surface distances are not independently recomputed locally; full saved 6x6 confusion matrices are arithmetically cross-checked against all per-class counts. The frozen CPU analysis separately remeasured common-GT pixels on the server.",
+    "All actual prostate masks/predictions are nonempty: empty-surface exclusions are correctly zero here, but these results do not empirically exercise empty prediction/GT handling.",
+    "The 96-grid numbers are kept separate and cannot establish improvement relative to original 64-grid metrics.",
+    "Known TEST is retrospective and not used to select models or override failed VAL adoption conditions."
+  ],
+  "counts": {
+    "assertions": 17758,
+    "full_6x6_confusion_matrices": 204,
+    "numeric_comparisons": 6564,
+    "class_rows": 1632
+  },
+  "conclusion": {
+    "adopt_new_Hard_under_prespecified_VAL_gate": false,
+    "why": "Common VAL P5 gain +0.00740402728329137 is smaller than required +0.01. Known TEST improvement cannot override this rule.",
+    "retrospective_test_numeric_prostate_point7_met": true,
+    "hard_test_patients_below_point7": [
+      "M015",
+      "W029"
+    ],
+    "remaining_failure_root_cause": "Not established by these results; saved false-positive/false-negative patterns describe errors, not a proven causal explanation."
+  },
+  "audit_source_sha256": "ec961801fbbf921a7a1052785fd5584e2e3900ae9cd7d07e8d24f1449381e564"
+}

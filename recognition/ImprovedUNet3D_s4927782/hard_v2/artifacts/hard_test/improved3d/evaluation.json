@@ -1,0 +1,2613 @@
+{
+  "cases": [
+    {
+      "patient": "B037",
+      "visit": "Week0",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.995768388404627,
+          "iou": 0.9915724389742114,
+          "target_voxels": 1998672,
+          "predicted_voxels": 1989643,
+          "intersection": 1985719,
+          "union": 2002596
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9816760333540924,
+          "iou": 0.9640115184438565,
+          "target_voxels": 1326402,
+          "predicted_voxels": 1329464,
+          "intersection": 1303600,
+          "union": 1352266
+        },
+        {
+          "class_index": 2,
+          "dice": 0.926862219434451,
+          "iou": 0.863693587365818,
+          "target_voxels": 163980,
+          "predicted_voxels": 167627,
+          "intersection": 153677,
+          "union": 177930
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9424537613182852,
+          "iou": 0.8911702645674403,
+          "target_voxels": 33418,
+          "predicted_voxels": 36491,
+          "intersection": 32943,
+          "union": 36966
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8412576687116564,
+          "iou": 0.7260092653871608,
+          "target_voxels": 5543,
+          "predicted_voxels": 7497,
+          "intersection": 5485,
+          "union": 7555
+        },
+        {
+          "class_index": 5,
+          "dice": 0.7690460028196962,
+          "iou": 0.6247560872147281,
+          "target_voxels": 10929,
+          "predicted_voxels": 8222,
+          "intersection": 7364,
+          "union": 11787
+        }
+      ],
+      "foreground_mean_dice": 0.8922591371276363,
+      "foreground_mean_iou": 0.8139281445958009,
+      "inference_ms": 1070.0045870617032,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.0833332538604736,
+        2.0833332538604736
+      ],
+      "prediction_file": "predictions/B037__Week0_71b4ea1b.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week0",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9958325146826886,
+          "iou": 0.9916996210726851,
+          "target_voxels": 2149829,
+          "predicted_voxels": 2140768,
+          "intersection": 2136358,
+          "union": 2154239
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9821030280612193,
+          "iou": 0.9648353960525249,
+          "target_voxels": 1224116,
+          "predicted_voxels": 1222499,
+          "intersection": 1201414,
+          "union": 1245201
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9237069105354034,
+          "iou": 0.8582298999939715,
+          "target_voxels": 135205,
+          "predicted_voxels": 142212,
+          "intersection": 128126,
+          "union": 149291
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9397804654944608,
+          "iou": 0.8864017638882231,
+          "target_voxels": 18973,
+          "predicted_voxels": 20383,
+          "intersection": 18493,
+          "union": 20863
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8931438425402867,
+          "iou": 0.8069195229397228,
+          "target_voxels": 7669,
+          "predicted_voxels": 9148,
+          "intersection": 7510,
+          "union": 9307
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8478690375388089,
+          "iou": 0.7359137677609016,
+          "target_voxels": 3152,
+          "predicted_voxels": 3934,
+          "intersection": 3004,
+          "union": 4082
+        }
+      ],
+      "foreground_mean_dice": 0.9173206568340359,
+      "foreground_mean_iou": 0.8504600701270688,
+      "inference_ms": 1074.3521582335234,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.0833332538604736,
+        2.0833332538604736
+      ],
+      "prediction_file": "predictions/L011__Week0_ecdcedfa.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week1",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9958396723050017,
+          "iou": 0.9917138178431164,
+          "target_voxels": 2279477,
+          "predicted_voxels": 2273049,
+          "intersection": 2266793,
+          "union": 2285733
+        },
+        {
+          "class_index": 1,
+          "dice": 0.980867488401212,
+          "iou": 0.9624533387345803,
+          "target_voxels": 1106612,
+          "predicted_voxels": 1102455,
+          "intersection": 1083401,
+          "union": 1125666
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9254951366373321,
+          "iou": 0.8613224269092564,
+          "target_voxels": 130717,
+          "predicted_voxels": 139158,
+          "intersection": 124884,
+          "union": 144991
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9493227917827749,
+          "iou": 0.903534200949855,
+          "target_voxels": 14834,
+          "predicted_voxels": 16028,
+          "intersection": 14649,
+          "union": 16213
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8959003632589517,
+          "iou": 0.8114307200601617,
+          "target_voxels": 4492,
+          "predicted_voxels": 5143,
+          "intersection": 4316,
+          "union": 5319
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8819854803309134,
+          "iou": 0.7888855330715796,
+          "target_voxels": 2812,
+          "predicted_voxels": 3111,
+          "intersection": 2612,
+          "union": 3311
+        }
+      ],
+      "foreground_mean_dice": 0.9267142520822368,
+      "foreground_mean_iou": 0.8655252439450866,
+      "inference_ms": 1076.1307273060083,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800068378448486,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/L011__Week1_28250c6e.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week2",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9964368872229125,
+          "iou": 0.9928990758394307,
+          "target_voxels": 2302080,
+          "predicted_voxels": 2295024,
+          "intersection": 2290362,
+          "union": 2306742
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9828031689925708,
+          "iou": 0.9661878006631274,
+          "target_voxels": 1106594,
+          "predicted_voxels": 1102941,
+          "intersection": 1085769,
+          "union": 1123766
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9202228129700234,
+          "iou": 0.8522339831064392,
+          "target_voxels": 110191,
+          "predicted_voxels": 118521,
+          "intersection": 105233,
+          "union": 123479
+        },
+        {
+          "class_index": 3,
+          "dice": 0.942268322642282,
+          "iou": 0.8908387096774194,
+          "target_voxels": 14196,
+          "predicted_voxels": 15112,
+          "intersection": 13808,
+          "union": 15500
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8649679792887315,
+          "iou": 0.7620648259303722,
+          "target_voxels": 3225,
+          "predicted_voxels": 4114,
+          "intersection": 3174,
+          "union": 4165
+        },
+        {
+          "class_index": 5,
+          "dice": 0.835653650254669,
+          "iou": 0.7177019539224264,
+          "target_voxels": 2658,
+          "predicted_voxels": 3232,
+          "intersection": 2461,
+          "union": 3429
+        }
+      ],
+      "foreground_mean_dice": 0.9091831868296554,
+      "foreground_mean_iou": 0.8378054546599569,
+      "inference_ms": 1079.4477509334683,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/L011__Week2_4ec6efda.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week3",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9964625977558286,
+          "iou": 0.9929501337244414,
+          "target_voxels": 2314045,
+          "predicted_voxels": 2306012,
+          "intersection": 2301857,
+          "union": 2318200
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9831312293079534,
+          "iou": 0.9668221285219206,
+          "target_voxels": 1095825,
+          "predicted_voxels": 1093724,
+          "intersection": 1076307,
+          "union": 1113242
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9234865655876593,
+          "iou": 0.8578495502861815,
+          "target_voxels": 109600,
+          "predicted_voxels": 117615,
+          "intersection": 104915,
+          "union": 122300
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9413460862226598,
+          "iou": 0.8891915232843951,
+          "target_voxels": 13656,
+          "predicted_voxels": 14782,
+          "intersection": 13385,
+          "union": 15053
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8798970546182442,
+          "iou": 0.7855501659433239,
+          "target_voxels": 3167,
+          "predicted_voxels": 3827,
+          "intersection": 3077,
+          "union": 3917
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8503992901508429,
+          "iou": 0.7397344859524545,
+          "target_voxels": 2651,
+          "predicted_voxels": 2984,
+          "intersection": 2396,
+          "union": 3239
+        }
+      ],
+      "foreground_mean_dice": 0.9156520451774719,
+      "foreground_mean_iou": 0.8478295707976551,
+      "inference_ms": 1075.3394467756152,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/L011__Week3_cff59a99.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week4",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9961338778878139,
+          "iou": 0.9922975344480167,
+          "target_voxels": 2302423,
+          "predicted_voxels": 2293138,
+          "intersection": 2288897,
+          "union": 2306664
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9823836821455627,
+          "iou": 0.9653772889735497,
+          "target_voxels": 1104633,
+          "predicted_voxels": 1106442,
+          "intersection": 1086062,
+          "union": 1125013
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9225118812224651,
+          "iou": 0.8561689592170183,
+          "target_voxels": 112643,
+          "predicted_voxels": 117973,
+          "intersection": 106373,
+          "union": 124243
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9406112568831073,
+          "iou": 0.8878811135142678,
+          "target_voxels": 13157,
+          "predicted_voxels": 13902,
+          "intersection": 12726,
+          "union": 14333
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8701772024632399,
+          "iou": 0.7701890989988877,
+          "target_voxels": 3541,
+          "predicted_voxels": 4416,
+          "intersection": 3462,
+          "union": 4495
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8676156583629894,
+          "iou": 0.7661847894406034,
+          "target_voxels": 2547,
+          "predicted_voxels": 3073,
+          "intersection": 2438,
+          "union": 3182
+        }
+      ],
+      "foreground_mean_dice": 0.9166599362154729,
+      "foreground_mean_iou": 0.8491602500288653,
+      "inference_ms": 1084.3768417835236,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/L011__Week4_2232c661.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week5",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9965889303026435,
+          "iou": 0.9932010522897952,
+          "target_voxels": 2286928,
+          "predicted_voxels": 2280261,
+          "intersection": 2275805,
+          "union": 2291384
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9823135604733538,
+          "iou": 0.9652418685368892,
+          "target_voxels": 1112668,
+          "predicted_voxels": 1110278,
+          "intersection": 1091815,
+          "union": 1131131
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9165620594818796,
+          "iou": 0.8459755978672506,
+          "target_voxels": 119439,
+          "predicted_voxels": 126720,
+          "intersection": 112810,
+          "union": 133349
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9469303576032114,
+          "iou": 0.8992096243967266,
+          "target_voxels": 13143,
+          "predicted_voxels": 14010,
+          "intersection": 12856,
+          "union": 14297
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8601849860184986,
+          "iou": 0.7546706925835063,
+          "target_voxels": 4406,
+          "predicted_voxels": 4892,
+          "intersection": 3999,
+          "union": 5299
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8621427182578262,
+          "iou": 0.7576896787423103,
+          "target_voxels": 2360,
+          "predicted_voxels": 2783,
+          "intersection": 2217,
+          "union": 2926
+        }
+      ],
+      "foreground_mean_dice": 0.9136267363669539,
+      "foreground_mean_iou": 0.8445574924253366,
+      "inference_ms": 1069.4229565560818,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/L011__Week5_e07cef7e.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week6",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9967120562582417,
+          "iou": 0.9934456628084336,
+          "target_voxels": 2300029,
+          "predicted_voxels": 2292507,
+          "intersection": 2288718,
+          "union": 2303818
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9842291672313628,
+          "iou": 0.9689480495799403,
+          "target_voxels": 1107195,
+          "predicted_voxels": 1106385,
+          "intersection": 1089335,
+          "union": 1124245
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9281940894979676,
+          "iou": 0.8660094895942518,
+          "target_voxels": 113221,
+          "predicted_voxels": 119991,
+          "intersection": 108233,
+          "union": 124979
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9494033782736712,
+          "iou": 0.9036802124050446,
+          "target_voxels": 12667,
+          "predicted_voxels": 13145,
+          "intersection": 12253,
+          "union": 13559
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8282352941176471,
+          "iou": 0.7068273092369478,
+          "target_voxels": 3248,
+          "predicted_voxels": 4402,
+          "intersection": 3168,
+          "union": 4482
+        },
+        {
+          "class_index": 5,
+          "dice": 0.86347587289133,
+          "iou": 0.7597514670348636,
+          "target_voxels": 2584,
+          "predicted_voxels": 2514,
+          "intersection": 2201,
+          "union": 2897
+        }
+      ],
+      "foreground_mean_dice": 0.9107075604023956,
+      "foreground_mean_iou": 0.8410433055702097,
+      "inference_ms": 1084.024541079998,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/L011__Week6_b3b1dd1d.npz"
+    },
+    {
+      "patient": "L011",
+      "visit": "Week7",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9962574356941788,
+          "iou": 0.9925427805118346,
+          "target_voxels": 2287933,
+          "predicted_voxels": 2278722,
+          "intersection": 2274782,
+          "union": 2291873
+        },
+        {
+          "class_index": 1,
+          "dice": 0.980749346701412,
+          "iou": 0.9622258700815401,
+          "target_voxels": 1095897,
+          "predicted_voxels": 1097587,
+          "intersection": 1075629,
+          "union": 1117855
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9201416355897089,
+          "iou": 0.8520947430843827,
+          "target_voxels": 130199,
+          "predicted_voxels": 135271,
+          "intersection": 122135,
+          "union": 143335
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9430661121468521,
+          "iou": 0.8922659430122116,
+          "target_voxels": 16889,
+          "predicted_voxels": 17976,
+          "intersection": 16440,
+          "union": 18425
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8982609426195077,
+          "iou": 0.8153118804331249,
+          "target_voxels": 5563,
+          "predicted_voxels": 6340,
+          "intersection": 5346,
+          "union": 6557
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8336055162402468,
+          "iou": 0.7146857498444306,
+          "target_voxels": 2463,
+          "predicted_voxels": 3048,
+          "intersection": 2297,
+          "union": 3214
+        }
+      ],
+      "foreground_mean_dice": 0.9151647106595455,
+      "foreground_mean_iou": 0.8473168372911379,
+      "inference_ms": 1080.5526385083795,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/L011__Week7_fc165e50.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week0",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9488671618422005,
+          "iou": 0.9027090843295998,
+          "target_voxels": 1929647,
+          "predicted_voxels": 1756184,
+          "intersection": 1748682,
+          "union": 1937149
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9305175020803046,
+          "iou": 0.8700633286568984,
+          "target_voxels": 1472985,
+          "predicted_voxels": 1615505,
+          "intersection": 1436947,
+          "union": 1651543
+        },
+        {
+          "class_index": 2,
+          "dice": 0.8411356447383158,
+          "iou": 0.7258275232293069,
+          "target_voxels": 111606,
+          "predicted_voxels": 147313,
+          "intersection": 108893,
+          "union": 150026
+        },
+        {
+          "class_index": 3,
+          "dice": 0.5155337015868962,
+          "iou": 0.34728555450400067,
+          "target_voxels": 17731,
+          "predicted_voxels": 13588,
+          "intersection": 8073,
+          "union": 23246
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7289793759915388,
+          "iou": 0.5735385895568962,
+          "target_voxels": 2762,
+          "predicted_voxels": 4802,
+          "intersection": 2757,
+          "union": 4807
+        },
+        {
+          "class_index": 5,
+          "dice": 0.5380745880312229,
+          "iou": 0.3680588514475558,
+          "target_voxels": 4213,
+          "predicted_voxels": 1552,
+          "intersection": 1551,
+          "union": 4214
+        }
+      ],
+      "foreground_mean_dice": 0.7108481624856557,
+      "foreground_mean_iou": 0.5769547694789317,
+      "inference_ms": 1084.0445281937718,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800068378448486,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M015__Week0_8e59d275.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week1",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9419317833157669,
+          "iou": 0.8902372913795542,
+          "target_voxels": 1891319,
+          "predicted_voxels": 1703608,
+          "intersection": 1693088,
+          "union": 1901839
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9210554927062191,
+          "iou": 0.8536634520865393,
+          "target_voxels": 1496947,
+          "predicted_voxels": 1657864,
+          "intersection": 1452878,
+          "union": 1701933
+        },
+        {
+          "class_index": 2,
+          "dice": 0.8229305164802069,
+          "iou": 0.6991350366330084,
+          "target_voxels": 114804,
+          "predicted_voxels": 157462,
+          "intersection": 112028,
+          "union": 160238
+        },
+        {
+          "class_index": 3,
+          "dice": 0.3452154926903361,
+          "iou": 0.20861658491810803,
+          "target_voxels": 28133,
+          "predicted_voxels": 14003,
+          "intersection": 7273,
+          "union": 34863
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7258195610945544,
+          "iou": 0.5696364022964066,
+          "target_voxels": 3228,
+          "predicted_voxels": 4154,
+          "intersection": 2679,
+          "union": 4703
+        },
+        {
+          "class_index": 5,
+          "dice": 0.5774426641533145,
+          "iou": 0.40591872791519434,
+          "target_voxels": 4513,
+          "predicted_voxels": 1853,
+          "intersection": 1838,
+          "union": 4528
+        }
+      ],
+      "foreground_mean_dice": 0.6784927454249262,
+      "foreground_mean_iou": 0.5473940407698514,
+      "inference_ms": 1070.767185650766,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800068378448486,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M015__Week1_9e62e422.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week2",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9506682207990036,
+          "iou": 0.9059748686186563,
+          "target_voxels": 1976014,
+          "predicted_voxels": 1826322,
+          "intersection": 1807380,
+          "union": 1994956
+        },
+        {
+          "class_index": 1,
+          "dice": 0.92881687407131,
+          "iou": 0.8670943852537334,
+          "target_voxels": 1432618,
+          "predicted_voxels": 1547386,
+          "intersection": 1383939,
+          "union": 1596065
+        },
+        {
+          "class_index": 2,
+          "dice": 0.825063450299206,
+          "iou": 0.7022195798652398,
+          "target_voxels": 110422,
+          "predicted_voxels": 147260,
+          "intersection": 106302,
+          "union": 151380
+        },
+        {
+          "class_index": 3,
+          "dice": 0.6040621459783136,
+          "iou": 0.43272853747608836,
+          "target_voxels": 12890,
+          "predicted_voxels": 11826,
+          "intersection": 7465,
+          "union": 17251
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7371911789089703,
+          "iou": 0.5837710084033614,
+          "target_voxels": 2478,
+          "predicted_voxels": 3553,
+          "intersection": 2223,
+          "union": 3808
+        },
+        {
+          "class_index": 5,
+          "dice": 0.7220115184716954,
+          "iou": 0.5649593317212575,
+          "target_voxels": 4522,
+          "predicted_voxels": 2597,
+          "intersection": 2570,
+          "union": 4549
+        }
+      ],
+      "foreground_mean_dice": 0.7634290335458991,
+      "foreground_mean_iou": 0.6301545685439361,
+      "inference_ms": 1072.98918440938,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.34375,
+        2.34375
+      ],
+      "prediction_file": "predictions/M015__Week2_0209d7c7.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week3",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9559560650470331,
+          "iou": 0.9156281963269083,
+          "target_voxels": 2084586,
+          "predicted_voxels": 1925251,
+          "intersection": 1916614,
+          "union": 2093223
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9262494933164445,
+          "iou": 0.8626300872977553,
+          "target_voxels": 1325705,
+          "predicted_voxels": 1459564,
+          "intersection": 1289927,
+          "union": 1495342
+        },
+        {
+          "class_index": 2,
+          "dice": 0.825227223090234,
+          "iou": 0.7024568829905901,
+          "target_voxels": 102514,
+          "predicted_voxels": 135578,
+          "intersection": 98240,
+          "union": 139852
+        },
+        {
+          "class_index": 3,
+          "dice": 0.43894347326783206,
+          "iou": 0.281183586725519,
+          "target_voxels": 19374,
+          "predicted_voxels": 11974,
+          "intersection": 6880,
+          "union": 24468
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7900763358778626,
+          "iou": 0.6529968454258676,
+          "target_voxels": 2562,
+          "predicted_voxels": 3726,
+          "intersection": 2484,
+          "union": 3804
+        },
+        {
+          "class_index": 5,
+          "dice": 0.7870711652962858,
+          "iou": 0.648901355773726,
+          "target_voxels": 4203,
+          "predicted_voxels": 2851,
+          "intersection": 2776,
+          "union": 4278
+        }
+      ],
+      "foreground_mean_dice": 0.7535135381697318,
+      "foreground_mean_iou": 0.6296337516426915,
+      "inference_ms": 1071.9054760411382,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.3958332538604736,
+        2.3958332538604736
+      ],
+      "prediction_file": "predictions/M015__Week3_d268f978.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week4",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9530153088743151,
+          "iou": 0.9102476062469099,
+          "target_voxels": 1962414,
+          "predicted_voxels": 1812390,
+          "intersection": 1798723,
+          "union": 1976081
+        },
+        {
+          "class_index": 1,
+          "dice": 0.926617539697025,
+          "iou": 0.8632687545830366,
+          "target_voxels": 1421797,
+          "predicted_voxels": 1558779,
+          "intersection": 1380927,
+          "union": 1599649
+        },
+        {
+          "class_index": 2,
+          "dice": 0.8403886030258813,
+          "iou": 0.7247157152980602,
+          "target_voxels": 112156,
+          "predicted_voxels": 148264,
+          "intersection": 109427,
+          "union": 150993
+        },
+        {
+          "class_index": 3,
+          "dice": 0.36290305461801353,
+          "iou": 0.22167474909883042,
+          "target_voxels": 35090,
+          "predicted_voxels": 12019,
+          "intersection": 8548,
+          "union": 38561
+        },
+        {
+          "class_index": 4,
+          "dice": 0.6737551867219918,
+          "iou": 0.5080172076652327,
+          "target_voxels": 3189,
+          "predicted_voxels": 4523,
+          "intersection": 2598,
+          "union": 5114
+        },
+        {
+          "class_index": 5,
+          "dice": 0.7821659556901059,
+          "iou": 0.6422598870056497,
+          "target_voxels": 4298,
+          "predicted_voxels": 2969,
+          "intersection": 2842,
+          "union": 4425
+        }
+      ],
+      "foreground_mean_dice": 0.7171660679506034,
+      "foreground_mean_iou": 0.5919872627301619,
+      "inference_ms": 1071.265047416091,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800018310546875,
+        2.34375,
+        2.34375
+      ],
+      "prediction_file": "predictions/M015__Week4_01b9663a.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week5",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9407677377640352,
+          "iou": 0.8881600110802333,
+          "target_voxels": 1776835,
+          "predicted_voxels": 1604059,
+          "intersection": 1590318,
+          "union": 1790576
+        },
+        {
+          "class_index": 1,
+          "dice": 0.932097660276278,
+          "iou": 0.8728304317765817,
+          "target_voxels": 1600201,
+          "predicted_voxels": 1734338,
+          "intersection": 1554058,
+          "union": 1780481
+        },
+        {
+          "class_index": 2,
+          "dice": 0.8449346708093657,
+          "iou": 0.7315037941632442,
+          "target_voxels": 139520,
+          "predicted_voxels": 178791,
+          "intersection": 134476,
+          "union": 183835
+        },
+        {
+          "class_index": 3,
+          "dice": 0.6728518412789039,
+          "iou": 0.5069907506990751,
+          "target_voxels": 13496,
+          "predicted_voxels": 14528,
+          "intersection": 9428,
+          "union": 18596
+        },
+        {
+          "class_index": 4,
+          "dice": 0.6513516649263256,
+          "iou": 0.48296627666896075,
+          "target_voxels": 3972,
+          "predicted_voxels": 4647,
+          "intersection": 2807,
+          "union": 5812
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6817757632315691,
+          "iou": 0.5171925566343042,
+          "target_voxels": 4920,
+          "predicted_voxels": 2581,
+          "intersection": 2557,
+          "union": 4944
+        }
+      ],
+      "foreground_mean_dice": 0.7566023201044885,
+      "foreground_mean_iou": 0.6222967619884332,
+      "inference_ms": 1067.2667603939772,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M015__Week5_ef0467f7.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week6",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.951193015498423,
+          "iou": 0.906928566985523,
+          "target_voxels": 1838089,
+          "predicted_voxels": 1687431,
+          "intersection": 1676725,
+          "union": 1848795
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9380058611830283,
+          "iou": 0.8832495650380308,
+          "target_voxels": 1553064,
+          "predicted_voxels": 1679048,
+          "intersection": 1515870,
+          "union": 1716242
+        },
+        {
+          "class_index": 2,
+          "dice": 0.8497924392538883,
+          "iou": 0.7388165999384047,
+          "target_voxels": 119967,
+          "predicted_voxels": 151038,
+          "intersection": 115149,
+          "union": 155856
+        },
+        {
+          "class_index": 3,
+          "dice": 0.585598418558679,
+          "iou": 0.41402556829859827,
+          "target_voxels": 19890,
+          "predicted_voxels": 14509,
+          "intersection": 10072,
+          "union": 24327
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7496171516079633,
+          "iou": 0.5995101041028781,
+          "target_voxels": 3451,
+          "predicted_voxels": 4385,
+          "intersection": 2937,
+          "union": 4899
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6870011402508552,
+          "iou": 0.523230568823274,
+          "target_voxels": 4483,
+          "predicted_voxels": 2533,
+          "intersection": 2410,
+          "union": 4606
+        }
+      ],
+      "foreground_mean_dice": 0.7620030021708828,
+      "foreground_mean_iou": 0.631766481240237,
+      "inference_ms": 1073.4399892389774,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800068378448486,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M015__Week6_67191a8c.npz"
+    },
+    {
+      "patient": "M015",
+      "visit": "Week7",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9465426742332868,
+          "iou": 0.8985106952902784,
+          "target_voxels": 1903121,
+          "predicted_voxels": 1739897,
+          "intersection": 1724136,
+          "union": 1918882
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9306175306410762,
+          "iou": 0.8702382518005605,
+          "target_voxels": 1504033,
+          "predicted_voxels": 1638807,
+          "intersection": 1462391,
+          "union": 1680449
+        },
+        {
+          "class_index": 2,
+          "dice": 0.846376764798476,
+          "iou": 0.7336682713837887,
+          "target_voxels": 107657,
+          "predicted_voxels": 140105,
+          "intersection": 104850,
+          "union": 142912
+        },
+        {
+          "class_index": 3,
+          "dice": 0.5891646369560924,
+          "iou": 0.41759985069055616,
+          "target_voxels": 16872,
+          "predicted_voxels": 13510,
+          "intersection": 8950,
+          "union": 21432
+        },
+        {
+          "class_index": 4,
+          "dice": 0.696178686759957,
+          "iou": 0.5339525283797729,
+          "target_voxels": 2782,
+          "predicted_voxels": 4650,
+          "intersection": 2587,
+          "union": 4845
+        },
+        {
+          "class_index": 5,
+          "dice": 0.610784009916331,
+          "iou": 0.4396609413339282,
+          "target_voxels": 4479,
+          "predicted_voxels": 1975,
+          "intersection": 1971,
+          "union": 4483
+        }
+      ],
+      "foreground_mean_dice": 0.7346243258143865,
+      "foreground_mean_iou": 0.5990239687177212,
+      "inference_ms": 1072.7988705039024,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800068378448486,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M015__Week7_e7dea748.npz"
+    },
+    {
+      "patient": "M020",
+      "visit": "Week0",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9949746686826509,
+          "iou": 0.9899995927251665,
+          "target_voxels": 2200440,
+          "predicted_voxels": 2197081,
+          "intersection": 2187711,
+          "union": 2209810
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9813608239541974,
+          "iou": 0.9634037714548601,
+          "target_voxels": 1207921,
+          "predicted_voxels": 1199106,
+          "intersection": 1181081,
+          "union": 1225946
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9186077169030761,
+          "iou": 0.849467608805511,
+          "target_voxels": 98909,
+          "predicted_voxels": 109698,
+          "intersection": 95814,
+          "union": 112793
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9349255143059825,
+          "iou": 0.8778029394787088,
+          "target_voxels": 20406,
+          "predicted_voxels": 21884,
+          "intersection": 19769,
+          "union": 22521
+        },
+        {
+          "class_index": 4,
+          "dice": 0.855561555075594,
+          "iou": 0.74758197688134,
+          "target_voxels": 7627,
+          "predicted_voxels": 7189,
+          "intersection": 6338,
+          "union": 8478
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8462042742887111,
+          "iou": 0.7334090909090909,
+          "target_voxels": 3641,
+          "predicted_voxels": 3986,
+          "intersection": 3227,
+          "union": 4400
+        }
+      ],
+      "foreground_mean_dice": 0.9073319769055121,
+      "foreground_mean_iou": 0.8343330775059024,
+      "inference_ms": 1069.8326546698809,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.0833332538604736,
+        2.0833332538604736
+      ],
+      "prediction_file": "predictions/M020__Week0_bdb6bfdc.npz"
+    },
+    {
+      "patient": "M020",
+      "visit": "Week1",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9953811003314669,
+          "iou": 0.9908046729559694,
+          "target_voxels": 2310313,
+          "predicted_voxels": 2311567,
+          "intersection": 2300266,
+          "union": 2321614
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9798649388673762,
+          "iou": 0.960524715011229,
+          "target_voxels": 1110856,
+          "predicted_voxels": 1096885,
+          "intersection": 1081644,
+          "union": 1126097
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9055463615300959,
+          "iou": 0.8273958162321896,
+          "target_voxels": 99976,
+          "predicted_voxels": 111514,
+          "intersection": 95757,
+          "union": 115733
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9273626164670089,
+          "iou": 0.8645630207410033,
+          "target_voxels": 10033,
+          "predicted_voxels": 11003,
+          "intersection": 9754,
+          "union": 11282
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8762990278243379,
+          "iou": 0.7798329355608592,
+          "target_voxels": 4427,
+          "predicted_voxels": 4522,
+          "intersection": 3921,
+          "union": 5028
+        },
+        {
+          "class_index": 5,
+          "dice": 0.901060070671378,
+          "iou": 0.819935691318328,
+          "target_voxels": 3339,
+          "predicted_voxels": 3453,
+          "intersection": 3060,
+          "union": 3732
+        }
+      ],
+      "foreground_mean_dice": 0.9180266030720394,
+      "foreground_mean_iou": 0.8504504357727217,
+      "inference_ms": 1060.28869189322,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800068378448486,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M020__Week1_c1af652c.npz"
+    },
+    {
+      "patient": "M020",
+      "visit": "Week2",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9954330851148487,
+          "iou": 0.9909076940172306,
+          "target_voxels": 2300155,
+          "predicted_voxels": 2286530,
+          "intersection": 2282869,
+          "union": 2303816
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9796007123475367,
+          "iou": 0.9600170484254373,
+          "target_voxels": 1114595,
+          "predicted_voxels": 1115777,
+          "intersection": 1092437,
+          "union": 1137935
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9077029339135853,
+          "iou": 0.8310037279197217,
+          "target_voxels": 105471,
+          "predicted_voxels": 116042,
+          "intersection": 100534,
+          "union": 120979
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9439450026441036,
+          "iou": 0.8938407611417125,
+          "target_voxels": 11110,
+          "predicted_voxels": 11582,
+          "intersection": 10710,
+          "union": 11982
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7956277577216205,
+          "iou": 0.6606161532056619,
+          "target_voxels": 4531,
+          "predicted_voxels": 5441,
+          "intersection": 3967,
+          "union": 6005
+        },
+        {
+          "class_index": 5,
+          "dice": 0.868951006913135,
+          "iou": 0.7682699973425459,
+          "target_voxels": 3082,
+          "predicted_voxels": 3572,
+          "intersection": 2891,
+          "union": 3763
+        }
+      ],
+      "foreground_mean_dice": 0.8991654827079962,
+      "foreground_mean_iou": 0.822749537607016,
+      "inference_ms": 1072.7545553818345,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M020__Week2_8288f68f.npz"
+    },
+    {
+      "patient": "M020",
+      "visit": "Week3",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9961808453664832,
+          "iou": 0.9923907516291395,
+          "target_voxels": 2294122,
+          "predicted_voxels": 2286211,
+          "intersection": 2281420,
+          "union": 2298913
+        },
+        {
+          "class_index": 1,
+          "dice": 0.979845598194131,
+          "iou": 0.9604875462573275,
+          "target_voxels": 1111884,
+          "predicted_voxels": 1103116,
+          "intersection": 1085179,
+          "union": 1129821
+        },
+        {
+          "class_index": 2,
+          "dice": 0.8967518222348029,
+          "iou": 0.8128287363694676,
+          "target_voxels": 106062,
+          "predicted_voxels": 120034,
+          "intersection": 101376,
+          "union": 124720
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9513060303128024,
+          "iou": 0.9071340713407134,
+          "target_voxels": 19324,
+          "predicted_voxels": 20989,
+          "intersection": 19175,
+          "union": 21138
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8647781934794228,
+          "iou": 0.7617702448210922,
+          "target_voxels": 4359,
+          "predicted_voxels": 4996,
+          "intersection": 4045,
+          "union": 5310
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8973641584450007,
+          "iou": 0.8138354700854701,
+          "target_voxels": 3193,
+          "predicted_voxels": 3598,
+          "intersection": 3047,
+          "union": 3744
+        }
+      ],
+      "foreground_mean_dice": 0.9180091605332319,
+      "foreground_mean_iou": 0.8512112137748142,
+      "inference_ms": 1066.6340738534927,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0800068378448486,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/M020__Week3_f56bece3.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week0",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9953861835690061,
+          "iou": 0.990814746212858,
+          "target_voxels": 1992317,
+          "predicted_voxels": 1988769,
+          "intersection": 1981359,
+          "union": 1999727
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9840489480618363,
+          "iou": 0.9685987786365625,
+          "target_voxels": 1392992,
+          "predicted_voxels": 1383502,
+          "intersection": 1366103,
+          "union": 1410391
+        },
+        {
+          "class_index": 2,
+          "dice": 0.919888306183382,
+          "iou": 0.8516603527667772,
+          "target_voxels": 124329,
+          "predicted_voxels": 134235,
+          "intersection": 118925,
+          "union": 139639
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9295404313695602,
+          "iou": 0.8683564130860418,
+          "target_voxels": 24788,
+          "predicted_voxels": 27696,
+          "intersection": 24393,
+          "union": 28091
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7455585666967781,
+          "iou": 0.5943350936149784,
+          "target_voxels": 2664,
+          "predicted_voxels": 3978,
+          "intersection": 2476,
+          "union": 4166
+        },
+        {
+          "class_index": 5,
+          "dice": 0.5500381970970206,
+          "iou": 0.3793466807165437,
+          "target_voxels": 1854,
+          "predicted_voxels": 764,
+          "intersection": 720,
+          "union": 1898
+        }
+      ],
+      "foreground_mean_dice": 0.8258148898817155,
+      "foreground_mean_iou": 0.7324594637641807,
+      "inference_ms": 1070.9246387705207,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.1875,
+        2.1875
+      ],
+      "prediction_file": "predictions/W029__Week0_df048166.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week1",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9941819526528016,
+          "iou": 0.9884312130557942,
+          "target_voxels": 2095720,
+          "predicted_voxels": 2079564,
+          "intersection": 2075496,
+          "union": 2099788
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9814723499544726,
+          "iou": 0.9636187588138639,
+          "target_voxels": 1311850,
+          "predicted_voxels": 1318435,
+          "intersection": 1290776,
+          "union": 1339509
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9132652855140545,
+          "iou": 0.8403755519543272,
+          "target_voxels": 119626,
+          "predicted_voxels": 127945,
+          "intersection": 113049,
+          "union": 134522
+        },
+        {
+          "class_index": 3,
+          "dice": 0.8947203214263293,
+          "iou": 0.8094967624673407,
+          "target_voxels": 7374,
+          "predicted_voxels": 8555,
+          "intersection": 7126,
+          "union": 8803
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8108847258307125,
+          "iou": 0.6819227230910764,
+          "target_voxels": 3321,
+          "predicted_voxels": 3992,
+          "intersection": 2965,
+          "union": 4348
+        },
+        {
+          "class_index": 5,
+          "dice": 0.5976095617529881,
+          "iou": 0.42613636363636365,
+          "target_voxels": 1053,
+          "predicted_voxels": 453,
+          "intersection": 450,
+          "union": 1056
+        }
+      ],
+      "foreground_mean_dice": 0.8395904488957114,
+      "foreground_mean_iou": 0.7443100319925944,
+      "inference_ms": 1069.2245559766889,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/W029__Week1_fe5a7133.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week2",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9964581752769647,
+          "iou": 0.9929413510512872,
+          "target_voxels": 2204353,
+          "predicted_voxels": 2200721,
+          "intersection": 2194736,
+          "union": 2210338
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9849990226973389,
+          "iou": 0.9704414524949013,
+          "target_voxels": 1215876,
+          "predicted_voxels": 1209166,
+          "intersection": 1194332,
+          "union": 1230710
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9219221474612438,
+          "iou": 0.8551535914500213,
+          "target_voxels": 108907,
+          "predicted_voxels": 117444,
+          "intersection": 104339,
+          "union": 122012
+        },
+        {
+          "class_index": 3,
+          "dice": 0.8766064678706426,
+          "iou": 0.7803200239270226,
+          "target_voxels": 5314,
+          "predicted_voxels": 6591,
+          "intersection": 5218,
+          "union": 6687
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8337219290710517,
+          "iou": 0.7148569023569024,
+          "target_voxels": 3632,
+          "predicted_voxels": 4517,
+          "intersection": 3397,
+          "union": 4752
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6627651792245793,
+          "iou": 0.49562363238512036,
+          "target_voxels": 862,
+          "predicted_voxels": 505,
+          "intersection": 453,
+          "union": 914
+        }
+      ],
+      "foreground_mean_dice": 0.8560029492649713,
+      "foreground_mean_iou": 0.7632791205227936,
+      "inference_ms": 1075.9440083056688,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.34375,
+        2.34375
+      ],
+      "prediction_file": "predictions/W029__Week2_c4b962d6.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week3",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9961206511582346,
+          "iou": 0.9922712846992197,
+          "target_voxels": 2083739,
+          "predicted_voxels": 2081393,
+          "intersection": 2074487,
+          "union": 2090645
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9847342528688514,
+          "iou": 0.9699275836414549,
+          "target_voxels": 1322131,
+          "predicted_voxels": 1312460,
+          "intersection": 1297186,
+          "union": 1337405
+        },
+        {
+          "class_index": 2,
+          "dice": 0.917352190700683,
+          "iou": 0.8473228161745301,
+          "target_voxels": 121235,
+          "predicted_voxels": 130762,
+          "intersection": 115585,
+          "union": 136412
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9063197026022305,
+          "iou": 0.8286879673691366,
+          "target_voxels": 7459,
+          "predicted_voxels": 8681,
+          "intersection": 7314,
+          "union": 8826
+        },
+        {
+          "class_index": 4,
+          "dice": 0.813420226888728,
+          "iou": 0.6855166802278275,
+          "target_voxels": 3451,
+          "predicted_voxels": 4835,
+          "intersection": 3370,
+          "union": 4916
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6590126291618829,
+          "iou": 0.4914383561643836,
+          "target_voxels": 929,
+          "predicted_voxels": 813,
+          "intersection": 574,
+          "union": 1168
+        }
+      ],
+      "foreground_mean_dice": 0.8561678004444753,
+      "foreground_mean_iou": 0.7645786807154666,
+      "inference_ms": 1071.5868696570396,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/W029__Week3_b144d9a9.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week4",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9954955551598264,
+          "iou": 0.9910315083953852,
+          "target_voxels": 2041595,
+          "predicted_voxels": 2035267,
+          "intersection": 2029249,
+          "union": 2047613
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9815401946046676,
+          "iou": 0.9637495651815794,
+          "target_voxels": 1339046,
+          "predicted_voxels": 1331188,
+          "intersection": 1310471,
+          "union": 1359763
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9102142159747053,
+          "iou": 0.8352230588039847,
+          "target_voxels": 148401,
+          "predicted_voxels": 160913,
+          "intersection": 140771,
+          "union": 168543
+        },
+        {
+          "class_index": 3,
+          "dice": 0.8718864235314121,
+          "iou": 0.772871137905049,
+          "target_voxels": 5237,
+          "predicted_voxels": 6526,
+          "intersection": 5128,
+          "union": 6635
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8277091254752852,
+          "iou": 0.7060612203527266,
+          "target_voxels": 3818,
+          "predicted_voxels": 4598,
+          "intersection": 3483,
+          "union": 4933
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6805234795996921,
+          "iou": 0.5157526254375729,
+          "target_voxels": 847,
+          "predicted_voxels": 452,
+          "intersection": 442,
+          "union": 857
+        }
+      ],
+      "foreground_mean_dice": 0.8543746878371525,
+      "foreground_mean_iou": 0.7587315215361825,
+      "inference_ms": 1064.508093520999,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/W029__Week4_f050af13.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week5",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9956133536077629,
+          "iou": 0.9912650244644451,
+          "target_voxels": 2081373,
+          "predicted_voxels": 2076245,
+          "intersection": 2069690,
+          "union": 2087928
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9832262452689239,
+          "iou": 0.9670059250584953,
+          "target_voxels": 1312147,
+          "predicted_voxels": 1304858,
+          "intersection": 1286554,
+          "union": 1330451
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9177385975560707,
+          "iou": 0.8479823779021055,
+          "target_voxels": 131462,
+          "predicted_voxels": 142032,
+          "intersection": 125498,
+          "union": 147996
+        },
+        {
+          "class_index": 3,
+          "dice": 0.92779632721202,
+          "iou": 0.865317244063838,
+          "target_voxels": 9017,
+          "predicted_voxels": 10151,
+          "intersection": 8892,
+          "union": 10276
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8324066719618745,
+          "iou": 0.7129251700680272,
+          "target_voxels": 4143,
+          "predicted_voxels": 4670,
+          "intersection": 3668,
+          "union": 5145
+        },
+        {
+          "class_index": 5,
+          "dice": 0.7776536312849162,
+          "iou": 0.6361974405850092,
+          "target_voxels": 802,
+          "predicted_voxels": 988,
+          "intersection": 696,
+          "union": 1094
+        }
+      ],
+      "foreground_mean_dice": 0.887764294656761,
+      "foreground_mean_iou": 0.8058856315354952,
+      "inference_ms": 1074.1105359047651,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/W029__Week5_0f8afd97.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week6",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9958371166711045,
+          "iou": 0.9917087488533831,
+          "target_voxels": 2099451,
+          "predicted_voxels": 2095478,
+          "intersection": 2088733,
+          "union": 2106196
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9831122376571234,
+          "iou": 0.9667853956586758,
+          "target_voxels": 1313211,
+          "predicted_voxels": 1307977,
+          "intersection": 1288461,
+          "union": 1332727
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9102367883664664,
+          "iou": 0.8352610719919966,
+          "target_voxels": 115859,
+          "predicted_voxels": 122624,
+          "intersection": 108538,
+          "union": 129945
+        },
+        {
+          "class_index": 3,
+          "dice": 0.7645853880585691,
+          "iou": 0.6188897076885286,
+          "target_voxels": 5139,
+          "predicted_voxels": 8042,
+          "intersection": 5039,
+          "union": 8142
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8309394866964916,
+          "iou": 0.7107754279959718,
+          "target_voxels": 3977,
+          "predicted_voxels": 4517,
+          "intersection": 3529,
+          "union": 4965
+        },
+        {
+          "class_index": 5,
+          "dice": 0.3794172349659021,
+          "iou": 0.234123947972456,
+          "target_voxels": 1307,
+          "predicted_voxels": 306,
+          "intersection": 306,
+          "union": 1307
+        }
+      ],
+      "foreground_mean_dice": 0.7736582271489105,
+      "foreground_mean_iou": 0.6731671102615258,
+      "inference_ms": 1072.603833861649,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/W029__Week6_6db3906d.npz"
+    },
+    {
+      "patient": "W029",
+      "visit": "Week7",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9960664247684031,
+          "iou": 0.9921636743134337,
+          "target_voxels": 2065517,
+          "predicted_voxels": 2057704,
+          "intersection": 2053501,
+          "union": 2069720
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9833779245390637,
+          "iou": 0.9672994009039202,
+          "target_voxels": 1325864,
+          "predicted_voxels": 1321519,
+          "intersection": 1301689,
+          "union": 1345694
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9108873894266354,
+          "iou": 0.8363573982924479,
+          "target_voxels": 133786,
+          "predicted_voxels": 144536,
+          "intersection": 126760,
+          "union": 151562
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9129467045876097,
+          "iou": 0.8398361961096577,
+          "target_voxels": 7583,
+          "predicted_voxels": 8591,
+          "intersection": 7383,
+          "union": 8791
+        },
+        {
+          "class_index": 4,
+          "dice": 0.88458053995289,
+          "iou": 0.7930474333983106,
+          "target_voxels": 5243,
+          "predicted_voxels": 5795,
+          "intersection": 4882,
+          "union": 6156
+        },
+        {
+          "class_index": 5,
+          "dice": 0.736,
+          "iou": 0.5822784810126582,
+          "target_voxels": 951,
+          "predicted_voxels": 799,
+          "intersection": 644,
+          "union": 1106
+        }
+      ],
+      "foreground_mean_dice": 0.8855585117012398,
+      "foreground_mean_iou": 0.8037637819433989,
+      "inference_ms": 1083.4632590413094,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.2395832538604736,
+        2.2395832538604736
+      ],
+      "prediction_file": "predictions/W029__Week7_a3515f2b.npz"
+    },
+    {
+      "patient": "W041",
+      "visit": "Week0",
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9951623433364392,
+          "iou": 0.9903712671763842,
+          "target_voxels": 2212973,
+          "predicted_voxels": 2204455,
+          "intersection": 2198029,
+          "union": 2219399
+        },
+        {
+          "class_index": 1,
+          "dice": 0.978876001951985,
+          "iou": 0.9586259884433315,
+          "target_voxels": 1173104,
+          "predicted_voxels": 1167078,
+          "intersection": 1145374,
+          "union": 1194808
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9109289403832536,
+          "iou": 0.8364274602098208,
+          "target_voxels": 110784,
+          "predicted_voxels": 119403,
+          "intersection": 104842,
+          "union": 125345
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9238610038610039,
+          "iou": 0.8584959816303099,
+          "target_voxels": 30114,
+          "predicted_voxels": 34636,
+          "intersection": 29910,
+          "union": 34840
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8826374083510998,
+          "iou": 0.7899292628443783,
+          "target_voxels": 9195,
+          "predicted_voxels": 10036,
+          "intersection": 8487,
+          "union": 10744
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8664484451718494,
+          "iou": 0.764366156511695,
+          "target_voxels": 2774,
+          "predicted_voxels": 3336,
+          "intersection": 2647,
+          "union": 3463
+        }
+      ],
+      "foreground_mean_dice": 0.9125503599438384,
+      "foreground_mean_iou": 0.8415689699279071,
+      "inference_ms": 1072.236455976963,
+      "peak_allocated_cuda_bytes": 1877516288,
+      "shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "spacing_dhw": [
+        2.0799968242645264,
+        2.0833332538604736,
+        2.0833332538604736
+      ],
+      "prediction_file": "predictions/W041__Week0_48cfdb60.npz"
+    }
+  ],
+  "aggregate": {
+    "num_cases": 30,
+    "num_patients": 6,
+    "patients": [
+      {
+        "patient": "B037",
+        "num_cases": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.995768388404627,
+            "iou": 0.9915724389742114
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9816760333540924,
+            "iou": 0.9640115184438565
+          },
+          {
+            "class_index": 2,
+            "dice": 0.926862219434451,
+            "iou": 0.863693587365818
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9424537613182852,
+            "iou": 0.8911702645674403
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8412576687116564,
+            "iou": 0.7260092653871608
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7690460028196962,
+            "iou": 0.6247560872147281
+          }
+        ],
+        "foreground_mean_dice": 0.8922591371276363,
+        "foreground_mean_iou": 0.8139281445958009
+      },
+      {
+        "patient": "L011",
+        "num_cases": 8,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9962829965136636,
+            "iou": 0.9925937098172193
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9823225839143308,
+            "iou": 0.9652614676430091
+          },
+          {
+            "class_index": 2,
+            "dice": 0.922540136440305,
+            "iou": 0.8562355812573441
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9440910963811274,
+            "iou": 0.8941253863910178
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8738459581156384,
+            "iou": 0.7766205270157559
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8553434030034532,
+            "iou": 0.7475684282211963
+          }
+        ],
+        "foreground_mean_dice": 0.9156286355709711,
+        "foreground_mean_iou": 0.8479622781056647
+      },
+      {
+        "patient": "M015",
+        "num_cases": 8,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.948617745921758,
+            "iou": 0.902299540032208
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9292472442464608,
+            "iou": 0.867879782061642
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8369811640619468,
+            "iou": 0.7197929254377055
+          },
+          {
+            "class_index": 3,
+            "dice": 0.5142840956168834,
+            "iou": 0.353763147801347
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7191211427361455,
+            "iou": 0.5630486203124221
+          },
+          {
+            "class_index": 5,
+            "dice": 0.6732908506301724,
+            "iou": 0.5137727775818612
+          }
+        ],
+        "foreground_mean_dice": 0.7345848994583217,
+        "foreground_mean_iou": 0.6036514506389955
+      },
+      {
+        "patient": "M020",
+        "num_cases": 4,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9954924248738625,
+            "iou": 0.9910256778318765
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9801680183408104,
+            "iou": 0.9611082702872135
+          },
+          {
+            "class_index": 2,
+            "dice": 0.90715220864539,
+            "iou": 0.8301739723317225
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9393847909324743,
+            "iou": 0.8858351981755345
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8480666335252438,
+            "iou": 0.7374503276172383
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8783948775795563,
+            "iou": 0.7838625624138588
+          }
+        ],
+        "foreground_mean_dice": 0.9106333058046949,
+        "foreground_mean_iou": 0.8396860661651135
+      },
+      {
+        "patient": "W029",
+        "num_cases": 8,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9956449266080131,
+            "iou": 0.9913284438807257
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9833138969565347,
+            "iou": 0.9671783575486816
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9151881151479052,
+            "iou": 0.8436670274170237
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8855502208322965,
+            "iou": 0.7979719315770768
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8224026590717265,
+            "iou": 0.6999300813882277
+          },
+          {
+            "class_index": 5,
+            "dice": 0.6303774891358727,
+            "iou": 0.47011219098876345
+          }
+        ],
+        "foreground_mean_dice": 0.8473664762288672,
+        "foreground_mean_iou": 0.7557719177839546
+      },
+      {
+        "patient": "W041",
+        "num_cases": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9951623433364392,
+            "iou": 0.9903712671763842
+          },
+          {
+            "class_index": 1,
+            "dice": 0.978876001951985,
+            "iou": 0.9586259884433315
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9109289403832536,
+            "iou": 0.8364274602098208
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9238610038610039,
+            "iou": 0.8584959816303099
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8826374083510998,
+            "iou": 0.7899292628443783
+          },
+          {
+            "class_index": 5,
+            "dice": 0.8664484451718494,
+            "iou": 0.764366156511695
+          }
+        ],
+        "foreground_mean_dice": 0.9125503599438384,
+        "foreground_mean_iou": 0.8415689699279071
+      }
+    ],
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9878281376097272,
+        "iou": 0.9765318462854374
+      },
+      {
+        "class_index": 1,
+        "dice": 0.9726006297940356,
+        "iou": 0.9473442307379556
+      },
+      {
+        "class_index": 2,
+        "dice": 0.9032754640188752,
+        "iou": 0.8249984256699058
+      },
+      {
+        "class_index": 3,
+        "dice": 0.8582708281570116,
+        "iou": 0.7802269850237877
+      },
+      {
+        "class_index": 4,
+        "dice": 0.8312219117519183,
+        "iou": 0.7154980140941971
+      },
+      {
+        "class_index": 5,
+        "dice": 0.7788168447234334,
+        "iou": 0.6507397004886838
+      }
+    ],
+    "foreground_mean_dice": 0.8688371356890551,
+    "foreground_mean_iou": 0.7837614712029062
+  },
+  "metrics_grid": "v2_downsampled_resampled_grid_96x192x192",
+  "native_resolution_accuracy_claimed": false,
+  "test_status": "previously_inspected_evaluation_set",
+  "mean_inference_ms": 1073.4080305633445,
+  "peak_allocated_cuda_bytes": 1877516288,
+  "latency_protocol": "One full-case warmup; synchronized transfer+forward+softmax-window-average/argmax+output-transfer; excludes disk/preprocessing/metrics. CPU window accumulation included.",
+  "patient_balanced_prostate_dice": 0.7788168447234334,
+  "identity": {
+    "experiment_id": "independent_resolution_sampling_v2",
+    "protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+    "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+    "model": "improved3d",
+    "configuration": {
+      "target_shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "patch_shape_dhw": [
+        64,
+        128,
+        128
+      ],
+      "seed": 3711,
+      "num_classes": 6,
+      "base_channels": 16,
+      "epochs": 30,
+      "train_patches_per_scan": 2,
+      "train_slices_per_scan": 32,
+      "train_batch_size_2d": 16,
+      "train_batch_size_3d": 1,
+      "eval_slice_batch_size": 32,
+      "foreground_sampling_probability": 0.5,
+      "absent_selected_class": "uniform_spatial_fallback_recorded",
+      "augmentation": "random_hw_flips",
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip_grad": 5.0,
+      "amp": true,
+      "workers": 0,
+      "validation_epochs": [
+        1,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "selection": "patient_balanced_class5_dice_strict_max_earliest_tie",
+      "inference_overlap": 0.5,
+      "inference_blending": "uniform_softmax_mean",
+      "class_weighting": "sqrt_inverse_frequency"
+    },
+    "source_hashes": {
+      "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+      "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+      "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+      "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+      "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+      "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+      "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+      "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+      "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+      "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+      "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+      "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+      "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+      "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+      "artifacts/full_seed42/unet2d/best.pt": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+      "artifacts/full_seed42/improved3d/best.pt": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a"
+    },
+    "v2_pipeline_sha256": "e5fc0b83b8ac86a2ce821555188e5d2642ce01c18f7d454b7c580cc9de2bf4df"
+  },
+  "checkpoint_sha256": "852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf",
+  "checkpoint_epoch": 30,
+  "split": "test",
+  "chosen_by": "Unchanged predeclared validation class5 strict maximum; never TEST",
+  "class_names": [
+    "Background",
+    "Body",
+    "Bones",
+    "Bladder",
+    "Rectum",
+    "Prostate"
+  ],
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "actual_scope_id": "hard_only_after_stopped_v2_pair",
+  "completed_at": "2026-10-27T13:41:43.725364+00:00",
+  "selection_freeze_sha256": "408bb6d059b2f5a86841bb12d0eb3a0b6772981cebe9e889c47f13ee320ee85c"
+}

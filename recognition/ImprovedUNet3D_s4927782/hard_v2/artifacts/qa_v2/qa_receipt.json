@@ -1,0 +1,146 @@
+{
+  "status": "failed_fit_gate",
+  "protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+  "original_through_receipt_sha256": "791583b36e3114734ae07b65f0c07d19fb5c6cf78dd78753da0406d73c447365",
+  "scope": "Only two fixed TRAIN raw images/cache masks; no validation or test pixels; no selection",
+  "models": {
+    "unet2d": {
+      "full_image_only_inference_passed": true,
+      "native_geometry_serialisation_passed": true,
+      "independent_metric_check_passed": true,
+      "sampler_batch_backward_passed": true,
+      "real_sampler_batch": {
+        "passed": true,
+        "purpose": "One-batch development software QA only; no optimizer/candidate",
+        "inventory_case_keys": [
+          [
+            "B006",
+            "Week0"
+          ],
+          [
+            "B038",
+            "Week0"
+          ]
+        ],
+        "actual_batch_case_keys": [
+          [
+            "B006",
+            "Week0"
+          ]
+        ],
+        "epoch": 1,
+        "image_shape": [
+          16,
+          1,
+          192,
+          192
+        ],
+        "target_shape": [
+          16,
+          192,
+          192
+        ],
+        "observed_class_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "loss": 2.6691977977752686,
+        "amp": true,
+        "unscaled_backward": true,
+        "all_parameter_gradients_present_and_finite": true,
+        "auxiliary_weight_gradient_absolute_sums": [],
+        "class_weight_source": "All TRAIN new-cache manifest counts only; no other pixel arrays loaded",
+        "test_or_validation_pixels_read": 0
+      },
+      "passed": false,
+      "final_fit_prostate_dice": 0.8223580441640379,
+      "final_fit_foreground_dice": 0.8682699187373626
+    },
+    "improved3d": {
+      "full_image_only_inference_passed": true,
+      "native_geometry_serialisation_passed": true,
+      "independent_metric_check_passed": true,
+      "sampler_batch_backward_passed": true,
+      "real_sampler_batch": {
+        "passed": true,
+        "purpose": "One-batch development software QA only; no optimizer/candidate",
+        "inventory_case_keys": [
+          [
+            "B006",
+            "Week0"
+          ],
+          [
+            "B038",
+            "Week0"
+          ]
+        ],
+        "actual_batch_case_keys": [
+          [
+            "B006",
+            "Week0"
+          ]
+        ],
+        "epoch": 1,
+        "image_shape": [
+          1,
+          1,
+          64,
+          128,
+          128
+        ],
+        "target_shape": [
+          1,
+          64,
+          128,
+          128
+        ],
+        "observed_class_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "loss": 2.7230618000030518,
+        "amp": true,
+        "unscaled_backward": true,
+        "all_parameter_gradients_present_and_finite": true,
+        "auxiliary_weight_gradient_absolute_sums": [
+          3.3183326721191406,
+          2.7104063034057617
+        ],
+        "class_weight_source": "All TRAIN new-cache manifest counts only; no other pixel arrays loaded",
+        "test_or_validation_pixels_read": 0
+      },
+      "passed": true,
+      "final_fit_prostate_dice": 0.9232945272549233,
+      "final_fit_foreground_dice": 0.957446188238813
+    }
+  },
+  "cases": [
+    {
+      "patient": "B006",
+      "visit": "Week0",
+      "image_elementwise_equal": true,
+      "source_image_sha256": "1bb1be6f974974ee8b7d798eb4b869a24921da71febca44e13c7f52d365107b5",
+      "cache_sha256": "8a6547294908802b7a5d83e0eaff3ea4170043c3621f612ee5d6fc0b1884ae94"
+    },
+    {
+      "patient": "B038",
+      "visit": "Week0",
+      "image_elementwise_equal": true,
+      "source_image_sha256": "d8c2a760138dcb3673fbfdc701a202e049afe587a0bd0f051dd8e8d87920c7e9",
+      "cache_sha256": "e5dbf8ddb87f4adf4239b869752e0e3ab56c6af5c28e3bab6fd1c241dc6cda52"
+    }
+  ],
+  "gpu_name": "NVIDIA A100-PCIE-40GB",
+  "fit_receipt_sha256": "ea96fc3986c3c6e0e61c3b40eb661cb5ee7db86053149f82cfa6698d8e826831",
+  "generalisation_evidence": false,
+  "error": "RuntimeError: Fixed real TRAIN fit gate was not passed; no formal training may start"
+}

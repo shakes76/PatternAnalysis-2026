@@ -1,0 +1,134 @@
+{
+  "status": "passed_visual_inspection_with_limitations",
+  "reviewed_at_aest": "2026-10-28T00:04:35.619368+10:00",
+  "reviewer": "AI assistant; not a claim of student personal verification",
+  "actual_images_reviewed": 12,
+  "five_distinct_patient_cases": true,
+  "figures": [
+    {
+      "file": "artifacts/hard_failure_gallery/W029_Week6_full_fov.png",
+      "sha256": "c105804af13ac319141656de68e5b57e78de63794692a33645d4c56a79d494f1",
+      "view": "full_fov",
+      "patient": "W029",
+      "visit": "Week6",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/W029_Week6_display_roi.png",
+      "sha256": "73db91058473574e09b8d8f667ab6fd0c37d87292cad30d36756e0a311e04190",
+      "view": "display_roi",
+      "patient": "W029",
+      "visit": "Week6",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/M015_Week0_full_fov.png",
+      "sha256": "dee19253845e6e4047a1b5b94c284a20c01fe7874842dd953d0b0d4e220d4643",
+      "view": "full_fov",
+      "patient": "M015",
+      "visit": "Week0",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/M015_Week0_display_roi.png",
+      "sha256": "05b5ebfa3345739ddf611c4a5abefc36888282627f23abd5bba905debde047ca",
+      "view": "display_roi",
+      "patient": "M015",
+      "visit": "Week0",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/B037_Week0_full_fov.png",
+      "sha256": "8dcb7e916e8888b35d383f57e71062fa5c44133fb9d20acc3a36c0398f404e43",
+      "view": "full_fov",
+      "patient": "B037",
+      "visit": "Week0",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/B037_Week0_display_roi.png",
+      "sha256": "56807d82586663f5c64e687d8a6a51388c3b1c391f03d6a6618b8685cab53566",
+      "view": "display_roi",
+      "patient": "B037",
+      "visit": "Week0",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/L011_Week7_full_fov.png",
+      "sha256": "7970b698c786a6f7232ee4c1afc3e3adce2c2ae1613863b039589cd36b9438f5",
+      "view": "full_fov",
+      "patient": "L011",
+      "visit": "Week7",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/L011_Week7_display_roi.png",
+      "sha256": "7735b189ee98974d9e3920b9b88a133c74a4a29fa9034af1683a8459e4908a6c",
+      "view": "display_roi",
+      "patient": "L011",
+      "visit": "Week7",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/M020_Week0_full_fov.png",
+      "sha256": "6fd47a2e80a25f623bc1a9002563cda70fce0e592bc5346ddf04983ec1edc47d",
+      "view": "full_fov",
+      "patient": "M020",
+      "visit": "Week0",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_failure_gallery/M020_Week0_display_roi.png",
+      "sha256": "546abc6ad9374467baddcf9c5e5bb1f24fe62506482a8f8cade14426d8b95f4f",
+      "view": "display_roi",
+      "patient": "M020",
+      "visit": "Week0",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_results_figures/common_grid_dice.png",
+      "sha256": "3ef485effa8df04cce015b44a88249e45be0b6010a7f743d2176520da167d6fc",
+      "visually_inspected": true
+    },
+    {
+      "file": "artifacts/hard_results_figures/resource_costs.png",
+      "sha256": "10eaa89848b99e9b57f30696dcc82a0f86793c285be46a75c4d1dd8e9596f501",
+      "visually_inspected": true
+    }
+  ],
+  "layout": "All model rows, GT/prediction legend, full-volume scores, slice indices, full FOV and display-only ROI visible. No missing or blank model row observed.",
+  "observations": [
+    {
+      "case": "W029/Week6",
+      "observation": "New Hard markedly undersegments; endpoint panels contain GT without corresponding prediction. TP89/FP0/FN329, Dice.351085. Old3D Dice.544709. Smaller HD95 does not remove severe missing-volume failure.",
+      "interpretation_level": "visual and counted failure pattern; no root cause proven"
+    },
+    {
+      "case": "M015/Week0",
+      "observation": "Old3D detects a very small portion; newHard detects more but still misses much of the GT and both displayed label-depth endpoints. NewHard TP463/FP0/FN792, Dice.539.",
+      "interpretation_level": "visual and counted failure pattern; no root cause proven"
+    },
+    {
+      "case": "B037/Week0",
+      "observation": "NewHard Dice.7821 slightly above old3D.7773 while HD95 worsens10.36vs8.84mm. Central-panel FN and endpoint mismatch remain.",
+      "interpretation_level": "per-case overlap/boundary tradeoff"
+    },
+    {
+      "case": "L011/Week7",
+      "observation": "All pipelines miss the displayed superior label endpoint. NewHard Dice.8339 vs old3D.8141 but HD95 5.68vs4.58mm.",
+      "interpretation_level": "per-case overlap/boundary tradeoff"
+    },
+    {
+      "case": "M020/Week0",
+      "observation": "NewHard Dice.8340 is below old3D.8670 with greater FP and FN; visible inferior-end miss. This case is retained despite cohort improvement.",
+      "interpretation_level": "retained negative case"
+    }
+  ],
+  "limitations": [
+    "Displayed lower/upper GT depth are proxies, not independently annotated anatomical apex/base.",
+    "Display ROI uses GT plus all predictions only for visualization, never inference or model selection.",
+    "Three axial planes do not establish full-volume topology or prove absence of disconnected components.",
+    "No independent organ-wall distance measurement or clinical diagnosis is inferred from these pictures.",
+    "Full source pixel arrays remain on UQ; all displayed scores are whole-volume measurements from the completed fixed CPU analysis."
+  ]
+}

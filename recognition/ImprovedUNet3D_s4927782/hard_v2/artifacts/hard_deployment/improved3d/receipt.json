@@ -1,0 +1,320 @@
+{
+  "image": "/home/groups/comp3710/HipMRI_Study_open/semantic_MRs/B006_Week0_LFOV.nii.gz",
+  "image_sha256": "1bb1be6f974974ee8b7d798eb4b869a24921da71febca44e13c7f52d365107b5",
+  "checkpoint": "/home/Student/s4927782/comp3710-independent-20261027/artifacts/hard_followup/improved3d/best.pt",
+  "checkpoint_sha256": "852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf",
+  "checkpoint_epoch": 30,
+  "model_config": {
+    "target_shape_dhw": [
+      96,
+      192,
+      192
+    ],
+    "patch_shape_dhw": [
+      64,
+      128,
+      128
+    ],
+    "seed": 3711,
+    "num_classes": 6,
+    "base_channels": 16,
+    "epochs": 30,
+    "train_patches_per_scan": 2,
+    "train_slices_per_scan": 32,
+    "train_batch_size_2d": 16,
+    "train_batch_size_3d": 1,
+    "eval_slice_batch_size": 32,
+    "foreground_sampling_probability": 0.5,
+    "absent_selected_class": "uniform_spatial_fallback_recorded",
+    "augmentation": "random_hw_flips",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "clip_grad": 5.0,
+    "amp": true,
+    "workers": 0,
+    "validation_epochs": [
+      1,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30
+    ],
+    "selection": "patient_balanced_class5_dice_strict_max_earliest_tie",
+    "inference_overlap": 0.5,
+    "inference_blending": "uniform_softmax_mean",
+    "class_weighting": "sqrt_inverse_frequency",
+    "model": "improved3d",
+    "label_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "checkpoint_identity": {
+    "experiment_id": "independent_resolution_sampling_v2",
+    "protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+    "manifest_sha256": "b2c62845c2ce2eb459afd3b6201469cb45dfc43faa2a3fb6457b74bf3af46d1d",
+    "model": "improved3d",
+    "configuration": {
+      "target_shape_dhw": [
+        96,
+        192,
+        192
+      ],
+      "patch_shape_dhw": [
+        64,
+        128,
+        128
+      ],
+      "seed": 3711,
+      "num_classes": 6,
+      "base_channels": 16,
+      "epochs": 30,
+      "train_patches_per_scan": 2,
+      "train_slices_per_scan": 32,
+      "train_batch_size_2d": 16,
+      "train_batch_size_3d": 1,
+      "eval_slice_batch_size": 32,
+      "foreground_sampling_probability": 0.5,
+      "absent_selected_class": "uniform_spatial_fallback_recorded",
+      "augmentation": "random_hw_flips",
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "clip_grad": 5.0,
+      "amp": true,
+      "workers": 0,
+      "validation_epochs": [
+        1,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "selection": "patient_balanced_class5_dice_strict_max_earliest_tie",
+      "inference_overlap": 0.5,
+      "inference_blending": "uniform_softmax_mean",
+      "class_weighting": "sqrt_inverse_frequency"
+    },
+    "source_hashes": {
+      "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+      "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+      "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+      "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+      "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+      "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+      "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+      "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+      "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+      "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+      "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+      "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+      "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+      "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+      "artifacts/full_seed42/unet2d/best.pt": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+      "artifacts/full_seed42/improved3d/best.pt": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a"
+    },
+    "v2_pipeline_sha256": "e5fc0b83b8ac86a2ce821555188e5d2642ce01c18f7d454b7c580cc9de2bf4df"
+  },
+  "protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "pipeline_source_sha256": "e5fc0b83b8ac86a2ce821555188e5d2642ce01c18f7d454b7c580cc9de2bf4df",
+  "native_adapter_source_sha256": "0f26793a908b29a3f96fab59e7346e63750367c2e910a1777d40b102ac6520c4",
+  "deployment_adapter_source_sha256": "e222c41d664882b1e94a50ade412ada299ffdb3ebc7ee77d0c2b27b7d6bb1dd1",
+  "module_source_sha256": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+  "device": "cpu",
+  "amp": false,
+  "gpu_name": null,
+  "python_version": "3.11.15",
+  "torch_version": "2.13.0+cu130",
+  "numpy_version": "2.4.6",
+  "nibabel_version": "5.3.2",
+  "scipy_version": "1.16.3",
+  "elapsed_seconds_before_serialization": 40.404021059162915,
+  "selection_freeze_sha256": null,
+  "schema_version": 1,
+  "status": "completed",
+  "image_only_inference": true,
+  "mask_or_manifest_read": false,
+  "model_changed": false,
+  "geometry": {
+    "original_shape_xyz": [
+      256,
+      256,
+      128
+    ],
+    "original_affine_xyz": [
+      [
+        -1.5625,
+        0.0,
+        0.0,
+        204.6600341796875
+      ],
+      [
+        0.0,
+        -1.5625,
+        0.0,
+        202.2648468017578
+      ],
+      [
+        0.0,
+        0.0,
+        1.55999755859375,
+        -119.70062255859375
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "original_orientation": [
+      "L",
+      "P",
+      "S"
+    ],
+    "original_header_zooms_xyz": [
+      1.5625,
+      1.5625,
+      1.55999755859375
+    ],
+    "original_spatial_unit": "mm",
+    "canonical_shape_xyz": [
+      256,
+      256,
+      128
+    ],
+    "canonical_affine_xyz": [
+      [
+        1.5625,
+        0.0,
+        0.0,
+        -193.7774658203125
+      ],
+      [
+        0.0,
+        1.5625,
+        0.0,
+        -196.1726531982422
+      ],
+      [
+        0.0,
+        0.0,
+        1.55999755859375,
+        -119.70062255859375
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "cache_shape_dhw": [
+      96,
+      192,
+      192
+    ],
+    "cache_affine_xyz": [
+      [
+        2.083333333333333,
+        0.0,
+        0.0,
+        -193.51704915364584
+      ],
+      [
+        0.0,
+        2.083333333333333,
+        0.0,
+        -195.91223653157553
+      ],
+      [
+        0.0,
+        0.0,
+        2.0799967447916665,
+        -119.4406229654948
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "cache_spacing_dhw": [
+      2.0799967447916665,
+      2.0833333333333335,
+      2.0833333333333335
+    ],
+    "normalization": {
+      "method": "per_case_nonzero_zscore_then_clip",
+      "nonzero_count": 5324548,
+      "mean": 46.868016214709684,
+      "standard_deviation": 58.007979629621204,
+      "minimum_scale": 1e-08,
+      "clip": [
+        -5.0,
+        5.0
+      ]
+    },
+    "resampling": {
+      "image_order": 1,
+      "image_support_order": 0,
+      "grid_mode": true,
+      "mode": "nearest",
+      "prefilter": false
+    },
+    "affine_policy": "Chosen NIfTI affine; finite orthogonal/oblique axes accepted; shear and undefined axes rejected."
+  },
+  "native_to_cache_voxel_transform_xyz": [
+    [
+      -0.7500000000000001,
+      0.0,
+      0.0,
+      191.12500000000006
+    ],
+    [
+      0.0,
+      -0.7500000000000001,
+      0.0,
+      191.12500000000006
+    ],
+    [
+      0.0,
+      0.0,
+      0.7500000000000001,
+      -0.12499999999999774
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "outputs": {
+    "cache": {
+      "path": "prediction_cache.npz",
+      "sha256": "445d5224adec7d5c5ef511978299fb35d99103cb76a3573be12dcbe50d9eb392",
+      "values": "class indices"
+    },
+    "native": {
+      "path": "prediction_native.nii.gz",
+      "sha256": "011f6b5d611c29bb9d589102baa54b760995c79abece656c7b64e256ff82a6ef",
+      "values": "raw label IDs"
+    }
+  },
+  "restoration": "Nearest inverse-affine sampling of cache-grid hard labels; mode=nearest at image edges.",
+  "limitation": "Grid restoration does not recover information lost by downsampling and does not establish native-resolution accuracy.",
+  "assistance_record": "AI-assisted image-only v2 adapter; frozen v2 inference and independently verified native geometry utilities reused by digest. No training, model selection or target-label access during this inference.",
+  "model_attribution": "Frozen original modules.py model/loss; newly trained finite v2 pipeline checkpoint, selected using validation class-5 Dice.",
+  "model_changed_during_inference": false,
+  "native_resolution_accuracy_claimed": false
+}

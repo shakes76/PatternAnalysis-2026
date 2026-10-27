@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "input_report_sha256": "4dc03f4312fe8366afd8f283b962587b77a34f69677e2dedd7a11b5541cf91ce",
+  "plot_script_sha256": "89211b397436ee2a27d957d4a7a7f8a3bd19e601ef76200f7d9946ba51c2d334",
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "split": "test",
+  "model_order": [
+    "v1_unet2d",
+    "v1_improved3d",
+    "hard_improved3d"
+  ],
+  "patient_visit_counts": {
+    "B037": 1,
+    "L011": 8,
+    "M015": 8,
+    "M020": 4,
+    "W029": 8,
+    "W041": 1
+  },
+  "cases_per_model": 30,
+  "synthetic_fixture": false,
+  "new_independent_test_claimed": false,
+  "cpu_seconds": 0.836484859,
+  "wall_seconds": 1.089630558155477,
+  "figures": {
+    "common_grid_dice.png": {
+      "sha256": "3ef485effa8df04cce015b44a88249e45be0b6010a7f743d2176520da167d6fc",
+      "bytes": 177689
+    },
+    "resource_costs.png": {
+      "sha256": "10eaa89848b99e9b57f30696dcc82a0f86793c285be46a75c4d1dd8e9596f501",
+      "bytes": 156785
+    }
+  }
+}

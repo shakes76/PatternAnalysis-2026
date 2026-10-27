@@ -1,0 +1,415 @@
+{
+  "audit": "independent local final source guard audit",
+  "created_aest": "2026-10-27T23:40:24.690419+10:00",
+  "status": "pass",
+  "counts": {
+    "base_new_sources": 18,
+    "original_protected": 17,
+    "hard_scope_sources": 4,
+    "analysis_sources": 11
+  },
+  "checks": [
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/v2_pipeline.py",
+      "expected_sha256": "e5fc0b83b8ac86a2ce821555188e5d2642ce01c18f7d454b7c580cc9de2bf4df",
+      "actual_sha256": "e5fc0b83b8ac86a2ce821555188e5d2642ce01c18f7d454b7c580cc9de2bf4df",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/infer_native.py",
+      "expected_sha256": "0f26793a908b29a3f96fab59e7346e63750367c2e910a1777d40b102ac6520c4",
+      "actual_sha256": "0f26793a908b29a3f96fab59e7346e63750367c2e910a1777d40b102ac6520c4",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/real_pipeline_check.py",
+      "expected_sha256": "c4a8314e62f801ac6c3b68cd22e80007b0bdfd88b0a49e5ee30c867a0f077ffc",
+      "actual_sha256": "c4a8314e62f801ac6c3b68cd22e80007b0bdfd88b0a49e5ee30c867a0f077ffc",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/qa_v2.py",
+      "expected_sha256": "f0cca0a56749e622cc21a19da930efdcdda444389ec333430b62d7cd61430ace",
+      "actual_sha256": "f0cca0a56749e622cc21a19da930efdcdda444389ec333430b62d7cd61430ace",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/small_fit.py",
+      "expected_sha256": "3c62c79286036be8c15efb31c625928485465b3bae12fc83aca0580f8973fef5",
+      "actual_sha256": "3c62c79286036be8c15efb31c625928485465b3bae12fc83aca0580f8973fef5",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/compare_common_grid.py",
+      "expected_sha256": "76136bc2aa410ac36609e95727939dc3e1455ae3612a34e3254420dc9e405d85",
+      "actual_sha256": "76136bc2aa410ac36609e95727939dc3e1455ae3612a34e3254420dc9e405d85",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/freeze_selection.py",
+      "expected_sha256": "96d287b5f48ff4ce14308ff42a11332b4c56721223bb6eac9b1cc7b5502d00ec",
+      "actual_sha256": "96d287b5f48ff4ce14308ff42a11332b4c56721223bb6eac9b1cc7b5502d00ec",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/infer_v2.py",
+      "expected_sha256": "e222c41d664882b1e94a50ade412ada299ffdb3ebc7ee77d0c2b27b7d6bb1dd1",
+      "actual_sha256": "e222c41d664882b1e94a50ade412ada299ffdb3ebc7ee77d0c2b27b7d6bb1dd1",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_v2_pipeline.py",
+      "expected_sha256": "e691e081c9e6af9319d1bfe0d84f1c87f4f8ba0bd4aa905399e51c92d3e41798",
+      "actual_sha256": "e691e081c9e6af9319d1bfe0d84f1c87f4f8ba0bd4aa905399e51c92d3e41798",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_small_fit.py",
+      "expected_sha256": "1b22529746185bac08bee34f4c86d00d9964440b0593a66976977f50f4cb5cbf",
+      "actual_sha256": "1b22529746185bac08bee34f4c86d00d9964440b0593a66976977f50f4cb5cbf",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_compare_common_grid.py",
+      "expected_sha256": "446258dbbdf91e37185cdc8ceffe567ae499ceb37a6139f0333a6b348750edc3",
+      "actual_sha256": "446258dbbdf91e37185cdc8ceffe567ae499ceb37a6139f0333a6b348750edc3",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_real_pipeline_check.py",
+      "expected_sha256": "057136366a250acace3b586ae76d0843a104f40021829e95fc9038edd0904973",
+      "actual_sha256": "057136366a250acace3b586ae76d0843a104f40021829e95fc9038edd0904973",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_infer_native.py",
+      "expected_sha256": "ee7ad22c996ee0149c0883ea7e2cffa130e2769682277c05f3c960bf29d6256a",
+      "actual_sha256": "ee7ad22c996ee0149c0883ea7e2cffa130e2769682277c05f3c960bf29d6256a",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_qa_v2.py",
+      "expected_sha256": "cfc579552cdae4b4250bb4967a05c22c0f6d246ca0b1d841a7564bfb941bb76d",
+      "actual_sha256": "cfc579552cdae4b4250bb4967a05c22c0f6d246ca0b1d841a7564bfb941bb76d",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_infer_v2.py",
+      "expected_sha256": "b4aa302050732e4e83cfd89f15733817cae80e351cb133627ea79029c7eabe34",
+      "actual_sha256": "b4aa302050732e4e83cfd89f15733817cae80e351cb133627ea79029c7eabe34",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/prepare_v2_cpu.slurm",
+      "expected_sha256": "ee1c65e6a994062accb79793014592ca1dce0d9715b9049924f275ce65bf6bf1",
+      "actual_sha256": "ee1c65e6a994062accb79793014592ca1dce0d9715b9049924f275ce65bf6bf1",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/qa_v2_gpu.slurm",
+      "expected_sha256": "ef039c0f786359f56d8df13b9b45b879799edaf902f9f99e5c2028647ff99a52",
+      "actual_sha256": "ef039c0f786359f56d8df13b9b45b879799edaf902f9f99e5c2028647ff99a52",
+      "passed": true
+    },
+    {
+      "group": "base_new_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/formal_v2_gpu.slurm",
+      "expected_sha256": "0b5cc75977f9d0ab906bd49ffe0bed7ddaec03b919bd80039cd3ac5182f148a8",
+      "actual_sha256": "0b5cc75977f9d0ab906bd49ffe0bed7ddaec03b919bd80039cd3ac5182f148a8",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/modules.py",
+      "expected_sha256": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+      "actual_sha256": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/dataset.py",
+      "expected_sha256": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+      "actual_sha256": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/train.py",
+      "expected_sha256": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+      "actual_sha256": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/utils.py",
+      "expected_sha256": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+      "actual_sha256": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/predict.py",
+      "expected_sha256": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+      "actual_sha256": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/tools/prepare_cache.py",
+      "expected_sha256": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+      "actual_sha256": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/label_schema.json",
+      "expected_sha256": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+      "actual_sha256": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/requirements.txt",
+      "expected_sha256": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+      "actual_sha256": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/requirements-extra.txt",
+      "expected_sha256": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+      "actual_sha256": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/jobs/train_pilot.slurm",
+      "expected_sha256": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+      "actual_sha256": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/jobs/train_pair.slurm",
+      "expected_sha256": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+      "actual_sha256": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/training_sources.json",
+      "expected_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+      "actual_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/artifacts/cache64/manifest.json",
+      "expected_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+      "actual_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/test_protocol.json",
+      "expected_sha256": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+      "actual_sha256": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/artifacts/full_seed42/unet2d/best.pt",
+      "expected_sha256": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+      "actual_sha256": "cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/artifacts/full_seed42/improved3d/best.pt",
+      "expected_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "actual_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "passed": true
+    },
+    {
+      "group": "original_protected",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/PatternAnalysis-2026/recognition/ImprovedUNet3D_s4927782/artifacts/cache64/cache_identity.json",
+      "expected_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+      "actual_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+      "passed": true
+    },
+    {
+      "group": "hard_scope_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/train_hard_followup.py",
+      "expected_sha256": "a6068be233fa199e3ace53703728c8f5544527644666f51514c7615b2ff0cafe",
+      "actual_sha256": "a6068be233fa199e3ace53703728c8f5544527644666f51514c7615b2ff0cafe",
+      "passed": true
+    },
+    {
+      "group": "hard_scope_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/hard_followup_gpu.slurm",
+      "expected_sha256": "b60d1485b9d88b7596b45cc0ee0c94b0dc0fa906ddf8093272c62cd5f4146022",
+      "actual_sha256": "b60d1485b9d88b7596b45cc0ee0c94b0dc0fa906ddf8093272c62cd5f4146022",
+      "passed": true
+    },
+    {
+      "group": "hard_scope_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_train_hard_followup.py",
+      "expected_sha256": "5c0f1d0f5c9b1c6f037c76d6d5a163b4b858fbd49c5842cdaa3eb38fd9410680",
+      "actual_sha256": "5c0f1d0f5c9b1c6f037c76d6d5a163b4b858fbd49c5842cdaa3eb38fd9410680",
+      "passed": true
+    },
+    {
+      "group": "hard_scope_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/evaluate_v2_deterministic.py",
+      "expected_sha256": "5a8535d1c8aa7bdafef0fd0d46f7285f03d65531924d879d366ed388267b6ec5",
+      "actual_sha256": "5a8535d1c8aa7bdafef0fd0d46f7285f03d65531924d879d366ed388267b6ec5",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/compare_hard_followup.py",
+      "expected_sha256": "314d16bdfeb530a66022ee2b283072cb9b57edb99760a2590d2c4aa108b5a942",
+      "actual_sha256": "314d16bdfeb530a66022ee2b283072cb9b57edb99760a2590d2c4aa108b5a942",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_compare_hard_followup.py",
+      "expected_sha256": "65680090a01317ff7e42369a4b2b16be4e496d14bf9142035e500a1681a3f65b",
+      "actual_sha256": "65680090a01317ff7e42369a4b2b16be4e496d14bf9142035e500a1681a3f65b",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/summarize_v2.py",
+      "expected_sha256": "d42442d9a477e1abdafc8f3fcfe288dadb449e84f1f6ce1ebe42e5546c4cab98",
+      "actual_sha256": "d42442d9a477e1abdafc8f3fcfe288dadb449e84f1f6ce1ebe42e5546c4cab98",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_summarize_v2.py",
+      "expected_sha256": "acf06ec4c9a8f403e7a73395fa1bcb127868f5c8b1e5c10c9f215bc3ded9743c",
+      "actual_sha256": "acf06ec4c9a8f403e7a73395fa1bcb127868f5c8b1e5c10c9f215bc3ded9743c",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/compare_common_grid.py",
+      "expected_sha256": "76136bc2aa410ac36609e95727939dc3e1455ae3612a34e3254420dc9e405d85",
+      "actual_sha256": "76136bc2aa410ac36609e95727939dc3e1455ae3612a34e3254420dc9e405d85",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/plot_hard_followup.py",
+      "expected_sha256": "89211b397436ee2a27d957d4a7a7f8a3bd19e601ef76200f7d9946ba51c2d334",
+      "actual_sha256": "89211b397436ee2a27d957d4a7a7f8a3bd19e601ef76200f7d9946ba51c2d334",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_plot_hard_followup.py",
+      "expected_sha256": "47dce4a5c19d158b98bb7f9b56c59aa7ec736b119dcfdbaf91442b09aaa06464",
+      "actual_sha256": "47dce4a5c19d158b98bb7f9b56c59aa7ec736b119dcfdbaf91442b09aaa06464",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/plot_failure_gallery_v2.py",
+      "expected_sha256": "9ead70ae07844f088e4648b9b3f3bbf97882c6badc46f918c3cf182a58a522d8",
+      "actual_sha256": "9ead70ae07844f088e4648b9b3f3bbf97882c6badc46f918c3cf182a58a522d8",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/plot_hard_failure_gallery.py",
+      "expected_sha256": "50f421623f11ce81d53c3f8bd8679bf780d52d37c93a13530744d1735e719fe1",
+      "actual_sha256": "50f421623f11ce81d53c3f8bd8679bf780d52d37c93a13530744d1735e719fe1",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/test_plot_hard_failure_gallery.py",
+      "expected_sha256": "c8f3be06bb2d7b41d37d560e8bec9ce6ae5b250172488aea188b32fc796f0375",
+      "actual_sha256": "c8f3be06bb2d7b41d37d560e8bec9ce6ae5b250172488aea188b32fc796f0375",
+      "passed": true
+    },
+    {
+      "group": "analysis_sources",
+      "file": "/Users/baoxuwang/Documents/3710/demo3/independent_review_20261027/post_hard_followup_cpu.slurm",
+      "expected_sha256": "f84a6a2659a5e32e7b8b1a725f5604ffeffaab35e4a0dc199147c95325e547ac",
+      "actual_sha256": "f84a6a2659a5e32e7b8b1a725f5604ffeffaab35e4a0dc199147c95325e547ac",
+      "passed": true
+    }
+  ],
+  "identity_checks": [
+    {
+      "name": "base_protocol",
+      "actual": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+      "expected": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+      "passed": true
+    },
+    {
+      "name": "hard_scope",
+      "actual": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+      "expected": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+      "passed": true
+    },
+    {
+      "name": "hard_inherits_base",
+      "actual": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+      "expected": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+      "passed": true
+    },
+    {
+      "name": "analysis_scope",
+      "actual": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+      "expected": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+      "passed": true
+    }
+  ],
+  "configuration_identical_to_base": true,
+  "training_function_ast_equal_except_name_and_entry_qa_validator": true,
+  "static_behavior_evidence": {
+    "exact_thirty_epochs": "train_hard_followup.py:164 loops range(start_epoch, config[epochs]+1); lines294-296 require actual history epochs1..30 and exact seven VAL epochs",
+    "strict_maximum_earliest_tie": "train_hard_followup.py:212 uses score>best_score; line297 max by (validation_prostate_dice,-epoch)",
+    "no_qa_warmstart": "train_hard_followup.py:266-274 scope receipt warmstart/resume false, fresh model/optimizer body resume=None; same AST as original body",
+    "full_train_then_val_reload_then_selection_then_test": "hard_followup_gpu.slurm:20-34 performs sequential stages under set -euo pipefail; test mode requires actual Hard selection freeze",
+    "budget": "hard_followup_gpu.slurm:7 #SBATCH --time=01:00:00; hard_followup_protocol max_gpu_walltime_minutes60",
+    "retrospective": "hard_followup_protocol test_status previously_inspected_retrospective; train_hard_followup.py:312 labels previously inspected cohort explicitly; post_hard_followup_cpu.slurm:34 --retrospective-test-ack",
+    "pair_failure_preserved": "train_hard_followup.py:70 requires failed_fit_gate and line72 requires new2D passed false; scope stopped_after_QA_failure",
+    "test_not_used_for_selection": "source train body uses only validation split and scheduled class5 score; freeze checks completed history/checkpoint before test preparation"
+  },
+  "original_repo": {
+    "head": "c94e987d368c6ae391f64dc2dd842c8b7a8011d2",
+    "git_status_short": [
+      "?? ../../.DS_Store",
+      "?? ../.DS_Store"
+    ]
+  },
+  "limitations": [
+    "This is a local file/AST/static-path audit, not proof that remote files or completed artifacts match; remote execution hashes/receipts and actual run must be audited separately.",
+    "No actual new model VAL/TEST metrics, checkpoint tensors, output pixels, GPU allocation or PNGs were inspected in this subtask.",
+    "Protocol defines a separate narrowed-scope study after TRAIN QA failure; frozen files alone do not restore an untouched preregistration or independent blind TEST.",
+    "Torch warn_only deterministic settings cannot establish bitwise reproducibility; actual recorded runtime warnings remain material."
+  ],
+  "mutations": "Created only this new audit report; no frozen/original/scientific file changed, no job/network action."
+}

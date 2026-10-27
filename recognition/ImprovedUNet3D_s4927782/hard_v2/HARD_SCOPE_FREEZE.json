@@ -1,0 +1,17 @@
+{
+  "scope_plan_sha256": "aa90083d2e0e4b9bf32c00c0072f8a34c5b5b184845290446e12237aa7e99e9a",
+  "frozen_at": "2026-10-27T22:16:13.715062+10:00",
+  "required_scope_sha256": {
+    "train_hard_followup.py": "a6068be233fa199e3ace53703728c8f5544527644666f51514c7615b2ff0cafe",
+    "hard_followup_gpu.slurm": "b60d1485b9d88b7596b45cc0ee0c94b0dc0fa906ddf8093272c62cd5f4146022",
+    "test_train_hard_followup.py": "5c0f1d0f5c9b1c6f037c76d6d5a163b4b858fbd49c5842cdaa3eb38fd9410680",
+    "evaluate_v2_deterministic.py": "5a8535d1c8aa7bdafef0fd0d46f7285f03d65531924d879d366ed388267b6ec5"
+  },
+  "base_protocol_sha256": "9b415ccaf415b6299b5f86691e0a6576ea9028ebe52896d98bbf6ffdb0d20035",
+  "original_pair_status": "stopped_after_QA_failure",
+  "new_formal_models": [
+    "improved3d"
+  ],
+  "actual_original_qa_overall_status": "failed_fit_gate",
+  "scientific_scope_revision": true
+}
