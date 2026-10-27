@@ -1,0 +1,33 @@
+# Generated data audit and patient split manifests
+audit/
+splits/
+
+# Model weights
+*.pt
+*.pth
+*.ckpt
+
+# Runtime outputs
+runs/
+gpu_check_*.out
+gpu_check_*.err
+slurm-*.out
+
+# Python cache
+__pycache__/
+*.pyc
+smoke_test_*.out
+smoke_test_*.err
+baseline_bench_*.out
+baseline_bench_*.err
+overfit_check_*.out
+overfit_check_*.err
+train_baseline_*.out
+train_baseline_*.err
+check_convnext_*.out
+check_convnext_*.err
+train_convnext_*.out
+train_convnext_*.err
+# Local datasets
+local_data/
+*.log

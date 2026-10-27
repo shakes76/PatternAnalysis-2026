@@ -1,0 +1,18 @@
+{
+  "model": "ConvNeXtTinyRGB",
+  "run": "local_rgb224_lr3e6_imagenet_20261026_201343_178908",
+  "checkpoint_epoch": 3,
+  "checkpoint_sha256": "6b89086579452034b671dff60844f8416829bce60a6fb9a6c23609a877425cd5",
+  "primary_threshold": 0.5,
+  "secondary_threshold": 0.21,
+  "secondary_rule": "Exploratory validation-grid accuracy maximum, fixed before test evaluation; supplementary only",
+  "selection_metric": "validation_loss",
+  "evaluation_unit": "slice",
+  "manifest_sha256": {
+    "train": "5bc7736e20df55185d1a0469d69f5fc329215235175378fd5747ad46dd69a96f",
+    "val": "0a9dff42f564228558cdb4a7cd5706bf15a48a9bebb2fdfcad1f863ff59f80b3",
+    "test": "837bde3a34eaac673ffc4a4331214051c159aed44a2e4e4a03cfbb8941189f11"
+  },
+  "baseline": "SimpleCNN epoch 9 from baseline_20261022_211305_056381; local checkpoint retrieval pending",
+  "policy": "Report both predefined thresholds regardless of test results. Do not retune model or thresholds using test outcomes."
+}

@@ -1,0 +1,7 @@
+# Observed local environment: Python 3.14.7, Windows, CUDA 12.8 wheels
+# Install torch/torchvision from the appropriate PyTorch CUDA wheel index.
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+numpy==2.5.2
+Pillow==12.3.0
+matplotlib==3.11.2

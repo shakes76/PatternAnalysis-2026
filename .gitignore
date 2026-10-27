@@ -1,0 +1,7 @@
+.idea/
+.venv/
+__pycache__/
+*.pyc
+# Local dataset at repository root
+/local_data/
+*.log
