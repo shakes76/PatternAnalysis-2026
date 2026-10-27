@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "experiment_id": "m015_existing_checkpoint_followup_v1",
+  "planned_at_utc": "2026-10-27T04:29:40.647205+00:00",
+  "authorization": "Human explicitly requested evaluation of the existing new models on M015, after A1 was completed. This is a new exploratory extension and does not rewrite A1.",
+  "test_informed_exploratory_acknowledged": true,
+  "appearance_protocol": "appearance_protocol.json",
+  "appearance_protocol_sha256": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "cache_identity_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+  "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+  "case_keys": [
+    "M015/Week0",
+    "M015/Week1",
+    "M015/Week2",
+    "M015/Week3",
+    "M015/Week4",
+    "M015/Week5",
+    "M015/Week6",
+    "M015/Week7"
+  ],
+  "models": {
+    "seed42_reference": {
+      "checkpoint": "artifacts/full_seed42/improved3d/best.pt",
+      "checkpoint_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62"
+    },
+    "gamma_only": {
+      "checkpoint": "artifacts/appearance_A1/gamma_only/best.pt",
+      "checkpoint_sha256": "293138ddcd31fa4c7c81167edaf6be04481415fdaf5d4d9eb307b09b8939fce6"
+    },
+    "gamma_polarity": {
+      "checkpoint": "artifacts/appearance_A1/gamma_polarity/best.pt",
+      "checkpoint_sha256": "b13ba58fe8837fb9522b6108412281c51210a3be486011d59f902347ade2a82b"
+    }
+  },
+  "inference": {
+    "split": "test",
+    "device": "cpu",
+    "amp": false,
+    "saved_arrays": false
+  },
+  "inference_policy": "Clean unchanged cached image, existing main-head hard argmax, identical CPU FP32 for all three checkpoints; no TTA, postprocessing or threshold.",
+  "comparison": "All eight visits and six classes retained; per-visit prostate Dice/IoU/TP/FP/FN and one-patient visit mean. No new aggregate six-patient TEST benchmark or population statistics.",
+  "precision_context": "Original formal v1 was CUDA AMP; re-run original v1 on the same CPU FP32 platform as both new models and quantify any historical precision difference rather than require bitwise equality.",
+  "compute": {
+    "partition": "cpu",
+    "cpus": 4,
+    "max_wall_minutes": 20,
+    "training": false,
+    "reason": "GPU five-minute test-only estimate18:16 AEST, CPU four-core estimate immediate14:28. No actual GPU job was submitted and no cloud instance opened."
+  },
+  "limits": [
+    "One previously examined patient, eight repeated visits; post-test-informed exploratory assessment, not independent confirmation.",
+    "Existing selected checkpoints only; do not select a new epoch, augment inputs or train/tune in this follow-up.",
+    "Original v1 TEST/A1 protocols, failure results, failed A1 clean-image guard and public Release stay unchanged.",
+    "Improvement on M015, if observed, neither establishes a unique cause nor removes previously measured clean-VAL harm."
+  ],
+  "required_file_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/cache_identity.py": "d1761ac39d4c3e9121a2217381545c7f5a0e08c82c9535134cb5c85617cc4e86",
+    "tools/diagnose_model_mechanism.py": "9b5cb92c85297388519daeb5665fcd7751a60f4c44f9d5ae17bea5566e8630a9",
+    "tools/diagnose_frozen_inference.py": "c8e086647a92516eaa7a0e1dcb6624cba0375ee1fffce6304fb130fd50cf8476",
+    "experiments/appearance.py": "b776ef949ec903c97cfa2b681c9c87cdce30c42bb3a9d8e1897b0281e34179a3",
+    "experiments/train_appearance.py": "55f2e2ad689979bf87a8e1c91b9c5c0bb76fe79210d848cca0583ba783c664a8",
+    "experiments/evaluate_appearance.py": "8fca64f6cc3ae0306bfda10d987b9733b099071fe45cd548fef3b855cbb07129",
+    "tests/test_appearance.py": "6de5cff1ea55830ce97a5bbd03b4605a3a4ac5d257037b661d87be3af0c7e5dd",
+    "tests/test_evaluate_appearance.py": "78ce1ad08d3b3da71d380030aaa275d7c86f8c8b0441041058a10fd10214d964",
+    "jobs/train_appearance_A1.slurm": "1dd692ff516fd7f5bd07572dec629c4b29101adecefb341ea1f99c06e41f7dc0",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+    "appearance_protocol.json": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+    "tools/evaluate_m015_followup.py": "7880f5d43c4d17810bc4db9702c2d95fcba06ba84572522d986cdd90d2fe05ab",
+    "tests/test_m015_followup.py": "e42320761f86037f06f47e513ce80c2611c0a2bcc1bf2fcd5c2d52c74124d26e",
+    "jobs/evaluate_m015_M1.slurm": "bb2122c351e037af0f29a1892849f7fbce62b459e080f06eecfc37dbf9439c55"
+  }
+}
