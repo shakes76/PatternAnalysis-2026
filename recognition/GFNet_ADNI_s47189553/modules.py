@@ -62,12 +62,15 @@ class GlobalFilter(nn.Module):
                 f"GlobalFilter built for {self.h}x{self.w} tokens, got {H}x{W}. "
                 f"Use the img_size the model was built with."
             )
-        dtype = x.dtype
-        x = x.float()        # cuFFT half precision only supports power-of-2 sizes
+        dtype, device = x.dtype, x.device
+        x = x.float()
+        if device.type == "mps":
+            x = x.cpu()      # Apple GPU lacks FFT / complex ops: run just this filter on CPU
+        weight = torch.view_as_complex(self.complex_weight.to(x.device))
         x = torch.fft.rfft2(x, dim=(1, 2), norm="ortho")
-        x = x * torch.view_as_complex(self.complex_weight)
+        x = x * weight
         x = torch.fft.irfft2(x, s=(H, W), dim=(1, 2), norm="ortho")
-        return x.to(dtype)
+        return x.to(device=device, dtype=dtype)
  
  
 class Mlp(nn.Module):
