@@ -1,6 +1,6 @@
 {
  "arch": "baseline",
- "tag": "baseline",
+ "tag": "baseline_flip",
  "best_epoch": 24,
  "best_val_acc": 0.8438709677419355,
  "params": 1173154,
@@ -23,7 +23,8 @@
   "test_frac": 0.2,
   "no_balance": false,
   "seed": 42,
-  "tag": null
+  "tag": "baseline_flip",
+  "hflip": 0.5
  },
  "test_slice": {
   "accuracy": 0.8445544554455445,

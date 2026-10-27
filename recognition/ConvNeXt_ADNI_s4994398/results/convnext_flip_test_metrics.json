@@ -1,6 +1,6 @@
 {
  "arch": "convnext",
- "tag": "convnext",
+ "tag": "convnext_flip",
  "best_epoch": 2,
  "best_val_acc": 0.8287096774193549,
  "params": 27818594,
@@ -23,7 +23,8 @@
   "test_frac": 0.2,
   "no_balance": false,
   "seed": 42,
-  "tag": null
+  "tag": "convnext_flip",
+  "hflip": 0.5
  },
  "test_slice": {
   "accuracy": 0.8605610561056105,
