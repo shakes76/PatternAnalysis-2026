@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "experiment_id": "appearance_recovery_v1",
+  "planned_at_utc": "2026-10-27T04:56:27.124635+00:00",
+  "status_at_plan": "A1 and M1 results are known. Neither recovery arm, its smoke nor its evaluation has run. GPU Lab allocation1884 is waiting at queue position1; no Rangpur GPU job submitted.",
+  "allowed_splits": [
+    "train",
+    "validation"
+  ],
+  "test_informed_design_acknowledged": true,
+  "appearance_protocol": "appearance_protocol.json",
+  "appearance_protocol_sha256": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+  "manifest": "artifacts/cache64/manifest.json",
+  "cache_identity": "artifacts/cache64/cache_identity.json",
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "cache_identity_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+  "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+  "warm_start": {
+    "checkpoint": "artifacts/appearance_A1/gamma_polarity/best.pt",
+    "checkpoint_sha256": "b13ba58fe8837fb9522b6108412281c51210a3be486011d59f902347ade2a82b"
+  },
+  "references": {
+    "seed42_reference": {
+      "checkpoint": "artifacts/full_seed42/improved3d/best.pt",
+      "checkpoint_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "selected_epoch": 29
+    },
+    "gamma_only": {
+      "checkpoint": "artifacts/appearance_A1/gamma_only/best.pt",
+      "checkpoint_sha256": "293138ddcd31fa4c7c81167edaf6be04481415fdaf5d4d9eb307b09b8939fce6",
+      "selected_epoch": 30
+    },
+    "gamma_polarity": {
+      "checkpoint": "artifacts/appearance_A1/gamma_polarity/best.pt",
+      "checkpoint_sha256": "b13ba58fe8837fb9522b6108412281c51210a3be486011d59f902347ade2a82b",
+      "selected_epoch": 29
+    }
+  },
+  "training_seed": 42,
+  "training_epochs_per_model": 8,
+  "training_conditions": {
+    "model": "improved3d",
+    "num_classes": 6,
+    "base_channels": 16,
+    "workers": 0,
+    "eval_batch_size": 32,
+    "batch_size": 1,
+    "lr": 0.0001,
+    "weight_decay": 0.0001,
+    "clip_grad": 5.0,
+    "amp": true,
+    "class_weighting": "sqrt_inverse_frequency",
+    "training_class_voxel_counts": [
+      89486887,
+      54027990,
+      5145467,
+      905964,
+      218323,
+      161737
+    ],
+    "resolved_class_weights": [
+      0.0997283011674881,
+      0.12834788858890533,
+      0.4158969521522522,
+      0.9911574721336365,
+      2.0190560817718506,
+      2.345813274383545
+    ],
+    "max_batches": null,
+    "development_only": false,
+    "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "audit_sha256": "5a55fba0eb6bc211ffdf0418fd7254b6a1f581f59dfc529b5a5e6b218c68ff96",
+    "label_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "target_shape_dhw": [
+      64,
+      128,
+      128
+    ],
+    "patient_splits": {
+      "train": [
+        "B006",
+        "B038",
+        "C032",
+        "D031",
+        "G021",
+        "H007",
+        "H017",
+        "J005",
+        "K019",
+        "K042",
+        "M004",
+        "M013",
+        "M023",
+        "M036",
+        "N010",
+        "O025",
+        "R016",
+        "R024",
+        "R039",
+        "S028",
+        "S033",
+        "S035",
+        "T009",
+        "T014",
+        "V027",
+        "W012"
+      ],
+      "validation": [
+        "B040",
+        "J026",
+        "K008",
+        "K018",
+        "M030",
+        "S022"
+      ],
+      "test": [
+        "B037",
+        "L011",
+        "M015",
+        "M020",
+        "W029",
+        "W041"
+      ]
+    },
+    "seed": 42
+  },
+  "models": {
+    "clean_adapt": {
+      "kind": "recovery_arm",
+      "polarity_probability": 0.0,
+      "checkpoint": "artifacts/recovery_R1/clean_adapt/best.pt"
+    },
+    "polarity_rehearsal": {
+      "kind": "recovery_arm",
+      "polarity_probability": 0.1,
+      "checkpoint": "artifacts/recovery_R1/polarity_rehearsal/best.pt"
+    }
+  },
+  "conditions": [
+    "clean",
+    "gamma_0.7",
+    "gamma_1.5",
+    "polarity",
+    "spatial_gain"
+  ],
+  "inference": {
+    "split": "validation",
+    "device": "cuda",
+    "amp": true,
+    "saved_arrays": false
+  },
+  "hypothesis": "Low-learning-rate adaptation of frozen B may recover clean accuracy; limited polarity rehearsal may retain learned polarity robustness compared with clean-only adaptation.",
+  "policy": "Same architecture/deep supervision/loss/class weights/grid/143 TRAIN/38 VAL/seed42 and original H-W flips plus gamma p.5 loguniform.7..1.5. Both load full B29 model weights, reset optimizer/scaler, lr1e-4 for eight full epochs. Only polarity threshold0 versus.10 differs between arms.",
+  "optimizer": "Fresh AdamW/scaler, never resume B optimizer. No scheduler, encoder freezing, extra loss, TTA, threshold, ensemble or new seed.",
+  "checkpoint_selection": "Original patient-balanced foreground Dice on all clean38 VAL after every epoch; maximal score, earlier epoch wins ties. No stress/M015 selection.",
+  "engineering_gate": {
+    "comparison_platform": "All five existing/new checkpoints evaluated on the same host/runtime; compare new selected checkpoints with same-platform references. Old A1 recorded values are historical, not overwritten.",
+    "new_clean_prostate_Dice_minus_seed42_reference_min": 0.0,
+    "new_clean_foreground_Dice_minus_seed42_reference_min": -0.005,
+    "new_polarity_prostate_Dice_minus_gamma_polarity_min": -0.02,
+    "all_three_required": true,
+    "val_only_candidate_choice": "Eligible arm with higher clean prostate Dice, then higher clean foreground Dice, then alphabetical arm name. If neither eligible, record no recommended candidate. Never pick using M015.",
+    "historical_reference_only": {
+      "v1_clean_prostate_Dice": 0.8332346073040963,
+      "v1_clean_foreground_Dice": 0.8748048615380072,
+      "B_polarity_prostate_Dice": 0.7881705202722116
+    }
+  },
+  "known_patient_retention_check": {
+    "timing": "Only after full training, independent VAL evaluation and VAL-only candidate choice have been frozen. Both selected arm checkpoints evaluated once on M015 Week0..7 using CPU FP32 matching M1.",
+    "mean_prostate_Dice_min": 0.6818369277754766,
+    "minimum_visit_prostate_Dice_min": 0.6,
+    "purpose": "Descriptive joint-target check on one previously examined patient, not independent TEST or a criterion for changing checkpoint/candidate/epochs/probability.",
+    "prohibited": "No other TEST patients, no repeat tuning to M015, no training/augmentation/postprocessing of M015 inputs. Keep original v1/A1/M1 unchanged."
+  },
+  "compute": {
+    "one_gpu_sequential": true,
+    "preferred": "School Virtual GPU Lab Tokyo g6e.xlarge / L40S, allocation1884 pending. If unavailable, original Rangpur A100 is fallback; choose exactly one execution owner before any formal run.",
+    "budget": "Two isolated five-TRAIN-batch/two-VAL smoke runs, then exactly two eight-epoch full runs and all5models\u00d75conditions\u00d738VAL. No extra arms/epochs/search after scores.",
+    "expected_training_platform": "Actual measured GPU/software recorded in run receipts; both arms and new evaluation must match exactly. Reference reevaluation controls inference-platform differences; training warm-start still originates on A100.",
+    "cache_transfer": "183 regular files,143 TRAIN+38VAL NPZ plus full manifest/identity; no TEST cache arrays. Prepared archive SHA01fe6ab63526c1e8d816486f17f6c34698bf793c7a52e8dae8b48ca9b3d59f51."
+  },
+  "limits": [
+    "M015 influenced this follow-up design; it is a known exploratory case, not an untouched benchmark. VAL patients also repeatedly reused for selection and analysis.",
+    "One warm-start parent and one paired recovery seed. CUDA kernels remain warn-only nondeterministic; not bitwise isolated causal evidence.",
+    "Preserve all arms/epochs/patients/conditions and negative outcomes. Strict gates will not be relaxed after results. No guarantee of joint improvement or full marks.",
+    "Original core11/v1 scores/A1 failed gate/M1 scope/public release remain unchanged. New outputs/weights stay ignored; no new release."
+  ],
+  "required_file_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/cache_identity.py": "d1761ac39d4c3e9121a2217381545c7f5a0e08c82c9535134cb5c85617cc4e86",
+    "tools/diagnose_model_mechanism.py": "9b5cb92c85297388519daeb5665fcd7751a60f4c44f9d5ae17bea5566e8630a9",
+    "tools/diagnose_frozen_inference.py": "c8e086647a92516eaa7a0e1dcb6624cba0375ee1fffce6304fb130fd50cf8476",
+    "experiments/appearance.py": "b776ef949ec903c97cfa2b681c9c87cdce30c42bb3a9d8e1897b0281e34179a3",
+    "experiments/train_appearance.py": "55f2e2ad689979bf87a8e1c91b9c5c0bb76fe79210d848cca0583ba783c664a8",
+    "experiments/evaluate_appearance.py": "8fca64f6cc3ae0306bfda10d987b9733b099071fe45cd548fef3b855cbb07129",
+    "tests/test_appearance.py": "6de5cff1ea55830ce97a5bbd03b4605a3a4ac5d257037b661d87be3af0c7e5dd",
+    "tests/test_evaluate_appearance.py": "78ce1ad08d3b3da71d380030aaa275d7c86f8c8b0441041058a10fd10214d964",
+    "jobs/train_appearance_A1.slurm": "1dd692ff516fd7f5bd07572dec629c4b29101adecefb341ea1f99c06e41f7dc0",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+    "appearance_protocol.json": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+    "experiments/recovery.py": "f0f99e824ae0a0a3bcf134eb5d4e18942e7d365aba6a68cc27775450e4a14458",
+    "experiments/train_recovery.py": "cd60815cca2f98555194739f24c770f282c9bf971a8cff85814ed1f1cb6f84db",
+    "experiments/evaluate_recovery.py": "81c41dfa6d6dee62085db232f3d9acff417ca09bf23991d50b7e150a7f3df305",
+    "tests/test_recovery.py": "bd807e5c6cf0b110d2ec30670e05b6d916b9e5aaf17b7ce3728f9f2024d62b10",
+    "tests/test_evaluate_recovery.py": "24b56b14243d73fb1bb8da59d6318bd2e2b1d134484ecf0481eba1303bf17d5c",
+    "jobs/train_recovery_R1.slurm": "c9dfa296ec7a93460d5709331fb4e30eb50c35bad0bebc8825fc19af3fe4b4d3",
+    "jobs/train_recovery_R1_cloud.sh": "eafde6402cbe2149d2cad49fdc50a810891eb1c19e0f8d6c491ff70b989be24c"
+  }
+}
