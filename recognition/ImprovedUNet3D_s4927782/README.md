@@ -25,6 +25,11 @@ A seeded patient split (3710) assigns **26/6/6 patients** and **143/38/30 scans*
 to training/validation/test. All visits, slices and augmentations of a patient
 stay in that partition. Equal patient weighting prevents an eight-visit patient
 from counting eight times as much as a one-visit patient.
+The fixed 70/15/15 patient-level allocation keeps most patients for learning
+while reserving separate patients for checkpoint selection and final evaluation.
+Rounding 38 unique patients gives 26/6/6; it is not a scan-level random split.
+The resulting six-patient VAL and TEST groups are small, so the report retains
+patient rows and uncertainty rather than treating repeated scans as new people.
 
 | Class index / raw ID | Official label |
 |---|---|
@@ -61,7 +66,7 @@ observations and planned criteria. Its statement that test accuracy was
 unmeasured applies to that earlier stage. The completed outcomes follow it.
 
 <!-- FEASIBILITY_REVIEW_START -->
-**Student:** s4927782 · **Check-off:** Wednesday, 28 October 2026 · **Difficulty:** Hard
+**Student:** s4927782 · **Planned check-off:** Wednesday, 28 October 2026 · **Difficulty:** Hard
 
 ### User need and scope
 
@@ -126,6 +131,12 @@ forward computes all heads. Relative to Isensee et al. [2], max pooling,
 GroupNorm instead of InstanceNorm, no dropout and independently weighted
 auxiliary losses are explicit adaptations, not an exact paper reproduction.
 
+Masks are stored and loaded as integer class IDs 0-5, as required by categorical
+cross-entropy. For soft Dice, `_categorical_head_loss` converts the resized
+labels to six-channel one-hot tensors with PyTorch `F.one_hot`. This retains
+all six class channels even when an organ is absent from a slice; stored masks
+are not independently thresholded binary targets.
+
 Every head predicts six mutually exclusive classes. The objective is weighted
 categorical cross-entropy plus soft multiclass Dice averaged over all classes,
 including background. The 3D main/half/quarter losses have weights 1/0.5/0.25,
@@ -145,7 +156,10 @@ unaugmented volume cache capped at 2 GiB to avoid repeated decompression.
 
 The fixed budget is **30 total epochs per model**, including the first two
 pilot epochs; each epoch covers the same 143 training volumes. Equal epochs
-are not equal optimizer updates or compute. Checkpoints are selected by the
+are not equal optimizer updates or compute. The comparison concerns two complete
+pipelines: dimensionality, residual units, normalization, decoding and auxiliary
+supervision differ together. It does not isolate a causal effect of 3D context.
+Checkpoints are selected by the
 highest patient-balanced whole-volume **foreground validation Dice**, with
 an earlier epoch winning a tie. Test data never select a checkpoint.
 
@@ -326,6 +340,9 @@ HD95 worsens from 9.36 to 12.11 mm. The large cyan target remainder shows that
 reducing spurious labels alone is insufficient. W029 improves on average
 across visits, so this case also exposes within-patient variability.
 [Full-depth context](figures/failure_full_02.png).
+The existing superior-third rows (GT depths 38-40; displayed D=39) show Dice
+0.0000 for 2D and 0.2230 for 3D, with 158 prostate voxels still missed by 3D.
+A local end-region gain therefore coexists with worse whole-case omission.
 
 ### 3. B037 Week0: helpful 3D context with a substantial residual error
 
@@ -337,6 +354,10 @@ The 2D mask misses 1,831 target voxels, including 1,259 classified as Bladder;
 with visible fragmented contour and cyan residual target. 3D FP rises from
 164 to 258 voxels, a recall/precision trade-off rather than a uniformly better
 boundary. [Full-depth context](figures/failure_full_03.png).
+In the existing superior-third rows (GT depths 34-39; displayed D=37), Dice
+increases from 0.0843 to 0.5261, but 354 GT voxels remain missed by 3D.
+This locates a measurable, incomplete end-region gain rather than a resolved
+anatomical base contour.
 
 ### 4. L011 Week4: extra slices despite better recall
 
@@ -348,6 +369,9 @@ extent versus zero for 2D. The displayed plane has no GT prostate, yet 3D
 adds a green island and red FP. HD95 worsens **4.75 to 6.24 mm**. A smoother
 volumetric model can still extend a contour through the wrong slices.
 [Full-depth context](figures/failure_full_04.png).
+The displayed D=30 plane lies inferior to the GT depth extent [31,41], making
+this an explicit extra-slice error. These GT-depth regions approximate ends;
+they are not independently annotated anatomical apex/base landmarks.
 
 ### 5. M020 Week2: small boundary trade-offs persist
 
@@ -393,11 +417,30 @@ examined. These are proposed experiments, not claimed improvements.
 
 The v1 test comparison has one training seed, six test patients, uneven visit counts,
 a fixed 30-epoch budget, no architecture ablation, possible annotation error
-and information lost in downsampling. Patient weighting addresses repeated
+and information lost in downsampling. Class-confusion counts and coarse-grid
+HD95 do not measure prostate-to-bladder/rectal-wall contact distances. No
+organ-interface distance assay or independently annotated anatomical endpoint
+study was performed, so local clinical boundary utility remains only partly
+resolved. Patient weighting addresses repeated
 visits but does not establish representativeness or eliminate acquisition
 bias. Measured latency is cached-grid inference, not end-to-end clinical time.
 
 ## Reproduce the supplied results
+
+### Required files and entry points
+
+| File | Implemented role |
+|---|---|
+| [modules.py](modules.py) | PyTorch `UNet2D`, residual `ImprovedUNet3D`, categorical/deep-supervision loss; no NumPy model operations. |
+| [dataset.py](dataset.py) | Manifest/split validation, volume/slice loaders, aligned training flips and cached normalization inputs. |
+| [train.py](train.py) | TRAIN updates, clean VAL evaluation, curves and checkpoint saving/resume. |
+| [predict.py](predict.py) | Reload selected weights, guarded final-TEST inference, printed metrics and overlays; imports the model and dataset. |
+| [README.md](README.md) | Report, one-page feasibility snapshot, experiments and reproduction instructions. |
+
+Final testing is deliberately invoked through `predict.py` with shared
+`utils.evaluate_volumes`; it is not interleaved with `train.py` model selection.
+The frozen TEST commands below show this complete path. Additional `tools/`,
+`tests/` and `jobs/` contain analysis, validation and cluster entry points.
 
 ### Environment and checks
 
@@ -528,7 +571,15 @@ done
 
 Resume interrupted training with `--resume artifacts/new_run/<model>/latest.pt`
 and the same settings/output directory; `--epochs` is the new total, not an
-increment. Resume restores optimizer, scaler and RNG state. Partial smoke runs
+increment. Resume restores optimizer, scaler and RNG state. Each checkpoint
+write uses an atomic rename, but `latest.pt` and `best.pt` are separate writes,
+not one transaction. A crash after a newly best `latest.pt` is saved but before
+`best.pt` is updated can leave the latter stale; resume does not automatically
+repair that pair. After an abnormal interruption, verify the best checkpoint's
+epoch and reloaded VAL result against the selected history before evaluation.
+The completed v1 runs passed that independent check; this limitation was not
+observed to affect their published weights or scores. No universal crash-recovery
+guarantee is claimed. Partial smoke runs
 are marked development-only and cannot be used for formal test evaluation.
 Never have two jobs write one run directory. For the original pilot/continuation,
 `jobs/train_pilot.slurm` ran two epochs then `jobs/train_pair.slurm 30` resumed
@@ -567,6 +618,11 @@ PDF of this README for Turnitin, with the complete one-page feasibility review
 included. Planned tutor check-off is **28 October 2026**; the final LMS date
 must be verified. Teaching-team code review and responses occur in the later
 official window; initial submission does not complete that future requirement.
+The one-page review above is a retained pre-final-experiment snapshot, not a
+record of tutor approval. The planned 28 October consultation has not been
+verified as completed; the published midpoint and final deadlines must be
+checked in the course profile/LMS. A completed tutor record and a Turnitin
+submission receipt are separate from the existence of these files.
 
 ## Appendix: post-test exploratory development
 

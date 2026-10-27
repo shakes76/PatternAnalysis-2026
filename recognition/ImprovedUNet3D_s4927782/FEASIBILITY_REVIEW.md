@@ -1,6 +1,6 @@
 # Feasibility Review: HipMRI 3D Improved U-Net
 
-**Student:** s4927782 · **Check-off:** Wednesday, 28 October 2026 · **Difficulty:** Hard
+**Student:** s4927782 · **Planned check-off:** Wednesday, 28 October 2026 · **Difficulty:** Hard
 
 ## User need and scope
 
