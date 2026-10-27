@@ -1,9 +1,8 @@
-"""Zero-shot prediction and held-out baseline evaluation."""
+"""Inference, validation evaluation, and matched model comparisons."""
 
 import argparse
 import json
 import platform
-import random
 import re
 import time
 from importlib.metadata import version
@@ -12,12 +11,13 @@ from pathlib import Path
 import torch
 from rouge_score import rouge_scorer
 
-from dataset import PROJECT_DIR, load_reports, make_prompt
+from dataset import PROJECT_DIR, load_reports, make_prompt, sample_indices
 from modules import MODEL_ID, count_params, load_baseline, load_lora
 
 
 @torch.inference_mode()
 def predict(report, tokenizer, model, max_input_length=512, max_new_tokens=256):
+    model.eval()
     inputs = tokenizer(make_prompt(report), return_tensors="pt",
                        truncation=True, max_length=max_input_length).to(model.device)
     output = model.generate(**inputs, max_new_tokens=max_new_tokens,
@@ -34,11 +34,13 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
         raise ValueError("limit must be positive or None")
     if not 3 <= safety_cases <= 5:
         raise ValueError("Select 3-5 safety cases")
+    output_dir = Path(output_dir)
+    if any((output_dir / f"{name}.json").exists() for name in
+           ("metrics", "predictions", "safety_cases")):
+        raise ValueError("Choose a new evaluation output directory")
     reports = load_reports() if reports is None else reports
     validation = reports["validation"]
-    indices = list(range(len(validation)))
-    if limit is not None:
-        indices = sorted(random.Random(seed).sample(indices, min(limit, len(indices))))
+    indices = sample_indices(len(validation), limit, seed)
     if not indices:
         raise ValueError("Validation split is empty")
     model.eval()
@@ -47,7 +49,9 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
     )
     scores = {metric: 0.0 for metric in scorer.rouge_types}
     predictions = []
-    generation_seconds, generated_tokens, truncated_inputs = 0.0, 0, 0
+    generation_seconds, generated_tokens, truncated_inputs, capped_outputs = 0.0, 0, 0, 0
+    if len(reports["test"]) < safety_cases:
+        raise ValueError("Test split has fewer rows than requested safety cases")
     gpu = model.device.type == "cuda"
     predict(validation[indices[0]]["radiology_report"], tokenizer, model,
             max_input_length, max_new_tokens)
@@ -71,6 +75,7 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
             torch.cuda.synchronize(model.device)
         generation_seconds += time.perf_counter() - start
         tokens = output[0, 1:]
+        capped_outputs += len(tokens) >= max_new_tokens and tokenizer.eos_token_id not in tokens.tolist()
         generated_tokens += int(((tokens != tokenizer.pad_token_id) &
                                  (tokens != tokenizer.eos_token_id)).sum().item())
         summary = tokenizer.decode(output[0], skip_special_tokens=True)
@@ -87,9 +92,7 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
         print(f"Validation {number}/{len(indices)}", flush=True)
 
     peak_vram = torch.cuda.max_memory_allocated(model.device) / 2**20 if gpu else None
-    test_indices = sorted(random.Random(seed).sample(
-        range(len(reports["test"])), safety_cases
-    ))
+    test_indices = sample_indices(len(reports["test"]), safety_cases, seed)
     cases = []
     for index in test_indices:
         row = reports["test"][index]
@@ -114,6 +117,7 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
         "throughput_scope": "generation only; batch size 1; excludes warmup and safety cases",
         "max_input_length": max_input_length, "max_new_tokens": max_new_tokens,
         "truncated_inputs": truncated_inputs, "decoding": "greedy",
+        "outputs_reaching_token_limit_without_eos": capped_outputs,
         "training_seconds": 0, "training_gpu_resources": "none; zero-shot baseline",
         "device": str(model.device),
         "hardware": torch.cuda.get_device_name(model.device) if gpu else platform.processor(),
@@ -124,9 +128,11 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
         "clinical_safety": "Test cases require qualitative human review; ROUGE is not a safety score",
     }
     if training_info is not None:
-        metrics.update(training_info)
+        # Keep training metadata separate: it must not overwrite generation timers/settings.
+        metrics["training"] = training_info
+        metrics["training_seconds"] = training_info.get("training_seconds")
+        metrics["training_gpu_resources"] = training_info.get("training_gpu_resources", "see training metadata")
         metrics["packages"]["peft"] = version("peft")
-    output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     for name, value in (("metrics", metrics), ("predictions", predictions),
                         ("safety_cases", cases)):
@@ -139,8 +145,9 @@ def evaluate_baseline(tokenizer, model, reports=None, limit=None, seed=42,
 def compare_runs(run_dirs, output_dir):
     """Match validation and safety examples across all runs."""
     output_dir = Path(output_dir)
-    runs = {(str(Path(path).relative_to(output_dir)) if Path(path).is_relative_to(output_dir)
-             else Path(path).name): {
+    if not run_dirs:
+        raise ValueError("Select at least one evaluation directory")
+    runs = {str(Path(path).resolve()): {
         name: json.loads((Path(path) / f"{name}.json").read_text(encoding="utf-8"))
         for name in ("metrics", "predictions", "safety_cases")
     } for path in run_dirs}
@@ -173,9 +180,9 @@ def compare_runs(run_dirs, output_dir):
     (output_dir / "comparison.json").write_text(
         json.dumps(comparison, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    lines = ["# LoRA pilot comparison", "",
+    lines = ["# Matched model comparison", "",
              f"Validation sample: {baseline['metrics']['evaluated_reports']} reports; "
-             f"seed {baseline['metrics']['seed']}. Small pilot, not final model selection.", "",
+             f"seed {baseline['metrics']['seed']}. Validation estimates, not clinical safety scores.", "",
              "| Run | ROUGE-1 | ROUGE-2 | ROUGE-L | ROUGE-Lsum | Train seconds | Tokens/sec |",
              "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
     for name, run in runs.items():
@@ -197,6 +204,7 @@ def compare_runs(run_dirs, output_dir):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--report", help="Predict one report instead of evaluating")
+    parser.add_argument("--compare", type=Path, nargs="+", help="Compare saved evaluation directories without loading a model")
     parser.add_argument("--adapter", type=Path, help="Saved LoRA adapter directory")
     parser.add_argument("--checkpoint", type=Path, help="Full fine-tuned model directory")
     parser.add_argument("--limit", type=int, help="Seeded validation sample; omit for full split")
@@ -205,7 +213,13 @@ if __name__ == "__main__":
     parser.add_argument("--max-new-tokens", type=int, default=256)
     parser.add_argument("--output-dir", type=Path, default=PROJECT_DIR / "outputs" / "baseline")
     args = parser.parse_args()
+    if args.threads < 1 or args.max_new_tokens < 1:
+        parser.error("threads and max-new-tokens must be positive")
     torch.set_num_threads(args.threads)
+    if args.compare:
+        compare_runs(args.compare, args.output_dir)
+        print(f"Wrote comparison to {args.output_dir}")
+        raise SystemExit(0)
     if args.adapter and args.checkpoint:
         parser.error("Choose either --adapter or --checkpoint")
     tokenizer, model = (load_lora(adapter_path=args.adapter) if args.adapter
@@ -220,5 +234,4 @@ if __name__ == "__main__":
         metrics = evaluate_baseline(tokenizer, model, limit=args.limit, seed=args.seed,
                                     max_new_tokens=args.max_new_tokens,
                                     output_dir=args.output_dir, training_info=training_info)
-        print(json.dumps({key: value for key, value in metrics.items()
-                          if key != "trainable_layers"}, indent=2))
+        print(json.dumps(metrics, indent=2))

@@ -1,6 +1,7 @@
 """Local reports, task prompts, and seq2seq tokenisation."""
 
 from pathlib import Path
+import random
 import warnings
 
 import pyarrow.parquet as pq
@@ -8,6 +9,17 @@ from datasets import Dataset, DatasetDict
 
 PROJECT_DIR = Path(__file__).resolve().parent
 DATA_DIR = PROJECT_DIR / "data" / "BioLaySumm2025-LaymanRRG-opensource-track"
+DATASET_ID = "BioLaySumm/BioLaySumm2025-LaymanRRG-opensource-track"
+DATASET_REVISION = "6783ab38f9de28c4372799346f51d3927ae7eb9a"
+
+
+def sample_indices(size, limit=None, seed=42):
+    """Stable sorted sample; None means the complete split."""
+    if limit is not None and limit < 1:
+        raise ValueError("limit must be positive or None")
+    indices = list(range(size))
+    return indices if limit is None else sorted(
+        random.Random(seed).sample(indices, min(limit, size)))
 
 
 def load_reports(data_dir=DATA_DIR):
@@ -88,3 +100,16 @@ def get_tokenized_splits(tokenizer, reports=None, max_input_length=512,
         split: data.map(tokenize, batched=True, remove_columns=data.column_names)
         for split, data in reports.items()
     })
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Download the pinned dataset snapshot")
+    parser.add_argument("--download", action="store_true")
+    args = parser.parse_args()
+    if args.download:
+        from huggingface_hub import snapshot_download
+        snapshot_download(DATASET_ID, repo_type="dataset", revision=DATASET_REVISION,
+                          local_dir=str(DATA_DIR), allow_patterns=["data/*.parquet"])
+    else:
+        parser.print_help()
