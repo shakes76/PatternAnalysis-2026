@@ -3,28 +3,21 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from common.utils import LogMinMaxScaler
+from common.scalers import DualScaler
+from common.constants import TICKERS
+from common.constants import DEPTH
+from common.constants import LEVELS
+from common.constants import PX_TICK
 
-TICKERS: list[str] = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]
+# Define paths
 BOOK_PATH = "data/{ticker}_2012-06-21_34200000_57600000_orderbook_10.csv"
 MSG_PATH = "data/{ticker}_2012-06-21_34200000_57600000_message_10.csv"
 
-# Message file
+# Define columns
 MSG_COLS = ["time", "event_type", "order_id", "size", "price", "direction"]
-
-# Orderbook file
-DEPTH = 10
-LEVELS = range(1, DEPTH + 1)
 BOOK_COLS = [f"{s}_{k}_{l}" for l in LEVELS for s in ("ask", "bid") for k in ("px", "sz")]
-ASK_COLS = [f"ask_{k}_{l}" for l in LEVELS for k in ("px", "sz")]
-BID_COLS = [f"bid_{k}_{l}" for l in LEVELS for k in ("px", "sz")]
 PX_COLS = [f"{s}_px_{l}" for l in LEVELS for s in ("ask", "bid")]
 SZ_COLS = [f"{s}_sz_{l}" for l in LEVELS for s in ("ask", "bid")]
-ASK_PX_COLS = [f"ask_px_{l}" for l in LEVELS]
-ASK_SZ_COLS = [f"ask_sz_{l}" for l in LEVELS]
-BID_PX_COLS = [f"bid_px_{l}" for l in LEVELS]
-BID_SZ_COLS = [f"bid_sz_{l}" for l in LEVELS]
-PX_TICK = 100
 
 # --- Model features ---
 FEATURE_COLS = (
@@ -33,6 +26,7 @@ FEATURE_COLS = (
     + SZ_COLS
 )
 FLAG_GROUPS = [[i] for i in range(len(FEATURE_COLS))]
+SZ_IDX = [FEATURE_COLS.index(c) for c in SZ_COLS]   # volume features, quantile-scaled
 
 
 def load_books(tickers: list[str], resample_freq: str | None = None) -> pd.DataFrame:
@@ -79,7 +73,7 @@ def split_books(
 
 def encode(
         books: pd.DataFrame,
-        scaler: LogMinMaxScaler,
+        scaler: DualScaler,
         window_length: int,
         stride: int = 1,
         fit: bool = False,
@@ -120,10 +114,15 @@ def encode(
 def decode(
         windows: np.ndarray,
         refs: np.ndarray,
-        scaler: LogMinMaxScaler,
+        scaler: DualScaler,
         rng: np.random.Generator,
-) -> pd.DataFrame:
-    n, seq_len = windows.shape[:2]
+) -> dict[str, np.ndarray]:
+    """Turn model-space windows back into order books.
+
+    Returns {"ask_px", "ask_sz", "bid_px", "bid_sz"}, each an int64 array of
+    shape (window, step, level) with level 0 the best level.
+    """
+    seq_len = windows.shape[1]
     n_feat = len(FEATURE_COLS)
 
     # Unscale
@@ -153,6 +152,9 @@ def decode(
     for c in SZ_COLS:
         books[c] = f[c]
 
-    index = pd.MultiIndex.from_product([range(n), range(seq_len)], names=["window", "step"])
-    values = np.stack([books[c] for c in BOOK_COLS], axis=-1).reshape(n * seq_len, -1)
-    return pd.DataFrame(values, columns=BOOK_COLS, index=index).round().astype("int64")
+    # Group levels by side and kind, rounded to whole ticks and shares
+    return {
+        f"{side}_{kind}": np.rint(np.stack([books[f"{side}_{kind}_{l}"] for l in LEVELS], axis=-1))
+                          .astype("int64")
+        for side in ("ask", "bid") for kind in ("px", "sz")
+    }
