@@ -508,20 +508,23 @@ separates relocation from frozen scientific sources. Use fresh outputs rather
 than weakening SHA checks or overwriting old runs. No new training or real-data
 inference was performed while integrating this report.
 
-The original [v1 Release](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/tag/demo3-hipmri-seed42-v1)
-assets remain unchanged. Its 24,772,853-byte `demo3_hipmri_seed42.zip` contains selected
+The original seed-42 assets in the [shared Release](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/tag/demo3-hipmri-seed42-v1)
+remain unchanged. Its 24,772,853-byte `demo3_hipmri_seed42.zip` contains selected
 2D/3D checkpoints, manifest, identity book, histories and scalar metadata, with
 no raw MRI/masks/prediction arrays. ZIP SHA-256:
 `2b2904d92afc73fb93ebb129ffea01161379cee3bcb4e256a7bb7347516d3365`.
 The revised selected checkpoint is epoch30, SHA-256
 `852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf`;
-the separately supplied local archive is `demo3_hipmri_hard_seed3711_v2.zip`
-(18,221,187 bytes), ZIP SHA-256:
+the public [18.22 MB Hard weight archive](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/download/demo3-hipmri-seed42-v1/demo3_hipmri_hard_seed3711_v2.zip)
+is `demo3_hipmri_hard_seed3711_v2.zip` (18,221,187 bytes), ZIP SHA-256:
 `2c424dc514dd28837adfb40d9799b8a103d84576eba9f76e538320bd6b0ba101`.
-Extract it in this project directory, so the weight is placed under
-`artifacts/hard_followup/improved3d/best.pt`. No public download URL for this
-new archive is claimed at this stage; its data prerequisites are in the
-revised package guide. Weights and image arrays are never committed to Git.
+Its [anonymous metadata](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/download/demo3-hipmri-seed42-v1/demo3_hipmri_hard_seed3711_v2.metadata.json)
+records the selected weight, protocols and retrospective evaluation status.
+Check the ZIP digest, then extract it in this project directory, so the weight
+is placed under `artifacts/hard_followup/improved3d/best.pt`. This is an
+additional Release asset; the old seed-42 archive is not overwritten. Obtain
+MRI data separately as described in the revised package guide. Weights and
+image arrays are never committed to Git.
 
 For full original commands, exact cache reconstruction and provenance, see
 [the retained v1 reproduction section](README_V1_HISTORY.md#reproduce-the-supplied-results).

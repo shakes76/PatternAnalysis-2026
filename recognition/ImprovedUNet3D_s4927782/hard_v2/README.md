@@ -84,12 +84,34 @@ assets and extraction instructions. The new selected weight belongs at
 852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf
 ```
 
-The new weight is supplied separately in the local submission archive
-`demo3_hipmri_hard_seed3711_v2.zip` (18,221,187 bytes), SHA256
+The new selected weight is available as an additional asset in the existing
+release: [Hard seed3711 v2 weight archive](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/download/demo3-hipmri-seed42-v1/demo3_hipmri_hard_seed3711_v2.zip)
+and [its metadata](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/download/demo3-hipmri-seed42-v1/demo3_hipmri_hard_seed3711_v2.metadata.json).
+The archive has **18,221,187 bytes** and SHA256
 `2c424dc514dd28837adfb40d9799b8a103d84576eba9f76e538320bd6b0ba101`.
-Extract that archive in the **parent project directory**, alongside `modules.py`.
-No public URL for this new archive is claimed here. The public code/evidence
-package itself deliberately excludes the weight.
+The original v1 release assets remain unchanged. The public Git package itself
+deliberately excludes all model weights.
+
+Run the following in the **parent project directory**, alongside `modules.py`,
+not inside `hard_v2/`. Verify the archive before extracting it; `unzip -n` avoids
+overwriting any existing output.
+
+```bash
+mkdir -p artifacts/releases
+curl --fail --location \
+  https://github.com/Jack-hithub/PatternAnalysis-2026/releases/download/demo3-hipmri-seed42-v1/demo3_hipmri_hard_seed3711_v2.zip \
+  --output artifacts/releases/demo3_hipmri_hard_seed3711_v2.zip
+python - <<'PY'
+from pathlib import Path
+import hashlib
+import subprocess
+p = Path('artifacts/releases/demo3_hipmri_hard_seed3711_v2.zip')
+assert p.stat().st_size == 18221187, 'Archive size mismatch'
+assert hashlib.sha256(p.read_bytes()).hexdigest() == '2c424dc514dd28837adfb40d9799b8a103d84576eba9f76e538320bd6b0ba101', 'Archive SHA256 mismatch'
+print('Archive verified; extracting into the parent project.')
+subprocess.run(['unzip', '-n', str(p), '-d', '.'], check=True)
+PY
+```
 
 The original release must also populate the original 2D/3D weights and cache64
 manifest/cache-identity metadata under the parent `artifacts/` directory. The
