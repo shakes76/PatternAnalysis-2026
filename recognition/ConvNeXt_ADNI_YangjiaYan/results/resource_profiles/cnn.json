@@ -1,0 +1,29 @@
+{
+  "batch_size": 1,
+  "input_shape": [
+    1,
+    3,
+    224,
+    224
+  ],
+  "precision": "float32",
+  "warmup_iterations": 20,
+  "timed_iterations": 100,
+  "timing_scope": "GPU forward and softmax; excludes image IO and transfer",
+  "latency_mean_ms": 0.6589299196004867,
+  "latency_median_ms": 0.6657440066337585,
+  "latency_p95_ms": 0.6798240184783936,
+  "peak_allocated_mib": 22.5703125,
+  "peak_reserved_mib": 44.0,
+  "memory_scope": "Inference only; allocated memory includes model, input and temporary tensors. Reserved memory includes allocator cache.",
+  "model": "cnn",
+  "parameters": 422530,
+  "trainable_parameters": 422530,
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "pytorch": "2.14.0+cu130",
+  "cuda_build": "13.0",
+  "cudnn_version": 92400,
+  "benchmark_input_split": "val",
+  "tf32_enabled": false,
+  "cudnn_benchmark": false
+}

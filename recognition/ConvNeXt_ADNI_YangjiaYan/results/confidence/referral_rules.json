@@ -1,0 +1,78 @@
+{
+  "cnn": {
+    "selection_split": "val",
+    "classification_threshold": 0.5,
+    "confidence_definition": "max(P(AD), 1-P(AD))",
+    "candidate_thresholds": "0.50 to 1.00 inclusive, step 0.01",
+    "max_validation_retained_error_rate": 0.05,
+    "minimum_validation_retained_patients": 20,
+    "selected_confidence_threshold": 0.77,
+    "fallback": "Refer all patients if no candidate meets the criteria",
+    "val": {
+      "n": 102,
+      "retained": 62,
+      "referred": 40,
+      "coverage": 0.6078431372549019,
+      "retained_errors": 3,
+      "retained_accuracy": 0.9516129032258065,
+      "errors_referred": 17,
+      "all_errors": 20,
+      "retained_false_negatives": 0,
+      "retained_false_positives": 3,
+      "ad_patients_referred": 19,
+      "nc_patients_referred": 21
+    },
+    "test": {
+      "n": 102,
+      "retained": 53,
+      "referred": 49,
+      "coverage": 0.5196078431372549,
+      "retained_errors": 2,
+      "retained_accuracy": 0.9622641509433962,
+      "errors_referred": 20,
+      "all_errors": 22,
+      "retained_false_negatives": 1,
+      "retained_false_positives": 1,
+      "ad_patients_referred": 22,
+      "nc_patients_referred": 27
+    }
+  },
+  "convnext": {
+    "selection_split": "val",
+    "classification_threshold": 0.5,
+    "confidence_definition": "max(P(AD), 1-P(AD))",
+    "candidate_thresholds": "0.50 to 1.00 inclusive, step 0.01",
+    "max_validation_retained_error_rate": 0.05,
+    "minimum_validation_retained_patients": 20,
+    "selected_confidence_threshold": 0.8200000000000001,
+    "fallback": "Refer all patients if no candidate meets the criteria",
+    "val": {
+      "n": 102,
+      "retained": 74,
+      "referred": 28,
+      "coverage": 0.7254901960784313,
+      "retained_errors": 3,
+      "retained_accuracy": 0.9594594594594594,
+      "errors_referred": 6,
+      "all_errors": 9,
+      "retained_false_negatives": 1,
+      "retained_false_positives": 2,
+      "ad_patients_referred": 10,
+      "nc_patients_referred": 18
+    },
+    "test": {
+      "n": 102,
+      "retained": 80,
+      "referred": 22,
+      "coverage": 0.7843137254901961,
+      "retained_errors": 6,
+      "retained_accuracy": 0.925,
+      "errors_referred": 7,
+      "all_errors": 13,
+      "retained_false_negatives": 4,
+      "retained_false_positives": 2,
+      "ad_patients_referred": 8,
+      "nc_patients_referred": 14
+    }
+  }
+}
