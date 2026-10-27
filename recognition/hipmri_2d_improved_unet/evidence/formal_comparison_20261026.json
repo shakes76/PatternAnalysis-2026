@@ -1,0 +1,565 @@
+{
+  "analysis_kind": "verified_fixed_budget_train_validation_comparison",
+  "performed_by": "Codex automation; not user-performed verification",
+  "created_at": "2026-10-26T10:48:22.352648+10:00",
+  "status": "passed_verification",
+  "formal_plan_sha256": "d948605555a4fa2aefdecf6b23faaa61c370b48f60a515dfe5a2df5111d3d2be",
+  "formal_source_revision": "7a8ffc221986e98f664990c1b441684ed4475d1c",
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "train.py": "5df23101675bc6939145de463d503d56d198dcb5b0b1a0a63b8dfcfa47a632db",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "resource_monitor.py": "4d0e148c1430f604fb7c2230e1b98a22ec5a4ba92c277918f81e1de0e7ea133a",
+    "profile_inference.py": "fdf512f895e72c0f7dd221d13f2a19fe6e0b5d5644b729e72cad5097b9df440c",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c"
+  },
+  "analysis_script_sha256": "dda99862c958dc0c65ce3edbf951b0037be40609f24d8d8216040af4297405e1",
+  "budget": {
+    "complete_epochs_per_model": 20,
+    "optimizer_updates_per_model": 57300
+  },
+  "data": {
+    "training": {
+      "pairs": 11460,
+      "case_proxy_groups": 31,
+      "manifest_sha256": "fec960cc7d97e0dd597464a024a643a1c454709e754406e01e85e50d10be2b80"
+    },
+    "validation": {
+      "pairs": 660,
+      "case_proxy_groups": 4,
+      "manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f"
+    }
+  },
+  "selection_rule": "Minimum full-validation valid-pixel CE; exact ties choose earliest epoch",
+  "primary_metric": "Selected-checkpoint full-validation pixel-pooled ID5 Dice",
+  "organ_interpretation": "ID5 is interpreted as Prostate under the user-accepted assumption that the course derivative preserves source label IDs; derivative no-remapping is not independently verified",
+  "aggregation": "Pool valid-pixel confusion counts over the entire validation split; not per-case/volume balanced or average batch Dice",
+  "resource_scope": "Training, validation and checkpoint restoration are reported separately. Peaks include each stage's documented resident state and allocator cache, not total GPU VRAM. Run elapsed also contains inter-stage checkpoint/plot/report work.",
+  "training_wall_clock_note": "Training-stage wall time includes input I/O and metric computation. Model-run order and filesystem/cache state were not isolated, so differences in total training time cannot be attributed to architecture-only compute speed. Use the separate warmed-up synthetic forward profile for pure forward comparisons.",
+  "results": {
+    "baseline_unet": {
+      "selected_epoch": 5,
+      "parameters": 1940902,
+      "validation_id5_dice_pixel_pooled": 0.8165673343405601,
+      "validation_id5_iou_pixel_pooled": 0.6899989818056502,
+      "validation_dice_per_class": [
+        0.9947252593823052,
+        0.9822524419600154,
+        0.9306057863810526,
+        0.9209237134882522,
+        0.8660226406191414,
+        0.8165673343405601
+      ],
+      "validation_iou_per_class": [
+        0.9895058725648398,
+        0.9651238504091063,
+        0.8702177125419264,
+        0.8534370785454437,
+        0.7637036431591384,
+        0.6899989818056502
+      ],
+      "validation_macro_dice_excluding_class0": 0.9032743833578044,
+      "validation_macro_iou_excluding_class0": 0.828496253292253,
+      "validation_cross_entropy": 0.06635873507369648,
+      "validation_valid_pixels": 21626880,
+      "run_elapsed_seconds": 2233.366,
+      "phase_resource_summary": {
+        "training": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 2148.401994700078,
+          "resident_state_descriptions": [
+            "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident."
+          ],
+          "peak_cuda_allocated_bytes": 191513600,
+          "allocated_peak_record": "training_epoch_1",
+          "peak_cuda_reserved_bytes": 262144000,
+          "reserved_peak_record": "training_epoch_16",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement.",
+          "wall_clock_note": "Training-stage wall time includes input I/O and metric computation. Model-run order and filesystem/cache state were not isolated, so differences in total training time cannot be attributed to architecture-only compute speed. Use the separate warmed-up synthetic forward profile for pure forward comparisons."
+        },
+        "validation": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 82.70546770002693,
+          "resident_state_descriptions": [
+            "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 96659456,
+          "allocated_peak_record": "validation_epoch_11",
+          "peak_cuda_reserved_bytes": 262144000,
+          "reserved_peak_record": "validation_epoch_16",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        },
+        "checkpoint_restoration": {
+          "record_count": 1,
+          "elapsed_seconds_sum": 0.05529889999888837,
+          "resident_state_descriptions": [
+            "Final training model, Adam state and last gradients remain resident; a second restored model and reference input/output are added. Checkpoint tensors load on CPU. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 55571968,
+          "allocated_peak_record": "checkpoint_restoration",
+          "peak_cuda_reserved_bytes": 262144000,
+          "reserved_peak_record": "checkpoint_restoration",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        }
+      },
+      "checkpoint_verification": {
+        "best": {
+          "file": "best.pt",
+          "sha256": "2eb7bb791d70d12d3db90439a699ddb9739c0ee6f555db183e8b18df3e7866f9",
+          "epoch": 5,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 46,
+          "optimizer_state_count": 46,
+          "all_optimizer_steps_equal": 14325,
+          "optimizer_step_range": [
+            14325,
+            14325
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training"
+        },
+        "last": {
+          "file": "last.pt",
+          "sha256": "7183bc148ee9c2018f0b87fd3c4aa7521f0362394badd24c7fbbd77a9aac0dfa",
+          "epoch": 20,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 46,
+          "optimizer_state_count": 46,
+          "all_optimizer_steps_equal": 57300,
+          "optimizer_step_range": [
+            57300,
+            57300
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training"
+        }
+      },
+      "original_summary_sha256": "b0118045acaceb72513481c279af489b2c8ea318352a446787934cb9219d7f82"
+    },
+    "improved_unet": {
+      "selected_epoch": 3,
+      "parameters": 3190194,
+      "validation_id5_dice_pixel_pooled": 0.8001871981960901,
+      "validation_id5_iou_pixel_pooled": 0.6669267047267827,
+      "validation_dice_per_class": [
+        0.9941788967809251,
+        0.9830325286831125,
+        0.9398988117066964,
+        0.8750267812929654,
+        0.897620173631051,
+        0.8001871981960901
+      ],
+      "validation_iou_per_class": [
+        0.9884251718313628,
+        0.9666312408303168,
+        0.8866123555807673,
+        0.7778200998408298,
+        0.8142567127590301,
+        0.6669267047267827
+      ],
+      "validation_macro_dice_excluding_class0": 0.899153098701983,
+      "validation_macro_iou_excluding_class0": 0.8224494227475454,
+      "validation_cross_entropy": 0.07050679003198941,
+      "validation_valid_pixels": 21626880,
+      "run_elapsed_seconds": 2696.265,
+      "phase_resource_summary": {
+        "training": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 2593.560855800053,
+          "resident_state_descriptions": [
+            "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident."
+          ],
+          "peak_cuda_allocated_bytes": 595582976,
+          "allocated_peak_record": "training_epoch_4",
+          "peak_cuda_reserved_bytes": 727711744,
+          "reserved_peak_record": "training_epoch_1",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement.",
+          "wall_clock_note": "Training-stage wall time includes input I/O and metric computation. Model-run order and filesystem/cache state were not isolated, so differences in total training time cannot be attributed to architecture-only compute speed. Use the separate warmed-up synthetic forward profile for pure forward comparisons."
+        },
+        "validation": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 99.60819809988607,
+          "resident_state_descriptions": [
+            "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 148111872,
+          "allocated_peak_record": "validation_epoch_1",
+          "peak_cuda_reserved_bytes": 727711744,
+          "reserved_peak_record": "validation_epoch_1",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        },
+        "checkpoint_restoration": {
+          "record_count": 1,
+          "elapsed_seconds_sum": 0.12373739993199706,
+          "resident_state_descriptions": [
+            "Final training model, Adam state and last gradients remain resident; a second restored model and reference input/output are added. Checkpoint tensors load on CPU. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 88965120,
+          "allocated_peak_record": "checkpoint_restoration",
+          "peak_cuda_reserved_bytes": 727711744,
+          "reserved_peak_record": "checkpoint_restoration",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        }
+      },
+      "checkpoint_verification": {
+        "best": {
+          "file": "best.pt",
+          "sha256": "a2e1c8520795697df907617817d4167d03ac0729126301e97659978c52fe27e2",
+          "epoch": 3,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 112,
+          "optimizer_state_count": 112,
+          "all_optimizer_steps_equal": 8595,
+          "optimizer_step_range": [
+            8595,
+            8595
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training"
+        },
+        "last": {
+          "file": "last.pt",
+          "sha256": "20b0819a2de2db94d2c18ccaa76e416866885534cafe37d64364369d908ff100",
+          "epoch": 20,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 112,
+          "optimizer_state_count": 112,
+          "all_optimizer_steps_equal": 57300,
+          "optimizer_step_range": [
+            57300,
+            57300
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training"
+        }
+      },
+      "original_summary_sha256": "69df5cd0ea1af41bb9782e2289c260785a244bbf7694d4ec41bbff82690e2ea4"
+    }
+  },
+  "test_split_read": false,
+  "new_inference_or_training_performed_by_analysis": false,
+  "inference_profile": {
+    "baseline_unet": {
+      "evidence_file": "evidence/formal_baseline_profile_20261026.json",
+      "evidence_sha256": "6288a5e2277a0cd3c11b1e1d1281bde9756089f210faebdf3325cb5d73452341",
+      "results": [
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            128
+          ],
+          "median_batch_ms": 1.7934999777935445,
+          "p95_batch_ms": 2.265619958052411,
+          "median_ms_per_slice": 1.7934999777935445,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.09333489998243749,
+            "start_cuda_allocated_bytes": 7901184,
+            "start_cuda_reserved_bytes": 31457280,
+            "peak_cuda_allocated_bytes": 22230528,
+            "peak_cuda_reserved_bytes": 31457280,
+            "end_cuda_allocated_bytes": 7901184,
+            "end_cuda_reserved_bytes": 31457280
+          }
+        },
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            144
+          ],
+          "median_batch_ms": 1.6341999871656299,
+          "p95_batch_ms": 3.156625089468433,
+          "median_ms_per_slice": 1.6341999871656299,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.09176950005348772,
+            "start_cuda_allocated_bytes": 7917568,
+            "start_cuda_reserved_bytes": 29360128,
+            "peak_cuda_allocated_bytes": 24950272,
+            "peak_cuda_reserved_bytes": 29360128,
+            "end_cuda_allocated_bytes": 7917568,
+            "end_cuda_reserved_bytes": 29360128
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            128
+          ],
+          "median_batch_ms": 1.7109499895013869,
+          "p95_batch_ms": 2.6721449743490657,
+          "median_ms_per_slice": 0.4277374973753467,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.09186849999241531,
+            "start_cuda_allocated_bytes": 8294400,
+            "start_cuda_reserved_bytes": 81788928,
+            "peak_cuda_allocated_bytes": 65484288,
+            "peak_cuda_reserved_bytes": 81788928,
+            "end_cuda_allocated_bytes": 8294400,
+            "end_cuda_reserved_bytes": 81788928
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            144
+          ],
+          "median_batch_ms": 1.772400049958378,
+          "p95_batch_ms": 2.420404995791613,
+          "median_ms_per_slice": 0.4431000124895945,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.0955435000360012,
+            "start_cuda_allocated_bytes": 8359936,
+            "start_cuda_reserved_bytes": 104857600,
+            "peak_cuda_allocated_bytes": 73217536,
+            "peak_cuda_reserved_bytes": 104857600,
+            "end_cuda_allocated_bytes": 8359936,
+            "end_cuda_reserved_bytes": 104857600
+          }
+        }
+      ],
+      "scope": {
+        "synthetic_input_only": true,
+        "mri_pixels_read": false,
+        "test_split_read": false,
+        "optimizer_resident": false,
+        "timing_includes": "Model forward, Python/host launch and post-forward synchronization overhead; CUDA synchronized before and after each iteration",
+        "timing_excludes": "Checkpoint loading, model/input construction, transfers, warmup, metrics, output deletion, plotting and report I/O",
+        "memory_includes": "Resident model/input, transient outputs and forward temporaries during the timed stage; reserved memory includes allocator cache retained from this combination's setup/warmup",
+        "memory_excludes": "Checkpoint restoration and an optimizer; not total GPU VRAM or training memory",
+        "cache_policy": "Before each combination, free unused CUDA cache after synchronization, then construct input and warm up; do not clear warmup cache inside the timed stage",
+        "cpu_note": "CPU timing is supported; CUDA memory values are unavailable on CPU and must not be interpreted as zero GPU usage."
+      }
+    },
+    "improved_unet": {
+      "evidence_file": "evidence/formal_improved_profile_20261026.json",
+      "evidence_sha256": "308b0fc824c1b345cb328ad068258ed0435467b328aefd79df759bb10a4128c2",
+      "results": [
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            128
+          ],
+          "median_batch_ms": 5.494349985383451,
+          "p95_batch_ms": 7.946300023468211,
+          "median_ms_per_slice": 5.494349985383451,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.2939923000521958,
+            "start_cuda_allocated_bytes": 12910592,
+            "start_cuda_reserved_bytes": 54525952,
+            "peak_cuda_allocated_bytes": 35586048,
+            "peak_cuda_reserved_bytes": 54525952,
+            "end_cuda_allocated_bytes": 12910592,
+            "end_cuda_reserved_bytes": 54525952
+          }
+        },
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            144
+          ],
+          "median_batch_ms": 5.944599921349436,
+          "p95_batch_ms": 7.479649980086833,
+          "median_ms_per_slice": 5.944599921349436,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.3022412999998778,
+            "start_cuda_allocated_bytes": 12926976,
+            "start_cuda_reserved_bytes": 50331648,
+            "peak_cuda_allocated_bytes": 38436864,
+            "peak_cuda_reserved_bytes": 50331648,
+            "end_cuda_allocated_bytes": 12926976,
+            "end_cuda_reserved_bytes": 50331648
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            128
+          ],
+          "median_batch_ms": 5.355599976610392,
+          "p95_batch_ms": 7.26639000349678,
+          "median_ms_per_slice": 1.338899994152598,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.27601249993313104,
+            "start_cuda_allocated_bytes": 13303808,
+            "start_cuda_reserved_bytes": 142606336,
+            "peak_cuda_allocated_bytes": 104005632,
+            "peak_cuda_reserved_bytes": 142606336,
+            "end_cuda_allocated_bytes": 13303808,
+            "end_cuda_reserved_bytes": 142606336
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            144
+          ],
+          "median_batch_ms": 5.134400038514286,
+          "p95_batch_ms": 7.545799977378919,
+          "median_ms_per_slice": 1.2836000096285716,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.27730329998303205,
+            "start_cuda_allocated_bytes": 13369344,
+            "start_cuda_reserved_bytes": 148897792,
+            "peak_cuda_allocated_bytes": 115408896,
+            "peak_cuda_reserved_bytes": 148897792,
+            "end_cuda_allocated_bytes": 13369344,
+            "end_cuda_reserved_bytes": 148897792
+          }
+        }
+      ],
+      "scope": {
+        "synthetic_input_only": true,
+        "mri_pixels_read": false,
+        "test_split_read": false,
+        "optimizer_resident": false,
+        "timing_includes": "Model forward, Python/host launch and post-forward synchronization overhead; CUDA synchronized before and after each iteration",
+        "timing_excludes": "Checkpoint loading, model/input construction, transfers, warmup, metrics, output deletion, plotting and report I/O",
+        "memory_includes": "Resident model/input, transient outputs and forward temporaries during the timed stage; reserved memory includes allocator cache retained from this combination's setup/warmup",
+        "memory_excludes": "Checkpoint restoration and an optimizer; not total GPU VRAM or training memory",
+        "cache_policy": "Before each combination, free unused CUDA cache after synchronization, then construct input and warm up; do not clear warmup cache inside the timed stage",
+        "cpu_note": "CPU timing is supported; CUDA memory values are unavailable on CPU and must not be interpreted as zero GPU usage."
+      }
+    }
+  },
+  "claim_boundary": "One seed and one fixed 20-epoch budget on the available train/validation splits. Not test performance, case-balanced performance, statistical significance, an ablation or a substitute for new results using old project scores.",
+  "curves_file": "formal_comparison_curves_20261026.png",
+  "selected_checkpoint_full_validation_replay": {
+    "evidence_file": "evidence/formal_validation_replay_20261026.json",
+    "evidence_sha256": "f6adbafce9cd66bcc4f9a8041f2c0be9ebcce0e39f89d9bf29f548d1781f49ce",
+    "passed": true,
+    "ce_max_abs_difference": 0.0,
+    "confusion_exact": true,
+    "samples_per_model": 660,
+    "new_training": false,
+    "test_evaluation": false
+  },
+  "id5_dice_difference_improved_minus_baseline": -0.01638013614446998,
+  "conclusion": "Under this predeclared CE-checkpoint protocol, baseline has higher selected-checkpoint validation ID5 Dice and fewer parameters. This result does not demonstrate an Improved ID5 gain; later-epoch ID5 maxima are not substituted for CE-selected weights. The experiment is one seed with four case proxy groups in validation, not an independent test or general architecture ranking.",
+  "visual_review": {
+    "performed_by": "Codex",
+    "curves_reviewed": true,
+    "selection_markers_match_ce_minima": true
+  }
+}

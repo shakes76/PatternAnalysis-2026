@@ -1,0 +1,125 @@
+{
+  "kind": "predeclared_final_frozen_model_validation_display",
+  "created_at": "2026-10-26T06:29:43.502559+00:00",
+  "parent_revision": "cfdf15a6e5c0691a299cde9f8a6a6fc64328cbd3",
+  "prepared_before_selected_validation_pixel_reads_and_new_model_forward": true,
+  "performed_by": "Codex; not student-performed verification",
+  "authorization_scope": "Current delegated user instruction permits final baseline5/Improved17 inference on a few validation samples and constructed-only checks for a new test display entry; no retraining or real test evaluation.",
+  "authorization_source_thread": "01a14813-3b84-7812-be83-cef157471d64",
+  "selection": {
+    "rule": "Reuse all five A-E entries from the already saved historical validation diagnosis, in saved order, before running either final model. No selection or replacement from newly produced final17 results. Historical case labels describe original selection reasons, not necessarily current failures.",
+    "source": "selection_diagnosis_20261026.json",
+    "source_sha256": "85b42180f160307730efcfe0ce47095912ac1fef3434dfe1aaa0b9e3ee7df46b",
+    "not_random_or_failure_rate_estimate": true,
+    "cases": [
+      {
+        "case_label": "A_missed_region",
+        "filename": "case_038_week_0_slice_29.nii.gz",
+        "case": 38,
+        "week": 0,
+        "slice": 29
+      },
+      {
+        "case_label": "B_empty_reference_fp",
+        "filename": "case_039_week_5_slice_41.nii.gz",
+        "case": 39,
+        "week": 5,
+        "slice": 41
+      },
+      {
+        "case_label": "C_few_reference_pixels",
+        "filename": "case_037_week_0_slice_9.nii.gz",
+        "case": 37,
+        "week": 0,
+        "slice": 9
+      },
+      {
+        "case_label": "D_late_improvement",
+        "filename": "case_039_week_7_slice_25.nii.gz",
+        "case": 39,
+        "week": 7,
+        "slice": 25
+      },
+      {
+        "case_label": "E_late_regression",
+        "filename": "case_037_week_0_slice_17.nii.gz",
+        "case": 37,
+        "week": 0,
+        "slice": 17
+      }
+    ]
+  },
+  "models": [
+    {
+      "model": "baseline_unet",
+      "checkpoint": "outputs/frozen_models_20261026/baseline_epoch5.pt",
+      "checkpoint_sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+      "original_checkpoint": "outputs/baseline_id5_formal_20261026/id5_best.pt",
+      "epoch": 5,
+      "model_config": {
+        "in_channels": 1,
+        "num_classes": 6,
+        "base_channels": 16
+      },
+      "parameters": 1940902,
+      "validation_cross_entropy": 0.06635873507369648,
+      "validation_id5_dice": 0.8165673343405601
+    },
+    {
+      "model": "improved_unet",
+      "checkpoint": "outputs/frozen_models_20261026/improved_epoch17.pt",
+      "checkpoint_sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+      "original_checkpoint": "outputs/improved_id5_formal_20261026/id5_best.pt",
+      "epoch": 17,
+      "model_config": {
+        "in_channels": 1,
+        "num_classes": 6,
+        "base_channels": 16
+      },
+      "parameters": 3190194,
+      "validation_cross_entropy": 0.11714918839209007,
+      "validation_id5_dice": 0.8343943919305902
+    }
+  ],
+  "frozen_recipe_sha256": "6da9a3f7ad807601f0f1650b5f671138768e99dd1e87b8263c6bed4934ec54fa",
+  "unchanged_shared_sources": {
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "train.py": "283ded9aff4555b07e40741cc90ca8e47c982e39bf52bd55b5617c574e9bb0fe",
+    "checkpoint_selection.py": "fa770b42399ff73718b5d78e9c52fe6f41b9ad7ef0e11bc5f1d95ebd8eac17e7",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c"
+  },
+  "inference": {
+    "split": "validation",
+    "image_folder": "keras_slices_validate",
+    "mask_folder": "keras_slices_seg_validate",
+    "batch_size": 1,
+    "samples_per_model": 5,
+    "expected_model_forward_calls": 10,
+    "mode": "eval and torch.inference_mode; no optimizer or backward",
+    "backend": {
+      "matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cpu_threads": 1
+    },
+    "scope": "Single-case diagnostic display. B1 composition differs from formal B4; not a new full-validation or test score and not a replacement for original selected metrics.",
+    "preprocess": "existing load_pair/collate_padded/valid_mask/crop_to_original; preserve class IDs; all original pixels valid, artificial padding excluded",
+    "plots": "Same original-size MRI and independent multiclass GT; one prediction and ID5 TP/FP/FN overlay per final model; common union-ID5 ROI plus 8 pixels, display only; counts always full original image",
+    "test_pixel_reads": 0,
+    "new_training": false,
+    "parameter_updates": 0
+  },
+  "limits": [
+    "ID5 organ interpretation retains accepted derivative-ID-preservation assumption",
+    "Case/week/slice are filename proxies, patient mapping not independently confirmed",
+    "Physical units unknown; no millimetre or clinical claims",
+    "Anatomical base/apex location not inferred from slice number",
+    "No model/epoch/threshold tuning or reselection from these figures"
+  ],
+  "outputs": "Fresh ignored outputs/final_validation_display_20261026/run; only selected necessary README PNGs and JSON summaries may be added to Git, never arrays/weights/raw NIfTI."
+}

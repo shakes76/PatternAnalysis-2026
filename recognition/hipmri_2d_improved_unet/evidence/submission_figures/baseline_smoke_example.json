@@ -1,0 +1,93 @@
+{
+  "model": "baseline_unet",
+  "performed_by": "Codex automation",
+  "split": "training",
+  "filename": "case_004_week_0_slice_12.nii.gz",
+  "checkpoint_epoch": 2,
+  "limited_training_smoke": true,
+  "logit_shape": [
+    1,
+    6,
+    256,
+    128
+  ],
+  "restored_shape": [
+    256,
+    128
+  ],
+  "cross_entropy": 0.8774915933609009,
+  "metrics": {
+    "confusion_matrix": [
+      [
+        0,
+        2786,
+        104,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        25038,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        3528,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1312,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "dice_per_class": [
+      0.0,
+      0.8678382031818654,
+      0.0,
+      0.0,
+      null,
+      null
+    ],
+    "iou_per_class": [
+      0.0,
+      0.7665319617927994,
+      0.0,
+      0.0,
+      null,
+      null
+    ],
+    "mean_dice_excluding_class0": 0.28927940106062183,
+    "mean_iou_excluding_class0": 0.25551065393093314,
+    "pixel_accuracy": 0.76409912109375,
+    "valid_pixels": 32768
+  },
+  "test_split_read": false,
+  "claim_boundary": "Single-sample inspection; not independent test evaluation or final model quality."
+}

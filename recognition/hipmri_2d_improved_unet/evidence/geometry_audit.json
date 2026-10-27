@@ -1,0 +1,150 @@
+{
+  "audit_kind": "supplementary_nifti_header_geometry",
+  "status": "passed_full",
+  "created_at": "2026-10-25T20:12:32.419426+10:00",
+  "performed_by": "Codex automation; not user verification",
+  "scope": [
+    "training",
+    "validation"
+  ],
+  "test_split_read": false,
+  "voxel_arrays_materialized": false,
+  "affine_policy": {
+    "atol": 1e-05,
+    "rtol": 0.0,
+    "basis": "selected NIfTI affine; absolute tolerance in its coordinate units, not assumed mm"
+  },
+  "claim_boundary": "Header consistency only. Equal selected affines do not independently prove anatomical alignment, correct physical units, or valid original geometry. This is a new audit; prior preprocessing evidence did not check affines.",
+  "limit_per_split": null,
+  "splits": {
+    "training": {
+      "total_pairs": 11460,
+      "selected_count": 11460,
+      "case_group_count": 31,
+      "processed_count": 11460,
+      "passed_count": 11460,
+      "error_count": 0,
+      "errors": [],
+      "all_pairs_attempted": true,
+      "max_affine_abs_difference": 0.0,
+      "exact_affine_matches": 11460,
+      "identity_affine_pairs": 11460,
+      "shape_counts": {
+        "256x128": 11400,
+        "256x144": 60
+      },
+      "declared_spatial_unit_pairs": {
+        "MRI:unknown|mask:unknown": 11460
+      },
+      "qform_sform_code_pairs": {
+        "MRI:q0,s2|mask:q0,s2": 11460
+      },
+      "selected_mri_affine_matrices": [
+        {
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "count": 11460
+        }
+      ],
+      "selected_manifest_sha256": "fec960cc7d97e0dd597464a024a643a1c454709e754406e01e85e50d10be2b80"
+    },
+    "validation": {
+      "total_pairs": 660,
+      "selected_count": 660,
+      "case_group_count": 4,
+      "processed_count": 660,
+      "passed_count": 660,
+      "error_count": 0,
+      "errors": [],
+      "all_pairs_attempted": true,
+      "max_affine_abs_difference": 0.0,
+      "exact_affine_matches": 660,
+      "identity_affine_pairs": 660,
+      "shape_counts": {
+        "256x128": 660
+      },
+      "declared_spatial_unit_pairs": {
+        "MRI:unknown|mask:unknown": 660
+      },
+      "qform_sform_code_pairs": {
+        "MRI:q0,s2|mask:q0,s2": 660
+      },
+      "selected_mri_affine_matrices": [
+        {
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "count": 660
+        }
+      ],
+      "selected_manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f"
+    }
+  },
+  "setup_errors": [],
+  "shared_case_ids": [],
+  "elapsed_seconds": 24.482,
+  "source_sha256": {
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "audit_geometry.py": "0668e1a40173f91026df3cf76b874a9341e3515ae7ffa818c31a051bdba055a4",
+    "tests/test_geometry.py": "388e45556df66107dd3a5d998e05a4beeac19034db31b1abd3b30f7bf32922a9",
+    "tests/test_preprocessing.py": "279e3956cda568cea19c36b8ba0a0213e72ea5dbb28291fb86e33281327e1616"
+  },
+  "source_hash_basis": "Verified working-tree file bytes before Git line-ending normalization.",
+  "source_base_revision": "719b02616db73d9f14d78ae28a1e6a5c95ceda87",
+  "raw_report_sha256": "0d983bdb555ba239c88d90edc455f825fa6873b16fa414f859168f68f50de878",
+  "checks": {
+    "unittest_count": 53,
+    "unittest_skipped": 0,
+    "passed": true,
+    "performed_by": "Codex automation; not user verification"
+  },
+  "correction_note": "New supplementary audit after the prior preprocessing/smoke milestones. Earlier evidence is preserved and did not independently check Affine consistency.",
+  "statistic_note": "max_affine_abs_difference is calculated among passed pairs. This actual full audit has zero failed pairs."
+}

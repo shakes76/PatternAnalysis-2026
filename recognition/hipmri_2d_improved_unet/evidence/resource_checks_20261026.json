@@ -1,0 +1,210 @@
+{
+  "recorded_at": "2026-10-26T09:24:27.404817+10:00",
+  "performed_by": "Codex automation; not user execution",
+  "milestone": "resource instrumentation pre-formal checks",
+  "source_base_revision": "344e1f38a35a888c2c7baa4e493d4a34d28c3c75",
+  "unittest": {
+    "count": 67,
+    "passed": 67,
+    "skipped": 0
+  },
+  "gpu_regressions": [
+    {
+      "model": "baseline_unet",
+      "training_subset": 64,
+      "epochs": 2,
+      "optimizer_steps": 32,
+      "validation_samples_each_epoch": 660,
+      "all_epoch_metrics_exact": true,
+      "reference_probes_and_reload_exact": true,
+      "best_checkpoint_all_tensors_exact": true,
+      "best_checkpoint_tensor_count": 46,
+      "resource_stages": [
+        {
+          "stage": "initial_reference_probe",
+          "device": "cuda",
+          "resident_state": "One model and empty Adam state; reference input/output during inference.",
+          "status": "passed",
+          "elapsed_seconds": 0.37941319996025413,
+          "start_cuda_allocated_bytes": 7770112,
+          "start_cuda_reserved_bytes": 25165824,
+          "peak_cuda_allocated_bytes": 22525440,
+          "peak_cuda_reserved_bytes": 31457280,
+          "end_cuda_allocated_bytes": 7770112,
+          "end_cuda_reserved_bytes": 31457280
+        },
+        {
+          "stage": "training_epoch_1",
+          "device": "cuda",
+          "resident_state": "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident.",
+          "status": "passed",
+          "elapsed_seconds": 0.6961415000259876,
+          "start_cuda_allocated_bytes": 7770112,
+          "start_cuda_reserved_bytes": 31457280,
+          "peak_cuda_allocated_bytes": 171819008,
+          "peak_cuda_reserved_bytes": 209715200,
+          "end_cuda_allocated_bytes": 33046528,
+          "end_cuda_reserved_bytes": 209715200
+        },
+        {
+          "stage": "validation_epoch_1",
+          "device": "cuda",
+          "resident_state": "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included.",
+          "status": "passed",
+          "elapsed_seconds": 3.807574199978262,
+          "start_cuda_allocated_bytes": 33046528,
+          "start_cuda_reserved_bytes": 209715200,
+          "peak_cuda_allocated_bytes": 96266240,
+          "peak_cuda_reserved_bytes": 209715200,
+          "end_cuda_allocated_bytes": 33046528,
+          "end_cuda_reserved_bytes": 209715200
+        },
+        {
+          "stage": "training_epoch_2",
+          "device": "cuda",
+          "resident_state": "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident.",
+          "status": "passed",
+          "elapsed_seconds": 0.520464500063099,
+          "start_cuda_allocated_bytes": 33046528,
+          "start_cuda_reserved_bytes": 209715200,
+          "peak_cuda_allocated_bytes": 171819008,
+          "peak_cuda_reserved_bytes": 209715200,
+          "end_cuda_allocated_bytes": 33046528,
+          "end_cuda_reserved_bytes": 209715200
+        },
+        {
+          "stage": "validation_epoch_2",
+          "device": "cuda",
+          "resident_state": "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included.",
+          "status": "passed",
+          "elapsed_seconds": 4.206643600016832,
+          "start_cuda_allocated_bytes": 33046528,
+          "start_cuda_reserved_bytes": 209715200,
+          "peak_cuda_allocated_bytes": 96266240,
+          "peak_cuda_reserved_bytes": 209715200,
+          "end_cuda_allocated_bytes": 33046528,
+          "end_cuda_reserved_bytes": 209715200
+        },
+        {
+          "stage": "checkpoint_restoration",
+          "device": "cuda",
+          "resident_state": "Final training model, Adam state and last gradients remain resident; a second restored model and reference input/output are added. Checkpoint tensors load on CPU. Cached reserved blocks remain included.",
+          "status": "passed",
+          "elapsed_seconds": 0.05853679997380823,
+          "start_cuda_allocated_bytes": 33046528,
+          "start_cuda_reserved_bytes": 209715200,
+          "peak_cuda_allocated_bytes": 55571968,
+          "peak_cuda_reserved_bytes": 209715200,
+          "end_cuda_allocated_bytes": 40816640,
+          "end_cuda_reserved_bytes": 209715200
+        }
+      ]
+    },
+    {
+      "model": "improved_unet",
+      "training_subset": 64,
+      "epochs": 2,
+      "optimizer_steps": 32,
+      "validation_samples_each_epoch": 660,
+      "all_epoch_metrics_exact": true,
+      "reference_probes_and_reload_exact": true,
+      "best_checkpoint_all_tensors_exact": true,
+      "best_checkpoint_tensor_count": 112,
+      "resource_stages": [
+        {
+          "stage": "initial_reference_probe",
+          "device": "cuda",
+          "resident_state": "One model and empty Adam state; reference input/output during inference.",
+          "status": "passed",
+          "elapsed_seconds": 0.3239221000112593,
+          "start_cuda_allocated_bytes": 12779520,
+          "start_cuda_reserved_bytes": 25165824,
+          "peak_cuda_allocated_bytes": 35880960,
+          "peak_cuda_reserved_bytes": 52428800,
+          "end_cuda_allocated_bytes": 12779520,
+          "end_cuda_reserved_bytes": 52428800
+        },
+        {
+          "stage": "training_epoch_1",
+          "device": "cuda",
+          "resident_state": "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident.",
+          "status": "passed",
+          "elapsed_seconds": 0.8411701000295579,
+          "start_cuda_allocated_bytes": 12779520,
+          "start_cuda_reserved_bytes": 52428800,
+          "peak_cuda_allocated_bytes": 529318400,
+          "peak_cuda_reserved_bytes": 658505728,
+          "end_cuda_allocated_bytes": 51511296,
+          "end_cuda_reserved_bytes": 658505728
+        },
+        {
+          "stage": "validation_epoch_1",
+          "device": "cuda",
+          "resident_state": "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included.",
+          "status": "passed",
+          "elapsed_seconds": 4.383733100024983,
+          "start_cuda_allocated_bytes": 51511296,
+          "start_cuda_reserved_bytes": 658505728,
+          "peak_cuda_allocated_bytes": 148111872,
+          "peak_cuda_reserved_bytes": 658505728,
+          "end_cuda_allocated_bytes": 51511296,
+          "end_cuda_reserved_bytes": 658505728
+        },
+        {
+          "stage": "training_epoch_2",
+          "device": "cuda",
+          "resident_state": "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident.",
+          "status": "passed",
+          "elapsed_seconds": 0.7893592999316752,
+          "start_cuda_allocated_bytes": 51511296,
+          "start_cuda_reserved_bytes": 658505728,
+          "peak_cuda_allocated_bytes": 529318400,
+          "peak_cuda_reserved_bytes": 658505728,
+          "end_cuda_allocated_bytes": 51511296,
+          "end_cuda_reserved_bytes": 658505728
+        },
+        {
+          "stage": "validation_epoch_2",
+          "device": "cuda",
+          "resident_state": "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included.",
+          "status": "passed",
+          "elapsed_seconds": 4.940698799910024,
+          "start_cuda_allocated_bytes": 51511296,
+          "start_cuda_reserved_bytes": 658505728,
+          "peak_cuda_allocated_bytes": 148111872,
+          "peak_cuda_reserved_bytes": 658505728,
+          "end_cuda_allocated_bytes": 51511296,
+          "end_cuda_reserved_bytes": 658505728
+        },
+        {
+          "stage": "checkpoint_restoration",
+          "device": "cuda",
+          "resident_state": "Final training model, Adam state and last gradients remain resident; a second restored model and reference input/output are added. Checkpoint tensors load on CPU. Cached reserved blocks remain included.",
+          "status": "passed",
+          "elapsed_seconds": 0.16172069997992367,
+          "start_cuda_allocated_bytes": 51511296,
+          "start_cuda_reserved_bytes": 658505728,
+          "peak_cuda_allocated_bytes": 88965120,
+          "peak_cuda_reserved_bytes": 658505728,
+          "end_cuda_allocated_bytes": 65863680,
+          "end_cuda_reserved_bytes": 658505728
+        }
+      ]
+    }
+  ],
+  "cpu_profile_contract": "Constructed base2 checkpoint, four combinations, 10 warmup plus 50 timed each; percentiles recomputed and output overwrite refused. Not GPU performance.",
+  "formal_training_started": false,
+  "test_split_read": false,
+  "source_sha256": {
+    "train.py": "5df23101675bc6939145de463d503d56d198dcb5b0b1a0a63b8dfcfa47a632db",
+    "resource_monitor.py": "4d0e148c1430f604fb7c2230e1b98a22ec5a4ba92c277918f81e1de0e7ea133a",
+    "profile_inference.py": "fdf512f895e72c0f7dd221d13f2a19fe6e0b5d5644b729e72cad5097b9df440c",
+    "tests/test_formal_plan.py": "b9058dde9a1031fb6dd798930ce3dde597e616749d2f6189d1d699e52b4def64",
+    "tests/test_resource_monitor.py": "2bb5213b884bcd92a87ad97e380e1a35a1b4fbfe9fbc613bd3451ce76fc2e873",
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035"
+  },
+  "source_hash_basis": "Verified working-tree file bytes before Git line-ending normalization."
+}

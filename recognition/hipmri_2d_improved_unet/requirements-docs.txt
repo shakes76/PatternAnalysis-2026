@@ -1,0 +1,6 @@
+# PDF-export dependencies observed in the bundled authoring runtime.
+# No installation or wheel-source availability check was performed.
+reportlab==4.4.9
+Pillow==12.3.0
+# ReportLab's active non-extra transitive dependency in the same runtime.
+charset-normalizer==3.5.2

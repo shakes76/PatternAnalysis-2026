@@ -1,0 +1,106 @@
+{
+  "model": "improved_unet",
+  "performed_by": "Codex automation",
+  "split": "training",
+  "is_improved_run": true,
+  "filename": "case_004_week_0_slice_12.nii.gz",
+  "checkpoint_epoch": 2,
+  "limited_training_smoke": true,
+  "logit_shape": [
+    1,
+    6,
+    256,
+    128
+  ],
+  "restored_shape": [
+    256,
+    128
+  ],
+  "cross_entropy": 0.24975407123565674,
+  "metrics": {
+    "confusion_matrix": [
+      [
+        2879,
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        454,
+        24377,
+        194,
+        13,
+        0,
+        0
+      ],
+      [
+        67,
+        2075,
+        1386,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        196,
+        0,
+        1116,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "dice_per_class": [
+      0.9154213036565978,
+      0.9430721318451748,
+      0.5426781519185592,
+      0.9143793527242933,
+      null,
+      null
+    ],
+    "iou_per_class": [
+      0.8440340076223981,
+      0.8922767203513909,
+      0.3723804406233208,
+      0.8422641509433962,
+      null,
+      null
+    ],
+    "mean_dice_excluding_class0": 0.8000432121626758,
+    "mean_iou_excluding_class0": 0.7023071039727027,
+    "pixel_accuracy": 0.90814208984375,
+    "valid_pixels": 32768
+  },
+  "test_split_read": false,
+  "claim_boundary": "Single-sample inspection; not independent test evaluation or final model quality.",
+  "source_base_revision": "7ae1584d97f0b6b60825c54bd0310b6c18ec586f",
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "dataset.py": "ce72d3c34b5ac6dc218e71d4132534778266f31cae20e6d0e2a880d2f0bd7052",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035"
+  },
+  "source_hash_basis": "SHA256 of verified working-tree file bytes before Git line-ending normalization.",
+  "checkpoint_sha256": "caaf38967559101164ad4bccce44943fe452b9c03412f059db39b7e91e4131b5",
+  "cross_entropy_matches_best_checkpoint_probe_exactly": true,
+  "visual_review_performed_by": "Codex; not user verification or medical annotation review"
+}

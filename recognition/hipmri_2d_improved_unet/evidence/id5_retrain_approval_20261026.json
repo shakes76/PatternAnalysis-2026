@@ -1,0 +1,24 @@
+{
+  "recorded_at": "2026-10-26T11:24:24.063490+10:00",
+  "parent_revision": "d519d4e2198c5e0d84e073dc5239bbcce0df9359",
+  "performed_by": "Codex automation; not user execution",
+  "user_request": "继续下一组：两模型统一按验证集 ID5 Dice 选模，并列时选 CE 更低、再选更早轮次，同时保存 ID5-best、CE-best 和 last。保留原实验记录，其他条件不变，各重新训练20轮。运行由你执行，按整组流程讲解，完成必要检查后真实提交 Git，仍不做测试集评估。",
+  "explicit_retraining_approval": true,
+  "models": [
+    "baseline_unet",
+    "improved_unet"
+  ],
+  "epochs_per_model": 20,
+  "selection": "maximum full-validation pixel-pooled ID5 Dice; exact ties lower validation CE, then earlier epoch",
+  "checkpoint_files": [
+    "id5_best.pt",
+    "ce_best.pt",
+    "last.pt",
+    "best.pt (primary alias)"
+  ],
+  "unchanged": "Architectures, preprocessing, train/validation split, valid-pixel CE objective, Adam, lr0.001, seed3710, batch4, FP32, no augmentation/AMP/scheduler, 20 complete epochs and 57300 updates per model. From fresh initialization, no old weights resumed.",
+  "test_evaluation_authorized": false,
+  "original_formal_plan_sha256": "d948605555a4fa2aefdecf6b23faaa61c370b48f60a515dfe5a2df5111d3d2be",
+  "protected_record_manifest_file": "id5_prior_records_20261026.json",
+  "user_understanding_boundary": "This request authorizes execution; it is not evidence the user independently implemented or verified all code."
+}

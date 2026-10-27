@@ -1,0 +1,253 @@
+{
+  "recorded_at": "2026-10-26T11:27:21.767581+10:00",
+  "timezone": "Australia/Brisbane",
+  "status": "approved_for_execution",
+  "captured_before_training": true,
+  "performed_by": "Codex automation; user explicitly approved retraining with the new selection rule",
+  "source_revision": "caf189540331e4c1b914ba18e194d98d08f01f1c",
+  "source_tree_was_clean": true,
+  "user_confirmation_received": true,
+  "user_confirmation_record_sha256": "5f8a1f3391a16c070750e2a700dd7bb7b09d39aef78c03679f0aa0332b09f544",
+  "epochs_per_model": 20,
+  "shared_protocol": {
+    "models": [
+      "baseline_unet",
+      "improved_unet"
+    ],
+    "model_config": {
+      "in_channels": 1,
+      "num_classes": 6,
+      "base_channels": 16
+    },
+    "input_layout": "B,C,H,W",
+    "preprocessing": {
+      "normalization": "per-slice min-max over all MRI pixels, before padding; constant images become zero",
+      "sample_padding": "zero-pad bottom/right to the next multiple of 16",
+      "batch_padding": "zero-pad bottom/right to the maximum padded height and width in the current batch",
+      "target_padding_value": -100,
+      "valid_region": "all original pixels, including class0 and black MRI pixels; padding excluded from loss and metrics",
+      "prediction_crop": "crop the final prediction to each sample's original height and width without interpolation",
+      "padding_note": "Convolutions and Improved InstanceNorm still see padded image values. Identical preprocessing and batching are required; padding invariance of predictions is not claimed."
+    },
+    "numeric_precision": "FP32",
+    "seed": 3710,
+    "shuffle": "same seeded training selection/order policy with a dedicated DataLoader generator; validation is not shuffled",
+    "initialization_note": "Use each current architecture's existing initialization. The same seed does not create identical initial weights across different architectures.",
+    "batch_size": 4,
+    "num_workers": 0,
+    "optimizer": {
+      "name": "Adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0
+    },
+    "objective": "shared valid-region one-hot cross-entropy",
+    "augmentation": false,
+    "mixed_precision_amp": false,
+    "scheduler": false,
+    "validation": "eval mode, gradients disabled and no optimizer updates; accumulate metrics across the entire validation split",
+    "fairness_rule": "Do not change input handling, loss, precision, optimizer, batch size or budget for only one model. A required protocol change must be reviewed and applied to both before restarting a comparable experiment."
+  },
+  "training_budget": {
+    "complete_epochs_per_model": 20,
+    "maximum_complete_epochs_per_model": 20,
+    "training_batches_per_complete_epoch": 2865,
+    "planned_optimizer_updates_per_model_if_complete": 57300,
+    "budget_basis": "11460 training slices / batch4 = 2865 batches; 20 complete epochs = 57300 updates per model",
+    "early_stopping": false,
+    "validation_driven_extra_epochs": false,
+    "stop_and_report_on": [
+      "non-finite values",
+      "data or runtime error",
+      "out of memory"
+    ],
+    "on_failure": "Preserve evidence, mark the run incomplete and report the failure. Do not silently reduce batch size or change one model's settings.",
+    "completion_rule": "A model run with fewer than 20 complete epochs is incomplete. If either model is incomplete, do not present the pair as a completed final fair comparison."
+  },
+  "metrics_and_model_selection": {
+    "primary_report": {
+      "metric": "full-validation pixel-pooled ID5 Dice",
+      "current_result_field": "dice_per_class[5]",
+      "organ_interpretation": "Prostate only under the explicit course-derived ID-preservation assumption",
+      "aggregation": "Sum the entire validation split's valid-pixel confusion counts first, then compute ID5 Dice. This is not an average of batch Dice or per-case Dice."
+    },
+    "secondary_reports": [
+      "Pixel-pooled Dice and IoU for each of the six raw classes",
+      "Foreground macro Dice and macro IoU excluding raw ID0 and undefined classes",
+      "Valid-pixel cross-entropy over the entire validation split"
+    ],
+    "absent_class_policy": "A class absent from both prediction and reference is undefined (null) and omitted from macro means. False-positive predictions on an empty reference score zero.",
+    "checkpoint_selection": {
+      "selection_metric": "id5_dice",
+      "criterion": "maximum full-validation pixel-pooled dice_per_class[5]",
+      "tie_break": "exact equal Dice: lower full-validation cross_entropy; then earlier epoch; no tolerance band",
+      "ordering_key": [
+        "-validation_id5_dice",
+        "validation_cross_entropy",
+        "epoch"
+      ],
+      "ce_retention_rule": "minimum full-validation CE; exact ties earlier epoch",
+      "checkpoint_files": {
+        "primary": "best.pt",
+        "id5_best": "id5_best.pt",
+        "ce_best": "ce_best.pt",
+        "last": "last.pt"
+      },
+      "primary_alias": "best.pt is a byte-identical copy of id5_best.pt",
+      "undefined_policy": "ID5 primary selection requires a defined finite Dice; no silent fallback to CE. Nonfinite/invalid scores stop the run.",
+      "restore_check": "Reload primary checkpoint and verify the saved reference logits; after both runs verify all checkpoint metadata, finite tensors and Adam states, and replay each ID5-best on all 660 validation pairs.",
+      "old_experiment_preservation": "Original CE-selected experiment and prior failure analysis remain unchanged; these are new fresh-initialization 20-epoch runs."
+    },
+    "old_metric_boundary": "This proposal uses the current pixel-pooled metric, not the old project's case-balanced mean of per-volume prostate Dice. Do not substitute old 0.8316/0.8233 values for new results or compare them as if the metric and experiment were unchanged."
+  },
+  "label_mapping_assumption_accepted": true,
+  "derivative_no_remap_independently_verified": false,
+  "initialization": "Each model initialized from scratch with seed3710; no smoke checkpoint or pretrained weights used for training.",
+  "data": {
+    "training": {
+      "pairs": 11460,
+      "case_proxy_groups": 31,
+      "manifest_sha256": "fec960cc7d97e0dd597464a024a643a1c454709e754406e01e85e50d10be2b80"
+    },
+    "validation": {
+      "pairs": 660,
+      "case_proxy_groups": 4,
+      "manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f"
+    }
+  },
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "train.py": "283ded9aff4555b07e40741cc90ca8e47c982e39bf52bd55b5617c574e9bb0fe",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "resource_monitor.py": "4d0e148c1430f604fb7c2230e1b98a22ec5a4ba92c277918f81e1de0e7ea133a",
+    "profile_inference.py": "fdf512f895e72c0f7dd221d13f2a19fe6e0b5d5644b729e72cad5097b9df440c",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c",
+    "checkpoint_selection.py": "fa770b42399ff73718b5d78e9c52fe6f41b9ad7ef0e11bc5f1d95ebd8eac17e7"
+  },
+  "source_hash_basis": "Verified working-tree file bytes before Git line-ending normalization.",
+  "preflight": {
+    "unittest_passed": 92,
+    "unittest_skipped": 0,
+    "evidence_file": "evidence/id5_preflight_20261026.json",
+    "evidence_sha256": "e95cf0b11382e75c0ff98b6a1a5fc59d7b08313060cfd309971a6250594940f1",
+    "unchanged_nonselection_core_files": 8,
+    "unchanged_training_loop_seed_loader_initialization": true,
+    "source_and_original_artifact_audit_passed": true
+  },
+  "runs_in_order": [
+    {
+      "model": "baseline_unet",
+      "output_dir": "outputs/baseline_id5_formal_20261026",
+      "console_log": "outputs/baseline_id5_formal_20261026.console.log"
+    },
+    {
+      "model": "improved_unet",
+      "output_dir": "outputs/improved_id5_formal_20261026",
+      "console_log": "outputs/improved_id5_formal_20261026.console.log"
+    }
+  ],
+  "resource_measurement": {
+    "instrumentation_status": "Implemented and checked in source_revision; stage GPU regressions passed.",
+    "required_before_formal_run": true,
+    "memory": {
+      "measure_separately": [
+        "training",
+        "validation",
+        "checkpoint_restoration"
+      ],
+      "method": "Synchronize CUDA and reset peak counters at each stage boundary; record both peak allocated and peak reserved bytes for that stage.",
+      "report_resident_state": "State whether the model, optimizer state, gradients, input/output tensors and restored model are resident in each stage. Resident optimizer state must not be silently excluded from a validation or restoration peak.",
+      "old_smoke_boundary": "Existing smoke peaks include checkpoint restoration. Preserve those recorded scopes; do not relabel them as isolated training peaks or total GPU VRAM."
+    },
+    "inference": {
+      "models": [
+        "baseline_unet",
+        "improved_unet"
+      ],
+      "batch_sizes": [
+        1,
+        4
+      ],
+      "spatial_shapes": [
+        [
+          256,
+          128
+        ],
+        [
+          256,
+          144
+        ]
+      ],
+      "input_channels": 1,
+      "precision": "FP32",
+      "model_mode": "eval with inference_mode",
+      "input": "fixed seeded synthetic tensors; no test pixels",
+      "warmup_iterations_per_model_shape_and_batch": 10,
+      "timed_iterations_per_model_shape_and_batch": 50,
+      "timing": "Synchronize CUDA before and after each measured model forward. Report median and p95 batch milliseconds and disclose the percentile method.",
+      "included": "Resident model and input, forward computation and its host launch/synchronization overhead",
+      "excluded": "Checkpoint loading, disk I/O, host/device transfers, metric calculation and plotting",
+      "resident_optimizer": "No optimizer in the isolated inference profile; report this explicitly."
+    },
+    "environment": "Record GPU, Python/PyTorch/CUDA versions, device and deterministic/benchmark settings for each actual run; no cross-environment bitwise reproducibility claim."
+  },
+  "test_split_read": false,
+  "claim_boundary": "One fixed seed and equal20epoch budget for a train/validation comparison. ID5 organ interpretation uses the user-accepted derivative-ID assumption. No test evaluation or claim of unseen test exposure.",
+  "experiment": "fresh_fixed20_id5_selected_retraining",
+  "parent_diagnostic_revision": "d519d4e2198c5e0d84e073dc5239bbcce0df9359",
+  "original_formal_plan_sha256": "d948605555a4fa2aefdecf6b23faaa61c370b48f60a515dfe5a2df5111d3d2be",
+  "original_formal_comparison_sha256": "e346f7b8a88446c897049273216b388e74f044f5abe436ebfc09ae73dcdc3a39",
+  "protected_original_files_sha256": {
+    "outputs/baseline_formal_20261026/best.pt": "2eb7bb791d70d12d3db90439a699ddb9739c0ee6f555db183e8b18df3e7866f9",
+    "outputs/baseline_formal_20261026/last.pt": "7183bc148ee9c2018f0b87fd3c4aa7521f0362394badd24c7fbbd77a9aac0dfa",
+    "outputs/baseline_formal_20261026/run_summary.json": "b0118045acaceb72513481c279af489b2c8ea318352a446787934cb9219d7f82",
+    "outputs/baseline_formal_20261026/training_curves.png": "9392e8349a4d7bba60cef49a2ecc0cf6318179ad15efcda000793f81fd1f5c6e",
+    "outputs/baseline_formal_20261026.console.log": "db274c56be313d36730e52af71facf6641110493550b3367dcf166b5719db559",
+    "outputs/improved_formal_20261026/best.pt": "a2e1c8520795697df907617817d4167d03ac0729126301e97659978c52fe27e2",
+    "outputs/improved_formal_20261026/last.pt": "20b0819a2de2db94d2c18ccaa76e416866885534cafe37d64364369d908ff100",
+    "outputs/improved_formal_20261026/run_summary.json": "69df5cd0ea1af41bb9782e2289c260785a244bbf7694d4ec41bbff82690e2ea4",
+    "outputs/improved_formal_20261026/training_curves.png": "0d87aa2a75c1c6d25bf960d6bf0553b6d154ead7794f8d2e260ad777355d7542",
+    "outputs/improved_formal_20261026.console.log": "ef8d7953dbdc2b7965e5e2ecde50ed05b7d98553438b2eb8df69198789e7ef59",
+    "outputs/selected_validation_verification_20261026/validation_example.png": "9161121ad1fb1556b893df6bdfa843dcb949de79617d384e2dc44b33a152c771",
+    "outputs/selected_validation_verification_20261026/verification.json": "edbe584f55a0d0fc8e4130b523073459f1eb73cbd5945bffc48e549b8512b5d2",
+    "outputs/selection_diagnosis_v2_20261026/A_missed_region.png": "517ca394ad1323543f3cdd2909684921fc9e709ba7bef414c91775eec27980e7",
+    "outputs/selection_diagnosis_v2_20261026/analysis_plan.json": "1732a1f0c58f559b9bc2523da42a31e3d564533d1f820f032e463afee23e6f45",
+    "outputs/selection_diagnosis_v2_20261026/B_empty_reference_fp.png": "d41514a44017a15efaa382fc38633db9c49cb3a96e91bb64711b1b79f6a97566",
+    "outputs/selection_diagnosis_v2_20261026/C_few_reference_pixels.png": "f8c8005ea2f0159f4fb6866fd095fe00011b66e4a9c42b1ac87436ef2d1dfdef",
+    "outputs/selection_diagnosis_v2_20261026/D_late_improvement.png": "3cbcea706b384a9a7132306ff00a7b69771500ca08194b057870aa7367b45e97",
+    "outputs/selection_diagnosis_v2_20261026/diagnosis_summary.json": "8f14dc05700d069d94ede0b8c45fc64f62d5382d156b3bc5a5c5322a6d9822b3",
+    "outputs/selection_diagnosis_v2_20261026/E_late_regression.png": "b56e38a45ac58bae4ecf6aeb9e974999db2177866700a4519cc5d72a87f9d4e2",
+    "outputs/selection_diagnosis_v2_20261026/per_slice_metrics.json": "26d3cef1baf97de97e7e3fc907efe3807eff8a4e7cf1de6a4bbe6d4f5a332f30",
+    "outputs/selection_diagnosis_v2_20261026/selection_and_ce.png": "784970638a41d8a28fc70019ad9fcf923ef8a24327bde9da15e313f0aa834117",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_reference.json": "7f3e595b0c4a72b411e329c5af350d44ca808efb1849bf8f26b3c54f9b4f808c",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_regression.json": "e80668e7a9d3fb8a31320e0bb4edbb2da37a281bb5c45d84dfdba4385b78aac6",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_run_plan.json": "8fbf9775c2dd745c0b94d0dac3cbaab2305b5d2fb1e05c911bf46fbdc834a72c",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_smoke.json": "f097d57f7c6dad2f3e4bf2e952865c482e367f8f92eaa87d0b1fedeff95797d0",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_training_curves.png": "4f044c4dcad83ff6e7fcec7fcd1951b6b149dfe152eb7f29e2dc4334c37dc73d",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_baseline_20261026.json": "7b28a92bfff706ca0b80a8a89669ef01d2b2e688cab14c574155bf6e1f5dbf08",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_baseline_profile_20261026.json": "6288a5e2277a0cd3c11b1e1d1281bde9756089f210faebdf3325cb5d73452341",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_comparison_20261026.json": "e346f7b8a88446c897049273216b388e74f044f5abe436ebfc09ae73dcdc3a39",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_comparison_curves_20261026.png": "a1c3bde5ca53d007079a6a467d9081859fc314d00f189737f9db5089021ede2e",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_experiment_proposal.json": "bfaf1d9010329bea350f28825a16f44a61f620226b69a75c39cf20b6df126ebd",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_improved_20261026.json": "855fca40149da866a1035aaa4730bdfa8e74f24280ac93186c42da98a7530cfe",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_improved_profile_20261026.json": "308b0fc824c1b345cb328ad068258ed0435467b328aefd79df759bb10a4128c2",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_run_plan_20261026.json": "d948605555a4fa2aefdecf6b23faaa61c370b48f60a515dfe5a2df5111d3d2be",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_validation_replay_20261026.json": "f6adbafce9cd66bcc4f9a8041f2c0be9ebcce0e39f89d9bf29f548d1781f49ce",
+    "recognition/hipmri_2d_improved_unet/evidence/geometry_audit.json": "ea0f4bfa8beae8784854a83d6a8a8d3a18781337cdf3b43a8cf54adabd1bb003",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_reference.json": "97d820692fd5836541d19cf04536f31259d9d9d7a1601988eb549e9e4954bdcb",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_run_plan.json": "d920b9805eea17b9af37523f26961c125ee3f5d7550b4192858393c81b93f2e3",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_smoke.json": "6ec4fcd7f67a054cbafd6b0c06d1686546daf65c265058bd6e16612c5de739e3",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_training_curves.png": "b644208eabb68a84aedbba924707674a74526dc01cb955f0995e056c985edc8d",
+    "recognition/hipmri_2d_improved_unet/evidence/pipeline_review.json": "316ef60168ece6bd6796213f1a83334c3b43e004bad2c23fab6496ca88f284c1",
+    "recognition/hipmri_2d_improved_unet/evidence/preprocessing_audit.json": "512824dc29e3230198ab6d0373b5ca5a9c60abcd699770be22807f973fa37480",
+    "recognition/hipmri_2d_improved_unet/evidence/resource_checks_20261026.json": "687278030e3cdec67a49c6f4ec2714dd3b42d5bc85bf91e8f2aff8c3ef80b36a",
+    "recognition/hipmri_2d_improved_unet/evidence/selection_diagnosis_20261026.json": "85b42180f160307730efcfe0ce47095912ac1fef3434dfe1aaa0b9e3ee7df46b",
+    "recognition/hipmri_2d_improved_unet/evidence/selection_diagnosis_20261026.png": "784970638a41d8a28fc70019ad9fcf923ef8a24327bde9da15e313f0aa834117",
+    "recognition/hipmri_2d_improved_unet/evidence/user_confirmation_20261026.json": "fc20cc5ca15b12b6079e65010c6780565c3212240e69066133c4589b770984e7"
+  },
+  "protected_record_manifest_sha256": "f218332b48b5ac2a41f9111a458de45fc62544da3a3d4104506ef66947a1d4cc",
+  "execution_script_sha256": "fd9f2a684754eb6ab4851c52372c6fde9aa897d627ebc7fbe0c70bfe3e987a1b",
+  "verification_script_sha256": "e7a78d329f1de0b1d9add39cb8b622105be3671c361dc1bf47c62f70a7070830"
+}

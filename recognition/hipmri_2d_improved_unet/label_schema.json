@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "num_classes": 6,
+  "preserve_mask_ids": true,
+  "source_raw_mapping_verified": true,
+  "derivative_no_remap_verified": false,
+  "working_target_id": 5,
+  "working_target_name": "Prostate",
+  "mapping_boundary": "The provider raw-ID mapping is verified. Applying it to the course keras_slices_data derivative assumes that its export preserved the original IDs; that assumption has not been independently verified.",
+  "classes": [
+    {"id": 0, "provider_name": "Background", "chinese_name": "背景"},
+    {"id": 1, "provider_name": "Body", "chinese_name": "身体区域"},
+    {"id": 2, "provider_name": "Bones", "chinese_name": "骨骼"},
+    {"id": 3, "provider_name": "Bladder", "chinese_name": "膀胱"},
+    {"id": 4, "provider_name": "Rectum", "chinese_name": "直肠"},
+    {"id": 5, "provider_name": "Prostate", "chinese_name": "前列腺"}
+  ],
+  "provider_source": {
+    "doi": "https://doi.org/10.25919/45t8-p065",
+    "collection_version": 2,
+    "collection_api": "https://data.csiro.au/dap/ws/v2/collections/52549",
+    "supporting_file": "https://data.csiro.au/dap/ws/v2/collections/52549/support/5034",
+    "supporting_file_name": "BriefDataDescription.txt",
+    "live_verification_date": "2026-10-25",
+    "live_verification_performed_by": "Codex auxiliary agent; read-only HTTP retrieval",
+    "supporting_file_http_status": 200,
+    "supporting_file_bytes": 695,
+    "supporting_file_sha256": "dc3a99204684ced859872d79a75707af3c0ad31d00f5f3213063ce5e30727ee6",
+    "local_backup_sha256_matches_live_source": true
+  },
+  "derivative_evidence": {
+    "course_document": "COMP3710_Report_2026_v2.5.pdf, p17",
+    "course_statement": "Lists keras_slices_data as 2D data under HipMRI_Study_open beside the 3D MRI and labels and names the anatomy categories.",
+    "local_download_script": "download_HipMRI_2D.cmd:21; scp copies the course keras_slices_data directory without a local relabeling step",
+    "limitations": [
+      "The download script alone is not evidence of successful transfer or file integrity.",
+      "No inspected exporter, publisher no-remap statement, or per-file comparison to the provider volumes establishes unchanged IDs in the current derivative.",
+      "Observed ID set 0 through 5 does not prove tissue meaning or absence of remapping."
+    ]
+  },
+  "reporting_policy": "Keep numerical IDs on historical plots. Any provider tissue name applied to derivative results must retain the no-remap assumption. ID1 or macro Dice is not the ID5 target score. No mask rewrite or relabeling is authorized."
+}

@@ -1,0 +1,96 @@
+{
+  "recorded_at": "2026-10-25T20:00:08.267936+10:00",
+  "milestone": "Ref[2]-based 2D Improved U-Net implementation and shared-pipeline integration",
+  "performed_by": "Codex automation; not user-performed verification",
+  "source_base_revision": "7ae1584d97f0b6b60825c54bd0310b6c18ec586f",
+  "reference": {
+    "course": "COMP3710_Report_2026_v2.5.pdf, p6 2D Improved U-Net [2]; p20 reference [2]",
+    "paper": "Isensee et al. (2018), Brain Tumor Segmentation and Radiomics Survival Prediction: Contribution to the BRATS 2017 Challenge",
+    "url": "https://arxiv.org/abs/1802.10508",
+    "architecture_section": "2.1; Figure 1"
+  },
+  "architecture": {
+    "context": "five scales, preactivation residual two-convolution blocks",
+    "downsampling": "stride-2 3x3 convolution",
+    "normalization": "InstanceNorm2d, affine=True, track_running_stats=False",
+    "activation": "LeakyReLU slope 0.01",
+    "dropout": "Dropout2d p=0.3 between residual convolutions",
+    "upsampling": "nearest x2 then 3x3 convolution",
+    "localization": "skip concatenation then 3x3 preserving concatenated channels, followed by 1x1 halving channels",
+    "heads": "quarter, half, full logits; progressive nearest upsample and elementwise sum",
+    "output": "single raw-logit tensor, no auxiliary losses"
+  },
+  "adaptation_choices": [
+    "all spatial operations adapted from 3D to 2D",
+    "channel-wise dropout, affine instance normalization and exactly three heads are explicit implementation choices",
+    "base width 16 is a shared resource choice, not the full paper configuration",
+    "shared cross-entropy and baseline smoke optimizer/settings retained; paper Dice-loss training recipe is not reproduced"
+  ],
+  "runs_in_order": [
+    {
+      "model": "baseline_unet",
+      "purpose": "regression against prior milestone, not an additional tuned baseline",
+      "output_dir": "outputs/baseline_regression_20261025"
+    },
+    {
+      "model": "improved_unet",
+      "purpose": "bounded functional smoke",
+      "output_dir": "outputs/improved_smoke_20261025"
+    }
+  ],
+  "shared_protocol": {
+    "in_channels": 1,
+    "num_classes": 6,
+    "base_channels": 16,
+    "batch_size": 4,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "seed": 3710,
+    "epochs_on_selected_subset": 2,
+    "selected_training_samples": 64,
+    "selection": "same fixed seeded subset including case_004_week_0_slice_12 as prior baseline",
+    "validation": "all 660 validation pairs each epoch",
+    "objective": "valid-region one-hot cross-entropy",
+    "checkpoint_selection": "minimum full-validation cross_entropy",
+    "augmentation": false,
+    "scheduler": false,
+    "mixed_precision": false
+  },
+  "preservation_checks": {
+    "unchanged_data_loss_metrics_sha256": {
+      "dataset.py": "ce72d3c34b5ac6dc218e71d4132534778266f31cae20e6d0e2a880d2f0bd7052",
+      "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+      "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035"
+    },
+    "baseline_classes_source_identical": true,
+    "six_shared_training_helpers_source_identical": true
+  },
+  "source_sha256_before_runs": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "train.py": "8145201daca8de4ea57fb4d8db5cf718f91d5c4b1ea663795cdae19c699d47cb",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "dataset.py": "ce72d3c34b5ac6dc218e71d4132534778266f31cae20e6d0e2a880d2f0bd7052",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "tests/test_baseline_model.py": "7f460072728bd2febf4f5de5909933c4b6758c9bcd52f03ea07bcd1e3b3723b2",
+    "tests/test_improved_model.py": "8e754fd3606ab7fe02dae27482f9e2ef3f309143561439e5ed9186d10fca0fd7",
+    "tests/test_preprocessing.py": "3edc4370e7500fecd65de267584c813e510cc1b8c9d77a27d77907d5937c61c2",
+    "tests/test_segmentation_loss.py": "aa0d7372ad174c16f5ea4f77b756b86f8ac7b29f46be820010dc9b49169ca99a",
+    "tests/test_segmentation_metrics.py": "80be8a51b4ab30d724ae988afc72c665eb0c8b9c60e43b9b16de7cb9672d9114",
+    "tests/test_shared_model_pipeline.py": "13068b4870d79237f63e0581681453fbe43dff66dcef449ca0ab76e0227cda2d",
+    "tests/test_training_loop.py": "1247540f782d97e53625ef018aa2f3f9ca6ad3e15c8816379cedd704da9274e2"
+  },
+  "checks_before_runs": {
+    "unittest_total": 47,
+    "passed": 47,
+    "skipped": 0
+  },
+  "captured_before_real_training": true,
+  "test_split_read": false,
+  "claim_boundary": "This milestone demonstrates implementation and integration. A 64-sample two-epoch smoke is not a formal architecture comparison, ablation or final quality result. Same seed does not imply identical initial weights across architectures.",
+  "pre_run_revision_note": "Before either real run, localization reviewed against reference section 2.1: 3x3 preserves concatenated channels and 1x1 halves them; checks rerun.",
+  "parameters": {
+    "baseline_unet": 1940902,
+    "improved_unet": 3190194
+  }
+}

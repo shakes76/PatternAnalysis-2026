@@ -1,0 +1,502 @@
+{
+  "milestone": "baseline_unet_minimal_training",
+  "performed_by": "Codex automation; not user-performed verification",
+  "created_at": "2026-10-25T20:00:19.379550+10:00",
+  "status": "passed",
+  "model": "baseline_unet",
+  "model_config": {
+    "in_channels": 1,
+    "num_classes": 6,
+    "base_channels": 16
+  },
+  "parameters": 1940902,
+  "optimizer": {
+    "name": "Adam",
+    "lr": 0.001
+  },
+  "objective": "valid-region one-hot cross-entropy",
+  "selection_metric": "minimum full-validation cross_entropy",
+  "seed": 3710,
+  "device": "cuda",
+  "gpu_name": "NVIDIA GeForce RTX 4070 Ti",
+  "versions": {
+    "python_torch": "2.11.0+cu128",
+    "numpy": "2.5.4"
+  },
+  "settings": {
+    "epochs": 2,
+    "batch_size": 4,
+    "num_workers": 0,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false
+  },
+  "data": {
+    "full_training_pairs": 11460,
+    "selected_training_pairs": 64,
+    "full_validation_pairs": 660,
+    "selected_training_case_groups": 20,
+    "training_case_groups": 31,
+    "validation_case_groups": 4,
+    "shared_case_ids": [],
+    "training_manifest_sha256": "87b3df279408c3cc9cf1b048ada5082f0d0475a740531bd31a1e8b668dafc09e",
+    "validation_manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f",
+    "selection_policy": "fixed seeded subset including the learning reference; indices sorted before seeded epoch shuffling",
+    "selected_training_filenames": [
+      "case_004_week_0_slice_12.nii.gz",
+      "case_004_week_0_slice_47.nii.gz",
+      "case_004_week_4_slice_50.nii.gz",
+      "case_004_week_6_slice_53.nii.gz",
+      "case_004_week_7_slice_20.nii.gz",
+      "case_010_week_0_slice_37.nii.gz",
+      "case_011_week_0_slice_27.nii.gz",
+      "case_011_week_1_slice_35.nii.gz",
+      "case_011_week_2_slice_28.nii.gz",
+      "case_011_week_3_slice_15.nii.gz",
+      "case_011_week_5_slice_24.nii.gz",
+      "case_011_week_5_slice_47.nii.gz",
+      "case_012_week_2_slice_6.nii.gz",
+      "case_012_week_4_slice_9.nii.gz",
+      "case_012_week_7_slice_55.nii.gz",
+      "case_012_week_7_slice_6.nii.gz",
+      "case_013_week_0_slice_23.nii.gz",
+      "case_013_week_2_slice_46.nii.gz",
+      "case_014_week_1_slice_15.nii.gz",
+      "case_014_week_2_slice_30.nii.gz",
+      "case_014_week_3_slice_30.nii.gz",
+      "case_014_week_3_slice_49.nii.gz",
+      "case_014_week_4_slice_45.nii.gz",
+      "case_014_week_4_slice_5.nii.gz",
+      "case_016_week_0_slice_7.nii.gz",
+      "case_016_week_1_slice_36.nii.gz",
+      "case_016_week_2_slice_0.nii.gz",
+      "case_016_week_5_slice_12.nii.gz",
+      "case_017_week_0_slice_58.nii.gz",
+      "case_017_week_3_slice_36.nii.gz",
+      "case_017_week_4_slice_27.nii.gz",
+      "case_017_week_4_slice_30.nii.gz",
+      "case_017_week_5_slice_16.nii.gz",
+      "case_017_week_7_slice_14.nii.gz",
+      "case_017_week_7_slice_34.nii.gz",
+      "case_018_week_1_slice_59.nii.gz",
+      "case_018_week_4_slice_11.nii.gz",
+      "case_018_week_5_slice_22.nii.gz",
+      "case_019_week_0_slice_56.nii.gz",
+      "case_019_week_6_slice_54.nii.gz",
+      "case_020_week_1_slice_5.nii.gz",
+      "case_020_week_2_slice_13.nii.gz",
+      "case_020_week_2_slice_34.nii.gz",
+      "case_020_week_3_slice_0.nii.gz",
+      "case_022_week_0_slice_58.nii.gz",
+      "case_022_week_2_slice_8.nii.gz",
+      "case_024_week_3_slice_28.nii.gz",
+      "case_024_week_5_slice_37.nii.gz",
+      "case_024_week_5_slice_39.nii.gz",
+      "case_024_week_6_slice_56.nii.gz",
+      "case_024_week_6_slice_58.nii.gz",
+      "case_025_week_0_slice_2.nii.gz",
+      "case_025_week_1_slice_22.nii.gz",
+      "case_025_week_4_slice_19.nii.gz",
+      "case_027_week_7_slice_11.nii.gz",
+      "case_028_week_0_slice_45.nii.gz",
+      "case_029_week_1_slice_2.nii.gz",
+      "case_030_week_3_slice_23.nii.gz",
+      "case_031_week_0_slice_30.nii.gz",
+      "case_031_week_4_slice_49.nii.gz",
+      "case_031_week_4_slice_52.nii.gz",
+      "case_032_week_5_slice_20.nii.gz",
+      "case_032_week_5_slice_50.nii.gz",
+      "case_032_week_6_slice_22.nii.gz"
+    ]
+  },
+  "limited_training_smoke": true,
+  "test_split_read": false,
+  "improved_unet_implemented": false,
+  "is_improved_run": false,
+  "reference_name": "case_004_week_0_slice_12.nii.gz",
+  "reference_ce_before_training": 1.7061042785644531,
+  "epochs": [
+    {
+      "epoch": 1,
+      "training": {
+        "confusion_matrix": [
+          [
+            0,
+            150369,
+            215009,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            610569,
+            805170,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            121426,
+            143944,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            16252,
+            18765,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3033,
+            4401,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3878,
+            4336,
+            0,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.0,
+          0.526065517695947,
+          0.19759024567688976,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "iou_per_class": [
+          0.0,
+          0.3569124164010342,
+          0.10962559717787047,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_dice_excluding_class0": 0.14473115267456735,
+        "mean_iou_excluding_class0": 0.09330760271578094,
+        "pixel_accuracy": 0.35977983474731445,
+        "valid_pixels": 2097152,
+        "cross_entropy": 1.5303311049938202,
+        "samples": 64,
+        "batches": 16,
+        "elapsed_seconds": 0.708,
+        "optimizer_steps": 16,
+        "gradient_norm_range": [
+          0.5368624329566956,
+          6.576737403869629
+        ]
+      },
+      "validation": {
+        "confusion_matrix": [
+          [
+            0,
+            2975001,
+            660,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            15210536,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2834195,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            377940,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            121329,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            107219,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.0,
+          0.8258347179105565,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "iou_per_class": [
+          0.0,
+          0.703337707653025,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_dice_excluding_class0": 0.16516694358211131,
+        "mean_iou_excluding_class0": 0.14066754153060498,
+        "pixel_accuracy": 0.7033162434895833,
+        "valid_pixels": 21626880,
+        "cross_entropy": 1.0586914929476652,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 3.518,
+        "optimizer_steps": 0
+      }
+    },
+    {
+      "epoch": 2,
+      "training": {
+        "confusion_matrix": [
+          [
+            0,
+            363488,
+            1890,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1415739,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            265370,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            35017,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            7434,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            8214,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.0,
+          0.8064588987585022,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "iou_per_class": [
+          0.0,
+          0.6756859046744512,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_dice_excluding_class0": 0.16129177975170045,
+        "mean_iou_excluding_class0": 0.13513718093489024,
+        "pixel_accuracy": 0.675076961517334,
+        "valid_pixels": 2097152,
+        "cross_entropy": 1.0561895556747913,
+        "samples": 64,
+        "batches": 16,
+        "elapsed_seconds": 0.524,
+        "optimizer_steps": 16,
+        "gradient_norm_range": [
+          0.996161699295044,
+          5.6095099449157715
+        ]
+      },
+      "validation": {
+        "confusion_matrix": [
+          [
+            0,
+            2907904,
+            67757,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            15210536,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2834195,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            377940,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            121329,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            107219,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.0,
+          0.8273416949556155,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "iou_per_class": [
+          0.0,
+          0.7055266580185103,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_dice_excluding_class0": 0.1654683389911231,
+        "mean_iou_excluding_class0": 0.14110533160370206,
+        "pixel_accuracy": 0.7033162434895833,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.9219077861670292,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 4.134,
+        "optimizer_steps": 0
+      }
+    }
+  ],
+  "claim_boundary": "A limited smoke run demonstrates the pipeline, not final model quality, fair model comparison or unseen-test performance.",
+  "case_identifier_note": "Numeric case field is a grouping proxy; original patient identity mapping is unverified.",
+  "first_parameter_max_abs_change": 0.02949357032775879,
+  "reference_ce_after_training": 0.8774915933609009,
+  "checkpoint_reload": {
+    "passed": true,
+    "best_epoch": 2,
+    "best_validation_cross_entropy": 0.9219077861670292,
+    "reference_ce": 0.8774915933609009,
+    "reference_logit_max_abs_difference": 0.0
+  },
+  "optimizer_steps": 32,
+  "peak_cuda_allocated_bytes": 171819008,
+  "peak_cuda_reserved_bytes": 209715200,
+  "curves_file": "training_curves.png",
+  "elapsed_seconds": 10.155,
+  "source_base_revision": "7ae1584d97f0b6b60825c54bd0310b6c18ec586f",
+  "pre_run_plan": "evidence/improved_run_plan.json",
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "train.py": "8145201daca8de4ea57fb4d8db5cf718f91d5c4b1ea663795cdae19c699d47cb",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "dataset.py": "ce72d3c34b5ac6dc218e71d4132534778266f31cae20e6d0e2a880d2f0bd7052",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "tests/test_baseline_model.py": "7f460072728bd2febf4f5de5909933c4b6758c9bcd52f03ea07bcd1e3b3723b2",
+    "tests/test_improved_model.py": "8e754fd3606ab7fe02dae27482f9e2ef3f309143561439e5ed9186d10fca0fd7",
+    "tests/test_preprocessing.py": "3edc4370e7500fecd65de267584c813e510cc1b8c9d77a27d77907d5937c61c2",
+    "tests/test_segmentation_loss.py": "aa0d7372ad174c16f5ea4f77b756b86f8ac7b29f46be820010dc9b49169ca99a",
+    "tests/test_segmentation_metrics.py": "80be8a51b4ab30d724ae988afc72c665eb0c8b9c60e43b9b16de7cb9672d9114",
+    "tests/test_shared_model_pipeline.py": "13068b4870d79237f63e0581681453fbe43dff66dcef449ca0ab76e0227cda2d",
+    "tests/test_training_loop.py": "1247540f782d97e53625ef018aa2f3f9ca6ad3e15c8816379cedd704da9274e2"
+  },
+  "source_hash_basis": "SHA256 of verified working-tree file bytes before Git line-ending normalization.",
+  "checks": {
+    "unittest_count": 47,
+    "unittest_skipped": 0,
+    "passed": true,
+    "performed_by": "Codex automation, not user execution"
+  },
+  "runtime_python_version": "3.13.2",
+  "checkpoint_sha256": "790a60ca2abbd52e19b6517b7a0bed22e62da3eb4579c7f22ae46fa74ab1b2ee",
+  "memory_note": "Peak PyTorch CUDA allocation/reservation over this process, including checkpoint restoration; not total GPU VRAM or an isolated training benchmark.",
+  "metric_notes": [
+    "Training scores are online batch predictions before each update; validation uses one fixed end-of-epoch model over all 660 validation pairs.",
+    "Numeric class-to-tissue mapping is unconfirmed; numeric ID Dice is not a named-organ Dice.",
+    "Best checkpoint selected by the predeclared validation CE rule; no hyperparameter search, extra training or test evaluation performed.",
+    "valid_mask restricts loss and metrics; convolutions (and InstanceNorm when present) still see padded image values, so prediction invariance to batch padding is not claimed."
+  ],
+  "regression": {
+    "against_revision": "7ae1584d97f0b6b60825c54bd0310b6c18ec586f",
+    "against_evidence": "evidence/baseline_smoke.json",
+    "data_and_selection_exact": true,
+    "all_epoch_metrics_and_losses_exact": true,
+    "best_checkpoint_all_model_tensors_exact": true,
+    "best_checkpoint_tensor_count": 46,
+    "legacy_checkpoint_predict_cli_passed": true,
+    "legacy_checkpoint_reference_ce": 0.8774915933609009,
+    "legacy_checkpoint_reference_metrics_exact": true,
+    "claim_boundary": "Regression preserves the prior baseline; it is not an additional tuned run or independent replication across environments."
+  }
+}

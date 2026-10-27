@@ -1,0 +1,215 @@
+{
+  "created_at": "2026-10-26T13:51:25.245995+10:00",
+  "status": "incomplete",
+  "performed_by": "Codex automation; not user-performed verification",
+  "split": "test",
+  "source_revision": "720452518b28c2a85f4bbded4c5802e90982f429",
+  "plan_sha256": "8e7ad57a31cdf1b24f82627b0a0c6afd6a332da1b12e5f98aabbe78688bdc5e5",
+  "recipe_sha256": "6da9a3f7ad807601f0f1650b5f671138768e99dd1e87b8263c6bed4934ec54fa",
+  "audit_sha256": "c6085252634fd6d9ea6ace501986c90f2a5fa6beea3810bc65c86b6f1f6095f3",
+  "test_manifest_sha256": "b6ea446b63a10f570ce294c253be477f3b355ab196d976a37e504e4da3a1b778",
+  "test_content_manifest_sha256": "05ecea02f67e8b3c96d028ab9accaa5fa55813a27ceef2f261ae39e48423eea5",
+  "frozen_checkpoint_sha256": {
+    "baseline_unet": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+    "improved_unet": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe"
+  },
+  "output_directory": "outputs\\frozen_test_20261026",
+  "once_guard": "outputs/frozen_test_once_20261026.guard.json",
+  "evaluation": {
+    "seed": 3710,
+    "batch_size": 4,
+    "num_workers": 0,
+    "precision": "FP32",
+    "device": "cuda",
+    "shuffle": false,
+    "drop_last": false,
+    "pair_order": "shared collect_pairs lexicographic MRI filename order",
+    "aggregation": "pixel_pooled",
+    "prediction": "argmax",
+    "num_classes": 6,
+    "test_time_augmentation": false,
+    "threshold_tuning": false,
+    "primary_metric": "full-test valid-pixel pooled dice_per_class[5]",
+    "secondary_metrics": [
+      "six-class Dice and IoU",
+      "foreground macro Dice and IoU excluding raw ID0 and undefined classes",
+      "full-test valid-pixel cross_entropy",
+      "pixel_accuracy"
+    ],
+    "cross_entropy": "shared losses.segmentation_cross_entropy, weighted by original valid pixel count across all test batches",
+    "absent_class_policy": "Absent in both reference and prediction: null; omitted from macros. False-positive predictions with empty reference: zero.",
+    "model_mode": "eval with gradients disabled; no optimizer, backward or parameter updates",
+    "one_pass_per_model": true,
+    "post_test_tuning": false
+  },
+  "models": {
+    "baseline_unet": {
+      "status": "passed",
+      "checkpoint_epoch": 5,
+      "checkpoint_sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+      "forward_calls": 135,
+      "forward_samples": 540,
+      "optimizer_steps": 0,
+      "state_sha256_before": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+      "resource_measurement": {
+        "stage": "frozen_test_baseline_unet",
+        "device": "cuda",
+        "resident_state": "One restored FP32 eval model, test inputs/logits; no optimizer or training gradients. Prior model is released before the next model; CUDA allocator cache is retained. Includes input I/O, shared metrics and persistent batch-count recording; not isolated forward latency.",
+        "status": "passed",
+        "elapsed_seconds": 3.6114168000640348,
+        "start_cuda_allocated_bytes": 7770112,
+        "start_cuda_reserved_bytes": 25165824,
+        "peak_cuda_allocated_bytes": 70858752,
+        "peak_cuda_reserved_bytes": 104857600,
+        "end_cuda_allocated_bytes": 7770112,
+        "end_cuda_reserved_bytes": 104857600
+      },
+      "state_sha256_after": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+      "parameters_have_no_gradients": true,
+      "metrics": {
+        "confusion_matrix": [
+          [
+            2851978,
+            8861,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            9823,
+            11841854,
+            184997,
+            23413,
+            17906,
+            5604
+          ],
+          [
+            6,
+            102939,
+            2063562,
+            1392,
+            0,
+            0
+          ],
+          [
+            0,
+            8228,
+            80,
+            410628,
+            0,
+            715
+          ],
+          [
+            373,
+            19543,
+            0,
+            497,
+            82223,
+            63
+          ],
+          [
+            0,
+            11304,
+            1,
+            156,
+            166,
+            48408
+          ]
+        ],
+        "dice_per_class": [
+          0.9966690657500875,
+          0.9836927777103533,
+          0.9344701812890138,
+          0.9597060779187998,
+          0.81010276165798,
+          0.8431613324624428
+        ],
+        "iou_per_class": [
+          0.9933602480772653,
+          0.9679088725692453,
+          0.877000497667423,
+          0.9225335816620198,
+          0.6808174147767262,
+          0.7288495415330413
+        ],
+        "mean_dice_excluding_class0": 0.9062266262077181,
+        "mean_iou_excluding_class0": 0.8354219816416911,
+        "pixel_accuracy": 0.9776166562680845,
+        "valid_pixels": 17694720,
+        "cross_entropy": 0.055552441433623985,
+        "samples": 540,
+        "batches": 135,
+        "elapsed_seconds": 3.611,
+        "optimizer_steps": 0
+      },
+      "full_test_passes": 1
+    },
+    "improved_unet": {
+      "status": "incomplete",
+      "checkpoint_epoch": 17,
+      "checkpoint_sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+      "forward_calls": 111,
+      "forward_samples": 444,
+      "optimizer_steps": 0,
+      "state_sha256_before": "9774c0810a327eeb0b9d8ae26b97563fe41943cf07561b7ab41b01981eb72745",
+      "resource_measurement": {
+        "stage": "frozen_test_improved_unet",
+        "device": "cuda",
+        "resident_state": "One restored FP32 eval model, test inputs/logits; no optimizer or training gradients. Prior model is released before the next model; CUDA allocator cache is retained. Includes input I/O, shared metrics and persistent batch-count recording; not isolated forward latency.",
+        "status": "failed",
+        "elapsed_seconds": 3.282086400082335,
+        "start_cuda_allocated_bytes": 12779520,
+        "start_cuda_reserved_bytes": 104857600,
+        "peak_cuda_allocated_bytes": 109380096,
+        "peak_cuda_reserved_bytes": 138412032,
+        "end_cuda_allocated_bytes": 20775424,
+        "end_cuda_reserved_bytes": 138412032,
+        "error": {
+          "type": "PermissionError",
+          "message": "[WinError 5] \u62d2\u7edd\u8bbf\u95ee\u3002: 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json.tmp' -> 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json'"
+        }
+      }
+    }
+  },
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "train.py": "283ded9aff4555b07e40741cc90ca8e47c982e39bf52bd55b5617c574e9bb0fe",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "resource_monitor.py": "4d0e148c1430f604fb7c2230e1b98a22ec5a4ba92c277918f81e1de0e7ea133a",
+    "profile_inference.py": "fdf512f895e72c0f7dd221d13f2a19fe6e0b5d5644b729e72cad5097b9df440c",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c",
+    "checkpoint_selection.py": "fa770b42399ff73718b5d78e9c52fe6f41b9ad7ef0e11bc5f1d95ebd8eac17e7",
+    "audit_test_manifest.py": "88e397d995c0c0cd1a8ddf942311c7658d3a3f2405f0c6e3ba2e1ce2176151f8",
+    "evaluate_frozen_test.py": "c8d4de4dc05802909d4cf4f9c708810b05d1d1b877408f9affed6e306f5809a4"
+  },
+  "content_verification_before": {
+    "pairs": 540,
+    "compressed_files_verified": 1080,
+    "content_manifest_sha256": "05ecea02f67e8b3c96d028ab9accaa5fa55813a27ceef2f261ae39e48423eea5",
+    "all_compressed_files_match": true,
+    "voxel_arrays_materialized": false,
+    "model_forward_calls": 0
+  },
+  "runtime": {
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "gpu_name": "NVIDIA GeForce RTX 4070 Ti",
+    "math_settings": {
+      "matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest"
+    }
+  },
+  "test_split_read": true,
+  "new_training": false,
+  "post_test_tuning": false,
+  "claim_boundary": "One final test pass per frozen model. No test-based model, epoch, threshold or hyperparameter selection. Numeric case is a grouping proxy and ID5 interpretation retains the accepted derivative-ID assumption.",
+  "error": {
+    "type": "PermissionError",
+    "message": "[WinError 5] \u62d2\u7edd\u8bbf\u95ee\u3002: 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json.tmp' -> 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json'"
+  }
+}

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1600" viewBox="0 0 1400 1600">
+<title>HipMRI baseline and Improved U-Net architecture</title>
+<desc>Static source-checked schematic; no model execution. All new text is purple.</desc>
+<rect width="1400" height="1600" fill="white"/>
+<text x="50" y="30" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="700" fill="#800080">HipMRI 2D models: source-checked information flow</text>
+<text x="50" y="80" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" fill="#800080">Default experiment widths: base=16, input=1 channel, output=6 class logits</text>
+<rect x="40" y="125" width="1320" height="112" rx="12" fill="#faf7fc" stroke="#c7b7ce" stroke-width="2"/>
+<text x="60" y="144" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" fill="#800080">SHARED INPUT  |  MRI [B,1,H,W], H/W padded to multiples of 16</text>
+<text x="60" y="172" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" fill="#800080">Per-slice min-max; bottom/right zero padding; valid mask excludes artificial padding.</text>
+<text x="60" y="200" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" fill="#800080">Class IDs stay unchanged; the loss encodes [B,6,H,W] one-hot targets.</text>
+<rect x="40" y="266" width="1320" height="369" rx="12" fill="#faf7fc" stroke="#c7b7ce" stroke-width="2"/>
+<text x="60" y="282" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#800080">BASELINE U-NET</text>
+<text x="60" y="321" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">DoubleConv = two same-padding 3x3 Conv + ReLU blocks</text>
+<rect x="65" y="384" width="410" height="163" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="81" y="401" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Encoder / MaxPool x2</text>
+<text x="81" y="442" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">16@1 -&gt; 32@1/2 -&gt; 64@1/4</text>
+<text x="81" y="472" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">-&gt; 128@1/8 (four skip scales)</text>
+<text x="81" y="502" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">@ denotes spatial resolution vs. input</text>
+<rect x="515" y="384" width="220" height="163" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="531" y="401" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Bottleneck</text>
+<text x="531" y="442" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">256 channels</text>
+<text x="531" y="472" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">H/16 x W/16</text>
+<text x="531" y="502" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">DoubleConv</text>
+<rect x="775" y="384" width="560" height="163" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="791" y="401" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Decoder: transpose-conv x2 + skip concat</text>
+<text x="791" y="442" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">DoubleConv outputs, deepest to shallowest:</text>
+<text x="791" y="472" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">128@1/8 -&gt; 64@1/4 -&gt; 32@1/2 -&gt; 16@1</text>
+<text x="791" y="502" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Final 1x1 Conv: 16 -&gt; 6 channels</text>
+<polyline points="475,466 515,466" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="515.00,466.00 506.34,471.00 506.34,461.00" fill="#92769c"/>
+<polyline points="735,466 775,466" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="775.00,466.00 766.34,471.00 766.34,461.00" fill="#92769c"/>
+<polyline points="270,384 270,364 1055,364 1055,384" fill="none" stroke="#92769c" stroke-width="2.5" stroke-dasharray="9 6"/>
+<polygon points="1055.00,384.00 1050.00,375.34 1060.00,375.34" fill="#92769c"/>
+<text x="665" y="340" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#800080">same-scale skips (4)</text>
+<text x="700" y="580" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#800080">OUTPUT: one [B,6,H,W] raw-logits tensor</text>
+<rect x="40" y="665" width="1320" height="611" rx="12" fill="#faf7fc" stroke="#c7b7ce" stroke-width="2"/>
+<text x="60" y="682" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#800080">IMPROVED U-NET  |  2D residual / multi-scale adaptation</text>
+<text x="60" y="723" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">PreAct = affine InstanceNorm (no running stats) -&gt; LeakyReLU(0.01) -&gt; Conv</text>
+<text x="60" y="754" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">ResidualContext = input + [PreActConv -&gt; Dropout2d(0.3) -&gt; PreActConv]</text>
+<rect x="65" y="827" width="410" height="178" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="81" y="844" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Encoder / stride-2 Conv</text>
+<text x="81" y="885" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">3x3 stem: 1 -&gt; 16; residual context</text>
+<text x="81" y="915" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">16@1 -&gt; 32@1/2 -&gt; 64@1/4</text>
+<text x="81" y="945" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">-&gt; 128@1/8 (four skip scales)</text>
+<text x="81" y="975" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Residual context at every scale</text>
+<rect x="515" y="827" width="220" height="178" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="531" y="844" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Bottleneck</text>
+<text x="531" y="885" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">256 channels</text>
+<text x="531" y="915" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">H/16 x W/16</text>
+<text x="531" y="945" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">5th residual</text>
+<text x="531" y="975" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">context scale</text>
+<rect x="775" y="827" width="560" height="178" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="791" y="844" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Nearest x2 -&gt; PreActConv -&gt; concat skip</text>
+<text x="791" y="885" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Localization: 3x3 mix -&gt; 1x1 channel halve</text>
+<text x="791" y="915" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Decoder outputs: 128@1/8 -&gt; 64@1/4</text>
+<text x="791" y="945" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">-&gt; 32@1/2 -&gt; 16@1</text>
+<text x="791" y="975" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Three 1x1 heads tap the last three scales</text>
+<polyline points="475,916 515,916" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="515.00,916.00 506.34,921.00 506.34,911.00" fill="#92769c"/>
+<polyline points="735,916 775,916" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="775.00,916.00 766.34,921.00 766.34,911.00" fill="#92769c"/>
+<polyline points="270,827 270,807 1055,807 1055,827" fill="none" stroke="#92769c" stroke-width="2.5" stroke-dasharray="9 6"/>
+<polygon points="1055.00,827.00 1050.00,818.34 1060.00,818.34" fill="#92769c"/>
+<text x="665" y="782" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#800080">same-scale skips (4)</text>
+<rect x="65" y="1052" width="410" height="89" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="81" y="1069" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Quarter head: from C64</text>
+<text x="81" y="1110" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">q = [B,6,H/4,W/4]</text>
+<rect x="495" y="1052" width="410" height="89" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="511" y="1069" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Half head: from C32</text>
+<text x="511" y="1110" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">h = [B,6,H/2,W/2]</text>
+<rect x="925" y="1052" width="410" height="89" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="941" y="1069" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#800080">Full head: from C16</text>
+<text x="941" y="1110" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">f = [B,6,H,W]</text>
+<polyline points="1055,1005 1055,1027 270,1027 270,1052" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="270.00,1052.00 265.00,1043.34 275.00,1043.34" fill="#92769c"/>
+<polyline points="1055,1027 700,1027 700,1052" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="700.00,1052.00 695.00,1043.34 705.00,1043.34" fill="#92769c"/>
+<polyline points="1055,1027 1130,1027 1130,1052" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="1130.00,1052.00 1125.00,1043.34 1135.00,1043.34" fill="#92769c"/>
+<rect x="65" y="1180" width="1270" height="69" rx="12" fill="white" stroke="#c7b7ce" stroke-width="2"/>
+<text x="700" y="1193" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#800080">Fused logits = f + nearest_x2( h + nearest_x2(q) )</text>
+<text x="700" y="1229" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#800080">One full-resolution output; one shared CE; no auxiliary loss or final softmax</text>
+<polyline points="270,1141 270,1180" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="270.00,1180.00 265.00,1171.34 275.00,1171.34" fill="#92769c"/>
+<polyline points="700,1141 700,1180" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="700.00,1180.00 695.00,1171.34 705.00,1171.34" fill="#92769c"/>
+<polyline points="1130,1141 1130,1180" fill="none" stroke="#92769c" stroke-width="2.5"/>
+<polygon points="1130.00,1180.00 1125.00,1171.34 1135.00,1171.34" fill="#92769c"/>
+<rect x="40" y="1302" width="1320" height="151" rx="12" fill="#faf7fc" stroke="#c7b7ce" stroke-width="2"/>
+<text x="60" y="1321" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" fill="#800080">SHARED LOSS AND EVALUATION</text>
+<text x="60" y="1365" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Train: valid-region one-hot CE -&gt; backward / Adam update.</text>
+<text x="60" y="1394" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Validation/test: eval + no gradient / optimizer updates; argmax -&gt; valid-pixel confusion -&gt; Dice / IoU.</text>
+<text x="60" y="1423" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Both models use the same preprocessing, batching, valid support and evaluation rules.</text>
+<text x="50" y="1470" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Source: modules.py (static AST checks only). No model import, forward pass, data or checkpoint read.</text>
+<text x="50" y="1498" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Improved is inspired by Isensee et al. (2018); this is not the complete 3D paper recipe.</text>
+<text x="50" y="1526" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">This compares complete models with unequal parameter counts; no module-wise ablation claim.</text>
+<text x="50" y="1554" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#800080">Schematic groups layers; tensor spatial labels are relative to the padded model input.</text>
+</svg>

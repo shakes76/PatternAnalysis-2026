@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-10-26T11:26:40.624746+10:00",
+  "status": "passed_before_formal_retraining",
+  "performed_by": "Codex automation, with independent read-only and CPU agent audit; not user execution",
+  "unittest_passed": 92,
+  "unittest_skipped": 0,
+  "unittest_log": "outputs/id5_preflight_20261026/unittest.log",
+  "unittest_log_sha256": "649d0d850d30d1abdb6daa8f35d8ecc73c439f137d9dde22d0acbef37176077b",
+  "new_selection_checks": 9,
+  "new_verifier_checks": 10,
+  "original_checks_retained": 73,
+  "unchanged_core_file_count_excluding_train": 8,
+  "unchanged_core_functions_ast": [
+    "seed_everything",
+    "manifest_hash",
+    "select_training_pairs",
+    "move_batch",
+    "run_epoch",
+    "reference_probe",
+    "measured_call",
+    "plot_history",
+    "main"
+  ],
+  "data_loader_model_adam_initialization_text_unchanged": true,
+  "independent_cpu_probe_rng_and_model_state_unchanged_for_both_models": true,
+  "primary_alias_byte_identity_checked_in_constructed_cpu_flow": true,
+  "protected_original_files_count": 46,
+  "new_formal_training_started": false,
+  "test_split_read": false,
+  "runtime": {
+    "python": "3.13.2",
+    "torch": "2.11.0+cu128",
+    "numpy": "2.5.4",
+    "nibabel": "5.4.2",
+    "cuda": "12.8",
+    "cudnn": 91900,
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "float32_matmul_precision": "highest"
+  }
+}

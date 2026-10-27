@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-10-26T14:07:54.040224+10:00",
+  "status": "passed_before_authorized_recovery_forward",
+  "performed_by": "Codex automation, not user verification",
+  "unittest_passed": 129,
+  "unittest_skipped": 0,
+  "unittest_log": "outputs/frozen_test_recovery_preflight_20261026/unittest.log",
+  "unittest_log_sha256": "a1cee64fbf97575031245215245db45cbaacf29a39c612d2c41de977704bea76",
+  "prior_checks": 121,
+  "new_recovery_checks": 8,
+  "synthetic_checks_cover": [
+    "additional exact human approval required",
+    "only Improved constructed/forwarded; baseline zero",
+    "one new full pass and immutable original attempt",
+    "changed plan/output cannot repeat recovery",
+    "rules/checkpoint/source drift rejected",
+    "early failure records planned versus actual repeat correctly",
+    "changed frozen baseline copy rejected without baseline forward"
+  ],
+  "recovery_script_sha256": "e21b80ae0c98fafa5c63a2d0b00f97e8d27d9b6ef7643ceab35bbd23dda7d168",
+  "repaired_evaluator_sha256": "af0dd4f908e4f39d283724fa38d6eeb862b9aaf4a83d4b62902a8cd0820b6984",
+  "recovery_authorization_sha256": "865afb92c474abaf647425ec0fd51abbe1160fe0bb3550c6e7d83c1000d4e1f7",
+  "original_failed_guard_sha256_unchanged": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700",
+  "original_baseline_result_sha256_unchanged": "9117f3e50e46263ce037c76a696c53a980deb98628d3236ac01b4a3306611c30",
+  "original_78_records_and_both_weight_copies_unchanged": true,
+  "new_real_test_forward_calls_since_initial_failure": 0,
+  "new_recovery_guard_created": false,
+  "source_math_boundary": "Original model eval/checkpoint/data/loss/metric code unchanged; I/O retry and explicit recovery orchestration only."
+}

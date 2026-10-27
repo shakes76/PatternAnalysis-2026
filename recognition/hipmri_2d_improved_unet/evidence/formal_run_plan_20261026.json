@@ -1,0 +1,180 @@
+{
+  "recorded_at": "2026-10-26T09:25:16.429714+10:00",
+  "timezone": "Australia/Brisbane",
+  "status": "approved_for_execution",
+  "captured_before_training": true,
+  "performed_by": "Codex automation; user supplied explicit approval and two correct comprehension answers",
+  "source_revision": "7a8ffc221986e98f664990c1b441684ed4475d1c",
+  "source_tree_was_clean": true,
+  "user_confirmation_received": true,
+  "user_confirmation_record_sha256": "fc20cc5ca15b12b6079e65010c6780565c3212240e69066133c4589b770984e7",
+  "approved_proposal_sha256": "bfaf1d9010329bea350f28825a16f44a61f620226b69a75c39cf20b6df126ebd",
+  "epochs_per_model": 20,
+  "shared_protocol": {
+    "models": [
+      "baseline_unet",
+      "improved_unet"
+    ],
+    "model_config": {
+      "in_channels": 1,
+      "num_classes": 6,
+      "base_channels": 16
+    },
+    "input_layout": "B,C,H,W",
+    "preprocessing": {
+      "normalization": "per-slice min-max over all MRI pixels, before padding; constant images become zero",
+      "sample_padding": "zero-pad bottom/right to the next multiple of 16",
+      "batch_padding": "zero-pad bottom/right to the maximum padded height and width in the current batch",
+      "target_padding_value": -100,
+      "valid_region": "all original pixels, including class0 and black MRI pixels; padding excluded from loss and metrics",
+      "prediction_crop": "crop the final prediction to each sample's original height and width without interpolation",
+      "padding_note": "Convolutions and Improved InstanceNorm still see padded image values. Identical preprocessing and batching are required; padding invariance of predictions is not claimed."
+    },
+    "numeric_precision": "FP32",
+    "seed": 3710,
+    "shuffle": "same seeded training selection/order policy with a dedicated DataLoader generator; validation is not shuffled",
+    "initialization_note": "Use each current architecture's existing initialization. The same seed does not create identical initial weights across different architectures.",
+    "batch_size": 4,
+    "num_workers": 0,
+    "optimizer": {
+      "name": "Adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0
+    },
+    "objective": "shared valid-region one-hot cross-entropy",
+    "augmentation": false,
+    "mixed_precision_amp": false,
+    "scheduler": false,
+    "validation": "eval mode, gradients disabled and no optimizer updates; accumulate metrics across the entire validation split",
+    "fairness_rule": "Do not change input handling, loss, precision, optimizer, batch size or budget for only one model. A required protocol change must be reviewed and applied to both before restarting a comparable experiment."
+  },
+  "training_budget": {
+    "complete_epochs_per_model": 20,
+    "maximum_complete_epochs_per_model": 20,
+    "training_batches_per_complete_epoch": 2865,
+    "planned_optimizer_updates_per_model_if_complete": 57300,
+    "budget_basis": "11460 training slices / batch4 = 2865 batches; 20 complete epochs = 57300 updates per model",
+    "early_stopping": false,
+    "validation_driven_extra_epochs": false,
+    "stop_and_report_on": [
+      "non-finite values",
+      "data or runtime error",
+      "out of memory"
+    ],
+    "on_failure": "Preserve evidence, mark the run incomplete and report the failure. Do not silently reduce batch size or change one model's settings.",
+    "completion_rule": "A model run with fewer than 20 complete epochs is incomplete. If either model is incomplete, do not present the pair as a completed final fair comparison."
+  },
+  "metrics_and_model_selection": {
+    "primary_report": {
+      "metric": "full-validation pixel-pooled ID5 Dice",
+      "current_result_field": "dice_per_class[5]",
+      "organ_interpretation": "Prostate only under the explicit course-derived ID-preservation assumption",
+      "aggregation": "Sum the entire validation split's valid-pixel confusion counts first, then compute ID5 Dice. This is not an average of batch Dice or per-case Dice."
+    },
+    "secondary_reports": [
+      "Pixel-pooled Dice and IoU for each of the six raw classes",
+      "Foreground macro Dice and macro IoU excluding raw ID0 and undefined classes",
+      "Valid-pixel cross-entropy over the entire validation split"
+    ],
+    "absent_class_policy": "A class absent from both prediction and reference is undefined (null) and omitted from macro means. False-positive predictions on an empty reference score zero.",
+    "checkpoint_selection": {
+      "criterion": "minimum full-validation valid-pixel cross_entropy",
+      "tie_break": "earliest epoch; replace best only on a strictly lower validation CE",
+      "preserved_rule": "Keep the current shared CE checkpoint selection rule; the reported primary ID5 Dice does not silently replace the selection criterion.",
+      "restore_check": "Reload the selected checkpoint with its model metadata and verify the saved selected-epoch reference logits before reporting it."
+    },
+    "old_metric_boundary": "This proposal uses the current pixel-pooled metric, not the old project's case-balanced mean of per-volume prostate Dice. Do not substitute old 0.8316/0.8233 values for new results or compare them as if the metric and experiment were unchanged."
+  },
+  "label_mapping_assumption_accepted": true,
+  "derivative_no_remap_independently_verified": false,
+  "initialization": "Each model initialized from scratch with seed3710; no smoke checkpoint or pretrained weights used for training.",
+  "data": {
+    "training": {
+      "pairs": 11460,
+      "case_proxy_groups": 31,
+      "manifest_sha256": "fec960cc7d97e0dd597464a024a643a1c454709e754406e01e85e50d10be2b80"
+    },
+    "validation": {
+      "pairs": 660,
+      "case_proxy_groups": 4,
+      "manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f"
+    }
+  },
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "train.py": "5df23101675bc6939145de463d503d56d198dcb5b0b1a0a63b8dfcfa47a632db",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "resource_monitor.py": "4d0e148c1430f604fb7c2230e1b98a22ec5a4ba92c277918f81e1de0e7ea133a",
+    "profile_inference.py": "fdf512f895e72c0f7dd221d13f2a19fe6e0b5d5644b729e72cad5097b9df440c",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c"
+  },
+  "source_hash_basis": "Verified working-tree file bytes before Git line-ending normalization.",
+  "preflight": {
+    "unittest_passed": 67,
+    "unittest_skipped": 0,
+    "resource_check_evidence_sha256": "687278030e3cdec67a49c6f4ec2714dd3b42d5bc85bf91e8f2aff8c3ef80b36a",
+    "both_original_smoke_metrics_and_best_weights_exact": true
+  },
+  "runs_in_order": [
+    {
+      "model": "baseline_unet",
+      "output_dir": "outputs/baseline_formal_20261026",
+      "console_log": "outputs/baseline_formal_20261026.console.log"
+    },
+    {
+      "model": "improved_unet",
+      "output_dir": "outputs/improved_formal_20261026",
+      "console_log": "outputs/improved_formal_20261026.console.log"
+    }
+  ],
+  "resource_measurement": {
+    "instrumentation_status": "Implemented and checked in source_revision; stage GPU regressions passed.",
+    "required_before_formal_run": true,
+    "memory": {
+      "measure_separately": [
+        "training",
+        "validation",
+        "checkpoint_restoration"
+      ],
+      "method": "Synchronize CUDA and reset peak counters at each stage boundary; record both peak allocated and peak reserved bytes for that stage.",
+      "report_resident_state": "State whether the model, optimizer state, gradients, input/output tensors and restored model are resident in each stage. Resident optimizer state must not be silently excluded from a validation or restoration peak.",
+      "old_smoke_boundary": "Existing smoke peaks include checkpoint restoration. Preserve those recorded scopes; do not relabel them as isolated training peaks or total GPU VRAM."
+    },
+    "inference": {
+      "models": [
+        "baseline_unet",
+        "improved_unet"
+      ],
+      "batch_sizes": [
+        1,
+        4
+      ],
+      "spatial_shapes": [
+        [
+          256,
+          128
+        ],
+        [
+          256,
+          144
+        ]
+      ],
+      "input_channels": 1,
+      "precision": "FP32",
+      "model_mode": "eval with inference_mode",
+      "input": "fixed seeded synthetic tensors; no test pixels",
+      "warmup_iterations_per_model_shape_and_batch": 10,
+      "timed_iterations_per_model_shape_and_batch": 50,
+      "timing": "Synchronize CUDA before and after each measured model forward. Report median and p95 batch milliseconds and disclose the percentile method.",
+      "included": "Resident model and input, forward computation and its host launch/synchronization overhead",
+      "excluded": "Checkpoint loading, disk I/O, host/device transfers, metric calculation and plotting",
+      "resident_optimizer": "No optimizer in the isolated inference profile; report this explicitly."
+    },
+    "environment": "Record GPU, Python/PyTorch/CUDA versions, device and deterministic/benchmark settings for each actual run; no cross-environment bitwise reproducibility claim."
+  },
+  "test_split_read": false,
+  "claim_boundary": "One fixed seed and equal20epoch budget for a train/validation comparison. ID5 organ interpretation uses the user-accepted derivative-ID assumption. No test evaluation or claim of unseen test exposure."
+}

@@ -1,0 +1,225 @@
+{
+  "milestone": "submission_dependency_metadata_and_static_audit",
+  "recorded_at": "2026-10-26T14:43:07.771562+10:00",
+  "performed_by": "Codex automation; not user-performed verification",
+  "source_revision_before_submission_changes": "0211785eaf2b96f4165436cf29ee5addb763078c",
+  "python": {
+    "version": "3.13.2",
+    "full_version": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
+    "implementation": "CPython",
+    "platform": "win32",
+    "machine": "AMD64",
+    "pointer_bits": 64,
+    "executable": "C:\\Users\\Nuoyan\\OneDrive\\桌面\\uq 26s2\\comp3710\\recognition\\hipmri_2d_improved_unet\\.venv\\Scripts\\python.exe"
+  },
+  "direct_dependencies": {
+    "numpy": {
+      "version": "2.5.4",
+      "requires_python": ">=3.12",
+      "requires_dist": [],
+      "source": "importlib.metadata.distribution; target package was not imported"
+    },
+    "nibabel": {
+      "version": "5.4.2",
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "importlib-resources>=5.12; python_version < '3.12'",
+        "numpy>=1.25",
+        "packaging>=20",
+        "typing-extensions>=4.6; python_version < '3.13'",
+        "backports-zstd>=1.1; (python_version < '3.14') and extra == 'all'",
+        "h5py>=3.8; extra == 'all'",
+        "indexed-gzip>=1.6; extra == 'all'",
+        "pillow>=8.4; extra == 'all'",
+        "pydicom>=2.3; extra == 'all'",
+        "scipy>=1.11; extra == 'all'",
+        "pydicom>=2.3; extra == 'dicom'",
+        "pillow>=8.4; extra == 'dicomfs'",
+        "pydicom>=2.3; extra == 'dicomfs'",
+        "indexed-gzip>=1.6; extra == 'indexed-gzip'",
+        "h5py>=3.8; extra == 'minc2'",
+        "scipy>=1.11; extra == 'spm'",
+        "coverage[toml]>=7.2; extra == 'test'",
+        "pytest-cov>=6; extra == 'test'",
+        "pytest-doctestplus>=1.4; extra == 'test'",
+        "pytest-httpserver>=1.0.7; extra == 'test'",
+        "pytest-xdist>=3.5; extra == 'test'",
+        "pytest>=8; extra == 'test'",
+        "matplotlib>=3.7; extra == 'viewers'",
+        "backports-zstd>=1.1; (python_version < '3.14') and extra == 'zstd'"
+      ],
+      "source": "importlib.metadata.distribution; target package was not imported"
+    },
+    "torch": {
+      "version": "2.11.0+cu128",
+      "requires_python": ">=3.10",
+      "requires_dist": [
+        "filelock",
+        "typing-extensions>=4.10.0",
+        "setuptools<82",
+        "sympy>=1.13.3",
+        "networkx>=2.5.1",
+        "jinja2",
+        "fsspec>=0.8.5",
+        "opt-einsum>=3.3; extra == \"opt-einsum\"",
+        "optree>=0.13.0; extra == \"optree\"",
+        "pyyaml; extra == \"pyyaml\""
+      ],
+      "source": "importlib.metadata.distribution; target package was not imported"
+    },
+    "matplotlib": {
+      "version": "3.11.2",
+      "requires_python": ">=3.11",
+      "requires_dist": [
+        "contourpy>=1.0.1",
+        "cycler>=0.10",
+        "fonttools>=4.28.2",
+        "kiwisolver>=1.3.1",
+        "numpy>=1.25",
+        "packaging>=20.0",
+        "pillow>=9",
+        "pyparsing>=3",
+        "python-dateutil>=2.7"
+      ],
+      "source": "importlib.metadata.distribution; target package was not imported"
+    }
+  },
+  "requirements_files": {
+    "requirements.txt": {
+      "sha256": "5544d17bc7740fb3e8597a309f46eb03d171706e9eadf6ab9792c642eda19a36"
+    },
+    "requirements-cuda-observed.txt": {
+      "sha256": "75722eabfbf4d61be7589315f5aa0afaeebc22b93a210ff533a274c6dc76119b"
+    }
+  },
+  "documentation_sha256": "77f49522204fea1a31561018aa2a14b36517873d2c7969ac3f2ebb41342acf3d",
+  "metadata_checks": {
+    "main_requirements_match_installed_versions": [
+      {
+        "requirement": "numpy==2.5.4",
+        "installed_version": "2.5.4",
+        "matches_observed_version": true
+      },
+      {
+        "requirement": "nibabel==5.4.2",
+        "installed_version": "5.4.2",
+        "matches_observed_version": true
+      },
+      {
+        "requirement": "torch==2.11.0",
+        "installed_version": "2.11.0+cu128",
+        "matches_observed_version": true
+      },
+      {
+        "requirement": "matplotlib==3.11.2",
+        "installed_version": "3.11.2",
+        "matches_observed_version": true
+      }
+    ],
+    "cuda_observed_constraint_matches_installed_torch": true,
+    "main_torch_public_pin_accepts_observed_local_version": true,
+    "current_python_satisfies_direct_package_requires_python": true,
+    "torch_cuda_tag_is_distribution_version_only": true
+  },
+  "static_checks": {
+    "python_ast_and_compile_passed": true,
+    "file_count": 42,
+    "files": [
+      "audit_geometry.py",
+      "audit_preprocessing.py",
+      "audit_test_manifest.py",
+      "checkpoint_selection.py",
+      "collect_final_report_evidence.py",
+      "dataset.py",
+      "diagnose_validation.py",
+      "diagnostic_figures.py",
+      "evaluate_frozen_test.py",
+      "inspect_training_pair.py",
+      "inspect_training_pairs.py",
+      "losses.py",
+      "metrics.py",
+      "modules.py",
+      "predict.py",
+      "profile_inference.py",
+      "recover_frozen_test.py",
+      "resource_monitor.py",
+      "review_pipeline.py",
+      "run_id5_retraining.py",
+      "summarize_formal_runs.py",
+      "summarize_frozen_test.py",
+      "tests/test_baseline_model.py",
+      "tests/test_checkpoint_selection.py",
+      "tests/test_formal_plan.py",
+      "tests/test_frozen_test.py",
+      "tests/test_frozen_test_recovery.py",
+      "tests/test_geometry.py",
+      "tests/test_id5_run_verifier.py",
+      "tests/test_improved_model.py",
+      "tests/test_preprocessing.py",
+      "tests/test_resource_monitor.py",
+      "tests/test_segmentation_loss.py",
+      "tests/test_segmentation_metrics.py",
+      "tests/test_shared_model_pipeline.py",
+      "tests/test_test_manifest_audit.py",
+      "tests/test_training_loop.py",
+      "tests/test_validation_diagnostics.py",
+      "train.py",
+      "validation_diagnostics.py",
+      "verify_id5_runs.py",
+      "verify_selected_validation.py"
+    ],
+    "modules_executed": false
+  },
+  "local_guards_snapshot": {
+    "outputs/frozen_test_once_20261026.guard.json": {
+      "exists": true,
+      "status": "incomplete",
+      "models": {
+        "baseline_unet": {
+          "status": "passed"
+        },
+        "improved_unet": {
+          "status": "incomplete"
+        }
+      },
+      "sha256": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700"
+    },
+    "outputs/frozen_test_recovery_once_20261026.guard.json": {
+      "exists": true,
+      "status": "passed",
+      "models": {
+        "improved_unet": {
+          "status": "passed"
+        }
+      },
+      "sha256": "45814d01c5584bf97f3b56a48e35f61a75b6b32231c4b42d410fc5fdef2d2b7b"
+    }
+  },
+  "execution_boundaries": {
+    "network_used": false,
+    "packages_installed_or_changed": false,
+    "target_packages_imported": false,
+    "torch_imported": false,
+    "cuda_runtime_probed": false,
+    "gpu_called": false,
+    "model_loaded_or_forwarded": false,
+    "training_run": false,
+    "test_raw_data_read": false,
+    "test_evaluation_rerun": false,
+    "full_model_test_suite_run": false,
+    "fresh_environment_installation_verified": false,
+    "wheel_sources_or_availability_verified": false,
+    "cpu_build_or_cross_platform_reproduction_verified": false,
+    "transitive_dependencies_fully_locked": false,
+    "git_write_or_commit_by_this_dependency_task": false
+  },
+  "reproduction_notes": [
+    "requirements.txt pins four direct public package versions; torch backend is not selected by that file.",
+    "requirements-cuda-observed.txt narrows torch to the installed 2.11.0+cu128 distribution and does not configure a package index.",
+    "An offline installation needs a separately prepared complete compatible wheelhouse; no wheelhouse is supplied or verified.",
+    "Use explicit --data-root after relocating the repository and keep all project helper modules.",
+    "Generic CPU CLI support does not permit changing the existing CUDA formal protocols.",
+    "Do not delete, reset or rename consumed once guards. A new checkout without ignored guards does not authorize another evaluation.",
+    "Historical hashes may describe original working-tree bytes; line-ending normalization is a distinct audit concern."
+  ]
+}

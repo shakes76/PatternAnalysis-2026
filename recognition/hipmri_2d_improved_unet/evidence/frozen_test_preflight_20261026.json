@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-26T13:49:06.857425+10:00",
+  "status": "passed_before_test_model_forward",
+  "performed_by": "Codex automation; not user execution or independent understanding",
+  "unittest_passed": 114,
+  "unittest_skipped": 0,
+  "original_checks_retained": 92,
+  "new_input_audit_checks": 10,
+  "new_frozen_evaluation_checks": 12,
+  "unittest_log": "outputs/frozen_test_preflight_20261026/unittest.log",
+  "unittest_log_sha256": "e9ef468efe808bffed26067db996083a6c5e05b7b52d2766a393468963626307",
+  "recipe_sha256": "6da9a3f7ad807601f0f1650b5f671138768e99dd1e87b8263c6bed4934ec54fa",
+  "input_audit_sha256": "c6085252634fd6d9ea6ace501986c90f2a5fa6beea3810bc65c86b6f1f6095f3",
+  "original_core_files_unchanged": 10,
+  "protected_original_files_unchanged": 78,
+  "frozen_copies_equal_original_weights": true,
+  "test_pairs_audited": 540,
+  "header_geometry_errors": 0,
+  "test_case_proxy_ids": [
+    40,
+    41,
+    42
+  ],
+  "pairwise_split_case_intersections_empty": true,
+  "real_test_model_forward_calls": 0,
+  "real_test_voxel_arrays_materialized": false,
+  "persistent_real_once_guard_exists": false,
+  "test_metrics_used_to_choose_models_or_rules": false,
+  "synthetic_checks_scope": "Hand-computed CE/confusion, tail batch, exactly one pass, no state/grad updates, atomic fixed guard, attempts consumed on interruption/failure, baseline report retained if second model fails, and four frozen-chain mismatch rejection cases. All test fixtures constructed locally."
+}

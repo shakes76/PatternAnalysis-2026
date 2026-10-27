@@ -1,0 +1,7 @@
+# Direct dependencies observed in the existing environment on 2026-10-26.
+# torch's public version pin does not select a CPU or CUDA backend.
+# These pins are an environment record; a fresh installation was not tested.
+numpy==2.5.4
+nibabel==5.4.2
+torch==2.11.0
+matplotlib==3.11.2

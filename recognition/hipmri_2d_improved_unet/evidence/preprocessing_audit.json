@@ -1,0 +1,140 @@
+{
+  "audit_kind": "preprocessing_contract",
+  "performed_by": "Codex automatic verification; not user-performed checks",
+  "created_at": "2026-10-25T19:17:00.688477+10:00",
+  "timezone": "Australia/Brisbane",
+  "parameters": {
+    "multiple": 16,
+    "ignore_index": -100,
+    "limit_per_split": null
+  },
+  "scope": [
+    "training",
+    "validation"
+  ],
+  "test_split_read": false,
+  "case_identifier_note": "Numeric case field is a grouping proxy; original identity mapping is not verified.",
+  "claim_boundary": "This audit checks preprocessing contracts, not model performance, medical accuracy or complete leakage prevention.",
+  "original_shape_note": "Uses load_pair original_size metadata; the auditor does not reread the original MRI or mask.",
+  "shared_case_ids": [],
+  "splits": {
+    "training": {
+      "total_pairs": 11460,
+      "case_group_count": 31,
+      "selected_count": 11460,
+      "processed_count": 11460,
+      "passed_count": 11460,
+      "error_count": 0,
+      "sampled": false,
+      "all_pairs_attempted": true,
+      "original_size_counts": {
+        "256x128": 11400,
+        "256x144": 60
+      },
+      "class_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "samples_with_padding": 0,
+      "valid_pixels": 375767040,
+      "padding_pixels": 0,
+      "normalized_range": [
+        0.0,
+        1.0
+      ],
+      "errors": [],
+      "elapsed_seconds": 300.946
+    },
+    "validation": {
+      "total_pairs": 660,
+      "case_group_count": 4,
+      "selected_count": 660,
+      "processed_count": 660,
+      "passed_count": 660,
+      "error_count": 0,
+      "sampled": false,
+      "all_pairs_attempted": true,
+      "original_size_counts": {
+        "256x128": 660
+      },
+      "class_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "samples_with_padding": 0,
+      "valid_pixels": 21626880,
+      "padding_pixels": 0,
+      "normalized_range": [
+        0.0,
+        1.0
+      ],
+      "errors": [],
+      "elapsed_seconds": 16.984
+    }
+  },
+  "errors": [],
+  "status": "passed_full",
+  "elapsed_seconds": 320.898,
+  "error_count": 0,
+  "all_pairs_attempted": true,
+  "data_location_note": "External local HipMRI training and validation folders; absolute machine path omitted; no dataset files included.",
+  "source_base_revision": "502ef03480ccee30bc4e3d9842aa5342d7e0077c",
+  "source_sha256": {
+    "dataset.py": "ce72d3c34b5ac6dc218e71d4132534778266f31cae20e6d0e2a880d2f0bd7052",
+    "audit_preprocessing.py": "fbac494121c812a88301b540edb0d117d3adf0db04e1f9f0068cc537b93ab0a1",
+    "inspect_training_pair.py": "6b75ca9475cdaeabb27b4a738c71666a2c6cd5c4b5a5c766ac34bbb950c0bf5f",
+    "tests/test_preprocessing.py": "3edc4370e7500fecd65de267584c813e510cc1b8c9d77a27d77907d5937c61c2"
+  },
+  "checks": {
+    "unittest_count": 12,
+    "unittest_skipped": 0,
+    "unittest_passed": true,
+    "performed_by": "Codex automation, not user execution",
+    "constructed_and_local_integration_checks_are_not_model_training": true
+  },
+  "real_mixed_batch_probe": {
+    "performed_by": "Codex automatic verification",
+    "probe_kind": "two_real_training_samples_no_training",
+    "samples": [
+      "case_004_week_0_slice_12.nii.gz",
+      "case_019_week_1_slice_0.nii.gz"
+    ],
+    "scan_representative_headers_checked": 92,
+    "original_sizes": [
+      [
+        256,
+        128
+      ],
+      [
+        256,
+        144
+      ]
+    ],
+    "batch_shape": [
+      2,
+      1,
+      256,
+      144
+    ],
+    "valid_pixels": [
+      32768,
+      36864
+    ],
+    "padding_pixels": [
+      4096,
+      0
+    ],
+    "default_collate_error": "stack expects each tensor to be equal size, but got [1, 256, 128] at entry 0 and [1, 256, 144] at entry 1",
+    "custom_collate_passed": true,
+    "test_split_read": false
+  },
+  "source_hash_basis": "SHA256 of audited working-tree file bytes before Git line-ending normalization."
+}

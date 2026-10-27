@@ -1,0 +1,11 @@
+# Keep frozen Python source bytes stable across checkouts.
+*.py text eol=lf
+# Historical JSON byte hashes are retained; see verify_submission_archive.py.
+
+# Preserve document/image bytes and prevent text diffs or EOL conversion.
+*.pdf binary
+*.png binary
+.gitattributes text eol=lf
+
+# Editable architecture figures keep stable source bytes.
+*.svg text eol=lf

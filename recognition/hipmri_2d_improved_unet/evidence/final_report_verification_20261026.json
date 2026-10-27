@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-10-26T14:31:47.194880+10:00",
+  "status": "passed_report_only_verification",
+  "performed_by": "Codex stdlib/content checks and two independent read-only reviewers",
+  "parent_revision": "85aa4323fbe91ed7af3b33e8d156547309651623",
+  "report_file": "FINAL_REPORT.md",
+  "report_sha256": "1764444e7c5cb90faf61719d15a1a71f79c49f1dc71cda8bc907438f741be16e",
+  "summary_file": "final_report_summary_20261026.json",
+  "summary_sha256": "fa04bc5086c492205326f3c01ca3d08dbeabb59c975269b787dfddefeb12d02d",
+  "collector_file": "collect_final_report_evidence.py",
+  "collector_sha256": "35709d1c55b027a8526962bf1ca985b43d191c0c933ebc380e77a5f316d586f9",
+  "saved_source_jsons_verified": 19,
+  "original_tracked_files_unchanged_excluding_append_only_readme": 94,
+  "existing_execution_records_unchanged": 8,
+  "historical_readme_changes": "insertions only, no prior text deleted or replaced",
+  "readme_new_entry_and_milestone_marked_purple": true,
+  "report_marking": {
+    "rendered_text_all_purple": true,
+    "struck_replacement_passages": 1
+  },
+  "local_links_checked": 19,
+  "broken_local_links": 0,
+  "rendered_preview": {
+    "engine": "Local Edge headless, GPU disabled and page HTTP(S) requests blocked",
+    "headings": 10,
+    "tables": 11,
+    "horizontal_overflow": false,
+    "existing_aggregate_image_loaded": true,
+    "screenshots_visually_reviewed": 6,
+    "preview_directory": "outputs/final_report_preflight_20261026/preview"
+  },
+  "independent_reviews": [
+    "resource and fair-comparison numbers/scope passed",
+    "historical failure/authorization/model-provenance wording passed; clarifications marked in purple/strikethrough"
+  ],
+  "execution_boundary": {
+    "new_training": false,
+    "new_test_evaluation": false,
+    "new_model_calls": 0,
+    "raw_mri_or_mask_reads": 0,
+    "checkpoint_file_reads": 0,
+    "profile_reruns": 0,
+    "old_model_test_suite_rerun": false,
+    "current_checks": "Saved-JSON arithmetic and source hashes, stdlib static review, links/markup, append-only history and local report rendering only."
+  }
+}

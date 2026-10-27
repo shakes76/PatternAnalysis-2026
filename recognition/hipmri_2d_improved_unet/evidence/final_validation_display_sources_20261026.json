@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-10-26T06:36:26.952573+00:00",
+  "plan_sha256": "e6c8eb37d49266ecd652ee5b8962f1cf7bbee00b7cb800be994d3991c18c7982",
+  "source_sha256": {
+    "render_final_validation_cases.py": "26fa8cc8c6480dd9c2eed2c08295f8facfc08a14d083c973ed87031e278a83be",
+    "predict.py": "acc5af12c8169ce7af8de999da7d363e4d185541b21c6fdc22651695b8238d19",
+    "prediction_panels.py": "a9750260ae76954805af9228a08e9952ea3bbeec4fead2e515a16793b544b2ec",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035"
+  },
+  "split": "validation",
+  "filenames": [
+    "case_038_week_0_slice_29.nii.gz",
+    "case_039_week_5_slice_41.nii.gz",
+    "case_037_week_0_slice_9.nii.gz",
+    "case_039_week_7_slice_25.nii.gz",
+    "case_037_week_0_slice_17.nii.gz"
+  ],
+  "new_training": false,
+  "real_test_pixels_read": false
+}

@@ -1,0 +1,163 @@
+{
+  "document_kind": "reviewable_formal_experiment_proposal",
+  "proposal_version": 1,
+  "prepared_by": "Codex automation; not user confirmation or user-performed verification",
+  "source_base_revision": "719b02616db73d9f14d78ae28a1e6a5c95ceda87",
+  "status": "awaiting_user_confirmation",
+  "executed": false,
+  "actual_run_id": null,
+  "formal_training_started": false,
+  "test_evaluation_started": false,
+  "operational_note": "The current train.py CLI does not read this JSON. This is a proposal for review, not an executed or approved run configuration.",
+  "confirmation_gate": {
+    "explicit_user_confirmation_required_before_formal_training": true,
+    "confirmation_received": false,
+    "required_review": [
+      "The shared end-to-end data, training, validation and checkpoint flow",
+      "The unverified assumption that the course-derived slice labels preserve the source IDs",
+      "The fixed training budget, checkpoint selection, metric aggregation and resource measurement scopes"
+    ],
+    "additional_pre_run_work": "After confirmation and before any formal run, add and check separate training, validation and checkpoint-restoration resource instrumentation. Resolve any data-check errors before training."
+  },
+  "scope": {
+    "allowed_splits": ["training", "validation"],
+    "test_filenames_or_pixels_read_by_this_proposal": false,
+    "test_split_used_for_tuning": false,
+    "existing_smoke_records": "Preserve the existing baseline and Improved smoke evidence unchanged; do not relabel smoke epochs or results as formal experiments."
+  },
+  "data": {
+    "training": {
+      "folder_pair": ["keras_slices_train", "keras_slices_seg_train"],
+      "slice_pairs": 11460,
+      "case_proxy_groups": 31,
+      "selection": "all training pairs; no train-limit subset"
+    },
+    "validation": {
+      "folder_pair": ["keras_slices_validate", "keras_slices_seg_validate"],
+      "slice_pairs": 660,
+      "case_proxy_groups": 4,
+      "selection": "all validation pairs after every complete training epoch"
+    },
+    "shared_case_proxy_ids": [],
+    "grouping_note": "Existing filename audits find no overlap in numeric case groups. These are patient-group proxies, not independently verified real-patient identities.",
+    "evidence_basis": "Counts and grouping come from existing train/validation audits; preparing this proposal does not itself rerun those audits.",
+    "pre_run_requirements": [
+      "Exact MRI/mask filename pairing",
+      "Matching nonempty two-dimensional shapes",
+      "Finite and matching MRI/mask Affine matrices under the documented tolerance",
+      "Finite MRI values and integer raw mask IDs in 0..5",
+      "Record and compare identical training and validation manifest hashes for both models"
+    ],
+    "spatial_claim_boundary": "Matching shape and Affine do not independently prove anatomical alignment, physical units or medical annotation accuracy."
+  },
+  "labels": {
+    "num_classes": 6,
+    "retained_raw_ids": [0, 1, 2, 3, 4, 5],
+    "rewrite_or_remap_masks": false,
+    "raw_source_target": {
+      "id": 5,
+      "name": "Prostate",
+      "source_material_status": "verified in the source-material review",
+      "collection_url": "https://doi.org/10.25919/45t8-p065",
+      "support_url": "https://data.csiro.au/dap/ws/v2/collections/52549/support/5034"
+    },
+    "course_derivative_id_preservation_independently_verified": false,
+    "working_assumption": "The current keras_slices_data course derivative preserves the original source label IDs. In particular, its ID5 is interpreted as prostate only under this explicit assumption.",
+    "assumption_requires_informed_user_confirmation": true,
+    "confirmation_is_not_provenance_proof": true,
+    "claim_boundary": "Do not infer labels from display colors, numeric magnitude, model behavior or old scores. Other classes or foreground macro Dice cannot substitute for the target-organ Dice."
+  },
+  "shared_protocol": {
+    "models": ["baseline_unet", "improved_unet"],
+    "model_config": {"in_channels": 1, "num_classes": 6, "base_channels": 16},
+    "input_layout": "B,C,H,W",
+    "preprocessing": {
+      "normalization": "per-slice min-max over all MRI pixels, before padding; constant images become zero",
+      "sample_padding": "zero-pad bottom/right to the next multiple of 16",
+      "batch_padding": "zero-pad bottom/right to the maximum padded height and width in the current batch",
+      "target_padding_value": -100,
+      "valid_region": "all original pixels, including class0 and black MRI pixels; padding excluded from loss and metrics",
+      "prediction_crop": "crop the final prediction to each sample's original height and width without interpolation",
+      "padding_note": "Convolutions and Improved InstanceNorm still see padded image values. Identical preprocessing and batching are required; padding invariance of predictions is not claimed."
+    },
+    "numeric_precision": "FP32",
+    "seed": 3710,
+    "shuffle": "same seeded training selection/order policy with a dedicated DataLoader generator; validation is not shuffled",
+    "initialization_note": "Use each current architecture's existing initialization. The same seed does not create identical initial weights across different architectures.",
+    "batch_size": 4,
+    "num_workers": 0,
+    "optimizer": {"name": "Adam", "learning_rate": 0.001, "weight_decay": 0},
+    "objective": "shared valid-region one-hot cross-entropy",
+    "augmentation": false,
+    "mixed_precision_amp": false,
+    "scheduler": false,
+    "validation": "eval mode, gradients disabled and no optimizer updates; accumulate metrics across the entire validation split",
+    "fairness_rule": "Do not change input handling, loss, precision, optimizer, batch size or budget for only one model. A required protocol change must be reviewed and applied to both before restarting a comparable experiment."
+  },
+  "training_budget_and_failure_policy": {
+    "complete_epochs_per_model": 20,
+    "maximum_complete_epochs_per_model": 20,
+    "training_batches_per_complete_epoch": 2865,
+    "planned_optimizer_updates_per_model_if_complete": 57300,
+    "budget_basis": "11460 training slices / batch4 = 2865 batches; 20 complete epochs = 57300 updates per model",
+    "early_stopping": false,
+    "validation_driven_extra_epochs": false,
+    "stop_and_report_on": ["non-finite values", "data or runtime error", "out of memory"],
+    "on_failure": "Preserve evidence, mark the run incomplete and report the failure. Do not silently reduce batch size or change one model's settings.",
+    "completion_rule": "A model run with fewer than 20 complete epochs is incomplete. If either model is incomplete, do not present the pair as a completed final fair comparison."
+  },
+  "metrics_and_model_selection": {
+    "primary_report": {
+      "metric": "full-validation pixel-pooled ID5 Dice",
+      "current_result_field": "dice_per_class[5]",
+      "organ_interpretation": "Prostate only under the explicit course-derived ID-preservation assumption",
+      "aggregation": "Sum the entire validation split's valid-pixel confusion counts first, then compute ID5 Dice. This is not an average of batch Dice or per-case Dice."
+    },
+    "secondary_reports": [
+      "Pixel-pooled Dice and IoU for each of the six raw classes",
+      "Foreground macro Dice and macro IoU excluding raw ID0 and undefined classes",
+      "Valid-pixel cross-entropy over the entire validation split"
+    ],
+    "absent_class_policy": "A class absent from both prediction and reference is undefined (null) and omitted from macro means. False-positive predictions on an empty reference score zero.",
+    "checkpoint_selection": {
+      "criterion": "minimum full-validation valid-pixel cross_entropy",
+      "tie_break": "earliest epoch; replace best only on a strictly lower validation CE",
+      "preserved_rule": "Keep the current shared CE checkpoint selection rule; the reported primary ID5 Dice does not silently replace the selection criterion.",
+      "restore_check": "Reload the selected checkpoint with its model metadata and verify the saved selected-epoch reference logits before reporting it."
+    },
+    "old_metric_boundary": "This proposal uses the current pixel-pooled metric, not the old project's case-balanced mean of per-volume prostate Dice. Do not substitute old 0.8316/0.8233 values for new results or compare them as if the metric and experiment were unchanged."
+  },
+  "resource_measurement_proposal": {
+    "instrumentation_status": "not yet implemented or checked for this formal protocol",
+    "required_before_formal_run": true,
+    "memory": {
+      "measure_separately": ["training", "validation", "checkpoint_restoration"],
+      "method": "Synchronize CUDA and reset peak counters at each stage boundary; record both peak allocated and peak reserved bytes for that stage.",
+      "report_resident_state": "State whether the model, optimizer state, gradients, input/output tensors and restored model are resident in each stage. Resident optimizer state must not be silently excluded from a validation or restoration peak.",
+      "old_smoke_boundary": "Existing smoke peaks include checkpoint restoration. Preserve those recorded scopes; do not relabel them as isolated training peaks or total GPU VRAM."
+    },
+    "inference": {
+      "models": ["baseline_unet", "improved_unet"],
+      "batch_sizes": [1, 4],
+      "spatial_shapes": [[256, 128], [256, 144]],
+      "input_channels": 1,
+      "precision": "FP32",
+      "model_mode": "eval with inference_mode",
+      "input": "fixed seeded synthetic tensors; no test pixels",
+      "warmup_iterations_per_model_shape_and_batch": 10,
+      "timed_iterations_per_model_shape_and_batch": 50,
+      "timing": "Synchronize CUDA before and after each measured model forward. Report median and p95 batch milliseconds and disclose the percentile method.",
+      "included": "Resident model and input, forward computation and its host launch/synchronization overhead",
+      "excluded": "Checkpoint loading, disk I/O, host/device transfers, metric calculation and plotting",
+      "resident_optimizer": "No optimizer in the isolated inference profile; report this explicitly."
+    },
+    "environment": "Record GPU, Python/PyTorch/CUDA versions, device and deterministic/benchmark settings for each actual run; no cross-environment bitwise reproducibility claim."
+  },
+  "later_evaluation_boundary": {
+    "test_now": false,
+    "prerequisite": "Select and freeze both models using training/validation, then separately establish and authorize the final evaluation boundary.",
+    "prior_exposure": "The user and Codex have already encountered old test results. The test set must not be described as never seen, and those results must not guide tuning.",
+    "publication": "No authorization here for a new PR, replacement of the old PR, force-push or changes to the original repository."
+  },
+  "academic_and_evidence_boundary": "The proposal, automated checks and future commits do not establish user understanding, tutor check-off completion or originality-hurdle approval."
+}

@@ -1,0 +1,1430 @@
+{
+  "analysis_kind": "verified_id5_selected_fixed_budget_train_validation_comparison",
+  "performed_by": "Codex automation; not user-performed verification",
+  "created_at": "2026-10-26T13:05:31.787778+10:00",
+  "status": "passed_verification",
+  "formal_plan_sha256": "4b2a97ee5eb918058fa52a9d50f110f7c405d590dd176646c3574c309834a011",
+  "formal_source_revision": "caf189540331e4c1b914ba18e194d98d08f01f1c",
+  "original_formal_plan_sha256": "d948605555a4fa2aefdecf6b23faaa61c370b48f60a515dfe5a2df5111d3d2be",
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "train.py": "283ded9aff4555b07e40741cc90ca8e47c982e39bf52bd55b5617c574e9bb0fe",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "resource_monitor.py": "4d0e148c1430f604fb7c2230e1b98a22ec5a4ba92c277918f81e1de0e7ea133a",
+    "profile_inference.py": "fdf512f895e72c0f7dd221d13f2a19fe6e0b5d5644b729e72cad5097b9df440c",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c",
+    "checkpoint_selection.py": "fa770b42399ff73718b5d78e9c52fe6f41b9ad7ef0e11bc5f1d95ebd8eac17e7"
+  },
+  "verification_script_sha256": "e7a78d329f1de0b1d9add39cb8b622105be3671c361dc1bf47c62f70a7070830",
+  "selection_rule": "Maximum full-validation pixel-pooled ID5 Dice; exact ties choose lower CE, then earlier epoch",
+  "ce_retention_rule": "Minimum full-validation valid-pixel CE; exact ties choose earlier epoch",
+  "checkpoint_files": {
+    "primary": "best.pt",
+    "id5_best": "id5_best.pt",
+    "ce_best": "ce_best.pt",
+    "last": "last.pt"
+  },
+  "budget": {
+    "epochs_per_model": 20,
+    "optimizer_updates_per_model": 57300
+  },
+  "data": {
+    "training": {
+      "pairs": 11460,
+      "case_proxy_groups": 31,
+      "manifest_sha256": "fec960cc7d97e0dd597464a024a643a1c454709e754406e01e85e50d10be2b80"
+    },
+    "validation": {
+      "pairs": 660,
+      "case_proxy_groups": 4,
+      "manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f"
+    }
+  },
+  "protected_original_files_sha256": {
+    "outputs/baseline_formal_20261026/best.pt": "2eb7bb791d70d12d3db90439a699ddb9739c0ee6f555db183e8b18df3e7866f9",
+    "outputs/baseline_formal_20261026/last.pt": "7183bc148ee9c2018f0b87fd3c4aa7521f0362394badd24c7fbbd77a9aac0dfa",
+    "outputs/baseline_formal_20261026/run_summary.json": "b0118045acaceb72513481c279af489b2c8ea318352a446787934cb9219d7f82",
+    "outputs/baseline_formal_20261026/training_curves.png": "9392e8349a4d7bba60cef49a2ecc0cf6318179ad15efcda000793f81fd1f5c6e",
+    "outputs/baseline_formal_20261026.console.log": "db274c56be313d36730e52af71facf6641110493550b3367dcf166b5719db559",
+    "outputs/improved_formal_20261026/best.pt": "a2e1c8520795697df907617817d4167d03ac0729126301e97659978c52fe27e2",
+    "outputs/improved_formal_20261026/last.pt": "20b0819a2de2db94d2c18ccaa76e416866885534cafe37d64364369d908ff100",
+    "outputs/improved_formal_20261026/run_summary.json": "69df5cd0ea1af41bb9782e2289c260785a244bbf7694d4ec41bbff82690e2ea4",
+    "outputs/improved_formal_20261026/training_curves.png": "0d87aa2a75c1c6d25bf960d6bf0553b6d154ead7794f8d2e260ad777355d7542",
+    "outputs/improved_formal_20261026.console.log": "ef8d7953dbdc2b7965e5e2ecde50ed05b7d98553438b2eb8df69198789e7ef59",
+    "outputs/selected_validation_verification_20261026/validation_example.png": "9161121ad1fb1556b893df6bdfa843dcb949de79617d384e2dc44b33a152c771",
+    "outputs/selected_validation_verification_20261026/verification.json": "edbe584f55a0d0fc8e4130b523073459f1eb73cbd5945bffc48e549b8512b5d2",
+    "outputs/selection_diagnosis_v2_20261026/A_missed_region.png": "517ca394ad1323543f3cdd2909684921fc9e709ba7bef414c91775eec27980e7",
+    "outputs/selection_diagnosis_v2_20261026/analysis_plan.json": "1732a1f0c58f559b9bc2523da42a31e3d564533d1f820f032e463afee23e6f45",
+    "outputs/selection_diagnosis_v2_20261026/B_empty_reference_fp.png": "d41514a44017a15efaa382fc38633db9c49cb3a96e91bb64711b1b79f6a97566",
+    "outputs/selection_diagnosis_v2_20261026/C_few_reference_pixels.png": "f8c8005ea2f0159f4fb6866fd095fe00011b66e4a9c42b1ac87436ef2d1dfdef",
+    "outputs/selection_diagnosis_v2_20261026/D_late_improvement.png": "3cbcea706b384a9a7132306ff00a7b69771500ca08194b057870aa7367b45e97",
+    "outputs/selection_diagnosis_v2_20261026/diagnosis_summary.json": "8f14dc05700d069d94ede0b8c45fc64f62d5382d156b3bc5a5c5322a6d9822b3",
+    "outputs/selection_diagnosis_v2_20261026/E_late_regression.png": "b56e38a45ac58bae4ecf6aeb9e974999db2177866700a4519cc5d72a87f9d4e2",
+    "outputs/selection_diagnosis_v2_20261026/per_slice_metrics.json": "26d3cef1baf97de97e7e3fc907efe3807eff8a4e7cf1de6a4bbe6d4f5a332f30",
+    "outputs/selection_diagnosis_v2_20261026/selection_and_ce.png": "784970638a41d8a28fc70019ad9fcf923ef8a24327bde9da15e313f0aa834117",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_reference.json": "7f3e595b0c4a72b411e329c5af350d44ca808efb1849bf8f26b3c54f9b4f808c",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_regression.json": "e80668e7a9d3fb8a31320e0bb4edbb2da37a281bb5c45d84dfdba4385b78aac6",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_run_plan.json": "8fbf9775c2dd745c0b94d0dac3cbaab2305b5d2fb1e05c911bf46fbdc834a72c",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_smoke.json": "f097d57f7c6dad2f3e4bf2e952865c482e367f8f92eaa87d0b1fedeff95797d0",
+    "recognition/hipmri_2d_improved_unet/evidence/baseline_training_curves.png": "4f044c4dcad83ff6e7fcec7fcd1951b6b149dfe152eb7f29e2dc4334c37dc73d",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_baseline_20261026.json": "7b28a92bfff706ca0b80a8a89669ef01d2b2e688cab14c574155bf6e1f5dbf08",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_baseline_profile_20261026.json": "6288a5e2277a0cd3c11b1e1d1281bde9756089f210faebdf3325cb5d73452341",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_comparison_20261026.json": "e346f7b8a88446c897049273216b388e74f044f5abe436ebfc09ae73dcdc3a39",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_comparison_curves_20261026.png": "a1c3bde5ca53d007079a6a467d9081859fc314d00f189737f9db5089021ede2e",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_experiment_proposal.json": "bfaf1d9010329bea350f28825a16f44a61f620226b69a75c39cf20b6df126ebd",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_improved_20261026.json": "855fca40149da866a1035aaa4730bdfa8e74f24280ac93186c42da98a7530cfe",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_improved_profile_20261026.json": "308b0fc824c1b345cb328ad068258ed0435467b328aefd79df759bb10a4128c2",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_run_plan_20261026.json": "d948605555a4fa2aefdecf6b23faaa61c370b48f60a515dfe5a2df5111d3d2be",
+    "recognition/hipmri_2d_improved_unet/evidence/formal_validation_replay_20261026.json": "f6adbafce9cd66bcc4f9a8041f2c0be9ebcce0e39f89d9bf29f548d1781f49ce",
+    "recognition/hipmri_2d_improved_unet/evidence/geometry_audit.json": "ea0f4bfa8beae8784854a83d6a8a8d3a18781337cdf3b43a8cf54adabd1bb003",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_reference.json": "97d820692fd5836541d19cf04536f31259d9d9d7a1601988eb549e9e4954bdcb",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_run_plan.json": "d920b9805eea17b9af37523f26961c125ee3f5d7550b4192858393c81b93f2e3",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_smoke.json": "6ec4fcd7f67a054cbafd6b0c06d1686546daf65c265058bd6e16612c5de739e3",
+    "recognition/hipmri_2d_improved_unet/evidence/improved_training_curves.png": "b644208eabb68a84aedbba924707674a74526dc01cb955f0995e056c985edc8d",
+    "recognition/hipmri_2d_improved_unet/evidence/pipeline_review.json": "316ef60168ece6bd6796213f1a83334c3b43e004bad2c23fab6496ca88f284c1",
+    "recognition/hipmri_2d_improved_unet/evidence/preprocessing_audit.json": "512824dc29e3230198ab6d0373b5ca5a9c60abcd699770be22807f973fa37480",
+    "recognition/hipmri_2d_improved_unet/evidence/resource_checks_20261026.json": "687278030e3cdec67a49c6f4ec2714dd3b42d5bc85bf91e8f2aff8c3ef80b36a",
+    "recognition/hipmri_2d_improved_unet/evidence/selection_diagnosis_20261026.json": "85b42180f160307730efcfe0ce47095912ac1fef3434dfe1aaa0b9e3ee7df46b",
+    "recognition/hipmri_2d_improved_unet/evidence/selection_diagnosis_20261026.png": "784970638a41d8a28fc70019ad9fcf923ef8a24327bde9da15e313f0aa834117",
+    "recognition/hipmri_2d_improved_unet/evidence/user_confirmation_20261026.json": "fc20cc5ca15b12b6079e65010c6780565c3212240e69066133c4589b770984e7"
+  },
+  "original_artifacts_unchanged": true,
+  "new_training_by_verifier": false,
+  "test_split_read": false,
+  "label_mapping_boundary": "ID5=prostate remains the user-accepted unverified derivative-ID-preservation assumption.",
+  "aggregation": "Full-validation valid-pixel pooled confusion counts; not mean batch or case-balanced Dice.",
+  "training_wall_clock_note": "Training-stage wall time includes input I/O and metric computation. Model-run order and filesystem/cache state were not isolated, so differences in total training time cannot be attributed to architecture-only compute speed. Use the separate warmed-up synthetic forward profile for pure forward comparisons.",
+  "replay_runtime": {
+    "device": "cuda",
+    "math_settings": {
+      "matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest"
+    },
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8"
+  },
+  "results": {
+    "baseline_unet": {
+      "selected_epoch": 5,
+      "parameters": 1940902,
+      "validation_id5_dice_pixel_pooled": 0.8165673343405601,
+      "validation_id5_iou_pixel_pooled": 0.6899989818056502,
+      "validation_cross_entropy": 0.06635873507369648,
+      "selected_validation": {
+        "confusion_matrix": [
+          [
+            2949529,
+            26132,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            4139,
+            14936304,
+            220346,
+            17737,
+            12915,
+            19095
+          ],
+          [
+            985,
+            173936,
+            2658308,
+            958,
+            8,
+            0
+          ],
+          [
+            0,
+            33663,
+            221,
+            342981,
+            0,
+            1075
+          ],
+          [
+            25,
+            18173,
+            0,
+            63,
+            102780,
+            288
+          ],
+          [
+            0,
+            13609,
+            0,
+            5184,
+            329,
+            88097
+          ]
+        ],
+        "dice_per_class": [
+          0.9947252593823052,
+          0.9822524419600154,
+          0.9306057863810526,
+          0.9209237134882522,
+          0.8660226406191414,
+          0.8165673343405601
+        ],
+        "iou_per_class": [
+          0.9895058725648398,
+          0.9651238504091063,
+          0.8702177125419264,
+          0.8534370785454437,
+          0.7637036431591384,
+          0.6899989818056502
+        ],
+        "mean_dice_excluding_class0": 0.9032743833578044,
+        "mean_iou_excluding_class0": 0.828496253292253,
+        "pixel_accuracy": 0.9746204260623816,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.06635873507369648,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 3.835,
+        "optimizer_steps": 0
+      },
+      "selections": {
+        "primary": {
+          "epoch": 5,
+          "validation_cross_entropy": 0.06635873507369648,
+          "validation_id5_dice": 0.8165673343405601
+        },
+        "id5_best": {
+          "epoch": 5,
+          "validation_cross_entropy": 0.06635873507369648,
+          "validation_id5_dice": 0.8165673343405601
+        },
+        "ce_best": {
+          "epoch": 5,
+          "validation_cross_entropy": 0.06635873507369648,
+          "validation_id5_dice": 0.8165673343405601
+        },
+        "last": {
+          "epoch": 20,
+          "validation_cross_entropy": 0.09058505576668363,
+          "validation_id5_dice": 0.7977466270005502
+        }
+      },
+      "checkpoint_verification": {
+        "primary": {
+          "file": "best.pt",
+          "sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+          "epoch": 5,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 46,
+          "optimizer_state_count": 46,
+          "all_optimizer_steps_equal": 14325,
+          "optimizer_step_range": [
+            14325,
+            14325
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.8165673343405601,
+          "model_state_sha256": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43"
+        },
+        "id5_best": {
+          "file": "id5_best.pt",
+          "sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+          "epoch": 5,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 46,
+          "optimizer_state_count": 46,
+          "all_optimizer_steps_equal": 14325,
+          "optimizer_step_range": [
+            14325,
+            14325
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.8165673343405601,
+          "model_state_sha256": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43"
+        },
+        "ce_best": {
+          "file": "ce_best.pt",
+          "sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+          "epoch": 5,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 46,
+          "optimizer_state_count": 46,
+          "all_optimizer_steps_equal": 14325,
+          "optimizer_step_range": [
+            14325,
+            14325
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.8165673343405601,
+          "model_state_sha256": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43"
+        },
+        "last": {
+          "file": "last.pt",
+          "sha256": "5ad7a5f53dc6192bca165e5f82677e859de7e70eeb2be5a0689ed000b3b3cbc4",
+          "epoch": 20,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 46,
+          "optimizer_state_count": 46,
+          "all_optimizer_steps_equal": 57300,
+          "optimizer_step_range": [
+            57300,
+            57300
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.7977466270005502,
+          "model_state_sha256": "52d319af1156e64dbdc39e703dcfddf012b29d4a611b17dcecb6eef48cbb00cb"
+        }
+      },
+      "phase_resource_summary": {
+        "training": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 2159.970403400017,
+          "resident_state_descriptions": [
+            "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident."
+          ],
+          "peak_cuda_allocated_bytes": 191513600,
+          "allocated_peak_record": "training_epoch_1",
+          "peak_cuda_reserved_bytes": 262144000,
+          "reserved_peak_record": "training_epoch_16",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement.",
+          "wall_clock_note": "Training-stage wall time includes input I/O and metric computation. Model-run order and filesystem/cache state were not isolated, so differences in total training time cannot be attributed to architecture-only compute speed. Use the separate warmed-up synthetic forward profile for pure forward comparisons."
+        },
+        "validation": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 80.28885539993644,
+          "resident_state_descriptions": [
+            "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 96659456,
+          "allocated_peak_record": "validation_epoch_11",
+          "peak_cuda_reserved_bytes": 262144000,
+          "reserved_peak_record": "validation_epoch_16",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        },
+        "checkpoint_restoration": {
+          "record_count": 1,
+          "elapsed_seconds_sum": 0.0636594999814406,
+          "resident_state_descriptions": [
+            "Final training model, Adam state and last gradients remain resident; a second restored model and reference input/output are added. Checkpoint tensors load on CPU. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 55571968,
+          "allocated_peak_record": "checkpoint_restoration",
+          "peak_cuda_reserved_bytes": 262144000,
+          "reserved_peak_record": "checkpoint_restoration",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        }
+      },
+      "run_elapsed_seconds": 2243.088,
+      "run_summary_sha256": "84c374d1f0cedfbbf0768bcbf6db3ff020e6fba1db3d32f87752306141c6db2e",
+      "prior_ce_run_summary_sha256": "b0118045acaceb72513481c279af489b2c8ea318352a446787934cb9219d7f82",
+      "trajectory_vs_original_ce_run": {
+        "all_epoch_metrics_equal_exactly": true,
+        "maximum_ce_absolute_difference": 0.0,
+        "differences": [],
+        "scope": "Actual per-epoch metrics, excluding wall time/resources; not an assumption from matching seeds or a cross-environment reproducibility guarantee."
+      },
+      "checkpoint_states_vs_original_ce_run": {
+        "ce_best": {
+          "new_file": "ce_best.pt",
+          "original_file": "best.pt",
+          "new_file_sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+          "original_file_sha256": "2eb7bb791d70d12d3db90439a699ddb9739c0ee6f555db183e8b18df3e7866f9",
+          "new_epoch": 5,
+          "original_epoch": 5,
+          "model_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 46,
+            "differing_paths": []
+          },
+          "optimizer_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 138,
+            "differing_paths": []
+          },
+          "all_model_and_optimizer_state_equal_exactly": true,
+          "scope": "Actual CPU per-tensor and non-tensor model/Adam-state comparison; new checkpoint selection metadata/file bytes may differ. A mismatch is reported rather than replaced by an assumed equal-seed result."
+        },
+        "last": {
+          "new_file": "last.pt",
+          "original_file": "last.pt",
+          "new_file_sha256": "5ad7a5f53dc6192bca165e5f82677e859de7e70eeb2be5a0689ed000b3b3cbc4",
+          "original_file_sha256": "7183bc148ee9c2018f0b87fd3c4aa7521f0362394badd24c7fbbd77a9aac0dfa",
+          "new_epoch": 20,
+          "original_epoch": 20,
+          "model_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 46,
+            "differing_paths": []
+          },
+          "optimizer_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 138,
+            "differing_paths": []
+          },
+          "all_model_and_optimizer_state_equal_exactly": true,
+          "scope": "Actual CPU per-tensor and non-tensor model/Adam-state comparison; new checkpoint selection metadata/file bytes may differ. A mismatch is reported rather than replaced by an assumed equal-seed result."
+        }
+      },
+      "selected_validation_replay": {
+        "selected_epoch": 5,
+        "checkpoint_sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+        "expected_selected_epoch_validation": {
+          "confusion_matrix": [
+            [
+              2949529,
+              26132,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              4139,
+              14936304,
+              220346,
+              17737,
+              12915,
+              19095
+            ],
+            [
+              985,
+              173936,
+              2658308,
+              958,
+              8,
+              0
+            ],
+            [
+              0,
+              33663,
+              221,
+              342981,
+              0,
+              1075
+            ],
+            [
+              25,
+              18173,
+              0,
+              63,
+              102780,
+              288
+            ],
+            [
+              0,
+              13609,
+              0,
+              5184,
+              329,
+              88097
+            ]
+          ],
+          "dice_per_class": [
+            0.9947252593823052,
+            0.9822524419600154,
+            0.9306057863810526,
+            0.9209237134882522,
+            0.8660226406191414,
+            0.8165673343405601
+          ],
+          "iou_per_class": [
+            0.9895058725648398,
+            0.9651238504091063,
+            0.8702177125419264,
+            0.8534370785454437,
+            0.7637036431591384,
+            0.6899989818056502
+          ],
+          "mean_dice_excluding_class0": 0.9032743833578044,
+          "mean_iou_excluding_class0": 0.828496253292253,
+          "pixel_accuracy": 0.9746204260623816,
+          "valid_pixels": 21626880,
+          "cross_entropy": 0.06635873507369648,
+          "samples": 660,
+          "batches": 165,
+          "elapsed_seconds": 3.835,
+          "optimizer_steps": 0
+        },
+        "replayed_validation": {
+          "confusion_matrix": [
+            [
+              2949529,
+              26132,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              4139,
+              14936304,
+              220346,
+              17737,
+              12915,
+              19095
+            ],
+            [
+              985,
+              173936,
+              2658308,
+              958,
+              8,
+              0
+            ],
+            [
+              0,
+              33663,
+              221,
+              342981,
+              0,
+              1075
+            ],
+            [
+              25,
+              18173,
+              0,
+              63,
+              102780,
+              288
+            ],
+            [
+              0,
+              13609,
+              0,
+              5184,
+              329,
+              88097
+            ]
+          ],
+          "dice_per_class": [
+            0.9947252593823052,
+            0.9822524419600154,
+            0.9306057863810526,
+            0.9209237134882522,
+            0.8660226406191414,
+            0.8165673343405601
+          ],
+          "iou_per_class": [
+            0.9895058725648398,
+            0.9651238504091063,
+            0.8702177125419264,
+            0.8534370785454437,
+            0.7637036431591384,
+            0.6899989818056502
+          ],
+          "mean_dice_excluding_class0": 0.9032743833578044,
+          "mean_iou_excluding_class0": 0.828496253292253,
+          "pixel_accuracy": 0.9746204260623816,
+          "valid_pixels": 21626880,
+          "cross_entropy": 0.06635873507369648,
+          "samples": 660,
+          "batches": 165,
+          "elapsed_seconds": 8.004,
+          "optimizer_steps": 0
+        },
+        "ce_absolute_difference": 0.0,
+        "state_sha256_before": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+        "state_sha256_after": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+        "forward_calls": 165,
+        "optimizer_steps": 0,
+        "parameters_have_no_gradients": true,
+        "resource_measurement": {
+          "stage": "post_training_id5_best_validation_replay_baseline_unet",
+          "device": "cuda",
+          "resident_state": "One restored ID5-selected model, validation inputs/logits; no optimizer or training gradients; allocator cache retained. Post-training verification, separate from training-stage resource records.",
+          "status": "passed",
+          "elapsed_seconds": 8.005585700040683,
+          "start_cuda_allocated_bytes": 7770112,
+          "start_cuda_reserved_bytes": 25165824,
+          "peak_cuda_allocated_bytes": 70858752,
+          "peak_cuda_reserved_bytes": 104857600,
+          "end_cuda_allocated_bytes": 7770112,
+          "end_cuda_reserved_bytes": 104857600
+        },
+        "status": "passed",
+        "test_split_read": false
+      }
+    },
+    "improved_unet": {
+      "selected_epoch": 17,
+      "parameters": 3190194,
+      "validation_id5_dice_pixel_pooled": 0.8343943919305902,
+      "validation_id5_iou_pixel_pooled": 0.7158462400610751,
+      "validation_cross_entropy": 0.11714918839209007,
+      "selected_validation": {
+        "confusion_matrix": [
+          [
+            2947644,
+            28017,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3752,
+            15002566,
+            157426,
+            10669,
+            20911,
+            15212
+          ],
+          [
+            190,
+            188665,
+            2645266,
+            74,
+            0,
+            0
+          ],
+          [
+            0,
+            89579,
+            47,
+            287816,
+            17,
+            481
+          ],
+          [
+            0,
+            8818,
+            0,
+            42,
+            112254,
+            215
+          ],
+          [
+            0,
+            14350,
+            0,
+            4632,
+            97,
+            88140
+          ]
+        ],
+        "dice_per_class": [
+          0.9946081207683769,
+          0.9824048963067271,
+          0.9385477992114153,
+          0.8450599186990676,
+          0.8817790485766355,
+          0.8343943919305902
+        ],
+        "iou_per_class": [
+          0.9892740744320636,
+          0.9654182618815422,
+          0.8842110822457572,
+          0.7316915677107564,
+          0.7885552917374995,
+          0.7158462400610751
+        ],
+        "mean_dice_excluding_class0": 0.896437210944887,
+        "mean_iou_excluding_class0": 0.817144488727326,
+        "pixel_accuracy": 0.9748833858605587,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.11714918839209007,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 4.459,
+        "optimizer_steps": 0
+      },
+      "selections": {
+        "primary": {
+          "epoch": 17,
+          "validation_cross_entropy": 0.11714918839209007,
+          "validation_id5_dice": 0.8343943919305902
+        },
+        "id5_best": {
+          "epoch": 17,
+          "validation_cross_entropy": 0.11714918839209007,
+          "validation_id5_dice": 0.8343943919305902
+        },
+        "ce_best": {
+          "epoch": 3,
+          "validation_cross_entropy": 0.07050679003198941,
+          "validation_id5_dice": 0.8001871981960901
+        },
+        "last": {
+          "epoch": 20,
+          "validation_cross_entropy": 0.11705421131442893,
+          "validation_id5_dice": 0.8315742837452004
+        }
+      },
+      "checkpoint_verification": {
+        "primary": {
+          "file": "best.pt",
+          "sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+          "epoch": 17,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 112,
+          "optimizer_state_count": 112,
+          "all_optimizer_steps_equal": 48705,
+          "optimizer_step_range": [
+            48705,
+            48705
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.8343943919305902,
+          "model_state_sha256": "9774c0810a327eeb0b9d8ae26b97563fe41943cf07561b7ab41b01981eb72745"
+        },
+        "id5_best": {
+          "file": "id5_best.pt",
+          "sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+          "epoch": 17,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 112,
+          "optimizer_state_count": 112,
+          "all_optimizer_steps_equal": 48705,
+          "optimizer_step_range": [
+            48705,
+            48705
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.8343943919305902,
+          "model_state_sha256": "9774c0810a327eeb0b9d8ae26b97563fe41943cf07561b7ab41b01981eb72745"
+        },
+        "ce_best": {
+          "file": "ce_best.pt",
+          "sha256": "f68411efb7af421f646984be6357617d03c6dff1a74219625aa36817fda76ae1",
+          "epoch": 3,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 112,
+          "optimizer_state_count": 112,
+          "all_optimizer_steps_equal": 8595,
+          "optimizer_step_range": [
+            8595,
+            8595
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.8001871981960901,
+          "model_state_sha256": "2d04154a26dfef4198c3b0bec0e5cfd0fc2bf2d421616bee659891a1dadd62e8"
+        },
+        "last": {
+          "file": "last.pt",
+          "sha256": "6c1d40d46e741f44b24b187b91440cefdf8e40e874d7a02c768958010f60bcc1",
+          "epoch": 20,
+          "model_metadata_match": true,
+          "model_weights_finite": true,
+          "model_state_tensor_count": 112,
+          "optimizer_state_count": 112,
+          "all_optimizer_steps_equal": 57300,
+          "optimizer_step_range": [
+            57300,
+            57300
+          ],
+          "optimizer_group_settings": [
+            {
+              "lr": 0.001,
+              "betas": [
+                0.9,
+                0.999
+              ],
+              "eps": 1e-08,
+              "weight_decay": 0,
+              "amsgrad": false,
+              "maximize": false,
+              "foreach": null,
+              "capturable": false,
+              "differentiable": false,
+              "fused": null,
+              "decoupled_weight_decay": false
+            }
+          ],
+          "verification_scope": "CPU torch.load and tensor/metadata checks only; no new forward, inference or training",
+          "validation_id5_dice": 0.8315742837452004,
+          "model_state_sha256": "d679ee78826464a4d846a68e369056ffd41805a4697b255b2379da0d53254bb9"
+        }
+      },
+      "phase_resource_summary": {
+        "training": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 3401.7041939003393,
+          "resident_state_descriptions": [
+            "Training model, Adam state (created on first updates), gradients, batch inputs/outputs/activations. Prior allocations and cached reserved blocks remain resident."
+          ],
+          "peak_cuda_allocated_bytes": 595582976,
+          "allocated_peak_record": "training_epoch_4",
+          "peak_cuda_reserved_bytes": 727711744,
+          "reserved_peak_record": "training_epoch_1",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement.",
+          "wall_clock_note": "Training-stage wall time includes input I/O and metric computation. Model-run order and filesystem/cache state were not isolated, so differences in total training time cannot be attributed to architecture-only compute speed. Use the separate warmed-up synthetic forward profile for pure forward comparisons."
+        },
+        "validation": {
+          "record_count": 20,
+          "elapsed_seconds_sum": 142.52310819982085,
+          "resident_state_descriptions": [
+            "Same model plus resident Adam state and last training gradients; validation inputs/outputs; eval and no optimizer updates. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 148111872,
+          "allocated_peak_record": "validation_epoch_1",
+          "peak_cuda_reserved_bytes": 727711744,
+          "reserved_peak_record": "validation_epoch_1",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        },
+        "checkpoint_restoration": {
+          "record_count": 1,
+          "elapsed_seconds_sum": 0.14669760002288967,
+          "resident_state_descriptions": [
+            "Final training model, Adam state and last gradients remain resident; a second restored model and reference input/output are added. Checkpoint tensors load on CPU. Cached reserved blocks remain included."
+          ],
+          "peak_cuda_allocated_bytes": 88965120,
+          "allocated_peak_record": "checkpoint_restoration",
+          "peak_cuda_reserved_bytes": 727711744,
+          "reserved_peak_record": "checkpoint_restoration",
+          "scope": "Maximum absolute PyTorch allocator peak within this phase; includes stated resident objects and cached reserved memory. Not a delta, total GPU VRAM or an isolated optimizer-free model measurement."
+        }
+      },
+      "run_elapsed_seconds": 3549.024,
+      "run_summary_sha256": "b95c02d42ed20296d73b2b15532433e1327537b4f473285e8c5096184584833a",
+      "prior_ce_run_summary_sha256": "69df5cd0ea1af41bb9782e2289c260785a244bbf7694d4ec41bbff82690e2ea4",
+      "trajectory_vs_original_ce_run": {
+        "all_epoch_metrics_equal_exactly": true,
+        "maximum_ce_absolute_difference": 0.0,
+        "differences": [],
+        "scope": "Actual per-epoch metrics, excluding wall time/resources; not an assumption from matching seeds or a cross-environment reproducibility guarantee."
+      },
+      "checkpoint_states_vs_original_ce_run": {
+        "ce_best": {
+          "new_file": "ce_best.pt",
+          "original_file": "best.pt",
+          "new_file_sha256": "f68411efb7af421f646984be6357617d03c6dff1a74219625aa36817fda76ae1",
+          "original_file_sha256": "a2e1c8520795697df907617817d4167d03ac0729126301e97659978c52fe27e2",
+          "new_epoch": 3,
+          "original_epoch": 3,
+          "model_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 112,
+            "differing_paths": []
+          },
+          "optimizer_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 336,
+            "differing_paths": []
+          },
+          "all_model_and_optimizer_state_equal_exactly": true,
+          "scope": "Actual CPU per-tensor and non-tensor model/Adam-state comparison; new checkpoint selection metadata/file bytes may differ. A mismatch is reported rather than replaced by an assumed equal-seed result."
+        },
+        "last": {
+          "new_file": "last.pt",
+          "original_file": "last.pt",
+          "new_file_sha256": "6c1d40d46e741f44b24b187b91440cefdf8e40e874d7a02c768958010f60bcc1",
+          "original_file_sha256": "20b0819a2de2db94d2c18ccaa76e416866885534cafe37d64364369d908ff100",
+          "new_epoch": 20,
+          "original_epoch": 20,
+          "model_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 112,
+            "differing_paths": []
+          },
+          "optimizer_state": {
+            "equal_exactly": true,
+            "compared_tensor_count": 336,
+            "differing_paths": []
+          },
+          "all_model_and_optimizer_state_equal_exactly": true,
+          "scope": "Actual CPU per-tensor and non-tensor model/Adam-state comparison; new checkpoint selection metadata/file bytes may differ. A mismatch is reported rather than replaced by an assumed equal-seed result."
+        }
+      },
+      "selected_validation_replay": {
+        "selected_epoch": 17,
+        "checkpoint_sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+        "expected_selected_epoch_validation": {
+          "confusion_matrix": [
+            [
+              2947644,
+              28017,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3752,
+              15002566,
+              157426,
+              10669,
+              20911,
+              15212
+            ],
+            [
+              190,
+              188665,
+              2645266,
+              74,
+              0,
+              0
+            ],
+            [
+              0,
+              89579,
+              47,
+              287816,
+              17,
+              481
+            ],
+            [
+              0,
+              8818,
+              0,
+              42,
+              112254,
+              215
+            ],
+            [
+              0,
+              14350,
+              0,
+              4632,
+              97,
+              88140
+            ]
+          ],
+          "dice_per_class": [
+            0.9946081207683769,
+            0.9824048963067271,
+            0.9385477992114153,
+            0.8450599186990676,
+            0.8817790485766355,
+            0.8343943919305902
+          ],
+          "iou_per_class": [
+            0.9892740744320636,
+            0.9654182618815422,
+            0.8842110822457572,
+            0.7316915677107564,
+            0.7885552917374995,
+            0.7158462400610751
+          ],
+          "mean_dice_excluding_class0": 0.896437210944887,
+          "mean_iou_excluding_class0": 0.817144488727326,
+          "pixel_accuracy": 0.9748833858605587,
+          "valid_pixels": 21626880,
+          "cross_entropy": 0.11714918839209007,
+          "samples": 660,
+          "batches": 165,
+          "elapsed_seconds": 4.459,
+          "optimizer_steps": 0
+        },
+        "replayed_validation": {
+          "confusion_matrix": [
+            [
+              2947644,
+              28017,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3752,
+              15002566,
+              157426,
+              10669,
+              20911,
+              15212
+            ],
+            [
+              190,
+              188665,
+              2645266,
+              74,
+              0,
+              0
+            ],
+            [
+              0,
+              89579,
+              47,
+              287816,
+              17,
+              481
+            ],
+            [
+              0,
+              8818,
+              0,
+              42,
+              112254,
+              215
+            ],
+            [
+              0,
+              14350,
+              0,
+              4632,
+              97,
+              88140
+            ]
+          ],
+          "dice_per_class": [
+            0.9946081207683769,
+            0.9824048963067271,
+            0.9385477992114153,
+            0.8450599186990676,
+            0.8817790485766355,
+            0.8343943919305902
+          ],
+          "iou_per_class": [
+            0.9892740744320636,
+            0.9654182618815422,
+            0.8842110822457572,
+            0.7316915677107564,
+            0.7885552917374995,
+            0.7158462400610751
+          ],
+          "mean_dice_excluding_class0": 0.896437210944887,
+          "mean_iou_excluding_class0": 0.817144488727326,
+          "pixel_accuracy": 0.9748833858605587,
+          "valid_pixels": 21626880,
+          "cross_entropy": 0.11714918839209007,
+          "samples": 660,
+          "batches": 165,
+          "elapsed_seconds": 12.886,
+          "optimizer_steps": 0
+        },
+        "ce_absolute_difference": 0.0,
+        "state_sha256_before": "9774c0810a327eeb0b9d8ae26b97563fe41943cf07561b7ab41b01981eb72745",
+        "state_sha256_after": "9774c0810a327eeb0b9d8ae26b97563fe41943cf07561b7ab41b01981eb72745",
+        "forward_calls": 165,
+        "optimizer_steps": 0,
+        "parameters_have_no_gradients": true,
+        "resource_measurement": {
+          "stage": "post_training_id5_best_validation_replay_improved_unet",
+          "device": "cuda",
+          "resident_state": "One restored ID5-selected model, validation inputs/logits; no optimizer or training gradients; allocator cache retained. Post-training verification, separate from training-stage resource records.",
+          "status": "passed",
+          "elapsed_seconds": 12.88683840003796,
+          "start_cuda_allocated_bytes": 12779520,
+          "start_cuda_reserved_bytes": 104857600,
+          "peak_cuda_allocated_bytes": 109380096,
+          "peak_cuda_reserved_bytes": 138412032,
+          "end_cuda_allocated_bytes": 12779520,
+          "end_cuda_reserved_bytes": 138412032
+        },
+        "status": "passed",
+        "test_split_read": false
+      }
+    }
+  },
+  "claim_boundary": "New validation-selected comparison, one seed and fixed budget. Original CE-selected experiment preserved. No test evaluation, statistical-significance or module-causality claim.",
+  "curves_file": "id5_selection_curves_20261026.png",
+  "inference_profiles": {
+    "baseline_unet": {
+      "evidence_file": "id5_baseline_profile_20261026.json",
+      "sha256": "a85fa1ccde6b7cf9d6fb7b2f9b2837c3dd9c175459ac84b171c9f8a5f6b9ab31",
+      "checkpoint_epoch": 5,
+      "checkpoint_sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+      "results": [
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            128
+          ],
+          "output_shape": [
+            1,
+            6,
+            256,
+            128
+          ],
+          "median_batch_ms": 1.145699992775917,
+          "p95_batch_ms": 3.0722999712452292,
+          "median_ms_per_slice": 1.145699992775917,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.08198759995866567,
+            "start_cuda_allocated_bytes": 7901184,
+            "start_cuda_reserved_bytes": 31457280,
+            "peak_cuda_allocated_bytes": 22230528,
+            "peak_cuda_reserved_bytes": 31457280,
+            "end_cuda_allocated_bytes": 7901184,
+            "end_cuda_reserved_bytes": 31457280
+          }
+        },
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            144
+          ],
+          "output_shape": [
+            1,
+            6,
+            256,
+            144
+          ],
+          "median_batch_ms": 1.4323000214062631,
+          "p95_batch_ms": 1.5739650349132714,
+          "median_ms_per_slice": 1.4323000214062631,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.07221320003736764,
+            "start_cuda_allocated_bytes": 7917568,
+            "start_cuda_reserved_bytes": 29360128,
+            "peak_cuda_allocated_bytes": 24950272,
+            "peak_cuda_reserved_bytes": 29360128,
+            "end_cuda_allocated_bytes": 7917568,
+            "end_cuda_reserved_bytes": 29360128
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            128
+          ],
+          "output_shape": [
+            4,
+            6,
+            256,
+            128
+          ],
+          "median_batch_ms": 1.347250014077872,
+          "p95_batch_ms": 1.4770049427170306,
+          "median_ms_per_slice": 0.336812503519468,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.06936550000682473,
+            "start_cuda_allocated_bytes": 8294400,
+            "start_cuda_reserved_bytes": 81788928,
+            "peak_cuda_allocated_bytes": 65484288,
+            "peak_cuda_reserved_bytes": 81788928,
+            "end_cuda_allocated_bytes": 8294400,
+            "end_cuda_reserved_bytes": 81788928
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            144
+          ],
+          "output_shape": [
+            4,
+            6,
+            256,
+            144
+          ],
+          "median_batch_ms": 3.1336499960161746,
+          "p95_batch_ms": 4.027624992886558,
+          "median_ms_per_slice": 0.7834124990040436,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.16802510002162308,
+            "start_cuda_allocated_bytes": 8359936,
+            "start_cuda_reserved_bytes": 104857600,
+            "peak_cuda_allocated_bytes": 73217536,
+            "peak_cuda_reserved_bytes": 104857600,
+            "end_cuda_allocated_bytes": 8359936,
+            "end_cuda_reserved_bytes": 104857600
+          }
+        }
+      ]
+    },
+    "improved_unet": {
+      "evidence_file": "id5_improved_profile_20261026.json",
+      "sha256": "6f048ce2573ccd7cacaa1ea41de7976484c40ed38ca3e6fa7486c5f3014985ca",
+      "checkpoint_epoch": 17,
+      "checkpoint_sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+      "results": [
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            128
+          ],
+          "output_shape": [
+            1,
+            6,
+            256,
+            128
+          ],
+          "median_batch_ms": 4.776249988935888,
+          "p95_batch_ms": 8.875839988468215,
+          "median_ms_per_slice": 4.776249988935888,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.27498310001101345,
+            "start_cuda_allocated_bytes": 12910592,
+            "start_cuda_reserved_bytes": 54525952,
+            "peak_cuda_allocated_bytes": 35586048,
+            "peak_cuda_reserved_bytes": 54525952,
+            "end_cuda_allocated_bytes": 12910592,
+            "end_cuda_reserved_bytes": 54525952
+          }
+        },
+        {
+          "input_shape": [
+            1,
+            1,
+            256,
+            144
+          ],
+          "output_shape": [
+            1,
+            6,
+            256,
+            144
+          ],
+          "median_batch_ms": 11.024000006727874,
+          "p95_batch_ms": 12.495314987609163,
+          "median_ms_per_slice": 11.024000006727874,
+          "stage_measurement": {
+            "stage": "inference_batch1_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.5551346000283957,
+            "start_cuda_allocated_bytes": 12926976,
+            "start_cuda_reserved_bytes": 50331648,
+            "peak_cuda_allocated_bytes": 38436864,
+            "peak_cuda_reserved_bytes": 50331648,
+            "end_cuda_allocated_bytes": 12926976,
+            "end_cuda_reserved_bytes": 50331648
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            128
+          ],
+          "output_shape": [
+            4,
+            6,
+            256,
+            128
+          ],
+          "median_batch_ms": 10.747049993369728,
+          "p95_batch_ms": 12.401584978215396,
+          "median_ms_per_slice": 2.686762498342432,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x128",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.5521776000969112,
+            "start_cuda_allocated_bytes": 13303808,
+            "start_cuda_reserved_bytes": 142606336,
+            "peak_cuda_allocated_bytes": 104005632,
+            "peak_cuda_reserved_bytes": 142606336,
+            "end_cuda_allocated_bytes": 13303808,
+            "end_cuda_reserved_bytes": 142606336
+          }
+        },
+        {
+          "input_shape": [
+            4,
+            1,
+            256,
+            144
+          ],
+          "output_shape": [
+            4,
+            6,
+            256,
+            144
+          ],
+          "median_batch_ms": 10.75565000064671,
+          "p95_batch_ms": 12.266629992518574,
+          "median_ms_per_slice": 2.6889125001616776,
+          "stage_measurement": {
+            "stage": "inference_batch4_256x144",
+            "device": "cuda",
+            "resident_state": "One FP32 eval model and its FP32 synthetic input remain resident; outputs and forward temporaries exist during each forward; no optimizer or training gradients. Warmup allocator cache is retained.",
+            "status": "passed",
+            "elapsed_seconds": 0.5523706999374554,
+            "start_cuda_allocated_bytes": 13369344,
+            "start_cuda_reserved_bytes": 148897792,
+            "peak_cuda_allocated_bytes": 115408896,
+            "peak_cuda_reserved_bytes": 148897792,
+            "end_cuda_allocated_bytes": 13369344,
+            "end_cuda_reserved_bytes": 148897792
+          }
+        }
+      ]
+    }
+  },
+  "preflight_checks": {
+    "passed": 92,
+    "skipped": 0,
+    "evidence_file": "id5_preflight_20261026.json",
+    "evidence_sha256": "e95cf0b11382e75c0ff98b6a1a5fc59d7b08313060cfd309971a6250594940f1"
+  },
+  "execution_evidence": {
+    "file": "id5_execution_20261026.json",
+    "sha256": "042f4a7aa7a58f3b50f55dd75e9f93e8781c5d204bd99abd040088c031cb25e8",
+    "two_exit_codes_zero": true
+  },
+  "raw_verification_comparison_sha256": "2d3073cd97249359271de436113cb23535d2cc8943be20c2967b6c178d3c5872",
+  "figure_review": {
+    "performed_by": "Codex visual review",
+    "status": "passed",
+    "contains_mri": false
+  },
+  "interpretation": {
+    "id5_dice_difference_improved_minus_baseline": 0.017827057590030115,
+    "macro_dice_difference_improved_minus_baseline": -0.0068371724129173694,
+    "meaning": "ID5 priority selects a higher-overlap validation model while CE and foreground macro Dice remain worse; this is a selection-policy effect on actually reproduced candidates, not evidence of a changed training algorithm or universal quality improvement.",
+    "wall_clock": "Two run totals are 5792.112 seconds. Input I/O, system/cache/load, extra saves and reference probes are included; these times are not isolated architecture compute benchmarks. Profile timings are local snapshots with all raw repetitions retained.",
+    "test_split_read": false
+  }
+}

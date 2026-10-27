@@ -1,0 +1,70 @@
+{
+  "recorded_at": "2026-10-26T13:56:14.603856+10:00",
+  "status": "incomplete_paired_test",
+  "performed_by": "Codex execution and independent arithmetic/file checks; not user verification",
+  "execution_source_revision": "720452518b28c2a85f4bbded4c5802e90982f429",
+  "execution_plan_sha256": "8e7ad57a31cdf1b24f82627b0a0c6afd6a332da1b12e5f98aabbe78688bdc5e5",
+  "recipe_sha256": "6da9a3f7ad807601f0f1650b5f671138768e99dd1e87b8263c6bed4934ec54fa",
+  "input_audit_sha256": "c6085252634fd6d9ea6ace501986c90f2a5fa6beea3810bc65c86b6f1f6095f3",
+  "raw_attempt_file": "frozen_test_attempt_20261026.json",
+  "raw_attempt_sha256": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700",
+  "consumed_guard": "outputs/frozen_test_once_20261026.guard.json",
+  "consumed_guard_sha256": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700",
+  "raw_console_log": "outputs/frozen_test_20261026.console.log",
+  "raw_console_log_sha256": "b2f49b8c854ad3d5c522bde7bc413368b86f7084c9e16ca18715ac411c577392",
+  "baseline": {
+    "status": "passed_single_complete_test",
+    "file": "frozen_test_baseline_20261026.json",
+    "sha256": "9117f3e50e46263ce037c76a696c53a980deb98628d3236ac01b4a3306611c30",
+    "epoch": 5,
+    "test_id5_dice": 0.8431613324624428,
+    "test_id5_iou": 0.7288495415330413,
+    "test_cross_entropy": 0.055552441433623985,
+    "test_macro_dice_excluding_id0": 0.9062266262077181,
+    "forward_calls": 135,
+    "samples": 540,
+    "optimizer_steps": 0,
+    "overlap_macro_and_accuracy_recomputed_from_saved_confusion": true,
+    "cross_entropy_origin": "Saved scalar from the one completed shared valid-pixel-weighted run_epoch pass; CE is not reconstructible from the confusion matrix alone.",
+    "state_unchanged": true
+  },
+  "improved": {
+    "status": "incomplete_no_test_score",
+    "epoch": 17,
+    "completed_forward_hook_calls": 111,
+    "forward_samples": 444,
+    "total_planned_forward_calls": 135,
+    "saved_confusion_matrix": false,
+    "test_score": null,
+    "full_test_passes": 0,
+    "note": "The 111th forward output reached the post-forward hook, whose file replacement failed before run_epoch received these logits. Prior 110 batch accumulators were only in the exited process memory and were not saved. Rounded console CE cannot recover an exact whole-test score."
+  },
+  "failure": {
+    "type": "PermissionError",
+    "winerror": 5,
+    "operation": "Replacing the persistent guard JSON from its temporary file inside the post-forward progress hook",
+    "specific_external_lock_owner_or_cause_verified": false,
+    "original_error_preserved_in_attempt": true,
+    "implementation_issue": "The new progress persistence aborted a test pass on a single failed Windows file replacement, without a transient retry."
+  },
+  "integrity_after_failure_without_model_inference": {
+    "test_content": {
+      "pairs": 540,
+      "compressed_files_verified": 1080,
+      "content_manifest_sha256": "05ecea02f67e8b3c96d028ab9accaa5fa55813a27ceef2f261ae39e48423eea5",
+      "all_compressed_files_match": true,
+      "voxel_arrays_materialized": false,
+      "model_forward_calls": 0
+    },
+    "protected_original_files_checked": 78,
+    "original_records_unchanged": true,
+    "both_frozen_and_original_checkpoint_bytes_unchanged": true,
+    "other_11_frozen_source_files_unchanged": true,
+    "original_evaluator_source_preserved_and_hash_verified_in_commit24": true,
+    "completed_baseline_recomputed_from_saved_matrix": true
+  },
+  "repeated_test_inference_after_failure": false,
+  "post_test_model_or_parameter_tuning": false,
+  "test_pair_comparison_complete": false,
+  "recovery_boundary": "No saved Improved predictions or partial confusion/loss state exists. Completing a whole-test score requires additional inference on previously processed samples. Keep the original guard and attempt consumed; do not silently rerun under the user request for one evaluation per model."
+}

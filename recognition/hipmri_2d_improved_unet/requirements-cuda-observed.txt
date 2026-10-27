@@ -1,0 +1,5 @@
+# Exact torch distribution version observed on this Windows machine.
+# This does not configure a package index or supply the required wheels.
+# A fresh installation and wheel availability were not tested.
+-r requirements.txt
+torch==2.11.0+cu128

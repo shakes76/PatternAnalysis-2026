@@ -1,0 +1,56 @@
+{
+  "scope": "Previously saved validation failure panels and training smoke example only; no raw data/model access or inference. Course p13 permits necessary README visual content.",
+  "files": [
+    {
+      "source": "outputs/selection_diagnosis_v2_20261026/A_missed_region.png",
+      "destination": "evidence/submission_figures/A_missed_region.png",
+      "sha256": "517ca394ad1323543f3cdd2909684921fc9e709ba7bef414c91775eec27980e7",
+      "bytes_identical": true,
+      "new_inference": false
+    },
+    {
+      "source": "outputs/selection_diagnosis_v2_20261026/B_empty_reference_fp.png",
+      "destination": "evidence/submission_figures/B_empty_reference_fp.png",
+      "sha256": "d41514a44017a15efaa382fc38633db9c49cb3a96e91bb64711b1b79f6a97566",
+      "bytes_identical": true,
+      "new_inference": false
+    },
+    {
+      "source": "outputs/selection_diagnosis_v2_20261026/C_few_reference_pixels.png",
+      "destination": "evidence/submission_figures/C_few_reference_pixels.png",
+      "sha256": "f8c8005ea2f0159f4fb6866fd095fe00011b66e4a9c42b1ac87436ef2d1dfdef",
+      "bytes_identical": true,
+      "new_inference": false
+    },
+    {
+      "source": "outputs/selection_diagnosis_v2_20261026/D_late_improvement.png",
+      "destination": "evidence/submission_figures/D_late_improvement.png",
+      "sha256": "3cbcea706b384a9a7132306ff00a7b69771500ca08194b057870aa7367b45e97",
+      "bytes_identical": true,
+      "new_inference": false
+    },
+    {
+      "source": "outputs/selection_diagnosis_v2_20261026/E_late_regression.png",
+      "destination": "evidence/submission_figures/E_late_regression.png",
+      "sha256": "b56e38a45ac58bae4ecf6aeb9e974999db2177866700a4519cc5d72a87f9d4e2",
+      "bytes_identical": true,
+      "new_inference": false
+    },
+    {
+      "source": "outputs/baseline_reference_20261025/prediction.png",
+      "destination": "evidence/submission_figures/baseline_smoke_example.png",
+      "sha256": "cfd1c6815b4d4395a599bc2d8b3f5376da473b830990e671bd755b1e5d9e7f0c",
+      "bytes_identical": true,
+      "new_inference": false
+    },
+    {
+      "source": "outputs/baseline_reference_20261025/prediction_summary.json",
+      "destination": "evidence/submission_figures/baseline_smoke_example.json",
+      "sha256": "0240b70038b18387c8db034eea695a47973c16d59b8332ba5d2fd93374a07090",
+      "bytes_identical": true,
+      "new_inference": false
+    }
+  ],
+  "new_training": false,
+  "new_test_evaluation": false
+}

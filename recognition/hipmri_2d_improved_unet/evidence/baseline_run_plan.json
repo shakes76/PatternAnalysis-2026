@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-10-25T19:39:30.5567892+10:00",
+  "milestone": "baseline U-Net minimal training",
+  "source_base_revision": "e76fa43e5b9406ce7f342cec74a17724d9c0843a",
+  "model": "standard topology U-Net, same padding",
+  "base_channels": 16,
+  "num_classes": 6,
+  "batch_size": 4,
+  "optimizer": "Adam",
+  "learning_rate": 0.001,
+  "seed": 3710,
+  "epochs_on_selected_subset": 2,
+  "selected_training_samples": 64,
+  "selection": "seeded random sample including fixed case_004_week_0_slice_12",
+  "validation": "all 660 validation pairs each epoch",
+  "objective": "valid-region one-hot cross-entropy",
+  "checkpoint_selection": "minimum validation cross_entropy",
+  "test_split_read": false,
+  "improved_model_implemented": false,
+  "claim": "bounded functional smoke, not final baseline comparison",
+  "captured_before_real_training": true
+}

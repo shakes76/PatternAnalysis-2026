@@ -1,0 +1,508 @@
+{
+  "milestone": "improved_unet_minimal_training",
+  "performed_by": "Codex automation; not user-performed verification",
+  "created_at": "2026-10-25T20:00:45.095582+10:00",
+  "status": "passed",
+  "model": "improved_unet",
+  "model_config": {
+    "in_channels": 1,
+    "num_classes": 6,
+    "base_channels": 16
+  },
+  "parameters": 3190194,
+  "optimizer": {
+    "name": "Adam",
+    "lr": 0.001
+  },
+  "objective": "valid-region one-hot cross-entropy",
+  "selection_metric": "minimum full-validation cross_entropy",
+  "seed": 3710,
+  "device": "cuda",
+  "gpu_name": "NVIDIA GeForce RTX 4070 Ti",
+  "versions": {
+    "python_torch": "2.11.0+cu128",
+    "numpy": "2.5.4"
+  },
+  "settings": {
+    "epochs": 2,
+    "batch_size": 4,
+    "num_workers": 0,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false
+  },
+  "data": {
+    "full_training_pairs": 11460,
+    "selected_training_pairs": 64,
+    "full_validation_pairs": 660,
+    "selected_training_case_groups": 20,
+    "training_case_groups": 31,
+    "validation_case_groups": 4,
+    "shared_case_ids": [],
+    "training_manifest_sha256": "87b3df279408c3cc9cf1b048ada5082f0d0475a740531bd31a1e8b668dafc09e",
+    "validation_manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f",
+    "selection_policy": "fixed seeded subset including the learning reference; indices sorted before seeded epoch shuffling",
+    "selected_training_filenames": [
+      "case_004_week_0_slice_12.nii.gz",
+      "case_004_week_0_slice_47.nii.gz",
+      "case_004_week_4_slice_50.nii.gz",
+      "case_004_week_6_slice_53.nii.gz",
+      "case_004_week_7_slice_20.nii.gz",
+      "case_010_week_0_slice_37.nii.gz",
+      "case_011_week_0_slice_27.nii.gz",
+      "case_011_week_1_slice_35.nii.gz",
+      "case_011_week_2_slice_28.nii.gz",
+      "case_011_week_3_slice_15.nii.gz",
+      "case_011_week_5_slice_24.nii.gz",
+      "case_011_week_5_slice_47.nii.gz",
+      "case_012_week_2_slice_6.nii.gz",
+      "case_012_week_4_slice_9.nii.gz",
+      "case_012_week_7_slice_55.nii.gz",
+      "case_012_week_7_slice_6.nii.gz",
+      "case_013_week_0_slice_23.nii.gz",
+      "case_013_week_2_slice_46.nii.gz",
+      "case_014_week_1_slice_15.nii.gz",
+      "case_014_week_2_slice_30.nii.gz",
+      "case_014_week_3_slice_30.nii.gz",
+      "case_014_week_3_slice_49.nii.gz",
+      "case_014_week_4_slice_45.nii.gz",
+      "case_014_week_4_slice_5.nii.gz",
+      "case_016_week_0_slice_7.nii.gz",
+      "case_016_week_1_slice_36.nii.gz",
+      "case_016_week_2_slice_0.nii.gz",
+      "case_016_week_5_slice_12.nii.gz",
+      "case_017_week_0_slice_58.nii.gz",
+      "case_017_week_3_slice_36.nii.gz",
+      "case_017_week_4_slice_27.nii.gz",
+      "case_017_week_4_slice_30.nii.gz",
+      "case_017_week_5_slice_16.nii.gz",
+      "case_017_week_7_slice_14.nii.gz",
+      "case_017_week_7_slice_34.nii.gz",
+      "case_018_week_1_slice_59.nii.gz",
+      "case_018_week_4_slice_11.nii.gz",
+      "case_018_week_5_slice_22.nii.gz",
+      "case_019_week_0_slice_56.nii.gz",
+      "case_019_week_6_slice_54.nii.gz",
+      "case_020_week_1_slice_5.nii.gz",
+      "case_020_week_2_slice_13.nii.gz",
+      "case_020_week_2_slice_34.nii.gz",
+      "case_020_week_3_slice_0.nii.gz",
+      "case_022_week_0_slice_58.nii.gz",
+      "case_022_week_2_slice_8.nii.gz",
+      "case_024_week_3_slice_28.nii.gz",
+      "case_024_week_5_slice_37.nii.gz",
+      "case_024_week_5_slice_39.nii.gz",
+      "case_024_week_6_slice_56.nii.gz",
+      "case_024_week_6_slice_58.nii.gz",
+      "case_025_week_0_slice_2.nii.gz",
+      "case_025_week_1_slice_22.nii.gz",
+      "case_025_week_4_slice_19.nii.gz",
+      "case_027_week_7_slice_11.nii.gz",
+      "case_028_week_0_slice_45.nii.gz",
+      "case_029_week_1_slice_2.nii.gz",
+      "case_030_week_3_slice_23.nii.gz",
+      "case_031_week_0_slice_30.nii.gz",
+      "case_031_week_4_slice_49.nii.gz",
+      "case_031_week_4_slice_52.nii.gz",
+      "case_032_week_5_slice_20.nii.gz",
+      "case_032_week_5_slice_50.nii.gz",
+      "case_032_week_6_slice_22.nii.gz"
+    ]
+  },
+  "limited_training_smoke": true,
+  "test_split_read": false,
+  "improved_unet_implemented": true,
+  "is_improved_run": true,
+  "reference_name": "case_004_week_0_slice_12.nii.gz",
+  "reference_ce_before_training": 1.8770081996917725,
+  "epochs": [
+    {
+      "epoch": 1,
+      "training": {
+        "confusion_matrix": [
+          [
+            331472,
+            24752,
+            566,
+            4355,
+            1183,
+            3050
+          ],
+          [
+            104816,
+            1240567,
+            17450,
+            22768,
+            12917,
+            17221
+          ],
+          [
+            20172,
+            219877,
+            12320,
+            4238,
+            4611,
+            4152
+          ],
+          [
+            2306,
+            20707,
+            124,
+            10345,
+            1053,
+            482
+          ],
+          [
+            1117,
+            6247,
+            40,
+            27,
+            0,
+            3
+          ],
+          [
+            500,
+            6640,
+            313,
+            280,
+            246,
+            235
+          ]
+        ],
+        "dice_per_class": [
+          0.8028279368969956,
+          0.8454965004605509,
+          0.0831918104685279,
+          0.26859665065558874,
+          0.0,
+          0.014089996102767035
+        ],
+        "iou_per_class": [
+          0.670603634715723,
+          0.7323464162714394,
+          0.04340121819328338,
+          0.1551323386068831,
+          0.0,
+          0.007094982187065999
+        ],
+        "mean_dice_excluding_class0": 0.24227499153748694,
+        "mean_iou_excluding_class0": 0.18759499105173436,
+        "pixel_accuracy": 0.760526180267334,
+        "valid_pixels": 2097152,
+        "cross_entropy": 0.7365502081811428,
+        "samples": 64,
+        "batches": 16,
+        "elapsed_seconds": 1.012,
+        "optimizer_steps": 16,
+        "gradient_norm_range": [
+          0.7861765027046204,
+          3.11214280128479
+        ]
+      },
+      "validation": {
+        "confusion_matrix": [
+          [
+            2780142,
+            195374,
+            0,
+            145,
+            0,
+            0
+          ],
+          [
+            167782,
+            14921993,
+            61765,
+            58996,
+            0,
+            0
+          ],
+          [
+            35001,
+            2494761,
+            303857,
+            576,
+            0,
+            0
+          ],
+          [
+            0,
+            305104,
+            222,
+            72614,
+            0,
+            0
+          ],
+          [
+            24895,
+            96434,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            106060,
+            144,
+            1015,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.9292724419113222,
+          0.8954020823478676,
+          0.18989976510718293,
+          0.2840445464964814,
+          0.0,
+          0.0
+        ],
+        "iou_per_class": [
+          0.8678887872935084,
+          0.8106135889257159,
+          0.10491118748372939,
+          0.16553142211036947,
+          0.0,
+          0.0
+        ],
+        "mean_dice_excluding_class0": 0.2738692787903064,
+        "mean_iou_excluding_class0": 0.21621123970396297,
+        "pixel_accuracy": 0.8359322287819603,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.44798641511888215,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 4.167,
+        "optimizer_steps": 0
+      }
+    },
+    {
+      "epoch": 2,
+      "training": {
+        "confusion_matrix": [
+          [
+            349696,
+            15680,
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            11111,
+            1340236,
+            59960,
+            4432,
+            0,
+            0
+          ],
+          [
+            1585,
+            166227,
+            97264,
+            294,
+            0,
+            0
+          ],
+          [
+            10,
+            12587,
+            140,
+            22280,
+            0,
+            0
+          ],
+          [
+            193,
+            7196,
+            19,
+            26,
+            0,
+            0
+          ],
+          [
+            0,
+            7954,
+            209,
+            51,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.9607389285042165,
+          0.9038490783880195,
+          0.45991838510315347,
+          0.7175292261118804,
+          0.0,
+          0.0
+        ],
+        "iou_per_class": [
+          0.9244442564575694,
+          0.8245662714572504,
+          0.2986324754834233,
+          0.5594897292953643,
+          0.0,
+          0.0
+        ],
+        "mean_dice_excluding_class0": 0.41625933792061065,
+        "mean_iou_excluding_class0": 0.33653769524720756,
+        "pixel_accuracy": 0.8628253936767578,
+        "valid_pixels": 2097152,
+        "cross_entropy": 0.35334709472954273,
+        "samples": 64,
+        "batches": 16,
+        "elapsed_seconds": 0.705,
+        "optimizer_steps": 16,
+        "gradient_norm_range": [
+          0.5836036205291748,
+          1.42887544631958
+        ]
+      },
+      "validation": {
+        "confusion_matrix": [
+          [
+            2923086,
+            52490,
+            0,
+            85,
+            0,
+            0
+          ],
+          [
+            111967,
+            14595258,
+            296209,
+            207102,
+            0,
+            0
+          ],
+          [
+            15169,
+            1962186,
+            855314,
+            1526,
+            0,
+            0
+          ],
+          [
+            0,
+            243847,
+            3570,
+            130523,
+            0,
+            0
+          ],
+          [
+            4316,
+            116550,
+            173,
+            290,
+            0,
+            0
+          ],
+          [
+            0,
+            100569,
+            4095,
+            2555,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.9694824333326313,
+          0.9042508517898646,
+          0.4283470671251386,
+          0.3625533144172184,
+          0.0,
+          0.0
+        ],
+        "iou_per_class": [
+          0.9407723504101717,
+          0.825235276949039,
+          0.27254558443867616,
+          0.2214138131087807,
+          0.0,
+          0.0
+        ],
+        "mean_dice_excluding_class0": 0.3390302466664443,
+        "mean_iou_excluding_class0": 0.26383893489929916,
+        "pixel_accuracy": 0.8556102868282434,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.38580653938380155,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 4.475,
+        "optimizer_steps": 0
+      }
+    }
+  ],
+  "claim_boundary": "A limited smoke run demonstrates the pipeline, not final model quality, fair model comparison or unseen-test performance.",
+  "case_identifier_note": "Numeric case field is a grouping proxy; original patient identity mapping is unverified.",
+  "first_parameter_max_abs_change": 0.01597989723086357,
+  "reference_ce_after_training": 0.24975407123565674,
+  "checkpoint_reload": {
+    "passed": true,
+    "best_epoch": 2,
+    "best_validation_cross_entropy": 0.38580653938380155,
+    "reference_ce": 0.24975407123565674,
+    "reference_logit_max_abs_difference": 0.0
+  },
+  "optimizer_steps": 32,
+  "peak_cuda_allocated_bytes": 529318400,
+  "peak_cuda_reserved_bytes": 658505728,
+  "curves_file": "training_curves.png",
+  "elapsed_seconds": 11.926,
+  "source_base_revision": "7ae1584d97f0b6b60825c54bd0310b6c18ec586f",
+  "pre_run_plan": "evidence/improved_run_plan.json",
+  "source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "train.py": "8145201daca8de4ea57fb4d8db5cf718f91d5c4b1ea663795cdae19c699d47cb",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "dataset.py": "ce72d3c34b5ac6dc218e71d4132534778266f31cae20e6d0e2a880d2f0bd7052",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "tests/test_baseline_model.py": "7f460072728bd2febf4f5de5909933c4b6758c9bcd52f03ea07bcd1e3b3723b2",
+    "tests/test_improved_model.py": "8e754fd3606ab7fe02dae27482f9e2ef3f309143561439e5ed9186d10fca0fd7",
+    "tests/test_preprocessing.py": "3edc4370e7500fecd65de267584c813e510cc1b8c9d77a27d77907d5937c61c2",
+    "tests/test_segmentation_loss.py": "aa0d7372ad174c16f5ea4f77b756b86f8ac7b29f46be820010dc9b49169ca99a",
+    "tests/test_segmentation_metrics.py": "80be8a51b4ab30d724ae988afc72c665eb0c8b9c60e43b9b16de7cb9672d9114",
+    "tests/test_shared_model_pipeline.py": "13068b4870d79237f63e0581681453fbe43dff66dcef449ca0ab76e0227cda2d",
+    "tests/test_training_loop.py": "1247540f782d97e53625ef018aa2f3f9ca6ad3e15c8816379cedd704da9274e2"
+  },
+  "source_hash_basis": "SHA256 of verified working-tree file bytes before Git line-ending normalization.",
+  "checks": {
+    "unittest_count": 47,
+    "unittest_skipped": 0,
+    "passed": true,
+    "performed_by": "Codex automation, not user execution"
+  },
+  "runtime_python_version": "3.13.2",
+  "checkpoint_sha256": "caaf38967559101164ad4bccce44943fe452b9c03412f059db39b7e91e4131b5",
+  "memory_note": "Peak PyTorch CUDA allocation/reservation over this process, including checkpoint restoration; not total GPU VRAM or an isolated training benchmark.",
+  "metric_notes": [
+    "Training scores are online batch predictions before each update; validation uses one fixed end-of-epoch model over all 660 validation pairs.",
+    "Numeric class-to-tissue mapping is unconfirmed; numeric ID Dice is not a named-organ Dice.",
+    "Best checkpoint selected by the predeclared validation CE rule; no hyperparameter search, extra training or test evaluation performed.",
+    "valid_mask restricts loss and metrics; convolution and InstanceNorm still see padded image values, so prediction invariance to batch padding is not claimed."
+  ],
+  "reference_architecture": {
+    "course": "COMP3710_Report_2026_v2.5.pdf, p6 2D Improved U-Net [2]; p20 reference [2]",
+    "paper": "Isensee et al. (2018), Brain Tumor Segmentation and Radiomics Survival Prediction: Contribution to the BRATS 2017 Challenge",
+    "url": "https://arxiv.org/abs/1802.10508",
+    "architecture_section": "2.1; Figure 1"
+  },
+  "adaptation_choices": [
+    "all spatial operations adapted from 3D to 2D",
+    "channel-wise dropout, affine instance normalization and exactly three heads are explicit implementation choices",
+    "base width 16 is a shared resource choice, not the full paper configuration",
+    "shared cross-entropy and baseline smoke optimizer/settings retained; paper Dice-loss training recipe is not reproduced"
+  ],
+  "visual_review": {
+    "performed_by": "Codex",
+    "curves_reviewed": true,
+    "training_reference_prediction_reviewed": true,
+    "observation": "IDs 0/1/2/3 appear in the fixed training-reference prediction. Some ID2 regions are fragmented or missing and boundaries differ from the reference. IDs4/5 full-validation Dice remain zero. This is a visual check, not medical validation."
+  }
+}

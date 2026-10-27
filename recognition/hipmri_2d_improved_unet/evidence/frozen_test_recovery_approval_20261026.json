@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-26T14:00:10.254942+10:00",
+  "performed_by": "Human user explicit reply, recorded by Codex",
+  "user_question": "记录代码已修复，121项检查通过。Improved 在第111/135批写日志时中断，未保存的累计统计无法恢复。是否允许仅用原第17轮权重、原规则，完整补跑 Improved 一次？这会重复计算其中444张测试图；baseline 不重跑，失败记录全部保留。需要确认是因为你要求每模型只评估一次。",
+  "user_answer": "允许，仅补跑 Improved",
+  "user_recovery_confirmation_received": true,
+  "additional_full_evaluations_authorized": {
+    "baseline_unet": 0,
+    "improved_unet": 1
+  },
+  "recovery_model": "improved_unet",
+  "epoch": 17,
+  "checkpoint_sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+  "same_original_model_preprocessing_batch_and_evaluation_rules_required": true,
+  "repeated_prior_test_forward_samples_disclosed": 444,
+  "original_plan_sha256": "8e7ad57a31cdf1b24f82627b0a0c6afd6a332da1b12e5f98aabbe78688bdc5e5",
+  "original_attempt_sha256": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700",
+  "original_consumed_guard_sha256": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700",
+  "original_baseline_sha256": "9117f3e50e46263ce037c76a696c53a980deb98628d3236ac01b4a3306611c30",
+  "original_failure_and_baseline_must_be_preserved": true,
+  "post_test_model_or_hyperparameter_tuning_authorized": false,
+  "recovery_execution_started": false
+}

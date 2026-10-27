@@ -1,0 +1,475 @@
+{
+  "verification_kind": "selected_formal_checkpoints_full_validation_replay",
+  "created_at": "2026-10-26T10:48:21.805851+10:00",
+  "performed_by": "Codex automation; not user verification",
+  "status": "passed",
+  "scope": [
+    "validation only",
+    "existing completed formal checkpoints"
+  ],
+  "training_data_read": false,
+  "test_split_read": false,
+  "new_training_performed": false,
+  "training_data_scope_note": "No training MRI/mask files or training-directory scan; completed training-run JSON metadata is read.",
+  "ce_comparison_atol": 1e-06,
+  "confusion_comparison": "strict exact equality",
+  "metric_scope": "Full 660-slice validation replay against the recorded selected epoch; the example is illustrative and not a replacement for ID5 validation Dice.",
+  "label_mapping_boundary": "Provider tissue names apply to the course derivative only under the user-accepted unverified assumption that original IDs were retained.",
+  "resource_scope": "Post-training validation verification only; no optimizer. Do not merge these measurements into the original formal-run stage records or call them training cost.",
+  "claim_boundary": "Consistency verification on already-used validation data, not independent test evaluation or additional training.",
+  "models": {
+    "baseline_unet": {
+      "selected_epoch": 5,
+      "selection_rule": "earliest epoch with minimum full-validation CE",
+      "checkpoint_sha256_before": "2eb7bb791d70d12d3db90439a699ddb9739c0ee6f555db183e8b18df3e7866f9",
+      "summary_sha256": "b0118045acaceb72513481c279af489b2c8ea318352a446787934cb9219d7f82",
+      "expected_selected_epoch_validation": {
+        "confusion_matrix": [
+          [
+            2949529,
+            26132,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            4139,
+            14936304,
+            220346,
+            17737,
+            12915,
+            19095
+          ],
+          [
+            985,
+            173936,
+            2658308,
+            958,
+            8,
+            0
+          ],
+          [
+            0,
+            33663,
+            221,
+            342981,
+            0,
+            1075
+          ],
+          [
+            25,
+            18173,
+            0,
+            63,
+            102780,
+            288
+          ],
+          [
+            0,
+            13609,
+            0,
+            5184,
+            329,
+            88097
+          ]
+        ],
+        "dice_per_class": [
+          0.9947252593823052,
+          0.9822524419600154,
+          0.9306057863810526,
+          0.9209237134882522,
+          0.8660226406191414,
+          0.8165673343405601
+        ],
+        "iou_per_class": [
+          0.9895058725648398,
+          0.9651238504091063,
+          0.8702177125419264,
+          0.8534370785454437,
+          0.7637036431591384,
+          0.6899989818056502
+        ],
+        "mean_dice_excluding_class0": 0.9032743833578044,
+        "mean_iou_excluding_class0": 0.828496253292253,
+        "pixel_accuracy": 0.9746204260623816,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.06635873507369648,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 3.952,
+        "optimizer_steps": 0
+      },
+      "replayed_validation": {
+        "confusion_matrix": [
+          [
+            2949529,
+            26132,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            4139,
+            14936304,
+            220346,
+            17737,
+            12915,
+            19095
+          ],
+          [
+            985,
+            173936,
+            2658308,
+            958,
+            8,
+            0
+          ],
+          [
+            0,
+            33663,
+            221,
+            342981,
+            0,
+            1075
+          ],
+          [
+            25,
+            18173,
+            0,
+            63,
+            102780,
+            288
+          ],
+          [
+            0,
+            13609,
+            0,
+            5184,
+            329,
+            88097
+          ]
+        ],
+        "dice_per_class": [
+          0.9947252593823052,
+          0.9822524419600154,
+          0.9306057863810526,
+          0.9209237134882522,
+          0.8660226406191414,
+          0.8165673343405601
+        ],
+        "iou_per_class": [
+          0.9895058725648398,
+          0.9651238504091063,
+          0.8702177125419264,
+          0.8534370785454437,
+          0.7637036431591384,
+          0.6899989818056502
+        ],
+        "mean_dice_excluding_class0": 0.9032743833578044,
+        "mean_iou_excluding_class0": 0.828496253292253,
+        "pixel_accuracy": 0.9746204260623816,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.06635873507369648,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 4.201,
+        "optimizer_steps": 0
+      },
+      "state_sha256_before": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+      "state_sha256_after": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+      "resource_measurement": {
+        "stage": "post_training_selected_validation_replay_baseline_unet",
+        "device": "cuda",
+        "resident_state": "One selected restored model; no optimizer or training gradients. Validation inputs/logits are present during forward; unused allocator cache is retained. This is post-training verification, separate from formal training/validation resource stages.",
+        "status": "passed",
+        "elapsed_seconds": 4.201597900013439,
+        "start_cuda_allocated_bytes": 7770112,
+        "start_cuda_reserved_bytes": 25165824,
+        "peak_cuda_allocated_bytes": 70858752,
+        "peak_cuda_reserved_bytes": 104857600,
+        "end_cuda_allocated_bytes": 7770112,
+        "end_cuda_reserved_bytes": 104857600
+      },
+      "ce_absolute_difference": 0.0,
+      "checkpoint_sha256_after": "2eb7bb791d70d12d3db90439a699ddb9739c0ee6f555db183e8b18df3e7866f9",
+      "passed": true,
+      "all_forward_calls_eval_without_gradients": true,
+      "validation_forward_calls": 165,
+      "optimizer_constructed": false,
+      "example_prediction_source": "Argmax captured from this example's original batch4 validation forward; no separate batch1 prediction."
+    },
+    "improved_unet": {
+      "selected_epoch": 3,
+      "selection_rule": "earliest epoch with minimum full-validation CE",
+      "checkpoint_sha256_before": "a2e1c8520795697df907617817d4167d03ac0729126301e97659978c52fe27e2",
+      "summary_sha256": "69df5cd0ea1af41bb9782e2289c260785a244bbf7694d4ec41bbff82690e2ea4",
+      "expected_selected_epoch_validation": {
+        "confusion_matrix": [
+          [
+            2955243,
+            20418,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            13864,
+            14954576,
+            215471,
+            13153,
+            8941,
+            4531
+          ],
+          [
+            325,
+            129803,
+            2703915,
+            152,
+            0,
+            0
+          ],
+          [
+            0,
+            68883,
+            49,
+            308352,
+            0,
+            656
+          ],
+          [
+            0,
+            14452,
+            0,
+            190,
+            106289,
+            398
+          ],
+          [
+            0,
+            26726,
+            0,
+            4996,
+            265,
+            75232
+          ]
+        ],
+        "dice_per_class": [
+          0.9941788967809251,
+          0.9830325286831125,
+          0.9398988117066964,
+          0.8750267812929654,
+          0.897620173631051,
+          0.8001871981960901
+        ],
+        "iou_per_class": [
+          0.9884251718313628,
+          0.9666312408303168,
+          0.8866123555807673,
+          0.7778200998408298,
+          0.8142567127590301,
+          0.6669267047267827
+        ],
+        "mean_dice_excluding_class0": 0.899153098701983,
+        "mean_iou_excluding_class0": 0.8224494227475454,
+        "pixel_accuracy": 0.9758045080936316,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.07050679003198941,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 4.282,
+        "optimizer_steps": 0
+      },
+      "replayed_validation": {
+        "confusion_matrix": [
+          [
+            2955243,
+            20418,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            13864,
+            14954576,
+            215471,
+            13153,
+            8941,
+            4531
+          ],
+          [
+            325,
+            129803,
+            2703915,
+            152,
+            0,
+            0
+          ],
+          [
+            0,
+            68883,
+            49,
+            308352,
+            0,
+            656
+          ],
+          [
+            0,
+            14452,
+            0,
+            190,
+            106289,
+            398
+          ],
+          [
+            0,
+            26726,
+            0,
+            4996,
+            265,
+            75232
+          ]
+        ],
+        "dice_per_class": [
+          0.9941788967809251,
+          0.9830325286831125,
+          0.9398988117066964,
+          0.8750267812929654,
+          0.897620173631051,
+          0.8001871981960901
+        ],
+        "iou_per_class": [
+          0.9884251718313628,
+          0.9666312408303168,
+          0.8866123555807673,
+          0.7778200998408298,
+          0.8142567127590301,
+          0.6669267047267827
+        ],
+        "mean_dice_excluding_class0": 0.899153098701983,
+        "mean_iou_excluding_class0": 0.8224494227475454,
+        "pixel_accuracy": 0.9758045080936316,
+        "valid_pixels": 21626880,
+        "cross_entropy": 0.07050679003198941,
+        "samples": 660,
+        "batches": 165,
+        "elapsed_seconds": 4.378,
+        "optimizer_steps": 0
+      },
+      "state_sha256_before": "2d04154a26dfef4198c3b0bec0e5cfd0fc2bf2d421616bee659891a1dadd62e8",
+      "state_sha256_after": "2d04154a26dfef4198c3b0bec0e5cfd0fc2bf2d421616bee659891a1dadd62e8",
+      "resource_measurement": {
+        "stage": "post_training_selected_validation_replay_improved_unet",
+        "device": "cuda",
+        "resident_state": "One selected restored model; no optimizer or training gradients. Validation inputs/logits are present during forward; unused allocator cache is retained. This is post-training verification, separate from formal training/validation resource stages.",
+        "status": "passed",
+        "elapsed_seconds": 4.37882730003912,
+        "start_cuda_allocated_bytes": 12779520,
+        "start_cuda_reserved_bytes": 104857600,
+        "peak_cuda_allocated_bytes": 109380096,
+        "peak_cuda_reserved_bytes": 138412032,
+        "end_cuda_allocated_bytes": 12779520,
+        "end_cuda_reserved_bytes": 138412032
+      },
+      "ce_absolute_difference": 0.0,
+      "checkpoint_sha256_after": "a2e1c8520795697df907617817d4167d03ac0729126301e97659978c52fe27e2",
+      "passed": true,
+      "all_forward_calls_eval_without_gradients": true,
+      "validation_forward_calls": 165,
+      "optimizer_constructed": false,
+      "example_prediction_source": "Argmax captured from this example's original batch4 validation forward; no separate batch1 prediction."
+    }
+  },
+  "formal_plan_sha256": "d948605555a4fa2aefdecf6b23faaa61c370b48f60a515dfe5a2df5111d3d2be",
+  "formal_source_revision": "7a8ffc221986e98f664990c1b441684ed4475d1c",
+  "frozen_source_sha256": {
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "train.py": "5df23101675bc6939145de463d503d56d198dcb5b0b1a0a63b8dfcfa47a632db",
+    "predict.py": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef",
+    "resource_monitor.py": "4d0e148c1430f604fb7c2230e1b98a22ec5a4ba92c277918f81e1de0e7ea133a",
+    "profile_inference.py": "fdf512f895e72c0f7dd221d13f2a19fe6e0b5d5644b729e72cad5097b9df440c",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c"
+  },
+  "verification_source_sha256": "4b990776282a0d3b7676d6b6e44068003d2eb2555bdcd3b68919f5c9e101cdb8",
+  "source_hash_basis": "Current working-tree file bytes before Git line-ending normalization.",
+  "device": "cuda",
+  "math_settings": {
+    "matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "float32_matmul_precision": "highest"
+  },
+  "runtime": {
+    "pytorch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "gpu_name": "NVIDIA GeForce RTX 4070 Ti"
+  },
+  "example": {
+    "split": "validation",
+    "rule": "Smallest numeric case, then that case's smallest numeric week; reference-ID5-positive slices sorted by numeric slice ID, basename as tie-break; take zero-based rank count//2 (upper middle when even). No model output enters selection.",
+    "case_id": 36,
+    "week": 0,
+    "slice_id": 31,
+    "group_slice_count": 60,
+    "id5_positive_slice_count": 29,
+    "eligible_numeric_slice_ids": [
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45
+    ],
+    "selected_eligible_rank_zero_based": 14,
+    "validation_manifest_index_zero_based": 25,
+    "filename": "case_036_week_0_slice_31.nii.gz",
+    "mask_filename": "seg_036_week_0_slice_31.nii.gz",
+    "reference_id5_pixels": 955,
+    "original_size": [
+      256,
+      128
+    ],
+    "selection_reads": "Only MRI/mask pairs in the metadata-selected validation case/week are materialized; no training or test data.",
+    "batch_index_zero_based": 6,
+    "index_within_batch": 1,
+    "validation_batch_size": 4
+  },
+  "validation_manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f",
+  "figure": "validation_example.png",
+  "elapsed_seconds": 10.668,
+  "raw_report_sha256": "edbe584f55a0d0fc8e4130b523073459f1eb73cbd5945bffc48e549b8512b5d2",
+  "visual_review": {
+    "performed_by": "Codex",
+    "validation_image_reviewed": true,
+    "observation": "Both selected models predict an ID5 region in the fixed reference-only example. ID5 and ID3 boundaries differ from the reference; one example is not an aggregate score or medical alignment proof.",
+    "image_kept_in_ignored_outputs": true
+  }
+}

@@ -1,0 +1,479 @@
+{
+  "analysis_kind": "verified_frozen_test_comparison_after_authorized_improved_recovery",
+  "status": "passed_verification",
+  "created_at": "2026-10-26T14:13:19.246439+10:00",
+  "performed_by": "Codex JSON/SHA postprocessing; not user verification",
+  "postprocessing_source_sha256": "a47784a6330bbdb9242601375e2c16879adf6c15ea86aa5bd687c72039a9d91d",
+  "inputs": {
+    "original_plan": {
+      "path": "recognition\\hipmri_2d_improved_unet\\evidence\\frozen_test_plan_20261026.json",
+      "sha256": "8e7ad57a31cdf1b24f82627b0a0c6afd6a332da1b12e5f98aabbe78688bdc5e5"
+    },
+    "original_attempt": {
+      "path": "recognition\\hipmri_2d_improved_unet\\evidence\\frozen_test_attempt_20261026.json",
+      "sha256": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700"
+    },
+    "baseline": {
+      "path": "recognition\\hipmri_2d_improved_unet\\evidence\\frozen_test_baseline_20261026.json",
+      "sha256": "9117f3e50e46263ce037c76a696c53a980deb98628d3236ac01b4a3306611c30"
+    },
+    "recovery_plan": {
+      "path": "recognition\\hipmri_2d_improved_unet\\evidence\\frozen_test_recovery_plan_20261026.json",
+      "sha256": "900af9e198458f3a2c6bc19512e9861c892d86d65118e84774ce05fbd464bb88"
+    },
+    "recovery_report": {
+      "path": "outputs\\frozen_test_recovery_20261026\\evaluation.json",
+      "sha256": "45814d01c5584bf97f3b56a48e35f61a75b6b32231c4b42d410fc5fdef2d2b7b"
+    }
+  },
+  "original_source_revision": "720452518b28c2a85f4bbded4c5802e90982f429",
+  "recovery_source_revision": "2e4ba13a4780f38385fc32d77737d24fd8eae33b",
+  "recipe_sha256": "6da9a3f7ad807601f0f1650b5f671138768e99dd1e87b8263c6bed4934ec54fa",
+  "audit_sha256": "c6085252634fd6d9ea6ace501986c90f2a5fa6beea3810bc65c86b6f1f6095f3",
+  "recovery_authorization_sha256": "865afb92c474abaf647425ec0fd51abbe1160fe0bb3550c6e7d83c1000d4e1f7",
+  "data": {
+    "training": {
+      "pairs": 11460,
+      "case_proxy_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        35
+      ],
+      "case_proxy_groups": 31,
+      "manifest_sha256": "fec960cc7d97e0dd597464a024a643a1c454709e754406e01e85e50d10be2b80",
+      "image_folder": "keras_slices_train",
+      "mask_folder": "keras_slices_seg_train",
+      "numeric_keys_unique": true
+    },
+    "validation": {
+      "pairs": 660,
+      "case_proxy_ids": [
+        36,
+        37,
+        38,
+        39
+      ],
+      "case_proxy_groups": 4,
+      "manifest_sha256": "7d01640aaed5b5ed4ed6dc1ee0c1e665299f7fb477a117c41bca39578a5b509f",
+      "image_folder": "keras_slices_validate",
+      "mask_folder": "keras_slices_seg_validate",
+      "numeric_keys_unique": true
+    },
+    "test": {
+      "pairs": 540,
+      "case_proxy_ids": [
+        40,
+        41,
+        42
+      ],
+      "case_proxy_groups": 3,
+      "manifest_sha256": "b6ea446b63a10f570ce294c253be477f3b355ab196d976a37e504e4da3a1b778",
+      "image_folder": "keras_slices_test",
+      "mask_folder": "keras_slices_seg_test",
+      "numeric_keys_unique": true,
+      "test_content_manifest_sha256": "05ecea02f67e8b3c96d028ab9accaa5fa55813a27ceef2f261ae39e48423eea5",
+      "valid_pixels": 17694720
+    }
+  },
+  "preprocessing": {
+    "normalization": "per-slice min-max over all MRI pixels, before padding; constant images become zero",
+    "sample_padding": "zero-pad bottom/right to the next multiple of 16",
+    "batch_padding": "zero-pad bottom/right to the maximum padded height and width in the current batch",
+    "target_padding_value": -100,
+    "valid_region": "all original pixels, including class0 and black MRI pixels; padding excluded from loss and metrics",
+    "prediction_crop": "crop the final prediction to each sample's original height and width without interpolation",
+    "padding_note": "Convolutions and Improved InstanceNorm still see padded image values. Identical preprocessing and batching are required; padding invariance of predictions is not claimed."
+  },
+  "evaluation": {
+    "seed": 3710,
+    "batch_size": 4,
+    "num_workers": 0,
+    "precision": "FP32",
+    "device": "cuda",
+    "shuffle": false,
+    "drop_last": false,
+    "pair_order": "shared collect_pairs lexicographic MRI filename order",
+    "aggregation": "pixel_pooled",
+    "prediction": "argmax",
+    "num_classes": 6,
+    "test_time_augmentation": false,
+    "threshold_tuning": false,
+    "primary_metric": "full-test valid-pixel pooled dice_per_class[5]",
+    "secondary_metrics": [
+      "six-class Dice and IoU",
+      "foreground macro Dice and IoU excluding raw ID0 and undefined classes",
+      "full-test valid-pixel cross_entropy",
+      "pixel_accuracy"
+    ],
+    "cross_entropy": "shared losses.segmentation_cross_entropy, weighted by original valid pixel count across all test batches",
+    "absent_class_policy": "Absent in both reference and prediction: null; omitted from macros. False-positive predictions with empty reference: zero.",
+    "model_mode": "eval with gradients disabled; no optimizer, backward or parameter updates",
+    "one_pass_per_model": true,
+    "post_test_tuning": false
+  },
+  "runtime": {
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "gpu_name": "NVIDIA GeForce RTX 4070 Ti",
+    "math_settings": {
+      "matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest"
+    }
+  },
+  "results": {
+    "baseline_unet": {
+      "checkpoint_epoch": 5,
+      "checkpoint_sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+      "parameters": 1940902,
+      "model_config": {
+        "in_channels": 1,
+        "num_classes": 6,
+        "base_channels": 16
+      },
+      "metrics": {
+        "confusion_matrix": [
+          [
+            2851978,
+            8861,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            9823,
+            11841854,
+            184997,
+            23413,
+            17906,
+            5604
+          ],
+          [
+            6,
+            102939,
+            2063562,
+            1392,
+            0,
+            0
+          ],
+          [
+            0,
+            8228,
+            80,
+            410628,
+            0,
+            715
+          ],
+          [
+            373,
+            19543,
+            0,
+            497,
+            82223,
+            63
+          ],
+          [
+            0,
+            11304,
+            1,
+            156,
+            166,
+            48408
+          ]
+        ],
+        "dice_per_class": [
+          0.9966690657500875,
+          0.9836927777103533,
+          0.9344701812890138,
+          0.9597060779187998,
+          0.81010276165798,
+          0.8431613324624428
+        ],
+        "iou_per_class": [
+          0.9933602480772653,
+          0.9679088725692453,
+          0.877000497667423,
+          0.9225335816620198,
+          0.6808174147767262,
+          0.7288495415330413
+        ],
+        "mean_dice_excluding_class0": 0.9062266262077181,
+        "mean_iou_excluding_class0": 0.8354219816416911,
+        "pixel_accuracy": 0.9776166562680845,
+        "valid_pixels": 17694720,
+        "cross_entropy": 0.055552441433623985,
+        "samples": 540,
+        "batches": 135,
+        "elapsed_seconds": 3.611,
+        "optimizer_steps": 0
+      },
+      "resource_measurement": {
+        "stage": "frozen_test_baseline_unet",
+        "device": "cuda",
+        "resident_state": "One restored FP32 eval model, test inputs/logits; no optimizer or training gradients. Prior model is released before the next model; CUDA allocator cache is retained. Includes input I/O, shared metrics and persistent batch-count recording; not isolated forward latency.",
+        "status": "passed",
+        "elapsed_seconds": 3.6114168000640348,
+        "start_cuda_allocated_bytes": 7770112,
+        "start_cuda_reserved_bytes": 25165824,
+        "peak_cuda_allocated_bytes": 70858752,
+        "peak_cuda_reserved_bytes": 104857600,
+        "end_cuda_allocated_bytes": 7770112,
+        "end_cuda_reserved_bytes": 104857600
+      },
+      "forward_calls_for_complete_score": 135,
+      "forward_samples_for_complete_score": 540,
+      "optimizer_steps": 0,
+      "state_sha256_before": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+      "state_sha256_after": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+      "parameters_have_no_gradients": true,
+      "complete_score_origin": "original_attempt"
+    },
+    "improved_unet": {
+      "checkpoint_epoch": 17,
+      "checkpoint_sha256": "9f3997dcd898c1ad7e0bb1db1b832cc414241e98d4dab8e19b0595877871d1fe",
+      "parameters": 3190194,
+      "model_config": {
+        "in_channels": 1,
+        "num_classes": 6,
+        "base_channels": 16
+      },
+      "metrics": {
+        "confusion_matrix": [
+          [
+            2850285,
+            10554,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            5418,
+            11878803,
+            150114,
+            15259,
+            22783,
+            11220
+          ],
+          [
+            0,
+            127020,
+            2040857,
+            22,
+            0,
+            0
+          ],
+          [
+            0,
+            12176,
+            3,
+            406397,
+            261,
+            814
+          ],
+          [
+            1,
+            9395,
+            0,
+            25,
+            92652,
+            626
+          ],
+          [
+            0,
+            6771,
+            0,
+            143,
+            22,
+            53099
+          ]
+        ],
+        "dice_per_class": [
+          0.9972058287674911,
+          0.984635894191704,
+          0.936414986167296,
+          0.9658905498177652,
+          0.8483955003502475,
+          0.8442215050002385
+        ],
+        "iou_per_class": [
+          0.9944272288119214,
+          0.9697367560653227,
+          0.8804326631050001,
+          0.934031257182257,
+          0.7367073510118077,
+          0.7304353807001857
+        ],
+        "mean_dice_excluding_class0": 0.9159116871054502,
+        "mean_iou_excluding_class0": 0.8502686816129147,
+        "pixel_accuracy": 0.9789413452148438,
+        "valid_pixels": 17694720,
+        "cross_entropy": 0.07163384464327936,
+        "samples": 540,
+        "batches": 135,
+        "elapsed_seconds": 8.731,
+        "optimizer_steps": 0
+      },
+      "resource_measurement": {
+        "stage": "frozen_test_improved_unet",
+        "device": "cuda",
+        "resident_state": "One restored FP32 eval model, test inputs/logits; no optimizer or training gradients. Prior model is released before the next model; CUDA allocator cache is retained. Includes input I/O, shared metrics and persistent batch-count recording; not isolated forward latency.",
+        "status": "passed",
+        "elapsed_seconds": 8.732347000041045,
+        "start_cuda_allocated_bytes": 12779520,
+        "start_cuda_reserved_bytes": 25165824,
+        "peak_cuda_allocated_bytes": 109380096,
+        "peak_cuda_reserved_bytes": 144703488,
+        "end_cuda_allocated_bytes": 12779520,
+        "end_cuda_reserved_bytes": 144703488
+      },
+      "forward_calls_for_complete_score": 135,
+      "forward_samples_for_complete_score": 540,
+      "optimizer_steps": 0,
+      "state_sha256_before": "9774c0810a327eeb0b9d8ae26b97563fe41943cf07561b7ab41b01981eb72745",
+      "state_sha256_after": "9774c0810a327eeb0b9d8ae26b97563fe41943cf07561b7ab41b01981eb72745",
+      "parameters_have_no_gradients": true,
+      "complete_score_origin": "authorized_improved_only_recovery"
+    }
+  },
+  "test_exposure": {
+    "unique_test_slices": 540,
+    "baseline": {
+      "original_forward_calls": 135,
+      "original_forward_samples": 540,
+      "recovery_forward_calls": 0,
+      "cumulative_forward_calls": 135,
+      "cumulative_forward_sample_events": 540,
+      "completed_full_passes": 1,
+      "score_origin": "The complete baseline result from the original attempt; not rerun."
+    },
+    "improved": {
+      "prior_improved_forward_calls": 111,
+      "prior_improved_forward_samples": 444,
+      "new_improved_forward_calls": 135,
+      "new_improved_forward_samples": 540,
+      "planned_repeated_prior_samples": 444,
+      "repeated_prior_samples": 444,
+      "cumulative_improved_forward_calls": 246,
+      "cumulative_improved_forward_samples": 984,
+      "partial_metrics_recovered": false,
+      "baseline_forward_calls_this_recovery": 0,
+      "completed_full_passes": 1,
+      "cumulative_forward_sample_events": 984,
+      "score_origin": "Only the complete authorized 135-batch rerun; no partial metrics were recovered or merged.",
+      "order_note": "Unchanged deterministic manifest order repeats the first 444 slices forwarded by the incomplete attempt."
+    },
+    "all_models_cumulative_forward_calls": 381,
+    "all_models_cumulative_forward_sample_events": 1524,
+    "once_only_boundary": "Baseline had one full pass. Improved had an incomplete 111-batch pass plus one explicitly authorized full rerun; it was not evaluated only once."
+  },
+  "original_attempt_preserved": {
+    "status": "incomplete",
+    "sha256": "417b7b5cc940bc91cd61703dd07bf99de9da54a14f68c63fdbb1ab29f5653700",
+    "improved_partial_has_no_metrics": true,
+    "improved_partial_resource_measurement": {
+      "stage": "frozen_test_improved_unet",
+      "device": "cuda",
+      "resident_state": "One restored FP32 eval model, test inputs/logits; no optimizer or training gradients. Prior model is released before the next model; CUDA allocator cache is retained. Includes input I/O, shared metrics and persistent batch-count recording; not isolated forward latency.",
+      "status": "failed",
+      "elapsed_seconds": 3.282086400082335,
+      "start_cuda_allocated_bytes": 12779520,
+      "start_cuda_reserved_bytes": 104857600,
+      "peak_cuda_allocated_bytes": 109380096,
+      "peak_cuda_reserved_bytes": 138412032,
+      "end_cuda_allocated_bytes": 20775424,
+      "end_cuda_reserved_bytes": 138412032,
+      "error": {
+        "type": "PermissionError",
+        "message": "[WinError 5] \u62d2\u7edd\u8bbf\u95ee\u3002: 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json.tmp' -> 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json'"
+      }
+    },
+    "error": {
+      "type": "PermissionError",
+      "message": "[WinError 5] \u62d2\u7edd\u8bbf\u95ee\u3002: 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json.tmp' -> 'C:\\\\Users\\\\Nuoyan\\\\OneDrive\\\\\u684c\u9762\\\\uq 26s2\\\\comp3710\\\\course-git\\\\HipMRI_guided_rebuild_20261025\\\\outputs\\\\frozen_test_once_20261026.guard.json'"
+    }
+  },
+  "metric_verification": {
+    "all_confusion_derived_overlap_macro_accuracy_recomputed": true,
+    "cross_entropy": "Finite shared-loss value retained from the complete pass; not derivable from the confusion matrix.",
+    "checkpoint_verification_scope": "Stored SHA/epoch/state bindings verified across frozen recipe/plans and execution records; this helper does not load or hash model files."
+  },
+  "new_model_forward_calls": 0,
+  "new_test_raw_file_reads": 0,
+  "new_training": false,
+  "test_scores_used_for_tuning": false,
+  "aggregate_figure": "frozen_test_comparison_20261026.png",
+  "resource_scope": "Retain each original resident-state/allocator scope. Complete baseline and Improved stages come from their distinct actual passes; the original failed Improved stage remains separate. Timing includes input I/O and is not a pure-forward or statistically isolated hardware comparison.",
+  "claim_boundary": "Only the preselected baseline5 and Improved17 are compared. The explicitly authorized repeated Improved exposure is disclosed, no partial scores are reconstructed, and no test-driven selection/tuning occurs. Three filename case proxies do not establish clinical validity, statistical significance, physical units or independently confirmed patient identity; ID5 retains the accepted derivative-ID assumption.",
+  "raw_summary_sha256": "e722742310f83a45768d4f8e6a72b1090a0ec989410bfc4bbc6c3f1757ad72e6",
+  "raw_recovery_report_sha256": "45814d01c5584bf97f3b56a48e35f61a75b6b32231c4b42d410fc5fdef2d2b7b",
+  "raw_recovery_guard_sha256": "45814d01c5584bf97f3b56a48e35f61a75b6b32231c4b42d410fc5fdef2d2b7b",
+  "recovery_evidence_file": "frozen_test_recovery_20261026.json",
+  "recovery_improved_evidence_file": "frozen_test_improved_20261026.json",
+  "final_checks": {
+    "preflight_unittest_passed": 129,
+    "preflight_unittest_skipped": 0,
+    "preflight_evidence_file": "frozen_test_recovery_preflight_20261026.json",
+    "preflight_evidence_sha256": "3e4e01f81ada83ea91b94babbe8d103e05792db2eab77e50c80e796bfce28154",
+    "recovery_pipeline_source_files_unchanged": 13,
+    "protected_records_unchanged": 94,
+    "both_frozen_and_original_weight_files_unchanged": true,
+    "original_failed_attempt_and_baseline_and_guard_unchanged": true,
+    "completed_test_samples_per_model": 540,
+    "completed_test_batches_per_model": 135,
+    "valid_pixels_per_model": 17694720,
+    "optimizer_updates": 0,
+    "complete_score_states_unchanged": true,
+    "matrix_derived_scores_recomputed_without_forward": true,
+    "ce_is_saved_shared_loss_not_confusion_derived": true,
+    "test_content_verified_before_and_after_recovery": true,
+    "additional_test_forward_calls_by_postprocessing": 0
+  },
+  "presentation_review": {
+    "performed_by": "Codex visual inspection",
+    "status": "passed",
+    "contains_mri": false,
+    "initial_figure_preserved_under_ignored_outputs": true,
+    "revision": "Adjusted bottom whitespace to separate raw-ID axis label and disclosure; numeric/provenance fields match the original postprocessing exactly.",
+    "original_postprocessor_sha256": "314a42bab5f3a03bf67f284a264588a3555bb66b7adbcac5eca46f028905ab68",
+    "current_postprocessor_sha256": "a47784a6330bbdb9242601375e2c16879adf6c15ea86aa5bd687c72039a9d91d",
+    "does_not_change_recovery_pipeline_sources_or_evaluation": true
+  },
+  "interpretation": {
+    "test_id5_dice_improved_minus_baseline": 0.0010601725377956672,
+    "test_id5_dice_difference_percentage_points": 0.10601725377956672,
+    "test_foreground_macro_dice_improved_minus_baseline": 0.009685060897732134,
+    "test_cross_entropy_improved_minus_baseline": 0.016081403209655377,
+    "scope": "Descriptive results on the frozen provided test split, three filename case proxies. No test-driven model/threshold/parameter selection, no statistical-significance or clinical claim. The small ID5 advantage does not by itself justify extra resources.",
+    "timing": "Actual test stages include I/O and progress recording; baseline used the original logger while Improved used repaired fsync/retry logging, and allocator/cache conditions differ. Do not compare their elapsed times as pure architecture latency."
+  }
+}

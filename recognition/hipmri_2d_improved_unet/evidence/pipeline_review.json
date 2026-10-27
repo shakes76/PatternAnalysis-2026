@@ -1,0 +1,308 @@
+{
+  "review_kind": "fixed_training_reference_pipeline",
+  "status": "passed",
+  "created_at": "2026-10-25T20:16:02.285180+10:00",
+  "performed_by": "Codex automation; user understanding remains unconfirmed",
+  "scope": [
+    "one fixed training sample",
+    "existing independent-rebuild smoke checkpoints"
+  ],
+  "test_split_read": false,
+  "new_training_performed": false,
+  "pair": {
+    "image": "case_004_week_0_slice_12.nii.gz",
+    "mask": "seg_004_week_0_slice_12.nii.gz",
+    "raw_shape": [
+      256,
+      128
+    ],
+    "affine_max_abs_difference": 0.0,
+    "selected_affine": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "declared_spatial_units": "unknown"
+  },
+  "preprocessing": {
+    "raw_image_range": [
+      0.0,
+      438.0
+    ],
+    "normalized_range": [
+      0.0,
+      1.0
+    ],
+    "batch_image_shape": [
+      1,
+      1,
+      256,
+      128
+    ],
+    "target_shape": [
+      1,
+      256,
+      128
+    ],
+    "one_hot_shape": [
+      1,
+      6,
+      256,
+      128
+    ],
+    "valid_pixels": 32768,
+    "padding_pixels": 0,
+    "original_size": [
+      256,
+      128
+    ],
+    "original_mask_ids_preserved_exactly": true,
+    "target_counts_by_id": [
+      2890,
+      25038,
+      3528,
+      1312,
+      0,
+      0
+    ],
+    "working_target_id": 5,
+    "working_target_present_in_reference": false
+  },
+  "one_hot_example": {
+    "row": 100,
+    "column": 84,
+    "target_id": 3,
+    "vector": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ]
+  },
+  "label_mapping_boundary": "The provider raw-ID mapping is verified. Applying it to the course keras_slices_data derivative assumes that its export preserved the original IDs; that assumption has not been independently verified.",
+  "models": {
+    "baseline_unet": {
+      "checkpoint_epoch": 2,
+      "checkpoint_sha256": "790a60ca2abbd52e19b6517b7a0bed22e62da3eb4579c7f22ae46fa74ab1b2ee",
+      "eval_mode": true,
+      "logits_require_grad": false,
+      "logit_shape": [
+        1,
+        6,
+        256,
+        128
+      ],
+      "cross_entropy": 0.8774915933609009,
+      "reference_ce_matches_previous_smoke": true,
+      "model_state_unchanged": true,
+      "restored_prediction_shape": [
+        256,
+        128
+      ],
+      "metrics": {
+        "confusion_matrix": [
+          [
+            0,
+            2786,
+            104,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            25038,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3528,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1312,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.0,
+          0.8678382031818654,
+          0.0,
+          0.0,
+          null,
+          null
+        ],
+        "iou_per_class": [
+          0.0,
+          0.7665319617927994,
+          0.0,
+          0.0,
+          null,
+          null
+        ],
+        "mean_dice_excluding_class0": 0.28927940106062183,
+        "mean_iou_excluding_class0": 0.25551065393093314,
+        "pixel_accuracy": 0.76409912109375,
+        "valid_pixels": 32768
+      }
+    },
+    "improved_unet": {
+      "checkpoint_epoch": 2,
+      "checkpoint_sha256": "caaf38967559101164ad4bccce44943fe452b9c03412f059db39b7e91e4131b5",
+      "eval_mode": true,
+      "logits_require_grad": false,
+      "logit_shape": [
+        1,
+        6,
+        256,
+        128
+      ],
+      "cross_entropy": 0.24975407123565674,
+      "reference_ce_matches_previous_smoke": true,
+      "model_state_unchanged": true,
+      "restored_prediction_shape": [
+        256,
+        128
+      ],
+      "metrics": {
+        "confusion_matrix": [
+          [
+            2879,
+            11,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            454,
+            24377,
+            194,
+            13,
+            0,
+            0
+          ],
+          [
+            67,
+            2075,
+            1386,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            196,
+            0,
+            1116,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "dice_per_class": [
+          0.9154213036565978,
+          0.9430721318451748,
+          0.5426781519185592,
+          0.9143793527242933,
+          null,
+          null
+        ],
+        "iou_per_class": [
+          0.8440340076223981,
+          0.8922767203513909,
+          0.3723804406233208,
+          0.8422641509433962,
+          null,
+          null
+        ],
+        "mean_dice_excluding_class0": 0.8000432121626758,
+        "mean_iou_excluding_class0": 0.7023071039727027,
+        "pixel_accuracy": 0.90814208984375,
+        "valid_pixels": 32768
+      }
+    }
+  },
+  "claim_boundary": "This is a training-reference consistency review, not formal training, independent model evaluation, medical alignment proof, or user verification.",
+  "source_sha256": {
+    "dataset.py": "47fa539f7b5654dc5a62299d0ac906e410510297b339f25edf17397992b760f6",
+    "modules.py": "e0d9df0380cb3d3f0bf1126cea9b593a7d93217f7cfecb7fed6d8dce587334af",
+    "losses.py": "682aa2d092fa44c4969d927e7ebea56a8ff937956998ea909825ac0fa22adb98",
+    "metrics.py": "2cc73aab4ad4ec90a5ed1011b65409f19ae5d6d261cbb4d4700029f1fba28035",
+    "review_pipeline.py": "47b043473bb1fddeaf8ce0ee683f7da4fedc31f1becc3523e961e51d8ef14f6c",
+    "label_schema.json": "b1e4c24c4f71eb0d9eed88d4747980ed66665ebb6f97c0b5e178cca1d8a5520c"
+  },
+  "source_hash_basis": "Verified working-tree file bytes before Git line-ending normalization.",
+  "source_base_revision": "719b02616db73d9f14d78ae28a1e6a5c95ceda87",
+  "raw_report_sha256": "a0d66939360ddaa02a0d674ce95f6409539383d1328d3df9af96b3984b42ce98",
+  "checks": {
+    "unittest_count": 53,
+    "unittest_skipped": 0,
+    "passed": true,
+    "performed_by": "Codex automation; not user verification"
+  }
+}

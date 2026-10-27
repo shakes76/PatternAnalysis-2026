@@ -1,0 +1,76 @@
+{
+  "kind": "constructed_prediction_display_checks",
+  "created_at": "2026-10-26T06:37:31.090156+00:00",
+  "performed_by": "Codex auxiliary agent /root/predict_display_entry; not user execution",
+  "command": "C:\\Users\\Nuoyan\\OneDrive\\桌面\\uq 26s2\\comp3710\\recognition\\hipmri_2d_improved_unet\\.venv\\Scripts\\python.exe -B -m unittest discover -s recognition/hipmri_2d_improved_unet/tests -p test_prediction_display.py -v",
+  "working_directory": "independent repository root",
+  "result": {
+    "exit_code": 0,
+    "tests_run": 11,
+    "passed": 11,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds_reported_by_unittest": 8.371
+  },
+  "test_source": "tests/test_prediction_display.py",
+  "test_source_sha256_at_execution": "75e0445522a358f105c39e18abb3c9694564aef8bb6ee661372bfeed0f176def",
+  "source_sha256_at_execution": {
+    "predict.py": "2681504070e7902299b20bcc63b7cdf201521f8597167e4cf22703fd4a0c0c60",
+    "prediction_panels.py": "dd52e5b42e4c722c421e706e3cd80c447321537627843bea58cf19f7a8ea13ec"
+  },
+  "source_line_endings_at_execution": "PowerShell-created files contain LF plus one final CRLF. Any later EOL-only normalization must be recorded separately; no semantic source modification occurred after these tests.",
+  "checks": [
+    "Clean subprocess import blocker proves unapproved test request cannot import torch/numpy/nibabel/dataset/modules or access data/runtime",
+    "Manual namespace cannot bypass repeated test opt-in gate",
+    "Explicit test opt-in and exact test/seg_test routing",
+    "Traversal, malformed filenames and existing output rejected",
+    "Constructed padded 17x19 sample: inference_mode/eval/no grad/no update, shared CE/confusion and original crop match direct legacy calculation",
+    "Constructed NIfTI and random tiny baseline checkpoint execute test branch on CPU",
+    "Constructed NIfTI and random tiny Improved checkpoint execute test branch on CPU",
+    "Constructed training and validation paths retain prediction.png and summary fields",
+    "Hand-counted TP/FP/FN/Dice, union ROI, independent GT/prediction and two-model layout",
+    "Both-empty class undefined, empty-reference false positive zero Dice",
+    "Invalid cropped padding/class IDs/floating masks/nonfinite image and overwrite rejected"
+  ],
+  "constructed_scope": {
+    "all_nifti": "Temporary synthetic 17x19 arrays saved into test-shaped/training/validation folder names, never the real dataset",
+    "checkpoints": "Randomly initialized base_channels=2 baseline/Improved checkpoints created temporarily for these checks",
+    "device": "CPU; CUDA availability query patched to fail if invoked by CPU execution",
+    "model_forward_calls_constructed": 6,
+    "training_steps": 0,
+    "real_mri_or_mask_files_read": 0,
+    "real_checkpoint_files_read": 0,
+    "real_test_forward_calls": 0,
+    "full_test_or_recovery_script_invoked": false,
+    "full_unittest_suite_run": false
+  },
+  "layout_review": {
+    "constructed_png": "outputs/constructed_prediction_display_20261026/review_panels.png",
+    "constructed_png_sha256": "bcabe7b90df1def17b79de949c77f46b8a08bd53277651375e3fce565c4f7727",
+    "visually_viewed_by": "Codex auxiliary agent",
+    "real_validation_runner_boundary_text": "Final frozen models; selected validation only, not a test or full-validation score. ID5 preservation assumed; anatomy/physical units unconfirmed.",
+    "font_size_pt": 9,
+    "note_line_widths_pt": [
+      645.345,
+      746.96625,
+      647.8678125
+    ],
+    "available_note_width_pt": 1250.6399999999999,
+    "footnote_fits_for_current_two_model_validation_figure": true,
+    "arbitrary_unbounded_boundary_strings_not_claimed": true
+  },
+  "historical_experiment_or_test_records_changed": false,
+  "git_mutated": false,
+  "claim_boundary": "Constructed branch/layout checks only. New test capability has not been exercised on a real test sample; validation inference is a separate parent-authorized run.",
+  "subsequent_eol_normalization": {
+    "observed": true,
+    "current_normalized_sha256": {
+      "predict.py": "acc5af12c8169ce7af8de999da7d363e4d185541b21c6fdc22651695b8238d19",
+      "prediction_panels.py": "a9750260ae76954805af9228a08e9952ea3bbeec4fead2e515a16793b544b2ec",
+      "tests/test_prediction_display.py": "75ad71f965f6da19fc8cc422148e3f480efd638bcb8d4a6540673f3ad0fda88b"
+    },
+    "exact_reconstruction_check": "Replacing only the final LF with CRLF reconstructs each exact byte digest used for the successful 11-check run. No semantic change.",
+    "targeted_tests_not_repeated_for_eol_only_change": true
+  }
+}

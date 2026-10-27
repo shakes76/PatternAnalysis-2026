@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "kind": "post_experiment_prediction_display_source_change",
+  "recorded_at": "2026-10-26T06:36:38.806175+00:00",
+  "parent_revision": "cfdf15a6e5c0691a299cde9f8a6a6fc64328cbd3",
+  "purpose": "Add an explicit opt-in test-sample display capability and reusable independent GT/prediction/FP-FN panels after the experiments. The new test branch was checked on constructed CPU data only; final baseline5/Improved17 validation examples are authorized separately. This source evolution does not replace old experiment code, frozen test rules, scores or failure/recovery records. Source SHA256 values bind the actual LF source bytes.",
+  "authorization_scope": {
+    "test_display_code": true,
+    "constructed_test_branch_checks": true,
+    "final_validation_examples": true,
+    "new_training": false,
+    "real_test_inference": false
+  },
+  "historical_source": {
+    "file": "predict.py",
+    "revision": "cfdf15a6e5c0691a299cde9f8a6a6fc64328cbd3",
+    "sha256": "3c8bda47ecac7392cd53dd8a95823881fd2131952403c451c24f9e8c292dbbef"
+  },
+  "current_source": {
+    "file": "predict.py",
+    "sha256": "acc5af12c8169ce7af8de999da7d363e4d185541b21c6fdc22651695b8238d19"
+  },
+  "new_helpers": [
+    {
+      "file": "prediction_panels.py",
+      "sha256": "a9750260ae76954805af9228a08e9952ea3bbeec4fead2e515a16793b544b2ec"
+    }
+  ],
+  "verification_boundary": {
+    "test_entry_validation": "constructed_data_only",
+    "real_test_entry_executed": false,
+    "formal_test_results_replaced": false,
+    "model_or_epoch_reselected": false
+  }
+}

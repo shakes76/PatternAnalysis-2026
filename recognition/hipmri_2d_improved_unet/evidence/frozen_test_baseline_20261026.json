@@ -1,0 +1,102 @@
+{
+  "status": "passed",
+  "checkpoint_epoch": 5,
+  "checkpoint_sha256": "01443fb576874406c179e19ecf45df7b3424dc8ac460f51daf78712496d4aef3",
+  "forward_calls": 135,
+  "forward_samples": 540,
+  "optimizer_steps": 0,
+  "state_sha256_before": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+  "resource_measurement": {
+    "stage": "frozen_test_baseline_unet",
+    "device": "cuda",
+    "resident_state": "One restored FP32 eval model, test inputs/logits; no optimizer or training gradients. Prior model is released before the next model; CUDA allocator cache is retained. Includes input I/O, shared metrics and persistent batch-count recording; not isolated forward latency.",
+    "status": "passed",
+    "elapsed_seconds": 3.6114168000640348,
+    "start_cuda_allocated_bytes": 7770112,
+    "start_cuda_reserved_bytes": 25165824,
+    "peak_cuda_allocated_bytes": 70858752,
+    "peak_cuda_reserved_bytes": 104857600,
+    "end_cuda_allocated_bytes": 7770112,
+    "end_cuda_reserved_bytes": 104857600
+  },
+  "state_sha256_after": "230de6c47c16cc220b935e3228ab40ffbaafaefbf85c00f948638bf876e56b43",
+  "parameters_have_no_gradients": true,
+  "metrics": {
+    "confusion_matrix": [
+      [
+        2851978,
+        8861,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9823,
+        11841854,
+        184997,
+        23413,
+        17906,
+        5604
+      ],
+      [
+        6,
+        102939,
+        2063562,
+        1392,
+        0,
+        0
+      ],
+      [
+        0,
+        8228,
+        80,
+        410628,
+        0,
+        715
+      ],
+      [
+        373,
+        19543,
+        0,
+        497,
+        82223,
+        63
+      ],
+      [
+        0,
+        11304,
+        1,
+        156,
+        166,
+        48408
+      ]
+    ],
+    "dice_per_class": [
+      0.9966690657500875,
+      0.9836927777103533,
+      0.9344701812890138,
+      0.9597060779187998,
+      0.81010276165798,
+      0.8431613324624428
+    ],
+    "iou_per_class": [
+      0.9933602480772653,
+      0.9679088725692453,
+      0.877000497667423,
+      0.9225335816620198,
+      0.6808174147767262,
+      0.7288495415330413
+    ],
+    "mean_dice_excluding_class0": 0.9062266262077181,
+    "mean_iou_excluding_class0": 0.8354219816416911,
+    "pixel_accuracy": 0.9776166562680845,
+    "valid_pixels": 17694720,
+    "cross_entropy": 0.055552441433623985,
+    "samples": 540,
+    "batches": 135,
+    "elapsed_seconds": 3.611,
+    "optimizer_steps": 0
+  },
+  "full_test_passes": 1
+}
