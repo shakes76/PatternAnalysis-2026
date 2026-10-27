@@ -1,37 +1,44 @@
-# HipMRI segmentation: is 3D spatial context worth its cost?
+# HipMRI segmentation: a higher-resolution residual 3D U-Net and its trade-offs
 
 Author: Baoxu Wang (s4927782). COMP3710, 2026.
 
-**Original v1 experiment (seed42):** a residual, deeply supervised **3D Improved U-Net
-(Hard)** versus a standard **2D U-Net**, with 30 epochs each on one A100.
-The original test evaluation covers 30 scans from six patients held out during
-v1 training and model selection.
-Patient-balanced foreground Dice is **0.8375 (3D)** versus **0.8409 (2D)**;
-prostate Dice is **0.6772** versus **0.6790**. The 3D model improves prostate
-Dice for five patients, but a severe failure on M015 offsets those gains.
-The feasibility review's prostate Dice >=0.70 target is **unmet**.
+**Current Hard implementation:** the residual, deeply supervised 3D Improved
+U-Net now uses a higher-resolution input grid, organ-balanced TRAIN patches,
+prostate-based validation selection and complete-image sliding-window inference.
+On the **same original evaluation grid**, its patient-balanced prostate Dice is
+**0.7818**, compared with **0.6772** for the original 3D model and **0.6790** for
+the standard 2D U-Net. Foreground Dice is **0.8629** and prostate HD95 is
+**6.26 mm**. The numerical prostate target of 0.70 is met under the stated
+aggregation, but **10/30 scans remain below 0.70**, especially M015 and W029.
 
-An imaging specialist is the intended user of draft anatomical contours. The
-question is whether 3D context improves prostate end regions and adjacent-organ
-interfaces enough to justify its cost. These results do not justify replacing
-the cheaper baseline. The prototype requires specialist correction and further
-validation; native-resolution clinical accuracy is outside the experiment.
+An imaging specialist is the intended user of draft pelvic-organ contours.
+The engineering question is whether added spatial detail/context improves
+prostate end regions and adjacent-organ interfaces enough to justify cost.
+The revised pipeline improves average scores on these cases, with about
+**2.11x the original 3D training-loop time and 20.64x inference latency**.
+It is a research prototype requiring specialist correction, not a clinically
+validated automatic contourer.
 
-## Data, labels and leakage control
+**Evaluation status:** the original v1 test was frozen before its first final
+benchmark. The revised Hard study occurred after those test results and several
+exploratory studies had been inspected. Its six TEST patients / 30 scans are
+therefore a **retrospective comparison, not a new blind test**. The old results,
+failed experiments and unchanged source identities are retained. The full
+previous report, including all original failures and later studies, is
+[README_V1_HISTORY.md](README_V1_HISTORY.md). New source, fixed plans, evidence
+and reproduction guidance are in [hard_v2/](hard_v2/README.md).
 
-The strict audit matched **211 MRI/mask pairs from 38 anonymous patients** in
-HipMRI. All matching pairs passed shape, orientation, spacing and affine checks.
-A seeded patient split (3710) assigns **26/6/6 patients** and **143/38/30 scans**
-to training/validation/test. All visits, slices and augmentations of a patient
-stay in that partition. Equal patient weighting prevents an eight-visit patient
-from counting eight times as much as a one-visit patient.
-The fixed 70/15/15 patient-level allocation keeps most patients for learning
-while reserving separate patients for checkpoint selection and final evaluation.
-Rounding 38 unique patients gives 26/6/6; it is not a scan-level random split.
-The resulting six-patient VAL and TEST groups are small, so the report retains
-patient rows and uncertainty rather than treating repeated scans as new people.
+## Data, labels and patient separation
 
-| Class index / raw ID | Official label |
+The strict audit matched **211 MRI/mask pairs from 38 anonymous patients**.
+All matched shapes, orientation, spacing and affine checks. The unchanged
+seeded patient split (3710) assigns **26/6/6 patients** and **143/38/30 scans**
+to TRAIN/VAL/TEST. Every visit, slice and derived patch from a patient stays in
+that partition. The fixed 70/15/15 patient allocation reserves separate people
+for learning, selection and evaluation; rounding 38 patients gives 26/6/6.
+Six VAL and six TEST people give limited precision, regardless of visit count.
+
+| Raw ID / class index | Official label |
 |---|---|
 | 0 | Background |
 | 1 | Body |
@@ -40,30 +47,37 @@ patient rows and uncertainty rather than treating repeated scans as new people.
 | 4 | Rectum |
 | 5 | Prostate |
 
-The [original CSIRO v2 label key](https://data.csiro.au/dap/ws/v2/collections/52549/support/5034)
-confirms these meanings; [label_schema.json](label_schema.json) records its URL
-and SHA-256 (`dc3a99204684ced859872d79a75707af3c0ad31d00f5f3213063ce5e30727ee6`).
-The dataset is [Dowling and Greer, 2021, v2](https://doi.org/10.25919/45t8-p065).
-Of the native arrays, 210 are 256x256x128 and K019/Week1 is
-256x256x144; all use LPS orientation. Each pair is reoriented to
-canonical RAS, then resampled to **D,H,W = 64,128,128** with centre-aware affine
-updates, linear images and nearest-neighbour masks. Physical spacing is retained
-per case; equal array shape does not imply equal physical field of view.
+[CSIRO's original v2 label key](https://data.csiro.au/dap/ws/v2/collections/52549/support/5034)
+and [label_schema.json](label_schema.json) establish this mapping; labels were
+not assigned from visual guesses. The data are [Dowling and Greer, 2021,
+v2](https://doi.org/10.25919/45t8-p065). Native arrays are 256x256x128 except
+K019/Week1 (256x256x144), originally LPS. Image/mask pairs are reoriented to
+canonical RAS with matched geometry. Images use linear interpolation; masks
+use nearest-neighbour interpolation. Per-scan nonzero-intensity z-scores are
+clipped to [-5,5]; no VAL/TEST labels or pooled cohort statistics fit this step.
 
-Each scan's nonzero intensities are independently z-normalized and clipped to
-[-5,5]. No validation/test statistics fit normalization or loss weights.
-All 211 cached image, mask and spacing arrays were reloaded and their class
-counts checked. Five deterministic TRAIN patients were visually reviewed before
-training; the sampled contours align. Header and sampled visual checks do not
-prove every annotation is anatomically correct.
+The original grid is D,H,W = **64,128,128**; the revised input grid is
+**96,192,192**. Each case retains its centre-aware affine and physical spacing.
+A shared array shape does not imply equal field of view. Label-guided sampling
+is confined to TRAIN. VAL, TEST and deployment scan the complete image without
+GT-derived crops, normalization regions or postprocessing.
 
-![Training-only axial and sagittal alignment checks](figures/training_alignment_qa.png)
+![Original TRAIN-only alignment checks](figures/training_alignment_qa.png)
+
+Five TRAIN patients were visually reviewed before original training. All 211
+cached images, masks, spacings and counts were reloaded and checked; this does
+not certify every anatomical annotation. Later independent checks recomputed
+38 original VAL prediction arrays and passed image-only preprocessing and
+prediction equality on two TRAIN patients. No old mainline pairing, counting
+or inference arithmetic error was reproduced in that scope.
 
 ## Feasibility review
 
-The following is the **pre-final-experiment snapshot**, retained with its pilot
-observations and planned criteria. Its statement that test accuracy was
-unmeasured applies to that earlier stage. The completed outcomes follow it.
+The complete one-page review below is the **original pre-final-experiment
+snapshot**. Its pilot observations, planned check-off and unmeasured-test
+statement describe that earlier stage; they are not a tutor completion record.
+The 2026 course profile now lists the assessment window as 19-30 October;
+the snapshot's earlier deadline uncertainty is retained as history.
 
 <!-- FEASIBILITY_REVIEW_START -->
 **Student:** s4927782 · **Planned check-off:** Wednesday, 28 October 2026 · **Difficulty:** Hard
@@ -95,1130 +109,498 @@ The preselected fallback reduces 3D patch size and channel counts while retainin
 **Planning:** 30 October is an unconfirmed final-deadline assumption; verify the official date. Follow the course specification, pp. 5–6 and 12–16, including progressive commits, AI disclosure, PR and subsequent review response.
 <!-- FEASIBILITY_REVIEW_END -->
 
-### Outcome against the original criteria
+### Outcome against the planned criteria
 
-The patient-disjoint split and cache-integrity criteria passed. The measured
-3D prostate Dice **0.6772** misses the original **0.70** target. Boundary evidence
-is mixed: superior-third Dice improves, but mean HD95 worsens because of M015.
-Five patient-distinct error autopsies are provided below. The one-GPU resource
-criterion passes: peak training allocation is **2.23 GiB**, below 24 GiB.
+Patient isolation and cache checks passed. Original v1 3D prostate Dice
+**0.6772** missed the stated **0.70** objective. The revised pipeline reaches
+**0.7818** in the retrospective comparison; it does not turn that into a new
+held-out confirmation. Five patient-distinct new failure analyses and original
+end-region results are retained below. New training peak is **2.23 GiB**, below
+the original 24-GiB resource target, while latency is substantially greater.
 
-The Hard option in the course table specifies test Dice >=0.7 without defining
-its aggregation. The prespecified foreground macro score is **0.8375**; the
-clinical prostate score and the stricter feasibility target must also remain
-visible. An aggregate above 0.7 does not establish success for every organ or
-guarantee a particular assessment mark.
+The course Hard row specifies residual volumetric units, deep supervision and
+test Dice >=0.7 without defining the class or aggregation. This report declares
+patient-balanced prostate Dice as its clinical target and reports every class;
+it does not substitute a favourable macro score for a missed prostate goal or
+claim the numerical target guarantees a grade.
 
-## Models and learning procedure
+## Architecture, loss and what changed
 
-![Implemented six-class 2D and 3D U-Net architectures and deep supervision](figures/model_architecture.png)
+![Implemented 2D U-Net and residual, deeply supervised 3D U-Net](figures/model_architecture.png)
 
-The [editable architecture SVG](figures/model_architecture.svg) reflects
-`modules.py`, with base width 16 and three pooling levels. Encoder features
-supply fine spatial detail through concatenated skip connections while the
-bottleneck captures broader context. The baseline operates independently on
-axial slices: double convolutions with ReLU, transposed-convolution upsampling
-and widths 16/32/64/128. Its slice predictions are reassembled into whole volumes.
-It follows the U-Net design [6] and the author's own Demo 2 experience [3].
+The [editable architecture SVG](figures/model_architecture.svg) matches
+[modules.py](modules.py). U-Net's encoder pools spatial context while skip
+connections restore fine features in its decoder. The standard baseline
+operates on independent axial slices, using double convolutions with ReLU,
+transposed upsampling and widths 16/32/64/128; its slices are reassembled into
+whole volumes. It follows Ronneberger et al. [6] and the author's own Demo 2
+experience [3].
 
-The 3D network uses volumetric convolutions, residual blocks with additive
-shortcuts, GroupNorm and LeakyReLU, followed by resize-plus-convolution decoders.
-Residual paths support gradient flow through the deeper feature hierarchy.
-Main, half-resolution and quarter-resolution segmentation heads supervise
-multiple decoder scales; ground-truth class labels are resized with nearest-neighbour interpolation
-to each auxiliary head's native grid for loss calculation. Inference uses only the main head's hard argmax, although
-forward computes all heads. Relative to Isensee et al. [2], max pooling,
-GroupNorm instead of InstanceNorm, no dropout and independently weighted
-auxiliary losses are explicit adaptations, not an exact paper reproduction.
+Both old and new 3D runs use **the same 1,627,634-parameter model**: volumetric
+convolutions, additive residual shortcuts, GroupNorm, LeakyReLU and
+resize-plus-convolution decoding. Main, half- and quarter-resolution heads
+provide deep supervision; labels are resized with nearest-neighbour mapping
+to each head's native grid. Relative to Isensee et al. [2], max pooling,
+GroupNorm instead of InstanceNorm, no dropout and explicit native-scale
+auxiliary weighting are adaptations, not an exact paper or nnU-Net reproduction.
 
-Masks are stored and loaded as integer class IDs 0-5, as required by categorical
-cross-entropy. For soft Dice, `_categorical_head_loss` converts the resized
-labels to six-channel one-hot tensors with PyTorch `F.one_hot`. This retains
-all six class channels even when an organ is absent from a slice; stored masks
-are not independently thresholded binary targets.
+Every head predicts six exclusive classes. Masks remain integer IDs for CE;
+soft Dice converts them to six-channel one-hot tensors with `F.one_hot`, even
+when an organ is absent. Each head uses class-weighted categorical CE plus
+soft Dice over all classes, including background. Main/half/quarter losses
+have weights 1/0.5/0.25, normalized by 1.75. CE weights are inverse square-root
+TRAIN full-grid frequencies, normalized, clipped to [0.05,10] and renormalized.
+New resolved weights are approximately **0.0993, 0.1290, 0.4170, 0.9903,
+2.0191, 2.3454**. They use only new-grid TRAIN counts, not VAL/TEST labels.
 
-Every head predicts six mutually exclusive classes. The objective is weighted
-categorical cross-entropy plus soft multiclass Dice averaged over all classes,
-including background. The 3D main/half/quarter losses have weights 1/0.5/0.25,
-normalized by 1.75; 2D uses only its main loss. CE weights come from a single
-unaugmented pass over TRAIN masks: inverse square root frequencies, normalized
-to mean one, clipped to [0.05,10], then renormalized. Resolved weights are
-approximately **0.100, 0.128, 0.416, 0.991, 2.019, 2.346** for classes 0–5.
-Prostate occupies about 0.108% of training voxels, motivating this weighting.
+| Complete pipeline setting | Original 2D | Original 3D | Revised Hard 3D |
+|---|---|---|---|
+| Input grid D/H/W | 64/128/128 | 64/128/128 | 96/192/192 |
+| TRAIN examples per scan/epoch | All 64 slices | One full volume | Two 64/128/128 patches |
+| Batch size | 16 slices | 1 volume | 1 patch |
+| Training seed | 42 | 42 | 3711 |
+| Epoch budget | 30 | 30 | 30 |
+| Validation selection | Foreground Dice | Foreground Dice | Prostate Dice |
+| Validation schedule | Every epoch | Every epoch | 1/5/10/15/20/25/30 |
+| Selected epoch | 26 | 29 | 30 |
+| Full-image inference | Slice assembly | One volume | 8 overlapping windows |
 
-Both models use seed **42**, AdamW (learning rate **0.001**, weight decay
-**0.0001**), gradient clipping at norm **5**, AMP and zero loader workers.
-The 2D batch is **16 slices**; the 3D batch is **one complete cached volume**.
-Paired image/mask flips occur independently on H and W with probability 0.5
-per axis in training only. There is no rotation, intensity augmentation,
-postprocessing or prostate-specific ROI cropping. The 2D loader retains an
-unaugmented volume cache capped at 2 GiB to avoid repeated decompression.
+The revised patch sampler chooses a uniform spatial centre with probability
+0.5; otherwise it chooses uniformly among five foreground classes and samples
+around a voxel of that class. A missing class falls back to uniform spatial
+sampling and is recorded. Direct prostate-centred probability is about 10%,
+not 50%. Actual 30-epoch sampling requested 4,311 foreground patches out of
+8,580, including 837 prostate centres, with no missing-class fallback. The
+old full-volume run also contained the prostate; it was not absent from TRAIN.
 
-The fixed budget is **30 total epochs per model**, including the first two
-pilot epochs; each epoch covers the same 143 training volumes. Equal epochs
-are not equal optimizer updates or compute. The comparison concerns two complete
-pipelines: dimensionality, residual units, normalization, decoding and auxiliary
-supervision differ together. It does not isolate a causal effect of 3D context.
-Checkpoints are selected by the
-highest patient-balanced whole-volume **foreground validation Dice**, with
-an earlier epoch winning a tie. Test data never select a checkpoint.
+Both generations use AdamW (lr 0.001, weight decay 0.0001), clipping at norm 5,
+AMP and paired H/W flips with probability 0.5 per axis. There is no new
+intensity transformation, TTA or prediction postprocessing. New inference
+averages softmax probabilities across eight 50%-overlapping windows before
+argmax. It runs only the main segmentation output, although the model forward
+also computes auxiliary heads. Original v1 instead uses whole-volume main-head
+argmax. Sliding windows retain a complete-image prediction without a GT ROI.
 
-## Metrics and frozen comparison
+Higher sampling density may retain small-organ detail; foreground patches may
+increase local organ exposure; prostate-based validation aligns selection with
+the stated objective. These are plausible mechanisms, **not isolated causal
+findings**. Resolution, sampling, successful updates, seed, selection and
+inference change together; there is no single-factor ablation or equal-compute
+comparison. The new pipeline was trained from scratch, not from its QA weights.
 
-Hard-label Dice is 2TP/(2TP+FP+FN), and IoU is TP/(TP+FP+FN). A class absent
-from both target and prediction is undefined and excluded; a false positive
-for an absent target scores zero. Foreground means classes 1–5 per case,
-then visits per patient, then equal patients. Per-class results follow the
-same patient weighting; background is reported separately.
+## Fixed execution and retained negative evidence
 
-Prostate HD95 is the 95th percentile of pooled bidirectional nearest distances
-between six-connected voxel surfaces, in the cached grid's millimetres. It is
-undefined when either mask is empty. The paired distance comparison uses the
-same both-present visits for both models and reports exclusions. Missing
-predictions retain Dice zero. Inferior/mid/superior scores use thirds of the
-GT depth extent (D increases superiorly); these approximate end regions,
-without independently annotated anatomical apex/base landmarks. FP outside
-the GT extent is also reported because third-only scores can hide it.
+The original proposed new 2D/3D pair did not pass its all-or-none TRAIN QA.
+At the fixed final 400th step, new 2D prostate/foreground Dice was
+**0.8224/0.8683**, below 0.90; new 3D was **0.9233/0.9574** and passed.
+Original combined QA remains failed and new 2D was not formally trained.
+A separate, explicitly scope-reduced Hard-only study then fixed one seed,
+30 epochs and a 60-minute GPU limit before new model VAL/TEST scores. This
+was an adaptive scope revision, not the original pair completing unchanged.
+Different 2D/3D QA crop exposure is not proof of the failed fit's cause or of
+generalization. The complete plans and scope identities are preserved in
+[hard_v2](hard_v2/README.md).
 
-Both training histories were inspected and both selected checkpoints were
-independently reloaded for validation. Their scores exactly match the selected
-history. [test_protocol.json](test_protocol.json) was committed **before the
-first final test**, frozen at **2026-10-26 14:32:33 UTC** (27 October 00:32 AEST).
-It fixes checkpoint and manifest digests, 30 epochs, main-head argmax without
-postprocessing, bootstrap and failure selection. Each final model then underwent
-one complete benchmark on the same test cases. Later selected-case inference
-replays are explicitly retrospective correctness diagnostics; they do not
-replace the benchmark, change weights or authorize test-based tuning.
+The new model selected the strict maximum patient-balanced VAL prostate Dice
+among seven scheduled checkpoints, earliest on ties. Selection was frozen
+before preparing its new TEST cache and evaluating all 30 known cases. This
+prevents within-run TEST checkpoint selection; the cases had already influenced
+prior work, so it cannot restore overall blindness.
 
-## Results
+An extra VAL gain rule in the historical study was **self-imposed, not a
+teacher requirement**. Its recorded outcome is preserved. The user later
+removed it as a restriction on including the new implementation in this
+assignment. This post-result documentation decision changes no weight, epoch,
+metric or original rule outcome; it is not a new validation pass.
 
-### Validation and training behaviour
+Actual GPU job **705405** completed in **47:03**, exit 0; dependent CPU
+**705447** completed in **2:55**, exit 0. CPU preparation first timed out after
+25:23, leaving 159 complete cache files; the recorded engineering recovery
+completed in 8:06 and retained the failed output. Total preparation wall time
+is 33:29, not an unreported success inside the first 25-minute limit.
 
-Validation covers 38 scans from six patients. Both models improve substantially
-from their two-epoch pilot; the 3D best epoch is late, so this fixed-budget run
-is not evidence of complete convergence.
+## Evaluation and results
 
-| Model | Epochs | Selected epoch | Foreground Dice | Prostate Dice | Prostate IoU |
-|---|---:|---:|---:|---:|---:|
-| 2D U-Net | 30 | 26 | 0.8675 | 0.7920 | 0.6588 |
-| 3D Improved U-Net | 30 | 29 | 0.8748 | 0.8332 | 0.7154 |
+### Common grid and patient-balanced metrics
 
-![2D loss and validation Dice over 30 epochs](figures/training_unet2d.png)
+All three pipelines are compared on the **same immutable original
+64x128x128 GT grids and physical spacing**. New-grid hard predictions are
+mapped by affine nearest-neighbour sampling to that grid. New96 raw scores
+are retained separately and are not mixed with old64 scores. Mapping does not
+recover downsampling detail or establish native-resolution accuracy.
 
-![3D loss and validation Dice over 30 epochs](figures/training_improved3d.png)
+Hard Dice is 2TP/(2TP+FP+FN); IoU is TP/(TP+FP+FN). Both-empty classes are
+undefined and excluded; one-sided nonempty masks score zero. Per-class values
+are averaged first across a patient's visits, then equally across patients.
+Foreground is the independent mean over classes 1-5; background is separate.
+These are not pooled-voxel Dice. Averaging IoU then transforming it also does
+not reproduce averaged Dice.
 
-### Final test: class and patient results
+HD95 uses the 95th percentile of pooled bidirectional nearest distances between
+six-connected surfaces, in grid-aware millimetres. Paired comparisons use the
+same both-present visits. All 30 TEST scans / six patients are eligible for
+all three models, with no empty-surface exclusion. Missing predictions would
+retain Dice zero even if distance were undefined. Coarse-grid HD95 does not
+measure millimetre-thin bladder/rectal-wall contact or clinical dose impact.
 
-All test tables use **six patients / 30 scans** and the fixed downsampled grid.
-Dice and IoU are averaged independently; applying Dice = 2IoU/(1+IoU) to an
-already averaged IoU does not recover averaged Dice.
+| Patient-balanced measure | Original 2D | Original 3D | Revised Hard |
+|---|---:|---:|---:|
+| VAL prostate Dice | 0.7920 | 0.8332 | 0.8406 |
+| VAL foreground Dice | 0.8675 | 0.8748 | 0.8807 |
+| Retrospective TEST prostate Dice | 0.6790 | 0.6772 | **0.7818** |
+| Retrospective TEST foreground Dice | 0.8409 | 0.8375 | **0.8629** |
+| TEST prostate HD95, mm | 9.573 | 10.615 | **6.264** |
 
-| Class | 2D Dice | 3D Dice | 2D IoU | 3D IoU |
-|---|---:|---:|---:|---:|
-| 0: Background | 0.9898 | 0.9905 | 0.9803 | 0.9813 |
-| 1: Body | 0.9738 | 0.9711 | 0.9494 | 0.9441 |
-| 2: Bones | 0.8857 | 0.8730 | 0.7960 | 0.7755 |
-| 3: Bladder | 0.8651 | 0.8300 | 0.7742 | 0.7547 |
-| 4: Rectum | 0.8010 | 0.8363 | 0.6726 | 0.7207 |
-| 5: Prostate | 0.6790 | 0.6772 | 0.5296 | 0.5642 |
-| Foreground mean (1–5) | 0.8409 | 0.8375 | 0.7444 | 0.7519 |
+Original v1 scores above reproduce the original frozen outputs; their first
+TEST was sealed in [test_protocol.json](test_protocol.json) before execution.
+New common-grid VAL prostate gain versus old 3D is **+0.007404**; TEST gain
+is **+0.104593**. Their different size highlights cohort variability, not a
+license to select another test-based candidate. Only six TEST patients and one
+new training seed limit precision.
 
-The 3D result improves rectum Dice but loses bladder and bone Dice. Prostate
-IoU rises while mean Dice remains almost unchanged because the distribution
-of patient/visit outcomes changes. Neither model meets the original prostate
-Dice target. The validation-to-test prostate decrease is substantial, especially
-for 3D (0.8332 to 0.6772), demonstrating limited generalisation on this split.
+### Every class, including trade-offs
 
-| Patient | Visits | 2D prostate Dice | 3D prostate Dice | Delta | 2D HD95 mm | 3D HD95 mm |
+| Class | 2D Dice | Old 3D Dice | New Dice | 2D IoU | Old 3D IoU | New IoU |
 |---|---:|---:|---:|---:|---:|---:|
-| B037 | 1 | 0.5772 | 0.7773 | +0.2001 | 15.60 | 8.84 |
-| L011 | 8 | 0.7919 | 0.8326 | +0.0407 | 5.96 | 5.01 |
-| M015 | 8 | 0.5601 | 0.1136 | -0.4465 | 10.65 | 33.46 |
-| M020 | 4 | 0.8629 | 0.8643 | +0.0014 | 4.54 | 4.24 |
-| W029 | 8 | 0.5327 | 0.6028 | +0.0701 | 13.70 | 9.03 |
-| W041 | 1 | 0.7490 | 0.8725 | +0.1234 | 6.99 | 3.12 |
+| 0: Background | 0.9898 | 0.9905 | 0.9838 | 0.9803 | 0.9813 | 0.9687 |
+| 1: Body | 0.9738 | 0.9711 | 0.9651 | 0.9494 | 0.9441 | 0.9331 |
+| 2: Bones | 0.8857 | 0.8730 | 0.8941 | 0.7960 | 0.7755 | 0.8098 |
+| 3: Bladder | 0.8651 | 0.8300 | 0.8544 | 0.7742 | 0.7547 | 0.7724 |
+| 4: Rectum | 0.8010 | 0.8363 | 0.8190 | 0.6726 | 0.7207 | 0.6973 |
+| 5: Prostate | 0.6790 | 0.6772 | 0.7818 | 0.5296 | 0.5642 | 0.6554 |
 
-![Paired patient-balanced prostate Dice](figures/paired_patient_dice.png)
+The new pipeline improves prostate and bone Dice relative to old 3D but reduces
+body and rectum Dice. Bladder improves against old 3D but remains below 2D.
+The mean prostate improvement must not hide these other-organ losses.
+[Complete TEST counts](hard_v2/artifacts/hard_common_test/comparison.json)
+and [VAL counts](hard_v2/artifacts/hard_common_validation/comparison.json) retain
+all cases, class intersections, confusion matrices, identities and exclusions.
+Their historical `adoption_gate` field retains the original study-rule outcome;
+current assignment interpretation is the one stated here and in the package.
 
-Five patients improve, but **M015 worsens across its eight visits**, with mean
-Dice falling from 0.5601 to 0.1136. It remains in every aggregate. The paired
-3D-minus-2D prostate Dice difference is **-0.0018**, with **95% patient-bootstrap
-CI [-0.1908, 0.1287]** (2,000 resamples, seed 3710). Six independent patients
-and one training seed provide weak precision; this interval supports neither
-a reliable improvement nor equivalence. Correlated visits are not treated as
-30 independent patients.
+### Patients, severe misses and uncertainty
 
-### End regions and boundaries
+| Patient | Visits | 2D prostate Dice | Old 3D | New Hard | New minus old 3D |
+|---|---:|---:|---:|---:|---:|
+| B037 | 1 | 0.5772 | 0.7773 | 0.7821 | +0.0047 |
+| L011 | 8 | 0.7919 | 0.8326 | 0.8600 | +0.0273 |
+| M015 | 8 | 0.5601 | 0.1136 | 0.6656 | +0.5520 |
+| M020 | 4 | 0.8629 | 0.8643 | 0.8720 | +0.0077 |
+| W029 | 8 | 0.5327 | 0.6028 | 0.6359 | +0.0331 |
+| W041 | 1 | 0.7490 | 0.8725 | 0.8751 | +0.0027 |
 
-| Prostate measure, patient balanced | 2D | 3D |
-|---|---:|---:|
-| Inferior-third Dice | 0.7411 | 0.7056 |
-| Middle-third Dice | 0.7089 | 0.7136 |
-| Superior-third Dice | 0.4535 | 0.5806 |
-| Paired HD95 (mm; lower is better) | 9.573 | 10.615 |
-| FP voxels outside GT depth extent | 17.46 | 14.29 |
+M015 improves markedly but remains below 0.70; W029 also remains below it.
+**Ten of 30 new TEST scans score below 0.70**, concentrated in those patients.
+Every patient's mean improves versus old 3D, but individual visits can worsen.
+M015's mean change accounts arithmetically for about 88% of the overall
+prostate increase; that decomposition does not identify its biological or
+algorithmic cause. Pooled prostate FN decrease from **12,594 to 8,203**, and
+FP from **4,868 to 3,047**; these error burdens are not patient-macro Dice.
 
-HD95 uses **30 eligible paired visits, six patients, zero exclusions**. Both
-models produce nonempty prostate masks for every case: missed-mask, FP-only and
-both-empty counts are all zero. A nonempty mask is not a quality guarantee;
-M015 Week2 contains only one correctly labelled prostate voxel in 3D.
-The 3D superior-third benefit is accompanied by worse inferior Dice and worse
-mean HD95. M015's mean HD95 rises from 10.65 to 33.46 mm; the other five patients
-improve. These coarse-grid distances do not establish native clinical precision.
+![Three complete pipelines on common-grid patient-balanced Dice](hard_v2/artifacts/hard_results_figures/common_grid_dice.png)
 
-### Resource cost
+For the original v1 3D-minus-2D prostate difference, patient bootstrap gave
+**-0.0018, 95% CI [-0.1908, 0.1287]** (2,000 resamples, seed 3710).
+That original interval is retained, not transferred to the new pipeline.
+No new independent cohort, confirmatory confidence claim or clinical operating
+threshold was established. Thirty correlated scans are not 30 independent people.
 
-Both models ran sequentially on an **NVIDIA A100-PCIE-40GB**, using the same
-cache and AMP. Parameter totals include auxiliary heads. Inference measurements
-come from separate predictor processes, not training processes retaining
-optimizer state.
+### Resources and reproducibility cost
 
-| Resource | 2D U-Net | 3D Improved U-Net |
-|---|---:|---:|
-| Parameters | 481,830 | 1,627,634 |
-| Training loop, all 30 epochs (s) | 264.168 | 999.797 |
-| Successful optimizer updates | 17,152 | 4,288 |
-| AMP overflow updates skipped | 8 | 2 |
-| Peak training allocated VRAM (GiB) | 0.154 | 2.227 |
-| Mean whole-case inference (ms) | 11.299 | 52.009 |
-| Peak inference allocated VRAM (GiB) | 0.140 | 1.737 |
+| Resource | Original 2D | Original 3D | Revised Hard |
+|---|---:|---:|---:|
+| Parameters | 481,830 | 1,627,634 | 1,627,634 |
+| Training loop, 30 epochs (s) | 264.17 | 999.80 | 2,110.38 |
+| Successful updates / AMP skipped | 17,152 / 8 | 4,288 / 2 | 8,577 / 3 |
+| Peak training allocated GiB | 0.154 | 2.227 | 2.227 |
+| Whole-case inference (ms) | 11.30 | 52.01 | 1,073.41 |
+| Peak inference allocated GiB | 0.140 | 1.737 | 1.749 |
 
-Training loop time includes cached reads and updates, and excludes validation,
-checkpoint writes and queue waiting. Full-case latency includes synchronized
-input transfer, forward, argmax and output transfer after one case warmup;
-it excludes loading, preprocessing, metrics and plotting. 2D uses slice batch
-32; 3D uses a full volume. GPU allocated peaks exclude allocator reserve and
-are not total device usage. The 3D model costs about **4.60x inference latency**,
-**12.36x inference allocation** and **3.78x training loop time**. AMP skipped
-overflowing updates during training and recovered through GradScaler; skipped updates
-are disclosed rather than silently counted as successful training steps.
+All three recorded runtimes use **A100-PCIE-40GB**, Python **3.11.15**, Torch
+**2.13.0+cu130**, CUDA **13.0**; NumPy **2.4.6**, SciPy **1.16.3** and Nibabel
+**5.3.2** support preprocessing and analysis. Training loop excludes validation,
+saving, setup and queueing; the new recorded run including validation/saving is
+2,440.71 s. Inference uses one full-case warmup and synchronized transfer,
+network and output; new timing includes CPU window probability accumulation.
+It excludes disk loading, preprocessing, scoring and plotting. Allocated GPU
+bytes are not total device usage.
+
+![Measured parameter, memory, training and inference trade-offs](hard_v2/artifacts/hard_results_figures/resource_costs.png)
+
+The new method has about **2.11x old 3D training time and 20.64x inference time**.
+It changes the time/detail trade-off despite the same parameter count and peak
+training memory. CUDA deterministic requests use `warn_only`; CE-forward and
+3D max-pool backward reported unsupported deterministic operations. Seeds and
+recorded versions do not promise bitwise-identical retraining.
 
 ## Five fixed failure autopsies
 
-The selection rule was fixed before test: choose each patient's worst defined
-3D prostate Dice visit, then the five worst distinct patients. Zero Dice is
-eligible. These deliberately adverse examples explain errors rather than
-estimate their prevalence. Each ROI below uses the same plane and crop across
-MRI, GT, both predictions and FP/FN panels; red is prostate FP and cyan is FN.
-Full-field galleries linked with each example show GT extent thirds and each
-model's largest FP+FN slice across the **entire** depth, including outside GT.
+The fixed gallery rule selects each patient's worst defined new-Hard prostate
+visit, then the five worst distinct patients. Each figure uses identical MRI
+planes and intensity window across models. **Green = GT, dashed yellow =
+prediction, red = FP, blue = FN.** Inferior/superior GT depth endpoints and the
+largest-GT plane locate residual errors, but they are not expert-annotated
+anatomical apex/base landmarks. Full-volume scores include unshown planes.
+Display ROI is the projected GT-plus-all-prediction union with padding, only
+for magnification; it is never an inference crop or scoring region.
 
-### 1. M015 Week2: near-total prostate omission
+### 1. W029 Week6: worse overlap despite fewer false positives
 
-![M015 Week2 MRI, GT, predictions and prostate FP/FN ROI](figures/failure_zoom_01.png)
+![W029 Week6 common-plane MRI, contours and FP/FN for all three pipelines](hard_v2/artifacts/hard_failure_gallery/W029_Week6_display_roi.png)
 
-3D prostate Dice is **0.0015** versus **0.6189** for 2D; HD95 is **53.10** versus
-**10.04 mm**. GT contains 1,335 voxels, but 3D predicts only 43 (TP 1, FP 42,
-FN 1,334). Of its missed target voxels, 716 become Body and 612 Bladder.
-The displayed central target is almost entirely cyan; the residual predicted
-island does not rescue the organ. The 2D baseline retains a partial contour.
-[Full-depth context](figures/failure_full_01.png).
+New Dice **0.3511** is worse than old 3D **0.5447** and 2D **0.5678**.
+New TP/FP/FN is **89/0/329**; 300 missed prostate voxels become Body, eight
+Bladder and 21 Rectum. The target has 418 voxels, but only 89 are predicted.
+HD95 improves from 11.85 to 10.50 mm while the mask shrinks severely, showing
+why a smaller distance or zero FP does not imply a usable contour.
+[Full field](hard_v2/artifacts/hard_failure_gallery/W029_Week6_full_fov.png).
 
-Across M015 visits, mean 3D predicted/GT volume ratio is **0.074** and mean
-centroid error **25.11 mm**, versus **0.404** and **4.26 mm** for 2D. A post-test
-CPU diagnostic compares GT descriptors with the 26 training-patient means:
-M015's normalized H centroid is **0.4516**, below their range **0.4581–0.5322**;
-its mean volume and D/W centroids remain within the training ranges. However,
-the worst visit, Week2, has H centroid **0.4749**, inside the TRAIN visit range
-**0.4319–0.5499**; other ordinary-position visits also fail. A simple H-centroid
-outlier explanation is not consistently supported. M015 spacing is within TRAIN ranges. Its raw
-intensity mean and standard deviation exceed TRAIN values, but MRI scale is
-arbitrary and per-case normalization removes a pure gain/offset change on
-unchanged nonzero support.
-The source-to-model investigation below quantifies an appearance difference
-and strong class confusion, but does **not establish an acquisition-level cause**.
-Prediction-only intermodel Dice averages 0.229 for M015; disagreement could be
-studied as a future review flag, but no detector or threshold is validated here.
+### 2. M015 Week0: large mitigation, still incomplete
 
-### 2. W029 Week0: lower FP with substantially greater omission
+![M015 Week0 common-plane comparison and residual omissions](hard_v2/artifacts/hard_failure_gallery/M015_Week0_display_roi.png)
 
-![W029 Week0 MRI, GT, predictions and prostate FP/FN ROI](figures/failure_zoom_02.png)
+Dice rises from old 3D **0.0603** to **0.5390**, above 2D **0.4867**.
+New TP/FP/FN is **463/0/792**, so most target voxels remain missed despite
+substantial recovery. Of the FN, 764 become Body and 28 Rectum. HD95 decreases
+from 29.07 to 9.77 mm. The endpoint panels retain visible review locations;
+this is mitigation rather than a repaired patient or complete end-region contour.
+[Full field](hard_v2/artifacts/hard_failure_gallery/M015_Week0_full_fov.png).
 
-3D Dice is **0.4662** versus **0.6005**. FP falls from 247 to 87 voxels, but FN
-rises from 220 to 371: 241 missed voxels become Body and 130 Bladder in 3D.
-HD95 worsens from 9.36 to 12.11 mm. The large cyan target remainder shows that
-reducing spurious labels alone is insufficient. W029 improves on average
-across visits, so this case also exposes within-patient variability.
-[Full-depth context](figures/failure_full_02.png).
-The existing superior-third rows (GT depths 38-40; displayed D=39) show Dice
-0.0000 for 2D and 0.2230 for 3D, with 158 prostate voxels still missed by 3D.
-A local end-region gain therefore coexists with worse whole-case omission.
+### 3. B037 Week0: similar Dice with a worse boundary distance
 
-### 3. B037 Week0: helpful 3D context with a substantial residual error
+![B037 Week0 overlap and residual endpoint errors](hard_v2/artifacts/hard_failure_gallery/B037_Week0_display_roi.png)
 
-![B037 Week0 MRI, GT, predictions and prostate FP/FN ROI](figures/failure_zoom_03.png)
+Dice changes from **0.7773 to 0.7821**, but HD95 worsens **8.84 to 10.36 mm**.
+New TP/FP/FN is **2,205/241/988**. Out-of-GT-depth prostate FP rise from
+nine to 29, and 367 missed target voxels become Bladder. A slight overlap gain
+does not resolve end-region leakage or missing contour.
+[Full field](hard_v2/artifacts/hard_failure_gallery/B037_Week0_full_fov.png).
 
-3D Dice improves **0.5772 to 0.7773**, and HD95 improves **15.60 to 8.84 mm**.
-The 2D mask misses 1,831 target voxels, including 1,259 classified as Bladder;
-3D reduces FN to 999 (715 Body, 264 Bladder, 20 Rectum). Recovery is incomplete,
-with visible fragmented contour and cyan residual target. 3D FP rises from
-164 to 258 voxels, a recall/precision trade-off rather than a uniformly better
-boundary. [Full-depth context](figures/failure_full_03.png).
-In the existing superior-third rows (GT depths 34-39; displayed D=37), Dice
-increases from 0.0843 to 0.5261, but 354 GT voxels remain missed by 3D.
-This locates a measurable, incomplete end-region gain rather than a resolved
-anatomical base contour.
+### 4. L011 Week7: better overlap does not settle the end slices
 
-### 4. L011 Week4: extra slices despite better recall
+![L011 Week7 common-plane contours and false-positive/negative regions](hard_v2/artifacts/hard_failure_gallery/L011_Week7_display_roi.png)
 
-![L011 Week4 MRI, GT, predictions and prostate FP/FN ROI](figures/failure_zoom_04.png)
+Dice improves **0.8141 to 0.8339** mainly through fewer FP (**260 to 220**),
+while FN remains **52**. Out-of-depth FP nevertheless rises **34 to 39**, and
+HD95 worsens **4.58 to 5.68 mm**. Local endpoint errors remain despite a strong
+whole-volume score; the displayed upper label extent should still be reviewed.
+[Full field](hard_v2/artifacts/hard_failure_gallery/L011_Week7_full_fov.png).
 
-3D Dice falls **0.8340 to 0.7987**, while FN improves **58 to 22**. FP rises
-**223 to 352**, including **88** prostate-labelled voxels outside the GT depth
-extent versus zero for 2D. The displayed plane has no GT prostate, yet 3D
-adds a green island and red FP. HD95 worsens **4.75 to 6.24 mm**. A smoother
-volumetric model can still extend a contour through the wrong slices.
-[Full-depth context](figures/failure_full_04.png).
-The displayed D=30 plane lies inferior to the GT depth extent [31,41], making
-this an explicit extra-slice error. These GT-depth regions approximate ends;
-they are not independently annotated anatomical apex/base landmarks.
+### 5. M020 Week0: a genuine regression is retained
 
-### 5. M020 Week2: small boundary trade-offs persist
+![M020 Week0 negative outcome retained in the three-pipeline gallery](hard_v2/artifacts/hard_failure_gallery/M020_Week0_display_roi.png)
 
-![M020 Week2 MRI, GT, predictions and prostate FP/FN ROI](figures/failure_zoom_05.png)
+New Dice **0.8340** is below old 3D **0.8670** and 2D **0.8497**. FP increases
+**171 to 239**, FN **119 to 132**, and HD95 **4.42 to 6.25 mm**. Most FN are
+classified as Body (116 voxels), with smaller errors involving other organs.
+Improved population average does not guarantee improvement for this visit.
+[Full field](hard_v2/artifacts/hard_failure_gallery/M020_Week0_full_fov.png).
 
-Both models recover most of the organ. 3D Dice is **0.8486** versus **0.8608**;
-FP changes **119 to 126**, FN **132 to 146**, and HD95 is **4.58 mm** for both.
-The overlays reveal peripheral additions and omissions hidden by a similar
-whole-organ score. All 146 3D FN voxels become Body. Small coarse-grid boundary
-changes matter, and 3D context does not resolve every interface.
-[Full-depth context](figures/failure_full_05.png).
+These findings establish error morphology, not a unique root cause. Class
+confusion does not measure organ-wall contact, and three axial planes cannot
+prove 3D connectedness or absence of discontinuities. M015 and W029 remain
+unsuitable for unreviewed automated drafting. The other cases also lack a
+validated image-only acceptance rule.
 
-## Engineering recommendation and limitations
+## Engineering recommendation
 
-Retain the **2D baseline as the lower-cost research comparator**. On the frozen
-v1 TEST, the 3D model offers no reliable mean prostate Dice benefit, worsens mean HD95 and
-has a severe patient-level failure at substantially higher cost. Neither model
-is justified for unattended contouring; draft masks require specialist review.
-A nonempty-mask check alone would miss the demonstrated near-total omission.
-The consistent validation ranking across two training runs does not overturn
-that test result or remove its patient-level failure. The appearance ablation
-also fails its clean-prostate guard, despite improving synthetic polarity
-robustness, so it supplies no basis for replacing the original configuration.
-M1 shows substantial M015 mitigation with B, but its clean-VAL guard fails.
-The bounded R1 recovery then partially restores clean accuracy; neither new
-arm reaches R1's prespecified clean-prostate recovery gate (the same-platform
-v1 reference), and M2 shows reduced M015 retention. No follow-up candidate is
-adopted. The appendix retains every positive and negative result. These repeatedly reused VAL patients and the
-already-examined M015 case provide no independent confirmation of improvement.
-Prespecifying each later round does not remove bias from designing it after
-viewing earlier TEST/VAL outcomes. Further tuning is stopped here.
+Present the revised Hard pipeline as the implemented higher-detail research
+option, with the original 2D U-Net and original 3D as explicit comparators.
+Its numerical prostate objective is met on the stated retrospective population,
+and its average coarse-grid boundary distance improves, at a substantial
+latency cost. Retain the cheap 2D pipeline for cost comparison; the new study
+does not establish a matched-budget or single-factor 3D benefit.
 
-Possible research beyond this submission could investigate spatial
-translations, improved end-region resolution or ROI localization, and
-loss/sampling choices for the tiny prostate class. The completed appearance
-ablation shows why clean-image harm must be measured alongside stress gains;
-D2 gives no basis for removing support zeroing as a repair.
-Ablate residual blocks and deep supervision separately before attributing any
-benefit to one component. Validate prediction-only disagreement or volume-based
-review flags with independent labels and prespecified thresholds. Evaluate any
-new settings on a **new held-out cohort**, since this test split has now been
-examined. These are proposed experiments, not claimed improvements.
+Specialist correction is required. Review both ends and neighboring-organ
+interfaces rather than relying on an aggregate Dice or nonempty-mask check.
+No trusted prediction-only flag, native-resolution accuracy assessment,
+independently marked anatomical apex/base study or prostate-to-bladder/rectal
+wall-distance assay was completed. No clinical deployment is justified.
+Future independent-cohort validation and controlled ablations would be needed
+for a generalization or mechanism claim; they are proposed work, not extra
+experiments performed for this submission. Training and tuning stop here.
 
-The v1 test comparison has one training seed, six test patients, uneven visit counts,
-a fixed 30-epoch budget, no architecture ablation, possible annotation error
-and information lost in downsampling. Class-confusion counts and coarse-grid
-HD95 do not measure prostate-to-bladder/rectal-wall contact distances. No
-organ-interface distance assay or independently annotated anatomical endpoint
-study was performed, so local clinical boundary utility remains only partly
-resolved. Patient weighting addresses repeated
-visits but does not establish representativeness or eliminate acquisition
-bias. Measured latency is cached-grid inference, not end-to-end clinical time.
+## Code organization and reproduction
 
-## Reproduce the supplied results
+### Required modular files and revised entry points
 
-### Required files and entry points
-
-| File | Implemented role |
+| File | Role |
 |---|---|
-| [modules.py](modules.py) | PyTorch `UNet2D`, residual `ImprovedUNet3D`, categorical/deep-supervision loss; no NumPy model operations. |
-| [dataset.py](dataset.py) | Manifest/split validation, volume/slice loaders, aligned training flips and cached normalization inputs. |
-| [train.py](train.py) | TRAIN updates, clean VAL evaluation, curves and checkpoint saving/resume. |
-| [predict.py](predict.py) | Reload selected weights, guarded final-TEST inference, printed metrics and overlays; imports the model and dataset. |
-| [README.md](README.md) | Report, one-page feasibility snapshot, experiments and reproduction instructions. |
+| [modules.py](modules.py) | Standard 2D and residual/deeply supervised 3D PyTorch models, categorical and multiscale loss; reused without changing original bytes. |
+| [dataset.py](dataset.py) | Original manifest/split checks and loaders; revised pipeline imports verified geometry/cache helpers. |
+| [train.py](train.py) | Preserved original v1 TRAIN/VAL updates, curves and checkpoint resume. |
+| [predict.py](predict.py) | Preserved original v1 inference and guarded final evaluation. |
+| [README.md](README.md) | Current report, complete historical feasibility review and original/revised comparison. |
+| [hard_v2/README.md](hard_v2/README.md) | Revised implementation, exact executable commands, portable package checks and evidence map. |
+| [hard_v2/train_hard_followup.py](hard_v2/train_hard_followup.py) | Executed Hard-only trainer and strict VAL selection; uses the verified shared model/loss. |
+| [hard_v2/predict.py](hard_v2/predict.py) | Portable image-only entry for the unchanged `infer_v2.py` sliding-window and native-geometry implementation; no GT input. |
+| [hard_v2/compare_hard_followup.py](hard_v2/compare_hard_followup.py) | Common-grid, all-case metrics and matched-surface analysis. |
 
-Final testing is deliberately invoked through `predict.py` with shared
-`utils.evaluate_volumes`; it is not interleaved with `train.py` model selection.
-The frozen TEST commands below show this complete path. Additional `tools/`,
-`tests/` and `jobs/` contain analysis, validation and cluster entry points.
+Additional original `tools/`, `tests/` and `jobs/` remain for baseline analysis
+and cluster entry points. The new source is organized under `hard_v2/` rather
+than replacing the original model or pretending its old weights used new
+preprocessing. Source copies retain recorded identities; integration adapters
+and package manifests distinguish relocation from scientific changes.
 
-### Environment and checks
+### Environment, checks and supplied artifacts
 
-Python **3.11.15**, PyTorch **2.13.0+cu130**, CUDA **13.0**, NumPy **2.4.6**,
-Matplotlib **3.11.2**, Nibabel **5.3.2**, SciPy **1.16.3** and
-importlib_resources **7.1.0** were verified on Rangpur. Direct versions are in
-[requirements.txt](requirements.txt). The project virtual environment reuses
-`~/miniconda3/envs/torch` read-only and installs only pinned extras. From this
-project directory, create `logs`, then submit `jobs/setup_cpu.slurm` and wait
-for completion. On another machine install `requirements.txt` in Python 3.11
-with a compatible PyTorch/driver build. This CUDA build lacks Pascal/P100 support.
+Use Python 3.11 and a compatible Torch/CUDA build from
+[requirements.txt](requirements.txt); recorded extra versions are in
+[requirements-extra.txt](requirements-extra.txt). On Rangpur, the verified
+virtual environment reused the school's Torch environment with pinned extras.
+A fresh installation on another operating system was not exercised in this
+submission.
 
-The original final CPU suite passed **95 checks** in job 701569, including split/cache
-geometry, model gradients, metrics/empty classes, AMP recovery, checkpoint
-resume, provenance, HD95 support, failure selection and cache reconstruction.
-The same job rebuilt one real TRAIN NIfTI pair with byte-identical decoded
-arrays under the unchanged manifest. Run checks with:
+Original verification comprised **95 checks**, all 211 cache-integrity checks,
+independent selected-checkpoint VAL reload and a real NIfTI-to-cache rebuild
+matching decoded hashes. New execution checks include source guards, actual
+selected-weight metadata, all 30 epochs and early-tie selection. The count
+audit covers 1,224 common-grid class rows and 204 six-class confusion matrices
+across three models and two splits, plus 408 class rows on the new 96-grid
+(1,632 class rows in total).
+The final independent arithmetic audit made 17,758 assertions; these are
+assertions, not 17,758 separate model experiments. HD95 support and aggregation
+were independently checked locally; its pixel distances were computed in the
+recorded server CPU analysis, not independently rerun from MRI locally.
+
+From this project directory, check integrated source identities and recompute
+saved count-based metrics without MRI, weights or GPU:
 
 ```bash
-.venv/bin/python -m unittest discover -s tests -v
+python hard_v2/verify_package.py
 ```
 
-Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
-deterministic kernels are requested with warnings for unsupported operations.
-This build warns about nondeterministic categorical-CE and 3D max-pool backward
-kernels. Seeded retraining is not guaranteed bit-identical across runs or builds.
+After obtaining the separately supplied selected weight and original baseline
+artifacts, include external identity checks:
 
-### Trained weights and exact cache reconstruction
+```bash
+python hard_v2/verify_package.py --require-external \
+  --checkpoint artifacts/hard_followup/improved3d/best.pt
+```
 
-The public [24.77 MB result bundle](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/tag/demo3-hipmri-seed42-v1)
-contains both selected checkpoints, **the frozen manifest, decoded-array digest
-book, source sidecars, histories and score JSON**, with no raw MRI, mask or
-prediction arrays. Download `demo3_hipmri_seed42.zip` from the release assets;
-GitHub's uploaded-asset digest matches the verified local archive. ZIP SHA-256:
+For one authorized MRI, the portable wrapper runs complete-image sliding-window
+inference and native-geometry export using the selected weight, with no GT:
+
+```bash
+python hard_v2/predict.py --image /path/to/scan.nii.gz \
+  --checkpoint artifacts/hard_followup/improved3d/best.pt \
+  --output-dir /fresh/prediction --device cpu
+```
+
+The executed Hard trainer remains available for a separately recorded study.
+The following is a documented entry, **not an instruction to retrain this
+completed submission**; it requires the recorded new cache and QA receipt:
+
+```bash
+python hard_v2/train_hard_followup.py --mode train \
+  --protocol hard_v2/protocol_v2.json \
+  --scope-plan hard_v2/hard_followup_protocol.json --project-root . \
+  --manifest /path/to/cache_v2/manifest.json \
+  --qa-receipt hard_v2/artifacts/qa_v2/qa_receipt.json \
+  --output-dir /fresh/new_hard_run --device cuda
+```
+
+Exact preparation, inference and analysis prerequisites are in
+[hard_v2/README.md](hard_v2/README.md). Pixel-level reproduction requires
+authorized HipMRI data, frozen manifests and original baseline artifacts.
+Historical Slurm scripts record actual school paths; the integration wrapper
+separates relocation from frozen scientific sources. Use fresh outputs rather
+than weakening SHA checks or overwriting old runs. No new training or real-data
+inference was performed while integrating this report.
+
+The original [v1 Release](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/tag/demo3-hipmri-seed42-v1)
+assets remain unchanged. Its 24,772,853-byte `demo3_hipmri_seed42.zip` contains selected
+2D/3D checkpoints, manifest, identity book, histories and scalar metadata, with
+no raw MRI/masks/prediction arrays. ZIP SHA-256:
 `2b2904d92afc73fb93ebb129ffea01161379cee3bcb4e256a7bb7347516d3365`.
-Extract `demo3_hipmri_seed42.zip` in a fresh checkout's project directory to
-populate ignored `artifacts/`. Obtain HipMRI separately through the course or
-the cited dataset under its usage terms. Data and weights remain outside Git.
+The revised selected checkpoint is epoch30, SHA-256
+`852e3e1ee0a8f41be8a50902b7f6f2e28ffaa8227144d6ddf7806e06670e88bf`;
+the separately supplied local archive is `demo3_hipmri_hard_seed3711_v2.zip`
+(18,221,187 bytes), ZIP SHA-256:
+`2c424dc514dd28837adfb40d9799b8a103d84576eba9f76e538320bd6b0ba101`.
+Extract it in this project directory, so the weight is placed under
+`artifacts/hard_followup/improved3d/best.pt`. No public download URL for this
+new archive is claimed at this stage; its data prerequisites are in the
+revised package guide. Weights and image arrays are never committed to Git.
 
-Use the provided manifest, not a regenerated audit manifest: its exact bytes
-are bound to the checkpoints. On a CPU compute node, rebuild test caches from
-the original data using the unchanged preprocessing:
+For full original commands, exact cache reconstruction and provenance, see
+[the retained v1 reproduction section](README_V1_HISTORY.md#reproduce-the-supplied-results).
+The original manifest digest is
+`c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424`;
+original selected 2D/3D weights remain epochs26/29 with SHA checks. Original
+core training/preprocessing/inference files remain byte-identical to their
+recorded `training_sources.json` identities.
 
-```bash
-.venv/bin/python tools/cache_identity.py rebuild \
-  --manifest artifacts/cache64/manifest.json \
-  --identity artifacts/cache64/cache_identity.json \
-  --data-root /home/groups/comp3710/HipMRI_Study_open --split test
-```
-
-This verifies geometry, class counts, preprocessing digest and exact decoded
-image/mask/spacing hashes before writing each cache. It leaves the manifest
-unchanged and refuses mismatching existing arrays. Rebuilding all supplied
-cases uses `--split all`. A new audit embeds a new timestamp and digest; use
-that path for **new training**, not as a replacement beside original weights.
-
-Frozen manifest SHA-256:
-`c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424`.
-Selected checkpoint SHA-256:
-
-- 2D, epoch 26: `cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10`.
-- 3D, epoch 29: `9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62`.
-
-The core training/preprocessing/prediction source is byte-identical to commit
-`69400a70b9b7bbed1971408e74785e926236410a`. [training_sources.json](training_sources.json)
-records eleven file digests plus the manifest digest. Later report and analysis
-helpers do not change model behaviour. `tools/record_provenance.py` verified
-actual remote files and recorded the selected checkpoint hashes in sidecars.
-
-### Inference and paired analysis
-
-Run supplied weights on a GPU compute node, using fresh output directories so
-published evaluations are not overwritten. `--final-test` is an explicit guard;
-reproducing frozen inference does not authorize tuning on these test labels.
-
-```bash
-for model in unet2d improved3d; do
-  .venv/bin/python predict.py --manifest artifacts/cache64/manifest.json \
-    --checkpoint "artifacts/full_seed42/$model/best.pt" \
-    --split test --final-test --output-dir "artifacts/reproduced/$model" \
-    --batch-size 32 --device cuda --target-class 5
-done
-```
-
-Then analyze on a CPU compute node:
-
-```bash
-.venv/bin/python tools/analyze_pair.py --manifest artifacts/cache64/manifest.json \
-  --baseline-eval artifacts/reproduced/unet2d/evaluation.json \
-  --model-eval artifacts/reproduced/improved3d/evaluation.json \
-  --output-dir artifacts/reproduced/paired --target-class 5 \
-  --bootstrap-samples 2000 --seed 3710
-.venv/bin/python tools/plot_failure_details.py \
-  --manifest artifacts/cache64/manifest.json \
-  --baseline-eval artifacts/reproduced/unet2d/evaluation.json \
-  --model-eval artifacts/reproduced/improved3d/evaluation.json \
-  --pair-analysis artifacts/reproduced/paired/pair_analysis.json \
-  --output-dir artifacts/reproduced/details
-```
-
-### Retraining rather than reproducing the original checkpoint
-
-From this project directory on a CPU compute node:
-
-```bash
-.venv/bin/python tools/audit_dataset.py \
-  --data-root /home/groups/comp3710/HipMRI_Study_open \
-  --output artifacts/new_audit.json
-.venv/bin/python tools/prepare_cache.py --audit artifacts/new_audit.json \
-  --output-dir artifacts/new_cache --shape 64 128 128 --label-ids 0 1 2 3 4 5
-.venv/bin/python tools/attach_label_schema.py \
-  --manifest artifacts/new_cache/manifest.json --schema label_schema.json
-```
-
-Attach label metadata **before** training because it changes the digest. These
-preparation commands refuse to overwrite existing output. For new GPU training:
-
-```bash
-for model in unet2d improved3d; do
-  batch_size=1
-  if [ "$model" = unet2d ]; then batch_size=16; fi
-  .venv/bin/python train.py --manifest artifacts/new_cache/manifest.json \
-    --model "$model" --output-dir "artifacts/new_run/$model" \
-    --epochs 30 --batch-size "$batch_size" --base-channels 16 --lr 0.001 \
-    --workers 0 --seed 42 --device cuda --amp --eval-batch-size 32
-done
-```
-
-Resume interrupted training with `--resume artifacts/new_run/<model>/latest.pt`
-and the same settings/output directory; `--epochs` is the new total, not an
-increment. Resume restores optimizer, scaler and RNG state. Each checkpoint
-write uses an atomic rename, but `latest.pt` and `best.pt` are separate writes,
-not one transaction. A crash after a newly best `latest.pt` is saved but before
-`best.pt` is updated can leave the latter stale; resume does not automatically
-repair that pair. After an abnormal interruption, verify the best checkpoint's
-epoch and reloaded VAL result against the selected history before evaluation.
-The completed v1 runs passed that independent check; this limitation was not
-observed to affect their published weights or scores. No universal crash-recovery
-guarantee is claimed. Partial smoke runs
-are marked development-only and cannot be used for formal test evaluation.
-Never have two jobs write one run directory. For the original pilot/continuation,
-`jobs/train_pilot.slurm` ran two epochs then `jobs/train_pair.slurm 30` resumed
-sequentially on one GPU; the latter skips models already at 30 epochs.
-A new experiment must record new source/manifest identities rather than reuse
-the original provenance claim.
+Original resume writes each checkpoint atomically, but `latest.pt` and
+`best.pt` are separate writes. An interruption between them could leave an old
+best; this is not a paired transactional guarantee. The completed v1 selected
+weights were independently reloaded and matched VAL, with no evidence of this
+failure. The report does not reinterpret this hypothetical boundary as the
+cause of M015.
 
 ## Development evidence and submission
 
-Progressive commits record real milestones: environment/feasibility, patient
-pairing and splits, model implementations, cache/training, verified labels and
-analysis, pilot measurements, architecture/provenance, validation/protocol freeze,
-and final failure analysis. [AUDIT_SUMMARY.md](AUDIT_SUMMARY.md) retains the
-chronological engineering evidence. Original experiments completed as Slurm
-700974 (pilot), 700981 (30 epochs), 701513 (independent validation), 701544
-(final test), 701555 (paired analysis), 701560 (ROI figures), 701569 (95 checks
-and real cache rebuild), and 701590 (retrospective localization).
-Additional milestones record independent diagnosis (701739/701740), the
-post-test fixed validation robustness plan (27527d3), completed paired training
-(701767), independent analysis (701791), source/mechanism audit (702061/702062)
-and one-factor input intervention (702134). D1/D2 plans were committed before
-their respective executions, after the earlier diagnostic observations.
-Appearance plan **5c49de3** and audit-tool milestone **4e23d40** preceded the
-completed A1 job **702249**, whose failed clean-prostate guard is retained.
-Separate M1 plan **a11a597** preceded CPU job **704030**, retaining all eight
-already-examined visits and the failed A1 guard.
-Recovery plan **d046435** preceded both L40S runs; **85b9a9e** then froze
-all R1 VAL outcomes and the no-candidate decision before CPU **704150**.
-Its M015 check does not change that decision. All later experiments are
-post-test exploratory records in the appendix; no further tuning is undertaken.
-The original v1 test remains unchanged.
-
-The project belongs under `recognition/ImprovedUNet3D_s4927782` on
-`topic-recognition`. The initial submission consists of the upstream PR and a
-PDF of this README for Turnitin, with the complete one-page feasibility review
-included. Planned tutor check-off is **28 October 2026**; the final LMS date
-must be verified. Teaching-team code review and responses occur in the later
-official window; initial submission does not complete that future requirement.
-The one-page review above is a retained pre-final-experiment snapshot, not a
-record of tutor approval. The planned 28 October consultation has not been
-verified as completed; the published midpoint and final deadlines must be
-checked in the course profile/LMS. A completed tutor record and a Turnitin
-submission receipt are separate from the existence of these files.
-
-## Appendix: post-test exploratory development
-
-The primary comparison is the original frozen v1 TEST above, including the
-unmet prostate target. The following diagnostics and later experiments were
-motivated by observed failures. M015 influenced the appearance and recovery
-recipes, while the same six VAL patients repeatedly informed selection and
-analysis. Fixing a protocol before each round prevents some within-round
-choices; it cannot make this adaptive sequence an independent test.
-
-These records answer scoped engineering questions and retain negative outcomes.
-They do not replace v1, prove a unique cause or establish a better model on
-unseen patients. The sequence ends after R1/M2 without further tuning.
-
-### Retrospective correctness diagnostics
-
-These checks were planned **after inspecting the v1 test failures**. They
-investigate implementation errors and preserve all original results; they
-are not a new independent test or a model-selection exercise. The machine-readable
-[diagnostic evidence](evidence/diagnostic_review.json) records scope and limits.
-
-| Check | Actual evidence | What remains unverified |
-|---|---|---|
-| Saved evidence | 136 prediction files across both models' validation and test evaluations: counts, metric algebra and patient aggregation agree | This audit alone does not independently remeasure GT intersections |
-| Native-to-cache alignment | Independent resampling of all eight M015 visits and four TRAIN/VAL controls: 12/12 images exact, maximum error 0; 12/12 masks have zero differing voxels | Anatomical annotation correctness and unexamined source cases |
-| Frozen direct inference | 20/20 available saved AMP predictions reproduced voxel-for-voxel; independently recomputed GT confusion and metrics agree | Shared model modules and training-time behaviour |
-| Precision sensitivity | All 48 forwards finite; largest absolute AMP/FP32 prostate Dice change 0.0014603; M015 Week2 remains 0.0014514 in both | Training-time AMP effects and other numerical configurations |
-
-The independent resampler uses Nibabel's affine resampling rather than the
-original cache-preparation function. Twelve three-plane panels were reviewed;
-the displayed slices show no obvious relative image/label displacement,
-mirror or axis swap. Below, the failed M015 Week2 retains its labelled target
-in both cached and independently reconstructed views. Coarse-grid blurring is
-visible, but is not by itself proof of the failure mechanism.
-
-![M015 Week2 native, cached and independently resampled image/label views](figures/native_cache_M015_Week2.png)
-
-No actionable discrepancy was found **within these checks**. This does not
-prove the whole implementation is bug-free, certify full-volume anatomical
-labels, exclude training-time AMP effects, or identify the cause of M015's
-failure. In the examined cases and recorded configurations, it rules against
-the specific checked resampling, inference-order, saved-prediction and
-inference-precision explanations. The five original
-failures and the unmet prostate target remain part of the report.
-
-### Source-to-model investigation and one-factor intervention
-
-The subsequent **D1** audit (CPU **702061**, GPU **702062**) examines original
-sources and frozen v1 computations. **D2** (**702134**) then tests one specific
-input operation suggested by D1. Both are exploratory, after the observed test
-failure. All **14** declared cases are retained: eight M015 visits, four original
-TRAIN/VAL controls, and two TRAIN cases selected after descriptive contrast
-ranking. The [anonymized evidence](evidence/source_diagnostic_review.json)
-retains the per-case results, identities, scopes and counterevidence.
-
-**Source identity and image handling.** All 211 course MRI files match the
-official ZIP's byte lengths and CRC32 values; CRC32 is an accidental-integrity
-check, not cryptographic proof. Course/official label gzip containers differ,
-but all eight M015 labels and one TRAIN control have **identical complete
-decompressed NIfTI bytes and SHA-256**. Their differences are gzip metadata,
-not changed labels. The remaining 202 label contents were not compared this way.
-All 422 source headers agree with frozen geometry. Across M015, cached GT
-prostate volume retains **98.07%–100.07%** of native physical volume; none of
-its target intensities reach the clipping boundaries. This does not certify
-the original anatomical annotations.
-
-**Measured appearance difference.** Define global contrast as the bladder
-median minus the class-1 Body median, divided by the Body IQR. In the frozen
-cache, M015's eight values are **[-0.6664, -0.4615]**, below all **143 TRAIN**
-scans (minimum **-0.3318**); all 38 VAL values are positive (minimum **0.3127**).
-M015's negative contrast is already present in the original scaled MRI,
-before normalization, and remains through all five inspected stages. Raw
-pixels were inspected for the 14 declared cases, not all 189 descriptive
-cache cases. This GT-based, global reference is neither a local boundary
-measure nor a deployable detector. Two low-contrast TRAIN controls nevertheless
-have high 3D GT-prostate probabilities (**0.778/0.971**); contrast alone is
-not a sufficient explanation, and these seen TRAIN cases are not matched unseen
-counterfactual patients.
-
-**Model behaviour.** For M015 Week2's GT prostate, mean class-5 probability is
-**0.4362** in 2D but **0.0274/0.0399/0.0400** in the 3D main/half/quarter heads.
-The main head instead assigns mean probabilities **0.5071** to Body and
-**0.4512** to Bladder. Its median class-5 margin against the strongest rival
-is **-4.7805**; class 5 ranks third or worse in **1,140/1,335** target voxels.
-The auxiliary targets still contain **167/20** prostate voxels. Independently
-computed CE/Dice/weighted losses agree within **4.77e-7/1.79e-7/1.87e-7**;
-three real-case backward checks give finite, nonzero gradients to all 58
-parameter tensors. These checks constrain current frozen computations, not
-the unrecorded historical gradients or all possible implementation defects.
-
-**Single-factor D2 check.** D1 found that final nearest-support zeroing directly
-affects only **16/10,521** M015 prostate voxels, but changes tens of thousands
-of whole-image voxels, leaving an indirect context explanation open. D2 removes
-only that operation at fixed weights in FP32, with autocast and TF32 disabled.
-Reinstating it must reproduce each baseline input exactly before inference.
-All 14 reconstructions pass; checkpoint and parameter hashes remain unchanged.
-Removing zeroing makes 3D prostate Dice **worse in seven of eight M015 visits**;
-Week2 changes from **0.0014514 to 0** (TP **1 to 0**, FP **42 to 172**).
-Week5 improves slightly (**0.1574 to 0.1693**), so the effect is not uniform.
-This intervention does not rescue the demonstrated 3D failure. It does not
-isolate GroupNorm mediation or test training from scratch with another policy.
-No new aggregate TEST benchmark or replacement input policy is selected.
-
-![Global cached contrast and fixed-weight support intervention](figures/source_model_diagnostics.png)
-
-The best-supported interpretation is **patient-specific generalization failure
-associated with a real appearance difference and strong multiscale class-5
-suppression**, not a confirmed unique cause. The original CAN3D paper describes
-LFOV T2 SPACE inputs, prostate labels propagated from SFOV T2, and N4 correction
-in its experiments [7]. No per-case sequence/registration records establish a
-M015-specific error, and whether the released MRI already received N4 is
-unknown. Neither a T1 mix-up, incorrect official label nor omitted-N4 cause
-is demonstrated. These findings motivated the prespecified TRAIN/VAL appearance
-ablation below. Independent data remain necessary for a later test claim;
-repeating training merely to obtain a better M015 score would not resolve
-this evidence gap.
-
-### Completed validation robustness study
-
-[followup_protocol.json](followup_protocol.json) was committed as **27527d3**
-before submitting job **701767**. It changes only the training seed to **43**
-for both original models: the same split, cache, architecture, losses,
-30-epoch budget and foreground-validation checkpoint selector remain fixed.
-Both models completed all 30 epochs sequentially on one A100 in job **701767**;
-dependent analysis **701791** also completed successfully. The same A100 model,
-Python 3.11.15, PyTorch 2.13.0+cu130 and CUDA 13.0 are recorded for both seeds.
-Prepared cloud migration tools were not used for training. New outputs are
-separate from v1 and cover **validation only**, with all 38 scans and six
-validation patients retained. [Machine-readable evidence](evidence/seed_followup_review.json)
-records the independently matching remote/local summaries and actual byte-hash
-checks of all four selected checkpoints.
-
-All values below are patient-balanced validation results. Checkpoint selection
-continues to maximize foreground Dice, not prostate Dice.
-
-| Seed | Model | Selected epoch | Foreground Dice | Prostate Dice | Prostate IoU |
-|---|---|---|---|---|---|
-| 42 | 2D | 26 | 0.8675 | 0.7920 | 0.6588 |
-| 42 | 3D | 29 | 0.8748 | 0.8332 | 0.7154 |
-| 43 | 2D | 25 | 0.8622 | 0.7809 | 0.6437 |
-| 43 | 3D | 27 | 0.8764 | 0.8351 | 0.7185 |
-
-The prespecified mean of paired patient prostate Dice differences (3D minus 2D)
-is **+0.0412** for seed42 and **+0.0542** for seed43. Every validation patient
-has a positive difference in each run; all six are eligible and none is excluded.
-For IoU, the corresponding paired means are **+0.0565** and **+0.0748**.
-
-| Validation patient | Dice difference, seed42 | Dice difference, seed43 |
-|---|---|---|
-| B040 | +0.0124 | +0.0196 |
-| J026 | +0.0386 | +0.0966 |
-| K008 | +0.0319 | +0.0659 |
-| K018 | +0.1113 | +0.0948 |
-| M030 | +0.0492 | +0.0391 |
-| S022 | +0.0037 | +0.0093 |
-| Mean, same six patients | +0.0412 | +0.0542 |
-
-![Validation prostate Dice by patient, model and training seed](figures/patient_seed_prostate_dice.png)
-
-The 3D prostate mean changes by **+0.0019** between seeds, while the 2D mean
-changes by **-0.0111**. This supports a consistent direction of the complete
-3D model's advantage on **these validation patients in these two runs**. It
-does not identify M015's failure cause, establish superiority on new patients,
-or show that the frozen test target has been repaired. No seed43 TEST evaluation
-was performed and no seed is selected to replace v1. These validation patients
-also select checkpoints, so their scores are not an independent estimate of
-generalization. Repeated measurements on
-six patients do not become twelve independent patients; two runs do not support
-a seed-population confidence interval or a pooled significance claim. Unsupported
-categorical-CE and 3D max-pool backward kernels still permit nondeterminism under
-the recorded warn-only setting, so the comparison is not a bitwise seed-effect
-isolation. It is also not an ablation of residual blocks or deep supervision.
-
-Resource observations retain the same measurement definitions as the original
-study. Training-loop seconds exclude validation, checkpoint writes and queue
-waiting. Peaks are allocated CUDA memory, not total device use. These validation
-latencies use each run's full-case warmup protocol; timing variation between runs
-is not an architectural change or an improved inference implementation.
-
-| Seed / model | Train loop (s) | Train peak (MiB) | VAL latency (ms) | VAL peak (MiB) |
-|---|---|---|---|---|
-| 42 / 2D | 264.17 | 157.46 | 11.08 | 143.86 |
-| 42 / 3D | 999.80 | 2280.85 | 52.23 | 1778.23 |
-| 43 / 2D | 245.01 | 157.46 | 10.87 | 143.86 |
-| 43 / 3D | 955.49 | 2280.85 | 38.34 | 1778.23 |
-
-### Completed appearance ablation: robustness has a clean-image cost
-
-Commit **5c49de3** fixed [the A1 protocol](appearance_protocol.json) before
-training; GPU job **702249** completed both new 30-epoch runs and all
-**4 models × 5 conditions × 38 VAL scans** in **40m06s**, exit 0:0.
-Both new arms retain the original 3D architecture, loss, optimizer, 143 TRAIN
-volumes, seed42 and clean foreground-VAL selector. Their initial parameter
-SHA-256 and recorded A100/software environments match. The added image RNG is
-keyed independently by case/epoch, preserving the original shuffle/flip RNG.
-CUDA's warn-only nondeterminism still prevents a bitwise causal-isolation claim.
-
-**A: gamma only** applies signed gamma with probability 0.5, drawing its exponent
-log-uniformly from [0.7,1.5], then clipping to [-5,5]. **B: gamma + polarity**
-uses identical gamma draws and independently negates intensities with probability
-0.25. Both preserve input-zero locations; neither uses GT for augmentation or
-changes labels/geometry. Positive gamma cannot intentionally reverse intensity
-ordering; polarity is an explicitly synthetic reversal. This is a project
-adaptation inspired by standard intensity augmentation [8], not nnU-Net/GIN
-reproduction or a known simulation of M015 acquisition.
-
-After clean-VAL checkpoint selection (A epoch **30**, B **29**), every model
-is evaluated on clean inputs and four separately applied, fixed stress inputs:
-signed gamma 0.7, signed gamma 1.5, polarity inversion, and a linear H-axis
-gain of 0.7–1.3. All are **cache-space synthetic perturbations**. The gain is
-not claimed to simulate a physical MRI bias field. The
-[complete anonymous evidence](evidence/appearance_review.json) retains all
-760 case evaluations' prostate counts, all patient values, six-class summaries,
-resources and receipt identities. Independent reaggregation from TP/predicted/GT
-counts agrees with all 20 evaluations and every training epoch's clean-VAL scores.
-
-| 3D configuration | Clean prostate Dice | Polarity prostate Dice | Clean foreground Dice |
-|---|---|---|---|
-| Original seed42 | 0.83323 | 0.00000 | 0.87480 |
-| Reference seed43 | 0.83513 | 0.00000 | 0.87642 |
-| A: gamma only | 0.83356 | 0.00000 | 0.87351 |
-| B: gamma + polarity | 0.80714 | 0.78817 | 0.86238 |
-
-![All appearance conditions and six paired patient differences](figures/appearance_robustness.png)
-
-The extra polarity augmentation learns useful invariance to this synthetic
-condition: all six patients improve under polarity. However, clean prostate
-Dice falls by **0.02642** versus A, with **five of six patients worse**.
-The largest clean drops are K018 (**-0.06219**) and S022 (**-0.05850**);
-K008 improves (**+0.01727**). The minimum patient mean changes from **0.79091**
-(A, K008) to **0.75240** (B, S022). A's clean mean is close to the original
-seed42 value and below the seed43 reference, not a demonstrated overall advance.
-
-The predeclared engineering indication required B's clean prostate and
-foreground drops each to be no more than **0.02**, and polarity prostate gain
-to be at least **0.05**. The observed differences are
-**-0.02642 / -0.01113 / +0.78817**: the prostate guard fails, so the overall
-indication **fails**. B is not adopted as a replacement. Training-loop time is
-**1,023.29/1,021.84 s** for A/B, each peaking at **2.23 GiB**; each records
-**4,287 successful updates and 3 AMP overflow skips**, all disclosed.
-The job wall time also includes checks, smokes, validation, plotting and saving.
-
-This establishes a measured synthetic robustness/clean-image trade-off in
-this experiment, not M015's unique cause or its repair. These remain the same
-six checkpoint-selecting VAL patients across all conditions, not thirty
-independent patients. Within A1, no TEST was run, no favourable condition was selected
-for reporting, and no extra arm or parameter adjustment follows the observed
-scores. The original test benchmark and public v1 release remain unchanged;
-later weights are retained outside Git and are not added to that release.
-
-### M015 follow-up M1: substantial mitigation with residual errors
-
-After A1, a separate clean-input recheck of the already examined M015 visits
-was planned. Commit **a11a597** fixed the separate
-[M1 protocol](m015_followup_protocol.json); the A1 protocol remains unchanged.
-CPU job **704030** completed in **45 s**, exit 0:0, with all **7 fixtures**
-passing. It evaluates the existing v1, A and B best checkpoints on exactly
-**M015 Week0–7**, with no training, checkpoint selection, augmentation, TTA,
-postprocessing, other TEST patients or saved arrays. All three use **CPU FP32,
-AMP disabled, four threads** on the same unchanged cache. This is a
-post-test exploratory recheck of **one patient**, not a new independent or
-six-patient TEST benchmark. [Anonymous evidence](evidence/m015_followup_review.json)
-retains all six classes' counts, metrics and identity checks. The summary
-passes three further fixtures; independent arithmetic checks cover all 144
-six-class case rows.
-
-| M015 visit | v1 reference Dice | A: gamma Dice | B: gamma + polarity Dice |
-|---|---:|---:|---:|
-| Week0 | 0.060278 | 0.582651 | 0.700457 |
-| Week1 | 0.040759 | 0.001471 | 0.703646 |
-| Week2 | 0.001451 | 0.496795 | 0.744792 |
-| Week3 | 0.191304 | 0.175439 | 0.763401 |
-| Week4 | 0.041791 | 0.480000 | 0.742399 |
-| Week5 | 0.157450 | 0.002524 | 0.618738 |
-| Week6 | 0.165623 | 0.030619 | 0.692719 |
-| Week7 | 0.248842 | 0.455446 | 0.648544 |
-| Eight-visit mean | **0.113437** | **0.278118** | **0.701837** |
-
-B improves prostate Dice in **all eight visits** against both v1 and A;
-A improves four visits and worsens four against v1. Across the eight scans,
-v1 has **TP 657 / FP 122 / FN 9,864**, whereas B has
-**TP 6,557 / FP 1,557 / FN 3,964**, for unchanged GT **10,521** voxels.
-Omission is substantially reduced, with increased false positives and
-considerable residual errors; B's visit Dice spans **0.61874–0.76340**.
-These pooled counts describe error burden; the table averages per-visit Dice.
-
-The CPU reference's per-visit prostate counts and Dice match the existing
-GPU FP32 diagnostics. Against formal CUDA AMP, only Week4's prostate Dice
-differs (**-0.0014603**), changing the reference visit mean by **-0.0001825**.
-This scoped precision check is not a full-array equality claim and does not
-rewrite v1's original **0.1136** M015 mean.
-
-M1 demonstrates mitigation of the observed failure under a common CPU setting;
-it does not establish a unique cause, reversed acquisition contrast, incorrect
-data or complete repair. Its **0.7018** is not the original six-patient target
-score. B still fails A1's clean-VAL guard and is **not adopted**. No new overall
-benchmark validates its benefit on unseen patients; v1 scores and release stay
-unchanged.
-
-### Recovery follow-up: partial recovery does not meet the clean-accuracy gate
-
-After A1 and M1 were known, pre-result commit **d046435** froze a separate
-[R1 protocol](recovery_protocol.json). Both arms load the complete selected B29
-weights, reset AdamW and the AMP scaler, and train for exactly eight full epochs
-at learning rate 0.0001. Architecture, loss, class weights, cached grid,
-143 TRAIN volumes, seed42 and the clean foreground-VAL checkpoint selector
-remain fixed. **C: clean adaptation** retains the same keyed gamma with no
-polarity inversion; **D: polarity rehearsal** uses identical gamma draws and
-an independent polarity probability of 0.10. Neither arm uses TEST inputs for
-training or checkpoint/candidate selection. Both select recovery epoch **7**.
-
-All five checkpoints were reevaluated on the same **NVIDIA L40S / Python
-3.10.21 / Torch 2.14.0+cu130 / CUDA 13.0** environment across all five fixed
-conditions and 38 VAL scans. These are fresh same-platform reference values;
-the earlier A1 and original TEST results remain unchanged. The
-[complete scalar evidence](evidence/recovery_review.json) retains all
-**5 x 5 x 38 = 950** prostate case rows, six-class aggregates, every patient's
-results, eight-epoch histories and source/receipt identities.
-
-| 3D configuration | Clean prostate Dice | Polarity prostate Dice | Clean foreground Dice |
-|---|---|---|---|
-| Original seed42, reevaluated | 0.83326 | 0.00000 | 0.87481 |
-| A: gamma only, reevaluated | 0.83356 | 0.00000 | 0.87351 |
-| B: gamma + polarity, reevaluated | 0.80715 | 0.78820 | 0.86238 |
-| C: clean adaptation | 0.82078 | 0.79821 | 0.87364 |
-| D: polarity rehearsal | 0.82019 | 0.80381 | 0.87301 |
-
-![Recovery validation scores, fixed gates and all patient differences](figures/recovery_validation.png)
-
-C and D partially recover clean prostate Dice relative to B, by **0.01363**
-and **0.01304**, while retaining synthetic polarity robustness. The strict
-engineering gate, however, requires all three conditions: clean prostate Dice
-at least the same-platform original reference; clean foreground Dice no more
-than 0.005 below that reference; and polarity prostate Dice no more than 0.02
-below same-platform B. C/D differences are respectively **-0.01247/-0.01307**
-for clean prostate, **-0.00116/-0.00180** for clean foreground, and
-**+0.01001/+0.01561** for polarity prostate. Both pass the latter two criteria
-and fail the first. **Neither arm is eligible, so the frozen VAL-only rule
-recommends no candidate.** The gates are not relaxed after seeing results.
-
-The clean prostate differences below retain all six patients, with visits
-averaged within each patient. C is worse than the original reference in four
-patients and D in five; the largest losses remain K018 and S022. M030 improves
-under both arms, while C's B040 gain is small.
-
-| VAL patient | C minus original | D minus original |
-|---|---|---|
-| B040 | +0.00083 | -0.00508 |
-| J026 | -0.01173 | -0.01421 |
-| K008 | -0.02432 | -0.01780 |
-| K018 | -0.03489 | -0.03530 |
-| M030 | +0.02924 | +0.02753 |
-| S022 | -0.03398 | -0.03354 |
-
-C/D training loops take **205.37/204.28 s**, each peaking at **2.228 GiB**
-allocated CUDA memory, with **1,144 successful updates and zero AMP overflow
-skips**. Shared gamma is applied to 580 examples in each arm; observed inverted
-exposures are **0/126**, out of 1,144, rather than an assumed exact 10% rate.
-Clean whole-cache-case inference averages **33.98/33.43 ms**, with **1.737 GiB**
-peak allocated memory. Training-loop times exclude validation, saving, plotting
-and smokes; inference timings exclude warmup and loading/preprocessing/metrics.
-
-Receipts match the two starting parameter states, shared-gamma exposure counts,
-training runtimes and evaluation runtime. There is no recorded runtime mismatch
-within this new pair. However, the parent B and historical references were
-trained on A100 with Python 3.11.15/Torch 2.13.0+cu130, whereas recovery uses
-L40S and the newer runtime above. Reevaluating references controls inference
-platform differences; it does not isolate training-platform effects or turn
-the warm-start comparison into a pure causal augmentation estimate. CUDA
-warn-only nondeterminism also remains.
-
-This is post-test-informed development on the same six repeatedly reused,
-checkpoint-selecting VAL patients. Conditions are not additional independent
-patients, and these gates are engineering criteria rather than significance
-tests. No M015/TEST score enters this comparison or its candidate choice; any
-separate known-patient retention check cannot change that frozen choice.
-R1 neither replaces the original TEST benchmark nor establishes a unique
-failure cause, independent generalization or clinical suitability.
-
-### M2: recovery does not retain the known-patient result
-
-Only after the R1 validation summary and its **no eligible candidate** decision
-were frozen, a separate [M2 protocol](recovery_m015_protocol.json) evaluated
-the existing B29, C7 and D7 checkpoints on the eight known M015 visits. CPU
-job **704150** completed in **38 s**, with **11 fixture checks passed**. All
-three use clean frozen caches, main-head argmax and the same four-thread CPU
-FP32 environment: **Python 3.11.15 / Torch 2.13.0+cu130**, with AMP disabled.
-There is no additional training, augmentation, TTA, postprocessing or selection.
-The [complete anonymous evidence](evidence/recovery_m015_review.json) retains
-all 24 cases and six classes, including false positives and false negatives.
-
-B exactly reproduces its M1 result: the eight-visit prostate mean is
-**0.70183693**, with **zero M2-minus-M1 difference**. All six classes' recorded
-TP/FP/FN counts and Dice agree across all eight B visits. This supports the
-comparability of the repeat CPU evaluation; it does not validate the clinical
-annotations or establish independent performance.
-
-| M015 visit | B: gamma + polarity Dice | C: clean adaptation Dice | D: rehearsal Dice |
-|---|---|---|---|
-| Week0 | 0.70046 | 0.61479 | 0.61077 |
-| Week1 | 0.70365 | 0.58284 | 0.56823 |
-| Week2 | 0.74479 | 0.70733 | 0.71429 |
-| Week3 | 0.76340 | 0.63955 | 0.63764 |
-| Week4 | 0.74240 | 0.70982 | 0.71632 |
-| Week5 | 0.61874 | 0.62194 | 0.60113 |
-| Week6 | 0.69272 | 0.62718 | 0.64136 |
-| Week7 | 0.64854 | 0.61306 | 0.59848 |
-| Visit mean | **0.70184** | **0.63956** | **0.63603** |
-| Minimum visit | **0.61874** | **0.58284** | **0.56823** |
-
-C is lower than B in **seven of eight visits**; its sole gain is Week5
-(**+0.00320**). D is lower in **all eight**. Their mean differences from B are
-**-0.06227/-0.06581**. Class5 pooled counts expose the remaining omissions:
-
-| Model | Total TP | Total FP | Total FN | Pooled recall | Pooled precision |
-|---|---|---|---|---|---|
-| B | 6,557 | 1,557 | 3,964 | 0.62323 | 0.80811 |
-| C | 5,666 | 1,526 | 4,855 | 0.53854 | 0.78782 |
-| D | 5,468 | 1,179 | 5,053 | 0.51972 | 0.82263 |
-
-These pooled voxel statistics are descriptive and are not the visit-mean Dice
-estimator. D reduces false positives but also loses true positives and increases
-false negatives; its higher pooled precision does not indicate a successful
-repair. Both recovery means remain above the original v1 model's same-CPU
-M015 mean of **0.11343727**, but neither restores B's known-patient performance
-or eliminates the failure.
-
-The prespecified descriptive retention check required a mean of at least
-**0.6818369278** and a minimum visit of at least **0.60**. **C and D fail both
-requirements**; B passes the reference checks. This check was explicitly not a
-selection criterion. The VAL-only recommendation remains **none**: M2 does not
-promote B, C or D, change the chosen epochs, relax either gate, or overturn the
-failed A1/R1 clean-accuracy criteria.
-
-R1's synthetic polarity-VAL score increased from same-platform B's **0.78820**
-to C/D's **0.79821/0.80381**, while this clean M015 retention decreased. In this
-experiment, synthetic polarity robustness therefore did not track retention on
-the known patient. The synthetic stress is not a validated proxy for M015's
-appearance shift, and these observations do not establish a unique mechanism
-or acquisition diagnosis.
-
-M015 had already influenced the A1 and R1 designs, and the same six VAL
-patients were repeatedly reused. Prespecifying each later round limits
-within-round choices; it does **not** remove the adaptive bias from designing
-later experiments after inspecting earlier TEST/VAL outcomes. M015's eight
-visits remain **one previously examined patient**, not eight independent test
-subjects. The original six-patient v1 TEST remains the main benchmark, including
-its unmet prostate target and patient-level failure. A1/M1/R1/M2 belong to the
-exploratory appendix; later improvements cannot establish independent
-generalization, repair that main benchmark or guarantee full marks. The
-report closes this sequence without adding further tuning or choosing a
-checkpoint from these known-patient outcomes.
-
-### Reproducing exploratory records
-
-The supplemental `tools/analyze_localization.py` reads unchanged predictions
-and TRAIN masks and exports location/size descriptors. It is retrospective,
-JSON-only, and changes no model decisions or scores. Its Slurm script is
-`jobs/analyze_localization.slurm`; `--split all` reconstruction is needed to
-supply the training-reference masks.
-
-For the fixed second-seed study, rebuild the identical **all-split** cache and
-verify its immutable manifest, then submit `jobs/train_pair_seed43.slurm`.
-The job verifies the frozen protocol's source hashes, uses only TRAIN/VAL,
-checks resumed-run and validation identities, and records new checkpoint
-provenance under `artifacts/followup_seed43`. Do not run it concurrently with
-another writer or use its validation results to replace the v1 test model.
-After both models and their independent validation finish, reproduce the
-strict summary from JSON evidence without loading TEST or prediction arrays:
-
-```bash
-python tools/analyze_seed_followup.py \
-  --seed42-root artifacts/full_seed42 \
-  --seed43-root artifacts/followup_seed43 \
-  --seed42-val artifacts/validation_seed42 \
-  --seed43-val artifacts/validation_seed43 \
-  --manifest artifacts/cache64/manifest.json \
-  --protocol followup_protocol.json \
-  --output-dir artifacts/reproduced_seed_followup
-```
-
-Use a fresh output directory. The evidence checks require complete 30-epoch
-histories, the original sourcebook and frozen file hashes, selected-checkpoint
-provenance, all six validation patients, and agreement between selected history
-and standalone validation. Rehash checkpoint files separately against the
-recorded digests; the JSON summarizer does not open checkpoint bytes.
-
-The later diagnostic CPU job **701739** passed **114 checks**, adding independent
-resampling and frozen-forward diagnostic checks. Its real-data audit and GPU
-job **701740** produced the retrospective evidence above. Reproduce on compute
-nodes with `jobs/diagnose_native_cache.slurm` and
-`jobs/diagnose_frozen_inference.slurm`; the latter names the selected test
-cases and explicitly acknowledges retrospective use. Diagnostic outputs use
-new job-specific directories and do not overwrite v1 predictions.
-
-The source/mechanism D1 jobs passed **11 source + 4 archive + 11 Torch**
-fixtures; D2 passed **6** further fixtures on the cluster, with no dependency
-skips. Their recorded scripts and pre-execution hashes are in
-`jobs/diagnose_source_inputs_D1.slurm`, `jobs/diagnose_model_mechanism_D1.slurm`,
-`jobs/diagnose_support_D2.slurm` and the two diagnostic protocol JSONs.
-The [official ZIP catalogue](evidence/official_zip_catalog_D1.json) contains
-metadata only; copy it to `artifacts/official_zip_catalog_D1.json` for the
-source-identity check. Reconstruct the all-split frozen cache before examining
-the declared TRAIN/VAL controls. `tools/describe_cache_contrast.py` reproduces
-the 189-case descriptive comparison with decoded-array identity checks.
-Its independent rerun reproduced **all 189 descriptor records exactly**;
-the [reproduction record](evidence/cache_contrast_reproduction_D1.json) retains
-the original and reusable-script identities.
-Original execution guards bind the original report bytes. For a new D2
-repetition, use `tools/diagnose_support_intervention.py` with an explicit
-`--d1-source-report` from the completed new D1 run and a fresh output directory;
-preserve the original plans and results as historical evidence.
-
-For the appearance study, `jobs/train_appearance_A1.slurm` runs the two new
-arms sequentially, then all fixed validation conditions under
-`appearance_protocol.json`. Its two 8-test suites passed on the actual GPU
-environment, followed by isolated five-batch smokes requiring a successful
-optimizer update. The postrun summary's **7 additional fixtures** passed;
-two independent audits also reaggregated the actual class/patient results.
-After recreating the declared artifacts, use fresh outputs:
-
-```bash
-python experiments/summarize_appearance.py \
-  --protocol appearance_protocol.json \
-  --evaluation artifacts/appearance_evaluation_A1_702249/appearance_evaluation.json \
-  --output artifacts/reproduced_appearance_review.json
-python experiments/plot_appearance.py \
-  --summary artifacts/reproduced_appearance_review.json \
-  --output artifacts/reproduced_appearance_plot.png
-```
-
-The A1 summary verifies the original protocol/source hashes, checkpoint and
-receipt identities, full 30-epoch histories, earliest-tie clean selection and
-all 20 complete evaluations. It recomputes metrics from recorded counts;
-this audit does not certify anatomical labels. Retraining uses the protocol's
-same fixed conditions but is not promised bitwise identical.
-
-M1 uses the separate `m015_followup_protocol.json` and the exact existing A/B
-checkpoints retained outside Git; those later weights are not in the v1 release.
-Given these declared artifacts, use a fresh directory on a CPU node:
-
-```bash
-OMP_NUM_THREADS=4 python tools/evaluate_m015_followup.py \
-  --protocol m015_followup_protocol.json \
-  --manifest artifacts/cache64/manifest.json \
-  --output-dir artifacts/reproduced_m015_followup
-python tools/summarize_m015_followup.py \
-  --evaluation artifacts/reproduced_m015_followup/m015_followup.json \
-  --output artifacts/reproduced_m015_followup_review.json
-```
-
-The tool checks all eight decoded cache identities and the three existing
-checkpoint/source receipts, rejects other cases and existing output, and writes
-only JSON. M1 deliberately uses CPU FP32 for all three models; it does not rerun
-CUDA AMP or replace the original complete TEST evaluation.
-
-R1's `jobs/train_recovery_R1_cloud.sh` runs both smoke checks, both eight-epoch
-arms and the complete five-model/five-condition VAL evaluation sequentially on
-one allocated GPU. Actual execution used `PYTHON_BIN=/conda/bin/python` and
-`RECOVERY_RUN_ID=cloud1884`; this runner does not allocate a new instance.
-Its 18 fixtures passed on the L40S before both smokes and formal training.
-Six summary fixtures and an independent 5,700-row count audit also passed.
-The following commands require the recorded artifacts and new output paths:
-
-```bash
-python tools/summarize_recovery.py \
-  --protocol recovery_protocol.json \
-  --evaluation artifacts/recovery_evaluation_R1_cloud1884/recovery_evaluation.json \
-  --output artifacts/reproduced_recovery_review.json
-python tools/plot_recovery.py \
-  --summary artifacts/reproduced_recovery_review.json \
-  --output artifacts/reproduced_recovery_validation.png
-OMP_NUM_THREADS=4 python tools/evaluate_recovery_m015.py \
-  --protocol recovery_m015_protocol.json \
-  --manifest artifacts/cache64/manifest.json \
-  --output-dir artifacts/reproduced_recovery_m015
-python tools/summarize_recovery_m015.py \
-  --protocol recovery_m015_protocol.json \
-  --evaluation artifacts/reproduced_recovery_m015/recovery_m015.json \
-  --output artifacts/reproduced_recovery_m015_review.json
-```
-
-The M2 job `jobs/evaluate_recovery_M2.slurm` uses CPU FP32 and runs seven
-evaluator plus four summary fixtures before its one B/C/D recheck. Independent
-postrun counting verifies all 144 case/class rows and the frozen VAL decision.
-Metadata builders open no MRI, mask, prediction arrays or weight tensors.
-Actual evaluator checks bind weight bytes and decoded input identities.
-
-Later A/B/C/D weights and full private receipts are retained outside Git for
-inspection; the public v1 bundle does not include those later weights. These
-commands expect the named recorded artifacts. Fresh retraining may produce
-different bytes and requires a separate protocol/output rather than replacing
-frozen identities. Public scalar evidence supports inspection of the reported
-outcomes; it is not a new independently tested checkpoint release.
+Progressive commits retain real milestones from data/split validation, model
+implementation, pilot/full training, protocol freeze, label verification,
+metric correction, independent audits, failures and report development.
+[AUDIT_SUMMARY.md](AUDIT_SUMMARY.md) and the full historical report preserve
+those records. Original v1 jobs include 700974 (pilot), 700981 (30 epochs),
+701513 (VAL reload), 701544 (first final TEST), 701555 (paired analysis) and
+701569 (checks/rebuild). The revised run is separately recorded as 705405
+and 705447; its failed pair-QA and preparation timeout are not erased.
+
+This project remains under `recognition/ImprovedUNet3D_s4927782` on the
+`topic-recognition` branch. Submission comprises the existing upstream PR
+and a PDF export of this README for Turnitin, including the complete one-page
+review. The 2026 course profile lists the project assessment window as
+**19-30 October 2026**; the student's exact LMS slot and tutor completion
+record are external to these files. The planned **28 October** check-off is
+not asserted to have occurred. Teaching-team review responses belong to the
+later official window and are not claimed complete by initial submission.
+
+## Appendix: original v1 comparison and subsequent exploration
+
+The entire previous report is retained at
+[README_V1_HISTORY.md](README_V1_HISTORY.md), with original results, every
+old failure panel, exact historical reproduction commands, citations and the
+post-test D0/D1/D2, seed43, A1/M1/R1/M2 investigations. The present report
+integrates the new complete pipeline without deleting that evidence or
+rewriting unsuccessful rounds as successes.
+
+Original v1 quantitative end-region evidence remains:
+
+| Original patient-balanced prostate measure | 2D | Original 3D |
+|---|---:|---:|
+| Inferior GT-depth third Dice | 0.7411 | 0.7056 |
+| Middle GT-depth third Dice | 0.7089 | 0.7136 |
+| Superior GT-depth third Dice | 0.4535 | 0.5806 |
+| HD95, mm | 9.573 | 10.615 |
+| FP voxels outside GT depth extent | 17.46 | 14.29 |
+
+These thirds approximate end regions, not expert anatomical base/apex.
+Original 3D's superior-third benefit coexists with a worse inferior third and
+M015 failure. No new per-third numerical result is invented for the revised
+pipeline; its endpoint evidence is the fixed gallery plus common-grid HD95.
+
+| Original fixed failure | 2D Dice | Original 3D Dice | Retained finding |
+|---|---:|---:|---|
+| M015/Week2 | 0.6189 | 0.0015 | 1 TP, 42 FP, 1,334 FN: near-total prostate omission. |
+| W029/Week0 | 0.6005 | 0.4662 | Reduced FP accompanies greater omission; local superior benefit does not fix whole-case error. |
+| B037/Week0 | 0.5772 | 0.7773 | Better recall and HD95, but 999 FN and 258 FP remain. |
+| L011/Week4 | 0.8340 | 0.7987 | Extra slices: 88 out-of-GT-depth FP, HD95 worsens. |
+| M020/Week2 | 0.8608 | 0.8486 | Both recover most tissue; small FP/FN boundary trade-offs persist. |
+
+The retained post-test studies provide useful negative evidence: scoped
+correctness checks did not establish a unique root cause; appearance model B
+improved the already-seen M015 case but harmed clean VAL; bounded recovery
+C/D partially recovered clean VAL but failed their fixed recovery/retention
+criteria. Every round's original rules and outcome remain in the history and
+scalar evidence. Later per-round plans cannot eliminate adaptive bias from
+repeatedly seeing the same six VAL and TEST people. No follow-up numerical
+result is relabelled as a fresh independent confirmation.
 
 ## References
+
 
 1. COMP3710/COMP7710 Report, Version 2.5 (2026), supplied assessment specification:
    segmentation pp. 5–6, feasibility p. 12, structure/marking/submission pp. 13–16.
