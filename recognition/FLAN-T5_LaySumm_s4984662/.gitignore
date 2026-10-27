@@ -1,0 +1,22 @@
+# Datasets and model files must not be committed (COMP3710 spec 4.1)
+data/
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+
+# Experiment and Slurm outputs
+runs/
+wandb/
+*.out
+*.err
+
+# Python and caches
+__pycache__/
+*.pyc
+.cache/
+.venv/
+.ipynb_checkpoints/
+.DS_Store

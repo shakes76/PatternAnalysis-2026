@@ -1,0 +1,18 @@
+# requirements.txt - exact dependency versions for FLAN-T5 lay summarisation (COMP3710 Project 2.6)
+# Author : Trung Bao Truong (Brian Truong), student ID 49846627 (s4984662)
+#
+# Pinned from the Rangpur conda env "torch" on 2026-10-09 (Python 3.11.15).
+# The training/evaluation results in the README were produced with these versions.
+# torch is the CUDA build (2.13.0+cu130) running on an NVIDIA A100-PCIE-40GB node;
+# on a laptop, install the matching CPU/MPS build of torch 2.13.0 instead.
+# "accelerate" is not listed: it is only a transitive dependency of peft.
+torch==2.13.0
+transformers==5.19.0
+tokenizers==0.23.3
+huggingface_hub==2.2.0
+datasets==5.1.0
+peft==0.21.2
+rouge_score==0.1.2
+sentencepiece==0.2.2
+matplotlib==3.11.2
+numpy==2.4.6
