@@ -1,0 +1,35 @@
+# Python bytecode, tooling caches, and local environment files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Local data, downloaded models, training outputs, and experiment caches
+data/
+datasets/
+checkpoints/
+models/
+outputs/
+logs/
+runs/
+wandb/
+.cache/
+.huggingface/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+pytorch_model*.bin
+*.parquet
+
+# Local editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
