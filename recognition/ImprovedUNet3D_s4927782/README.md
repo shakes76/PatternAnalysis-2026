@@ -360,7 +360,228 @@ whole-organ score. All 146 3D FN voxels become Body. Small coarse-grid boundary
 changes matter, and 3D context does not resolve every interface.
 [Full-depth context](figures/failure_full_05.png).
 
-## Retrospective correctness diagnostics
+## Engineering recommendation and limitations
+
+Retain the **2D baseline as the lower-cost research comparator**. On the frozen
+v1 TEST, the 3D model offers no reliable mean prostate Dice benefit, worsens mean HD95 and
+has a severe patient-level failure at substantially higher cost. Neither model
+is justified for unattended contouring; draft masks require specialist review.
+A nonempty-mask check alone would miss the demonstrated near-total omission.
+The consistent validation ranking across two training runs does not overturn
+that test result or remove its patient-level failure. The appearance ablation
+also fails its clean-prostate guard, despite improving synthetic polarity
+robustness, so it supplies no basis for replacing the original configuration.
+M1 shows substantial M015 mitigation with B, but its clean-VAL guard fails.
+The bounded R1 recovery then partially restores clean accuracy; neither new
+arm reaches R1's prespecified clean-prostate recovery gate (the same-platform
+v1 reference), and M2 shows reduced M015 retention. No follow-up candidate is
+adopted. The appendix retains every positive and negative result. These repeatedly reused VAL patients and the
+already-examined M015 case provide no independent confirmation of improvement.
+Prespecifying each later round does not remove bias from designing it after
+viewing earlier TEST/VAL outcomes. Further tuning is stopped here.
+
+Possible research beyond this submission could investigate spatial
+translations, improved end-region resolution or ROI localization, and
+loss/sampling choices for the tiny prostate class. The completed appearance
+ablation shows why clean-image harm must be measured alongside stress gains;
+D2 gives no basis for removing support zeroing as a repair.
+Ablate residual blocks and deep supervision separately before attributing any
+benefit to one component. Validate prediction-only disagreement or volume-based
+review flags with independent labels and prespecified thresholds. Evaluate any
+new settings on a **new held-out cohort**, since this test split has now been
+examined. These are proposed experiments, not claimed improvements.
+
+The v1 test comparison has one training seed, six test patients, uneven visit counts,
+a fixed 30-epoch budget, no architecture ablation, possible annotation error
+and information lost in downsampling. Patient weighting addresses repeated
+visits but does not establish representativeness or eliminate acquisition
+bias. Measured latency is cached-grid inference, not end-to-end clinical time.
+
+## Reproduce the supplied results
+
+### Environment and checks
+
+Python **3.11.15**, PyTorch **2.13.0+cu130**, CUDA **13.0**, NumPy **2.4.6**,
+Matplotlib **3.11.2**, Nibabel **5.3.2**, SciPy **1.16.3** and
+importlib_resources **7.1.0** were verified on Rangpur. Direct versions are in
+[requirements.txt](requirements.txt). The project virtual environment reuses
+`~/miniconda3/envs/torch` read-only and installs only pinned extras. From this
+project directory, create `logs`, then submit `jobs/setup_cpu.slurm` and wait
+for completion. On another machine install `requirements.txt` in Python 3.11
+with a compatible PyTorch/driver build. This CUDA build lacks Pascal/P100 support.
+
+The original final CPU suite passed **95 checks** in job 701569, including split/cache
+geometry, model gradients, metrics/empty classes, AMP recovery, checkpoint
+resume, provenance, HD95 support, failure selection and cache reconstruction.
+The same job rebuilt one real TRAIN NIfTI pair with byte-identical decoded
+arrays under the unchanged manifest. Run checks with:
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
+deterministic kernels are requested with warnings for unsupported operations.
+This build warns about nondeterministic categorical-CE and 3D max-pool backward
+kernels. Seeded retraining is not guaranteed bit-identical across runs or builds.
+
+### Trained weights and exact cache reconstruction
+
+The public [24.77 MB result bundle](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/tag/demo3-hipmri-seed42-v1)
+contains both selected checkpoints, **the frozen manifest, decoded-array digest
+book, source sidecars, histories and score JSON**, with no raw MRI, mask or
+prediction arrays. Download `demo3_hipmri_seed42.zip` from the release assets;
+GitHub's uploaded-asset digest matches the verified local archive. ZIP SHA-256:
+`2b2904d92afc73fb93ebb129ffea01161379cee3bcb4e256a7bb7347516d3365`.
+Extract `demo3_hipmri_seed42.zip` in a fresh checkout's project directory to
+populate ignored `artifacts/`. Obtain HipMRI separately through the course or
+the cited dataset under its usage terms. Data and weights remain outside Git.
+
+Use the provided manifest, not a regenerated audit manifest: its exact bytes
+are bound to the checkpoints. On a CPU compute node, rebuild test caches from
+the original data using the unchanged preprocessing:
+
+```bash
+.venv/bin/python tools/cache_identity.py rebuild \
+  --manifest artifacts/cache64/manifest.json \
+  --identity artifacts/cache64/cache_identity.json \
+  --data-root /home/groups/comp3710/HipMRI_Study_open --split test
+```
+
+This verifies geometry, class counts, preprocessing digest and exact decoded
+image/mask/spacing hashes before writing each cache. It leaves the manifest
+unchanged and refuses mismatching existing arrays. Rebuilding all supplied
+cases uses `--split all`. A new audit embeds a new timestamp and digest; use
+that path for **new training**, not as a replacement beside original weights.
+
+Frozen manifest SHA-256:
+`c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424`.
+Selected checkpoint SHA-256:
+
+- 2D, epoch 26: `cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10`.
+- 3D, epoch 29: `9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62`.
+
+The core training/preprocessing/prediction source is byte-identical to commit
+`69400a70b9b7bbed1971408e74785e926236410a`. [training_sources.json](training_sources.json)
+records eleven file digests plus the manifest digest. Later report and analysis
+helpers do not change model behaviour. `tools/record_provenance.py` verified
+actual remote files and recorded the selected checkpoint hashes in sidecars.
+
+### Inference and paired analysis
+
+Run supplied weights on a GPU compute node, using fresh output directories so
+published evaluations are not overwritten. `--final-test` is an explicit guard;
+reproducing frozen inference does not authorize tuning on these test labels.
+
+```bash
+for model in unet2d improved3d; do
+  .venv/bin/python predict.py --manifest artifacts/cache64/manifest.json \
+    --checkpoint "artifacts/full_seed42/$model/best.pt" \
+    --split test --final-test --output-dir "artifacts/reproduced/$model" \
+    --batch-size 32 --device cuda --target-class 5
+done
+```
+
+Then analyze on a CPU compute node:
+
+```bash
+.venv/bin/python tools/analyze_pair.py --manifest artifacts/cache64/manifest.json \
+  --baseline-eval artifacts/reproduced/unet2d/evaluation.json \
+  --model-eval artifacts/reproduced/improved3d/evaluation.json \
+  --output-dir artifacts/reproduced/paired --target-class 5 \
+  --bootstrap-samples 2000 --seed 3710
+.venv/bin/python tools/plot_failure_details.py \
+  --manifest artifacts/cache64/manifest.json \
+  --baseline-eval artifacts/reproduced/unet2d/evaluation.json \
+  --model-eval artifacts/reproduced/improved3d/evaluation.json \
+  --pair-analysis artifacts/reproduced/paired/pair_analysis.json \
+  --output-dir artifacts/reproduced/details
+```
+
+### Retraining rather than reproducing the original checkpoint
+
+From this project directory on a CPU compute node:
+
+```bash
+.venv/bin/python tools/audit_dataset.py \
+  --data-root /home/groups/comp3710/HipMRI_Study_open \
+  --output artifacts/new_audit.json
+.venv/bin/python tools/prepare_cache.py --audit artifacts/new_audit.json \
+  --output-dir artifacts/new_cache --shape 64 128 128 --label-ids 0 1 2 3 4 5
+.venv/bin/python tools/attach_label_schema.py \
+  --manifest artifacts/new_cache/manifest.json --schema label_schema.json
+```
+
+Attach label metadata **before** training because it changes the digest. These
+preparation commands refuse to overwrite existing output. For new GPU training:
+
+```bash
+for model in unet2d improved3d; do
+  batch_size=1
+  if [ "$model" = unet2d ]; then batch_size=16; fi
+  .venv/bin/python train.py --manifest artifacts/new_cache/manifest.json \
+    --model "$model" --output-dir "artifacts/new_run/$model" \
+    --epochs 30 --batch-size "$batch_size" --base-channels 16 --lr 0.001 \
+    --workers 0 --seed 42 --device cuda --amp --eval-batch-size 32
+done
+```
+
+Resume interrupted training with `--resume artifacts/new_run/<model>/latest.pt`
+and the same settings/output directory; `--epochs` is the new total, not an
+increment. Resume restores optimizer, scaler and RNG state. Partial smoke runs
+are marked development-only and cannot be used for formal test evaluation.
+Never have two jobs write one run directory. For the original pilot/continuation,
+`jobs/train_pilot.slurm` ran two epochs then `jobs/train_pair.slurm 30` resumed
+sequentially on one GPU; the latter skips models already at 30 epochs.
+A new experiment must record new source/manifest identities rather than reuse
+the original provenance claim.
+
+## Development evidence and submission
+
+Progressive commits record real milestones: environment/feasibility, patient
+pairing and splits, model implementations, cache/training, verified labels and
+analysis, pilot measurements, architecture/provenance, validation/protocol freeze,
+and final failure analysis. [AUDIT_SUMMARY.md](AUDIT_SUMMARY.md) retains the
+chronological engineering evidence. Original experiments completed as Slurm
+700974 (pilot), 700981 (30 epochs), 701513 (independent validation), 701544
+(final test), 701555 (paired analysis), 701560 (ROI figures), 701569 (95 checks
+and real cache rebuild), and 701590 (retrospective localization).
+Additional milestones record independent diagnosis (701739/701740), the
+post-test fixed validation robustness plan (27527d3), completed paired training
+(701767), independent analysis (701791), source/mechanism audit (702061/702062)
+and one-factor input intervention (702134). D1/D2 plans were committed before
+their respective executions, after the earlier diagnostic observations.
+Appearance plan **5c49de3** and audit-tool milestone **4e23d40** preceded the
+completed A1 job **702249**, whose failed clean-prostate guard is retained.
+Separate M1 plan **a11a597** preceded CPU job **704030**, retaining all eight
+already-examined visits and the failed A1 guard.
+Recovery plan **d046435** preceded both L40S runs; **85b9a9e** then froze
+all R1 VAL outcomes and the no-candidate decision before CPU **704150**.
+Its M015 check does not change that decision. All later experiments are
+post-test exploratory records in the appendix; no further tuning is undertaken.
+The original v1 test remains unchanged.
+
+The project belongs under `recognition/ImprovedUNet3D_s4927782` on
+`topic-recognition`. The initial submission consists of the upstream PR and a
+PDF of this README for Turnitin, with the complete one-page feasibility review
+included. Planned tutor check-off is **28 October 2026**; the final LMS date
+must be verified. Teaching-team code review and responses occur in the later
+official window; initial submission does not complete that future requirement.
+
+## Appendix: post-test exploratory development
+
+The primary comparison is the original frozen v1 TEST above, including the
+unmet prostate target. The following diagnostics and later experiments were
+motivated by observed failures. M015 influenced the appearance and recovery
+recipes, while the same six VAL patients repeatedly informed selection and
+analysis. Fixing a protocol before each round prevents some within-round
+choices; it cannot make this adaptive sequence an independent test.
+
+These records answer scoped engineering questions and retain negative outcomes.
+They do not replace v1, prove a unique cause or establish a better model on
+unseen patients. The sequence ends after R1/M2 without further tuning.
+
+### Retrospective correctness diagnostics
 
 These checks were planned **after inspecting the v1 test failures**. They
 investigate implementation errors and preserve all original results; they
@@ -645,60 +866,193 @@ score. B still fails A1's clean-VAL guard and is **not adopted**. No new overall
 benchmark validates its benefit on unseen patients; v1 scores and release stay
 unchanged.
 
-## Engineering recommendation and limitations
+### Recovery follow-up: partial recovery does not meet the clean-accuracy gate
 
-Retain the **2D baseline as the lower-cost research comparator**. On the frozen
-v1 TEST, the 3D model offers no reliable mean prostate Dice benefit, worsens mean HD95 and
-has a severe patient-level failure at substantially higher cost. Neither model
-is justified for unattended contouring; draft masks require specialist review.
-A nonempty-mask check alone would miss the demonstrated near-total omission.
-The consistent validation ranking across two training runs does not overturn
-that test result or remove its patient-level failure. The appearance ablation
-also fails its clean-prostate guard, despite improving synthetic polarity
-robustness, so it supplies no basis for replacing the original configuration.
-The separate M1 recheck now shows substantial M015 mitigation with B, alongside
-remaining omissions and extra false positives. This one already-examined
-patient does not establish overall improvement or override the failed VAL guard.
+After A1 and M1 were known, pre-result commit **d046435** froze a separate
+[R1 protocol](recovery_protocol.json). Both arms load the complete selected B29
+weights, reset AdamW and the AMP scaler, and train for exactly eight full epochs
+at learning rate 0.0001. Architecture, loss, class weights, cached grid,
+143 TRAIN volumes, seed42 and the clean foreground-VAL checkpoint selector
+remain fixed. **C: clean adaptation** retains the same keyed gamma with no
+polarity inversion; **D: polarity rehearsal** uses identical gamma draws and
+an independent polarity probability of 0.10. Neither arm uses TEST inputs for
+training or checkpoint/candidate selection. Both select recovery epoch **7**.
 
-Further work should use a new prespecified TRAIN/VAL design: investigate spatial
-translations, improved end-region resolution or ROI localization, and
-loss/sampling choices for the tiny prostate class. The completed appearance
-ablation shows why clean-image harm must be measured alongside stress gains;
-D2 gives no basis for removing support zeroing as a repair.
-Ablate residual blocks and deep supervision separately before attributing any
-benefit to one component. Validate prediction-only disagreement or volume-based
-review flags with independent labels and prespecified thresholds. Evaluate any
-new settings on a **new held-out cohort**, since this test split has now been
-examined. These are proposed experiments, not claimed improvements.
+All five checkpoints were reevaluated on the same **NVIDIA L40S / Python
+3.10.21 / Torch 2.14.0+cu130 / CUDA 13.0** environment across all five fixed
+conditions and 38 VAL scans. These are fresh same-platform reference values;
+the earlier A1 and original TEST results remain unchanged. The
+[complete scalar evidence](evidence/recovery_review.json) retains all
+**5 x 5 x 38 = 950** prostate case rows, six-class aggregates, every patient's
+results, eight-epoch histories and source/receipt identities.
 
-The v1 test comparison has one training seed, six test patients, uneven visit counts,
-a fixed 30-epoch budget, no architecture ablation, possible annotation error
-and information lost in downsampling. Patient weighting addresses repeated
-visits but does not establish representativeness or eliminate acquisition
-bias. Measured latency is cached-grid inference, not end-to-end clinical time.
+| 3D configuration | Clean prostate Dice | Polarity prostate Dice | Clean foreground Dice |
+|---|---|---|---|
+| Original seed42, reevaluated | 0.83326 | 0.00000 | 0.87481 |
+| A: gamma only, reevaluated | 0.83356 | 0.00000 | 0.87351 |
+| B: gamma + polarity, reevaluated | 0.80715 | 0.78820 | 0.86238 |
+| C: clean adaptation | 0.82078 | 0.79821 | 0.87364 |
+| D: polarity rehearsal | 0.82019 | 0.80381 | 0.87301 |
 
-## Reproduce the supplied results
+![Recovery validation scores, fixed gates and all patient differences](figures/recovery_validation.png)
 
-### Environment and checks
+C and D partially recover clean prostate Dice relative to B, by **0.01363**
+and **0.01304**, while retaining synthetic polarity robustness. The strict
+engineering gate, however, requires all three conditions: clean prostate Dice
+at least the same-platform original reference; clean foreground Dice no more
+than 0.005 below that reference; and polarity prostate Dice no more than 0.02
+below same-platform B. C/D differences are respectively **-0.01247/-0.01307**
+for clean prostate, **-0.00116/-0.00180** for clean foreground, and
+**+0.01001/+0.01561** for polarity prostate. Both pass the latter two criteria
+and fail the first. **Neither arm is eligible, so the frozen VAL-only rule
+recommends no candidate.** The gates are not relaxed after seeing results.
 
-Python **3.11.15**, PyTorch **2.13.0+cu130**, CUDA **13.0**, NumPy **2.4.6**,
-Matplotlib **3.11.2**, Nibabel **5.3.2**, SciPy **1.16.3** and
-importlib_resources **7.1.0** were verified on Rangpur. Direct versions are in
-[requirements.txt](requirements.txt). The project virtual environment reuses
-`~/miniconda3/envs/torch` read-only and installs only pinned extras. From this
-project directory, create `logs`, then submit `jobs/setup_cpu.slurm` and wait
-for completion. On another machine install `requirements.txt` in Python 3.11
-with a compatible PyTorch/driver build. This CUDA build lacks Pascal/P100 support.
+The clean prostate differences below retain all six patients, with visits
+averaged within each patient. C is worse than the original reference in four
+patients and D in five; the largest losses remain K018 and S022. M030 improves
+under both arms, while C's B040 gain is small.
 
-The original final CPU suite passed **95 checks** in job 701569, including split/cache
-geometry, model gradients, metrics/empty classes, AMP recovery, checkpoint
-resume, provenance, HD95 support, failure selection and cache reconstruction.
-The same job rebuilt one real TRAIN NIfTI pair with byte-identical decoded
-arrays under the unchanged manifest. Run checks with:
+| VAL patient | C minus original | D minus original |
+|---|---|---|
+| B040 | +0.00083 | -0.00508 |
+| J026 | -0.01173 | -0.01421 |
+| K008 | -0.02432 | -0.01780 |
+| K018 | -0.03489 | -0.03530 |
+| M030 | +0.02924 | +0.02753 |
+| S022 | -0.03398 | -0.03354 |
+
+C/D training loops take **205.37/204.28 s**, each peaking at **2.228 GiB**
+allocated CUDA memory, with **1,144 successful updates and zero AMP overflow
+skips**. Shared gamma is applied to 580 examples in each arm; observed inverted
+exposures are **0/126**, out of 1,144, rather than an assumed exact 10% rate.
+Clean whole-cache-case inference averages **33.98/33.43 ms**, with **1.737 GiB**
+peak allocated memory. Training-loop times exclude validation, saving, plotting
+and smokes; inference timings exclude warmup and loading/preprocessing/metrics.
+
+Receipts match the two starting parameter states, shared-gamma exposure counts,
+training runtimes and evaluation runtime. There is no recorded runtime mismatch
+within this new pair. However, the parent B and historical references were
+trained on A100 with Python 3.11.15/Torch 2.13.0+cu130, whereas recovery uses
+L40S and the newer runtime above. Reevaluating references controls inference
+platform differences; it does not isolate training-platform effects or turn
+the warm-start comparison into a pure causal augmentation estimate. CUDA
+warn-only nondeterminism also remains.
+
+This is post-test-informed development on the same six repeatedly reused,
+checkpoint-selecting VAL patients. Conditions are not additional independent
+patients, and these gates are engineering criteria rather than significance
+tests. No M015/TEST score enters this comparison or its candidate choice; any
+separate known-patient retention check cannot change that frozen choice.
+R1 neither replaces the original TEST benchmark nor establishes a unique
+failure cause, independent generalization or clinical suitability.
+
+### M2: recovery does not retain the known-patient result
+
+Only after the R1 validation summary and its **no eligible candidate** decision
+were frozen, a separate [M2 protocol](recovery_m015_protocol.json) evaluated
+the existing B29, C7 and D7 checkpoints on the eight known M015 visits. CPU
+job **704150** completed in **38 s**, with **11 fixture checks passed**. All
+three use clean frozen caches, main-head argmax and the same four-thread CPU
+FP32 environment: **Python 3.11.15 / Torch 2.13.0+cu130**, with AMP disabled.
+There is no additional training, augmentation, TTA, postprocessing or selection.
+The [complete anonymous evidence](evidence/recovery_m015_review.json) retains
+all 24 cases and six classes, including false positives and false negatives.
+
+B exactly reproduces its M1 result: the eight-visit prostate mean is
+**0.70183693**, with **zero M2-minus-M1 difference**. All six classes' recorded
+TP/FP/FN counts and Dice agree across all eight B visits. This supports the
+comparability of the repeat CPU evaluation; it does not validate the clinical
+annotations or establish independent performance.
+
+| M015 visit | B: gamma + polarity Dice | C: clean adaptation Dice | D: rehearsal Dice |
+|---|---|---|---|
+| Week0 | 0.70046 | 0.61479 | 0.61077 |
+| Week1 | 0.70365 | 0.58284 | 0.56823 |
+| Week2 | 0.74479 | 0.70733 | 0.71429 |
+| Week3 | 0.76340 | 0.63955 | 0.63764 |
+| Week4 | 0.74240 | 0.70982 | 0.71632 |
+| Week5 | 0.61874 | 0.62194 | 0.60113 |
+| Week6 | 0.69272 | 0.62718 | 0.64136 |
+| Week7 | 0.64854 | 0.61306 | 0.59848 |
+| Visit mean | **0.70184** | **0.63956** | **0.63603** |
+| Minimum visit | **0.61874** | **0.58284** | **0.56823** |
+
+C is lower than B in **seven of eight visits**; its sole gain is Week5
+(**+0.00320**). D is lower in **all eight**. Their mean differences from B are
+**-0.06227/-0.06581**. Class5 pooled counts expose the remaining omissions:
+
+| Model | Total TP | Total FP | Total FN | Pooled recall | Pooled precision |
+|---|---|---|---|---|---|
+| B | 6,557 | 1,557 | 3,964 | 0.62323 | 0.80811 |
+| C | 5,666 | 1,526 | 4,855 | 0.53854 | 0.78782 |
+| D | 5,468 | 1,179 | 5,053 | 0.51972 | 0.82263 |
+
+These pooled voxel statistics are descriptive and are not the visit-mean Dice
+estimator. D reduces false positives but also loses true positives and increases
+false negatives; its higher pooled precision does not indicate a successful
+repair. Both recovery means remain above the original v1 model's same-CPU
+M015 mean of **0.11343727**, but neither restores B's known-patient performance
+or eliminates the failure.
+
+The prespecified descriptive retention check required a mean of at least
+**0.6818369278** and a minimum visit of at least **0.60**. **C and D fail both
+requirements**; B passes the reference checks. This check was explicitly not a
+selection criterion. The VAL-only recommendation remains **none**: M2 does not
+promote B, C or D, change the chosen epochs, relax either gate, or overturn the
+failed A1/R1 clean-accuracy criteria.
+
+R1's synthetic polarity-VAL score increased from same-platform B's **0.78820**
+to C/D's **0.79821/0.80381**, while this clean M015 retention decreased. In this
+experiment, synthetic polarity robustness therefore did not track retention on
+the known patient. The synthetic stress is not a validated proxy for M015's
+appearance shift, and these observations do not establish a unique mechanism
+or acquisition diagnosis.
+
+M015 had already influenced the A1 and R1 designs, and the same six VAL
+patients were repeatedly reused. Prespecifying each later round limits
+within-round choices; it does **not** remove the adaptive bias from designing
+later experiments after inspecting earlier TEST/VAL outcomes. M015's eight
+visits remain **one previously examined patient**, not eight independent test
+subjects. The original six-patient v1 TEST remains the main benchmark, including
+its unmet prostate target and patient-level failure. A1/M1/R1/M2 belong to the
+exploratory appendix; later improvements cannot establish independent
+generalization, repair that main benchmark or guarantee full marks. The
+report closes this sequence without adding further tuning or choosing a
+checkpoint from these known-patient outcomes.
+
+### Reproducing exploratory records
+
+The supplemental `tools/analyze_localization.py` reads unchanged predictions
+and TRAIN masks and exports location/size descriptors. It is retrospective,
+JSON-only, and changes no model decisions or scores. Its Slurm script is
+`jobs/analyze_localization.slurm`; `--split all` reconstruction is needed to
+supply the training-reference masks.
+
+For the fixed second-seed study, rebuild the identical **all-split** cache and
+verify its immutable manifest, then submit `jobs/train_pair_seed43.slurm`.
+The job verifies the frozen protocol's source hashes, uses only TRAIN/VAL,
+checks resumed-run and validation identities, and records new checkpoint
+provenance under `artifacts/followup_seed43`. Do not run it concurrently with
+another writer or use its validation results to replace the v1 test model.
+After both models and their independent validation finish, reproduce the
+strict summary from JSON evidence without loading TEST or prediction arrays:
 
 ```bash
-.venv/bin/python -m unittest discover -s tests -v
+python tools/analyze_seed_followup.py \
+  --seed42-root artifacts/full_seed42 \
+  --seed43-root artifacts/followup_seed43 \
+  --seed42-val artifacts/validation_seed42 \
+  --seed43-val artifacts/validation_seed43 \
+  --manifest artifacts/cache64/manifest.json \
+  --protocol followup_protocol.json \
+  --output-dir artifacts/reproduced_seed_followup
 ```
+
+Use a fresh output directory. The evidence checks require complete 30-epoch
+histories, the original sourcebook and frozen file hashes, selected-checkpoint
+provenance, all six validation patients, and agreement between selected history
+and standalone validation. Rehash checkpoint files separately against the
+recorded digests; the JSON summarizer does not open checkpoint bytes.
 
 The later diagnostic CPU job **701739** passed **114 checks**, adding independent
 resampling and frozen-forward diagnostic checks. Its real-data audit and GPU
@@ -769,181 +1123,44 @@ checkpoint/source receipts, rejects other cases and existing output, and writes
 only JSON. M1 deliberately uses CPU FP32 for all three models; it does not rerun
 CUDA AMP or replace the original complete TEST evaluation.
 
-Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
-deterministic kernels are requested with warnings for unsupported operations.
-This build warns about nondeterministic categorical-CE and 3D max-pool backward
-kernels. Seeded retraining is not guaranteed bit-identical across runs or builds.
-
-### Trained weights and exact cache reconstruction
-
-The public [24.77 MB result bundle](https://github.com/Jack-hithub/PatternAnalysis-2026/releases/tag/demo3-hipmri-seed42-v1)
-contains both selected checkpoints, **the frozen manifest, decoded-array digest
-book, source sidecars, histories and score JSON**, with no raw MRI, mask or
-prediction arrays. Download `demo3_hipmri_seed42.zip` from the release assets;
-GitHub's uploaded-asset digest matches the verified local archive. ZIP SHA-256:
-`2b2904d92afc73fb93ebb129ffea01161379cee3bcb4e256a7bb7347516d3365`.
-Extract `demo3_hipmri_seed42.zip` in a fresh checkout's project directory to
-populate ignored `artifacts/`. Obtain HipMRI separately through the course or
-the cited dataset under its usage terms. Data and weights remain outside Git.
-
-Use the provided manifest, not a regenerated audit manifest: its exact bytes
-are bound to the checkpoints. On a CPU compute node, rebuild test caches from
-the original data using the unchanged preprocessing:
+R1's `jobs/train_recovery_R1_cloud.sh` runs both smoke checks, both eight-epoch
+arms and the complete five-model/five-condition VAL evaluation sequentially on
+one allocated GPU. Actual execution used `PYTHON_BIN=/conda/bin/python` and
+`RECOVERY_RUN_ID=cloud1884`; this runner does not allocate a new instance.
+Its 18 fixtures passed on the L40S before both smokes and formal training.
+Six summary fixtures and an independent 5,700-row count audit also passed.
+The following commands require the recorded artifacts and new output paths:
 
 ```bash
-.venv/bin/python tools/cache_identity.py rebuild \
+python tools/summarize_recovery.py \
+  --protocol recovery_protocol.json \
+  --evaluation artifacts/recovery_evaluation_R1_cloud1884/recovery_evaluation.json \
+  --output artifacts/reproduced_recovery_review.json
+python tools/plot_recovery.py \
+  --summary artifacts/reproduced_recovery_review.json \
+  --output artifacts/reproduced_recovery_validation.png
+OMP_NUM_THREADS=4 python tools/evaluate_recovery_m015.py \
+  --protocol recovery_m015_protocol.json \
   --manifest artifacts/cache64/manifest.json \
-  --identity artifacts/cache64/cache_identity.json \
-  --data-root /home/groups/comp3710/HipMRI_Study_open --split test
+  --output-dir artifacts/reproduced_recovery_m015
+python tools/summarize_recovery_m015.py \
+  --protocol recovery_m015_protocol.json \
+  --evaluation artifacts/reproduced_recovery_m015/recovery_m015.json \
+  --output artifacts/reproduced_recovery_m015_review.json
 ```
 
-This verifies geometry, class counts, preprocessing digest and exact decoded
-image/mask/spacing hashes before writing each cache. It leaves the manifest
-unchanged and refuses mismatching existing arrays. Rebuilding all supplied
-cases uses `--split all`. A new audit embeds a new timestamp and digest; use
-that path for **new training**, not as a replacement beside original weights.
+The M2 job `jobs/evaluate_recovery_M2.slurm` uses CPU FP32 and runs seven
+evaluator plus four summary fixtures before its one B/C/D recheck. Independent
+postrun counting verifies all 144 case/class rows and the frozen VAL decision.
+Metadata builders open no MRI, mask, prediction arrays or weight tensors.
+Actual evaluator checks bind weight bytes and decoded input identities.
 
-Frozen manifest SHA-256:
-`c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424`.
-Selected checkpoint SHA-256:
-
-- 2D, epoch 26: `cfdcfa08147c295962e7d19f2ad16eb20a08590f9a28e00e95a281417aec3c10`.
-- 3D, epoch 29: `9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62`.
-
-The core training/preprocessing/prediction source is byte-identical to commit
-`69400a70b9b7bbed1971408e74785e926236410a`. [training_sources.json](training_sources.json)
-records eleven file digests plus the manifest digest. Later report and analysis
-helpers do not change model behaviour. `tools/record_provenance.py` verified
-actual remote files and recorded the selected checkpoint hashes in sidecars.
-
-### Inference and paired analysis
-
-Run supplied weights on a GPU compute node, using fresh output directories so
-published evaluations are not overwritten. `--final-test` is an explicit guard;
-reproducing frozen inference does not authorize tuning on these test labels.
-
-```bash
-for model in unet2d improved3d; do
-  .venv/bin/python predict.py --manifest artifacts/cache64/manifest.json \
-    --checkpoint "artifacts/full_seed42/$model/best.pt" \
-    --split test --final-test --output-dir "artifacts/reproduced/$model" \
-    --batch-size 32 --device cuda --target-class 5
-done
-```
-
-Then analyze on a CPU compute node:
-
-```bash
-.venv/bin/python tools/analyze_pair.py --manifest artifacts/cache64/manifest.json \
-  --baseline-eval artifacts/reproduced/unet2d/evaluation.json \
-  --model-eval artifacts/reproduced/improved3d/evaluation.json \
-  --output-dir artifacts/reproduced/paired --target-class 5 \
-  --bootstrap-samples 2000 --seed 3710
-.venv/bin/python tools/plot_failure_details.py \
-  --manifest artifacts/cache64/manifest.json \
-  --baseline-eval artifacts/reproduced/unet2d/evaluation.json \
-  --model-eval artifacts/reproduced/improved3d/evaluation.json \
-  --pair-analysis artifacts/reproduced/paired/pair_analysis.json \
-  --output-dir artifacts/reproduced/details
-```
-
-The supplemental `tools/analyze_localization.py` reads unchanged predictions
-and TRAIN masks and exports location/size descriptors. It is retrospective,
-JSON-only, and changes no model decisions or scores. Its Slurm script is
-`jobs/analyze_localization.slurm`; `--split all` reconstruction is needed to
-supply the training-reference masks.
-
-### Retraining rather than reproducing the original checkpoint
-
-From this project directory on a CPU compute node:
-
-```bash
-.venv/bin/python tools/audit_dataset.py \
-  --data-root /home/groups/comp3710/HipMRI_Study_open \
-  --output artifacts/new_audit.json
-.venv/bin/python tools/prepare_cache.py --audit artifacts/new_audit.json \
-  --output-dir artifacts/new_cache --shape 64 128 128 --label-ids 0 1 2 3 4 5
-.venv/bin/python tools/attach_label_schema.py \
-  --manifest artifacts/new_cache/manifest.json --schema label_schema.json
-```
-
-Attach label metadata **before** training because it changes the digest. These
-preparation commands refuse to overwrite existing output. For new GPU training:
-
-```bash
-for model in unet2d improved3d; do
-  batch_size=1
-  if [ "$model" = unet2d ]; then batch_size=16; fi
-  .venv/bin/python train.py --manifest artifacts/new_cache/manifest.json \
-    --model "$model" --output-dir "artifacts/new_run/$model" \
-    --epochs 30 --batch-size "$batch_size" --base-channels 16 --lr 0.001 \
-    --workers 0 --seed 42 --device cuda --amp --eval-batch-size 32
-done
-```
-
-Resume interrupted training with `--resume artifacts/new_run/<model>/latest.pt`
-and the same settings/output directory; `--epochs` is the new total, not an
-increment. Resume restores optimizer, scaler and RNG state. Partial smoke runs
-are marked development-only and cannot be used for formal test evaluation.
-Never have two jobs write one run directory. For the original pilot/continuation,
-`jobs/train_pilot.slurm` ran two epochs then `jobs/train_pair.slurm 30` resumed
-sequentially on one GPU; the latter skips models already at 30 epochs.
-A new experiment must record new source/manifest identities rather than reuse
-the original provenance claim.
-
-For the fixed second-seed study, rebuild the identical **all-split** cache and
-verify its immutable manifest, then submit `jobs/train_pair_seed43.slurm`.
-The job verifies the frozen protocol's source hashes, uses only TRAIN/VAL,
-checks resumed-run and validation identities, and records new checkpoint
-provenance under `artifacts/followup_seed43`. Do not run it concurrently with
-another writer or use its validation results to replace the v1 test model.
-After both models and their independent validation finish, reproduce the
-strict summary from JSON evidence without loading TEST or prediction arrays:
-
-```bash
-python tools/analyze_seed_followup.py \
-  --seed42-root artifacts/full_seed42 \
-  --seed43-root artifacts/followup_seed43 \
-  --seed42-val artifacts/validation_seed42 \
-  --seed43-val artifacts/validation_seed43 \
-  --manifest artifacts/cache64/manifest.json \
-  --protocol followup_protocol.json \
-  --output-dir artifacts/reproduced_seed_followup
-```
-
-Use a fresh output directory. The evidence checks require complete 30-epoch
-histories, the original sourcebook and frozen file hashes, selected-checkpoint
-provenance, all six validation patients, and agreement between selected history
-and standalone validation. Rehash checkpoint files separately against the
-recorded digests; the JSON summarizer does not open checkpoint bytes.
-
-## Development evidence and submission
-
-Progressive commits record real milestones: environment/feasibility, patient
-pairing and splits, model implementations, cache/training, verified labels and
-analysis, pilot measurements, architecture/provenance, validation/protocol freeze,
-and final failure analysis. [AUDIT_SUMMARY.md](AUDIT_SUMMARY.md) retains the
-chronological engineering evidence. Original experiments completed as Slurm
-700974 (pilot), 700981 (30 epochs), 701513 (independent validation), 701544
-(final test), 701555 (paired analysis), 701560 (ROI figures), 701569 (95 checks
-and real cache rebuild), and 701590 (retrospective localization).
-Additional milestones record independent diagnosis (701739/701740), the
-post-test fixed validation robustness plan (27527d3), completed paired training
-(701767), independent analysis (701791), source/mechanism audit (702061/702062)
-and one-factor input intervention (702134). D1/D2 plans were committed before
-their respective executions, after the earlier diagnostic observations.
-Appearance plan **5c49de3** and audit-tool milestone **4e23d40** preceded the
-completed A1 job **702249**, whose failed clean-prostate guard is retained.
-Separate M1 plan **a11a597** preceded CPU job **704030**, retaining all eight
-already-examined visits and the failed A1 guard.
-The original v1 test remains unchanged.
-
-The project belongs under `recognition/ImprovedUNet3D_s4927782` on
-`topic-recognition`. The initial submission consists of the upstream PR and a
-PDF of this README for Turnitin, with the complete one-page feasibility review
-included. Planned tutor check-off is **28 October 2026**; the final LMS date
-must be verified. Teaching-team code review and responses occur in the later
-official window; initial submission does not complete that future requirement.
+Later A/B/C/D weights and full private receipts are retained outside Git for
+inspection; the public v1 bundle does not include those later weights. These
+commands expect the named recorded artifacts. Fresh retraining may produce
+different bytes and requires a separate protocol/output rather than replacing
+frozen identities. Public scalar evidence supports inspection of the reported
+outcomes; it is not a new independently tested checkpoint release.
 
 ## References
 

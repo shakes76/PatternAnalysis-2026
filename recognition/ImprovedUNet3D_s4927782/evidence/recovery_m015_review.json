@@ -1,0 +1,3212 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "experiment_id": "recovery_m015_followup_v1",
+  "split": "test_M015_only",
+  "protocol_sha256": "703dc95e266123b0d19733710553689d3791ee7178486e3924c61dcf476fee3a",
+  "recovery_protocol_sha256": "070b23f7606aa2046e0588618939b197d57d86a8720bc1dd61d8cbbd91437f79",
+  "val_summary_sha256": "939bf1089af70c877b4ea0b6995e67e147e0f5a4d3dd13821c57ae79cdf67b55",
+  "evaluation_index_sha256": "f49b04fcf1095ebcd9a74d759c0584802a9132c0453b9df6cf25154e52b49f7f",
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "cache_identity_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+  "input_file_sha256": {
+    "recovery_m015_protocol.json": "703dc95e266123b0d19733710553689d3791ee7178486e3924c61dcf476fee3a",
+    "artifacts/recovery_m015_M2_704150/recovery_m015.json": "f49b04fcf1095ebcd9a74d759c0584802a9132c0453b9df6cf25154e52b49f7f",
+    "recovery_protocol.json": "070b23f7606aa2046e0588618939b197d57d86a8720bc1dd61d8cbbd91437f79",
+    "evidence/recovery_review.json": "939bf1089af70c877b4ea0b6995e67e147e0f5a4d3dd13821c57ae79cdf67b55",
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/cache_identity.py": "d1761ac39d4c3e9121a2217381545c7f5a0e08c82c9535134cb5c85617cc4e86",
+    "tools/diagnose_model_mechanism.py": "9b5cb92c85297388519daeb5665fcd7751a60f4c44f9d5ae17bea5566e8630a9",
+    "tools/diagnose_frozen_inference.py": "c8e086647a92516eaa7a0e1dcb6624cba0375ee1fffce6304fb130fd50cf8476",
+    "experiments/appearance.py": "b776ef949ec903c97cfa2b681c9c87cdce30c42bb3a9d8e1897b0281e34179a3",
+    "experiments/train_appearance.py": "55f2e2ad689979bf87a8e1c91b9c5c0bb76fe79210d848cca0583ba783c664a8",
+    "experiments/evaluate_appearance.py": "8fca64f6cc3ae0306bfda10d987b9733b099071fe45cd548fef3b855cbb07129",
+    "tests/test_appearance.py": "6de5cff1ea55830ce97a5bbd03b4605a3a4ac5d257037b661d87be3af0c7e5dd",
+    "tests/test_evaluate_appearance.py": "78ce1ad08d3b3da71d380030aaa275d7c86f8c8b0441041058a10fd10214d964",
+    "jobs/train_appearance_A1.slurm": "1dd692ff516fd7f5bd07572dec629c4b29101adecefb341ea1f99c06e41f7dc0",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+    "appearance_protocol.json": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+    "experiments/recovery.py": "f0f99e824ae0a0a3bcf134eb5d4e18942e7d365aba6a68cc27775450e4a14458",
+    "experiments/train_recovery.py": "cd60815cca2f98555194739f24c770f282c9bf971a8cff85814ed1f1cb6f84db",
+    "experiments/evaluate_recovery.py": "81c41dfa6d6dee62085db232f3d9acff417ca09bf23991d50b7e150a7f3df305",
+    "tests/test_recovery.py": "bd807e5c6cf0b110d2ec30670e05b6d916b9e5aaf17b7ce3728f9f2024d62b10",
+    "tests/test_evaluate_recovery.py": "24b56b14243d73fb1bb8da59d6318bd2e2b1d134484ecf0481eba1303bf17d5c",
+    "jobs/train_recovery_R1.slurm": "c9dfa296ec7a93460d5709331fb4e30eb50c35bad0bebc8825fc19af3fe4b4d3",
+    "jobs/train_recovery_R1_cloud.sh": "eafde6402cbe2149d2cad49fdc50a810891eb1c19e0f8d6c491ff70b989be24c",
+    "tools/evaluate_recovery_m015.py": "8287f71c60843dfab93bb4e1f5e619bb12ec29d924521627aab328467290fb4e",
+    "tests/test_evaluate_recovery_m015.py": "a2b094155fdc9f6613f0e6eb5025624056bc47060a06d002ced9577451f7eafc",
+    "tools/summarize_recovery.py": "0c02470f1fa93605989b50368b626b38f115d047be93b42bddb48ab074151ede",
+    "tests/test_summarize_recovery.py": "74b315f7df6c6e722aaa9ed043e7f2908e6bc7f705732b99dd3cc1b247182734",
+    "experiments/summarize_appearance.py": "3dc7e71c2b31dd181a2938a70b01cb0c27a08a6e5fea4cc1e9902d2640193942",
+    "tools/summarize_m015_followup.py": "347273495c1376384b94966b8ff2ba44aeb4c2babca13b8bda177b5ee1f50e87",
+    "tools/summarize_recovery_m015.py": "d996b91d25768629c78d0da8a9b6144d6414f5634ac5b77832290552b3102942",
+    "tests/test_summarize_recovery_m015.py": "edc53b0c8baae5d204a1d772d7d86f80d17a1b93e6e47dcf89a9b1521eec40c7",
+    "jobs/evaluate_recovery_M2.slurm": "4e73065243d28714fafedd21351f42a278dd63275320f058ef4bd1fe6d31cd8c",
+    "tools/evaluate_m015_followup.py": "7880f5d43c4d17810bc4db9702c2d95fcba06ba84572522d986cdd90d2fe05ab",
+    "artifacts/recovery_evaluation_R1_cloud1884/recovery_evaluation.json": "e8dcf530cbe0bf5d1dcaa0afb1084272b9dd096f59e550e90b8b77d3fc1f45a1",
+    "artifacts/recovery_evaluation_R1_cloud1884/seed42_reference/clean/evaluation.json": "fce5c12de66d97506d5c7948ff774f8d6cb293bc892c189e42bc257148e2e691",
+    "artifacts/recovery_evaluation_R1_cloud1884/seed42_reference/gamma_0.7/evaluation.json": "e35639225efc2689b5b5cae579bc6f25553fd5e489169b4c53a2067ede3e5575",
+    "artifacts/recovery_evaluation_R1_cloud1884/seed42_reference/gamma_1.5/evaluation.json": "91c8213111fe6a1899c3efa95e35b38bc3d99680d1fef0d258a1db0cfe57eab0",
+    "artifacts/recovery_evaluation_R1_cloud1884/seed42_reference/polarity/evaluation.json": "35ee1f8490e520eedd27131bf7a5ae11175de56547f344003b3472b52d0683e3",
+    "artifacts/recovery_evaluation_R1_cloud1884/seed42_reference/spatial_gain/evaluation.json": "3f83803ac79c1dc6904909454a834494589445b3760c71ec45d60ac1503a9a7d",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_only/clean/evaluation.json": "b935cb45461ffa647985f008e5a596a706ab10d51e0365e8edb81525d2502947",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_only/gamma_0.7/evaluation.json": "5703c5830110b98f2356e233cc469285ab917ad1d0b501016c6b5aa8345a946d",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_only/gamma_1.5/evaluation.json": "ef917c68f0dc31e15f3d4d06366b6a8b386667747cf9873ee8a8a52f8b958a8b",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_only/polarity/evaluation.json": "f5c3a31b93e553b1b331244d544f95052d1dc17764925322d303e2df4dc2e056",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_only/spatial_gain/evaluation.json": "fd7bc79182038b069243da1c510048e4bfbf3eec1ce135ca94b5d71f0075fdcc",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_polarity/clean/evaluation.json": "4b5f763641435d591b4b93c1e590181d051ee000c948c7630c9923bde49be8ba",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_polarity/gamma_0.7/evaluation.json": "35a99317b1b22ec0b6c279ee625deefdc12fb4ae8572a63a715c75f2edb037d1",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_polarity/gamma_1.5/evaluation.json": "f235035647c84227c454222d503c9928c47d73d05b7b03a9cef16ab7f5839850",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_polarity/polarity/evaluation.json": "bbfe2808c93fa30ca8f0d678a05d1e34ebf2d1f8d44b4fd45486dac3213f9c9e",
+    "artifacts/recovery_evaluation_R1_cloud1884/gamma_polarity/spatial_gain/evaluation.json": "54bb082ac410a54e4f6da54db34598cd9b7646f96389de71cb40375340b201af",
+    "artifacts/recovery_R1/clean_adapt/run.json": "2dff64ebf12ce3f5c50f8480fe545563082fde4496ebcb8a31fa6a4c523e16af",
+    "artifacts/recovery_R1/clean_adapt/history.json": "3178eccf860e22572b42c569625c6dd67e7beef478628714e162b9d6049846e1",
+    "artifacts/recovery_R1/clean_adapt/provenance.json": "059774007606037201c36ebd7ef9466b9e2018358553a29dad4095766557bf36",
+    "artifacts/recovery_R1/clean_adapt/cache_verification.json": "458c8e11be829f976046566e5f81210338f07dffd4bce04894ea0a9d4e4dc92d",
+    "artifacts/recovery_evaluation_R1_cloud1884/clean_adapt/clean/evaluation.json": "265d90858297d210d2f40d6eaf82c8f1dea9a2b6a1ed4cd891ba4438c8c4b443",
+    "artifacts/recovery_evaluation_R1_cloud1884/clean_adapt/gamma_0.7/evaluation.json": "eb1e827d23cfdbc57e6087d3150ad76959cd3ecea679985f6520dd2f6a9d1711",
+    "artifacts/recovery_evaluation_R1_cloud1884/clean_adapt/gamma_1.5/evaluation.json": "a8f17f84158b6152a5cc2836d325c4cdd46f1c13c26610c457a55aad4eed8f43",
+    "artifacts/recovery_evaluation_R1_cloud1884/clean_adapt/polarity/evaluation.json": "37c090d1334d6b0a8aa913d46fb5c4ece6924298083984eacde59dde7aec912b",
+    "artifacts/recovery_evaluation_R1_cloud1884/clean_adapt/spatial_gain/evaluation.json": "ada985800d7e6bf172c43c0b3b8b196b28af75f74038c2627c00df492eed1acd",
+    "artifacts/recovery_R1/polarity_rehearsal/run.json": "2a375af5f32f7fd6d4dc409372711ac84e0aff04b8c7a06fa20f01de6487867e",
+    "artifacts/recovery_R1/polarity_rehearsal/history.json": "6739465470a5e6436cac0d1b858a3a0d9fb9c3d43871c83c52ab979749bf1258",
+    "artifacts/recovery_R1/polarity_rehearsal/provenance.json": "303f476783e47788ef2121d633a6972cac314551633eee068dd4c85642f94416",
+    "artifacts/recovery_R1/polarity_rehearsal/cache_verification.json": "458c8e11be829f976046566e5f81210338f07dffd4bce04894ea0a9d4e4dc92d",
+    "artifacts/recovery_evaluation_R1_cloud1884/polarity_rehearsal/clean/evaluation.json": "9232d8f2b6859409c79c130ad9844de40804a8e2991bd95ee9ce0433aed75a74",
+    "artifacts/recovery_evaluation_R1_cloud1884/polarity_rehearsal/gamma_0.7/evaluation.json": "889ffa33eb3da442520a3662768ff50d11fcd67b9e316c87a54f73a62dd8bc5a",
+    "artifacts/recovery_evaluation_R1_cloud1884/polarity_rehearsal/gamma_1.5/evaluation.json": "c5528bf43c4b9272919d72716c17dd68fe7977150ac304cc56859f4e7d72fd0a",
+    "artifacts/recovery_evaluation_R1_cloud1884/polarity_rehearsal/polarity/evaluation.json": "fba77ad35836b76e80ba264329237b1e2744849428cd1e21bc22394914645270",
+    "artifacts/recovery_evaluation_R1_cloud1884/polarity_rehearsal/spatial_gain/evaluation.json": "c4c3ce6cafa7641c4e4fde446b8126170d4031862e88f6e1a16a258afba6e427",
+    "artifacts/appearance_A1/gamma_polarity/run.json": "49425c32892e3ab18149d96cf8717e0c5bc59126538d5ccf1f57689bbcb427fe",
+    "artifacts/appearance_A1/gamma_polarity/history.json": "feafe7f2b4b2d308322d1480b5fdc81b8af96432461f12d9b2293fecad92f58b",
+    "artifacts/appearance_A1/gamma_polarity/provenance.json": "cf922bd629134990b0dff1524d15f6961b69fc31690f294e542ff8404727c2d3",
+    "artifacts/appearance_A1/gamma_polarity/cache_verification.json": "458c8e11be829f976046566e5f81210338f07dffd4bce04894ea0a9d4e4dc92d",
+    "artifacts/recovery_m015_M2_704150/gamma_polarity/evaluation.json": "e2ec36bc992756f89b4f51da27e56f0b322330b59bfbccb251d01934f79e3ee1",
+    "artifacts/recovery_m015_M2_704150/clean_adapt/evaluation.json": "5c006e64438891a891416c98ab52fc3c4de6d81c96fd58388b1b670e2f48843d",
+    "artifacts/recovery_m015_M2_704150/polarity_rehearsal/evaluation.json": "9a1a4f3a77584bbe042cd95c9e00c2967f28a30dcadc2965523fa7914681a5a0",
+    "artifacts/m015_followup_M1_704030/gamma_polarity/evaluation.json": "3d38d202b8e04bd9f09d363fceaf21be20d612a0e500aa7f7036757be75e8f30"
+  },
+  "source_file_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/cache_identity.py": "d1761ac39d4c3e9121a2217381545c7f5a0e08c82c9535134cb5c85617cc4e86",
+    "tools/diagnose_model_mechanism.py": "9b5cb92c85297388519daeb5665fcd7751a60f4c44f9d5ae17bea5566e8630a9",
+    "tools/diagnose_frozen_inference.py": "c8e086647a92516eaa7a0e1dcb6624cba0375ee1fffce6304fb130fd50cf8476",
+    "experiments/appearance.py": "b776ef949ec903c97cfa2b681c9c87cdce30c42bb3a9d8e1897b0281e34179a3",
+    "experiments/train_appearance.py": "55f2e2ad689979bf87a8e1c91b9c5c0bb76fe79210d848cca0583ba783c664a8",
+    "experiments/evaluate_appearance.py": "8fca64f6cc3ae0306bfda10d987b9733b099071fe45cd548fef3b855cbb07129",
+    "tests/test_appearance.py": "6de5cff1ea55830ce97a5bbd03b4605a3a4ac5d257037b661d87be3af0c7e5dd",
+    "tests/test_evaluate_appearance.py": "78ce1ad08d3b3da71d380030aaa275d7c86f8c8b0441041058a10fd10214d964",
+    "jobs/train_appearance_A1.slurm": "1dd692ff516fd7f5bd07572dec629c4b29101adecefb341ea1f99c06e41f7dc0",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+    "appearance_protocol.json": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+    "experiments/recovery.py": "f0f99e824ae0a0a3bcf134eb5d4e18942e7d365aba6a68cc27775450e4a14458",
+    "experiments/train_recovery.py": "cd60815cca2f98555194739f24c770f282c9bf971a8cff85814ed1f1cb6f84db",
+    "experiments/evaluate_recovery.py": "81c41dfa6d6dee62085db232f3d9acff417ca09bf23991d50b7e150a7f3df305",
+    "tests/test_recovery.py": "bd807e5c6cf0b110d2ec30670e05b6d916b9e5aaf17b7ce3728f9f2024d62b10",
+    "tests/test_evaluate_recovery.py": "24b56b14243d73fb1bb8da59d6318bd2e2b1d134484ecf0481eba1303bf17d5c",
+    "jobs/train_recovery_R1.slurm": "c9dfa296ec7a93460d5709331fb4e30eb50c35bad0bebc8825fc19af3fe4b4d3",
+    "jobs/train_recovery_R1_cloud.sh": "eafde6402cbe2149d2cad49fdc50a810891eb1c19e0f8d6c491ff70b989be24c",
+    "recovery_protocol.json": "070b23f7606aa2046e0588618939b197d57d86a8720bc1dd61d8cbbd91437f79",
+    "tools/evaluate_recovery_m015.py": "8287f71c60843dfab93bb4e1f5e619bb12ec29d924521627aab328467290fb4e",
+    "tests/test_evaluate_recovery_m015.py": "a2b094155fdc9f6613f0e6eb5025624056bc47060a06d002ced9577451f7eafc",
+    "tools/summarize_recovery.py": "0c02470f1fa93605989b50368b626b38f115d047be93b42bddb48ab074151ede",
+    "tests/test_summarize_recovery.py": "74b315f7df6c6e722aaa9ed043e7f2908e6bc7f705732b99dd3cc1b247182734",
+    "experiments/summarize_appearance.py": "3dc7e71c2b31dd181a2938a70b01cb0c27a08a6e5fea4cc1e9902d2640193942",
+    "tools/summarize_m015_followup.py": "347273495c1376384b94966b8ff2ba44aeb4c2babca13b8bda177b5ee1f50e87",
+    "tools/summarize_recovery_m015.py": "d996b91d25768629c78d0da8a9b6144d6414f5634ac5b77832290552b3102942",
+    "tests/test_summarize_recovery_m015.py": "edc53b0c8baae5d204a1d772d7d86f80d17a1b93e6e47dcf89a9b1521eec40c7",
+    "jobs/evaluate_recovery_M2.slurm": "4e73065243d28714fafedd21351f42a278dd63275320f058ef4bd1fe6d31cd8c",
+    "tools/evaluate_m015_followup.py": "7880f5d43c4d17810bc4db9702c2d95fcba06ba84572522d986cdd90d2fe05ab"
+  },
+  "summarizer_sha256": "d996b91d25768629c78d0da8a9b6144d6414f5634ac5b77832290552b3102942",
+  "count_helper_sha256": "347273495c1376384b94966b8ff2ba44aeb4c2babca13b8bda177b5ee1f50e87",
+  "evaluator_helper_sha256": "8287f71c60843dfab93bb4e1f5e619bb12ec29d924521627aab328467290fb4e",
+  "scope": {
+    "models": 3,
+    "cases_per_model": 8,
+    "case_rows": 24,
+    "independent_patients": 1,
+    "device": "cpu",
+    "amp": false,
+    "arrays_loaded": false,
+    "checkpoint_files_read": false,
+    "model_or_epoch_selection_performed": false
+  },
+  "runtime": {
+    "device": "cpu",
+    "gpu_name": null,
+    "python": "3.11.15",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "amp": false,
+    "torch_num_threads": 4,
+    "omp_num_threads": 4,
+    "mkldnn_enabled": true
+  },
+  "frozen_val_recommendation": {
+    "selected_model_id": null,
+    "selection_basis": "validation_only",
+    "eligible_model_ids": [],
+    "same_platform_verified": true,
+    "tie_break_order": [
+      "clean_prostate_dice_desc",
+      "clean_foreground_dice_desc",
+      "model_id_asc"
+    ]
+  },
+  "results": {
+    "gamma_polarity": {
+      "checkpoint_sha256": "b13ba58fe8837fb9522b6108412281c51210a3be486011d59f902347ade2a82b",
+      "checkpoint_epoch": 29,
+      "cases": [
+        {
+          "patient": "M015",
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 529449,
+              "fp": 4337,
+              "fn": 44184,
+              "predicted_voxels": 533786,
+              "target_voxels": 573633,
+              "dice": 0.9561855088272821,
+              "iou": 0.9160492759139748,
+              "recall": 0.9229751426434671,
+              "precision": 0.9918750210758619
+            },
+            {
+              "class_index": 1,
+              "tp": 419972,
+              "fp": 45237,
+              "fn": 14136,
+              "predicted_voxels": 465209,
+              "target_voxels": 434108,
+              "dice": 0.9339798980782082,
+              "iou": 0.8761372289269732,
+              "recall": 0.9674366747445337,
+              "precision": 0.9027598348269272
+            },
+            {
+              "class_index": 2,
+              "tp": 30771,
+              "fp": 13335,
+              "fn": 2743,
+              "predicted_voxels": 44106,
+              "target_voxels": 33514,
+              "dice": 0.7928626642617882,
+              "iou": 0.6568123118956648,
+              "recall": 0.9181536074476339,
+              "precision": 0.6976601822881241
+            },
+            {
+              "class_index": 3,
+              "tp": 1539,
+              "fp": 2092,
+              "fn": 3691,
+              "predicted_voxels": 3631,
+              "target_voxels": 5230,
+              "dice": 0.3473648572395892,
+              "iou": 0.21018847309478284,
+              "recall": 0.29426386233269597,
+              "precision": 0.4238501790140457
+            },
+            {
+              "class_index": 4,
+              "tp": 699,
+              "fp": 210,
+              "fn": 137,
+              "predicted_voxels": 909,
+              "target_voxels": 836,
+              "dice": 0.8011461318051576,
+              "iou": 0.6682600382409177,
+              "recall": 0.8361244019138756,
+              "precision": 0.768976897689769
+            },
+            {
+              "class_index": 5,
+              "tp": 767,
+              "fp": 168,
+              "fn": 488,
+              "predicted_voxels": 935,
+              "target_voxels": 1255,
+              "dice": 0.7004566210045662,
+              "iou": 0.5390021082220661,
+              "recall": 0.6111553784860557,
+              "precision": 0.8203208556149733
+            }
+          ],
+          "foreground_mean_dice": 0.715162034477862,
+          "foreground_mean_iou": 0.590080032076081
+        },
+        {
+          "patient": "M015",
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 507359,
+              "fp": 7176,
+              "fn": 46131,
+              "predicted_voxels": 514535,
+              "target_voxels": 553490,
+              "dice": 0.9500882469979636,
+              "iou": 0.9049220034744393,
+              "recall": 0.9166543207646028,
+              "precision": 0.9860534268805815
+            },
+            {
+              "class_index": 1,
+              "tp": 431529,
+              "fp": 49277,
+              "fn": 18753,
+              "predicted_voxels": 480806,
+              "target_voxels": 450282,
+              "dice": 0.9269349406285979,
+              "iou": 0.8638198891422234,
+              "recall": 0.9583527656002239,
+              "precision": 0.8975116783068431
+            },
+            {
+              "class_index": 2,
+              "tp": 31345,
+              "fp": 14722,
+              "fn": 2877,
+              "predicted_voxels": 46067,
+              "target_voxels": 34222,
+              "dice": 0.7808043443061938,
+              "iou": 0.6404257927427264,
+              "recall": 0.9159312722809888,
+              "precision": 0.6804219940521414
+            },
+            {
+              "class_index": 3,
+              "tp": 1725,
+              "fp": 3210,
+              "fn": 6548,
+              "predicted_voxels": 4935,
+              "target_voxels": 8273,
+              "dice": 0.2612053301029679,
+              "iou": 0.1502220674039885,
+              "recall": 0.20850960957331077,
+              "precision": 0.3495440729483283
+            },
+            {
+              "class_index": 4,
+              "tp": 769,
+              "fp": 245,
+              "fn": 181,
+              "predicted_voxels": 1014,
+              "target_voxels": 950,
+              "dice": 0.7830957230142567,
+              "iou": 0.6435146443514644,
+              "recall": 0.8094736842105263,
+              "precision": 0.7583826429980276
+            },
+            {
+              "class_index": 5,
+              "tp": 907,
+              "fp": 312,
+              "fn": 452,
+              "predicted_voxels": 1219,
+              "target_voxels": 1359,
+              "dice": 0.7036462373933282,
+              "iou": 0.542788749251945,
+              "recall": 0.6674025018395879,
+              "precision": 0.7440525020508614
+            }
+          ],
+          "foreground_mean_dice": 0.691137315089069,
+          "foreground_mean_iou": 0.5681542285784695
+        },
+        {
+          "patient": "M015",
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 546033,
+              "fp": 4636,
+              "fn": 43331,
+              "predicted_voxels": 550669,
+              "target_voxels": 589364,
+              "dice": 0.9579249021738845,
+              "iou": 0.9192474747474747,
+              "recall": 0.9264783732973171,
+              "precision": 0.9915811494745482
+            },
+            {
+              "class_index": 1,
+              "tp": 406621,
+              "fp": 42177,
+              "fn": 14378,
+              "predicted_voxels": 448798,
+              "target_voxels": 420999,
+              "dice": 0.9349790813258726,
+              "iou": 0.8778973867385184,
+              "recall": 0.9658478998762468,
+              "precision": 0.9060223084773105
+            },
+            {
+              "class_index": 2,
+              "tp": 29202,
+              "fp": 14606,
+              "fn": 3152,
+              "predicted_voxels": 43808,
+              "target_voxels": 32354,
+              "dice": 0.7668391061159108,
+              "iou": 0.6218483816013629,
+              "recall": 0.9025777338196205,
+              "precision": 0.6665905770635501
+            },
+            {
+              "class_index": 3,
+              "tp": 1733,
+              "fp": 1200,
+              "fn": 2068,
+              "predicted_voxels": 2933,
+              "target_voxels": 3801,
+              "dice": 0.5147015147015147,
+              "iou": 0.34653069386122776,
+              "recall": 0.4559326493028151,
+              "precision": 0.5908625980225025
+            },
+            {
+              "class_index": 4,
+              "tp": 618,
+              "fp": 397,
+              "fn": 105,
+              "predicted_voxels": 1015,
+              "target_voxels": 723,
+              "dice": 0.7111622554660529,
+              "iou": 0.5517857142857143,
+              "recall": 0.8547717842323651,
+              "precision": 0.6088669950738916
+            },
+            {
+              "class_index": 5,
+              "tp": 1001,
+              "fp": 352,
+              "fn": 334,
+              "predicted_voxels": 1353,
+              "target_voxels": 1335,
+              "dice": 0.7447916666666666,
+              "iou": 0.5933609958506224,
+              "recall": 0.749812734082397,
+              "precision": 0.7398373983739838
+            }
+          ],
+          "foreground_mean_dice": 0.7344947248552035,
+          "foreground_mean_iou": 0.5982846344674891
+        },
+        {
+          "patient": "M015",
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 576552,
+              "fp": 3199,
+              "fn": 43363,
+              "predicted_voxels": 579751,
+              "target_voxels": 619915,
+              "dice": 0.9611875305293307,
+              "iou": 0.9252753107778031,
+              "recall": 0.9300500875119976,
+              "precision": 0.9944821138730248
+            },
+            {
+              "class_index": 1,
+              "tp": 377123,
+              "fp": 44867,
+              "fn": 13683,
+              "predicted_voxels": 421990,
+              "target_voxels": 390806,
+              "dice": 0.9279647045507113,
+              "iou": 0.8656102168369396,
+              "recall": 0.9649877432792742,
+              "precision": 0.8936775752979929
+            },
+            {
+              "class_index": 2,
+              "tp": 26978,
+              "fp": 13121,
+              "fn": 3109,
+              "predicted_voxels": 40099,
+              "target_voxels": 30087,
+              "dice": 0.7687573020260451,
+              "iou": 0.6243751157193113,
+              "recall": 0.8966663342972048,
+              "precision": 0.6727848574777426
+            },
+            {
+              "class_index": 3,
+              "tp": 1465,
+              "fp": 3519,
+              "fn": 4309,
+              "predicted_voxels": 4984,
+              "target_voxels": 5774,
+              "dice": 0.2723554564045362,
+              "iou": 0.15764553965350264,
+              "recall": 0.2537235885001732,
+              "precision": 0.2939406099518459
+            },
+            {
+              "class_index": 4,
+              "tp": 628,
+              "fp": 208,
+              "fn": 118,
+              "predicted_voxels": 836,
+              "target_voxels": 746,
+              "dice": 0.7939317319848294,
+              "iou": 0.6582809224318659,
+              "recall": 0.8418230563002681,
+              "precision": 0.7511961722488039
+            },
+            {
+              "class_index": 5,
+              "tp": 826,
+              "fp": 90,
+              "fn": 422,
+              "predicted_voxels": 916,
+              "target_voxels": 1248,
+              "dice": 0.7634011090573013,
+              "iou": 0.617339312406577,
+              "recall": 0.6618589743589743,
+              "precision": 0.9017467248908297
+            }
+          ],
+          "foreground_mean_dice": 0.7052820608046846,
+          "foreground_mean_iou": 0.5846502214096393
+        },
+        {
+          "patient": "M015",
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 541372,
+              "fp": 8891,
+              "fn": 41327,
+              "predicted_voxels": 550263,
+              "target_voxels": 582699,
+              "dice": 0.955675477200471,
+              "iou": 0.915113507665782,
+              "recall": 0.9290765901434531,
+              "precision": 0.9838422717864003
+            },
+            {
+              "class_index": 1,
+              "tp": 403570,
+              "fp": 46469,
+              "fn": 16817,
+              "predicted_voxels": 450039,
+              "target_voxels": 420387,
+              "dice": 0.9272930725874456,
+              "iou": 0.8644421406172353,
+              "recall": 0.959996384284005,
+              "precision": 0.8967445043651773
+            },
+            {
+              "class_index": 2,
+              "tp": 29326,
+              "fp": 12637,
+              "fn": 3634,
+              "predicted_voxels": 41963,
+              "target_voxels": 32960,
+              "dice": 0.7828303725157829,
+              "iou": 0.6431563480053513,
+              "recall": 0.889745145631068,
+              "precision": 0.6988537521149584
+            },
+            {
+              "class_index": 3,
+              "tp": 2369,
+              "fp": 1781,
+              "fn": 7966,
+              "predicted_voxels": 4150,
+              "target_voxels": 10335,
+              "dice": 0.32709699689333793,
+              "iou": 0.19552657642786397,
+              "recall": 0.22922109337203678,
+              "precision": 0.570843373493976
+            },
+            {
+              "class_index": 4,
+              "tp": 760,
+              "fp": 300,
+              "fn": 168,
+              "predicted_voxels": 1060,
+              "target_voxels": 928,
+              "dice": 0.7645875251509054,
+              "iou": 0.6188925081433225,
+              "recall": 0.8189655172413793,
+              "precision": 0.7169811320754716
+            },
+            {
+              "class_index": 5,
+              "tp": 879,
+              "fp": 222,
+              "fn": 388,
+              "predicted_voxels": 1101,
+              "target_voxels": 1267,
+              "dice": 0.7423986486486487,
+              "iou": 0.590329079919409,
+              "recall": 0.6937647987371744,
+              "precision": 0.7983651226158038
+            }
+          ],
+          "foreground_mean_dice": 0.7088413231592241,
+          "foreground_mean_iou": 0.5824693306226364
+        },
+        {
+          "patient": "M015",
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 478119,
+              "fp": 6949,
+              "fn": 41743,
+              "predicted_voxels": 485068,
+              "target_voxels": 519862,
+              "dice": 0.9515468739116157,
+              "iou": 0.9075721653496226,
+              "recall": 0.9197036905948117,
+              "precision": 0.9856741735179397
+            },
+            {
+              "class_index": 1,
+              "tp": 462710,
+              "fp": 43625,
+              "fn": 17777,
+              "predicted_voxels": 506335,
+              "target_voxels": 480487,
+              "dice": 0.9377780389979146,
+              "iou": 0.8828456513111701,
+              "recall": 0.9630021207649738,
+              "precision": 0.9138416265910909
+            },
+            {
+              "class_index": 2,
+              "tp": 36899,
+              "fp": 14644,
+              "fn": 4760,
+              "predicted_voxels": 51543,
+              "target_voxels": 41659,
+              "dice": 0.7918070427673226,
+              "iou": 0.6553647230165355,
+              "recall": 0.8857389759715788,
+              "precision": 0.7158877054110161
+            },
+            {
+              "class_index": 3,
+              "tp": 2645,
+              "fp": 1109,
+              "fn": 1360,
+              "predicted_voxels": 3754,
+              "target_voxels": 4005,
+              "dice": 0.6817888903209176,
+              "iou": 0.5172076652326946,
+              "recall": 0.6604244694132334,
+              "precision": 0.704581779435269
+            },
+            {
+              "class_index": 4,
+              "tp": 926,
+              "fp": 210,
+              "fn": 221,
+              "predicted_voxels": 1136,
+              "target_voxels": 1147,
+              "dice": 0.8112133158125274,
+              "iou": 0.6823876197494473,
+              "recall": 0.8073234524847428,
+              "precision": 0.8151408450704225
+            },
+            {
+              "class_index": 5,
+              "tp": 667,
+              "fp": 73,
+              "fn": 749,
+              "predicted_voxels": 740,
+              "target_voxels": 1416,
+              "dice": 0.6187384044526901,
+              "iou": 0.44795164539959703,
+              "recall": 0.471045197740113,
+              "precision": 0.9013513513513514
+            }
+          ],
+          "foreground_mean_dice": 0.7682651384702744,
+          "foreground_mean_iou": 0.6371514609418889
+        },
+        {
+          "patient": "M015",
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 504754,
+              "fp": 7706,
+              "fn": 37320,
+              "predicted_voxels": 512460,
+              "target_voxels": 542074,
+              "dice": 0.9573024672509374,
+              "iou": 0.9181017861690131,
+              "recall": 0.9311533111715374,
+              "precision": 0.9849627287983452
+            },
+            {
+              "class_index": 1,
+              "tp": 443440,
+              "fp": 39401,
+              "fn": 19388,
+              "predicted_voxels": 482841,
+              "target_voxels": 462828,
+              "dice": 0.9378334279753275,
+              "iou": 0.8829438363774295,
+              "recall": 0.9581097081421176,
+              "precision": 0.9183975677293353
+            },
+            {
+              "class_index": 2,
+              "tp": 31788,
+              "fp": 13701,
+              "fn": 3635,
+              "predicted_voxels": 45489,
+              "target_voxels": 35423,
+              "dice": 0.7857425350998616,
+              "iou": 0.6470971419265532,
+              "recall": 0.8973830562064196,
+              "precision": 0.6988063048209457
+            },
+            {
+              "class_index": 3,
+              "tp": 2246,
+              "fp": 3235,
+              "fn": 3676,
+              "predicted_voxels": 5481,
+              "target_voxels": 5922,
+              "dice": 0.39393142155573097,
+              "iou": 0.245276837392159,
+              "recall": 0.37926376224248565,
+              "precision": 0.40977923736544425
+            },
+            {
+              "class_index": 4,
+              "tp": 842,
+              "fp": 350,
+              "fn": 169,
+              "predicted_voxels": 1192,
+              "target_voxels": 1011,
+              "dice": 0.7644121652292328,
+              "iou": 0.6186627479794269,
+              "recall": 0.8328387734915925,
+              "precision": 0.7063758389261745
+            },
+            {
+              "class_index": 5,
+              "tp": 842,
+              "fp": 271,
+              "fn": 476,
+              "predicted_voxels": 1113,
+              "target_voxels": 1318,
+              "dice": 0.6927190456602221,
+              "iou": 0.5298930144745123,
+              "recall": 0.6388467374810318,
+              "precision": 0.756513926325247
+            }
+          ],
+          "foreground_mean_dice": 0.714927719104075,
+          "foreground_mean_iou": 0.5847747156300163
+        },
+        {
+          "patient": "M015",
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 521724,
+              "fp": 6707,
+              "fn": 45745,
+              "predicted_voxels": 528431,
+              "target_voxels": 567469,
+              "dice": 0.952137968792773,
+              "iou": 0.9086482193613108,
+              "recall": 0.9193876669915009,
+              "precision": 0.9873077090481066
+            },
+            {
+              "class_index": 1,
+              "tp": 424622,
+              "fp": 45870,
+              "fn": 17695,
+              "predicted_voxels": 470492,
+              "target_voxels": 442317,
+              "dice": 0.9303633071102498,
+              "iou": 0.8697937470682341,
+              "recall": 0.959994754892984,
+              "precision": 0.9025063125409146
+            },
+            {
+              "class_index": 2,
+              "tp": 28861,
+              "fp": 13896,
+              "fn": 2815,
+              "predicted_voxels": 42757,
+              "target_voxels": 31676,
+              "dice": 0.7754893662757111,
+              "iou": 0.6333055384885456,
+              "recall": 0.9111314559919181,
+              "precision": 0.6750005846995814
+            },
+            {
+              "class_index": 3,
+              "tp": 2047,
+              "fp": 3133,
+              "fn": 2918,
+              "predicted_voxels": 5180,
+              "target_voxels": 4965,
+              "dice": 0.4035485460818137,
+              "iou": 0.2527784638182267,
+              "recall": 0.4122860020140987,
+              "precision": 0.39517374517374515
+            },
+            {
+              "class_index": 4,
+              "tp": 707,
+              "fp": 272,
+              "fn": 119,
+              "predicted_voxels": 979,
+              "target_voxels": 826,
+              "dice": 0.7833795013850415,
+              "iou": 0.6438979963570127,
+              "recall": 0.8559322033898306,
+              "precision": 0.7221654749744637
+            },
+            {
+              "class_index": 5,
+              "tp": 668,
+              "fp": 69,
+              "fn": 655,
+              "predicted_voxels": 737,
+              "target_voxels": 1323,
+              "dice": 0.6485436893203883,
+              "iou": 0.47988505747126436,
+              "recall": 0.5049130763416477,
+              "precision": 0.9063772048846676
+            }
+          ],
+          "foreground_mean_dice": 0.7082648820346409,
+          "foreground_mean_iou": 0.5759321606406568
+        }
+      ],
+      "aggregate": {
+        "num_cases": 8,
+        "num_patients": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9552561219605322,
+            "iou": 0.9143662179324276
+          },
+          {
+            "class_index": 1,
+            "dice": 0.932140808906791,
+            "iou": 0.8729362621273404
+          },
+          {
+            "class_index": 2,
+            "dice": 0.780641591671077,
+            "iou": 0.6402981691745063
+          },
+          {
+            "class_index": 3,
+            "dice": 0.400249126662551,
+            "iou": 0.25942203961055577
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7766160437310005,
+            "iou": 0.6357102739423964
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7018369277754765,
+            "iou": 0.5425687453744992
+          }
+        ],
+        "foreground_mean_dice": 0.7182968997493792,
+        "foreground_mean_iou": 0.5901870980458597,
+        "patients": [
+          {
+            "patient": "M015",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9552561219605322,
+                "iou": 0.9143662179324276
+              },
+              {
+                "class_index": 1,
+                "dice": 0.932140808906791,
+                "iou": 0.8729362621273404
+              },
+              {
+                "class_index": 2,
+                "dice": 0.780641591671077,
+                "iou": 0.6402981691745063
+              },
+              {
+                "class_index": 3,
+                "dice": 0.400249126662551,
+                "iou": 0.25942203961055577
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7766160437310005,
+                "iou": 0.6357102739423964
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7018369277754765,
+                "iou": 0.5425687453744992
+              }
+            ],
+            "foreground_mean_dice": 0.7182968997493792,
+            "foreground_mean_iou": 0.5901870980458597
+          }
+        ]
+      },
+      "pooled_counts": [
+        {
+          "class_index": 0,
+          "tp": 4205362,
+          "fp": 49601,
+          "fn": 343144,
+          "mean_visit_tp": 525670.25,
+          "mean_visit_fp": 6200.125,
+          "mean_visit_fn": 42893.0,
+          "pooled_voxel_recall": 0.9245589650755655,
+          "pooled_voxel_precision": 0.9883427893497546
+        },
+        {
+          "class_index": 1,
+          "tp": 3369587,
+          "fp": 356923,
+          "fn": 132627,
+          "mean_visit_tp": 421198.375,
+          "mean_visit_fp": 44615.375,
+          "mean_visit_fn": 16578.375,
+          "pooled_voxel_recall": 0.9621305265754748,
+          "pooled_voxel_precision": 0.9042205709900147
+        },
+        {
+          "class_index": 2,
+          "tp": 245170,
+          "fp": 110662,
+          "fn": 26725,
+          "mean_visit_tp": 30646.25,
+          "mean_visit_fp": 13832.75,
+          "mean_visit_fn": 3340.625,
+          "pooled_voxel_recall": 0.90170838007319,
+          "pooled_voxel_precision": 0.6890049236718452
+        },
+        {
+          "class_index": 3,
+          "tp": 15769,
+          "fp": 19279,
+          "fn": 32536,
+          "mean_visit_tp": 1971.125,
+          "mean_visit_fp": 2409.875,
+          "mean_visit_fn": 4067.0,
+          "pooled_voxel_recall": 0.32644653762550463,
+          "pooled_voxel_precision": 0.4499258160237389
+        },
+        {
+          "class_index": 4,
+          "tp": 5949,
+          "fp": 2192,
+          "fn": 1218,
+          "mean_visit_tp": 743.625,
+          "mean_visit_fp": 274.0,
+          "mean_visit_fn": 152.25,
+          "pooled_voxel_recall": 0.830054416073671,
+          "pooled_voxel_precision": 0.7307456086475863
+        },
+        {
+          "class_index": 5,
+          "tp": 6557,
+          "fp": 1557,
+          "fn": 3964,
+          "mean_visit_tp": 819.625,
+          "mean_visit_fp": 194.625,
+          "mean_visit_fn": 495.5,
+          "pooled_voxel_recall": 0.6232297310141621,
+          "pooled_voxel_precision": 0.8081094404732561
+        }
+      ],
+      "mean_prostate_dice": 0.7018369277754765,
+      "minimum_visit_prostate_dice": 0.6187384044526901,
+      "mean_inference_ms": 1194.2945192568004
+    },
+    "clean_adapt": {
+      "checkpoint_sha256": "22833e150dcde3854b79e24f2aac6d14ab7a4b61117da3f8ddb7e4717d85f976",
+      "checkpoint_epoch": 7,
+      "cases": [
+        {
+          "patient": "M015",
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 524720,
+              "fp": 3346,
+              "fn": 48913,
+              "predicted_voxels": 528066,
+              "target_voxels": 573633,
+              "dice": 0.9525650835663825,
+              "iou": 0.9094265129233473,
+              "recall": 0.9147311957296739,
+              "precision": 0.9936636708290252
+            },
+            {
+              "class_index": 1,
+              "tp": 423293,
+              "fp": 50390,
+              "fn": 10815,
+              "predicted_voxels": 473683,
+              "target_voxels": 434108,
+              "dice": 0.9325780934157752,
+              "iou": 0.8736733691367147,
+              "recall": 0.9750868447483115,
+              "precision": 0.8936208392532559
+            },
+            {
+              "class_index": 2,
+              "tp": 31434,
+              "fp": 11314,
+              "fn": 2080,
+              "predicted_voxels": 42748,
+              "target_voxels": 33514,
+              "dice": 0.8243686239542629,
+              "iou": 0.7012135272597484,
+              "recall": 0.9379363847944143,
+              "precision": 0.7353326471413867
+            },
+            {
+              "class_index": 3,
+              "tp": 1482,
+              "fp": 944,
+              "fn": 3748,
+              "predicted_voxels": 2426,
+              "target_voxels": 5230,
+              "dice": 0.3871473354231975,
+              "iou": 0.2400388726919339,
+              "recall": 0.28336520076481836,
+              "precision": 0.6108821104699094
+            },
+            {
+              "class_index": 4,
+              "tp": 678,
+              "fp": 174,
+              "fn": 158,
+              "predicted_voxels": 852,
+              "target_voxels": 836,
+              "dice": 0.8033175355450237,
+              "iou": 0.6712871287128713,
+              "recall": 0.8110047846889952,
+              "precision": 0.795774647887324
+            },
+            {
+              "class_index": 5,
+              "tp": 632,
+              "fp": 169,
+              "fn": 623,
+              "predicted_voxels": 801,
+              "target_voxels": 1255,
+              "dice": 0.6147859922178989,
+              "iou": 0.4438202247191011,
+              "recall": 0.503585657370518,
+              "precision": 0.7890137328339576
+            }
+          ],
+          "foreground_mean_dice": 0.7124395161112316,
+          "foreground_mean_iou": 0.5860066245040738
+        },
+        {
+          "patient": "M015",
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 506562,
+              "fp": 5417,
+              "fn": 46928,
+              "predicted_voxels": 511979,
+              "target_voxels": 553490,
+              "dice": 0.9508714002941427,
+              "iou": 0.9063439892504478,
+              "recall": 0.9152143670165676,
+              "precision": 0.9894194879086837
+            },
+            {
+              "class_index": 1,
+              "tp": 435428,
+              "fp": 51155,
+              "fn": 14854,
+              "predicted_voxels": 486583,
+              "target_voxels": 450282,
+              "dice": 0.9295426769064913,
+              "iou": 0.868360332404669,
+              "recall": 0.9670117837266424,
+              "precision": 0.8948689123952132
+            },
+            {
+              "class_index": 2,
+              "tp": 32028,
+              "fp": 12779,
+              "fn": 2194,
+              "predicted_voxels": 44807,
+              "target_voxels": 34222,
+              "dice": 0.810537903807463,
+              "iou": 0.6814323099508521,
+              "recall": 0.9358891940856758,
+              "precision": 0.7147990269377552
+            },
+            {
+              "class_index": 3,
+              "tp": 1309,
+              "fp": 1811,
+              "fn": 6964,
+              "predicted_voxels": 3120,
+              "target_voxels": 8273,
+              "dice": 0.229790222066181,
+              "iou": 0.1298095993653312,
+              "recall": 0.15822555300374713,
+              "precision": 0.41955128205128206
+            },
+            {
+              "class_index": 4,
+              "tp": 750,
+              "fp": 167,
+              "fn": 200,
+              "predicted_voxels": 917,
+              "target_voxels": 950,
+              "dice": 0.8034279592929834,
+              "iou": 0.6714413607878246,
+              "recall": 0.7894736842105263,
+              "precision": 0.8178844056706652
+            },
+            {
+              "class_index": 5,
+              "tp": 737,
+              "fp": 433,
+              "fn": 622,
+              "predicted_voxels": 1170,
+              "target_voxels": 1359,
+              "dice": 0.582839066824832,
+              "iou": 0.41127232142857145,
+              "recall": 0.5423105224429727,
+              "precision": 0.6299145299145299
+            }
+          ],
+          "foreground_mean_dice": 0.6712275657795901,
+          "foreground_mean_iou": 0.5524631847874497
+        },
+        {
+          "patient": "M015",
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 544604,
+              "fp": 4489,
+              "fn": 44760,
+              "predicted_voxels": 549093,
+              "target_voxels": 589364,
+              "dice": 0.9567405707901133,
+              "iou": 0.9170687021872416,
+              "recall": 0.9240537257111056,
+              "precision": 0.9918247000052814
+            },
+            {
+              "class_index": 1,
+              "tp": 408378,
+              "fp": 44115,
+              "fn": 12621,
+              "predicted_voxels": 452493,
+              "target_voxels": 420999,
+              "dice": 0.935046915140608,
+              "iou": 0.8780170022833111,
+              "recall": 0.9700213064639108,
+              "precision": 0.9025067791103951
+            },
+            {
+              "class_index": 2,
+              "tp": 29855,
+              "fp": 12812,
+              "fn": 2499,
+              "predicted_voxels": 42667,
+              "target_voxels": 32354,
+              "dice": 0.7959104783993816,
+              "iou": 0.6610060665102068,
+              "recall": 0.9227607096495024,
+              "precision": 0.699721095928938
+            },
+            {
+              "class_index": 3,
+              "tp": 1800,
+              "fp": 642,
+              "fn": 2001,
+              "predicted_voxels": 2442,
+              "target_voxels": 3801,
+              "dice": 0.5766458433445459,
+              "iou": 0.4051316677920324,
+              "recall": 0.47355958958168903,
+              "precision": 0.7371007371007371
+            },
+            {
+              "class_index": 4,
+              "tp": 620,
+              "fp": 235,
+              "fn": 103,
+              "predicted_voxels": 855,
+              "target_voxels": 723,
+              "dice": 0.7858048162230672,
+              "iou": 0.6471816283924844,
+              "recall": 0.8575380359612724,
+              "precision": 0.7251461988304093
+            },
+            {
+              "class_index": 5,
+              "tp": 835,
+              "fp": 191,
+              "fn": 500,
+              "predicted_voxels": 1026,
+              "target_voxels": 1335,
+              "dice": 0.7073274036425243,
+              "iou": 0.5471821756225426,
+              "recall": 0.6254681647940075,
+              "precision": 0.8138401559454191
+            }
+          ],
+          "foreground_mean_dice": 0.7601470913500255,
+          "foreground_mean_iou": 0.6277037081201154
+        },
+        {
+          "patient": "M015",
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 573292,
+              "fp": 3107,
+              "fn": 46623,
+              "predicted_voxels": 576399,
+              "target_voxels": 619915,
+              "dice": 0.9584306461347104,
+              "iou": 0.9201793837135768,
+              "recall": 0.9247913020333433,
+              "precision": 0.9946096367273365
+            },
+            {
+              "class_index": 1,
+              "tp": 379396,
+              "fp": 48360,
+              "fn": 11410,
+              "predicted_voxels": 427756,
+              "target_voxels": 390806,
+              "dice": 0.9269817069446176,
+              "iou": 0.863901121671532,
+              "recall": 0.9708039282917867,
+              "precision": 0.886944893817971
+            },
+            {
+              "class_index": 2,
+              "tp": 27865,
+              "fp": 10982,
+              "fn": 2222,
+              "predicted_voxels": 38847,
+              "target_voxels": 30087,
+              "dice": 0.8084544636899063,
+              "iou": 0.6784922934573523,
+              "recall": 0.9261475055671885,
+              "precision": 0.717301207300435
+            },
+            {
+              "class_index": 3,
+              "tp": 1485,
+              "fp": 2566,
+              "fn": 4289,
+              "predicted_voxels": 4051,
+              "target_voxels": 5774,
+              "dice": 0.30229007633587784,
+              "iou": 0.17805755395683454,
+              "recall": 0.25718739175614824,
+              "precision": 0.3665761540360405
+            },
+            {
+              "class_index": 4,
+              "tp": 651,
+              "fp": 178,
+              "fn": 95,
+              "predicted_voxels": 829,
+              "target_voxels": 746,
+              "dice": 0.8266666666666667,
+              "iou": 0.7045454545454546,
+              "recall": 0.8726541554959786,
+              "precision": 0.7852834740651388
+            },
+            {
+              "class_index": 5,
+              "tp": 621,
+              "fp": 73,
+              "fn": 627,
+              "predicted_voxels": 694,
+              "target_voxels": 1248,
+              "dice": 0.639546858908342,
+              "iou": 0.47009841029523086,
+              "recall": 0.49759615384615385,
+              "precision": 0.8948126801152738
+            }
+          ],
+          "foreground_mean_dice": 0.700787954509082,
+          "foreground_mean_iou": 0.5790189667852809
+        },
+        {
+          "patient": "M015",
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 538653,
+              "fp": 5904,
+              "fn": 44046,
+              "predicted_voxels": 544557,
+              "target_voxels": 582699,
+              "dice": 0.9556888586088697,
+              "iou": 0.9151380472066911,
+              "recall": 0.9244103731085861,
+              "precision": 0.9891581597518717
+            },
+            {
+              "class_index": 1,
+              "tp": 407120,
+              "fp": 49613,
+              "fn": 13267,
+              "predicted_voxels": 456733,
+              "target_voxels": 420387,
+              "dice": 0.9283108354615104,
+              "iou": 0.8662127659574468,
+              "recall": 0.9684409841408036,
+              "precision": 0.8913741726566725
+            },
+            {
+              "class_index": 2,
+              "tp": 30713,
+              "fp": 11312,
+              "fn": 2247,
+              "predicted_voxels": 42025,
+              "target_voxels": 32960,
+              "dice": 0.8191771687670868,
+              "iou": 0.6937341886519697,
+              "recall": 0.9318264563106796,
+              "precision": 0.7308268887566924
+            },
+            {
+              "class_index": 3,
+              "tp": 2284,
+              "fp": 1005,
+              "fn": 8051,
+              "predicted_voxels": 3289,
+              "target_voxels": 10335,
+              "dice": 0.33529066353493836,
+              "iou": 0.20141093474426808,
+              "recall": 0.22099661344944363,
+              "precision": 0.6944359987838249
+            },
+            {
+              "class_index": 4,
+              "tp": 733,
+              "fp": 235,
+              "fn": 195,
+              "predicted_voxels": 968,
+              "target_voxels": 928,
+              "dice": 0.7732067510548524,
+              "iou": 0.6302665520206363,
+              "recall": 0.7898706896551724,
+              "precision": 0.7572314049586777
+            },
+            {
+              "class_index": 5,
+              "tp": 806,
+              "fp": 198,
+              "fn": 461,
+              "predicted_voxels": 1004,
+              "target_voxels": 1267,
+              "dice": 0.7098194627917217,
+              "iou": 0.5501706484641639,
+              "recall": 0.6361483820047356,
+              "precision": 0.8027888446215139
+            }
+          ],
+          "foreground_mean_dice": 0.7131609763220219,
+          "foreground_mean_iou": 0.588359017967697
+        },
+        {
+          "patient": "M015",
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 477814,
+              "fp": 5417,
+              "fn": 42048,
+              "predicted_voxels": 483231,
+              "target_voxels": 519862,
+              "dice": 0.9526813565641471,
+              "iou": 0.9096384968749941,
+              "recall": 0.919116996433669,
+              "precision": 0.9887900403740654
+            },
+            {
+              "class_index": 1,
+              "tp": 463713,
+              "fp": 43173,
+              "fn": 16774,
+              "predicted_voxels": 506886,
+              "target_voxels": 480487,
+              "dice": 0.9392863689811246,
+              "iou": 0.8855230493068021,
+              "recall": 0.9650895861906774,
+              "precision": 0.914827002521277
+            },
+            {
+              "class_index": 2,
+              "tp": 37652,
+              "fp": 15030,
+              "fn": 4007,
+              "predicted_voxels": 52682,
+              "target_voxels": 41659,
+              "dice": 0.7982107461231066,
+              "iou": 0.6641852916791617,
+              "recall": 0.903814301831537,
+              "precision": 0.7147033142249725
+            },
+            {
+              "class_index": 3,
+              "tp": 2881,
+              "fp": 1081,
+              "fn": 1124,
+              "predicted_voxels": 3962,
+              "target_voxels": 4005,
+              "dice": 0.7232333375172587,
+              "iou": 0.5664569406213134,
+              "recall": 0.719350811485643,
+              "precision": 0.7271580010095912
+            },
+            {
+              "class_index": 4,
+              "tp": 878,
+              "fp": 147,
+              "fn": 269,
+              "predicted_voxels": 1025,
+              "target_voxels": 1147,
+              "dice": 0.8084714548802947,
+              "iou": 0.678516228748068,
+              "recall": 0.7654751525719268,
+              "precision": 0.8565853658536585
+            },
+            {
+              "class_index": 5,
+              "tp": 686,
+              "fp": 104,
+              "fn": 730,
+              "predicted_voxels": 790,
+              "target_voxels": 1416,
+              "dice": 0.6219401631912964,
+              "iou": 0.4513157894736842,
+              "recall": 0.4844632768361582,
+              "precision": 0.8683544303797468
+            }
+          ],
+          "foreground_mean_dice": 0.7782284141386162,
+          "foreground_mean_iou": 0.649199459965806
+        },
+        {
+          "patient": "M015",
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 503805,
+              "fp": 6715,
+              "fn": 38269,
+              "predicted_voxels": 510520,
+              "target_voxels": 542074,
+              "dice": 0.9572636743131729,
+              "iou": 0.9180304269947102,
+              "recall": 0.929402627685519,
+              "precision": 0.9868467444958082
+            },
+            {
+              "class_index": 1,
+              "tp": 447353,
+              "fp": 40252,
+              "fn": 15475,
+              "predicted_voxels": 487605,
+              "target_voxels": 462828,
+              "dice": 0.9413667244298125,
+              "iou": 0.8892283533434047,
+              "recall": 0.9665642528109795,
+              "precision": 0.9174495749633412
+            },
+            {
+              "class_index": 2,
+              "tp": 32769,
+              "fp": 11433,
+              "fn": 2654,
+              "predicted_voxels": 44202,
+              "target_voxels": 35423,
+              "dice": 0.8230832025117739,
+              "iou": 0.699355472084685,
+              "recall": 0.9250769274200378,
+              "precision": 0.7413465454051853
+            },
+            {
+              "class_index": 3,
+              "tp": 2424,
+              "fp": 1702,
+              "fn": 3498,
+              "predicted_voxels": 4126,
+              "target_voxels": 5922,
+              "dice": 0.482484076433121,
+              "iou": 0.3179433368310598,
+              "recall": 0.4093211752786221,
+              "precision": 0.5874939408628211
+            },
+            {
+              "class_index": 4,
+              "tp": 827,
+              "fp": 318,
+              "fn": 184,
+              "predicted_voxels": 1145,
+              "target_voxels": 1011,
+              "dice": 0.7671614100185529,
+              "iou": 0.6222723852520692,
+              "recall": 0.8180019782393669,
+              "precision": 0.7222707423580786
+            },
+            {
+              "class_index": 5,
+              "tp": 720,
+              "fp": 258,
+              "fn": 598,
+              "predicted_voxels": 978,
+              "target_voxels": 1318,
+              "dice": 0.627177700348432,
+              "iou": 0.45685279187817257,
+              "recall": 0.5462822458270106,
+              "precision": 0.7361963190184049
+            }
+          ],
+          "foreground_mean_dice": 0.7282546227483385,
+          "foreground_mean_iou": 0.5971304678778783
+        },
+        {
+          "patient": "M015",
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 518182,
+              "fp": 4458,
+              "fn": 49287,
+              "predicted_voxels": 522640,
+              "target_voxels": 567469,
+              "dice": 0.9506975907913796,
+              "iou": 0.9060282168878196,
+              "recall": 0.9131459163408046,
+              "precision": 0.9914702280728609
+            },
+            {
+              "class_index": 1,
+              "tp": 429266,
+              "fp": 49720,
+              "fn": 13051,
+              "predicted_voxels": 478986,
+              "target_voxels": 442317,
+              "dice": 0.9318671490269759,
+              "iou": 0.8724262606267414,
+              "recall": 0.9704940122129604,
+              "precision": 0.8961973836396053
+            },
+            {
+              "class_index": 2,
+              "tp": 29680,
+              "fp": 12004,
+              "fn": 1996,
+              "predicted_voxels": 41684,
+              "target_voxels": 31676,
+              "dice": 0.8091603053435115,
+              "iou": 0.6794871794871795,
+              "recall": 0.9369869933072358,
+              "precision": 0.7120237980999904
+            },
+            {
+              "class_index": 3,
+              "tp": 1941,
+              "fp": 1767,
+              "fn": 3024,
+              "predicted_voxels": 3708,
+              "target_voxels": 4965,
+              "dice": 0.4475959875475614,
+              "iou": 0.28832442067736186,
+              "recall": 0.39093655589123866,
+              "precision": 0.5234627831715211
+            },
+            {
+              "class_index": 4,
+              "tp": 690,
+              "fp": 139,
+              "fn": 136,
+              "predicted_voxels": 829,
+              "target_voxels": 826,
+              "dice": 0.8338368580060423,
+              "iou": 0.7150259067357513,
+              "recall": 0.8353510895883777,
+              "precision": 0.8323281061519904
+            },
+            {
+              "class_index": 5,
+              "tp": 629,
+              "fp": 100,
+              "fn": 694,
+              "predicted_voxels": 729,
+              "target_voxels": 1323,
+              "dice": 0.6130604288499025,
+              "iou": 0.44202389318341534,
+              "recall": 0.47543461829176115,
+              "precision": 0.8628257887517147
+            }
+          ],
+          "foreground_mean_dice": 0.7271041457547988,
+          "foreground_mean_iou": 0.5994575321420899
+        }
+      ],
+      "aggregate": {
+        "num_cases": 8,
+        "num_patients": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9543673976328648,
+            "iou": 0.9127317220048535
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9331225587883645,
+            "iou": 0.8746677818413278
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8111128615745615,
+            "iou": 0.6823632911351445
+          },
+          {
+            "class_index": 3,
+            "dice": 0.43555969277533524,
+            "iou": 0.2908966658350169
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8002366814609354,
+            "iou": 0.667567080649395
+          },
+          {
+            "class_index": 5,
+            "dice": 0.6395621345968687,
+            "iou": 0.4715920318831103
+          }
+        ],
+        "foreground_mean_dice": 0.7239187858392131,
+        "foreground_mean_iou": 0.5974173702687988,
+        "patients": [
+          {
+            "patient": "M015",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9543673976328648,
+                "iou": 0.9127317220048535
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9331225587883645,
+                "iou": 0.8746677818413278
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8111128615745615,
+                "iou": 0.6823632911351445
+              },
+              {
+                "class_index": 3,
+                "dice": 0.43555969277533524,
+                "iou": 0.2908966658350169
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8002366814609354,
+                "iou": 0.667567080649395
+              },
+              {
+                "class_index": 5,
+                "dice": 0.6395621345968687,
+                "iou": 0.4715920318831103
+              }
+            ],
+            "foreground_mean_dice": 0.7239187858392131,
+            "foreground_mean_iou": 0.5974173702687988
+          }
+        ]
+      },
+      "pooled_counts": [
+        {
+          "class_index": 0,
+          "tp": 4187632,
+          "fp": 38853,
+          "fn": 360874,
+          "mean_visit_tp": 523454.0,
+          "mean_visit_fp": 4856.625,
+          "mean_visit_fn": 45109.25,
+          "pooled_voxel_recall": 0.9206609818696513,
+          "pooled_voxel_precision": 0.9908072547282197
+        },
+        {
+          "class_index": 1,
+          "tp": 3393947,
+          "fp": 376778,
+          "fn": 108267,
+          "mean_visit_tp": 424243.375,
+          "mean_visit_fp": 47097.25,
+          "mean_visit_fn": 13533.375,
+          "pooled_voxel_recall": 0.9690861266615918,
+          "pooled_voxel_precision": 0.9000781016913193
+        },
+        {
+          "class_index": 2,
+          "tp": 251996,
+          "fp": 97666,
+          "fn": 19899,
+          "mean_visit_tp": 31499.5,
+          "mean_visit_fp": 12208.25,
+          "mean_visit_fn": 2487.375,
+          "pooled_voxel_recall": 0.9268136596848048,
+          "pooled_voxel_precision": 0.7206845467909009
+        },
+        {
+          "class_index": 3,
+          "tp": 15606,
+          "fp": 11518,
+          "fn": 32699,
+          "mean_visit_tp": 1950.75,
+          "mean_visit_fp": 1439.75,
+          "mean_visit_fn": 4087.375,
+          "pooled_voxel_recall": 0.32307214574060655,
+          "pooled_voxel_precision": 0.575357616870668
+        },
+        {
+          "class_index": 4,
+          "tp": 5827,
+          "fp": 1593,
+          "fn": 1340,
+          "mean_visit_tp": 728.375,
+          "mean_visit_fp": 199.125,
+          "mean_visit_fn": 167.5,
+          "pooled_voxel_recall": 0.8130319520022324,
+          "pooled_voxel_precision": 0.7853099730458221
+        },
+        {
+          "class_index": 5,
+          "tp": 5666,
+          "fp": 1526,
+          "fn": 4855,
+          "mean_visit_tp": 708.25,
+          "mean_visit_fp": 190.75,
+          "mean_visit_fn": 606.875,
+          "pooled_voxel_recall": 0.5385419636916643,
+          "pooled_voxel_precision": 0.7878197997775306
+        }
+      ],
+      "mean_prostate_dice": 0.6395621345968687,
+      "minimum_visit_prostate_dice": 0.582839066824832,
+      "mean_inference_ms": 1182.405682047829
+    },
+    "polarity_rehearsal": {
+      "checkpoint_sha256": "47d3ca842e046c11e6c39a56212e75f6b4b0076c5c9d27b91a396976696a8d07",
+      "checkpoint_epoch": 7,
+      "cases": [
+        {
+          "patient": "M015",
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 524453,
+              "fp": 3311,
+              "fn": 49180,
+              "predicted_voxels": 527764,
+              "target_voxels": 573633,
+              "dice": 0.9523414354678649,
+              "iou": 0.9090188995812418,
+              "recall": 0.9142657413363596,
+              "precision": 0.9937263625408327
+            },
+            {
+              "class_index": 1,
+              "tp": 423301,
+              "fp": 50793,
+              "fn": 10807,
+              "predicted_voxels": 474094,
+              "target_voxels": 434108,
+              "dice": 0.9321736794237405,
+              "iou": 0.8729637596127869,
+              "recall": 0.9751052733421176,
+              "precision": 0.8928630187262442
+            },
+            {
+              "class_index": 2,
+              "tp": 31426,
+              "fp": 11163,
+              "fn": 2088,
+              "predicted_voxels": 42589,
+              "target_voxels": 33514,
+              "dice": 0.8258807142951,
+              "iou": 0.7034044362871276,
+              "recall": 0.9376976785820851,
+              "precision": 0.7378900655098735
+            },
+            {
+              "class_index": 3,
+              "tp": 1425,
+              "fp": 1160,
+              "fn": 3805,
+              "predicted_voxels": 2585,
+              "target_voxels": 5230,
+              "dice": 0.3646833013435701,
+              "iou": 0.22300469483568075,
+              "recall": 0.27246653919694075,
+              "precision": 0.5512572533849129
+            },
+            {
+              "class_index": 4,
+              "tp": 689,
+              "fp": 178,
+              "fn": 147,
+              "predicted_voxels": 867,
+              "target_voxels": 836,
+              "dice": 0.8091603053435115,
+              "iou": 0.6794871794871795,
+              "recall": 0.8241626794258373,
+              "precision": 0.7946943483275664
+            },
+            {
+              "class_index": 5,
+              "tp": 590,
+              "fp": 87,
+              "fn": 665,
+              "predicted_voxels": 677,
+              "target_voxels": 1255,
+              "dice": 0.6107660455486542,
+              "iou": 0.4396423248882265,
+              "recall": 0.4701195219123506,
+              "precision": 0.8714918759231906
+            }
+          ],
+          "foreground_mean_dice": 0.7085328091909153,
+          "foreground_mean_iou": 0.5837004790222002
+        },
+        {
+          "patient": "M015",
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 505840,
+              "fp": 5076,
+              "fn": 47650,
+              "predicted_voxels": 510916,
+              "target_voxels": 553490,
+              "dice": 0.9504643904675472,
+              "iou": 0.9056047092017774,
+              "recall": 0.9139099170716725,
+              "precision": 0.9900649030368984
+            },
+            {
+              "class_index": 1,
+              "tp": 435662,
+              "fp": 52120,
+              "fn": 14620,
+              "predicted_voxels": 487782,
+              "target_voxels": 450282,
+              "dice": 0.9288534684200651,
+              "iou": 0.8671581721410345,
+              "recall": 0.9675314580640576,
+              "precision": 0.8931489886875694
+            },
+            {
+              "class_index": 2,
+              "tp": 32047,
+              "fp": 12502,
+              "fn": 2175,
+              "predicted_voxels": 44549,
+              "target_voxels": 34222,
+              "dice": 0.8136750834698049,
+              "iou": 0.6858787775019262,
+              "recall": 0.9364443924960552,
+              "precision": 0.7193651933825675
+            },
+            {
+              "class_index": 3,
+              "tp": 1279,
+              "fp": 2060,
+              "fn": 6994,
+              "predicted_voxels": 3339,
+              "target_voxels": 8273,
+              "dice": 0.22028935583878745,
+              "iou": 0.12377818639310946,
+              "recall": 0.1545992989242113,
+              "precision": 0.3830488170110812
+            },
+            {
+              "class_index": 4,
+              "tp": 756,
+              "fp": 182,
+              "fn": 194,
+              "predicted_voxels": 938,
+              "target_voxels": 950,
+              "dice": 0.8008474576271186,
+              "iou": 0.6678445229681979,
+              "recall": 0.7957894736842105,
+              "precision": 0.8059701492537313
+            },
+            {
+              "class_index": 5,
+              "tp": 685,
+              "fp": 367,
+              "fn": 674,
+              "predicted_voxels": 1052,
+              "target_voxels": 1359,
+              "dice": 0.5682289506428868,
+              "iou": 0.39687137891077634,
+              "recall": 0.5040470934510669,
+              "precision": 0.6511406844106464
+            }
+          ],
+          "foreground_mean_dice": 0.6663788631997326,
+          "foreground_mean_iou": 0.5483062075830089
+        },
+        {
+          "patient": "M015",
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 544437,
+              "fp": 4460,
+              "fn": 44927,
+              "predicted_voxels": 548897,
+              "target_voxels": 589364,
+              "dice": 0.9566118842690736,
+              "iou": 0.9168322600635879,
+              "recall": 0.9237703694151662,
+              "precision": 0.9918746139986191
+            },
+            {
+              "class_index": 1,
+              "tp": 408585,
+              "fp": 44488,
+              "fn": 12414,
+              "predicted_voxels": 453073,
+              "target_voxels": 420999,
+              "dice": 0.9349000997629486,
+              "iou": 0.8777581328801879,
+              "recall": 0.9705129940926226,
+              "precision": 0.9018083178648916
+            },
+            {
+              "class_index": 2,
+              "tp": 29746,
+              "fp": 12566,
+              "fn": 2608,
+              "predicted_voxels": 42312,
+              "target_voxels": 32354,
+              "dice": 0.7967749712051,
+              "iou": 0.66219946571683,
+              "recall": 0.9193917289979601,
+              "precision": 0.7030156929476271
+            },
+            {
+              "class_index": 3,
+              "tp": 1794,
+              "fp": 654,
+              "fn": 2007,
+              "predicted_voxels": 2448,
+              "target_voxels": 3801,
+              "dice": 0.5741718674987998,
+              "iou": 0.4026936026936027,
+              "recall": 0.47198105761641673,
+              "precision": 0.7328431372549019
+            },
+            {
+              "class_index": 4,
+              "tp": 628,
+              "fp": 229,
+              "fn": 95,
+              "predicted_voxels": 857,
+              "target_voxels": 723,
+              "dice": 0.7949367088607595,
+              "iou": 0.6596638655462185,
+              "recall": 0.8686030428769018,
+              "precision": 0.7327887981330222
+            },
+            {
+              "class_index": 5,
+              "tp": 830,
+              "fp": 159,
+              "fn": 505,
+              "predicted_voxels": 989,
+              "target_voxels": 1335,
+              "dice": 0.7142857142857143,
+              "iou": 0.5555555555555556,
+              "recall": 0.6217228464419475,
+              "precision": 0.839231547017189
+            }
+          ],
+          "foreground_mean_dice": 0.7630138723226645,
+          "foreground_mean_iou": 0.6315741244784789
+        },
+        {
+          "patient": "M015",
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 573359,
+              "fp": 2999,
+              "fn": 46556,
+              "predicted_voxels": 576358,
+              "target_voxels": 619915,
+              "dice": 0.9585755091020194,
+              "iou": 0.9204464821789203,
+              "recall": 0.9248993813668003,
+              "precision": 0.9947966368125366
+            },
+            {
+              "class_index": 1,
+              "tp": 379071,
+              "fp": 48427,
+              "fn": 11735,
+              "predicted_voxels": 427498,
+              "target_voxels": 390806,
+              "dice": 0.9264796457062412,
+              "iou": 0.8630294171885993,
+              "recall": 0.969972313628757,
+              "precision": 0.8867199378710544
+            },
+            {
+              "class_index": 2,
+              "tp": 27811,
+              "fp": 10806,
+              "fn": 2276,
+              "predicted_voxels": 38617,
+              "target_voxels": 30087,
+              "dice": 0.8095889613414066,
+              "iou": 0.68009194727704,
+              "recall": 0.9243527104729617,
+              "precision": 0.7201750524380455
+            },
+            {
+              "class_index": 3,
+              "tp": 1473,
+              "fp": 3104,
+              "fn": 4301,
+              "predicted_voxels": 4577,
+              "target_voxels": 5774,
+              "dice": 0.28461018259105403,
+              "iou": 0.16591574678981752,
+              "recall": 0.25510910980256324,
+              "precision": 0.32182652392396766
+            },
+            {
+              "class_index": 4,
+              "tp": 661,
+              "fp": 184,
+              "fn": 85,
+              "predicted_voxels": 845,
+              "target_voxels": 746,
+              "dice": 0.830923947203017,
+              "iou": 0.710752688172043,
+              "recall": 0.886058981233244,
+              "precision": 0.7822485207100591
+            },
+            {
+              "class_index": 5,
+              "tp": 615,
+              "fp": 66,
+              "fn": 633,
+              "predicted_voxels": 681,
+              "target_voxels": 1248,
+              "dice": 0.6376360808709176,
+              "iou": 0.4680365296803653,
+              "recall": 0.49278846153846156,
+              "precision": 0.9030837004405287
+            }
+          ],
+          "foreground_mean_dice": 0.6978477635425273,
+          "foreground_mean_iou": 0.577565265821573
+        },
+        {
+          "patient": "M015",
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 538419,
+              "fp": 5649,
+              "fn": 44280,
+              "predicted_voxels": 544068,
+              "target_voxels": 582699,
+              "dice": 0.9556882656307826,
+              "iou": 0.9151369597585103,
+              "recall": 0.924008793562371,
+              "precision": 0.9896171066851938
+            },
+            {
+              "class_index": 1,
+              "tp": 407351,
+              "fp": 50103,
+              "fn": 13036,
+              "predicted_voxels": 457454,
+              "target_voxels": 420387,
+              "dice": 0.9280746741152441,
+              "iou": 0.8658016110863143,
+              "recall": 0.9689904778216263,
+              "precision": 0.8904742334748412
+            },
+            {
+              "class_index": 2,
+              "tp": 30629,
+              "fp": 11028,
+              "fn": 2331,
+              "predicted_voxels": 41657,
+              "target_voxels": 32960,
+              "dice": 0.8209657316697268,
+              "iou": 0.6963035373283623,
+              "recall": 0.9292779126213592,
+              "precision": 0.7352665818469885
+            },
+            {
+              "class_index": 3,
+              "tp": 2353,
+              "fp": 1084,
+              "fn": 7982,
+              "predicted_voxels": 3437,
+              "target_voxels": 10335,
+              "dice": 0.34170781295381936,
+              "iou": 0.2060600753130747,
+              "recall": 0.22767295597484277,
+              "precision": 0.6846086703520512
+            },
+            {
+              "class_index": 4,
+              "tp": 742,
+              "fp": 243,
+              "fn": 186,
+              "predicted_voxels": 985,
+              "target_voxels": 928,
+              "dice": 0.7757449032932566,
+              "iou": 0.6336464560204953,
+              "recall": 0.7995689655172413,
+              "precision": 0.7532994923857868
+            },
+            {
+              "class_index": 5,
+              "tp": 803,
+              "fp": 172,
+              "fn": 464,
+              "predicted_voxels": 975,
+              "target_voxels": 1267,
+              "dice": 0.7163247100802854,
+              "iou": 0.5580264072272412,
+              "recall": 0.6337805840568271,
+              "precision": 0.8235897435897436
+            }
+          ],
+          "foreground_mean_dice": 0.7165635664224664,
+          "foreground_mean_iou": 0.5919676173950975
+        },
+        {
+          "patient": "M015",
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 476730,
+              "fp": 5167,
+              "fn": 43132,
+              "predicted_voxels": 481897,
+              "target_voxels": 519862,
+              "dice": 0.9517858087623869,
+              "iou": 0.9080069862807578,
+              "recall": 0.9170318276773451,
+              "precision": 0.9892777917272778
+            },
+            {
+              "class_index": 1,
+              "tp": 464185,
+              "fp": 44481,
+              "fn": 16302,
+              "predicted_voxels": 508666,
+              "target_voxels": 480487,
+              "dice": 0.9385504568049634,
+              "iou": 0.8842157998201795,
+              "recall": 0.9660719228615967,
+              "precision": 0.9125536206469471
+            },
+            {
+              "class_index": 2,
+              "tp": 37608,
+              "fp": 14647,
+              "fn": 4051,
+              "predicted_voxels": 52255,
+              "target_voxels": 41659,
+              "dice": 0.8009029537662117,
+              "iou": 0.6679217134941214,
+              "recall": 0.9027581074917785,
+              "precision": 0.7197014639747392
+            },
+            {
+              "class_index": 3,
+              "tp": 2935,
+              "fp": 1092,
+              "fn": 1070,
+              "predicted_voxels": 4027,
+              "target_voxels": 4005,
+              "dice": 0.7308266932270916,
+              "iou": 0.5758289189719443,
+              "recall": 0.7328339575530587,
+              "precision": 0.7288303948348647
+            },
+            {
+              "class_index": 4,
+              "tp": 881,
+              "fp": 150,
+              "fn": 266,
+              "predicted_voxels": 1031,
+              "target_voxels": 1147,
+              "dice": 0.8089990817263545,
+              "iou": 0.6792598303777949,
+              "recall": 0.7680906713164778,
+              "precision": 0.8545101842870999
+            },
+            {
+              "class_index": 5,
+              "tp": 636,
+              "fp": 64,
+              "fn": 780,
+              "predicted_voxels": 700,
+              "target_voxels": 1416,
+              "dice": 0.6011342155009451,
+              "iou": 0.4297297297297297,
+              "recall": 0.4491525423728814,
+              "precision": 0.9085714285714286
+            }
+          ],
+          "foreground_mean_dice": 0.7760826802051133,
+          "foreground_mean_iou": 0.6473911984787539
+        },
+        {
+          "patient": "M015",
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 503770,
+              "fp": 6485,
+              "fn": 38304,
+              "predicted_voxels": 510255,
+              "target_voxels": 542074,
+              "dice": 0.9574382156150786,
+              "iou": 0.9183515355686444,
+              "recall": 0.92933806085516,
+              "precision": 0.9872906683912945
+            },
+            {
+              "class_index": 1,
+              "tp": 447512,
+              "fp": 40331,
+              "fn": 15316,
+              "predicted_voxels": 487843,
+              "target_voxels": 462828,
+              "dice": 0.941465554329521,
+              "iou": 0.8894047408473266,
+              "recall": 0.9669077929598037,
+              "precision": 0.9173279108237691
+            },
+            {
+              "class_index": 2,
+              "tp": 32754,
+              "fp": 11234,
+              "fn": 2669,
+              "predicted_voxels": 43988,
+              "target_voxels": 35423,
+              "dice": 0.8249234992633262,
+              "iou": 0.7020168463467432,
+              "recall": 0.9246534737317562,
+              "precision": 0.744612166954624
+            },
+            {
+              "class_index": 3,
+              "tp": 2441,
+              "fp": 1951,
+              "fn": 3481,
+              "predicted_voxels": 4392,
+              "target_voxels": 5922,
+              "dice": 0.47333721155710684,
+              "iou": 0.3100469960624921,
+              "recall": 0.4121918270854441,
+              "precision": 0.555783242258652
+            },
+            {
+              "class_index": 4,
+              "tp": 840,
+              "fp": 337,
+              "fn": 171,
+              "predicted_voxels": 1177,
+              "target_voxels": 1011,
+              "dice": 0.7678244972577697,
+              "iou": 0.6231454005934718,
+              "recall": 0.8308605341246291,
+              "precision": 0.713678844519966
+            },
+            {
+              "class_index": 5,
+              "tp": 718,
+              "fp": 203,
+              "fn": 600,
+              "predicted_voxels": 921,
+              "target_voxels": 1318,
+              "dice": 0.6413577489950871,
+              "iou": 0.4720578566732413,
+              "recall": 0.5447647951441578,
+              "precision": 0.7795874049945711
+            }
+          ],
+          "foreground_mean_dice": 0.7297817022805622,
+          "foreground_mean_iou": 0.599334368104655
+        },
+        {
+          "patient": "M015",
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 517809,
+              "fp": 4395,
+              "fn": 49660,
+              "predicted_voxels": 522204,
+              "target_voxels": 567469,
+              "dice": 0.9503933748932019,
+              "iou": 0.9054757774575773,
+              "recall": 0.9124886117127103,
+              "precision": 0.9915837488797481
+            },
+            {
+              "class_index": 1,
+              "tp": 429420,
+              "fp": 50324,
+              "fn": 12897,
+              "predicted_voxels": 479744,
+              "target_voxels": 442317,
+              "dice": 0.9314351219713229,
+              "iou": 0.8716692276931883,
+              "recall": 0.9708421787993678,
+              "precision": 0.8951023879402348
+            },
+            {
+              "class_index": 2,
+              "tp": 29695,
+              "fp": 11688,
+              "fn": 1981,
+              "predicted_voxels": 41383,
+              "target_voxels": 31676,
+              "dice": 0.8129046387166536,
+              "iou": 0.6847846139655014,
+              "recall": 0.9374605379467105,
+              "precision": 0.7175651837711138
+            },
+            {
+              "class_index": 3,
+              "tp": 1911,
+              "fp": 1840,
+              "fn": 3054,
+              "predicted_voxels": 3751,
+              "target_voxels": 4965,
+              "dice": 0.4385039008719596,
+              "iou": 0.28082292432035266,
+              "recall": 0.3848942598187311,
+              "precision": 0.5094641428952279
+            },
+            {
+              "class_index": 4,
+              "tp": 698,
+              "fp": 144,
+              "fn": 128,
+              "predicted_voxels": 842,
+              "target_voxels": 826,
+              "dice": 0.8369304556354916,
+              "iou": 0.7195876288659794,
+              "recall": 0.8450363196125908,
+              "precision": 0.828978622327791
+            },
+            {
+              "class_index": 5,
+              "tp": 591,
+              "fp": 61,
+              "fn": 732,
+              "predicted_voxels": 652,
+              "target_voxels": 1323,
+              "dice": 0.5984810126582278,
+              "iou": 0.4270231213872832,
+              "recall": 0.4467120181405896,
+              "precision": 0.906441717791411
+            }
+          ],
+          "foreground_mean_dice": 0.7236510259707312,
+          "foreground_mean_iou": 0.5967775032464611
+        }
+      ],
+      "aggregate": {
+        "num_cases": 8,
+        "num_patients": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9541623605259943,
+            "iou": 0.9123592012613772
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9327415875667558,
+            "iou": 0.8740001076587022
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8132020692159162,
+            "iou": 0.6853251672397065
+          },
+          {
+            "class_index": 3,
+            "dice": 0.4285162907352736,
+            "iou": 0.2860188931725093
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8031709196184099,
+            "iou": 0.6716734465039225
+          },
+          {
+            "class_index": 5,
+            "dice": 0.6360268098228398,
+            "iou": 0.4683678630065524
+          }
+        ],
+        "foreground_mean_dice": 0.7227315353918391,
+        "foreground_mean_iou": 0.5970770955162785,
+        "patients": [
+          {
+            "patient": "M015",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9541623605259943,
+                "iou": 0.9123592012613772
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9327415875667558,
+                "iou": 0.8740001076587022
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8132020692159162,
+                "iou": 0.6853251672397065
+              },
+              {
+                "class_index": 3,
+                "dice": 0.4285162907352736,
+                "iou": 0.2860188931725093
+              },
+              {
+                "class_index": 4,
+                "dice": 0.8031709196184099,
+                "iou": 0.6716734465039225
+              },
+              {
+                "class_index": 5,
+                "dice": 0.6360268098228398,
+                "iou": 0.4683678630065524
+              }
+            ],
+            "foreground_mean_dice": 0.7227315353918391,
+            "foreground_mean_iou": 0.5970770955162785
+          }
+        ]
+      },
+      "pooled_counts": [
+        {
+          "class_index": 0,
+          "tp": 4184817,
+          "fp": 37542,
+          "fn": 363689,
+          "mean_visit_tp": 523102.125,
+          "mean_visit_fp": 4692.75,
+          "mean_visit_fn": 45461.125,
+          "pooled_voxel_recall": 0.9200420973392143,
+          "pooled_voxel_precision": 0.991108761713535
+        },
+        {
+          "class_index": 1,
+          "tp": 3395087,
+          "fp": 381067,
+          "fn": 107127,
+          "mean_visit_tp": 424385.875,
+          "mean_visit_fp": 47633.375,
+          "mean_visit_fn": 13390.875,
+          "pooled_voxel_recall": 0.9694116350400062,
+          "pooled_voxel_precision": 0.8990859482955409
+        },
+        {
+          "class_index": 2,
+          "tp": 251716,
+          "fp": 95634,
+          "fn": 20179,
+          "mean_visit_tp": 31464.5,
+          "mean_visit_fp": 11954.25,
+          "mean_visit_fn": 2522.375,
+          "pooled_voxel_recall": 0.92578385038342,
+          "pooled_voxel_precision": 0.7246753994530013
+        },
+        {
+          "class_index": 3,
+          "tp": 15611,
+          "fp": 12945,
+          "fn": 32694,
+          "mean_visit_tp": 1951.375,
+          "mean_visit_fp": 1618.125,
+          "mean_visit_fn": 4086.75,
+          "pooled_voxel_recall": 0.32317565469413106,
+          "pooled_voxel_precision": 0.5466802073119484
+        },
+        {
+          "class_index": 4,
+          "tp": 5895,
+          "fp": 1647,
+          "fn": 1272,
+          "mean_visit_tp": 736.875,
+          "mean_visit_fp": 205.875,
+          "mean_visit_fn": 159.0,
+          "pooled_voxel_recall": 0.8225198827961491,
+          "pooled_voxel_precision": 0.7816229116945107
+        },
+        {
+          "class_index": 5,
+          "tp": 5468,
+          "fp": 1179,
+          "fn": 5053,
+          "mean_visit_tp": 683.5,
+          "mean_visit_fp": 147.375,
+          "mean_visit_fn": 631.625,
+          "pooled_voxel_recall": 0.5197224598422203,
+          "pooled_voxel_precision": 0.8226267489092823
+        }
+      ],
+      "mean_prostate_dice": 0.6360268098228398,
+      "minimum_visit_prostate_dice": 0.5682289506428868,
+      "mean_inference_ms": 1188.6522377608344
+    }
+  },
+  "new_minus_same_cpu_B": {
+    "clean_adapt": [
+      {
+        "visit": "Week0",
+        "prostate_dice_delta": -0.08567062878666731,
+        "tp_delta": -135,
+        "fp_delta": 1,
+        "fn_delta": 135
+      },
+      {
+        "visit": "Week1",
+        "prostate_dice_delta": -0.12080717056849621,
+        "tp_delta": -170,
+        "fp_delta": 121,
+        "fn_delta": 170
+      },
+      {
+        "visit": "Week2",
+        "prostate_dice_delta": -0.0374642630241423,
+        "tp_delta": -166,
+        "fp_delta": -161,
+        "fn_delta": 166
+      },
+      {
+        "visit": "Week3",
+        "prostate_dice_delta": -0.12385425014895934,
+        "tp_delta": -205,
+        "fp_delta": -17,
+        "fn_delta": 205
+      },
+      {
+        "visit": "Week4",
+        "prostate_dice_delta": -0.032579185856926984,
+        "tp_delta": -73,
+        "fp_delta": -24,
+        "fn_delta": 73
+      },
+      {
+        "visit": "Week5",
+        "prostate_dice_delta": 0.0032017587386062862,
+        "tp_delta": 19,
+        "fp_delta": 31,
+        "fn_delta": -19
+      },
+      {
+        "visit": "Week6",
+        "prostate_dice_delta": -0.06554134531179012,
+        "tp_delta": -122,
+        "fp_delta": -13,
+        "fn_delta": 122
+      },
+      {
+        "visit": "Week7",
+        "prostate_dice_delta": -0.03548326047048578,
+        "tp_delta": -39,
+        "fp_delta": 31,
+        "fn_delta": 39
+      }
+    ],
+    "polarity_rehearsal": [
+      {
+        "visit": "Week0",
+        "prostate_dice_delta": -0.08969057545591197,
+        "tp_delta": -177,
+        "fp_delta": -81,
+        "fn_delta": 177
+      },
+      {
+        "visit": "Week1",
+        "prostate_dice_delta": -0.1354172867504414,
+        "tp_delta": -222,
+        "fp_delta": 55,
+        "fn_delta": 222
+      },
+      {
+        "visit": "Week2",
+        "prostate_dice_delta": -0.030505952380952328,
+        "tp_delta": -171,
+        "fp_delta": -193,
+        "fn_delta": 171
+      },
+      {
+        "visit": "Week3",
+        "prostate_dice_delta": -0.1257650281863837,
+        "tp_delta": -211,
+        "fp_delta": -24,
+        "fn_delta": 211
+      },
+      {
+        "visit": "Week4",
+        "prostate_dice_delta": -0.026073938568363264,
+        "tp_delta": -76,
+        "fp_delta": -50,
+        "fn_delta": 76
+      },
+      {
+        "visit": "Week5",
+        "prostate_dice_delta": -0.01760418895174498,
+        "tp_delta": -31,
+        "fp_delta": -9,
+        "fn_delta": 31
+      },
+      {
+        "visit": "Week6",
+        "prostate_dice_delta": -0.051361296665135,
+        "tp_delta": -124,
+        "fp_delta": -68,
+        "fn_delta": 124
+      },
+      {
+        "visit": "Week7",
+        "prostate_dice_delta": -0.050062676662160466,
+        "tp_delta": -77,
+        "fp_delta": -8,
+        "fn_delta": 77
+      }
+    ]
+  },
+  "M1_B_reference_comparison": {
+    "M1_prostate_dice": 0.7018369277754765,
+    "M2_prostate_dice": 0.7018369277754765,
+    "M2_minus_M1_prostate_dice": 0.0,
+    "cases": [
+      {
+        "patient": "M015",
+        "visit": "Week0",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.9561855088272821,
+            "M2_dice": 0.9561855088272821,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9339798980782082,
+            "M2_dice": 0.9339798980782082,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7928626642617882,
+            "M2_dice": 0.7928626642617882,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.3473648572395892,
+            "M2_dice": 0.3473648572395892,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.8011461318051576,
+            "M2_dice": 0.8011461318051576,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.7004566210045662,
+            "M2_dice": 0.7004566210045662,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      },
+      {
+        "patient": "M015",
+        "visit": "Week1",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.9500882469979636,
+            "M2_dice": 0.9500882469979636,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9269349406285979,
+            "M2_dice": 0.9269349406285979,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7808043443061938,
+            "M2_dice": 0.7808043443061938,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.2612053301029679,
+            "M2_dice": 0.2612053301029679,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.7830957230142567,
+            "M2_dice": 0.7830957230142567,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.7036462373933282,
+            "M2_dice": 0.7036462373933282,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      },
+      {
+        "patient": "M015",
+        "visit": "Week2",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.9579249021738845,
+            "M2_dice": 0.9579249021738845,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9349790813258726,
+            "M2_dice": 0.9349790813258726,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7668391061159108,
+            "M2_dice": 0.7668391061159108,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.5147015147015147,
+            "M2_dice": 0.5147015147015147,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.7111622554660529,
+            "M2_dice": 0.7111622554660529,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.7447916666666666,
+            "M2_dice": 0.7447916666666666,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      },
+      {
+        "patient": "M015",
+        "visit": "Week3",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.9611875305293307,
+            "M2_dice": 0.9611875305293307,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9279647045507113,
+            "M2_dice": 0.9279647045507113,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7687573020260451,
+            "M2_dice": 0.7687573020260451,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.2723554564045362,
+            "M2_dice": 0.2723554564045362,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.7939317319848294,
+            "M2_dice": 0.7939317319848294,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.7634011090573013,
+            "M2_dice": 0.7634011090573013,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      },
+      {
+        "patient": "M015",
+        "visit": "Week4",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.955675477200471,
+            "M2_dice": 0.955675477200471,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9272930725874456,
+            "M2_dice": 0.9272930725874456,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7828303725157829,
+            "M2_dice": 0.7828303725157829,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.32709699689333793,
+            "M2_dice": 0.32709699689333793,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.7645875251509054,
+            "M2_dice": 0.7645875251509054,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.7423986486486487,
+            "M2_dice": 0.7423986486486487,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      },
+      {
+        "patient": "M015",
+        "visit": "Week5",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.9515468739116157,
+            "M2_dice": 0.9515468739116157,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9377780389979146,
+            "M2_dice": 0.9377780389979146,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7918070427673226,
+            "M2_dice": 0.7918070427673226,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.6817888903209176,
+            "M2_dice": 0.6817888903209176,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.8112133158125274,
+            "M2_dice": 0.8112133158125274,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.6187384044526901,
+            "M2_dice": 0.6187384044526901,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      },
+      {
+        "patient": "M015",
+        "visit": "Week6",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.9573024672509374,
+            "M2_dice": 0.9573024672509374,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9378334279753275,
+            "M2_dice": 0.9378334279753275,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7857425350998616,
+            "M2_dice": 0.7857425350998616,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.39393142155573097,
+            "M2_dice": 0.39393142155573097,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.7644121652292328,
+            "M2_dice": 0.7644121652292328,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.6927190456602221,
+            "M2_dice": 0.6927190456602221,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      },
+      {
+        "patient": "M015",
+        "visit": "Week7",
+        "per_class": [
+          {
+            "class_index": 0,
+            "M1_dice": 0.952137968792773,
+            "M2_dice": 0.952137968792773,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 1,
+            "M1_dice": 0.9303633071102498,
+            "M2_dice": 0.9303633071102498,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 2,
+            "M1_dice": 0.7754893662757111,
+            "M2_dice": 0.7754893662757111,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 3,
+            "M1_dice": 0.4035485460818137,
+            "M2_dice": 0.4035485460818137,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 4,
+            "M1_dice": 0.7833795013850415,
+            "M2_dice": 0.7833795013850415,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          },
+          {
+            "class_index": 5,
+            "M1_dice": 0.6485436893203883,
+            "M2_dice": 0.6485436893203883,
+            "dice_delta": 0.0,
+            "tp_delta": 0,
+            "fp_delta": 0,
+            "fn_delta": 0
+          }
+        ]
+      }
+    ]
+  },
+  "prespecified_retention_check": {
+    "mean_prostate_dice_min": 0.6818369277754766,
+    "minimum_visit_prostate_dice_min": 0.6,
+    "selection_criterion": false,
+    "models": {
+      "gamma_polarity": {
+        "mean_prostate_dice": 0.7018369277754765,
+        "minimum_visit_prostate_dice": 0.6187384044526901,
+        "mean_check_passes": true,
+        "minimum_visit_check_passes": true,
+        "both_checks_pass": true
+      },
+      "clean_adapt": {
+        "mean_prostate_dice": 0.6395621345968687,
+        "minimum_visit_prostate_dice": 0.582839066824832,
+        "mean_check_passes": false,
+        "minimum_visit_check_passes": false,
+        "both_checks_pass": false
+      },
+      "polarity_rehearsal": {
+        "mean_prostate_dice": 0.6360268098228398,
+        "minimum_visit_prostate_dice": 0.5682289506428868,
+        "mean_check_passes": false,
+        "minimum_visit_check_passes": false,
+        "both_checks_pass": false
+      }
+    }
+  },
+  "limits": [
+    "Post-test-informed recheck of one known patient/eight repeated visits, not independent TEST or a new benchmark.",
+    "VAL-only recommendation stays frozen regardless of retention outcomes; no new arm/epoch/threshold selection occurs.",
+    "All B/C/D visits and six classes, including zero/undefined metrics and negative results, are retained.",
+    "Counts independently reconstruct Dice/IoU and FP/FN; GT marginal counts match the manifest. Pixel overlap and annotations are not remeasured here.",
+    "Checkpoint identity is bound to guarded evaluator/protocol/VAL receipts; no weight bytes, MRI, mask or prediction arrays are read by this builder.",
+    "Pooled counts are descriptive, not the visit-mean Dice estimator. CPU-host differences are quantified, not assumed bit-identical.",
+    "Original v1/A1/M1 results, failed gates and releases remain unchanged; this cannot establish a unique root cause or clinical reliability."
+  ]
+}

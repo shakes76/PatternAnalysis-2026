@@ -62,7 +62,7 @@ record the completed integrity checks and experiments; final results are in READ
   The fixed comparison evaluated 30 scans from six held-out patients once per
   model. Patient-balanced prostate Dice is 0.67898 (2D), 0.67719 (3D); the
   original feasibility target of 0.70 was not met. Foreground Dice is 0.84091
-  and 0.83753. No setting was retuned using these results.
+  and 0.83753. No v1 setting was retuned to replace this result; later post-test-informed exploratory runs are recorded separately.
 - Job 701555 completed paired patient bootstrap, matched-support HD95 and five
   preselected patient-distinct failures. Job 701560 generated larger ROI panels
   without changing selection or predictions. The report preserves M015's severe
@@ -235,3 +235,11 @@ Data were provided by HipMRI Study. The dataset usage note requires attribution,
 an appropriate study citation, research/non-commercial use, and no attempt to
 identify or contact participants. README includes the exact study attribution and publication, the original
 CSIRO v2 label key and the data DOI.
+
+## Bounded recovery and methodological closure: 27 October 2026
+
+- Commit **d046435** fixed R1 before training: two B29 warm starts, fresh optimizer/scaler, lr1e-4, eight full epochs, polarity probability0/.10 only, with original clean-FG selector. One GPU Lab allocation1884 ran both arms and all5models×5conditions×38VAL on L40S/Python3.10.21/Torch2.14.0+cu130. Both selected epoch7. Actual18fixtures and two smokes passed; each arm had1,144 successful updates, no AMP skips. Training-loop seconds205.37/204.28 exclude validation/saving.
+- All32protectedfiles, parent/weight/source/cache receipts and paired initial states/sharedgamma/runtime were verified. Independent count audit reaggregated5,700case-class rows and300patient-balanced Dice/IoU values. Same-platform v1/B/C/D clean prostate Dice .83326/.80715/.82078/.82019; C/D restore part of B's loss, but each fails the clean-prostate gate. FG and polarity gates pass. Frozen VAL recommendation is none; no threshold changed. Historical A100 numbers remain separate.
+- **85b9a9e** fixed the VAL summary and M2 protocol before CPU704150, which completed38s0:0 with all11fixtures passing. B/C/D all8knownM015 visits use the same CPU4 FP32/Python3.11.15/Torch2.13.0+cu130. Mean Dice .70184/.63956/.63603, minimum .61874/.58284/.56823. Both new arms fail both prespecified retention checks, while VAL recommendation stays none. B's48six-class case rows match M1 counts/metrics exactly; this is not an array-equality claim. Independent144-row count and43source/88metadata hash audit passed.
+- Public evidence/recovery_review.json and evidence/recovery_m015_review.json retain all positive/negative outcomes, and figures/recovery_validation.png shows all six patients. Later weights remain private/ignored; originalv1/Release/core11 remain unchanged. Required cloud artifacts were downloaded and all45file SHA checked before user-approved instance shutdown.
+- Human raised the validity of repeated result-driven tuning. The report now keeps originalv1 as the primary benchmark and places retrospective diagnostics, seed follow-up, A1/M1/R1/M2 in an exploratory appendix. Per-round prespecification does not remove cross-round adaptive test-informed bias or repeated-VAL overfitting. No joint success, unique cause, model adoption or independent improvement is claimed. No further tuning or experiments will be added; remaining work is report QA and submission organization.
