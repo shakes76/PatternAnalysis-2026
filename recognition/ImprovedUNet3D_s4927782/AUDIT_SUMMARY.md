@@ -188,6 +188,35 @@ record the completed integrity checks and experiments; final results are in READ
   shows a synthetic invariance/clean-performance trade-off; it neither repairs
   the original TEST nor establishes M015's unique cause. V1 remains unchanged.
 
+## Completed M015-only exploratory follow-up M1: 27 October 2026
+
+- Separate protocol commit **a11a597** preceded CPU job **704030**, which
+  completed in **45 s**, exit 0:0; all **seven actual fixtures** passed.
+  The A1 protocol and its no-TEST scope remain unchanged. The separate
+  M1 evaluates only the eight already-examined M015 clean caches with the
+  existing v1/A/B best checkpoints, all on **CPU FP32, AMP off, four threads**.
+  It performs no training, selection, augmentation, TTA, postprocessing,
+  other-patient TEST evaluation or array export.
+- Mean prostate Dice over eight visits is **v1 0.1134373 / A 0.2781180 /
+  B 0.7018369**. B improves all eight visits against both comparators; A
+  improves four and worsens four against v1. Week2 changes from **0.0014514**
+  to **0.4967949 / 0.7447917** with A/B. All eight visit results remain in README.
+- For unchanged GT **10,521** voxels, v1 TP/FP/FN is **657/122/9,864**;
+  B is **6,557/1,557/3,964**. This is substantial omission mitigation with
+  more FP and residual FN, not complete repair. B's visit Dice ranges
+  **0.6187384–0.7634011**; pooled counts are not substituted for visit-mean Dice.
+- All selected cache identities, three checkpoints/states, receipts and **28
+  source/input guards** remain unchanged. Independent arithmetic covers all
+  **144 six-class case rows**. CPU-reference prostate counts/Dice match the
+  existing GPU FP32 diagnostics per visit; compared with original CUDA AMP,
+  only Week4 prostate Dice differs (-0.0014603), shifting the mean -0.0001825.
+  This does not assert full-array equality across devices or change v1 scores.
+- `evidence/m015_followup_review.json` records anonymous counts and checks.
+  M1 is exploratory evidence from one previously inspected patient, not an
+  independent new benchmark or confirmation of a unique acquisition/data cause.
+  B still fails A1's clean-VAL guard and is not adopted; the original unmet
+  six-patient prostate target and v1 public release remain unchanged.
+
 ## Remaining external requirements
 
 - The official final deadline in Learn.UQ.

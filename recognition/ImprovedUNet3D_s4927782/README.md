@@ -591,10 +591,59 @@ The job wall time also includes checks, smokes, validation, plotting and saving.
 This establishes a measured synthetic robustness/clean-image trade-off in
 this experiment, not M015's unique cause or its repair. These remain the same
 six checkpoint-selecting VAL patients across all conditions, not thirty
-independent patients. No new TEST was run, no favourable condition was selected
+independent patients. Within A1, no TEST was run, no favourable condition was selected
 for reporting, and no extra arm or parameter adjustment follows the observed
 scores. The original test benchmark and public v1 release remain unchanged;
 later weights are retained outside Git and are not added to that release.
+
+### M015 follow-up M1: substantial mitigation with residual errors
+
+After A1, a separate clean-input recheck of the already examined M015 visits
+was planned. Commit **a11a597** fixed the separate
+[M1 protocol](m015_followup_protocol.json); the A1 protocol remains unchanged.
+CPU job **704030** completed in **45 s**, exit 0:0, with all **7 fixtures**
+passing. It evaluates the existing v1, A and B best checkpoints on exactly
+**M015 Week0–7**, with no training, checkpoint selection, augmentation, TTA,
+postprocessing, other TEST patients or saved arrays. All three use **CPU FP32,
+AMP disabled, four threads** on the same unchanged cache. This is a
+post-test exploratory recheck of **one patient**, not a new independent or
+six-patient TEST benchmark. [Anonymous evidence](evidence/m015_followup_review.json)
+retains all six classes' counts, metrics and identity checks. The summary
+passes three further fixtures; independent arithmetic checks cover all 144
+six-class case rows.
+
+| M015 visit | v1 reference Dice | A: gamma Dice | B: gamma + polarity Dice |
+|---|---:|---:|---:|
+| Week0 | 0.060278 | 0.582651 | 0.700457 |
+| Week1 | 0.040759 | 0.001471 | 0.703646 |
+| Week2 | 0.001451 | 0.496795 | 0.744792 |
+| Week3 | 0.191304 | 0.175439 | 0.763401 |
+| Week4 | 0.041791 | 0.480000 | 0.742399 |
+| Week5 | 0.157450 | 0.002524 | 0.618738 |
+| Week6 | 0.165623 | 0.030619 | 0.692719 |
+| Week7 | 0.248842 | 0.455446 | 0.648544 |
+| Eight-visit mean | **0.113437** | **0.278118** | **0.701837** |
+
+B improves prostate Dice in **all eight visits** against both v1 and A;
+A improves four visits and worsens four against v1. Across the eight scans,
+v1 has **TP 657 / FP 122 / FN 9,864**, whereas B has
+**TP 6,557 / FP 1,557 / FN 3,964**, for unchanged GT **10,521** voxels.
+Omission is substantially reduced, with increased false positives and
+considerable residual errors; B's visit Dice spans **0.61874–0.76340**.
+These pooled counts describe error burden; the table averages per-visit Dice.
+
+The CPU reference's per-visit prostate counts and Dice match the existing
+GPU FP32 diagnostics. Against formal CUDA AMP, only Week4's prostate Dice
+differs (**-0.0014603**), changing the reference visit mean by **-0.0001825**.
+This scoped precision check is not a full-array equality claim and does not
+rewrite v1's original **0.1136** M015 mean.
+
+M1 demonstrates mitigation of the observed failure under a common CPU setting;
+it does not establish a unique cause, reversed acquisition contrast, incorrect
+data or complete repair. Its **0.7018** is not the original six-patient target
+score. B still fails A1's clean-VAL guard and is **not adopted**. No new overall
+benchmark validates its benefit on unseen patients; v1 scores and release stay
+unchanged.
 
 ## Engineering recommendation and limitations
 
@@ -607,6 +656,9 @@ The consistent validation ranking across two training runs does not overturn
 that test result or remove its patient-level failure. The appearance ablation
 also fails its clean-prostate guard, despite improving synthetic polarity
 robustness, so it supplies no basis for replacing the original configuration.
+The separate M1 recheck now shows substantial M015 mitigation with B, alongside
+remaining omissions and extra false positives. This one already-examined
+patient does not establish overall improvement or override the failed VAL guard.
 
 Further work should use a new prespecified TRAIN/VAL design: investigate spatial
 translations, improved end-region resolution or ROI localization, and
@@ -697,6 +749,25 @@ receipt identities, full 30-epoch histories, earliest-tie clean selection and
 all 20 complete evaluations. It recomputes metrics from recorded counts;
 this audit does not certify anatomical labels. Retraining uses the protocol's
 same fixed conditions but is not promised bitwise identical.
+
+M1 uses the separate `m015_followup_protocol.json` and the exact existing A/B
+checkpoints retained outside Git; those later weights are not in the v1 release.
+Given these declared artifacts, use a fresh directory on a CPU node:
+
+```bash
+OMP_NUM_THREADS=4 python tools/evaluate_m015_followup.py \
+  --protocol m015_followup_protocol.json \
+  --manifest artifacts/cache64/manifest.json \
+  --output-dir artifacts/reproduced_m015_followup
+python tools/summarize_m015_followup.py \
+  --evaluation artifacts/reproduced_m015_followup/m015_followup.json \
+  --output artifacts/reproduced_m015_followup_review.json
+```
+
+The tool checks all eight decoded cache identities and the three existing
+checkpoint/source receipts, rejects other cases and existing output, and writes
+only JSON. M1 deliberately uses CPU FP32 for all three models; it does not rerun
+CUDA AMP or replace the original complete TEST evaluation.
 
 Python, NumPy and PyTorch are seeded; cuDNN benchmarking is disabled and
 deterministic kernels are requested with warnings for unsupported operations.
@@ -863,6 +934,8 @@ and one-factor input intervention (702134). D1/D2 plans were committed before
 their respective executions, after the earlier diagnostic observations.
 Appearance plan **5c49de3** and audit-tool milestone **4e23d40** preceded the
 completed A1 job **702249**, whose failed clean-prostate guard is retained.
+Separate M1 plan **a11a597** preceded CPU job **704030**, retaining all eight
+already-examined visits and the failed A1 guard.
 The original v1 test remains unchanged.
 
 The project belongs under `recognition/ImprovedUNet3D_s4927782` on

@@ -1,0 +1,3557 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "experiment_id": "m015_existing_checkpoint_followup_v1",
+  "split": "test_M015_only",
+  "protocol_sha256": "2a0fabc0ca40131f61e0d48d3e1c25e0b707b0a8f96c05b90fe1fd9937f0d2fc",
+  "evaluation_index_sha256": "a80e266dede6da99de27113637e091ac0f6af6b45a7cdb6f7879088c8afd8a68",
+  "input_file_sha256": {
+    "seed42_reference/evaluation.json": "0b658332d6a8523c8376fc60aa580ee242b5d6f3811ce3cd7a0235d60acc0b18",
+    "gamma_only/evaluation.json": "d79a36d150d0cd8f43b97cef74ec929a14aed53d542d52769d6b0b2fa5037d55",
+    "gamma_polarity/evaluation.json": "3d38d202b8e04bd9f09d363fceaf21be20d612a0e500aa7f7036757be75e8f30"
+  },
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "cache_identity_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+  "source_file_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/cache_identity.py": "d1761ac39d4c3e9121a2217381545c7f5a0e08c82c9535134cb5c85617cc4e86",
+    "tools/diagnose_model_mechanism.py": "9b5cb92c85297388519daeb5665fcd7751a60f4c44f9d5ae17bea5566e8630a9",
+    "tools/diagnose_frozen_inference.py": "c8e086647a92516eaa7a0e1dcb6624cba0375ee1fffce6304fb130fd50cf8476",
+    "experiments/appearance.py": "b776ef949ec903c97cfa2b681c9c87cdce30c42bb3a9d8e1897b0281e34179a3",
+    "experiments/train_appearance.py": "55f2e2ad689979bf87a8e1c91b9c5c0bb76fe79210d848cca0583ba783c664a8",
+    "experiments/evaluate_appearance.py": "8fca64f6cc3ae0306bfda10d987b9733b099071fe45cd548fef3b855cbb07129",
+    "tests/test_appearance.py": "6de5cff1ea55830ce97a5bbd03b4605a3a4ac5d257037b661d87be3af0c7e5dd",
+    "tests/test_evaluate_appearance.py": "78ce1ad08d3b3da71d380030aaa275d7c86f8c8b0441041058a10fd10214d964",
+    "jobs/train_appearance_A1.slurm": "1dd692ff516fd7f5bd07572dec629c4b29101adecefb341ea1f99c06e41f7dc0",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+    "appearance_protocol.json": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+    "tools/evaluate_m015_followup.py": "7880f5d43c4d17810bc4db9702c2d95fcba06ba84572522d986cdd90d2fe05ab",
+    "tests/test_m015_followup.py": "e42320761f86037f06f47e513ce80c2611c0a2bcc1bf2fcd5c2d52c74124d26e",
+    "jobs/evaluate_m015_M1.slurm": "bb2122c351e037af0f29a1892849f7fbce62b459e080f06eecfc37dbf9439c55"
+  },
+  "summarizer_sha256": "347273495c1376384b94966b8ff2ba44aeb4c2babca13b8bda177b5ee1f50e87",
+  "scope": {
+    "models": 3,
+    "cases_per_model": 8,
+    "retained_case_rows": 24,
+    "independent_patients": 1,
+    "device": "cpu",
+    "amp": false,
+    "arrays_loaded": false
+  },
+  "results": {
+    "seed42_reference": {
+      "checkpoint_sha256": "9ea46e13a95617ec4ad80c21ba459087fb62941fb04406c7ffeade22ad014b62",
+      "checkpoint_epoch": 29,
+      "state_unchanged": true,
+      "cases": [
+        {
+          "patient": "M015",
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 535649,
+              "fp": 3831,
+              "fn": 37984,
+              "predicted_voxels": 539480,
+              "target_voxels": 573633,
+              "dice": 0.9624341823336894,
+              "iou": 0.9275885596331547,
+              "recall": 0.9337834469076919,
+              "precision": 0.9928987172833098
+            },
+            {
+              "class_index": 1,
+              "tp": 419632,
+              "fp": 39384,
+              "fn": 14476,
+              "predicted_voxels": 459016,
+              "target_voxels": 434108,
+              "dice": 0.9396948240109996,
+              "iou": 0.8862493980890913,
+              "recall": 0.9666534595077723,
+              "precision": 0.9141990693134879
+            },
+            {
+              "class_index": 2,
+              "tp": 31907,
+              "fp": 11274,
+              "fn": 1607,
+              "predicted_voxels": 43181,
+              "target_voxels": 33514,
+              "dice": 0.832049025360193,
+              "iou": 0.7124006430293829,
+              "recall": 0.9520498895983768,
+              "precision": 0.7389129478242745
+            },
+            {
+              "class_index": 3,
+              "tp": 2631,
+              "fp": 2955,
+              "fn": 2599,
+              "predicted_voxels": 5586,
+              "target_voxels": 5230,
+              "dice": 0.4865014792899408,
+              "iou": 0.32144166157605375,
+              "recall": 0.5030592734225622,
+              "precision": 0.47099892588614395
+            },
+            {
+              "class_index": 4,
+              "tp": 755,
+              "fp": 519,
+              "fn": 81,
+              "predicted_voxels": 1274,
+              "target_voxels": 836,
+              "dice": 0.7156398104265402,
+              "iou": 0.5571955719557196,
+              "recall": 0.90311004784689,
+              "precision": 0.5926216640502355
+            },
+            {
+              "class_index": 5,
+              "tp": 39,
+              "fp": 0,
+              "fn": 1216,
+              "predicted_voxels": 39,
+              "target_voxels": 1255,
+              "dice": 0.06027820710973725,
+              "iou": 0.031075697211155377,
+              "recall": 0.031075697211155377,
+              "precision": 1.0
+            }
+          ],
+          "foreground_mean_dice": 0.6068326692394822,
+          "foreground_mean_iou": 0.5016725943722806
+        },
+        {
+          "patient": "M015",
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 523311,
+              "fp": 8781,
+              "fn": 30179,
+              "predicted_voxels": 532092,
+              "target_voxels": 553490,
+              "dice": 0.964111416733144,
+              "iou": 0.9307095688733724,
+              "recall": 0.9454750763338091,
+              "precision": 0.9834972147673711
+            },
+            {
+              "class_index": 1,
+              "tp": 426863,
+              "fp": 34459,
+              "fn": 23419,
+              "predicted_voxels": 461322,
+              "target_voxels": 450282,
+              "dice": 0.9365097125506251,
+              "iou": 0.8806001555469828,
+              "recall": 0.9479903704789443,
+              "precision": 0.925303800815916
+            },
+            {
+              "class_index": 2,
+              "tp": 32751,
+              "fp": 12021,
+              "fn": 1471,
+              "predicted_voxels": 44772,
+              "target_voxels": 34222,
+              "dice": 0.8292022178899663,
+              "iou": 0.7082369223450036,
+              "recall": 0.9570159546490562,
+              "precision": 0.7315062985794694
+            },
+            {
+              "class_index": 3,
+              "tp": 1829,
+              "fp": 7228,
+              "fn": 6444,
+              "predicted_voxels": 9057,
+              "target_voxels": 8273,
+              "dice": 0.21107905366416618,
+              "iou": 0.11799238758789755,
+              "recall": 0.22108062371570167,
+              "precision": 0.2019432483162195
+            },
+            {
+              "class_index": 4,
+              "tp": 829,
+              "fp": 440,
+              "fn": 121,
+              "predicted_voxels": 1269,
+              "target_voxels": 950,
+              "dice": 0.7471834159531321,
+              "iou": 0.5964028776978417,
+              "recall": 0.8726315789473684,
+              "precision": 0.653270291568164
+            },
+            {
+              "class_index": 5,
+              "tp": 29,
+              "fp": 35,
+              "fn": 1330,
+              "predicted_voxels": 64,
+              "target_voxels": 1359,
+              "dice": 0.040758959943780745,
+              "iou": 0.02080344332855093,
+              "recall": 0.021339220014716703,
+              "precision": 0.453125
+            }
+          ],
+          "foreground_mean_dice": 0.5529466720003341,
+          "foreground_mean_iou": 0.4648071573012554
+        },
+        {
+          "patient": "M015",
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 557400,
+              "fp": 5675,
+              "fn": 31964,
+              "predicted_voxels": 563075,
+              "target_voxels": 589364,
+              "dice": 0.9673397030124805,
+              "iou": 0.936745322575495,
+              "recall": 0.9457652656083507,
+              "precision": 0.9899214136660303
+            },
+            {
+              "class_index": 1,
+              "tp": 402529,
+              "fp": 32149,
+              "fn": 18470,
+              "predicted_voxels": 434678,
+              "target_voxels": 420999,
+              "dice": 0.9408433322386835,
+              "iou": 0.8882947734514993,
+              "recall": 0.9561281618246124,
+              "precision": 0.9260395051049283
+            },
+            {
+              "class_index": 2,
+              "tp": 30676,
+              "fp": 13150,
+              "fn": 1678,
+              "predicted_voxels": 43826,
+              "target_voxels": 32354,
+              "dice": 0.8053557364137569,
+              "iou": 0.6741385372714487,
+              "recall": 0.9481362428138715,
+              "precision": 0.6999498014877014
+            },
+            {
+              "class_index": 3,
+              "tp": 1620,
+              "fp": 4386,
+              "fn": 2181,
+              "predicted_voxels": 6006,
+              "target_voxels": 3801,
+              "dice": 0.3303762618537779,
+              "iou": 0.1978746793697325,
+              "recall": 0.4262036306235201,
+              "precision": 0.26973026973026976
+            },
+            {
+              "class_index": 4,
+              "tp": 618,
+              "fp": 330,
+              "fn": 105,
+              "predicted_voxels": 948,
+              "target_voxels": 723,
+              "dice": 0.7396768402154399,
+              "iou": 0.5868945868945868,
+              "recall": 0.8547717842323651,
+              "precision": 0.6518987341772152
+            },
+            {
+              "class_index": 5,
+              "tp": 1,
+              "fp": 42,
+              "fn": 1334,
+              "predicted_voxels": 43,
+              "target_voxels": 1335,
+              "dice": 0.001451378809869376,
+              "iou": 0.0007262164124909223,
+              "recall": 0.000749063670411985,
+              "precision": 0.023255813953488372
+            }
+          ],
+          "foreground_mean_dice": 0.5635407099063057,
+          "foreground_mean_iou": 0.46958575867995167
+        },
+        {
+          "patient": "M015",
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 585182,
+              "fp": 3516,
+              "fn": 34733,
+              "predicted_voxels": 588698,
+              "target_voxels": 619915,
+              "dice": 0.9683529798206705,
+              "iou": 0.9386475808870589,
+              "recall": 0.943971350911012,
+              "precision": 0.9940274979700967
+            },
+            {
+              "class_index": 1,
+              "tp": 374651,
+              "fp": 36249,
+              "fn": 16155,
+              "predicted_voxels": 410900,
+              "target_voxels": 390806,
+              "dice": 0.9346343921587216,
+              "iou": 0.8772898104459613,
+              "recall": 0.9586623542115525,
+              "precision": 0.9117814553419323
+            },
+            {
+              "class_index": 2,
+              "tp": 28181,
+              "fp": 11741,
+              "fn": 1906,
+              "predicted_voxels": 39922,
+              "target_voxels": 30087,
+              "dice": 0.8050679198388778,
+              "iou": 0.6737352969302859,
+              "recall": 0.9366503805630338,
+              "precision": 0.7059015079404839
+            },
+            {
+              "class_index": 3,
+              "tp": 2226,
+              "fp": 5816,
+              "fn": 3548,
+              "predicted_voxels": 8042,
+              "target_voxels": 5774,
+              "dice": 0.32223508975101334,
+              "iou": 0.1920621225194133,
+              "recall": 0.38552130239002425,
+              "precision": 0.27679681671226064
+            },
+            {
+              "class_index": 4,
+              "tp": 662,
+              "fp": 220,
+              "fn": 84,
+              "predicted_voxels": 882,
+              "target_voxels": 746,
+              "dice": 0.8132678132678133,
+              "iou": 0.6853002070393375,
+              "recall": 0.8873994638069705,
+              "precision": 0.7505668934240363
+            },
+            {
+              "class_index": 5,
+              "tp": 132,
+              "fp": 0,
+              "fn": 1116,
+              "predicted_voxels": 132,
+              "target_voxels": 1248,
+              "dice": 0.19130434782608696,
+              "iou": 0.10576923076923077,
+              "recall": 0.10576923076923077,
+              "precision": 1.0
+            }
+          ],
+          "foreground_mean_dice": 0.6133019125685026,
+          "foreground_mean_iou": 0.5068313335408458
+        },
+        {
+          "patient": "M015",
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 553331,
+              "fp": 6581,
+              "fn": 29368,
+              "predicted_voxels": 559912,
+              "target_voxels": 582699,
+              "dice": 0.9685378488391937,
+              "iou": 0.9389950448004344,
+              "recall": 0.9496000507980964,
+              "precision": 0.9882463672862879
+            },
+            {
+              "class_index": 1,
+              "tp": 402958,
+              "fp": 36138,
+              "fn": 17429,
+              "predicted_voxels": 439096,
+              "target_voxels": 420387,
+              "dice": 0.937675323421173,
+              "iou": 0.8826636000219046,
+              "recall": 0.9585405828439033,
+              "precision": 0.917699090859402
+            },
+            {
+              "class_index": 2,
+              "tp": 31275,
+              "fp": 11235,
+              "fn": 1685,
+              "predicted_voxels": 42510,
+              "target_voxels": 32960,
+              "dice": 0.8288061481383331,
+              "iou": 0.707659237470302,
+              "recall": 0.948877427184466,
+              "precision": 0.7357092448835568
+            },
+            {
+              "class_index": 3,
+              "tp": 2039,
+              "fp": 3829,
+              "fn": 8296,
+              "predicted_voxels": 5868,
+              "target_voxels": 10335,
+              "dice": 0.2516817873233352,
+              "iou": 0.14395650946060434,
+              "recall": 0.1972907595549105,
+              "precision": 0.34747784594410364
+            },
+            {
+              "class_index": 4,
+              "tp": 829,
+              "fp": 288,
+              "fn": 99,
+              "predicted_voxels": 1117,
+              "target_voxels": 928,
+              "dice": 0.810757946210269,
+              "iou": 0.6817434210526315,
+              "recall": 0.8933189655172413,
+              "precision": 0.7421665174574754
+            },
+            {
+              "class_index": 5,
+              "tp": 28,
+              "fp": 45,
+              "fn": 1239,
+              "predicted_voxels": 73,
+              "target_voxels": 1267,
+              "dice": 0.041791044776119404,
+              "iou": 0.021341463414634148,
+              "recall": 0.022099447513812154,
+              "precision": 0.3835616438356164
+            }
+          ],
+          "foreground_mean_dice": 0.574142449973846,
+          "foreground_mean_iou": 0.4874728462840154
+        },
+        {
+          "patient": "M015",
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 493419,
+              "fp": 14234,
+              "fn": 26443,
+              "predicted_voxels": 507653,
+              "target_voxels": 519862,
+              "dice": 0.9604122567553758,
+              "iou": 0.923839534465714,
+              "recall": 0.9491345780226291,
+              "precision": 0.9719611624475774
+            },
+            {
+              "class_index": 1,
+              "tp": 457096,
+              "fp": 29901,
+              "fn": 23391,
+              "predicted_voxels": 486997,
+              "target_voxels": 480487,
+              "dice": 0.9449169185226836,
+              "iou": 0.8955853194040613,
+              "recall": 0.9513181418019634,
+              "precision": 0.9386012644841755
+            },
+            {
+              "class_index": 2,
+              "tp": 37847,
+              "fp": 11292,
+              "fn": 3812,
+              "predicted_voxels": 49139,
+              "target_voxels": 41659,
+              "dice": 0.8336527236282737,
+              "iou": 0.7147551509886498,
+              "recall": 0.9084951631100122,
+              "precision": 0.7702028938317833
+            },
+            {
+              "class_index": 3,
+              "tp": 1980,
+              "fp": 1559,
+              "fn": 2025,
+              "predicted_voxels": 3539,
+              "target_voxels": 4005,
+              "dice": 0.5249204665959704,
+              "iou": 0.3558590941768512,
+              "recall": 0.4943820224719101,
+              "precision": 0.559480079118395
+            },
+            {
+              "class_index": 4,
+              "tp": 899,
+              "fp": 228,
+              "fn": 248,
+              "predicted_voxels": 1127,
+              "target_voxels": 1147,
+              "dice": 0.7906772207563765,
+              "iou": 0.6538181818181819,
+              "recall": 0.7837837837837838,
+              "precision": 0.7976929902395741
+            },
+            {
+              "class_index": 5,
+              "tp": 121,
+              "fp": 0,
+              "fn": 1295,
+              "predicted_voxels": 121,
+              "target_voxels": 1416,
+              "dice": 0.15744957709824334,
+              "iou": 0.08545197740112995,
+              "recall": 0.08545197740112995,
+              "precision": 1.0
+            }
+          ],
+          "foreground_mean_dice": 0.6503233813203095,
+          "foreground_mean_iou": 0.5410939447577748
+        },
+        {
+          "patient": "M015",
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 517434,
+              "fp": 8440,
+              "fn": 24640,
+              "predicted_voxels": 525874,
+              "target_voxels": 542074,
+              "dice": 0.9690247090682318,
+              "iou": 0.9399107016351991,
+              "recall": 0.9545449514272959,
+              "precision": 0.9839505280732647
+            },
+            {
+              "class_index": 1,
+              "tp": 439027,
+              "fp": 28599,
+              "fn": 23801,
+              "predicted_voxels": 467626,
+              "target_voxels": 462828,
+              "dice": 0.9436834061651623,
+              "iou": 0.8933717520608351,
+              "recall": 0.9485748485398463,
+              "precision": 0.9388421516339981
+            },
+            {
+              "class_index": 2,
+              "tp": 32702,
+              "fp": 11970,
+              "fn": 2721,
+              "predicted_voxels": 44672,
+              "target_voxels": 35423,
+              "dice": 0.816580310880829,
+              "iou": 0.6900175131348512,
+              "recall": 0.9231855009457133,
+              "precision": 0.7320469197707736
+            },
+            {
+              "class_index": 3,
+              "tp": 2366,
+              "fp": 6827,
+              "fn": 3556,
+              "predicted_voxels": 9193,
+              "target_voxels": 5922,
+              "dice": 0.313066490241482,
+              "iou": 0.1855831829947447,
+              "recall": 0.39952718676122934,
+              "precision": 0.25736973784401174
+            },
+            {
+              "class_index": 4,
+              "tp": 758,
+              "fp": 334,
+              "fn": 253,
+              "predicted_voxels": 1092,
+              "target_voxels": 1011,
+              "dice": 0.7208749405611032,
+              "iou": 0.5635687732342007,
+              "recall": 0.7497527200791295,
+              "precision": 0.6941391941391941
+            },
+            {
+              "class_index": 5,
+              "tp": 119,
+              "fp": 0,
+              "fn": 1199,
+              "predicted_voxels": 119,
+              "target_voxels": 1318,
+              "dice": 0.16562282533054976,
+              "iou": 0.09028831562974203,
+              "recall": 0.09028831562974203,
+              "precision": 1.0
+            }
+          ],
+          "foreground_mean_dice": 0.5919655946358253,
+          "foreground_mean_iou": 0.4845659074108747
+        },
+        {
+          "patient": "M015",
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 533110,
+              "fp": 4592,
+              "fn": 34359,
+              "predicted_voxels": 537702,
+              "target_voxels": 567469,
+              "dice": 0.96475568034268,
+              "iou": 0.9319111073819051,
+              "recall": 0.9394521991509668,
+              "precision": 0.9914599536546266
+            },
+            {
+              "class_index": 1,
+              "tp": 426137,
+              "fp": 36467,
+              "fn": 16180,
+              "predicted_voxels": 462604,
+              "target_voxels": 442317,
+              "dice": 0.9418214407666525,
+              "iou": 0.8900401851356771,
+              "recall": 0.9634199002073174,
+              "precision": 0.92117015849409
+            },
+            {
+              "class_index": 2,
+              "tp": 29559,
+              "fp": 10778,
+              "fn": 2117,
+              "predicted_voxels": 40337,
+              "target_voxels": 31676,
+              "dice": 0.8209351089386638,
+              "iou": 0.696259480849861,
+              "recall": 0.9331670665488067,
+              "precision": 0.7328011503086497
+            },
+            {
+              "class_index": 3,
+              "tp": 2353,
+              "fp": 4373,
+              "fn": 2612,
+              "predicted_voxels": 6726,
+              "target_voxels": 4965,
+              "dice": 0.4025318621161577,
+              "iou": 0.2519811522810024,
+              "recall": 0.47391742195367575,
+              "precision": 0.34983645554564374
+            },
+            {
+              "class_index": 4,
+              "tp": 728,
+              "fp": 291,
+              "fn": 98,
+              "predicted_voxels": 1019,
+              "target_voxels": 826,
+              "dice": 0.789159891598916,
+              "iou": 0.6517457475380484,
+              "recall": 0.8813559322033898,
+              "precision": 0.7144259077526988
+            },
+            {
+              "class_index": 5,
+              "tp": 188,
+              "fp": 0,
+              "fn": 1135,
+              "predicted_voxels": 188,
+              "target_voxels": 1323,
+              "dice": 0.24884182660489743,
+              "iou": 0.1421012849584278,
+              "recall": 0.1421012849584278,
+              "precision": 1.0
+            }
+          ],
+          "foreground_mean_dice": 0.6406580260050576,
+          "foreground_mean_iou": 0.5264255701526033
+        }
+      ],
+      "aggregate": {
+        "num_cases": 8,
+        "num_patients": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9656210971131833,
+            "iou": 0.9335434275315417
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9399724187293376,
+            "iou": 0.8867618742695016
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8214561488861116,
+            "iou": 0.6971503477524732
+          },
+          {
+            "class_index": 3,
+            "dice": 0.35529906135448047,
+            "iou": 0.22084384874578744
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7659047348736988,
+            "iou": 0.6220836709038186
+          },
+          {
+            "class_index": 5,
+            "dice": 0.11343727093741052,
+            "iou": 0.06219470364067024
+          }
+        ],
+        "foreground_mean_dice": 0.5992139269562079,
+        "foreground_mean_iou": 0.4978068890624502,
+        "patients": [
+          {
+            "patient": "M015",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9656210971131833,
+                "iou": 0.9335434275315417
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9399724187293376,
+                "iou": 0.8867618742695016
+              },
+              {
+                "class_index": 2,
+                "dice": 0.8214561488861116,
+                "iou": 0.6971503477524732
+              },
+              {
+                "class_index": 3,
+                "dice": 0.35529906135448047,
+                "iou": 0.22084384874578744
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7659047348736988,
+                "iou": 0.6220836709038186
+              },
+              {
+                "class_index": 5,
+                "dice": 0.11343727093741052,
+                "iou": 0.06219470364067024
+              }
+            ],
+            "foreground_mean_dice": 0.5992139269562079,
+            "foreground_mean_iou": 0.4978068890624502
+          }
+        ]
+      },
+      "pooled_counts": [
+        {
+          "class_index": 0,
+          "tp": 4298836,
+          "fp": 55650,
+          "fn": 249670,
+          "mean_visit_tp": 537354.5,
+          "mean_visit_fp": 6956.25,
+          "mean_visit_fn": 31208.75,
+          "pooled_voxel_recall": 0.9451094491246137,
+          "pooled_voxel_precision": 0.9872200760319358
+        },
+        {
+          "class_index": 1,
+          "tp": 3348893,
+          "fp": 273346,
+          "fn": 153321,
+          "mean_visit_tp": 418611.625,
+          "mean_visit_fp": 34168.25,
+          "mean_visit_fn": 19165.125,
+          "pooled_voxel_recall": 0.9562216929062587,
+          "pooled_voxel_precision": 0.9245367299065578
+        },
+        {
+          "class_index": 2,
+          "tp": 254898,
+          "fp": 93461,
+          "fn": 16997,
+          "mean_visit_tp": 31862.25,
+          "mean_visit_fp": 11682.625,
+          "mean_visit_fn": 2124.625,
+          "pooled_voxel_recall": 0.9374868975155851,
+          "pooled_voxel_precision": 0.7317106777778096
+        },
+        {
+          "class_index": 3,
+          "tp": 17044,
+          "fp": 36973,
+          "fn": 31261,
+          "mean_visit_tp": 2130.5,
+          "mean_visit_fp": 4621.625,
+          "mean_visit_fn": 3907.625,
+          "pooled_voxel_recall": 0.35284132077424696,
+          "pooled_voxel_precision": 0.31553029601792026
+        },
+        {
+          "class_index": 4,
+          "tp": 6078,
+          "fp": 2650,
+          "fn": 1089,
+          "mean_visit_tp": 759.75,
+          "mean_visit_fp": 331.25,
+          "mean_visit_fn": 136.125,
+          "pooled_voxel_recall": 0.8480535789033068,
+          "pooled_voxel_precision": 0.6963794683776352
+        },
+        {
+          "class_index": 5,
+          "tp": 657,
+          "fp": 122,
+          "fn": 9864,
+          "mean_visit_tp": 82.125,
+          "mean_visit_fp": 15.25,
+          "mean_visit_fn": 1233.0,
+          "pooled_voxel_recall": 0.06244653550042772,
+          "pooled_voxel_precision": 0.8433889602053916
+        }
+      ]
+    },
+    "gamma_only": {
+      "checkpoint_sha256": "293138ddcd31fa4c7c81167edaf6be04481415fdaf5d4d9eb307b09b8939fce6",
+      "checkpoint_epoch": 30,
+      "state_unchanged": true,
+      "cases": [
+        {
+          "patient": "M015",
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 516538,
+              "fp": 3027,
+              "fn": 57095,
+              "predicted_voxels": 519565,
+              "target_voxels": 573633,
+              "dice": 0.9450035583672857,
+              "iou": 0.8957409912253321,
+              "recall": 0.9004677206506599,
+              "precision": 0.9941739724577291
+            },
+            {
+              "class_index": 1,
+              "tp": 418806,
+              "fp": 56748,
+              "fn": 15302,
+              "predicted_voxels": 475554,
+              "target_voxels": 434108,
+              "dice": 0.9207947567338198,
+              "iou": 0.8532156070212038,
+              "recall": 0.9647507071972873,
+              "precision": 0.8806697031251971
+            },
+            {
+              "class_index": 2,
+              "tp": 31707,
+              "fp": 14959,
+              "fn": 1807,
+              "predicted_voxels": 46666,
+              "target_voxels": 33514,
+              "dice": 0.7908954851583936,
+              "iou": 0.6541167247746168,
+              "recall": 0.9460822342901474,
+              "precision": 0.6794454206488664
+            },
+            {
+              "class_index": 3,
+              "tp": 2350,
+              "fp": 3073,
+              "fn": 2880,
+              "predicted_voxels": 5423,
+              "target_voxels": 5230,
+              "dice": 0.4411902750398949,
+              "iou": 0.2830302300373359,
+              "recall": 0.44933078393881454,
+              "precision": 0.433339479992624
+            },
+            {
+              "class_index": 4,
+              "tp": 632,
+              "fp": 158,
+              "fn": 204,
+              "predicted_voxels": 790,
+              "target_voxels": 836,
+              "dice": 0.7773677736777368,
+              "iou": 0.635814889336016,
+              "recall": 0.7559808612440191,
+              "precision": 0.8
+            },
+            {
+              "class_index": 5,
+              "tp": 534,
+              "fp": 44,
+              "fn": 721,
+              "predicted_voxels": 578,
+              "target_voxels": 1255,
+              "dice": 0.5826513911620295,
+              "iou": 0.4110854503464203,
+              "recall": 0.4254980079681275,
+              "precision": 0.9238754325259516
+            }
+          ],
+          "foreground_mean_dice": 0.7025799363543749,
+          "foreground_mean_iou": 0.5674525803031185
+        },
+        {
+          "patient": "M015",
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 498695,
+              "fp": 4428,
+              "fn": 54795,
+              "predicted_voxels": 503123,
+              "target_voxels": 553490,
+              "dice": 0.9439501501495817,
+              "iou": 0.8938499922927742,
+              "recall": 0.9010009214258613,
+              "precision": 0.9911989712257241
+            },
+            {
+              "class_index": 1,
+              "tp": 426715,
+              "fp": 56971,
+              "fn": 23567,
+              "predicted_voxels": 483686,
+              "target_voxels": 450282,
+              "dice": 0.9137679235262879,
+              "iou": 0.8412271588339546,
+              "recall": 0.9476616875646817,
+              "precision": 0.8822149080188386
+            },
+            {
+              "class_index": 2,
+              "tp": 32779,
+              "fp": 17837,
+              "fn": 1443,
+              "predicted_voxels": 50616,
+              "target_voxels": 34222,
+              "dice": 0.772743346142059,
+              "iou": 0.6296509729345551,
+              "recall": 0.9578341417801415,
+              "precision": 0.6476015489173383
+            },
+            {
+              "class_index": 3,
+              "tp": 1432,
+              "fp": 8883,
+              "fn": 6841,
+              "predicted_voxels": 10315,
+              "target_voxels": 8273,
+              "dice": 0.15407789972024963,
+              "iou": 0.08346934017253439,
+              "recall": 0.17309319472984408,
+              "precision": 0.1388269510421716
+            },
+            {
+              "class_index": 4,
+              "tp": 641,
+              "fp": 194,
+              "fn": 309,
+              "predicted_voxels": 835,
+              "target_voxels": 950,
+              "dice": 0.7182072829131653,
+              "iou": 0.5603146853146853,
+              "recall": 0.6747368421052632,
+              "precision": 0.7676646706586826
+            },
+            {
+              "class_index": 5,
+              "tp": 1,
+              "fp": 0,
+              "fn": 1358,
+              "predicted_voxels": 1,
+              "target_voxels": 1359,
+              "dice": 0.0014705882352941176,
+              "iou": 0.0007358351729212656,
+              "recall": 0.0007358351729212656,
+              "precision": 1.0
+            }
+          ],
+          "foreground_mean_dice": 0.5120534081074112,
+          "foreground_mean_iou": 0.4230795984857301
+        },
+        {
+          "patient": "M015",
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 537803,
+              "fp": 4012,
+              "fn": 51561,
+              "predicted_voxels": 541815,
+              "target_voxels": 589364,
+              "dice": 0.9508716127155826,
+              "iou": 0.9063443752359381,
+              "recall": 0.912514167814797,
+              "precision": 0.9925952585292027
+            },
+            {
+              "class_index": 1,
+              "tp": 400920,
+              "fp": 47835,
+              "fn": 20079,
+              "predicted_voxels": 448755,
+              "target_voxels": 420999,
+              "dice": 0.9219158520685159,
+              "iou": 0.8551427584176915,
+              "recall": 0.9523063000149644,
+              "precision": 0.8934050874084969
+            },
+            {
+              "class_index": 2,
+              "tp": 30323,
+              "fp": 18148,
+              "fn": 2031,
+              "predicted_voxels": 48471,
+              "target_voxels": 32354,
+              "dice": 0.7503371481596041,
+              "iou": 0.6004316660726308,
+              "recall": 0.9372256907955739,
+              "precision": 0.625590559303501
+            },
+            {
+              "class_index": 3,
+              "tp": 2290,
+              "fp": 5493,
+              "fn": 1511,
+              "predicted_voxels": 7783,
+              "target_voxels": 3801,
+              "dice": 0.3953729281767956,
+              "iou": 0.2463955239939746,
+              "recall": 0.6024730334122599,
+              "precision": 0.29423101631761533
+            },
+            {
+              "class_index": 4,
+              "tp": 521,
+              "fp": 694,
+              "fn": 202,
+              "predicted_voxels": 1215,
+              "target_voxels": 723,
+              "dice": 0.5376676986584107,
+              "iou": 0.3676781933662668,
+              "recall": 0.7206085753803596,
+              "precision": 0.4288065843621399
+            },
+            {
+              "class_index": 5,
+              "tp": 465,
+              "fp": 72,
+              "fn": 870,
+              "predicted_voxels": 537,
+              "target_voxels": 1335,
+              "dice": 0.4967948717948718,
+              "iou": 0.3304904051172708,
+              "recall": 0.34831460674157305,
+              "precision": 0.8659217877094972
+            }
+          ],
+          "foreground_mean_dice": 0.6204176997716396,
+          "foreground_mean_iou": 0.4800277093935669
+        },
+        {
+          "patient": "M015",
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 569316,
+              "fp": 2792,
+              "fn": 50599,
+              "predicted_voxels": 572108,
+              "target_voxels": 619915,
+              "dice": 0.9552097568587183,
+              "iou": 0.9142598364881076,
+              "recall": 0.918377519498641,
+              "precision": 0.9951198025547624
+            },
+            {
+              "class_index": 1,
+              "tp": 371570,
+              "fp": 50255,
+              "fn": 19236,
+              "predicted_voxels": 421825,
+              "target_voxels": 390806,
+              "dice": 0.9144864028076704,
+              "iou": 0.8424458294884382,
+              "recall": 0.9507786472060306,
+              "precision": 0.8808629170864695
+            },
+            {
+              "class_index": 2,
+              "tp": 28548,
+              "fp": 15105,
+              "fn": 1539,
+              "predicted_voxels": 43653,
+              "target_voxels": 30087,
+              "dice": 0.7742880390561432,
+              "iou": 0.6317047265002655,
+              "recall": 0.9488483398145379,
+              "precision": 0.6539756717751357
+            },
+            {
+              "class_index": 3,
+              "tp": 1726,
+              "fp": 8394,
+              "fn": 4048,
+              "predicted_voxels": 10120,
+              "target_voxels": 5774,
+              "dice": 0.2171888763055241,
+              "iou": 0.12182382834556747,
+              "recall": 0.29892622099064775,
+              "precision": 0.17055335968379445
+            },
+            {
+              "class_index": 4,
+              "tp": 591,
+              "fp": 159,
+              "fn": 155,
+              "predicted_voxels": 750,
+              "target_voxels": 746,
+              "dice": 0.7901069518716578,
+              "iou": 0.6530386740331492,
+              "recall": 0.792225201072386,
+              "precision": 0.788
+            },
+            {
+              "class_index": 5,
+              "tp": 120,
+              "fp": 0,
+              "fn": 1128,
+              "predicted_voxels": 120,
+              "target_voxels": 1248,
+              "dice": 0.17543859649122806,
+              "iou": 0.09615384615384616,
+              "recall": 0.09615384615384616,
+              "precision": 1.0
+            }
+          ],
+          "foreground_mean_dice": 0.5743017733064447,
+          "foreground_mean_iou": 0.46903338090425334
+        },
+        {
+          "patient": "M015",
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 532763,
+              "fp": 4390,
+              "fn": 49936,
+              "predicted_voxels": 537153,
+              "target_voxels": 582699,
+              "dice": 0.9514882323735636,
+              "iou": 0.9074654779769337,
+              "recall": 0.9143022383769321,
+              "precision": 0.9918272819848348
+            },
+            {
+              "class_index": 1,
+              "tp": 401770,
+              "fp": 54412,
+              "fn": 18617,
+              "predicted_voxels": 456182,
+              "target_voxels": 420387,
+              "dice": 0.9166876766118811,
+              "iou": 0.84618965077854,
+              "recall": 0.9557146153425297,
+              "precision": 0.8807230447496832
+            },
+            {
+              "class_index": 2,
+              "tp": 31240,
+              "fp": 16631,
+              "fn": 1720,
+              "predicted_voxels": 47871,
+              "target_voxels": 32960,
+              "dice": 0.772970766166446,
+              "iou": 0.6299530156681656,
+              "recall": 0.9478155339805825,
+              "precision": 0.6525871613294061
+            },
+            {
+              "class_index": 3,
+              "tp": 2082,
+              "fp": 3962,
+              "fn": 8253,
+              "predicted_voxels": 6044,
+              "target_voxels": 10335,
+              "dice": 0.2542279748458392,
+              "iou": 0.14562495628453523,
+              "recall": 0.20145137880986938,
+              "precision": 0.3444738583719391
+            },
+            {
+              "class_index": 4,
+              "tp": 672,
+              "fp": 221,
+              "fn": 256,
+              "predicted_voxels": 893,
+              "target_voxels": 928,
+              "dice": 0.7380560131795717,
+              "iou": 0.5848563968668408,
+              "recall": 0.7241379310344828,
+              "precision": 0.7525195968645016
+            },
+            {
+              "class_index": 5,
+              "tp": 408,
+              "fp": 25,
+              "fn": 859,
+              "predicted_voxels": 433,
+              "target_voxels": 1267,
+              "dice": 0.48,
+              "iou": 0.3157894736842105,
+              "recall": 0.32202052091554856,
+              "precision": 0.9422632794457275
+            }
+          ],
+          "foreground_mean_dice": 0.6323884861607476,
+          "foreground_mean_iou": 0.5044826986564586
+        },
+        {
+          "patient": "M015",
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 465391,
+              "fp": 3880,
+              "fn": 54471,
+              "predicted_voxels": 469271,
+              "target_voxels": 519862,
+              "dice": 0.9410079332101952,
+              "iou": 0.88858827437937,
+              "recall": 0.8952202699947294,
+              "precision": 0.9917318564326371
+            },
+            {
+              "class_index": 1,
+              "tp": 453106,
+              "fp": 49184,
+              "fn": 27381,
+              "predicted_voxels": 502290,
+              "target_voxels": 480487,
+              "dice": 0.9220932113795907,
+              "iou": 0.8554480045160109,
+              "recall": 0.9430140669778787,
+              "precision": 0.9020804714408012
+            },
+            {
+              "class_index": 2,
+              "tp": 38154,
+              "fp": 26244,
+              "fn": 3505,
+              "predicted_voxels": 64398,
+              "target_voxels": 41659,
+              "dice": 0.7194998915677419,
+              "iou": 0.5618897545027466,
+              "recall": 0.9158645190715091,
+              "precision": 0.5924718158949036
+            },
+            {
+              "class_index": 3,
+              "tp": 3492,
+              "fp": 8155,
+              "fn": 513,
+              "predicted_voxels": 11647,
+              "target_voxels": 4005,
+              "dice": 0.4462049578328648,
+              "iou": 0.28717105263157894,
+              "recall": 0.8719101123595505,
+              "precision": 0.299819696059071
+            },
+            {
+              "class_index": 4,
+              "tp": 645,
+              "fp": 156,
+              "fn": 502,
+              "predicted_voxels": 801,
+              "target_voxels": 1147,
+              "dice": 0.662217659137577,
+              "iou": 0.4950115118956255,
+              "recall": 0.5623365300784655,
+              "precision": 0.8052434456928839
+            },
+            {
+              "class_index": 5,
+              "tp": 2,
+              "fp": 167,
+              "fn": 1414,
+              "predicted_voxels": 169,
+              "target_voxels": 1416,
+              "dice": 0.002523659305993691,
+              "iou": 0.0012634238787113076,
+              "recall": 0.0014124293785310734,
+              "precision": 0.011834319526627219
+            }
+          ],
+          "foreground_mean_dice": 0.5505078758447536,
+          "foreground_mean_iou": 0.44015674948493466
+        },
+        {
+          "patient": "M015",
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 495308,
+              "fp": 4698,
+              "fn": 46766,
+              "predicted_voxels": 500006,
+              "target_voxels": 542074,
+              "dice": 0.950614156302779,
+              "iou": 0.9058766725435831,
+              "recall": 0.9137276460409465,
+              "precision": 0.990604112750647
+            },
+            {
+              "class_index": 1,
+              "tp": 438118,
+              "fp": 47015,
+              "fn": 24710,
+              "predicted_voxels": 485133,
+              "target_voxels": 462828,
+              "dice": 0.9243376046060967,
+              "iou": 0.8593194375523445,
+              "recall": 0.9466108359909081,
+              "precision": 0.9030884314198374
+            },
+            {
+              "class_index": 2,
+              "tp": 33024,
+              "fp": 15968,
+              "fn": 2399,
+              "predicted_voxels": 48992,
+              "target_voxels": 35423,
+              "dice": 0.782420185985903,
+              "iou": 0.642602790371855,
+              "recall": 0.9322756401208254,
+              "precision": 0.674069235793599
+            },
+            {
+              "class_index": 3,
+              "tp": 3075,
+              "fp": 10430,
+              "fn": 2847,
+              "predicted_voxels": 13505,
+              "target_voxels": 5922,
+              "dice": 0.3165697225510887,
+              "iou": 0.1880503913894325,
+              "recall": 0.5192502532928065,
+              "precision": 0.22769344687152906
+            },
+            {
+              "class_index": 4,
+              "tp": 609,
+              "fp": 212,
+              "fn": 402,
+              "predicted_voxels": 821,
+              "target_voxels": 1011,
+              "dice": 0.6648471615720524,
+              "iou": 0.49795584627964024,
+              "recall": 0.6023738872403561,
+              "precision": 0.7417783191230207
+            },
+            {
+              "class_index": 5,
+              "tp": 22,
+              "fp": 97,
+              "fn": 1296,
+              "predicted_voxels": 119,
+              "target_voxels": 1318,
+              "dice": 0.030619345859429367,
+              "iou": 0.015547703180212015,
+              "recall": 0.01669195751138088,
+              "precision": 0.18487394957983194
+            }
+          ],
+          "foreground_mean_dice": 0.543758804114914,
+          "foreground_mean_iou": 0.4406952337546969
+        },
+        {
+          "patient": "M015",
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 513403,
+              "fp": 3971,
+              "fn": 54066,
+              "predicted_voxels": 517374,
+              "target_voxels": 567469,
+              "dice": 0.9465019362248731,
+              "iou": 0.8984372812543749,
+              "recall": 0.9047243109315223,
+              "precision": 0.9923247012799251
+            },
+            {
+              "class_index": 1,
+              "tp": 426921,
+              "fp": 51797,
+              "fn": 15396,
+              "predicted_voxels": 478718,
+              "target_voxels": 442317,
+              "dice": 0.9270462034558947,
+              "iou": 0.864013162954298,
+              "recall": 0.96519238464721,
+              "precision": 0.8918006007712265
+            },
+            {
+              "class_index": 2,
+              "tp": 29471,
+              "fp": 15934,
+              "fn": 2205,
+              "predicted_voxels": 45405,
+              "target_voxels": 31676,
+              "dice": 0.7646761199257923,
+              "iou": 0.6190086116362109,
+              "recall": 0.9303889379972219,
+              "precision": 0.649069485739456
+            },
+            {
+              "class_index": 3,
+              "tp": 2557,
+              "fp": 3142,
+              "fn": 2408,
+              "predicted_voxels": 5699,
+              "target_voxels": 4965,
+              "dice": 0.4795573893473368,
+              "iou": 0.31540643887998027,
+              "recall": 0.5150050352467271,
+              "precision": 0.4486752061765222
+            },
+            {
+              "class_index": 4,
+              "tp": 671,
+              "fp": 214,
+              "fn": 155,
+              "predicted_voxels": 885,
+              "target_voxels": 826,
+              "dice": 0.7843366452367037,
+              "iou": 0.6451923076923077,
+              "recall": 0.8123486682808717,
+              "precision": 0.7581920903954802
+            },
+            {
+              "class_index": 5,
+              "tp": 414,
+              "fp": 81,
+              "fn": 909,
+              "predicted_voxels": 495,
+              "target_voxels": 1323,
+              "dice": 0.45544554455445546,
+              "iou": 0.2948717948717949,
+              "recall": 0.3129251700680272,
+              "precision": 0.8363636363636363
+            }
+          ],
+          "foreground_mean_dice": 0.6822123805040367,
+          "foreground_mean_iou": 0.5476984632069184
+        }
+      ],
+      "aggregate": {
+        "num_cases": 8,
+        "num_patients": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9480809170253224,
+            "iou": 0.9013203626745517
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9201412038987196,
+            "iou": 0.8521252011953102
+          },
+          {
+            "class_index": 2,
+            "dice": 0.7659788727702604,
+            "iou": 0.6211697828076308
+          },
+          {
+            "class_index": 3,
+            "dice": 0.33804875297744924,
+            "iou": 0.20887147021686742
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7091008982808595,
+            "iou": 0.5549828130980664
+          },
+          {
+            "class_index": 5,
+            "dice": 0.27811799967541273,
+            "iou": 0.1832422415506734
+          }
+        ],
+        "foreground_mean_dice": 0.6022775455205404,
+        "foreground_mean_iou": 0.4840783017737096,
+        "patients": [
+          {
+            "patient": "M015",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.9480809170253224,
+                "iou": 0.9013203626745517
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9201412038987196,
+                "iou": 0.8521252011953102
+              },
+              {
+                "class_index": 2,
+                "dice": 0.7659788727702604,
+                "iou": 0.6211697828076308
+              },
+              {
+                "class_index": 3,
+                "dice": 0.33804875297744924,
+                "iou": 0.20887147021686742
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7091008982808595,
+                "iou": 0.5549828130980664
+              },
+              {
+                "class_index": 5,
+                "dice": 0.27811799967541273,
+                "iou": 0.1832422415506734
+              }
+            ],
+            "foreground_mean_dice": 0.6022775455205404,
+            "foreground_mean_iou": 0.4840783017737096
+          }
+        ]
+      },
+      "pooled_counts": [
+        {
+          "class_index": 0,
+          "tp": 4129217,
+          "fp": 31198,
+          "fn": 419289,
+          "mean_visit_tp": 516152.125,
+          "mean_visit_fp": 3899.75,
+          "mean_visit_fn": 52411.125,
+          "pooled_voxel_recall": 0.9078183034165505,
+          "pooled_voxel_precision": 0.9925012288437571
+        },
+        {
+          "class_index": 1,
+          "tp": 3337926,
+          "fp": 414217,
+          "fn": 164288,
+          "mean_visit_tp": 417240.75,
+          "mean_visit_fp": 51777.125,
+          "mean_visit_fn": 20536.0,
+          "pooled_voxel_recall": 0.9530902451991797,
+          "pooled_voxel_precision": 0.889605220270123
+        },
+        {
+          "class_index": 2,
+          "tp": 255246,
+          "fp": 140826,
+          "fn": 16649,
+          "mean_visit_tp": 31905.75,
+          "mean_visit_fp": 17603.25,
+          "mean_visit_fn": 2081.125,
+          "pooled_voxel_recall": 0.9387668033615918,
+          "pooled_voxel_precision": 0.6444434345270557
+        },
+        {
+          "class_index": 3,
+          "tp": 19004,
+          "fp": 51532,
+          "fn": 29301,
+          "mean_visit_tp": 2375.5,
+          "mean_visit_fp": 6441.5,
+          "mean_visit_fn": 3662.625,
+          "pooled_voxel_recall": 0.3934168305558431,
+          "pooled_voxel_precision": 0.2694227061358739
+        },
+        {
+          "class_index": 4,
+          "tp": 4982,
+          "fp": 2008,
+          "fn": 2185,
+          "mean_visit_tp": 622.75,
+          "mean_visit_fp": 251.0,
+          "mean_visit_fn": 273.125,
+          "pooled_voxel_recall": 0.6951304590484163,
+          "pooled_voxel_precision": 0.7127324749642346
+        },
+        {
+          "class_index": 5,
+          "tp": 1966,
+          "fp": 486,
+          "fn": 8555,
+          "mean_visit_tp": 245.75,
+          "mean_visit_fp": 60.75,
+          "mean_visit_fn": 1069.375,
+          "pooled_voxel_recall": 0.18686436650508506,
+          "pooled_voxel_precision": 0.8017944535073409
+        }
+      ]
+    },
+    "gamma_polarity": {
+      "checkpoint_sha256": "b13ba58fe8837fb9522b6108412281c51210a3be486011d59f902347ade2a82b",
+      "checkpoint_epoch": 29,
+      "state_unchanged": true,
+      "cases": [
+        {
+          "patient": "M015",
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 529449,
+              "fp": 4337,
+              "fn": 44184,
+              "predicted_voxels": 533786,
+              "target_voxels": 573633,
+              "dice": 0.9561855088272821,
+              "iou": 0.9160492759139748,
+              "recall": 0.9229751426434671,
+              "precision": 0.9918750210758619
+            },
+            {
+              "class_index": 1,
+              "tp": 419972,
+              "fp": 45237,
+              "fn": 14136,
+              "predicted_voxels": 465209,
+              "target_voxels": 434108,
+              "dice": 0.9339798980782082,
+              "iou": 0.8761372289269732,
+              "recall": 0.9674366747445337,
+              "precision": 0.9027598348269272
+            },
+            {
+              "class_index": 2,
+              "tp": 30771,
+              "fp": 13335,
+              "fn": 2743,
+              "predicted_voxels": 44106,
+              "target_voxels": 33514,
+              "dice": 0.7928626642617882,
+              "iou": 0.6568123118956648,
+              "recall": 0.9181536074476339,
+              "precision": 0.6976601822881241
+            },
+            {
+              "class_index": 3,
+              "tp": 1539,
+              "fp": 2092,
+              "fn": 3691,
+              "predicted_voxels": 3631,
+              "target_voxels": 5230,
+              "dice": 0.3473648572395892,
+              "iou": 0.21018847309478284,
+              "recall": 0.29426386233269597,
+              "precision": 0.4238501790140457
+            },
+            {
+              "class_index": 4,
+              "tp": 699,
+              "fp": 210,
+              "fn": 137,
+              "predicted_voxels": 909,
+              "target_voxels": 836,
+              "dice": 0.8011461318051576,
+              "iou": 0.6682600382409177,
+              "recall": 0.8361244019138756,
+              "precision": 0.768976897689769
+            },
+            {
+              "class_index": 5,
+              "tp": 767,
+              "fp": 168,
+              "fn": 488,
+              "predicted_voxels": 935,
+              "target_voxels": 1255,
+              "dice": 0.7004566210045662,
+              "iou": 0.5390021082220661,
+              "recall": 0.6111553784860557,
+              "precision": 0.8203208556149733
+            }
+          ],
+          "foreground_mean_dice": 0.715162034477862,
+          "foreground_mean_iou": 0.590080032076081
+        },
+        {
+          "patient": "M015",
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 507359,
+              "fp": 7176,
+              "fn": 46131,
+              "predicted_voxels": 514535,
+              "target_voxels": 553490,
+              "dice": 0.9500882469979636,
+              "iou": 0.9049220034744393,
+              "recall": 0.9166543207646028,
+              "precision": 0.9860534268805815
+            },
+            {
+              "class_index": 1,
+              "tp": 431529,
+              "fp": 49277,
+              "fn": 18753,
+              "predicted_voxels": 480806,
+              "target_voxels": 450282,
+              "dice": 0.9269349406285979,
+              "iou": 0.8638198891422234,
+              "recall": 0.9583527656002239,
+              "precision": 0.8975116783068431
+            },
+            {
+              "class_index": 2,
+              "tp": 31345,
+              "fp": 14722,
+              "fn": 2877,
+              "predicted_voxels": 46067,
+              "target_voxels": 34222,
+              "dice": 0.7808043443061938,
+              "iou": 0.6404257927427264,
+              "recall": 0.9159312722809888,
+              "precision": 0.6804219940521414
+            },
+            {
+              "class_index": 3,
+              "tp": 1725,
+              "fp": 3210,
+              "fn": 6548,
+              "predicted_voxels": 4935,
+              "target_voxels": 8273,
+              "dice": 0.2612053301029679,
+              "iou": 0.1502220674039885,
+              "recall": 0.20850960957331077,
+              "precision": 0.3495440729483283
+            },
+            {
+              "class_index": 4,
+              "tp": 769,
+              "fp": 245,
+              "fn": 181,
+              "predicted_voxels": 1014,
+              "target_voxels": 950,
+              "dice": 0.7830957230142567,
+              "iou": 0.6435146443514644,
+              "recall": 0.8094736842105263,
+              "precision": 0.7583826429980276
+            },
+            {
+              "class_index": 5,
+              "tp": 907,
+              "fp": 312,
+              "fn": 452,
+              "predicted_voxels": 1219,
+              "target_voxels": 1359,
+              "dice": 0.7036462373933282,
+              "iou": 0.542788749251945,
+              "recall": 0.6674025018395879,
+              "precision": 0.7440525020508614
+            }
+          ],
+          "foreground_mean_dice": 0.691137315089069,
+          "foreground_mean_iou": 0.5681542285784695
+        },
+        {
+          "patient": "M015",
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 546033,
+              "fp": 4636,
+              "fn": 43331,
+              "predicted_voxels": 550669,
+              "target_voxels": 589364,
+              "dice": 0.9579249021738845,
+              "iou": 0.9192474747474747,
+              "recall": 0.9264783732973171,
+              "precision": 0.9915811494745482
+            },
+            {
+              "class_index": 1,
+              "tp": 406621,
+              "fp": 42177,
+              "fn": 14378,
+              "predicted_voxels": 448798,
+              "target_voxels": 420999,
+              "dice": 0.9349790813258726,
+              "iou": 0.8778973867385184,
+              "recall": 0.9658478998762468,
+              "precision": 0.9060223084773105
+            },
+            {
+              "class_index": 2,
+              "tp": 29202,
+              "fp": 14606,
+              "fn": 3152,
+              "predicted_voxels": 43808,
+              "target_voxels": 32354,
+              "dice": 0.7668391061159108,
+              "iou": 0.6218483816013629,
+              "recall": 0.9025777338196205,
+              "precision": 0.6665905770635501
+            },
+            {
+              "class_index": 3,
+              "tp": 1733,
+              "fp": 1200,
+              "fn": 2068,
+              "predicted_voxels": 2933,
+              "target_voxels": 3801,
+              "dice": 0.5147015147015147,
+              "iou": 0.34653069386122776,
+              "recall": 0.4559326493028151,
+              "precision": 0.5908625980225025
+            },
+            {
+              "class_index": 4,
+              "tp": 618,
+              "fp": 397,
+              "fn": 105,
+              "predicted_voxels": 1015,
+              "target_voxels": 723,
+              "dice": 0.7111622554660529,
+              "iou": 0.5517857142857143,
+              "recall": 0.8547717842323651,
+              "precision": 0.6088669950738916
+            },
+            {
+              "class_index": 5,
+              "tp": 1001,
+              "fp": 352,
+              "fn": 334,
+              "predicted_voxels": 1353,
+              "target_voxels": 1335,
+              "dice": 0.7447916666666666,
+              "iou": 0.5933609958506224,
+              "recall": 0.749812734082397,
+              "precision": 0.7398373983739838
+            }
+          ],
+          "foreground_mean_dice": 0.7344947248552035,
+          "foreground_mean_iou": 0.5982846344674893
+        },
+        {
+          "patient": "M015",
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 576552,
+              "fp": 3199,
+              "fn": 43363,
+              "predicted_voxels": 579751,
+              "target_voxels": 619915,
+              "dice": 0.9611875305293307,
+              "iou": 0.9252753107778031,
+              "recall": 0.9300500875119976,
+              "precision": 0.9944821138730248
+            },
+            {
+              "class_index": 1,
+              "tp": 377123,
+              "fp": 44867,
+              "fn": 13683,
+              "predicted_voxels": 421990,
+              "target_voxels": 390806,
+              "dice": 0.9279647045507113,
+              "iou": 0.8656102168369396,
+              "recall": 0.9649877432792742,
+              "precision": 0.8936775752979929
+            },
+            {
+              "class_index": 2,
+              "tp": 26978,
+              "fp": 13121,
+              "fn": 3109,
+              "predicted_voxels": 40099,
+              "target_voxels": 30087,
+              "dice": 0.7687573020260451,
+              "iou": 0.6243751157193113,
+              "recall": 0.8966663342972048,
+              "precision": 0.6727848574777426
+            },
+            {
+              "class_index": 3,
+              "tp": 1465,
+              "fp": 3519,
+              "fn": 4309,
+              "predicted_voxels": 4984,
+              "target_voxels": 5774,
+              "dice": 0.2723554564045362,
+              "iou": 0.15764553965350264,
+              "recall": 0.2537235885001732,
+              "precision": 0.2939406099518459
+            },
+            {
+              "class_index": 4,
+              "tp": 628,
+              "fp": 208,
+              "fn": 118,
+              "predicted_voxels": 836,
+              "target_voxels": 746,
+              "dice": 0.7939317319848294,
+              "iou": 0.6582809224318659,
+              "recall": 0.8418230563002681,
+              "precision": 0.7511961722488039
+            },
+            {
+              "class_index": 5,
+              "tp": 826,
+              "fp": 90,
+              "fn": 422,
+              "predicted_voxels": 916,
+              "target_voxels": 1248,
+              "dice": 0.7634011090573013,
+              "iou": 0.617339312406577,
+              "recall": 0.6618589743589743,
+              "precision": 0.9017467248908297
+            }
+          ],
+          "foreground_mean_dice": 0.7052820608046846,
+          "foreground_mean_iou": 0.5846502214096392
+        },
+        {
+          "patient": "M015",
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 541372,
+              "fp": 8891,
+              "fn": 41327,
+              "predicted_voxels": 550263,
+              "target_voxels": 582699,
+              "dice": 0.955675477200471,
+              "iou": 0.915113507665782,
+              "recall": 0.9290765901434531,
+              "precision": 0.9838422717864003
+            },
+            {
+              "class_index": 1,
+              "tp": 403570,
+              "fp": 46469,
+              "fn": 16817,
+              "predicted_voxels": 450039,
+              "target_voxels": 420387,
+              "dice": 0.9272930725874456,
+              "iou": 0.8644421406172353,
+              "recall": 0.959996384284005,
+              "precision": 0.8967445043651773
+            },
+            {
+              "class_index": 2,
+              "tp": 29326,
+              "fp": 12637,
+              "fn": 3634,
+              "predicted_voxels": 41963,
+              "target_voxels": 32960,
+              "dice": 0.7828303725157829,
+              "iou": 0.6431563480053513,
+              "recall": 0.889745145631068,
+              "precision": 0.6988537521149584
+            },
+            {
+              "class_index": 3,
+              "tp": 2369,
+              "fp": 1781,
+              "fn": 7966,
+              "predicted_voxels": 4150,
+              "target_voxels": 10335,
+              "dice": 0.32709699689333793,
+              "iou": 0.19552657642786397,
+              "recall": 0.22922109337203678,
+              "precision": 0.570843373493976
+            },
+            {
+              "class_index": 4,
+              "tp": 760,
+              "fp": 300,
+              "fn": 168,
+              "predicted_voxels": 1060,
+              "target_voxels": 928,
+              "dice": 0.7645875251509054,
+              "iou": 0.6188925081433225,
+              "recall": 0.8189655172413793,
+              "precision": 0.7169811320754716
+            },
+            {
+              "class_index": 5,
+              "tp": 879,
+              "fp": 222,
+              "fn": 388,
+              "predicted_voxels": 1101,
+              "target_voxels": 1267,
+              "dice": 0.7423986486486487,
+              "iou": 0.590329079919409,
+              "recall": 0.6937647987371744,
+              "precision": 0.7983651226158038
+            }
+          ],
+          "foreground_mean_dice": 0.7088413231592241,
+          "foreground_mean_iou": 0.5824693306226364
+        },
+        {
+          "patient": "M015",
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 478119,
+              "fp": 6949,
+              "fn": 41743,
+              "predicted_voxels": 485068,
+              "target_voxels": 519862,
+              "dice": 0.9515468739116157,
+              "iou": 0.9075721653496226,
+              "recall": 0.9197036905948117,
+              "precision": 0.9856741735179397
+            },
+            {
+              "class_index": 1,
+              "tp": 462710,
+              "fp": 43625,
+              "fn": 17777,
+              "predicted_voxels": 506335,
+              "target_voxels": 480487,
+              "dice": 0.9377780389979146,
+              "iou": 0.8828456513111701,
+              "recall": 0.9630021207649738,
+              "precision": 0.9138416265910909
+            },
+            {
+              "class_index": 2,
+              "tp": 36899,
+              "fp": 14644,
+              "fn": 4760,
+              "predicted_voxels": 51543,
+              "target_voxels": 41659,
+              "dice": 0.7918070427673226,
+              "iou": 0.6553647230165355,
+              "recall": 0.8857389759715788,
+              "precision": 0.7158877054110161
+            },
+            {
+              "class_index": 3,
+              "tp": 2645,
+              "fp": 1109,
+              "fn": 1360,
+              "predicted_voxels": 3754,
+              "target_voxels": 4005,
+              "dice": 0.6817888903209176,
+              "iou": 0.5172076652326946,
+              "recall": 0.6604244694132334,
+              "precision": 0.704581779435269
+            },
+            {
+              "class_index": 4,
+              "tp": 926,
+              "fp": 210,
+              "fn": 221,
+              "predicted_voxels": 1136,
+              "target_voxels": 1147,
+              "dice": 0.8112133158125274,
+              "iou": 0.6823876197494473,
+              "recall": 0.8073234524847428,
+              "precision": 0.8151408450704225
+            },
+            {
+              "class_index": 5,
+              "tp": 667,
+              "fp": 73,
+              "fn": 749,
+              "predicted_voxels": 740,
+              "target_voxels": 1416,
+              "dice": 0.6187384044526901,
+              "iou": 0.44795164539959703,
+              "recall": 0.471045197740113,
+              "precision": 0.9013513513513514
+            }
+          ],
+          "foreground_mean_dice": 0.7682651384702746,
+          "foreground_mean_iou": 0.6371514609418889
+        },
+        {
+          "patient": "M015",
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 504754,
+              "fp": 7706,
+              "fn": 37320,
+              "predicted_voxels": 512460,
+              "target_voxels": 542074,
+              "dice": 0.9573024672509374,
+              "iou": 0.9181017861690131,
+              "recall": 0.9311533111715374,
+              "precision": 0.9849627287983452
+            },
+            {
+              "class_index": 1,
+              "tp": 443440,
+              "fp": 39401,
+              "fn": 19388,
+              "predicted_voxels": 482841,
+              "target_voxels": 462828,
+              "dice": 0.9378334279753275,
+              "iou": 0.8829438363774295,
+              "recall": 0.9581097081421176,
+              "precision": 0.9183975677293353
+            },
+            {
+              "class_index": 2,
+              "tp": 31788,
+              "fp": 13701,
+              "fn": 3635,
+              "predicted_voxels": 45489,
+              "target_voxels": 35423,
+              "dice": 0.7857425350998616,
+              "iou": 0.6470971419265532,
+              "recall": 0.8973830562064196,
+              "precision": 0.6988063048209457
+            },
+            {
+              "class_index": 3,
+              "tp": 2246,
+              "fp": 3235,
+              "fn": 3676,
+              "predicted_voxels": 5481,
+              "target_voxels": 5922,
+              "dice": 0.39393142155573097,
+              "iou": 0.245276837392159,
+              "recall": 0.37926376224248565,
+              "precision": 0.40977923736544425
+            },
+            {
+              "class_index": 4,
+              "tp": 842,
+              "fp": 350,
+              "fn": 169,
+              "predicted_voxels": 1192,
+              "target_voxels": 1011,
+              "dice": 0.7644121652292328,
+              "iou": 0.6186627479794269,
+              "recall": 0.8328387734915925,
+              "precision": 0.7063758389261745
+            },
+            {
+              "class_index": 5,
+              "tp": 842,
+              "fp": 271,
+              "fn": 476,
+              "predicted_voxels": 1113,
+              "target_voxels": 1318,
+              "dice": 0.6927190456602221,
+              "iou": 0.5298930144745123,
+              "recall": 0.6388467374810318,
+              "precision": 0.756513926325247
+            }
+          ],
+          "foreground_mean_dice": 0.714927719104075,
+          "foreground_mean_iou": 0.5847747156300162
+        },
+        {
+          "patient": "M015",
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "tp": 521724,
+              "fp": 6707,
+              "fn": 45745,
+              "predicted_voxels": 528431,
+              "target_voxels": 567469,
+              "dice": 0.952137968792773,
+              "iou": 0.9086482193613108,
+              "recall": 0.9193876669915009,
+              "precision": 0.9873077090481066
+            },
+            {
+              "class_index": 1,
+              "tp": 424622,
+              "fp": 45870,
+              "fn": 17695,
+              "predicted_voxels": 470492,
+              "target_voxels": 442317,
+              "dice": 0.9303633071102498,
+              "iou": 0.8697937470682341,
+              "recall": 0.959994754892984,
+              "precision": 0.9025063125409146
+            },
+            {
+              "class_index": 2,
+              "tp": 28861,
+              "fp": 13896,
+              "fn": 2815,
+              "predicted_voxels": 42757,
+              "target_voxels": 31676,
+              "dice": 0.7754893662757111,
+              "iou": 0.6333055384885456,
+              "recall": 0.9111314559919181,
+              "precision": 0.6750005846995814
+            },
+            {
+              "class_index": 3,
+              "tp": 2047,
+              "fp": 3133,
+              "fn": 2918,
+              "predicted_voxels": 5180,
+              "target_voxels": 4965,
+              "dice": 0.4035485460818137,
+              "iou": 0.2527784638182267,
+              "recall": 0.4122860020140987,
+              "precision": 0.39517374517374515
+            },
+            {
+              "class_index": 4,
+              "tp": 707,
+              "fp": 272,
+              "fn": 119,
+              "predicted_voxels": 979,
+              "target_voxels": 826,
+              "dice": 0.7833795013850415,
+              "iou": 0.6438979963570127,
+              "recall": 0.8559322033898306,
+              "precision": 0.7221654749744637
+            },
+            {
+              "class_index": 5,
+              "tp": 668,
+              "fp": 69,
+              "fn": 655,
+              "predicted_voxels": 737,
+              "target_voxels": 1323,
+              "dice": 0.6485436893203883,
+              "iou": 0.47988505747126436,
+              "recall": 0.5049130763416477,
+              "precision": 0.9063772048846676
+            }
+          ],
+          "foreground_mean_dice": 0.7082648820346409,
+          "foreground_mean_iou": 0.5759321606406568
+        }
+      ],
+      "aggregate": {
+        "num_cases": 8,
+        "num_patients": 1,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.955256121960532,
+            "iou": 0.9143662179324277
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9321408089067911,
+            "iou": 0.8729362621273405
+          },
+          {
+            "class_index": 2,
+            "dice": 0.780641591671077,
+            "iou": 0.6402981691745063
+          },
+          {
+            "class_index": 3,
+            "dice": 0.400249126662551,
+            "iou": 0.25942203961055577
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7766160437310006,
+            "iou": 0.6357102739423964
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7018369277754765,
+            "iou": 0.5425687453744992
+          }
+        ],
+        "foreground_mean_dice": 0.7182968997493793,
+        "foreground_mean_iou": 0.5901870980458598,
+        "patients": [
+          {
+            "patient": "M015",
+            "num_cases": 8,
+            "per_class": [
+              {
+                "class_index": 0,
+                "dice": 0.955256121960532,
+                "iou": 0.9143662179324277
+              },
+              {
+                "class_index": 1,
+                "dice": 0.9321408089067911,
+                "iou": 0.8729362621273405
+              },
+              {
+                "class_index": 2,
+                "dice": 0.780641591671077,
+                "iou": 0.6402981691745063
+              },
+              {
+                "class_index": 3,
+                "dice": 0.400249126662551,
+                "iou": 0.25942203961055577
+              },
+              {
+                "class_index": 4,
+                "dice": 0.7766160437310006,
+                "iou": 0.6357102739423964
+              },
+              {
+                "class_index": 5,
+                "dice": 0.7018369277754765,
+                "iou": 0.5425687453744992
+              }
+            ],
+            "foreground_mean_dice": 0.7182968997493793,
+            "foreground_mean_iou": 0.5901870980458598
+          }
+        ]
+      },
+      "pooled_counts": [
+        {
+          "class_index": 0,
+          "tp": 4205362,
+          "fp": 49601,
+          "fn": 343144,
+          "mean_visit_tp": 525670.25,
+          "mean_visit_fp": 6200.125,
+          "mean_visit_fn": 42893.0,
+          "pooled_voxel_recall": 0.9245589650755655,
+          "pooled_voxel_precision": 0.9883427893497546
+        },
+        {
+          "class_index": 1,
+          "tp": 3369587,
+          "fp": 356923,
+          "fn": 132627,
+          "mean_visit_tp": 421198.375,
+          "mean_visit_fp": 44615.375,
+          "mean_visit_fn": 16578.375,
+          "pooled_voxel_recall": 0.9621305265754748,
+          "pooled_voxel_precision": 0.9042205709900147
+        },
+        {
+          "class_index": 2,
+          "tp": 245170,
+          "fp": 110662,
+          "fn": 26725,
+          "mean_visit_tp": 30646.25,
+          "mean_visit_fp": 13832.75,
+          "mean_visit_fn": 3340.625,
+          "pooled_voxel_recall": 0.90170838007319,
+          "pooled_voxel_precision": 0.6890049236718452
+        },
+        {
+          "class_index": 3,
+          "tp": 15769,
+          "fp": 19279,
+          "fn": 32536,
+          "mean_visit_tp": 1971.125,
+          "mean_visit_fp": 2409.875,
+          "mean_visit_fn": 4067.0,
+          "pooled_voxel_recall": 0.32644653762550463,
+          "pooled_voxel_precision": 0.4499258160237389
+        },
+        {
+          "class_index": 4,
+          "tp": 5949,
+          "fp": 2192,
+          "fn": 1218,
+          "mean_visit_tp": 743.625,
+          "mean_visit_fp": 274.0,
+          "mean_visit_fn": 152.25,
+          "pooled_voxel_recall": 0.830054416073671,
+          "pooled_voxel_precision": 0.7307456086475863
+        },
+        {
+          "class_index": 5,
+          "tp": 6557,
+          "fp": 1557,
+          "fn": 3964,
+          "mean_visit_tp": 819.625,
+          "mean_visit_fp": 194.625,
+          "mean_visit_fn": 495.5,
+          "pooled_voxel_recall": 0.6232297310141621,
+          "pooled_voxel_precision": 0.8081094404732561
+        }
+      ]
+    }
+  },
+  "new_minus_same_cpu_reference": {
+    "gamma_only": {
+      "per_visit": [
+        {
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.017430623966403713,
+              "iou": -0.031847568407822546,
+              "tp": -19111,
+              "fp": -804,
+              "fn": 19111,
+              "recall": -0.03331572625703194,
+              "precision": 0.0012752551744192875
+            },
+            {
+              "class_index": 1,
+              "dice": -0.018900067277179744,
+              "iou": -0.03303379106788751,
+              "tp": -826,
+              "fp": 17364,
+              "fn": 826,
+              "recall": -0.0019027523104849786,
+              "precision": -0.03352936618829083
+            },
+            {
+              "class_index": 2,
+              "dice": -0.0411535402017994,
+              "iou": -0.05828391825476609,
+              "tp": -200,
+              "fp": 3685,
+              "fn": 200,
+              "recall": -0.005967655308229403,
+              "precision": -0.05946752717540815
+            },
+            {
+              "class_index": 3,
+              "dice": -0.04531120425004592,
+              "iou": -0.038411431538717844,
+              "tp": -281,
+              "fp": 118,
+              "fn": 281,
+              "recall": -0.05372848948374764,
+              "precision": -0.03765944589351994
+            },
+            {
+              "class_index": 4,
+              "dice": 0.06172796325119656,
+              "iou": 0.07861931738029648,
+              "tp": -123,
+              "fp": -361,
+              "fn": 123,
+              "recall": -0.1471291866028709,
+              "precision": 0.20737833594976451
+            },
+            {
+              "class_index": 5,
+              "dice": 0.5223731840522923,
+              "iou": 0.3800097531352649,
+              "tp": 495,
+              "fp": 44,
+              "fn": -495,
+              "recall": 0.3944223107569721,
+              "precision": -0.07612456747404839
+            }
+          ]
+        },
+        {
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.02016126658356232,
+              "iou": -0.03685957658059824,
+              "tp": -24616,
+              "fp": -4353,
+              "fn": 24616,
+              "recall": -0.044474154907947816,
+              "precision": 0.007701756458353026
+            },
+            {
+              "class_index": 1,
+              "dice": -0.02274178902433721,
+              "iou": -0.039372996713028185,
+              "tp": -148,
+              "fp": 22512,
+              "fn": 148,
+              "recall": -0.0003286829142625791,
+              "precision": -0.043088892797077394
+            },
+            {
+              "class_index": 2,
+              "dice": -0.05645887174790731,
+              "iou": -0.0785859494104485,
+              "tp": 28,
+              "fp": 5816,
+              "fn": -28,
+              "recall": 0.0008181871310852795,
+              "precision": -0.08390474966213102
+            },
+            {
+              "class_index": 3,
+              "dice": -0.057001153943916555,
+              "iou": -0.03452304741536316,
+              "tp": -397,
+              "fp": 1655,
+              "fn": 397,
+              "recall": -0.04798742898585759,
+              "precision": -0.06311629727404788
+            },
+            {
+              "class_index": 4,
+              "dice": -0.028976133039966823,
+              "iou": -0.036088192383156414,
+              "tp": -188,
+              "fp": -246,
+              "fn": 188,
+              "recall": -0.19789473684210523,
+              "precision": 0.11439437909051864
+            },
+            {
+              "class_index": 5,
+              "dice": -0.039288371708486626,
+              "iou": -0.020067608155629666,
+              "tp": -28,
+              "fp": -35,
+              "fn": 28,
+              "recall": -0.020603384841795438,
+              "precision": 0.546875
+            }
+          ]
+        },
+        {
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.016468090296897886,
+              "iou": -0.030400947339556894,
+              "tp": -19597,
+              "fp": -1663,
+              "fn": 19597,
+              "recall": -0.03325109779355373,
+              "precision": 0.0026738448631724587
+            },
+            {
+              "class_index": 1,
+              "dice": -0.018927480170167654,
+              "iou": -0.033152015033807825,
+              "tp": -1609,
+              "fp": 15686,
+              "fn": 1609,
+              "recall": -0.0038218618096479418,
+              "precision": -0.032634417696431384
+            },
+            {
+              "class_index": 2,
+              "dice": -0.055018588254152845,
+              "iou": -0.07370687119881791,
+              "tp": -353,
+              "fp": 4998,
+              "fn": 353,
+              "recall": -0.010910552018297603,
+              "precision": -0.07435924218420031
+            },
+            {
+              "class_index": 3,
+              "dice": 0.0649966663230177,
+              "iou": 0.04852084462424211,
+              "tp": 670,
+              "fp": 1107,
+              "fn": -670,
+              "recall": 0.17626940278873976,
+              "precision": 0.02450074658734558
+            },
+            {
+              "class_index": 4,
+              "dice": -0.2020091415570292,
+              "iou": -0.21921639352832006,
+              "tp": -97,
+              "fp": 364,
+              "fn": 97,
+              "recall": -0.1341632088520055,
+              "precision": -0.2230921498150753
+            },
+            {
+              "class_index": 5,
+              "dice": 0.4953434929850024,
+              "iou": 0.32976418870477986,
+              "tp": 464,
+              "fp": 30,
+              "fn": -464,
+              "recall": 0.34756554307116105,
+              "precision": 0.8426659737560088
+            }
+          ]
+        },
+        {
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.013143222961952139,
+              "iou": -0.024387744398951305,
+              "tp": -15866,
+              "fp": -724,
+              "fn": 15866,
+              "recall": -0.025593831412371038,
+              "precision": 0.0010923045846656931
+            },
+            {
+              "class_index": 1,
+              "dice": -0.02014798935105122,
+              "iou": -0.03484398095752317,
+              "tp": -3081,
+              "fp": 14006,
+              "fn": 3081,
+              "recall": -0.00788370700552199,
+              "precision": -0.03091853825546287
+            },
+            {
+              "class_index": 2,
+              "dice": -0.030779880782734637,
+              "iou": -0.04203057043002034,
+              "tp": 367,
+              "fp": 3364,
+              "fn": -367,
+              "recall": 0.01219795925150402,
+              "precision": -0.05192583616534818
+            },
+            {
+              "class_index": 3,
+              "dice": -0.10504621344548923,
+              "iou": -0.07023829417384582,
+              "tp": -500,
+              "fp": 2578,
+              "fn": 500,
+              "recall": -0.0865950813993765,
+              "precision": -0.10624345702846619
+            },
+            {
+              "class_index": 4,
+              "dice": -0.023160861396155474,
+              "iou": -0.03226153300618828,
+              "tp": -71,
+              "fp": -61,
+              "fn": 71,
+              "recall": -0.09517426273458451,
+              "precision": 0.03743310657596377
+            },
+            {
+              "class_index": 5,
+              "dice": -0.015865751334858902,
+              "iou": -0.009615384615384609,
+              "tp": -12,
+              "fp": 0,
+              "fn": 12,
+              "recall": -0.009615384615384609,
+              "precision": 0.0
+            }
+          ]
+        },
+        {
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.01704961646563008,
+              "iou": -0.03152956682350072,
+              "tp": -20568,
+              "fp": -2191,
+              "fn": 20568,
+              "recall": -0.035297812421164254,
+              "precision": 0.003580914698546933
+            },
+            {
+              "class_index": 1,
+              "dice": -0.020987646809291882,
+              "iou": -0.036473949243364556,
+              "tp": -1188,
+              "fp": 18274,
+              "fn": 1188,
+              "recall": -0.0028259675013736496,
+              "precision": -0.03697604610971883
+            },
+            {
+              "class_index": 2,
+              "dice": -0.05583538197188709,
+              "iou": -0.07770622180213638,
+              "tp": -35,
+              "fp": 5396,
+              "fn": 35,
+              "recall": -0.0010618932038835016,
+              "precision": -0.08312208355415074
+            },
+            {
+              "class_index": 3,
+              "dice": 0.0025461875225040176,
+              "iou": 0.0016684468239308858,
+              "tp": 43,
+              "fp": 133,
+              "fn": -43,
+              "recall": 0.004160619254958892,
+              "precision": -0.0030039875721645237
+            },
+            {
+              "class_index": 4,
+              "dice": -0.07270193303069727,
+              "iou": -0.09688702418579076,
+              "tp": -157,
+              "fp": -67,
+              "fn": 157,
+              "recall": -0.16918103448275856,
+              "precision": 0.010353079407026233
+            },
+            {
+              "class_index": 5,
+              "dice": 0.4382089552238806,
+              "iou": 0.29444801026957634,
+              "tp": 380,
+              "fp": -20,
+              "fn": -380,
+              "recall": 0.2999210734017364,
+              "precision": 0.5587016356101111
+            }
+          ]
+        },
+        {
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.019404323545180624,
+              "iou": -0.03525126008634394,
+              "tp": -28028,
+              "fp": -10354,
+              "fn": 28028,
+              "recall": -0.05391430802789976,
+              "precision": 0.019770693985059706
+            },
+            {
+              "class_index": 1,
+              "dice": -0.022823707143092897,
+              "iou": -0.04013731488805039,
+              "tp": -3990,
+              "fp": 19283,
+              "fn": 3990,
+              "recall": -0.008304074824084684,
+              "precision": -0.0365207930433743
+            },
+            {
+              "class_index": 2,
+              "dice": -0.11415283206053184,
+              "iou": -0.15286539648590325,
+              "tp": 307,
+              "fp": 14952,
+              "fn": -307,
+              "recall": 0.007369355961496904,
+              "precision": -0.1777310779368797
+            },
+            {
+              "class_index": 3,
+              "dice": -0.07871550876310557,
+              "iou": -0.06868804154527225,
+              "tp": 1512,
+              "fp": 6596,
+              "fn": -1512,
+              "recall": 0.3775280898876404,
+              "precision": -0.25966038305932404
+            },
+            {
+              "class_index": 4,
+              "dice": -0.12845956161879946,
+              "iou": -0.15880666992255638,
+              "tp": -254,
+              "fp": -72,
+              "fn": 254,
+              "recall": -0.22144725370531826,
+              "precision": 0.00755045545330979
+            },
+            {
+              "class_index": 5,
+              "dice": -0.15492591779224965,
+              "iou": -0.08418855352241864,
+              "tp": -119,
+              "fp": 167,
+              "fn": 119,
+              "recall": -0.08403954802259887,
+              "precision": -0.9881656804733728
+            }
+          ]
+        },
+        {
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.01841055276545278,
+              "iou": -0.034034029091616014,
+              "tp": -22126,
+              "fp": -3742,
+              "fn": 22126,
+              "recall": -0.04081730538634942,
+              "precision": 0.006653584677382307
+            },
+            {
+              "class_index": 1,
+              "dice": -0.019345801559065623,
+              "iou": -0.034052314508490555,
+              "tp": -909,
+              "fp": 18416,
+              "fn": 909,
+              "recall": -0.0019640125489381877,
+              "precision": -0.03575372021416068
+            },
+            {
+              "class_index": 2,
+              "dice": -0.034160124894926036,
+              "iou": -0.047414722762996186,
+              "tp": 322,
+              "fp": 3998,
+              "fn": -322,
+              "recall": 0.009090139175112144,
+              "precision": -0.05797768397717462
+            },
+            {
+              "class_index": 3,
+              "dice": 0.0035032323096066964,
+              "iou": 0.0024672083946878087,
+              "tp": 709,
+              "fp": 3603,
+              "fn": -709,
+              "recall": 0.11972306653157716,
+              "precision": -0.029676290972482672
+            },
+            {
+              "class_index": 4,
+              "dice": -0.05602777898905087,
+              "iou": -0.0656129269545605,
+              "tp": -149,
+              "fp": -122,
+              "fn": 149,
+              "recall": -0.1473788328387734,
+              "precision": 0.04763912498382661
+            },
+            {
+              "class_index": 5,
+              "dice": -0.1350034794711204,
+              "iou": -0.07474061244953001,
+              "tp": -97,
+              "fp": 97,
+              "fn": 97,
+              "recall": -0.07359635811836115,
+              "precision": -0.8151260504201681
+            }
+          ]
+        },
+        {
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.01825374411780689,
+              "iou": -0.03347382612753014,
+              "tp": -19707,
+              "fp": -621,
+              "fn": 19707,
+              "recall": -0.0347278882194445,
+              "precision": 0.0008647476252985342
+            },
+            {
+              "class_index": 1,
+              "dice": -0.014775237310757805,
+              "iou": -0.02602702218137909,
+              "tp": 784,
+              "fp": 15330,
+              "fn": -784,
+              "recall": 0.001772484439892641,
+              "precision": -0.029369557722863537
+            },
+            {
+              "class_index": 2,
+              "dice": -0.05625898901287152,
+              "iou": -0.0772508692136501,
+              "tp": -88,
+              "fp": 5156,
+              "fn": 88,
+              "recall": -0.0027781285515847687,
+              "precision": -0.08373166456919368
+            },
+            {
+              "class_index": 3,
+              "dice": 0.07702552723117911,
+              "iou": 0.06342528659897789,
+              "tp": 204,
+              "fp": -1231,
+              "fn": -204,
+              "recall": 0.041087613293051384,
+              "precision": 0.09883875063087844
+            },
+            {
+              "class_index": 4,
+              "dice": -0.004823246362212319,
+              "iou": -0.006553439845740638,
+              "tp": -57,
+              "fp": -77,
+              "fn": 57,
+              "recall": -0.0690072639225181,
+              "precision": 0.043766182642781426
+            },
+            {
+              "class_index": 5,
+              "dice": 0.20660371794955804,
+              "iou": 0.15277050991336708,
+              "tp": 226,
+              "fp": 81,
+              "fn": -226,
+              "recall": 0.17082388510959942,
+              "precision": -0.1636363636363637
+            }
+          ]
+        }
+      ],
+      "mean_visit_dice_iou_delta": [
+        {
+          "class_index": 0,
+          "dice": -0.017540180087860957,
+          "iou": -0.03222306485699
+        },
+        {
+          "class_index": 1,
+          "dice": -0.019831214830618005,
+          "iou": -0.03463667307419138
+        },
+        {
+          "class_index": 2,
+          "dice": -0.05547727611585118,
+          "iou": -0.0759805649448424
+        },
+        {
+          "class_index": 3,
+          "dice": -0.01725030837703123,
+          "iou": -0.011972378528920025
+        },
+        {
+          "class_index": 4,
+          "dice": -0.056803836592839274,
+          "iou": -0.06710085780575215
+        },
+        {
+          "class_index": 5,
+          "dice": 0.1646807287380022,
+          "iou": 0.12104753791000315
+        }
+      ]
+    },
+    "gamma_polarity": {
+      "per_visit": [
+        {
+          "visit": "Week0",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.006248673506407232,
+              "iou": -0.011539283719179894,
+              "tp": -6200,
+              "fp": 506,
+              "fn": 6200,
+              "recall": -0.010808304264224744,
+              "precision": -0.0010236962074479106
+            },
+            {
+              "class_index": 1,
+              "dice": -0.005714925932791326,
+              "iou": -0.010112169162118101,
+              "tp": 340,
+              "fp": 5853,
+              "fn": -340,
+              "recall": 0.000783215236761392,
+              "precision": -0.011439234486560701
+            },
+            {
+              "class_index": 2,
+              "dice": -0.03918636109840479,
+              "iou": -0.05558833113371808,
+              "tp": -1136,
+              "fp": 2061,
+              "fn": 1136,
+              "recall": -0.03389628215074292,
+              "precision": -0.041252765536150426
+            },
+            {
+              "class_index": 3,
+              "dice": -0.1391366220503516,
+              "iou": -0.11125318848127091,
+              "tp": -1092,
+              "fp": -863,
+              "fn": 1092,
+              "recall": -0.2087954110898662,
+              "precision": -0.047148746872098246
+            },
+            {
+              "class_index": 4,
+              "dice": 0.08550632137861736,
+              "iou": 0.11106446628519817,
+              "tp": -56,
+              "fp": -309,
+              "fn": 56,
+              "recall": -0.06698564593301437,
+              "precision": 0.17635523363953343
+            },
+            {
+              "class_index": 5,
+              "dice": 0.640178413894829,
+              "iou": 0.5079264110109107,
+              "tp": 728,
+              "fp": 168,
+              "fn": -728,
+              "recall": 0.5800796812749004,
+              "precision": -0.17967914438502675
+            }
+          ]
+        },
+        {
+          "visit": "Week1",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.014023169735180474,
+              "iou": -0.02578756539893312,
+              "tp": -15952,
+              "fp": -1605,
+              "fn": 15952,
+              "recall": -0.02882075556920627,
+              "precision": 0.002556212113210443
+            },
+            {
+              "class_index": 1,
+              "dice": -0.009574771922027159,
+              "iou": -0.01678026640475938,
+              "tp": 4666,
+              "fp": 14818,
+              "fn": -4666,
+              "recall": 0.010362395121279566,
+              "precision": -0.027792122509072925
+            },
+            {
+              "class_index": 2,
+              "dice": -0.048397873583772455,
+              "iou": -0.0678111296022772,
+              "tp": -1406,
+              "fp": 2701,
+              "fn": 1406,
+              "recall": -0.04108468236806739,
+              "precision": -0.05108430452732793
+            },
+            {
+              "class_index": 3,
+              "dice": 0.05012627643880174,
+              "iou": 0.03222967981609094,
+              "tp": -104,
+              "fp": -4018,
+              "fn": 104,
+              "recall": -0.012571014142390896,
+              "precision": 0.1476008246321088
+            },
+            {
+              "class_index": 4,
+              "dice": 0.03591230706112458,
+              "iou": 0.04711176665362271,
+              "tp": -60,
+              "fp": -195,
+              "fn": 60,
+              "recall": -0.06315789473684208,
+              "precision": 0.10511235142986364
+            },
+            {
+              "class_index": 5,
+              "dice": 0.6628872774495475,
+              "iou": 0.5219853059233941,
+              "tp": 878,
+              "fp": 277,
+              "fn": -878,
+              "recall": 0.6460632818248713,
+              "precision": 0.2909275020508614
+            }
+          ]
+        },
+        {
+          "visit": "Week2",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.009414800838596027,
+              "iou": -0.01749784782802033,
+              "tp": -11367,
+              "fp": -1039,
+              "fn": 11367,
+              "recall": -0.019286892311033643,
+              "precision": 0.0016597358085179703
+            },
+            {
+              "class_index": 1,
+              "dice": -0.005864250912810953,
+              "iou": -0.01039738671298096,
+              "tp": 4092,
+              "fp": 10028,
+              "fn": -4092,
+              "recall": 0.009719738051634397,
+              "precision": -0.020017196627617806
+            },
+            {
+              "class_index": 2,
+              "dice": -0.03851663029784613,
+              "iou": -0.05229015567008577,
+              "tp": -1474,
+              "fp": 1456,
+              "fn": 1474,
+              "recall": -0.04555850899425107,
+              "precision": -0.03335922442415129
+            },
+            {
+              "class_index": 3,
+              "dice": 0.18432525284773682,
+              "iou": 0.14865601449149526,
+              "tp": 113,
+              "fp": -3186,
+              "fn": -113,
+              "recall": 0.02972901867929495,
+              "precision": 0.32113232829223276
+            },
+            {
+              "class_index": 4,
+              "dice": -0.02851458474938695,
+              "iou": -0.03510887260887252,
+              "tp": 0,
+              "fp": 67,
+              "fn": 0,
+              "recall": 0.0,
+              "precision": -0.043031739103323585
+            },
+            {
+              "class_index": 5,
+              "dice": 0.7433402878567973,
+              "iou": 0.5926347794381315,
+              "tp": 1000,
+              "fp": 310,
+              "fn": -1000,
+              "recall": 0.7490636704119851,
+              "precision": 0.7165815844204954
+            }
+          ]
+        },
+        {
+          "visit": "Week3",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.007165449291339776,
+              "iou": -0.01337227010925579,
+              "tp": -8630,
+              "fp": -317,
+              "fn": 8630,
+              "recall": -0.01392126339901445,
+              "precision": 0.0004546159029280572
+            },
+            {
+              "class_index": 1,
+              "dice": -0.006669687608010233,
+              "iou": -0.01167959360902171,
+              "tp": 2472,
+              "fp": 8618,
+              "fn": -2472,
+              "recall": 0.006325389067721621,
+              "precision": -0.01810388004393948
+            },
+            {
+              "class_index": 2,
+              "dice": -0.036310617812832735,
+              "iou": -0.04936018121097463,
+              "tp": -1203,
+              "fp": 1380,
+              "fn": 1203,
+              "recall": -0.039984046265829076,
+              "precision": -0.03311665046274126
+            },
+            {
+              "class_index": 3,
+              "dice": -0.04987963334647716,
+              "iou": -0.03441658286591065,
+              "tp": -761,
+              "fp": -2297,
+              "fn": 761,
+              "recall": -0.13179771388985106,
+              "precision": 0.01714379323958526
+            },
+            {
+              "class_index": 4,
+              "dice": -0.01933608128298392,
+              "iou": -0.027019284607471605,
+              "tp": -34,
+              "fp": -12,
+              "fn": 34,
+              "recall": -0.04557640750670244,
+              "precision": 0.0006292788247675984
+            },
+            {
+              "class_index": 5,
+              "dice": 0.5720967612312143,
+              "iou": 0.5115700816373463,
+              "tp": 694,
+              "fp": 90,
+              "fn": -694,
+              "recall": 0.5560897435897436,
+              "precision": -0.09825327510917026
+            }
+          ]
+        },
+        {
+          "visit": "Week4",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.012862371638722725,
+              "iou": -0.023881537134652353,
+              "tp": -11959,
+              "fp": 2310,
+              "fn": 11959,
+              "recall": -0.020523460654643277,
+              "precision": -0.004404095499887628
+            },
+            {
+              "class_index": 1,
+              "dice": -0.010382250833727347,
+              "iou": -0.018221459404669238,
+              "tp": 612,
+              "fp": 10331,
+              "fn": -612,
+              "recall": 0.0014558014401017116,
+              "precision": -0.02095458649422477
+            },
+            {
+              "class_index": 2,
+              "dice": -0.045975775622550175,
+              "iou": -0.06450288946495075,
+              "tp": -1949,
+              "fp": 1402,
+              "fn": 1949,
+              "recall": -0.059132281553398,
+              "precision": -0.03685549276859845
+            },
+            {
+              "class_index": 3,
+              "dice": 0.07541520957000275,
+              "iou": 0.05157006696725963,
+              "tp": 330,
+              "fp": -2048,
+              "fn": -330,
+              "recall": 0.03193033381712629,
+              "precision": 0.22336552754987232
+            },
+            {
+              "class_index": 4,
+              "dice": -0.04617042105936353,
+              "iou": -0.062850912909309,
+              "tp": -69,
+              "fp": 12,
+              "fn": 69,
+              "recall": -0.07435344827586199,
+              "precision": -0.025185385382003767
+            },
+            {
+              "class_index": 5,
+              "dice": 0.7006076038725293,
+              "iou": 0.5689876165047748,
+              "tp": 851,
+              "fp": 177,
+              "fn": -851,
+              "recall": 0.6716653512233624,
+              "precision": 0.4148034787801874
+            }
+          ]
+        },
+        {
+          "visit": "Week5",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.008865382843760039,
+              "iou": -0.01626736911609139,
+              "tp": -15300,
+              "fp": -7285,
+              "fn": 15300,
+              "recall": -0.02943088742781741,
+              "precision": 0.01371301107036238
+            },
+            {
+              "class_index": 1,
+              "dice": -0.007138879524768993,
+              "iou": -0.012739668092891177,
+              "tp": 5614,
+              "fp": 13724,
+              "fn": -5614,
+              "recall": 0.011683978963010433,
+              "precision": -0.024759637893084552
+            },
+            {
+              "class_index": 2,
+              "dice": -0.041845680860951084,
+              "iou": -0.05939042797211436,
+              "tp": -948,
+              "fp": 3352,
+              "fn": 948,
+              "recall": -0.022756187138433415,
+              "precision": -0.05431518842076721
+            },
+            {
+              "class_index": 3,
+              "dice": 0.15686842372494725,
+              "iou": 0.16134857105584338,
+              "tp": 665,
+              "fp": -450,
+              "fn": -665,
+              "recall": 0.1660424469413233,
+              "precision": 0.14510170031687397
+            },
+            {
+              "class_index": 4,
+              "dice": 0.02053609505615095,
+              "iou": 0.02856943793126543,
+              "tp": 27,
+              "fp": -18,
+              "fn": -27,
+              "recall": 0.023539668700959027,
+              "precision": 0.01744785483084843
+            },
+            {
+              "class_index": 5,
+              "dice": 0.46128882735444676,
+              "iou": 0.3624996679984671,
+              "tp": 546,
+              "fp": 73,
+              "fn": -546,
+              "recall": 0.385593220338983,
+              "precision": -0.09864864864864864
+            }
+          ]
+        },
+        {
+          "visit": "Week6",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.011722241817294421,
+              "iou": -0.02180891546618602,
+              "tp": -12680,
+              "fp": -734,
+              "fn": 12680,
+              "recall": -0.02339164025575846,
+              "precision": 0.0010122007250805698
+            },
+            {
+              "class_index": 1,
+              "dice": -0.0058499781898347925,
+              "iou": -0.01042791568340562,
+              "tp": 4413,
+              "fp": 10802,
+              "fn": -4413,
+              "recall": 0.009534859602271295,
+              "precision": -0.02044458390466275
+            },
+            {
+              "class_index": 2,
+              "dice": -0.03083777578096747,
+              "iou": -0.04292037120829795,
+              "tp": -914,
+              "fp": 1731,
+              "fn": 914,
+              "recall": -0.025802444739293717,
+              "precision": -0.033240614949827885
+            },
+            {
+              "class_index": 3,
+              "dice": 0.08086493131424899,
+              "iou": 0.05969365439741431,
+              "tp": -120,
+              "fp": -3592,
+              "fn": 120,
+              "recall": -0.02026342451874369,
+              "precision": 0.1524094995214325
+            },
+            {
+              "class_index": 4,
+              "dice": 0.04353722466812959,
+              "iou": 0.05509397474522615,
+              "tp": 84,
+              "fp": 16,
+              "fn": -84,
+              "recall": 0.083086053412463,
+              "precision": 0.012236644786980388
+            },
+            {
+              "class_index": 5,
+              "dice": 0.5270962203296724,
+              "iou": 0.43960469884477027,
+              "tp": 723,
+              "fp": 271,
+              "fn": -723,
+              "recall": 0.5485584218512898,
+              "precision": -0.24348607367475295
+            }
+          ]
+        },
+        {
+          "visit": "Week7",
+          "per_class": [
+            {
+              "class_index": 0,
+              "dice": -0.012617711549906985,
+              "iou": -0.023262888020594286,
+              "tp": -11386,
+              "fp": 2115,
+              "fn": 11386,
+              "recall": -0.02006453215946591,
+              "precision": -0.0041522446065199725
+            },
+            {
+              "class_index": 1,
+              "dice": -0.011458133656402691,
+              "iou": -0.020246438067442973,
+              "tp": -1515,
+              "fp": 9403,
+              "fn": 1515,
+              "recall": -0.0034251453143333555,
+              "precision": -0.018663845953175384
+            },
+            {
+              "class_index": 2,
+              "dice": -0.04544574266295276,
+              "iou": -0.06295394236131535,
+              "tp": -698,
+              "fp": 3118,
+              "fn": 698,
+              "recall": -0.02203561055688852,
+              "precision": -0.05780056560906832
+            },
+            {
+              "class_index": 3,
+              "dice": 0.0010166839656559623,
+              "iou": 0.0007973115372243433,
+              "tp": -306,
+              "fp": -1240,
+              "fn": 306,
+              "recall": -0.06163141993957705,
+              "precision": 0.04533728962810141
+            },
+            {
+              "class_index": 4,
+              "dice": -0.005780390213874442,
+              "iou": -0.007847751181035645,
+              "tp": -21,
+              "fp": -19,
+              "fn": 21,
+              "recall": -0.025423728813559254,
+              "precision": 0.0077395672217649425
+            },
+            {
+              "class_index": 5,
+              "dice": 0.3997018627154909,
+              "iou": 0.33778377251283653,
+              "tp": 480,
+              "fp": 69,
+              "fn": -480,
+              "recall": 0.36281179138321995,
+              "precision": -0.09362279511533245
+            }
+          ]
+        }
+      ],
+      "mean_visit_dice_iou_delta": [
+        {
+          "class_index": 0,
+          "dice": -0.010364975152651335,
+          "iou": -0.019177209599114065
+        },
+        {
+          "class_index": 1,
+          "dice": -0.007831609822546493,
+          "iou": -0.013825612142161048
+        },
+        {
+          "class_index": 2,
+          "dice": -0.040814557215034575,
+          "iou": -0.05685217857796687
+        },
+        {
+          "class_index": 3,
+          "dice": 0.04495006530807055,
+          "iou": 0.038578190864768325
+        },
+        {
+          "class_index": 4,
+          "dice": 0.01071130885730176,
+          "iou": 0.013626603038577878
+        },
+        {
+          "class_index": 5,
+          "dice": 0.5883996568380659,
+          "iou": 0.4803740417338289
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Exploratory assessment after TEST was inspected; one known patient with eight repeated visits, not eight independent patients.",
+    "Not a new benchmark, independent confirmation, clinical validation, or unique root-cause demonstration.",
+    "Historical v1 CUDA AMP and earlier GPU FP32 predictions are not recomputed or substituted; no cross-platform voxel equality is assumed.",
+    "Original v1 TEST, A1 protocol, failed A1 clean-VAL guard and public Release remain unchanged.",
+    "Dice/IoU are visit means; pooled counts and pooled recall/precision are separate descriptive statistics. Both-empty metrics are None."
+  ]
+}
