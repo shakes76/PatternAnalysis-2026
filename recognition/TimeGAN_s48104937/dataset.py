@@ -3,32 +3,38 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from common.scalers import DualScaler
+from common.scalers import LogMinMaxScaler
 from common.constants import TICKERS
 from common.constants import DEPTH
 from common.constants import LEVELS
 from common.constants import PX_TICK
 
-# Define paths
+# Paths
 BOOK_PATH = "data/{ticker}_2012-06-21_34200000_57600000_orderbook_10.csv"
 MSG_PATH = "data/{ticker}_2012-06-21_34200000_57600000_message_10.csv"
 
-# Define columns
+# Columns
 MSG_COLS = ["time", "event_type", "order_id", "size", "price", "direction"]
 BOOK_COLS = [f"{s}_{k}_{l}" for l in LEVELS for s in ("ask", "bid") for k in ("px", "sz")]
 PX_COLS = [f"{s}_px_{l}" for l in LEVELS for s in ("ask", "bid")]
 SZ_COLS = [f"{s}_sz_{l}" for l in LEVELS for s in ("ask", "bid")]
 
-# --- Model features ---
+ASK_COLS = [f"ask_{k}_{l}" for l in LEVELS for k in ("px", "sz")]
+BID_COLS = [f"bid_{k}_{l}" for l in LEVELS for k in ("px", "sz")]
+ASK_PX_COLS = [f"ask_px_{l}" for l in LEVELS]
+ASK_SZ_COLS = [f"ask_sz_{l}" for l in LEVELS]
+BID_PX_COLS = [f"bid_px_{l}" for l in LEVELS]
+BID_SZ_COLS = [f"bid_sz_{l}" for l in LEVELS]
+
 FEATURE_COLS = (
     ["mid_rel", "spread"]
     + [f"{s}_gap_{l}" for l in range(2, DEPTH + 1) for s in ("ask", "bid")]
     + SZ_COLS
 )
 FLAG_GROUPS = [[i] for i in range(len(FEATURE_COLS))]
-SZ_IDX = [FEATURE_COLS.index(c) for c in SZ_COLS]   # volume features, quantile-scaled
+SZ_IDX = [FEATURE_COLS.index(c) for c in SZ_COLS]
 
-
+# Data handling helpers
 def load_books(tickers: list[str], resample_freq: str | None = None) -> pd.DataFrame:
     frames = []
     for ticker in tickers:
@@ -50,7 +56,6 @@ def load_books(tickers: list[str], resample_freq: str | None = None) -> pd.DataF
 
     return pd.concat(frames)
 
-
 def split_books(
         books: pd.DataFrame,
         train_frac: float,
@@ -70,63 +75,79 @@ def split_books(
         parts["test"].append(ticker_books.iloc[val_end:])
     return {split: pd.concat(frames) for split, frames in parts.items()}
 
-
 def encode(
         books: pd.DataFrame,
-        scaler: DualScaler,
+        scalers: dict[str, LogMinMaxScaler],
         window_length: int,
         stride: int = 1,
         fit: bool = False,
-) -> tuple[np.ndarray, np.ndarray]:
-    # Windows of raw book values, per ticker
-    windows = []
-    for _, ticker_books in books.groupby("ticker", sort=False):
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Turn books into model-space windows, ticker by ticker.
+
+    `scalers` maps each ticker to its own scaler; its key order defines the
+    ticker labels (label k = k-th key). With fit=True each scaler is fitted on
+    that ticker's windows. Returns (windows, refs, labels): windows of scaled
+    features followed by change flags, the reference mid of each window, and
+    each window's ticker label.
+    """
+    tickers = list(scalers)
+    all_windows, all_refs, all_labels = [], [], []
+    for ticker, ticker_books in books.groupby("ticker", sort=False):
+        # Windows of raw book values
         values = ticker_books[BOOK_COLS].to_numpy(float)
         w = np.lib.stride_tricks.sliding_window_view(values, window_length, axis=0)
-        windows.append(w[::stride].transpose(0, 2, 1))
-    w = dict(zip(BOOK_COLS, np.moveaxis(np.concatenate(windows), -1, 0)))
+        w = dict(zip(BOOK_COLS, np.moveaxis(w[::stride].transpose(0, 2, 1), -1, 0)))
 
-    # Features
-    refs = (w["ask_px_1"][:, 0] + w["bid_px_1"][:, 0]) / 2
-    feats = {
-        "mid_rel": (w["ask_px_1"] + w["bid_px_1"]) / 2 - refs[:, None],
-        "spread": w["ask_px_1"] - w["bid_px_1"],
-    }
-    for l in range(2, DEPTH + 1):
-        feats[f"ask_gap_{l}"] = w[f"ask_px_{l}"] - w[f"ask_px_{l - 1}"]
-        feats[f"bid_gap_{l}"] = w[f"bid_px_{l - 1}"] - w[f"bid_px_{l}"]
-    for c in SZ_COLS:
-        feats[c] = w[c]
-    features = np.stack([feats[c] for c in FEATURE_COLS], axis=-1)
+        # Features
+        refs = (w["ask_px_1"][:, 0] + w["bid_px_1"][:, 0]) / 2
+        feats = {
+            "mid_rel": (w["ask_px_1"] + w["bid_px_1"]) / 2 - refs[:, None],
+            "spread": w["ask_px_1"] - w["bid_px_1"],
+        }
+        for l in range(2, DEPTH + 1):
+            feats[f"ask_gap_{l}"] = w[f"ask_px_{l}"] - w[f"ask_px_{l - 1}"]
+            feats[f"bid_gap_{l}"] = w[f"bid_px_{l - 1}"] - w[f"bid_px_{l}"]
+        for c in SZ_COLS:
+            feats[c] = w[c]
+        features = np.stack([feats[c] for c in FEATURE_COLS], axis=-1)
 
-    if fit is True:
-        scaler.fit(features)
-    scaled = scaler.transform(features)
+        scaler = scalers[ticker]
+        if fit is True:
+            scaler.fit(features)
+        scaled = scaler.transform(features)
 
-    # Change flags
-    changed = np.ones(features.shape, dtype=bool)
-    changed[:, 1:] = features[:, 1:] != features[:, :-1]
-    flags = np.stack([changed[..., g].any(axis=-1) for g in FLAG_GROUPS], axis=-1)
+        # Change flags
+        changed = np.ones(features.shape, dtype=bool)
+        changed[:, 1:] = features[:, 1:] != features[:, :-1]
+        flags = np.stack([changed[..., g].any(axis=-1) for g in FLAG_GROUPS], axis=-1)
 
-    return np.concatenate([scaled, flags], axis=-1), refs
+        all_windows.append(np.concatenate([scaled, flags], axis=-1))
+        all_refs.append(refs)
+        all_labels.append(np.full(len(refs), tickers.index(ticker)))
 
+    return np.concatenate(all_windows), np.concatenate(all_refs), np.concatenate(all_labels)
 
 def decode(
         windows: np.ndarray,
         refs: np.ndarray,
-        scaler: DualScaler,
+        labels: np.ndarray,
+        scalers: dict[str, LogMinMaxScaler],
         rng: np.random.Generator,
 ) -> dict[str, np.ndarray]:
     """Turn model-space windows back into order books.
 
-    Returns {"ask_px", "ask_sz", "bid_px", "bid_sz"}, each an int64 array of
-    shape (window, step, level) with level 0 the best level.
+    Each window is unscaled with the scaler of its ticker label (the k-th key
+    of `scalers`). Returns {"ask_px", "ask_sz", "bid_px", "bid_sz"}, each an
+    int64 array of shape (window, step, level) with level 0 the best level.
     """
     seq_len = windows.shape[1]
     n_feat = len(FEATURE_COLS)
 
-    # Unscale
-    features = scaler.inverse_transform(windows[..., :n_feat])
+    # Unscale, each window with its own ticker's scaler
+    features = np.empty(windows[..., :n_feat].shape)
+    for k, scaler in enumerate(scalers.values()):
+        is_ticker = labels == k
+        features[is_ticker] = scaler.inverse_transform(windows[is_ticker, :, :n_feat])
 
     # Sample flags and hold unchanged groups
     probs = windows[..., n_feat:]
