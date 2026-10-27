@@ -11,12 +11,12 @@ import os
 import random
 from collections import defaultdict
 from pathlib import Path
-
+ 
 import torch
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
-
+ 
 # --------------------------------------------------------------------------- #
 # Constants
 # --------------------------------------------------------------------------- #
@@ -110,6 +110,25 @@ def patient_level_split(
         for i, pid in enumerate(ids):
             (val if i < n_val else train).extend(patients[pid])
     return train, val
+ 
+ 
+def subsample_patients(
+    samples: list[Sample], frac: float, seed: int = DEFAULT_SEED
+) -> list[Sample]:
+    """Keep ~frac of the patients in each class (all their slices), for quick runs.
+    frac >= 1 returns samples unchanged."""
+    if frac >= 1.0:
+        return samples
+    if frac <= 0.0:
+        raise ValueError(f"subset fraction must be in (0, 1], got {frac}")
+    rng = random.Random(seed)
+    kept: list[Sample] = []
+    for label in sorted(by := _group_by_class_patient(samples)):
+        ids = sorted(by[label])
+        rng.shuffle(ids)
+        for pid in ids[: max(MIN_PATIENTS_IN_VAL, round(len(ids) * frac))]:
+            kept.extend(by[label][pid])
+    return kept
  
  
 def patient_level_kfold(
@@ -237,7 +256,12 @@ def _build_loaders(
     num_workers: int | None,
     mean: float,
     std: float,
+    subset: float = 1.0,
+    seed: int = DEFAULT_SEED,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
+    train_samples = subsample_patients(train_samples, subset, seed)
+    val_samples = subsample_patients(val_samples, subset, seed)
+    test_samples = subsample_patients(test_samples, subset, seed)
     if num_workers is None:
         num_workers = min(MAX_DATALOADER_WORKERS, os.cpu_count() or 0)
     pin = torch.cuda.is_available()             # pin_memory is a no-op/warning on MPS
@@ -271,15 +295,17 @@ def get_dataloaders(
     seed: int = DEFAULT_SEED,
     mean: float = DEFAULT_MEAN,
     std: float = DEFAULT_STD,
+    subset: float = 1.0,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
-    """Single hold-out split. Return (train_loader, val_loader, test_loader)."""
+    """Single hold-out split. Return (train_loader, val_loader, test_loader).
+    `subset` < 1 keeps that fraction of patients in every split (quick runs)."""
     train_samples, val_samples = patient_level_split(
         scan_split(root, "train"), val_frac=val_frac, seed=seed
     )
     test_samples = scan_split(root, "test")
     return _build_loaders(
         train_samples, val_samples, test_samples,
-        batch_size, img_size, in_chans, num_workers, mean, std,
+        batch_size, img_size, in_chans, num_workers, mean, std, subset, seed,
     )
  
  
@@ -294,6 +320,7 @@ def get_fold_dataloaders(
     seed: int = DEFAULT_SEED,
     mean: float = DEFAULT_MEAN,
     std: float = DEFAULT_STD,
+    subset: float = 1.0,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     """Loaders for one CV fold (0-indexed). Return (train, val, test).
  
@@ -308,7 +335,7 @@ def get_fold_dataloaders(
     test_samples = scan_split(root, "test")
     return _build_loaders(
         train_samples, val_samples, test_samples,
-        batch_size, img_size, in_chans, num_workers, mean, std,
+        batch_size, img_size, in_chans, num_workers, mean, std, subset, seed,
     )
  
  
