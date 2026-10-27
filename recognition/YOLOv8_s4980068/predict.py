@@ -240,6 +240,117 @@ def benchmark_inference(model_name, model, dataset_dir):
 
     return fps
 
+
+def evaluate_thresholds(models, data_yaml, output_dir):
+    thresholds = [0.10, 0.25, 0.50, 0.75]
+    results = []
+
+    for model_name, model in models.items():
+        for threshold in thresholds:
+            metrics = model.val(data=str(data_yaml), split="val", imgsz=IMAGE_SIZE,
+                                batch=BATCH_SIZE, conf=threshold, device=DEVICE,
+                                plots=False, verbose=False, project=str(output_dir),
+                                name=f"{model_name}_threshold_{threshold}", exist_ok=True)
+
+            results.append({
+                "model": model_name,
+                "threshold": threshold,
+                "precision": round(metrics.box.mp, 4),
+                "recall": round(metrics.box.mr, 4),
+            })
+
+            print(
+                f"{model_name} | threshold={threshold:.2f} | "
+                f"Precision={metrics.box.mp:.4f} | "
+                f"Recall={metrics.box.mr:.4f}"
+            )
+
+    save_path = output_dir / "threshold_analysis.csv"
+
+    with open(save_path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["model", "threshold", "precision", "recall"])
+        writer.writeheader()
+        writer.writerows(results)
+
+    print(f"\nThreshold analysis saved to: {save_path}")
+
+
+def count_detections(models, dataset_dir, output_dir):
+    image_dir = dataset_dir / "images" / "val"
+    label_dir = dataset_dir / "labels" / "val"
+
+    thresholds = [0.10, 0.25, 0.50, 0.75]
+    results = []
+
+    for model_name, model in models.items():
+        for threshold in thresholds:
+            tp, fp, fn = 0, 0, 0
+
+            for image_path in sorted(image_dir.glob("*.jpg")):
+                label_path = label_dir / f"{image_path.stem}.txt"
+
+                if not label_path.is_file():
+                    raise FileNotFoundError(label_path)
+
+                values = list(map(float, label_path.read_text().split()))
+                _, x, y, w, h = values
+
+                prediction = model.predict(source=str(image_path), imgsz=IMAGE_SIZE, conf=threshold,
+                                           device=DEVICE, verbose=False)[0]
+
+                image_height, image_width = prediction.orig_shape
+
+                gt_box = [
+                    (x - w / 2) * image_width,
+                    (y - h / 2) * image_height,
+                    (x + w / 2) * image_width,
+                    (y + h / 2) * image_height,
+                ]
+
+                # One ground-truth lesion per image
+                matched = False
+
+                for box in prediction.boxes:
+                    pred_box = box.xyxy[0].tolist()
+                    iou = calculate_iou(gt_box, pred_box)
+
+                    if iou >= 0.50 and not matched:
+                        tp += 1
+                        matched = True
+                    else:
+                        fp += 1
+
+                if not matched:
+                    fn += 1
+
+            precision = tp / (tp + fp) if tp + fp else 0.0
+            recall = tp / (tp + fn) if tp + fn else 0.0
+
+            results.append({
+                "model": model_name,
+                "threshold": threshold,
+                "tp": tp,
+                "fp": fp,
+                "fn": fn,
+                "precision": round(precision, 4),
+                "recall": round(recall, 4),
+            })
+
+            print(
+                f"{model_name} | conf={threshold:.2f} | "
+                f"TP={tp} FP={fp} FN={fn} | "
+                f"P={precision:.4f} R={recall:.4f}"
+            )
+
+    save_path = output_dir / "threshold_counts.csv"
+
+    with open(save_path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["model", "threshold", "tp", "fp", "fn", "precision", "recall"])
+        writer.writeheader()
+        writer.writerows(results)
+
+    print(f"\nSaved: {save_path}")
+
 if __name__ == "__main__":
     script_dir = Path(__file__).resolve().parent
     project_dir = script_dir.parents[1]
@@ -251,9 +362,10 @@ if __name__ == "__main__":
     # Select which tasks to run
     RUN_EVALUATION = False
     RUN_LOCALIZATION = False
-    RUN_FAILURE_ANALYSIS = True
-    RUN_VISUALIZATION = True
-    RUN_BENCHMARK = True
+    RUN_FAILURE_ANALYSIS = False
+    RUN_VISUALIZATION = False
+    RUN_BENCHMARK = False
+    RUN_THRESHOLD_ANALYSIS = False
 
     models = {}
 
@@ -279,3 +391,8 @@ if __name__ == "__main__":
 
     if RUN_VISUALIZATION:
         visualize_failure_cases(models, dataset_dir, output_dir)
+
+    if RUN_THRESHOLD_ANALYSIS:
+        evaluate_thresholds(models, data_yaml, output_dir)
+
+    count_detections(models, dataset_dir, output_dir)
