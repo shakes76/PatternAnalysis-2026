@@ -9,4 +9,7 @@ models/
 
 # Docs
 docs/
-.pdf
+*.pdf
+
+# !! Temporary !!
+*.png
