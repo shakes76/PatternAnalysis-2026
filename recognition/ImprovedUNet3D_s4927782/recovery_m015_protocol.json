@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "experiment_id": "recovery_m015_followup_v1",
+  "planned_at_utc": "2026-10-27T05:20:04.867827+00:00",
+  "authorization": "Human requested retaining M015 improvement while recovering normal VAL. This one fixed CPU recheck follows the bounded R1 plan; no additional training or TEST-based selection.",
+  "test_informed_exploratory_acknowledged": true,
+  "recovery_protocol_path": "recovery_protocol.json",
+  "recovery_protocol_sha256": "070b23f7606aa2046e0588618939b197d57d86a8720bc1dd61d8cbbd91437f79",
+  "val_summary_path": "evidence/recovery_review.json",
+  "val_summary_sha256": "939bf1089af70c877b4ea0b6995e67e147e0f5a4d3dd13821c57ae79cdf67b55",
+  "frozen_val_recommendation": {
+    "selected_model_id": null,
+    "selection_basis": "validation_only",
+    "eligible_model_ids": [],
+    "same_platform_verified": true,
+    "tie_break_order": [
+      "clean_prostate_dice_desc",
+      "clean_foreground_dice_desc",
+      "model_id_asc"
+    ]
+  },
+  "manifest_sha256": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+  "cache_identity_sha256": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+  "training_sources_sha256": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+  "case_keys": [
+    "M015/Week0",
+    "M015/Week1",
+    "M015/Week2",
+    "M015/Week3",
+    "M015/Week4",
+    "M015/Week5",
+    "M015/Week6",
+    "M015/Week7"
+  ],
+  "models": {
+    "gamma_polarity": {
+      "checkpoint": "artifacts/appearance_A1/gamma_polarity/best.pt",
+      "checkpoint_sha256": "b13ba58fe8837fb9522b6108412281c51210a3be486011d59f902347ade2a82b",
+      "selected_epoch": 29
+    },
+    "clean_adapt": {
+      "checkpoint": "artifacts/recovery_R1/clean_adapt/best.pt",
+      "checkpoint_sha256": "22833e150dcde3854b79e24f2aac6d14ab7a4b61117da3f8ddb7e4717d85f976",
+      "selected_epoch": 7
+    },
+    "polarity_rehearsal": {
+      "checkpoint": "artifacts/recovery_R1/polarity_rehearsal/best.pt",
+      "checkpoint_sha256": "47d3ca842e046c11e6c39a56212e75f6b4b0076c5c9d27b91a396976696a8d07",
+      "selected_epoch": 7
+    }
+  },
+  "inference": {
+    "split": "test",
+    "device": "cpu",
+    "amp": false,
+    "saved_arrays": false
+  },
+  "inference_policy": "Unchanged clean cached image/main-head argmax, CPU FP32 and four threads for all B/C/D. No TTA, augmentation, postprocessing or saved arrays.",
+  "m1_reference": {
+    "evaluation": "artifacts/m015_followup_M1_704030/gamma_polarity/evaluation.json",
+    "evaluation_sha256": "3d38d202b8e04bd9f09d363fceaf21be20d612a0e500aa7f7036757be75e8f30"
+  },
+  "retention_check": {
+    "timing": "Only after full training, independent VAL evaluation and VAL-only candidate choice have been frozen. Both selected arm checkpoints evaluated once on M015 Week0..7 using CPU FP32 matching M1.",
+    "mean_prostate_Dice_min": 0.6818369277754766,
+    "minimum_visit_prostate_Dice_min": 0.6,
+    "purpose": "Descriptive joint-target check on one previously examined patient, not independent TEST or a criterion for changing checkpoint/candidate/epochs/probability.",
+    "prohibited": "No other TEST patients, no repeat tuning to M015, no training/augmentation/postprocessing of M015 inputs. Keep original v1/A1/M1 unchanged."
+  },
+  "compute": {
+    "partition": "cpu",
+    "cpus": 4,
+    "max_wall_minutes": 20,
+    "training": false,
+    "gpu_lab_training_owner": "R1 cloud1884 has completed; this CPU-only check cannot launch or alter training."
+  },
+  "limits": [
+    "VAL choice is already frozen to none: both new arms fail the original-v1 clean prostate gate. M015 cannot choose a candidate or change thresholds.",
+    "One already-examined patient/eight repeated visits; post-test-informed description, not independent TEST or a new six-patient benchmark.",
+    "All three models and eight visits retained, including any failed retention goals and extra FP. No new arms, epochs, seeds, threshold or search.",
+    "Preserve original v1/A1/M1 and their failed goals, scores, checkpoints and public release."
+  ],
+  "required_file_sha256": {
+    "modules.py": "e752b242154ba01165e34b2323aab499aeb3dbd5346f62c8e1f301840f010fc9",
+    "dataset.py": "bc3475d38dfb02a0f37a7d667b356bffac9628544d018b03ffc382cabf0a731a",
+    "train.py": "285f70e73be455d8bc36d485994895e5ffa0e029aa6a27da63f1abf74ab98c4d",
+    "utils.py": "63c3111f457f531085c4658cdd03e4824172c82ac721c69983215b3115275a84",
+    "predict.py": "055f0566242c317bbab770f8ce589d5da37e6a55001a11ba11fd22fc89a353be",
+    "tools/prepare_cache.py": "55b4f78aa555db5477f2e976b7b874d2fed00309a788d46fba112ad10ba3d13b",
+    "label_schema.json": "99af39cb519e89304ac938789d164ce5f77c995c4fe5241c471627364d46d208",
+    "requirements.txt": "6306ed106736db79d00fdef0a9fe28e06da934d5ea68831ac2b61959e0adb11d",
+    "requirements-extra.txt": "19f7abfc97b10a6c91e9398aa38411cae4832b511b37259a770c3f08a2781c4f",
+    "jobs/train_pilot.slurm": "8cc4dc1f0d7ae5faae423d18c875bc05f7704e2d52901f5bb235cd7147e29cda",
+    "jobs/train_pair.slurm": "98e3f3cadb8ae39b603de2961eb3355c9de70f817768c876de0e9fc1bbe7c381",
+    "training_sources.json": "a3cf4ed4eb21c9d79df9a50b53308df797a30cb112655f4ee85d809ad7916e54",
+    "test_protocol.json": "9e2585934579890d7194e5460338f2accc12c15463ea529ac969fd94d95bee91",
+    "tools/cache_identity.py": "d1761ac39d4c3e9121a2217381545c7f5a0e08c82c9535134cb5c85617cc4e86",
+    "tools/diagnose_model_mechanism.py": "9b5cb92c85297388519daeb5665fcd7751a60f4c44f9d5ae17bea5566e8630a9",
+    "tools/diagnose_frozen_inference.py": "c8e086647a92516eaa7a0e1dcb6624cba0375ee1fffce6304fb130fd50cf8476",
+    "experiments/appearance.py": "b776ef949ec903c97cfa2b681c9c87cdce30c42bb3a9d8e1897b0281e34179a3",
+    "experiments/train_appearance.py": "55f2e2ad689979bf87a8e1c91b9c5c0bb76fe79210d848cca0583ba783c664a8",
+    "experiments/evaluate_appearance.py": "8fca64f6cc3ae0306bfda10d987b9733b099071fe45cd548fef3b855cbb07129",
+    "tests/test_appearance.py": "6de5cff1ea55830ce97a5bbd03b4605a3a4ac5d257037b661d87be3af0c7e5dd",
+    "tests/test_evaluate_appearance.py": "78ce1ad08d3b3da71d380030aaa275d7c86f8c8b0441041058a10fd10214d964",
+    "jobs/train_appearance_A1.slurm": "1dd692ff516fd7f5bd07572dec629c4b29101adecefb341ea1f99c06e41f7dc0",
+    "artifacts/cache64/manifest.json": "c47fe880d353629348786b852e3f699291af1a4d5628b2980bf42a74635d0424",
+    "artifacts/cache64/cache_identity.json": "eacb84bf20626a6ec9d7f6d36489a81e2d4e4af9fbe4ade1ce8f508a2022e08a",
+    "appearance_protocol.json": "5b773d1369d8e7c772172530f909bdf6c720f522786aa2ed72cd045067224632",
+    "experiments/recovery.py": "f0f99e824ae0a0a3bcf134eb5d4e18942e7d365aba6a68cc27775450e4a14458",
+    "experiments/train_recovery.py": "cd60815cca2f98555194739f24c770f282c9bf971a8cff85814ed1f1cb6f84db",
+    "experiments/evaluate_recovery.py": "81c41dfa6d6dee62085db232f3d9acff417ca09bf23991d50b7e150a7f3df305",
+    "tests/test_recovery.py": "bd807e5c6cf0b110d2ec30670e05b6d916b9e5aaf17b7ce3728f9f2024d62b10",
+    "tests/test_evaluate_recovery.py": "24b56b14243d73fb1bb8da59d6318bd2e2b1d134484ecf0481eba1303bf17d5c",
+    "jobs/train_recovery_R1.slurm": "c9dfa296ec7a93460d5709331fb4e30eb50c35bad0bebc8825fc19af3fe4b4d3",
+    "jobs/train_recovery_R1_cloud.sh": "eafde6402cbe2149d2cad49fdc50a810891eb1c19e0f8d6c491ff70b989be24c",
+    "recovery_protocol.json": "070b23f7606aa2046e0588618939b197d57d86a8720bc1dd61d8cbbd91437f79",
+    "tools/evaluate_recovery_m015.py": "8287f71c60843dfab93bb4e1f5e619bb12ec29d924521627aab328467290fb4e",
+    "tests/test_evaluate_recovery_m015.py": "a2b094155fdc9f6613f0e6eb5025624056bc47060a06d002ced9577451f7eafc",
+    "tools/summarize_recovery.py": "0c02470f1fa93605989b50368b626b38f115d047be93b42bddb48ab074151ede",
+    "tests/test_summarize_recovery.py": "74b315f7df6c6e722aaa9ed043e7f2908e6bc7f705732b99dd3cc1b247182734",
+    "experiments/summarize_appearance.py": "3dc7e71c2b31dd181a2938a70b01cb0c27a08a6e5fea4cc1e9902d2640193942",
+    "tools/summarize_m015_followup.py": "347273495c1376384b94966b8ff2ba44aeb4c2babca13b8bda177b5ee1f50e87",
+    "tools/summarize_recovery_m015.py": "d996b91d25768629c78d0da8a9b6144d6414f5634ac5b77832290552b3102942",
+    "tests/test_summarize_recovery_m015.py": "edc53b0c8baae5d204a1d772d7d86f80d17a1b93e6e47dcf89a9b1521eec40c7",
+    "jobs/evaluate_recovery_M2.slurm": "4e73065243d28714fafedd21351f42a278dd63275320f058ef4bd1fe6d31cd8c",
+    "tools/evaluate_m015_followup.py": "7880f5d43c4d17810bc4db9702c2d95fcba06ba84572522d986cdd90d2fe05ab"
+  }
+}
