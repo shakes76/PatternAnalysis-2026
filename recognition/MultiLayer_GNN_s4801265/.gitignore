@@ -1,0 +1,21 @@
+# Ignore downloaded datasets
+raw/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore saved model files
+*.pt
+
+# Ignore data files
+*.csv
+
+# Ignore png files
+*.png
+
+# Ignore VScode files
+.vscode/
+
+# Ignore Output Files
+*.log
