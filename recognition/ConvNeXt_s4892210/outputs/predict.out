@@ -1,0 +1,50 @@
+Using device: cuda
+
+=== ADNI dataset ===
+Train subjects      : 968
+Validation subjects : 108
+Test subjects       : 450
+Train images        : 19,360
+Validation images   : 2,160
+Test images         : 9,000
+Classes             : {'AD': 0, 'NC': 1}
+
+=== Training Class Distribution ===
+AD: 9,480 images, 474 subjects
+NC: 9,880 images, 494 subjects
+
+=== Validation Class Distribution ===
+AD: 920 images, 46 subjects
+NC: 1,240 images, 62 subjects
+
+=== Test Class Distribution ===
+AD: 4,460 images, 223 subjects
+NC: 4,540 images, 227 subjects
+
+=== Evaluating Baseline CNN ===
+
+=== Baseline CNN Test Results ===
+Test Accuracy       : 0.7238
+F1-Score            : 0.7184
+AUROC               : 0.8098
+AD Precision        : 0.7998
+AD Recall           : 0.5904
+NC Precision        : 0.6799
+NC Recall           : 0.8548
+Parameters          : 979,746
+Inference Latency   : 0.031 ms/image
+Peak GPU VRAM       : 1.113 GB
+
+=== Evaluating ConvNeXt ===
+
+=== ConvNeXt Test Results ===
+Test Accuracy       : 0.7849
+F1-Score            : 0.7774
+AUROC               : 0.8628
+AD Precision        : 0.9370
+AD Recall           : 0.6067
+NC Precision        : 0.7130
+NC Recall           : 0.9599
+Parameters          : 27,821,666
+Inference Latency   : 0.405 ms/image
+Peak GPU VRAM       : 3.127 GB
