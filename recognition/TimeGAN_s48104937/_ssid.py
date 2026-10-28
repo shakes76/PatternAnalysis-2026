@@ -12,7 +12,7 @@ import numpy as np
 
 from common.metrics import mean_ssim
 from common.misc import Config
-from dataset import ASK_PX_COLS, ASK_SZ_COLS, BID_PX_COLS, BID_SZ_COLS
+from dataset import BOOK_COLS
 from dataset import load_books
 
 
@@ -22,7 +22,12 @@ NUM_DRAWS: int = 5             # independent random pairings, to show the spread
 SPLIT: str = "train"           # same split predict.py compares against
 SEED: int = 48
 
-KEYS = {"ask_px": ASK_PX_COLS, "ask_sz": ASK_SZ_COLS, "bid_px": BID_PX_COLS, "bid_sz": BID_SZ_COLS}
+KEYS = {
+    "ask_px": [c for c in BOOK_COLS if "ask_px" in c],
+    "ask_sz": [c for c in BOOK_COLS if "ask_sz" in c],
+    "bid_px": [c for c in BOOK_COLS if "bid_px" in c],
+    "bid_sz": [c for c in BOOK_COLS if "bid_sz" in c],
+}
 
 
 def main() -> None:
