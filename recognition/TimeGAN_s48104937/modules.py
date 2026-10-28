@@ -43,12 +43,11 @@ class TimeGAN(nn.Module):
             hidden_dim: int = 64,
             noise_dim: int = 32,
             num_layers: int = 3,
-            n_tickers: int = 1,
+            k: int = 1,
     ) -> None:
         super().__init__()
         self.noise_dim = noise_dim
-        self.n_tickers = n_tickers
-        k = n_tickers
+        self.k = k
         self.embedder = GRUNet(feature_dim, hidden_dim, hidden_dim, num_layers, nn.Sigmoid(), k)
         self.recovery = GRUNet(hidden_dim, hidden_dim, feature_dim, num_layers, nn.Sigmoid(), k)
         self.generator = GRUNet(noise_dim, hidden_dim, hidden_dim, num_layers, nn.Sigmoid(), k)
@@ -57,7 +56,7 @@ class TimeGAN(nn.Module):
 
     def one_hot(self, labels: torch.Tensor) -> torch.Tensor:
         """Ticker indices (batch,) -> one-hot condition vectors (batch, n_tickers)."""
-        return F.one_hot(labels.long(), self.n_tickers).float()
+        return F.one_hot(labels.long(), self.k).float()
 
     def noise(self, n: int, window_length: int) -> torch.Tensor:
         device = next(self.parameters()).device

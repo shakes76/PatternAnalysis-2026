@@ -1,151 +1,39 @@
+import time
+import tomllib
 from pathlib import Path
 
 import numpy as np
 import torch
-import torch.nn.functional as F
-from torch.utils.data import DataLoader, Sampler, TensorDataset
+from torch.utils.data import TensorDataset
+from torch.utils.data import DataLoader
 
 from common.constants import DEVICE
-from common.scalers import LogMinMaxScaler
+from common.losses import bce
+from common.losses import distribution_losses
+from common.losses import grouped_mse
+from common.losses import moment_loss
+from common.losses import reconstruction_loss
+from common.losses import supervised_loss
+from common.misc import Config
 from common.visualizations import plot_losses
-from dataset import FEATURE_COLS, FLAG_GROUPS, SZ_IDX, encode, load_books, split_books
+from components.sampler import BatchSampler
+from components.scaler import LogMinMaxScaler
+from dataset import FEATURE_COLS
+from dataset import encode
+from dataset import load_books
 from modules import TimeGAN
 
-# --- Data Config ---
-TICKERS = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]
-RESAMPLE_FREQ = "1s"
-WINDOW_LENGTH = 64
-TRAIN_FRAC, VAL_FRAC, TEST_FRAC = 0.7, 0.15, 0.15   # split train, val, test, chronological per ticker
 
-# --- Model Config ---
-HIDDEN_DIM = 64
-NOISE_DIM = 32
-NUM_LAYERS = 3
-
-# --- Training Config ---
-BATCH_SIZE = 128
-LR = 1e-3
-EMBED_EPOCHS = 50
-SUPERVISED_EPOCHS = 25
-JOINT_EPOCHS = 100
-GAMMA = 1.0          # weight of the adversarial loss on unsupervised latents
-D_THRESHOLD = 0.5   # only update the discriminator while its loss is above this
-W1_WEIGHT = 1.0    # weight of the distribution-matching losses on spread and mid changes
-SEED = 0
-NUM_VAL = 4096       # windows used for the per-epoch validation loss
-
-CHECKPOINT_DIR = Path("models/checkpoints")
-IMAGE_DIR = Path("figures")
-
-# Channel groups for the reconstruction loss. Each group counts equally, so the
-# lone mid and spread channels are not drowned out by 20 sizes and 40 flags
-N_FEAT = len(FEATURE_COLS)
-LOSS_GROUPS = [
-    [FEATURE_COLS.index("mid_rel")],
-    [FEATURE_COLS.index("spread")],
-    [i for i, c in enumerate(FEATURE_COLS) if "_gap_" in c],
-    SZ_IDX,
-    list(range(N_FEAT, N_FEAT + len(FLAG_GROUPS))),
-]
+# Load config.toml as dataclass
+with open(Path("config.toml"), "rb") as f:
+    cfg = Config(**tomllib.load(f))
 
 
-# ---------------------------------------------------------------------------
-# --- Losses ---
-# ---------------------------------------------------------------------------
-
-def grouped_mse(x_hat: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
-    """Mean of the per-group MSEs, so every channel group weighs the same."""
-    return torch.stack([F.mse_loss(x_hat[..., g], x[..., g]) for g in LOSS_GROUPS]).mean()
-
-
-def reconstruction_loss(model: TimeGAN, x: torch.Tensor, c: torch.Tensor) -> torch.Tensor:
-    """Group-weighted MSE between real features and their embed -> recover round trip."""
-    return grouped_mse(model.recovery(model.embedder(x, c), c), x)
-
-
-def supervised_loss(model: TimeGAN, h: torch.Tensor, c: torch.Tensor) -> torch.Tensor:
-    """MSE between the supervisor's next-step prediction and the actual next step."""
-    return F.mse_loss(model.supervisor(h, c)[:, :-1], h[:, 1:])
-
-
-def moment_loss(x_hat: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
-    """Match per-(timestep, feature) mean and std across the batch.
-
-    Uses sqrt(var + eps) rather than std directly, because the gradient of
-    std is undefined when a generated feature has zero variance, which is
-    exactly the collapsed state this loss should push the generator out of.
-    """
-    var_hat, mean_hat = torch.var_mean(x_hat, dim=0)
-    var, mean = torch.var_mean(x, dim=0)
-    std_gap = (torch.sqrt(var_hat + 1e-6) - torch.sqrt(var + 1e-6)).abs().mean()
-    return std_gap + (mean_hat - mean).abs().mean()
-
-
-def unscale(x: torch.Tensor, scaler: LogMinMaxScaler, col: int) -> torch.Tensor:
-    """Torch version of scaler.inverse_transform for one feature, so gradients flow through."""
-    logged = x[..., col] * float(scaler.span[col]) + float(scaler.lo[col])
-    return torch.sign(logged) * torch.expm1(logged.abs())
-
-
-def w1(fake: torch.Tensor, real: torch.Tensor) -> torch.Tensor:
-    """1D Wasserstein distance between two equal-sized samples, in units of the real std.
-
-    Sorting both samples pairs their quantiles, so the whole distribution is
-    compared, tails included, which matching mean and std alone cannot do.
-    """
-    fake, real = torch.sort(fake.flatten())[0], torch.sort(real.flatten())[0]
-    return (fake - real).abs().mean() / (real.std() + 1e-6)
-
-
-def distribution_losses(x_hat: torch.Tensor, x: torch.Tensor, scaler: LogMinMaxScaler) -> tuple[torch.Tensor, torch.Tensor]:
-    """W1 between generated and real batches for the spread and the step-to-step mid change, in ticks."""
-    spread_col, mid_col = FEATURE_COLS.index("spread"), FEATURE_COLS.index("mid_rel")
-    spread_w1 = w1(unscale(x_hat, scaler, spread_col), unscale(x, scaler, spread_col))
-    mid_w1 = w1(torch.diff(unscale(x_hat, scaler, mid_col), dim=1),
-                torch.diff(unscale(x, scaler, mid_col), dim=1))
-    return spread_w1, mid_w1
-
-
-def bce(logits: torch.Tensor, target: float) -> torch.Tensor:
-    """Binary cross-entropy against a constant label."""
-    return F.binary_cross_entropy_with_logits(logits, torch.full_like(logits, target))
-
-
-# ---------------------------------------------------------------------------
-# --- Data ---
-# ---------------------------------------------------------------------------
-
-class TickerBatchSampler(Sampler):
-    """Batches that each hold windows of a single ticker, in shuffled order.
-
-    Every epoch, each ticker's windows are shuffled and cut into full batches
-    (the remainder is dropped, keeping batch statistics stable), then the
-    batches of all tickers are shuffled together.
-    """
-    def __init__(self, labels: np.ndarray, batch_size: int, seed: int = 0):
-        self.groups = [np.flatnonzero(labels == k) for k in np.unique(labels)]
-        self.batch_size = batch_size
-        self.rng = np.random.default_rng(seed)
-
-    def __iter__(self):
-        batches = []
-        for idx in self.groups:
-            idx = self.rng.permutation(idx)
-            n_full = len(idx) // self.batch_size * self.batch_size
-            batches.extend(np.split(idx[:n_full], n_full // self.batch_size))
-        for i in self.rng.permutation(len(batches)):
-            yield batches[i].tolist()
-
-    def __len__(self) -> int:
-        return sum(len(idx) // self.batch_size for idx in self.groups)
-
-
-# --- Training Phase 1: Embedder ---
-def train_embedding(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, val_c: torch.Tensor,
-                    epochs: int) -> dict:
+# Training Phase 1: Embedder
+def train_embedding(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, val_c: torch.Tensor, epochs: int) -> dict:
     """Phase 1: train embedder + recovery to reconstruct real windows."""
     params = list(model.embedder.parameters()) + list(model.recovery.parameters())
-    opt = torch.optim.Adam(params, lr=LR)
+    opt = torch.optim.Adam(params, lr=cfg.learning_rate)
     losses = {"train": [], "val": []}
 
     for epoch in range(1, epochs + 1):
@@ -166,11 +54,10 @@ def train_embedding(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, val
 
     return losses
 
-# --- Training Phase 2: Supervisor ---
-def train_supervisor(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, val_c: torch.Tensor,
-                     epochs: int) -> dict:
+# Training Phase 2: Supervisor
+def train_supervisor(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, val_c: torch.Tensor, epochs: int) -> dict:
     """Phase 2: train the supervisor on real latents (embedder frozen)."""
-    opt = torch.optim.Adam(model.supervisor.parameters(), lr=LR)
+    opt = torch.optim.Adam(model.supervisor.parameters(), lr=cfg.learning_rate)
     losses = {"train": [], "val": []}
 
     for epoch in range(1, epochs + 1):
@@ -193,8 +80,8 @@ def train_supervisor(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, va
 
     return losses
 
-# --- Training Phase 2: Joint Generator and Discriminator ---
-def train_joint(model: TimeGAN, loader: DataLoader, epochs: int, scalers: list[LogMinMaxScaler]) -> dict:
+# Training Phase 2: Joint Generator and Discriminator
+def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScaler], epochs: int) -> dict:
     """Phase 3: adversarial training with embedder fine-tuning.
 
     Each batch performs two generator + embedder updates and then one
@@ -202,10 +89,10 @@ def train_joint(model: TimeGAN, loader: DataLoader, epochs: int, scalers: list[L
     (loss below D_THRESHOLD) so it cannot overpower the generator.
     """
     opt_g = torch.optim.Adam(
-        list(model.generator.parameters()) + list(model.supervisor.parameters()), lr=LR)
+        list(model.generator.parameters()) + list(model.supervisor.parameters()), lr=cfg.learning_rate)
     opt_e = torch.optim.Adam(
-        list(model.embedder.parameters()) + list(model.recovery.parameters()), lr=LR)
-    opt_d = torch.optim.Adam(model.discriminator.parameters(), lr=LR)
+        list(model.embedder.parameters()) + list(model.recovery.parameters()), lr=cfg.learning_rate)
+    opt_d = torch.optim.Adam(model.discriminator.parameters(), lr=cfg.learning_rate)
     losses = {name: [] for name in ("d_loss", "g_adv", "g_sup", "g_moment", "g_spread_w1", "g_mid_w1", "e_loss")}
 
     for epoch in range(1, epochs + 1):
@@ -227,8 +114,7 @@ def train_joint(model: TimeGAN, loader: DataLoader, epochs: int, scalers: list[L
                 g_sup = supervised_loss(model, h, c)
                 g_moment = moment_loss(x_hat, x)
                 g_spread_w1, g_mid_w1 = distribution_losses(x_hat, x, scaler)
-                g_loss = (g_adv + GAMMA * g_adv_e + 100 * torch.sqrt(g_sup) + 100 * g_moment
-                          + W1_WEIGHT * (g_spread_w1 + g_mid_w1))
+                g_loss = g_adv + g_adv_e + 100 * torch.sqrt(g_sup) + 100 * g_moment + (g_spread_w1 + g_mid_w1)
 
                 opt_g.zero_grad()
                 g_loss.backward()
@@ -236,21 +122,20 @@ def train_joint(model: TimeGAN, loader: DataLoader, epochs: int, scalers: list[L
 
                 # Embedder + recovery fine-tuning
                 h = model.embedder(x, c)
-                e_loss = (10 * torch.sqrt(grouped_mse(model.recovery(h, c), x))
-                          + 0.1 * supervised_loss(model, h, c))
+                e_loss = (10 * torch.sqrt(grouped_mse(model.recovery(h, c), x)) + 0.1 * supervised_loss(model, h, c))
                 opt_e.zero_grad()
                 e_loss.backward()
                 opt_e.step()
 
-            # Discriminator
+            # Discriminator: two updates per batch, each on fresh synthetic windows
             with torch.no_grad():
                 h = model.embedder(x, c)
                 e_hat = model.generator(model.noise(n, seq_len), c)
                 h_hat = model.supervisor(e_hat, c)
             d_loss = (bce(model.discriminator(h, c), 1.0)
                       + bce(model.discriminator(h_hat, c), 0.0)
-                      + GAMMA * bce(model.discriminator(e_hat, c), 0.0))
-            if d_loss.item() > D_THRESHOLD:
+                      + bce(model.discriminator(e_hat, c), 0.0))
+            if d_loss.item() > cfg.d_threshold:
                 opt_d.zero_grad()
                 d_loss.backward()
                 opt_d.step()
@@ -272,57 +157,84 @@ def train_joint(model: TimeGAN, loader: DataLoader, epochs: int, scalers: list[L
 
 
 def main() -> None:
-    Path("models/checkpoints").mkdir(exist_ok=True)
+    # Initialize rng and required filepaths
+    Path("models").mkdir(exist_ok=True)
     Path("figures").mkdir(exist_ok=True)
-    torch.manual_seed(SEED)
+    torch.manual_seed(cfg.train_seed)
 
     # Data pipeline: one scaler per ticker, fitted on the training split only
-    books = load_books(TICKERS, resample_freq=RESAMPLE_FREQ)
-    splits = split_books(books, train_frac=TRAIN_FRAC, val_frac=VAL_FRAC, test_frac=TEST_FRAC)
-    scalers = {ticker: LogMinMaxScaler() for ticker in TICKERS}
-    train_windows, _, train_labels = encode(splits["train"], scalers, WINDOW_LENGTH, fit=True)
-    val_windows, _, val_labels = encode(splits["val"], scalers, WINDOW_LENGTH)
+    books = load_books(cfg.tickers, cfg.resample_freq, cfg.trim_regimes, cfg.train_frac, cfg.val_frac, cfg.test_frac)
+    scalers = {ticker: LogMinMaxScaler() for ticker in cfg.tickers}
+    train_windows, _, train_labels = encode(books["train"], scalers, cfg.window_length, fit=True)
+    val_windows, _, val_labels = encode(books["val"], scalers, cfg.window_length, fit=False)
 
     loader = DataLoader(
         TensorDataset(torch.from_numpy(train_windows).float(), torch.from_numpy(train_labels)),
-        batch_sampler=TickerBatchSampler(train_labels, BATCH_SIZE, seed=SEED),
+        batch_sampler=BatchSampler(
+            labels=train_labels,
+            batch_size=cfg.batch_size,
+            seed=cfg.train_seed,
+        ),
     )
-    # Validation subset (all windows at once would not fit in GPU memory)
-    val_idx = np.random.default_rng(SEED).choice(len(train_windows), min(NUM_VAL, len(train_windows)), replace=False)
-    # val_x = torch.from_numpy(val_windows[val_idx]).float().to(DEVICE)
+
+    # Validation subset
+    VAL_SUBSET = 4096  # number of windows to keep; None = use all
+    VAL_SEED = 0
+    n = len(train_windows)
+    if VAL_SUBSET is not None and VAL_SUBSET < n:
+        rng = np.random.default_rng(VAL_SEED)
+        val_idx = np.sort(rng.choice(n, size=VAL_SUBSET, replace=False))
+    else:
+        val_idx = np.arange(n)
+
     val_x = torch.from_numpy(train_windows[val_idx]).float().to(DEVICE)
     val_y = torch.from_numpy(train_labels[val_idx]).to(DEVICE)
 
     # Model and training
-    config = {
-        "feat_dim": train_windows.shape[2],
-        "hidden_dim": HIDDEN_DIM,
-        "noise_dim": NOISE_DIM,
-        "num_layers": NUM_LAYERS,
-        "n_tickers": len(TICKERS),
-        "window_length": WINDOW_LENGTH,
-        "tickers": TICKERS,
-        "resample_freq": RESAMPLE_FREQ,
-        "train_frac": TRAIN_FRAC,
-        "val_frac": VAL_FRAC,
-        "test_frac": TEST_FRAC,
-    }
-    model = TimeGAN(config["feat_dim"], HIDDEN_DIM, NOISE_DIM, NUM_LAYERS, len(TICKERS)).to(DEVICE)
+    feature_dim = train_windows.shape[2]
+    model = TimeGAN(feature_dim, cfg.hidden_dim, cfg.noise_dim, cfg.num_layers, len(cfg.tickers)).to(DEVICE)
     val_c = model.one_hot(val_y)
 
-    embedding_losses = train_embedding(model, loader, val_x, val_c, EMBED_EPOCHS)
-    supervisor_losses = train_supervisor(model, loader, val_x, val_c, SUPERVISED_EPOCHS)
-    joint_losses = train_joint(model, loader, JOINT_EPOCHS, list(scalers.values()))
+    # Resource profiling: reset the GPU's peak-memory counter, then time each phase
+    if DEVICE.type == "cuda":
+        torch.cuda.reset_peak_memory_stats()
+    times = {}
+
+    start = time.perf_counter()
+    embedding_losses = train_embedding(model, loader, val_x, val_c, epochs=cfg.embedding_epochs)
+    times["embedding"] = time.perf_counter() - start
+
+    start = time.perf_counter()
+    supervisor_losses = train_supervisor(model, loader, val_x, val_c, epochs=cfg.supervised_epochs)
+    times["supervised"] = time.perf_counter() - start
+
+    start = time.perf_counter()
+    joint_losses = train_joint(model, loader, list(scalers.values()), epochs=cfg.joint_epochs)
+    times["joint"] = time.perf_counter() - start
+
+    profile = {
+        "parameters": sum(p.numel() for p in model.parameters()),
+        "train_minutes": {phase: t / 60 for phase, t in times.items()},
+        "total_train_minutes": sum(times.values()) / 60,
+        "peak_vram_mib": torch.cuda.max_memory_allocated() / 2**20 if DEVICE.type == "cuda" else None,
+    }
+    print(f"\nParameters        {profile['parameters']:,}")
+    for phase, minutes in profile["train_minutes"].items():
+        print(f"Training time     {phase:<11}{minutes:6.1f} min")
+    print(f"Total             {'':<11}{profile['total_train_minutes']:6.1f} min")
+    if profile["peak_vram_mib"] is not None:
+        print(f"Peak GPU memory   {profile['peak_vram_mib']:.0f} MiB")
+
 
     # Save model and loss plots
     torch.save({
         "model": model.state_dict(),
-        "config": config,
+        "config": cfg.to_dict(),
         "scaler_lo": {ticker: s.lo.tolist() for ticker, s in scalers.items()},
         "scaler_hi": {ticker: s.hi.tolist() for ticker, s in scalers.items()},
-        "feature_names": FEATURE_COLS,
-    }, CHECKPOINT_DIR / "timegan.pt")
-
+        "feature_cols": FEATURE_COLS,
+        "feature_dim": feature_dim,
+    }, Path("models/timegan.pt"))
     plot_losses(embedding_losses, supervisor_losses, joint_losses, Path("figures/timegan_losses.png"))
 
 

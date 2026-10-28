@@ -1,17 +1,18 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
-from common.scalers import LogMinMaxScaler
+from components.scaler import LogMinMaxScaler
 from common.constants import TICKERS
 from common.constants import DEPTH
 from common.constants import LEVELS
 from common.constants import PX_TICK
-
-# Paths
-BOOK_PATH = "data/{ticker}_2012-06-21_34200000_57600000_orderbook_10.csv"
-MSG_PATH = "data/{ticker}_2012-06-21_34200000_57600000_message_10.csv"
+from common.constants import BOOK_PATH
+from common.constants import MSG_PATH
+from common.misc import download_dataset
 
 # Columns
 MSG_COLS = ["time", "event_type", "order_id", "size", "price", "direction"]
@@ -35,9 +36,31 @@ FLAG_GROUPS = [[i] for i in range(len(FEATURE_COLS))]
 SZ_IDX = [FEATURE_COLS.index(c) for c in SZ_COLS]
 
 # Data handling helpers
-def load_books(tickers: list[str], resample_freq: str | None = None) -> pd.DataFrame:
-    frames = []
+def load_books(
+        tickers: list[str],
+        resample_freq: str | None = None,
+        trim_regimes: str | None = None,
+        train_frac: float = 0.7,
+        val_frac: float = 0.15,
+        test_frac: float = 0.15,
+) -> dict[str, pd.DataFrame]:
+    """Load, clean and chronologically split each ticker's book.
+
+    Returns {"train", "val", "test"}, each holding every ticker's share of its own day.
+    """
+    if not np.isclose(train_frac + val_frac + test_frac, 1.0):
+        raise ValueError("train_frac + val_frac + test_frac must sum to 1")
+
+    parts = {"train": [], "val": [], "test": []}
     for ticker in tickers:
+        if ticker not in TICKERS:
+            raise ValueError(f"Invalid ticker {ticker}")
+
+        book_path = Path(BOOK_PATH.format(ticker=ticker))
+        msgs_path = Path(MSG_PATH.format(ticker=ticker))
+        if not (book_path.is_file() and msgs_path.is_file()):
+            download_dataset(ticker, book_path.parent)
+
         books = pd.read_csv(BOOK_PATH.format(ticker=ticker), header=None, names=BOOK_COLS)
         msgs = pd.read_csv(MSG_PATH.format(ticker=ticker), header=None, names=MSG_COLS)
 
@@ -45,34 +68,28 @@ def load_books(tickers: list[str], resample_freq: str | None = None) -> pd.DataF
         books = books[is_valid]
         books[PX_COLS] //= PX_TICK
         books.index = pd.to_timedelta(msgs.loc[is_valid, "time"], unit="s")
-        books = books[(books[SZ_COLS] > 0).all(axis=1)]
+
+        # Drop the opening and closing regimes: keep 9:30 + trim to 16:00 - trim
+        if trim_regimes:
+            trim = pd.Timedelta(trim_regimes)
+            start = pd.Timedelta(hours=9, minutes=30) + trim
+            end = pd.Timedelta(hours=16) - trim
+            books = books[(books.index >= start) & (books.index < end)]
 
         if resample_freq:
             books = books.resample(resample_freq).last().ffill()
 
         books = books.astype("int64")
         books["ticker"] = ticker
-        frames.append(books)
 
-    return pd.concat(frames)
-
-def split_books(
-        books: pd.DataFrame,
-        train_frac: float,
-        val_frac: float,
-        test_frac: float,
-) -> dict[str, pd.DataFrame]:
-    if not np.isclose(train_frac + val_frac + test_frac, 1.0):
-        raise ValueError("train_frac + val_frac + test_frac must sum to 1")
-
-    parts = {"train": [], "val": [], "test": []}
-    for _, ticker_books in books.groupby("ticker", sort=False):
-        n = len(ticker_books)
+        # Chronological split of this ticker's day
+        n = len(books)
         train_end = int(n * train_frac)
         val_end = int(n * (train_frac + val_frac))
-        parts["train"].append(ticker_books.iloc[:train_end])
-        parts["val"].append(ticker_books.iloc[train_end:val_end])
-        parts["test"].append(ticker_books.iloc[val_end:])
+        parts["train"].append(books.iloc[:train_end])
+        parts["val"].append(books.iloc[train_end:val_end])
+        parts["test"].append(books.iloc[val_end:])
+
     return {split: pd.concat(frames) for split, frames in parts.items()}
 
 def encode(
