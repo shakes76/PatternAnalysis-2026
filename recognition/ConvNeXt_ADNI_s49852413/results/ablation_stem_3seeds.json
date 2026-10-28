@@ -1,0 +1,1446 @@
+{
+  "split_mode": "subject",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "device": "mps",
+  "aggregated": {
+    "convnext": {
+      "total_params": 2176866,
+      "slice_level": {
+        "accuracy": {
+          "mean": 0.6745,
+          "std": 0.0242,
+          "ddof": 1,
+          "values": [
+            0.6594,
+            0.7024,
+            0.6616
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.6759,
+          "std": 0.0231,
+          "ddof": 1,
+          "values": [
+            0.6605,
+            0.7025,
+            0.6647
+          ]
+        },
+        "macro_f1": {
+          "mean": 0.6742,
+          "std": 0.0245,
+          "ddof": 1,
+          "values": [
+            0.6594,
+            0.7024,
+            0.6606
+          ]
+        },
+        "auroc": {
+          "mean": 0.7387,
+          "std": 0.0291,
+          "ddof": 1,
+          "values": [
+            0.7182,
+            0.772,
+            0.7259
+          ]
+        },
+        "pr_auc": {
+          "mean": 0.7117,
+          "std": 0.0417,
+          "ddof": 1,
+          "values": [
+            0.6803,
+            0.7591,
+            0.6958
+          ]
+        },
+        "temperature": {
+          "mean": 3.2721,
+          "std": 0.5106,
+          "ddof": 1,
+          "values": [
+            3.573,
+            3.5608,
+            2.6826
+          ]
+        },
+        "selected_tau": {
+          "mean": 0.7,
+          "std": 0.0,
+          "ddof": 1,
+          "values": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "selected_scan_tau": {
+          "mean": 0.65,
+          "std": 0.0,
+          "ddof": 1,
+          "values": [
+            0.65,
+            0.65,
+            0.65
+          ]
+        },
+        "ece_uncalibrated": {
+          "mean": 0.1785,
+          "std": 0.0148,
+          "ddof": 1,
+          "values": [
+            0.1956,
+            0.1706,
+            0.1694
+          ]
+        },
+        "ece_calibrated": {
+          "mean": 0.0217,
+          "std": 0.0104,
+          "ddof": 1,
+          "values": [
+            0.012,
+            0.0327,
+            0.0204
+          ]
+        },
+        "brier_uncalibrated": {
+          "mean": 0.2434,
+          "std": 0.015,
+          "ddof": 1,
+          "values": [
+            0.2568,
+            0.2271,
+            0.2464
+          ]
+        },
+        "brier_calibrated": {
+          "mean": 0.2083,
+          "std": 0.0108,
+          "ddof": 1,
+          "values": [
+            0.2144,
+            0.1958,
+            0.2146
+          ]
+        }
+      },
+      "patient_level": {
+        "patient_accuracy": {
+          "mean": 0.7049,
+          "std": 0.0347,
+          "ddof": 1,
+          "values": [
+            0.6736,
+            0.7422,
+            0.6987
+          ]
+        },
+        "scan_mean_prob_accuracy": {
+          "mean": 0.7049,
+          "std": 0.0347,
+          "ddof": 1,
+          "values": [
+            0.6736,
+            0.7422,
+            0.6987
+          ]
+        },
+        "scan_majority_vote_accuracy": {
+          "mean": 0.7161,
+          "std": 0.0199,
+          "ddof": 1,
+          "values": [
+            0.6987,
+            0.7378,
+            0.7118
+          ]
+        },
+        "patient_macro_f1": {
+          "mean": 0.7043,
+          "std": 0.0349,
+          "ddof": 1,
+          "values": [
+            0.6735,
+            0.7422,
+            0.6972
+          ]
+        },
+        "patient_auroc": {
+          "mean": 0.7839,
+          "std": 0.0392,
+          "ddof": 1,
+          "values": [
+            0.7552,
+            0.8286,
+            0.768
+          ]
+        },
+        "subject_accuracy": {
+          "mean": 0.6928,
+          "std": 0.0709,
+          "ddof": 1,
+          "values": [
+            0.6471,
+            0.7745,
+            0.6569
+          ]
+        },
+        "subject_macro_f1": {
+          "mean": 0.677,
+          "std": 0.0725,
+          "ddof": 1,
+          "values": [
+            0.6264,
+            0.7601,
+            0.6445
+          ]
+        },
+        "subject_auroc": {
+          "mean": 0.7602,
+          "std": 0.054,
+          "ddof": 1,
+          "values": [
+            0.7172,
+            0.8208,
+            0.7426
+          ]
+        }
+      },
+      "per_seed": [
+        {
+          "seed": 42,
+          "slice_accuracy": 0.6594,
+          "scan_accuracy": 0.6736,
+          "subject_accuracy": 0.6471,
+          "macro_f1": 0.6594,
+          "auroc": 0.7182,
+          "ece_uncalibrated": 0.1956,
+          "ece_calibrated": 0.012,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.65
+        },
+        {
+          "seed": 43,
+          "slice_accuracy": 0.7024,
+          "scan_accuracy": 0.7422,
+          "subject_accuracy": 0.7745,
+          "macro_f1": 0.7024,
+          "auroc": 0.772,
+          "ece_uncalibrated": 0.1706,
+          "ece_calibrated": 0.0327,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.65
+        },
+        {
+          "seed": 44,
+          "slice_accuracy": 0.6616,
+          "scan_accuracy": 0.6987,
+          "subject_accuracy": 0.6569,
+          "macro_f1": 0.6606,
+          "auroc": 0.7259,
+          "ece_uncalibrated": 0.1694,
+          "ece_calibrated": 0.0204,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.65
+        }
+      ]
+    },
+    "convnext_patchify_bn": {
+      "total_params": 2176386,
+      "slice_level": {
+        "accuracy": {
+          "mean": 0.71,
+          "std": 0.006,
+          "ddof": 1,
+          "values": [
+            0.7033,
+            0.7149,
+            0.7118
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.7086,
+          "std": 0.0075,
+          "ddof": 1,
+          "values": [
+            0.7003,
+            0.715,
+            0.7104
+          ]
+        },
+        "macro_f1": {
+          "mean": 0.7087,
+          "std": 0.0074,
+          "ddof": 1,
+          "values": [
+            0.7005,
+            0.7149,
+            0.7106
+          ]
+        },
+        "auroc": {
+          "mean": 0.7732,
+          "std": 0.0117,
+          "ddof": 1,
+          "values": [
+            0.7658,
+            0.7867,
+            0.7671
+          ]
+        },
+        "pr_auc": {
+          "mean": 0.7377,
+          "std": 0.0243,
+          "ddof": 1,
+          "values": [
+            0.7138,
+            0.7623,
+            0.737
+          ]
+        },
+        "temperature": {
+          "mean": 3.435,
+          "std": 0.4128,
+          "ddof": 1,
+          "values": [
+            3.4898,
+            2.9975,
+            3.8176
+          ]
+        },
+        "selected_tau": {
+          "mean": 0.7167,
+          "std": 0.0289,
+          "ddof": 1,
+          "values": [
+            0.75,
+            0.7,
+            0.7
+          ]
+        },
+        "selected_scan_tau": {
+          "mean": 0.6667,
+          "std": 0.0289,
+          "ddof": 1,
+          "values": [
+            0.7,
+            0.65,
+            0.65
+          ]
+        },
+        "ece_uncalibrated": {
+          "mean": 0.1749,
+          "std": 0.0032,
+          "ddof": 1,
+          "values": [
+            0.1755,
+            0.1715,
+            0.1778
+          ]
+        },
+        "ece_calibrated": {
+          "mean": 0.0272,
+          "std": 0.0095,
+          "ddof": 1,
+          "values": [
+            0.0186,
+            0.0374,
+            0.0256
+          ]
+        },
+        "brier_uncalibrated": {
+          "mean": 0.2289,
+          "std": 0.0054,
+          "ddof": 1,
+          "values": [
+            0.2331,
+            0.2229,
+            0.2307
+          ]
+        },
+        "brier_calibrated": {
+          "mean": 0.1944,
+          "std": 0.005,
+          "ddof": 1,
+          "values": [
+            0.1983,
+            0.1888,
+            0.1962
+          ]
+        }
+      },
+      "patient_level": {
+        "patient_accuracy": {
+          "mean": 0.736,
+          "std": 0.0054,
+          "ddof": 1,
+          "values": [
+            0.7322,
+            0.7422,
+            0.7336
+          ]
+        },
+        "scan_mean_prob_accuracy": {
+          "mean": 0.736,
+          "std": 0.0054,
+          "ddof": 1,
+          "values": [
+            0.7322,
+            0.7422,
+            0.7336
+          ]
+        },
+        "scan_majority_vote_accuracy": {
+          "mean": 0.755,
+          "std": 0.0199,
+          "ddof": 1,
+          "values": [
+            0.7406,
+            0.7778,
+            0.7467
+          ]
+        },
+        "patient_macro_f1": {
+          "mean": 0.735,
+          "std": 0.0064,
+          "ddof": 1,
+          "values": [
+            0.7297,
+            0.7422,
+            0.7331
+          ]
+        },
+        "patient_auroc": {
+          "mean": 0.8215,
+          "std": 0.0125,
+          "ddof": 1,
+          "values": [
+            0.8137,
+            0.8359,
+            0.8148
+          ]
+        },
+        "subject_accuracy": {
+          "mean": 0.7516,
+          "std": 0.0371,
+          "ddof": 1,
+          "values": [
+            0.7255,
+            0.7941,
+            0.7353
+          ]
+        },
+        "subject_macro_f1": {
+          "mean": 0.7205,
+          "std": 0.0494,
+          "ddof": 1,
+          "values": [
+            0.6813,
+            0.776,
+            0.7043
+          ]
+        },
+        "subject_auroc": {
+          "mean": 0.8066,
+          "std": 0.0367,
+          "ddof": 1,
+          "values": [
+            0.7835,
+            0.8489,
+            0.7874
+          ]
+        }
+      },
+      "per_seed": [
+        {
+          "seed": 42,
+          "slice_accuracy": 0.7033,
+          "scan_accuracy": 0.7322,
+          "subject_accuracy": 0.7255,
+          "macro_f1": 0.7005,
+          "auroc": 0.7658,
+          "ece_uncalibrated": 0.1755,
+          "ece_calibrated": 0.0186,
+          "selected_tau": 0.75,
+          "selected_scan_tau": 0.7
+        },
+        {
+          "seed": 43,
+          "slice_accuracy": 0.7149,
+          "scan_accuracy": 0.7422,
+          "subject_accuracy": 0.7941,
+          "macro_f1": 0.7149,
+          "auroc": 0.7867,
+          "ece_uncalibrated": 0.1715,
+          "ece_calibrated": 0.0374,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.65
+        },
+        {
+          "seed": 44,
+          "slice_accuracy": 0.7118,
+          "scan_accuracy": 0.7336,
+          "subject_accuracy": 0.7353,
+          "macro_f1": 0.7106,
+          "auroc": 0.7671,
+          "ece_uncalibrated": 0.1778,
+          "ece_calibrated": 0.0256,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.65
+        }
+      ]
+    },
+    "convnext_overlap_ln": {
+      "total_params": 2185954,
+      "slice_level": {
+        "accuracy": {
+          "mean": 0.6677,
+          "std": 0.0324,
+          "ddof": 1,
+          "values": [
+            0.6757,
+            0.6953,
+            0.6321
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.6676,
+          "std": 0.0328,
+          "ddof": 1,
+          "values": [
+            0.6743,
+            0.6966,
+            0.6319
+          ]
+        },
+        "macro_f1": {
+          "mean": 0.6664,
+          "std": 0.0314,
+          "ddof": 1,
+          "values": [
+            0.6744,
+            0.693,
+            0.6318
+          ]
+        },
+        "auroc": {
+          "mean": 0.7371,
+          "std": 0.0545,
+          "ddof": 1,
+          "values": [
+            0.748,
+            0.7853,
+            0.678
+          ]
+        },
+        "pr_auc": {
+          "mean": 0.7139,
+          "std": 0.0663,
+          "ddof": 1,
+          "values": [
+            0.7134,
+            0.7805,
+            0.6479
+          ]
+        },
+        "temperature": {
+          "mean": 2.1706,
+          "std": 1.0242,
+          "ddof": 1,
+          "values": [
+            3.3527,
+            1.6087,
+            1.5503
+          ]
+        },
+        "selected_tau": {
+          "mean": 0.7,
+          "std": 0.0,
+          "ddof": 1,
+          "values": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "selected_scan_tau": {
+          "mean": 0.6333,
+          "std": 0.0577,
+          "ddof": 1,
+          "values": [
+            0.7,
+            0.6,
+            0.6
+          ]
+        },
+        "ece_uncalibrated": {
+          "mean": 0.1256,
+          "std": 0.0574,
+          "ddof": 1,
+          "values": [
+            0.1912,
+            0.0846,
+            0.1012
+          ]
+        },
+        "ece_calibrated": {
+          "mean": 0.0382,
+          "std": 0.0056,
+          "ddof": 1,
+          "values": [
+            0.033,
+            0.0442,
+            0.0375
+          ]
+        },
+        "brier_uncalibrated": {
+          "mean": 0.2272,
+          "std": 0.0251,
+          "ddof": 1,
+          "values": [
+            0.2444,
+            0.1984,
+            0.2388
+          ]
+        },
+        "brier_calibrated": {
+          "mean": 0.208,
+          "std": 0.0185,
+          "ddof": 1,
+          "values": [
+            0.2037,
+            0.192,
+            0.2282
+          ]
+        }
+      },
+      "patient_level": {
+        "patient_accuracy": {
+          "mean": 0.6955,
+          "std": 0.0435,
+          "ddof": 1,
+          "values": [
+            0.7113,
+            0.7289,
+            0.6463
+          ]
+        },
+        "scan_mean_prob_accuracy": {
+          "mean": 0.6955,
+          "std": 0.0435,
+          "ddof": 1,
+          "values": [
+            0.7113,
+            0.7289,
+            0.6463
+          ]
+        },
+        "scan_majority_vote_accuracy": {
+          "mean": 0.6869,
+          "std": 0.0404,
+          "ddof": 1,
+          "values": [
+            0.6987,
+            0.72,
+            0.6419
+          ]
+        },
+        "patient_macro_f1": {
+          "mean": 0.6939,
+          "std": 0.0423,
+          "ddof": 1,
+          "values": [
+            0.71,
+            0.7258,
+            0.6459
+          ]
+        },
+        "patient_auroc": {
+          "mean": 0.777,
+          "std": 0.0532,
+          "ddof": 1,
+          "values": [
+            0.7952,
+            0.8186,
+            0.717
+          ]
+        },
+        "subject_accuracy": {
+          "mean": 0.683,
+          "std": 0.0484,
+          "ddof": 1,
+          "values": [
+            0.7157,
+            0.7059,
+            0.6275
+          ]
+        },
+        "subject_macro_f1": {
+          "mean": 0.6623,
+          "std": 0.0529,
+          "ddof": 1,
+          "values": [
+            0.6868,
+            0.6985,
+            0.6016
+          ]
+        },
+        "subject_auroc": {
+          "mean": 0.7647,
+          "std": 0.0818,
+          "ddof": 1,
+          "values": [
+            0.7918,
+            0.8296,
+            0.6728
+          ]
+        }
+      },
+      "per_seed": [
+        {
+          "seed": 42,
+          "slice_accuracy": 0.6757,
+          "scan_accuracy": 0.7113,
+          "subject_accuracy": 0.7157,
+          "macro_f1": 0.6744,
+          "auroc": 0.748,
+          "ece_uncalibrated": 0.1912,
+          "ece_calibrated": 0.033,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.7
+        },
+        {
+          "seed": 43,
+          "slice_accuracy": 0.6953,
+          "scan_accuracy": 0.7289,
+          "subject_accuracy": 0.7059,
+          "macro_f1": 0.693,
+          "auroc": 0.7853,
+          "ece_uncalibrated": 0.0846,
+          "ece_calibrated": 0.0442,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.6
+        },
+        {
+          "seed": 44,
+          "slice_accuracy": 0.6321,
+          "scan_accuracy": 0.6463,
+          "subject_accuracy": 0.6275,
+          "macro_f1": 0.6318,
+          "auroc": 0.678,
+          "ece_uncalibrated": 0.1012,
+          "ece_calibrated": 0.0375,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.6
+        }
+      ]
+    },
+    "convnext_bn_stem": {
+      "total_params": 2185442,
+      "slice_level": {
+        "accuracy": {
+          "mean": 0.7105,
+          "std": 0.024,
+          "ddof": 1,
+          "values": [
+            0.6973,
+            0.7382,
+            0.6961
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.7093,
+          "std": 0.025,
+          "ddof": 1,
+          "values": [
+            0.6933,
+            0.7381,
+            0.6966
+          ]
+        },
+        "macro_f1": {
+          "mean": 0.709,
+          "std": 0.0252,
+          "ddof": 1,
+          "values": [
+            0.693,
+            0.7381,
+            0.696
+          ]
+        },
+        "auroc": {
+          "mean": 0.7858,
+          "std": 0.0304,
+          "ddof": 1,
+          "values": [
+            0.7721,
+            0.8207,
+            0.7647
+          ]
+        },
+        "pr_auc": {
+          "mean": 0.7716,
+          "std": 0.0285,
+          "ddof": 1,
+          "values": [
+            0.7449,
+            0.8015,
+            0.7684
+          ]
+        },
+        "temperature": {
+          "mean": 3.6345,
+          "std": 0.4644,
+          "ddof": 1,
+          "values": [
+            3.9543,
+            3.8474,
+            3.1018
+          ]
+        },
+        "selected_tau": {
+          "mean": 0.7333,
+          "std": 0.0289,
+          "ddof": 1,
+          "values": [
+            0.75,
+            0.75,
+            0.7
+          ]
+        },
+        "selected_scan_tau": {
+          "mean": 0.6833,
+          "std": 0.0289,
+          "ddof": 1,
+          "values": [
+            0.7,
+            0.7,
+            0.65
+          ]
+        },
+        "ece_uncalibrated": {
+          "mean": 0.1923,
+          "std": 0.0172,
+          "ddof": 1,
+          "values": [
+            0.2121,
+            0.1842,
+            0.1806
+          ]
+        },
+        "ece_calibrated": {
+          "mean": 0.032,
+          "std": 0.0128,
+          "ddof": 1,
+          "values": [
+            0.0368,
+            0.0416,
+            0.0175
+          ]
+        },
+        "brier_uncalibrated": {
+          "mean": 0.2322,
+          "std": 0.0173,
+          "ddof": 1,
+          "values": [
+            0.2483,
+            0.2139,
+            0.2343
+          ]
+        },
+        "brier_calibrated": {
+          "mean": 0.1898,
+          "std": 0.0128,
+          "ddof": 1,
+          "values": [
+            0.1966,
+            0.175,
+            0.1979
+          ]
+        }
+      },
+      "patient_level": {
+        "patient_accuracy": {
+          "mean": 0.7553,
+          "std": 0.0295,
+          "ddof": 1,
+          "values": [
+            0.728,
+            0.7867,
+            0.7511
+          ]
+        },
+        "scan_mean_prob_accuracy": {
+          "mean": 0.7553,
+          "std": 0.0295,
+          "ddof": 1,
+          "values": [
+            0.728,
+            0.7867,
+            0.7511
+          ]
+        },
+        "scan_majority_vote_accuracy": {
+          "mean": 0.7683,
+          "std": 0.0353,
+          "ddof": 1,
+          "values": [
+            0.7448,
+            0.8089,
+            0.7511
+          ]
+        },
+        "patient_macro_f1": {
+          "mean": 0.7536,
+          "std": 0.0318,
+          "ddof": 1,
+          "values": [
+            0.7231,
+            0.7866,
+            0.7511
+          ]
+        },
+        "patient_auroc": {
+          "mean": 0.8356,
+          "std": 0.0361,
+          "ddof": 1,
+          "values": [
+            0.8244,
+            0.876,
+            0.8066
+          ]
+        },
+        "subject_accuracy": {
+          "mean": 0.7386,
+          "std": 0.0396,
+          "ddof": 1,
+          "values": [
+            0.7157,
+            0.7843,
+            0.7157
+          ]
+        },
+        "subject_macro_f1": {
+          "mean": 0.7073,
+          "std": 0.0482,
+          "ddof": 1,
+          "values": [
+            0.667,
+            0.7608,
+            0.6943
+          ]
+        },
+        "subject_auroc": {
+          "mean": 0.824,
+          "std": 0.0474,
+          "ddof": 1,
+          "values": [
+            0.8125,
+            0.8762,
+            0.7835
+          ]
+        }
+      },
+      "per_seed": [
+        {
+          "seed": 42,
+          "slice_accuracy": 0.6973,
+          "scan_accuracy": 0.728,
+          "subject_accuracy": 0.7157,
+          "macro_f1": 0.693,
+          "auroc": 0.7721,
+          "ece_uncalibrated": 0.2121,
+          "ece_calibrated": 0.0368,
+          "selected_tau": 0.75,
+          "selected_scan_tau": 0.7
+        },
+        {
+          "seed": 43,
+          "slice_accuracy": 0.7382,
+          "scan_accuracy": 0.7867,
+          "subject_accuracy": 0.7843,
+          "macro_f1": 0.7381,
+          "auroc": 0.8207,
+          "ece_uncalibrated": 0.1842,
+          "ece_calibrated": 0.0416,
+          "selected_tau": 0.75,
+          "selected_scan_tau": 0.7
+        },
+        {
+          "seed": 44,
+          "slice_accuracy": 0.6961,
+          "scan_accuracy": 0.7511,
+          "subject_accuracy": 0.7157,
+          "macro_f1": 0.696,
+          "auroc": 0.7647,
+          "ece_uncalibrated": 0.1806,
+          "ece_calibrated": 0.0175,
+          "selected_tau": 0.7,
+          "selected_scan_tau": 0.65
+        }
+      ]
+    },
+    "paired_convnext_patchify_bn_minus_convnext": {
+      "slice_accuracy": {
+        "mean_diff_vs_convnext": 0.0355,
+        "std_diff_ddof1": 0.0202,
+        "per_seed_diffs": [
+          0.0439,
+          0.0124,
+          0.0502
+        ]
+      },
+      "scan_accuracy": {
+        "mean_diff_vs_convnext": 0.0312,
+        "std_diff_ddof1": 0.0295,
+        "per_seed_diffs": [
+          0.0586,
+          0.0,
+          0.0349
+        ]
+      },
+      "subject_accuracy": {
+        "mean_diff_vs_convnext": 0.0588,
+        "std_diff_ddof1": 0.034,
+        "per_seed_diffs": [
+          0.0784,
+          0.0196,
+          0.0784
+        ]
+      },
+      "macro_f1": {
+        "mean_diff_vs_convnext": 0.0345,
+        "std_diff_ddof1": 0.0196,
+        "per_seed_diffs": [
+          0.041,
+          0.0125,
+          0.05
+        ]
+      },
+      "auroc": {
+        "mean_diff_vs_convnext": 0.0345,
+        "std_diff_ddof1": 0.0174,
+        "per_seed_diffs": [
+          0.0476,
+          0.0148,
+          0.0413
+        ]
+      }
+    },
+    "paired_convnext_overlap_ln_minus_convnext": {
+      "slice_accuracy": {
+        "mean_diff_vs_convnext": -0.0068,
+        "std_diff_ddof1": 0.0229,
+        "per_seed_diffs": [
+          0.0163,
+          -0.0071,
+          -0.0295
+        ]
+      },
+      "scan_accuracy": {
+        "mean_diff_vs_convnext": -0.0094,
+        "std_diff_ddof1": 0.0452,
+        "per_seed_diffs": [
+          0.0377,
+          -0.0133,
+          -0.0524
+        ]
+      },
+      "subject_accuracy": {
+        "mean_diff_vs_convnext": -0.0098,
+        "std_diff_ddof1": 0.0707,
+        "per_seed_diffs": [
+          0.0686,
+          -0.0686,
+          -0.0294
+        ]
+      },
+      "macro_f1": {
+        "mean_diff_vs_convnext": -0.0077,
+        "std_diff_ddof1": 0.022,
+        "per_seed_diffs": [
+          0.015,
+          -0.0094,
+          -0.0288
+        ]
+      },
+      "auroc": {
+        "mean_diff_vs_convnext": -0.0016,
+        "std_diff_ddof1": 0.0409,
+        "per_seed_diffs": [
+          0.0298,
+          0.0134,
+          -0.0478
+        ]
+      }
+    },
+    "paired_convnext_bn_stem_minus_convnext": {
+      "slice_accuracy": {
+        "mean_diff_vs_convnext": 0.036,
+        "std_diff_ddof1": 0.0017,
+        "per_seed_diffs": [
+          0.0379,
+          0.0358,
+          0.0345
+        ]
+      },
+      "scan_accuracy": {
+        "mean_diff_vs_convnext": 0.0504,
+        "std_diff_ddof1": 0.0053,
+        "per_seed_diffs": [
+          0.0544,
+          0.0444,
+          0.0524
+        ]
+      },
+      "subject_accuracy": {
+        "mean_diff_vs_convnext": 0.0458,
+        "std_diff_ddof1": 0.0315,
+        "per_seed_diffs": [
+          0.0686,
+          0.0098,
+          0.0588
+        ]
+      },
+      "macro_f1": {
+        "mean_diff_vs_convnext": 0.0349,
+        "std_diff_ddof1": 0.0011,
+        "per_seed_diffs": [
+          0.0336,
+          0.0357,
+          0.0354
+        ]
+      },
+      "auroc": {
+        "mean_diff_vs_convnext": 0.0471,
+        "std_diff_ddof1": 0.0077,
+        "per_seed_diffs": [
+          0.0539,
+          0.0487,
+          0.0388
+        ]
+      }
+    }
+  },
+  "seed42_era_stratified": {
+    "convnext": {
+      "unknown_year_slices": 0,
+      "unknown_year_scans": 0,
+      "pre_2017_adni2": {
+        "num_slices": 1900,
+        "num_scans": 95,
+        "ad_scans": 95,
+        "nc_scans": 0,
+        "num_subjects": 21,
+        "ad_subjects": 21,
+        "nc_subjects": 0,
+        "ad_slices": 1900,
+        "nc_slices": 0,
+        "slice_accuracy": 0.7295,
+        "balanced_accuracy": 0.3647,
+        "balanced_accuracy_ci95": [
+          0.6362,
+          0.8124
+        ],
+        "ad_recall": 0.7295,
+        "ad_recall_ci95": [
+          0.6362,
+          0.8124
+        ],
+        "nc_recall": 0.0,
+        "nc_recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "auroc": 0.0,
+        "auroc_ci95": [
+          0.0,
+          0.0
+        ],
+        "scan_accuracy": 0.7263,
+        "scan_accuracy_ci95": [
+          0.6111,
+          0.8351
+        ]
+      },
+      "post_2017_adni3": {
+        "num_slices": 2880,
+        "num_scans": 144,
+        "ad_scans": 19,
+        "nc_scans": 125,
+        "num_subjects": 81,
+        "ad_subjects": 12,
+        "nc_subjects": 69,
+        "ad_slices": 380,
+        "nc_slices": 2500,
+        "slice_accuracy": 0.6132,
+        "balanced_accuracy": 0.5496,
+        "balanced_accuracy_ci95": [
+          0.4375,
+          0.6647
+        ],
+        "ad_recall": 0.4632,
+        "ad_recall_ci95": [
+          0.25,
+          0.6796
+        ],
+        "nc_recall": 0.636,
+        "nc_recall_ci95": [
+          0.5542,
+          0.7161
+        ],
+        "auroc": 0.5807,
+        "auroc_ci95": [
+          0.4305,
+          0.7251
+        ],
+        "scan_accuracy": 0.6389,
+        "scan_accuracy_ci95": [
+          0.5379,
+          0.7292
+        ]
+      }
+    },
+    "convnext_patchify_bn": {
+      "unknown_year_slices": 0,
+      "unknown_year_scans": 0,
+      "pre_2017_adni2": {
+        "num_slices": 1900,
+        "num_scans": 95,
+        "ad_scans": 95,
+        "nc_scans": 0,
+        "num_subjects": 21,
+        "ad_subjects": 21,
+        "nc_subjects": 0,
+        "ad_slices": 1900,
+        "nc_slices": 0,
+        "slice_accuracy": 0.6837,
+        "balanced_accuracy": 0.3418,
+        "balanced_accuracy_ci95": [
+          0.5766,
+          0.7811
+        ],
+        "ad_recall": 0.6837,
+        "ad_recall_ci95": [
+          0.5766,
+          0.7811
+        ],
+        "nc_recall": 0.0,
+        "nc_recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "auroc": 0.0,
+        "auroc_ci95": [
+          0.0,
+          0.0
+        ],
+        "scan_accuracy": 0.7474,
+        "scan_accuracy_ci95": [
+          0.6018,
+          0.8762
+        ]
+      },
+      "post_2017_adni3": {
+        "num_slices": 2880,
+        "num_scans": 144,
+        "ad_scans": 19,
+        "nc_scans": 125,
+        "num_subjects": 81,
+        "ad_subjects": 12,
+        "nc_subjects": 69,
+        "ad_slices": 380,
+        "nc_slices": 2500,
+        "slice_accuracy": 0.7163,
+        "balanced_accuracy": 0.5766,
+        "balanced_accuracy_ci95": [
+          0.4951,
+          0.6498
+        ],
+        "ad_recall": 0.3868,
+        "ad_recall_ci95": [
+          0.2441,
+          0.5226
+        ],
+        "nc_recall": 0.7664,
+        "nc_recall_ci95": [
+          0.6923,
+          0.8372
+        ],
+        "auroc": 0.6418,
+        "auroc_ci95": [
+          0.5291,
+          0.7359
+        ],
+        "scan_accuracy": 0.7222,
+        "scan_accuracy_ci95": [
+          0.6293,
+          0.8
+        ]
+      }
+    },
+    "convnext_overlap_ln": {
+      "unknown_year_slices": 0,
+      "unknown_year_scans": 0,
+      "pre_2017_adni2": {
+        "num_slices": 1900,
+        "num_scans": 95,
+        "ad_scans": 95,
+        "nc_scans": 0,
+        "num_subjects": 21,
+        "ad_subjects": 21,
+        "nc_subjects": 0,
+        "ad_slices": 1900,
+        "nc_slices": 0,
+        "slice_accuracy": 0.6658,
+        "balanced_accuracy": 0.3329,
+        "balanced_accuracy_ci95": [
+          0.5626,
+          0.7614
+        ],
+        "ad_recall": 0.6658,
+        "ad_recall_ci95": [
+          0.5626,
+          0.7614
+        ],
+        "nc_recall": 0.0,
+        "nc_recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "auroc": 0.0,
+        "auroc_ci95": [
+          0.0,
+          0.0
+        ],
+        "scan_accuracy": 0.7053,
+        "scan_accuracy_ci95": [
+          0.574,
+          0.8304
+        ]
+      },
+      "post_2017_adni3": {
+        "num_slices": 2880,
+        "num_scans": 144,
+        "ad_scans": 19,
+        "nc_scans": 125,
+        "num_subjects": 81,
+        "ad_subjects": 12,
+        "nc_subjects": 69,
+        "ad_slices": 380,
+        "nc_slices": 2500,
+        "slice_accuracy": 0.6823,
+        "balanced_accuracy": 0.615,
+        "balanced_accuracy_ci95": [
+          0.5363,
+          0.696
+        ],
+        "ad_recall": 0.5237,
+        "ad_recall_ci95": [
+          0.3816,
+          0.6657
+        ],
+        "nc_recall": 0.7064,
+        "nc_recall_ci95": [
+          0.6252,
+          0.7835
+        ],
+        "auroc": 0.6845,
+        "auroc_ci95": [
+          0.5952,
+          0.7632
+        ],
+        "scan_accuracy": 0.7153,
+        "scan_accuracy_ci95": [
+          0.6224,
+          0.8015
+        ]
+      }
+    },
+    "convnext_bn_stem": {
+      "unknown_year_slices": 0,
+      "unknown_year_scans": 0,
+      "pre_2017_adni2": {
+        "num_slices": 1900,
+        "num_scans": 95,
+        "ad_scans": 95,
+        "nc_scans": 0,
+        "num_subjects": 21,
+        "ad_subjects": 21,
+        "nc_subjects": 0,
+        "ad_slices": 1900,
+        "nc_slices": 0,
+        "slice_accuracy": 0.6358,
+        "balanced_accuracy": 0.3179,
+        "balanced_accuracy_ci95": [
+          0.5108,
+          0.7505
+        ],
+        "ad_recall": 0.6358,
+        "ad_recall_ci95": [
+          0.5108,
+          0.7505
+        ],
+        "nc_recall": 0.0,
+        "nc_recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "auroc": 0.0,
+        "auroc_ci95": [
+          0.0,
+          0.0
+        ],
+        "scan_accuracy": 0.6526,
+        "scan_accuracy_ci95": [
+          0.4687,
+          0.8193
+        ]
+      },
+      "post_2017_adni3": {
+        "num_slices": 2880,
+        "num_scans": 144,
+        "ad_scans": 19,
+        "nc_scans": 125,
+        "num_subjects": 81,
+        "ad_subjects": 12,
+        "nc_subjects": 69,
+        "ad_slices": 380,
+        "nc_slices": 2500,
+        "slice_accuracy": 0.7378,
+        "balanced_accuracy": 0.6225,
+        "balanced_accuracy_ci95": [
+          0.5422,
+          0.6876
+        ],
+        "ad_recall": 0.4658,
+        "ad_recall_ci95": [
+          0.325,
+          0.5861
+        ],
+        "nc_recall": 0.7792,
+        "nc_recall_ci95": [
+          0.7113,
+          0.8433
+        ],
+        "auroc": 0.7049,
+        "auroc_ci95": [
+          0.6059,
+          0.7828
+        ],
+        "scan_accuracy": 0.7778,
+        "scan_accuracy_ci95": [
+          0.6963,
+          0.8532
+        ]
+      }
+    }
+  }
+}

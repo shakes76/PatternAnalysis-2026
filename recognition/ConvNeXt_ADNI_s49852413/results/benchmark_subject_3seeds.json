@@ -1,0 +1,568 @@
+{
+  "split_mode": "subject",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "device": "mps",
+  "primary_seed_audit": {
+    "leakage_detected": false,
+    "scan_disjoint": true,
+    "subject_disjoint": true,
+    "overlap_train_val": 0,
+    "overlap_train_test": 0,
+    "overlap_val_test": 0,
+    "subject_overlap_train_val": 0,
+    "subject_overlap_train_test": 0,
+    "subject_overlap_val_test": 0,
+    "train": {
+      "total_slices": 10420,
+      "ad_slices": 5060,
+      "nc_slices": 5360,
+      "total_patients": 1042,
+      "ad_patients": 506,
+      "nc_patients": 536,
+      "unique_subjects": 476,
+      "ad_subjects": 155,
+      "nc_subjects": 321
+    },
+    "val": {
+      "total_slices": 4900,
+      "ad_slices": 2460,
+      "nc_slices": 2440,
+      "total_patients": 245,
+      "ad_patients": 123,
+      "nc_patients": 122,
+      "unique_subjects": 102,
+      "ad_subjects": 33,
+      "nc_subjects": 69
+    },
+    "test": {
+      "total_slices": 4780,
+      "ad_slices": 2280,
+      "nc_slices": 2500,
+      "total_patients": 239,
+      "ad_patients": 114,
+      "nc_patients": 125,
+      "unique_subjects": 102,
+      "ad_subjects": 33,
+      "nc_subjects": 69
+    },
+    "resolved_root": "/Users/lilingxiao/.gemini/antigravity/scratch/ADNI/AD_NC",
+    "image_size": 96,
+    "metadata_json_used": "/Users/lilingxiao/.gemini/antigravity/scratch/ADNI/meta_data_with_label.json",
+    "split_mode": "subject"
+  },
+  "aggregated": {
+    "baseline": {
+      "slice_level": {
+        "accuracy": {
+          "mean": 0.7522,
+          "std": 0.0486,
+          "values": [
+            0.7142,
+            0.8069,
+            0.7354
+          ],
+          "ddof": 1
+        },
+        "balanced_accuracy": {
+          "mean": 0.7534,
+          "std": 0.0479,
+          "values": [
+            0.7155,
+            0.8072,
+            0.7374
+          ],
+          "ddof": 1
+        },
+        "macro_f1": {
+          "mean": 0.7521,
+          "std": 0.0485,
+          "values": [
+            0.7142,
+            0.8068,
+            0.7352
+          ],
+          "ddof": 1
+        },
+        "auroc": {
+          "mean": 0.8255,
+          "std": 0.0521,
+          "values": [
+            0.7824,
+            0.8834,
+            0.8106
+          ],
+          "ddof": 1
+        },
+        "pr_auc": {
+          "mean": 0.7851,
+          "std": 0.0708,
+          "values": [
+            0.7148,
+            0.8564,
+            0.784
+          ],
+          "ddof": 1
+        },
+        "temperature": {
+          "mean": 0.8634,
+          "std": 0.1762,
+          "values": [
+            0.9087,
+            0.6689,
+            1.0125
+          ],
+          "ddof": 1
+        },
+        "selected_tau": {
+          "mean": 0.7,
+          "std": 0.0,
+          "values": [
+            0.7,
+            0.7,
+            0.7
+          ],
+          "ddof": 1
+        },
+        "ece_uncalibrated": {
+          "mean": 0.0469,
+          "std": 0.0494,
+          "values": [
+            0.0163,
+            0.1039,
+            0.0205
+          ],
+          "ddof": 1
+        },
+        "ece_calibrated": {
+          "mean": 0.0265,
+          "std": 0.0152,
+          "values": [
+            0.0138,
+            0.0434,
+            0.0224
+          ],
+          "ddof": 1
+        },
+        "brier_uncalibrated": {
+          "mean": 0.1729,
+          "std": 0.0209,
+          "values": [
+            0.1897,
+            0.1495,
+            0.1794
+          ],
+          "ddof": 1
+        },
+        "brier_calibrated": {
+          "mean": 0.1695,
+          "std": 0.0266,
+          "values": [
+            0.1897,
+            0.1394,
+            0.1795
+          ],
+          "ddof": 1
+        }
+      },
+      "patient_level": {
+        "patient_accuracy": {
+          "mean": 0.7831,
+          "std": 0.0554,
+          "values": [
+            0.7364,
+            0.8444,
+            0.7686
+          ],
+          "ddof": 1
+        },
+        "scan_mean_prob_accuracy": {
+          "mean": 0.7831,
+          "std": 0.0554,
+          "values": [
+            0.7364,
+            0.8444,
+            0.7686
+          ],
+          "ddof": 1
+        },
+        "scan_majority_vote_accuracy": {
+          "mean": 0.7844,
+          "std": 0.0487,
+          "values": [
+            0.749,
+            0.84,
+            0.7642
+          ],
+          "ddof": 1
+        },
+        "patient_macro_f1": {
+          "mean": 0.7831,
+          "std": 0.0554,
+          "values": [
+            0.7364,
+            0.8443,
+            0.7686
+          ],
+          "ddof": 1
+        },
+        "patient_auroc": {
+          "mean": 0.866,
+          "std": 0.0512,
+          "values": [
+            0.8235,
+            0.9229,
+            0.8517
+          ],
+          "ddof": 1
+        },
+        "subject_accuracy": {
+          "mean": 0.7484,
+          "std": 0.0315,
+          "values": [
+            0.7353,
+            0.7843,
+            0.7255
+          ],
+          "ddof": 1
+        },
+        "subject_macro_f1": {
+          "mean": 0.7258,
+          "std": 0.0368,
+          "values": [
+            0.7153,
+            0.7667,
+            0.6955
+          ],
+          "ddof": 1
+        },
+        "subject_auroc": {
+          "mean": 0.841,
+          "std": 0.0509,
+          "values": [
+            0.8292,
+            0.8968,
+            0.7971
+          ],
+          "ddof": 1
+        }
+      },
+      "per_seed": [
+        {
+          "seed": 42,
+          "slice_accuracy": 0.7142,
+          "scan_accuracy": 0.7364,
+          "subject_accuracy": 0.7353,
+          "macro_f1": 0.7142,
+          "auroc": 0.7824,
+          "ece_uncalibrated": 0.0163,
+          "ece_calibrated": 0.0138,
+          "selected_tau": 0.7
+        },
+        {
+          "seed": 43,
+          "slice_accuracy": 0.8069,
+          "scan_accuracy": 0.8444,
+          "subject_accuracy": 0.7843,
+          "macro_f1": 0.8068,
+          "auroc": 0.8834,
+          "ece_uncalibrated": 0.1039,
+          "ece_calibrated": 0.0434,
+          "selected_tau": 0.7
+        },
+        {
+          "seed": 44,
+          "slice_accuracy": 0.7354,
+          "scan_accuracy": 0.7686,
+          "subject_accuracy": 0.7255,
+          "macro_f1": 0.7352,
+          "auroc": 0.8106,
+          "ece_uncalibrated": 0.0205,
+          "ece_calibrated": 0.0224,
+          "selected_tau": 0.7
+        }
+      ]
+    },
+    "convnext": {
+      "slice_level": {
+        "accuracy": {
+          "mean": 0.6745,
+          "std": 0.0242,
+          "values": [
+            0.6594,
+            0.7024,
+            0.6616
+          ],
+          "ddof": 1
+        },
+        "balanced_accuracy": {
+          "mean": 0.6759,
+          "std": 0.0231,
+          "values": [
+            0.6605,
+            0.7025,
+            0.6647
+          ],
+          "ddof": 1
+        },
+        "macro_f1": {
+          "mean": 0.6741,
+          "std": 0.0245,
+          "values": [
+            0.6594,
+            0.7024,
+            0.6606
+          ],
+          "ddof": 1
+        },
+        "auroc": {
+          "mean": 0.7387,
+          "std": 0.0291,
+          "values": [
+            0.7182,
+            0.772,
+            0.7259
+          ],
+          "ddof": 1
+        },
+        "pr_auc": {
+          "mean": 0.7117,
+          "std": 0.0417,
+          "values": [
+            0.6803,
+            0.7591,
+            0.6958
+          ],
+          "ddof": 1
+        },
+        "temperature": {
+          "mean": 3.2721,
+          "std": 0.5106,
+          "values": [
+            3.573,
+            3.5608,
+            2.6826
+          ],
+          "ddof": 1
+        },
+        "selected_tau": {
+          "mean": 0.7,
+          "std": 0.0,
+          "values": [
+            0.7,
+            0.7,
+            0.7
+          ],
+          "ddof": 1
+        },
+        "ece_uncalibrated": {
+          "mean": 0.1785,
+          "std": 0.0148,
+          "values": [
+            0.1956,
+            0.1706,
+            0.1694
+          ],
+          "ddof": 1
+        },
+        "ece_calibrated": {
+          "mean": 0.0217,
+          "std": 0.0104,
+          "values": [
+            0.012,
+            0.0327,
+            0.0204
+          ],
+          "ddof": 1
+        },
+        "brier_uncalibrated": {
+          "mean": 0.2434,
+          "std": 0.0151,
+          "values": [
+            0.2568,
+            0.2271,
+            0.2464
+          ],
+          "ddof": 1
+        },
+        "brier_calibrated": {
+          "mean": 0.2083,
+          "std": 0.0108,
+          "values": [
+            0.2144,
+            0.1958,
+            0.2146
+          ],
+          "ddof": 1
+        }
+      },
+      "patient_level": {
+        "patient_accuracy": {
+          "mean": 0.7048,
+          "std": 0.0347,
+          "values": [
+            0.6736,
+            0.7422,
+            0.6987
+          ],
+          "ddof": 1
+        },
+        "scan_mean_prob_accuracy": {
+          "mean": 0.7048,
+          "std": 0.0347,
+          "values": [
+            0.6736,
+            0.7422,
+            0.6987
+          ],
+          "ddof": 1
+        },
+        "scan_majority_vote_accuracy": {
+          "mean": 0.7161,
+          "std": 0.0199,
+          "values": [
+            0.6987,
+            0.7378,
+            0.7118
+          ],
+          "ddof": 1
+        },
+        "patient_macro_f1": {
+          "mean": 0.7043,
+          "std": 0.0349,
+          "values": [
+            0.6735,
+            0.7422,
+            0.6972
+          ],
+          "ddof": 1
+        },
+        "patient_auroc": {
+          "mean": 0.7839,
+          "std": 0.0392,
+          "values": [
+            0.7552,
+            0.8286,
+            0.768
+          ],
+          "ddof": 1
+        },
+        "subject_accuracy": {
+          "mean": 0.6928,
+          "std": 0.0709,
+          "values": [
+            0.6471,
+            0.7745,
+            0.6569
+          ],
+          "ddof": 1
+        },
+        "subject_macro_f1": {
+          "mean": 0.677,
+          "std": 0.0725,
+          "values": [
+            0.6264,
+            0.7601,
+            0.6445
+          ],
+          "ddof": 1
+        },
+        "subject_auroc": {
+          "mean": 0.7602,
+          "std": 0.054,
+          "values": [
+            0.7172,
+            0.8208,
+            0.7426
+          ],
+          "ddof": 1
+        }
+      },
+      "per_seed": [
+        {
+          "seed": 42,
+          "slice_accuracy": 0.6594,
+          "scan_accuracy": 0.6736,
+          "subject_accuracy": 0.6471,
+          "macro_f1": 0.6594,
+          "auroc": 0.7182,
+          "ece_uncalibrated": 0.1956,
+          "ece_calibrated": 0.012,
+          "selected_tau": 0.7
+        },
+        {
+          "seed": 43,
+          "slice_accuracy": 0.7024,
+          "scan_accuracy": 0.7422,
+          "subject_accuracy": 0.7745,
+          "macro_f1": 0.7024,
+          "auroc": 0.772,
+          "ece_uncalibrated": 0.1706,
+          "ece_calibrated": 0.0327,
+          "selected_tau": 0.7
+        },
+        {
+          "seed": 44,
+          "slice_accuracy": 0.6616,
+          "scan_accuracy": 0.6987,
+          "subject_accuracy": 0.6569,
+          "macro_f1": 0.6606,
+          "auroc": 0.7259,
+          "ece_uncalibrated": 0.1694,
+          "ece_calibrated": 0.0204,
+          "selected_tau": 0.7
+        }
+      ]
+    },
+    "paired_baseline_minus_convnext": {
+      "slice_accuracy": {
+        "mean_diff_baseline_minus_convnext": 0.0777,
+        "std_diff_ddof1": 0.0251,
+        "per_seed_diffs": [
+          0.0548,
+          0.1045,
+          0.0738
+        ]
+      },
+      "scan_accuracy": {
+        "mean_diff_baseline_minus_convnext": 0.0783,
+        "std_diff_ddof1": 0.021,
+        "per_seed_diffs": [
+          0.0628,
+          0.1022,
+          0.0699
+        ]
+      },
+      "subject_accuracy": {
+        "mean_diff_baseline_minus_convnext": 0.0555,
+        "std_diff_ddof1": 0.0408,
+        "per_seed_diffs": [
+          0.0882,
+          0.0098,
+          0.0686
+        ]
+      },
+      "macro_f1": {
+        "mean_diff_baseline_minus_convnext": 0.0779,
+        "std_diff_ddof1": 0.025,
+        "per_seed_diffs": [
+          0.0548,
+          0.1044,
+          0.0746
+        ]
+      },
+      "auroc": {
+        "mean_diff_baseline_minus_convnext": 0.0868,
+        "std_diff_ddof1": 0.0237,
+        "per_seed_diffs": [
+          0.0642,
+          0.1114,
+          0.0847
+        ]
+      }
+    }
+  }
+}

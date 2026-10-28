@@ -1,0 +1,120 @@
+# git_commit=b1ce43b timestamp=2026-10-28T20:50:02.477697+10:00
+# command: python audit_protocol.py
+{
+  "dataset_total_slices": 30520,
+  "dataset_total_scans": 1526,
+  "dataset_total_unique_subjects": 680,
+  "official_train": {
+    "partition": "official_train",
+    "total_slices": 21520,
+    "total_scans": 1076,
+    "slice_index_min": 67,
+    "slice_index_max": 114,
+    "classes": {
+      "AD": {
+        "num_scans": 520,
+        "num_unique_subjects": 154,
+        "scan_id_min": 218391,
+        "scan_id_median": 344002,
+        "scan_id_max": 388204,
+        "year_min": 2011,
+        "year_median": 2012,
+        "year_max": 2013,
+        "era_counts": {
+          "pre_2017_ADNI2": 520
+        },
+        "protocol_counts": {
+          "Accelerated_Sag_IR-FSPGR": 49,
+          "Other_T1_Sequence": 118,
+          "Standard_Sagittal_MPRAGE": 353
+        }
+      },
+      "NC": {
+        "num_scans": 556,
+        "num_unique_subjects": 411,
+        "scan_id_min": 808819,
+        "scan_id_median": 996107,
+        "scan_id_max": 1442100,
+        "year_min": 2017,
+        "year_median": 2018,
+        "year_max": 2021,
+        "era_counts": {
+          "post_2017_ADNI3": 556
+        },
+        "protocol_counts": {
+          "Accelerated_Sag_IR-FSPGR": 111,
+          "Accelerated_Sagittal_MPRAGE": 377,
+          "Standard_Sagittal_MPRAGE": 68
+        }
+      }
+    }
+  },
+  "official_test": {
+    "partition": "official_test",
+    "total_slices": 9000,
+    "total_scans": 450,
+    "slice_index_min": 75,
+    "slice_index_max": 114,
+    "classes": {
+      "AD": {
+        "num_scans": 223,
+        "num_unique_subjects": 131,
+        "scan_id_min": 388206,
+        "scan_id_median": 985197,
+        "scan_id_max": 1444117,
+        "year_min": 2013,
+        "year_median": 2018,
+        "year_max": 2021,
+        "era_counts": {
+          "post_2017_ADNI3": 120,
+          "pre_2017_ADNI2": 103
+        },
+        "protocol_counts": {
+          "Accelerated_Sag_IR-FSPGR": 50,
+          "Accelerated_Sagittal_MPRAGE": 73,
+          "Other_T1_Sequence": 19,
+          "Standard_Sagittal_MPRAGE": 81
+        }
+      },
+      "NC": {
+        "num_scans": 227,
+        "num_unique_subjects": 200,
+        "scan_id_min": 1182968,
+        "scan_id_median": 1281567,
+        "scan_id_max": 1446679,
+        "year_min": 2019,
+        "year_median": 2020,
+        "year_max": 2021,
+        "era_counts": {
+          "post_2017_ADNI3": 227
+        },
+        "protocol_counts": {
+          "Accelerated_Sag_IR-FSPGR": 50,
+          "Accelerated_Sagittal_MPRAGE": 156,
+          "Standard_Sagittal_MPRAGE": 21
+        }
+      }
+    }
+  },
+  "official_split_subject_overlap": {
+    "ad_overlapping_subjects": 64,
+    "nc_overlapping_subjects": 152,
+    "total_overlapping_subjects": 216,
+    "cross_diagnosis_subjects": 0
+  },
+  "train_only_intensity_statistics": {
+    "cropped_roi": "[16:208, 48:224]",
+    "fixed_pipeline_shift_scale": [
+      0.18,
+      0.25
+    ],
+    "official_train_1000_slice_sample": {
+      "mean": 0.2087,
+      "std": 0.2682
+    },
+    "subject_disjoint_train_1000_slice_sample_seed42": {
+      "mean": 0.2108,
+      "std": 0.2693
+    }
+  }
+}

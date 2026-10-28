@@ -1,0 +1,134 @@
+[
+  {
+    "case_number": 1,
+    "error_type": "False Negative (Intercepted Borderline AD)",
+    "dataset_index": 471,
+    "patient_id": "AD_305574",
+    "subject_id": "070_S_4719",
+    "slice_index": 89,
+    "scan_slice_range": [
+      78,
+      97
+    ],
+    "relative_slice_position": 0.5789,
+    "slice_position_quintile": "Q3",
+    "ground_truth": "AD",
+    "predicted_class": "NC",
+    "raw_confidence": 0.502,
+    "calibrated_confidence": 0.5006,
+    "predictive_entropy": 1.0,
+    "baseline_confidence": 0.635,
+    "baseline_scan_20slice_mean_prob_ad": 0.4366,
+    "brain_foreground_fraction": 0.4293,
+    "central_csf_dark_fraction": 0.471,
+    "gradcam_stage2_peak_rc": [
+      2,
+      2
+    ],
+    "scan_20slice_mean_prob_ad": 0.4547,
+    "scan_20slice_confidence": 0.5453,
+    "rescued_by_20slice_scan_vote": false,
+    "intercepted_by_triage_gate": true,
+    "intercepted_by_scan_triage_gate": true,
+    "anatomical_diagnosis": "Slice 89 in [78..97] (rel_pos=0.58, Quintile Q3); foreground=0.43, central dark-CSF ratio=0.47, Stage-3 (6\u00d76) Grad-CAM peak=(2,2). 20-slice scan mean p(AD)=0.45 (scan_conf=0.55 < \u03c4*_scan=0.65) misclassifies the scan but is INTERCEPTED by the scan-level triage gate."
+  },
+  {
+    "case_number": 2,
+    "error_type": "False Negative (High-Conf Escaped AD)",
+    "dataset_index": 3437,
+    "patient_id": "AD_1011824",
+    "subject_id": "114_S_6347",
+    "slice_index": 95,
+    "scan_slice_range": [
+      78,
+      97
+    ],
+    "relative_slice_position": 0.8947,
+    "slice_position_quintile": "Q5",
+    "ground_truth": "AD",
+    "predicted_class": "NC",
+    "raw_confidence": 0.998,
+    "calibrated_confidence": 0.85,
+    "predictive_entropy": 0.6098,
+    "baseline_confidence": 0.7626,
+    "baseline_scan_20slice_mean_prob_ad": 0.5436,
+    "brain_foreground_fraction": 0.6152,
+    "central_csf_dark_fraction": 0.418,
+    "gradcam_stage2_peak_rc": [
+      0,
+      3
+    ],
+    "scan_20slice_mean_prob_ad": 0.1795,
+    "scan_20slice_confidence": 0.8205,
+    "rescued_by_20slice_scan_vote": false,
+    "intercepted_by_triage_gate": false,
+    "intercepted_by_scan_triage_gate": false,
+    "anatomical_diagnosis": "Slice 95 in [78..97] (rel_pos=0.89, Quintile Q5); foreground=0.62, central dark-CSF ratio=0.42, Stage-3 (6\u00d76) Grad-CAM peak=(0,3). 20-slice scan mean p(AD)=0.18 (scan_conf=0.82 >= \u03c4*_scan=0.65) also misclassifies the full scan and ESCAPES scan-level triage."
+  },
+  {
+    "case_number": 3,
+    "error_type": "False Positive (Intercepted Borderline NC)",
+    "dataset_index": 1915,
+    "patient_id": "NC_1033265",
+    "subject_id": "067_S_6528",
+    "slice_index": 95,
+    "scan_slice_range": [
+      94,
+      113
+    ],
+    "relative_slice_position": 0.0526,
+    "slice_position_quintile": "Q1",
+    "ground_truth": "NC",
+    "predicted_class": "AD",
+    "raw_confidence": 0.5002,
+    "calibrated_confidence": 0.5001,
+    "predictive_entropy": 1.0,
+    "baseline_confidence": 0.9012,
+    "baseline_scan_20slice_mean_prob_ad": 0.1044,
+    "brain_foreground_fraction": 0.5285,
+    "central_csf_dark_fraction": 0.2106,
+    "gradcam_stage2_peak_rc": [
+      0,
+      5
+    ],
+    "scan_20slice_mean_prob_ad": 0.27,
+    "scan_20slice_confidence": 0.73,
+    "rescued_by_20slice_scan_vote": true,
+    "intercepted_by_triage_gate": true,
+    "intercepted_by_scan_triage_gate": false,
+    "anatomical_diagnosis": "Slice 95 in [94..113] (rel_pos=0.05, Quintile Q1); foreground=0.53, central dark-CSF ratio=0.21, Stage-3 (6\u00d76) Grad-CAM peak=(0,5). 20-slice scan mean p(AD)=0.27 (scan_conf=0.73) RESCUES this slice error at scan level."
+  },
+  {
+    "case_number": 4,
+    "error_type": "False Positive (High-Conf Escaped NC)",
+    "dataset_index": 4763,
+    "patient_id": "NC_1437590",
+    "subject_id": "027_S_6001",
+    "slice_index": 103,
+    "scan_slice_range": [
+      88,
+      107
+    ],
+    "relative_slice_position": 0.7895,
+    "slice_position_quintile": "Q4",
+    "ground_truth": "NC",
+    "predicted_class": "AD",
+    "raw_confidence": 0.9942,
+    "calibrated_confidence": 0.8085,
+    "predictive_entropy": 0.7047,
+    "baseline_confidence": 0.751,
+    "baseline_scan_20slice_mean_prob_ad": 0.794,
+    "brain_foreground_fraction": 0.4455,
+    "central_csf_dark_fraction": 0.4171,
+    "gradcam_stage2_peak_rc": [
+      5,
+      3
+    ],
+    "scan_20slice_mean_prob_ad": 0.7439,
+    "scan_20slice_confidence": 0.7439,
+    "rescued_by_20slice_scan_vote": false,
+    "intercepted_by_triage_gate": false,
+    "intercepted_by_scan_triage_gate": false,
+    "anatomical_diagnosis": "Slice 103 in [88..107] (rel_pos=0.79, Quintile Q4); foreground=0.45, central dark-CSF ratio=0.42, Stage-3 (6\u00d76) Grad-CAM peak=(5,3). 20-slice scan mean p(AD)=0.74 (scan_conf=0.74 >= \u03c4*_scan=0.65) also misclassifies the full scan and ESCAPES scan-level triage."
+  }
+]
