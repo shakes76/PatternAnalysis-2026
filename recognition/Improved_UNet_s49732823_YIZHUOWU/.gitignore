@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.class
+
+# ignore runtime files
+results/
+predictions/
+*.pth
+*.pt
+*.ckpt
+*.h5
+
+# ignore medical image and HPC logs
+*.nii
+*.nii.gz
+slurm_*.out
+slurm_*.err
