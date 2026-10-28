@@ -1,0 +1,143 @@
+{
+  "selection": "Training subjects 004, 015, 025, week 0; maximum ID5 area per subject; no model predictions used.",
+  "training_slices": [
+    {
+      "image": "case_004_week_0_slice_37.nii.gz",
+      "label": "seg_004_week_0_slice_37.nii.gz",
+      "shape": [
+        256,
+        128
+      ],
+      "pixels_by_label": {
+        "0": 2727,
+        "1": 20580,
+        "2": 7205,
+        "3": 1215,
+        "4": 0,
+        "5": 1041
+      }
+    },
+    {
+      "image": "case_015_week_0_slice_50.nii.gz",
+      "label": "seg_015_week_0_slice_50.nii.gz",
+      "shape": [
+        256,
+        128
+      ],
+      "pixels_by_label": {
+        "0": 6009,
+        "1": 19456,
+        "2": 6629,
+        "3": 0,
+        "4": 0,
+        "5": 674
+      }
+    },
+    {
+      "image": "case_025_week_0_slice_31.nii.gz",
+      "label": "seg_025_week_0_slice_31.nii.gz",
+      "shape": [
+        256,
+        128
+      ],
+      "pixels_by_label": {
+        "0": 4929,
+        "1": 19665,
+        "2": 6252,
+        "3": 1578,
+        "4": 0,
+        "5": 344
+      }
+    }
+  ],
+  "three_dimensional_context": {
+    "image": "B006_Week0_LFOV.nii.gz",
+    "label": "B006_Week0_SEMANTIC.nii.gz",
+    "source_orientation": [
+      "L",
+      "P",
+      "S"
+    ],
+    "display_orientation": [
+      "R",
+      "A",
+      "S"
+    ],
+    "source_image_units": [
+      "mm",
+      "unknown"
+    ],
+    "source_label_units": [
+      "unknown",
+      "unknown"
+    ],
+    "spacing": [
+      1.5625,
+      1.5625,
+      1.55999755859375
+    ],
+    "classes": {
+      "3": {
+        "voxels": 29725,
+        "centroid_RAS_mm": [
+          6.39846983990617,
+          18.264216019587906,
+          38.40430342922099
+        ],
+        "bbox_voxels": [
+          [
+            107,
+            107,
+            85
+          ],
+          [
+            149,
+            161,
+            116
+          ]
+        ]
+      },
+      "4": {
+        "voxels": 18140,
+        "centroid_RAS_mm": [
+          1.1523336559829715,
+          -46.41254087740427,
+          23.673644790733533
+        ],
+        "bbox_voxels": [
+          [
+            109,
+            76,
+            68
+          ],
+          [
+            141,
+            124,
+            117
+          ]
+        ]
+      },
+      "5": {
+        "voxels": 10198,
+        "centroid_RAS_mm": [
+          3.184101398750073,
+          5.344647988264967,
+          12.037025752407033
+        ],
+        "bbox_voxels": [
+          [
+            109,
+            116,
+            69
+          ],
+          [
+            144,
+            141,
+            94
+          ]
+        ]
+      }
+    },
+    "limitation": "Separate 3D example supports the anatomical interpretation, but no exact mapping to the supplied 2D patients or physical geometry is claimed."
+  }
+}

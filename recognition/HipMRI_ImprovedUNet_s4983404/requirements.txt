@@ -1,0 +1,11 @@
+# Measured environment for HipMRI_ImprovedUNet_s4983404 (Rangpur, 24 October 2026).
+#
+# These are the versions the frozen results were produced with. They are not a
+# portable installer: torch==2.14.0+cu130 needs a driver that supports CUDA 13,
+# and a CPU-only host should install the matching CPU wheel instead.
+--extra-index-url https://download.pytorch.org/whl/cu130
+torch==2.14.0+cu130
+numpy==2.4.6
+scipy==1.17.1
+nibabel==5.4.2
+matplotlib==3.11.1

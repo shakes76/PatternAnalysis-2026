@@ -1,0 +1,58 @@
+name, memory.total [MiB], driver_version
+NVIDIA A100-PCIE-40GB, 40960 MiB, 590.48.01
+2026-10-20 23:45:12,847 Cached train: 0/11460
+2026-10-20 23:45:16,933 Cached train: 1000/11460
+2026-10-20 23:45:20,797 Cached train: 2000/11460
+2026-10-20 23:45:26,100 Cached train: 3000/11460
+2026-10-20 23:45:31,405 Cached train: 4000/11460
+2026-10-20 23:45:36,726 Cached train: 5000/11460
+2026-10-20 23:45:42,183 Cached train: 6000/11460
+2026-10-20 23:45:47,808 Cached train: 7000/11460
+2026-10-20 23:45:53,016 Cached train: 8000/11460
+2026-10-20 23:45:58,347 Cached train: 9000/11460
+2026-10-20 23:46:03,759 Cached train: 10000/11460
+2026-10-20 23:46:09,073 Cached train: 11000/11460
+2026-10-20 23:46:11,489 Cached validate: 0/660
+2026-10-20 23:47:02,525 epoch=1 loss=0.2925 val_loss=0.3939 label5_val_dice=0.6816056668975046 elapsed=45.9
+2026-10-20 23:47:48,845 epoch=2 loss=0.1538 val_loss=0.3471 label5_val_dice=0.8186680493467304 elapsed=92.2
+2026-10-20 23:48:34,616 epoch=3 loss=0.1369 val_loss=0.3843 label5_val_dice=0.7709781863729823 elapsed=138.0
+2026-10-20 23:49:20,475 epoch=4 loss=0.1295 val_loss=0.3320 label5_val_dice=0.8079608088801957 elapsed=183.8
+2026-10-20 23:50:06,250 epoch=5 loss=0.1204 val_loss=0.3331 label5_val_dice=0.8224573048468505 elapsed=229.6
+2026-10-20 23:50:52,459 epoch=6 loss=0.1156 val_loss=0.3572 label5_val_dice=0.8296795272573261 elapsed=275.8
+2026-10-20 23:51:38,741 epoch=7 loss=0.1099 val_loss=0.3534 label5_val_dice=0.8364083397927394 elapsed=322.1
+2026-10-20 23:52:24,707 epoch=8 loss=0.1157 val_loss=0.3540 label5_val_dice=0.8451180541955453 elapsed=368.1
+2026-10-20 23:53:10,969 epoch=9 loss=0.1053 val_loss=0.3479 label5_val_dice=0.8466456669291634 elapsed=414.3
+2026-10-20 23:53:57,101 epoch=10 loss=0.1020 val_loss=0.3432 label5_val_dice=0.8362695854261939 elapsed=460.4
+2026-10-20 23:54:42,742 epoch=11 loss=0.1049 val_loss=0.3648 label5_val_dice=0.822932291643064 elapsed=506.1
+2026-10-20 23:55:28,485 epoch=12 loss=0.1037 val_loss=0.3408 label5_val_dice=0.8356106262957428 elapsed=551.8
+2026-10-20 23:56:14,017 epoch=13 loss=0.0972 val_loss=0.3436 label5_val_dice=0.8312527408273644 elapsed=597.4
+2026-10-20 23:56:59,501 epoch=14 loss=0.1017 val_loss=0.3595 label5_val_dice=0.8003433667019714 elapsed=642.8
+2026-10-20 23:57:45,019 epoch=15 loss=0.0962 val_loss=0.3457 label5_val_dice=0.8323633621241658 elapsed=688.4
+2026-10-20 23:58:30,599 epoch=16 loss=0.0991 val_loss=0.3483 label5_val_dice=0.8400588263200341 elapsed=733.9
+2026-10-20 23:59:16,336 epoch=17 loss=0.0978 val_loss=0.3581 label5_val_dice=0.8361124112645292 elapsed=779.7
+2026-10-21 00:00:02,124 epoch=18 loss=0.0934 val_loss=0.3432 label5_val_dice=0.833898406643065 elapsed=825.5
+2026-10-21 00:00:47,784 epoch=19 loss=0.0888 val_loss=0.3480 label5_val_dice=0.8263722101810087 elapsed=871.1
+2026-10-21 00:01:33,377 epoch=20 loss=0.0903 val_loss=0.3591 label5_val_dice=0.836166354759573 elapsed=916.7
+	Command being timed: "python -u train.py --model improved --run runs/improved_full_679896 --epochs 20 --cache --workers 0 --time-budget 1000"
+	User time (seconds): 1260.43
+	System time (seconds): 23.67
+	Percent of CPU this job got: 130%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 16:25.20
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 4089972
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 3
+	Minor (reclaiming a frame) page faults: 5703389
+	Voluntary context switches: 233909
+	Involuntary context switches: 9147
+	Swaps: 0
+	File system inputs: 760
+	File system outputs: 177664
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
