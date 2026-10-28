@@ -1,0 +1,9 @@
+# Never commit data, weights or run outputs
+*.nii
+*.nii.gz
+*.pt
+*.pth
+outputs/
+__pycache__/
+.idea/
+.env

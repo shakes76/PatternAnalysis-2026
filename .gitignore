@@ -1,0 +1,16 @@
+# IDE settings
+.idea/
+
+# Cluster job logs (e.g. unet670009.out / .err)
+*.out
+*.err
+
+# Course spec and planning docs kept locally only
+COMP3710_Report_*.pdf
+feasibility.docx
+~$*.docx
+
+# Python
+__pycache__/
+*.pyc
+.env

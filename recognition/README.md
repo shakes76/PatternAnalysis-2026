@@ -8,3 +8,5 @@ Tasks may include:
 * Image super resolution
 * Disease classification
 * Generative modelling with StyleGAN and Stable Diffusion
+
+Baseline model is 2D Unet, 3D Improved adds onto this.
