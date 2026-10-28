@@ -1,0 +1,12 @@
+# ignore all saved models and runs
+*.pth
+*.pt
+*.zip
+*.sh
+
+.DS_Store
+
+__pycache__/
+data/
+checkpoints/
+runs/

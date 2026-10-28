@@ -1,0 +1,56 @@
+data:
+  root: /home/groups/comp3710/HipMRI_Study_open/keras_slices_data
+  size: [256, 128]
+  clip_percentile: 99.5
+vqvae:
+  levels: 2              # 1 = single-level baseline
+  hidden_channels: 128   # paper Table 5
+  residual_channels: 64
+  n_res_blocks: 2
+  codebook_size: 512
+  code_dim: 64
+  beta: 0.25
+  ema_decay: 0.99
+  dead_code_restart: true
+  ssim_loss_weight: 0.0  # ablation run: 0.1
+train:
+  batch_size: 64
+  lr: 3.0e-4
+  epochs: 100            # early-stop on val SSIM
+  patience: 10           # stop after this many epochs without a val SSIM gain
+  min_delta: 1.0e-4      # smallest val SSIM gain that counts as improvement
+  seed: 0
+prior_top:               # 32 x 16 top codes
+  channels: 256
+  layers: 12             # gated PixelCNN layers
+  kernel_size: 5
+  attention_every: 4     # causal attention after every 4th layer
+  heads: 4
+  dropout: 0.3
+prior_bottom:            # 64 x 32 bottom codes, conditioned on the top codes
+  channels: 256
+  layers: 10
+  kernel_size: 5
+  attention_every: 0     # 0 = no attention (2048 positions; memory)
+  heads: 4
+  cond_res_blocks: 8     # residual blocks in the top-code conditioning stack
+  dropout: 0.3
+prior_single:            # single-level baseline: one unconditional prior over
+  channels: 256          # its 64 x 32 codes, mirroring prior_top so it also
+  layers: 12             # has global context through attention
+  kernel_size: 5
+  attention_every: 4
+  heads: 4
+  dropout: 0.3
+train_prior:             # shared by every prior
+  batch_size: 32
+  lr: 3.0e-4
+  epochs: 100            # early-stop on val NLL
+  patience: 10
+  min_delta: 1.0e-3      # bits per code
+  seed: 0
+sample:
+  temperatures: [0.8, 0.9, 1.0]
+  n_samples: 512         # per temperature
+  batch_size: 64
+  seed: 0
