@@ -17,10 +17,7 @@ from common.misc import load_model
 from common.visualizations import plot_distributions
 from common.visualizations import plot_sample_pair
 from common.visualizations import plot_spread_by_step
-from dataset import ASK_PX_COLS
-from dataset import ASK_SZ_COLS
-from dataset import BID_PX_COLS
-from dataset import BID_SZ_COLS
+from dataset import BOOK_COLS
 from dataset import decode
 from dataset import encode
 from dataset import load_books
@@ -61,7 +58,12 @@ def report(
     # and how long it persists (alpha + beta). The full-day fit on the unwindowed
     # train split is a reference: the pooled real-window fit should land near it
     day = {key: ticker_books[cols].to_numpy(float)[None] for key, cols in
-           [("ask_px", ASK_PX_COLS), ("ask_sz", ASK_SZ_COLS), ("bid_px", BID_PX_COLS), ("bid_sz", BID_SZ_COLS)]}
+           [
+               ("ask_px", [c for c in BOOK_COLS if "ask_px" in c]),
+               ("ask_sz", [c for c in BOOK_COLS if "ask_sz" in c]),
+               ("bid_px", [c for c in BOOK_COLS if "bid_px" in c]),
+               ("bid_sz", [c for c in BOOK_COLS if "bid_sz" in c]),
+           ]}
     fits = {"Real": garch_fit(vwap_returns(real)), "Synthetic": garch_fit(vwap_returns(synth)),
             "Real full day": garch_fit(vwap_returns(day))}
     print(f"\n{'GARCH(1,1), VWAP ret (bp)':<26}{'alpha':>8}{'beta':>8}{'a+b':>8}{'half-life':>11}{'LR var':>10}")

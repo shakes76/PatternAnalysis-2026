@@ -14,19 +14,13 @@ from common.constants import BOOK_PATH
 from common.constants import MSG_PATH
 from common.misc import download_dataset
 
-# Columns
+
+# Dataset columns
 MSG_COLS = ["time", "event_type", "order_id", "size", "price", "direction"]
 BOOK_COLS = [f"{s}_{k}_{l}" for l in LEVELS for s in ("ask", "bid") for k in ("px", "sz")]
-PX_COLS = [f"{s}_px_{l}" for l in LEVELS for s in ("ask", "bid")]
+
+# Feature columns
 SZ_COLS = [f"{s}_sz_{l}" for l in LEVELS for s in ("ask", "bid")]
-
-ASK_COLS = [f"ask_{k}_{l}" for l in LEVELS for k in ("px", "sz")]
-BID_COLS = [f"bid_{k}_{l}" for l in LEVELS for k in ("px", "sz")]
-ASK_PX_COLS = [f"ask_px_{l}" for l in LEVELS]
-ASK_SZ_COLS = [f"ask_sz_{l}" for l in LEVELS]
-BID_PX_COLS = [f"bid_px_{l}" for l in LEVELS]
-BID_SZ_COLS = [f"bid_sz_{l}" for l in LEVELS]
-
 FEATURE_COLS = (
     ["mid_rel", "spread"]
     + [f"{s}_gap_{l}" for l in range(2, DEPTH + 1) for s in ("ask", "bid")]
@@ -35,7 +29,8 @@ FEATURE_COLS = (
 FLAG_GROUPS = [[i] for i in range(len(FEATURE_COLS))]
 SZ_IDX = [FEATURE_COLS.index(c) for c in SZ_COLS]
 
-# Data handling helpers
+
+# Dataset Functions
 def load_books(
         tickers: list[str],
         resample_freq: str | None = None,
@@ -66,7 +61,7 @@ def load_books(
 
         is_valid = msgs["event_type"] <= 4
         books = books[is_valid]
-        books[PX_COLS] //= PX_TICK
+        books[[c for c in BOOK_COLS if "px" in c]] //= PX_TICK
         books.index = pd.to_timedelta(msgs.loc[is_valid, "time"], unit="s")
 
         if trim_regimes:

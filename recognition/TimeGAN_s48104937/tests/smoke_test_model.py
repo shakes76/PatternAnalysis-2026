@@ -37,18 +37,15 @@ TRAIN_FRAC = 0.7      # chronological, per ticker; the rest is left for val/test
 DEPTH = 10
 PX_TICK = 100         # raw LOBSTER prices are $ x 10000; // 100 gives cents (ticks)
 
-
 # --- Model Config ---
 HIDDEN_DIM = 64
 NUM_LAYERS = 2
 
-
 # --- Training Config ---
 BATCH_SIZE = 128
 LR = 1e-3
-EPOCHS = 50
+EPOCHS = 60
 SEED = 0
-
 
 # --- Evaluation Config ---
 NUM_EVAL = 1000
@@ -163,7 +160,6 @@ class Generator(nn.Module):
             x = (mean + torch.randn_like(mean) * torch.exp(0.5 * logvar)).clamp(-1, 1)
             steps.append(x)
         return torch.cat(steps, dim=1)
-
 
 def nll_loss(gen: Generator, x: torch.Tensor) -> torch.Tensor:
     """Gaussian negative log-likelihood of the real windows under teacher forcing."""
