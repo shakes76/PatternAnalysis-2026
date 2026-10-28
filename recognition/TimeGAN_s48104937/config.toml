@@ -1,29 +1,30 @@
+# ==== TimeGAN LOB Simulation Config ===
+
 # Data
-# tickers = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]
-tickers = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]
-resample_freq = "1s"
-trim_regimes="15m"
-window_length = 64
-train_frac = 0.7
-val_frac = 0.15
-test_frac = 0.15
+tickers = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]  # LOBSTER tickers to train on; each gets its own scaler and label
+resample_freq = "1s"      # pandas frequency the book is resampled to
+trim_regimes = "15m"      # pandas duration cut from both the open and the close of each day
+window_length = 64        # steps per training window (seconds, at 1 s resampling)
+train_frac = 0.7          # chronological share of each ticker's day used for training
+val_frac = 0.15           # following share used for validation (early stopping, model choice)
+test_frac = 0.15          # final share held out for the reported results; the three must sum to 1
 
 # Model
-hidden_dim = 64
-noise_dim = 32
-num_layers = 3
+hidden_dim = 64           # width of the latent space and of the generator, supervisor and discriminator GRUs
+noise_dim = 32            # size of the generator's per-step noise vector
+num_layers = 3            # stacked GRU layers per network
 
 # Training
-batch_size = 128
-learning_rate = 1e-3
-embedding_epochs = 50
-supervised_epochs = 25
-joint_epochs = 150
-d_threshold = 0.5   # only update the discriminator while its loss is above this
-train_seed = 0
+batch_size = 128          # windows per batch (each batch holds a single ticker)
+learning_rate = 1e-3      # Adam learning rate for all three phases
+embedding_epochs = 50     # phase 1: embedder + recovery (autoencoder)
+supervised_epochs = 25    # phase 2: supervisor on real latents
+joint_epochs = 150        # phase 3: adversarial training of all networks
+d_threshold = 0.5         # discriminator only updates while its loss is above this, so it can't dominate the generator
+train_seed = 0            # seed for torch and batch shuffling during training
 
-# Training
-sample_length = 128
-num_samples = 10
-burn_in = 10
-eval_seed = 0
+# Evaluation
+sample_length = 128       # steps per generated window in predict.py (may exceed window_length)
+num_samples = 10          # real and synthetic windows compared per ticker
+burn_in = 10              # generated steps discarded at the start while the GRUs warm up
+eval_seed = 0             # seed for sampling windows and generating in predict.py
