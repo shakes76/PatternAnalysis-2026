@@ -1,0 +1,27 @@
+[data]
+tickers = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]
+resample_freq = "1s"
+window_length = 64
+train_frac = 0.7
+val_frac = 0.15
+test_frac = 0.15
+
+[model]
+hidden_dim = 64
+noise_dim = 32
+num_layers = 3
+
+[training]
+batch_size = 128
+learning_rate = 1e-3
+embedding_epochs = 50
+supervised_epochs = 25
+joint_epochs = 100
+d_threshold = 0.5   # only update the discriminator while its loss is above this
+seed = 0
+
+[evaluation]
+sample_length = 128
+num_samples = 10
+burn_in = 10
+seed = 0
