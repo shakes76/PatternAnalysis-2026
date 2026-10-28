@@ -57,14 +57,18 @@ def w1(fake: torch.Tensor, real: torch.Tensor) -> torch.Tensor:
     fake, real = torch.sort(fake.flatten())[0], torch.sort(real.flatten())[0]
     return (fake - real).abs().mean() / (real.std() + 1e-6)
 
-def distribution_losses(x_hat: torch.Tensor, x: torch.Tensor, scaler: LogMinMaxScaler) -> tuple[torch.Tensor, torch.Tensor]:
+def bce(logits: torch.Tensor, target: float) -> torch.Tensor:
+    """Binary cross-entropy against a constant label."""
+    return F.binary_cross_entropy_with_logits(logits, torch.full_like(logits, target))
+
+def distribution_losses(
+        x_hat: torch.Tensor,
+        x: torch.Tensor,
+        scaler: LogMinMaxScaler,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
     """W1 between generated and real batches for the spread and the step-to-step mid change, in ticks."""
     spread_col, mid_col = FEATURE_COLS.index("spread"), FEATURE_COLS.index("mid_rel")
     spread_w1 = w1(unscale(x_hat, scaler, spread_col), unscale(x, scaler, spread_col))
     mid_w1 = w1(torch.diff(unscale(x_hat, scaler, mid_col), dim=1),
                 torch.diff(unscale(x, scaler, mid_col), dim=1))
     return spread_w1, mid_w1
-
-def bce(logits: torch.Tensor, target: float) -> torch.Tensor:
-    """Binary cross-entropy against a constant label."""
-    return F.binary_cross_entropy_with_logits(logits, torch.full_like(logits, target))

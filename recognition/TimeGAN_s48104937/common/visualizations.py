@@ -120,7 +120,6 @@ def plot_sample_pair(real: dict, synth: dict, i: int, path: Path) -> None:
     fig.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(fig)
 
-
 def plot_book_pair(
         book_a: dict,
         book_b: dict,

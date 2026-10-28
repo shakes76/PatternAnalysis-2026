@@ -3,7 +3,7 @@
 # Data
 tickers = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]  # LOBSTER tickers to train on; each gets its own scaler and label
 resample_freq = "1s"      # pandas frequency the book is resampled to
-trim_regimes = "15m"      # pandas duration cut from both the open and the close of each day
+trim_regimes = ""         # pandas duration cut from both the open and the close of each day
 window_length = 64        # steps per training window (seconds, at 1 s resampling)
 train_frac = 0.7          # chronological share of each ticker's day used for training
 val_frac = 0.15           # following share used for validation (early stopping, model choice)
@@ -19,8 +19,8 @@ batch_size = 128          # windows per batch (each batch holds a single ticker)
 learning_rate = 1e-3      # Adam learning rate for all three phases
 embedding_epochs = 50     # phase 1: embedder + recovery (autoencoder)
 supervised_epochs = 25    # phase 2: supervisor on real latents
-joint_epochs = 50        # phase 3: adversarial training of all networks
-d_threshold = 1.0         # discriminator only updates while its loss is above this, so it can't dominate the generator
+joint_epochs = 100        # phase 3: adversarial training of all networks
+d_threshold = 0.5         # discriminator only updates while its loss is above this, so it can't dominate the generator
 train_seed = 0            # seed for torch and batch shuffling during training
 
 # Evaluation

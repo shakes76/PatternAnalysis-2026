@@ -14,14 +14,15 @@ from dataset import load_books
 WINDOW_LENGTH: int = 512       # steps to generate and compare
 BURN_IN: int = 10              # number of steps to let the GRU warm-up
 TICKER: str = "AMZN"          # index into the checkpoint's tickers
-SEED: int = 478               # seed for np and torch rng
+SEED: int = 0               # seed for np and torch rng
 
 
 def main() -> None:
     Path("dummy/figures").mkdir(exist_ok=True)
-    rng: np.random.Generator = np.random.default_rng()
-    # torch.manual_seed()
+    rng: np.random.Generator = np.random.default_rng(SEED)
+    torch.manual_seed(SEED)
 
+    # model, scalers, cfg = load_model(Path("models/timegan.pt"), device=DEVICE)
     model, scalers, cfg = load_model(Path("models/timegan.pt"), device=DEVICE)
 
     books = load_books(cfg.tickers, cfg.resample_freq, cfg.trim_regimes, cfg.train_frac, cfg.val_frac, cfg.test_frac)

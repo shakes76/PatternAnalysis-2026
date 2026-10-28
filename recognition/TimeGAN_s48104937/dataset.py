@@ -69,12 +69,9 @@ def load_books(
         books[PX_COLS] //= PX_TICK
         books.index = pd.to_timedelta(msgs.loc[is_valid, "time"], unit="s")
 
-        # Drop the opening and closing regimes: keep 9:30 + trim to 16:00 - trim
         if trim_regimes:
             trim = pd.Timedelta(trim_regimes)
-            start = pd.Timedelta(hours=9, minutes=30) + trim
-            end = pd.Timedelta(hours=16) - trim
-            books = books[(books.index >= start) & (books.index < end)]
+            books = books.loc[pd.Timedelta("09:30:00") + trim: pd.Timedelta("16:00:00") - trim]
 
         if resample_freq:
             books = books.resample(resample_freq).last().ffill()

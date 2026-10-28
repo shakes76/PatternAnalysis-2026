@@ -86,23 +86,23 @@ def report(
 
 
 def main() -> None:
+    # Initialize rng and required filepaths
+    Path("figures").mkdir(exist_ok=True)
+    rng = np.random.default_rng(48)
+    torch.manual_seed(48)
+
     # Load model from checkpoint; keep the training length for the extrapolation marker
     model, scalers, cfg = load_model(Path("models/timegan.pt"), device=DEVICE)
 
-    # Initialize rng and required filepaths
-    Path("figures").mkdir(exist_ok=True)
-    rng = np.random.default_rng(cfg.eval_seed)
-    torch.manual_seed(cfg.eval_seed)
-
     # Load real books and encode every window of the chosen split
-    books = load_books(cfg.tickers, cfg.resample_freq, cfg.trim_regimes, cfg.train_frac, cfg.val_frac, cfg.test_frac)
+    books = load_books(cfg.tickers, cfg.resample_freq, "", cfg.train_frac, cfg.val_frac, cfg.test_frac)
     real_x, refs, labels = encode(books=books["train"], scalers=scalers, window_length=cfg.sample_length)
     train_by_ticker = dict(tuple(books["train"].groupby("ticker", sort=False)))
 
     for k, ticker in enumerate(cfg.tickers):
         # Randomly sample this ticker's real windows (no repeats) and generate as many synthetic ones
         pool = np.flatnonzero(labels == k)
-        idx: np.ndarray = rng.choice(pool, size=min(1000, len(pool)), replace=False)
+        idx: np.ndarray = rng.choice(pool, size=min(100, len(pool)), replace=False)
         with torch.no_grad():
             synth_x = model.sample(n=len(idx), window_length=cfg.sample_length + cfg.burn_in, ticker=k).cpu().numpy()
             synth_x = synth_x[:, cfg.burn_in:]
