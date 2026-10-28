@@ -5,6 +5,7 @@ train.py — train GFNet on ADNI (AD vs NC). Test-set evaluation is in predict.p
     python train.py --fold 2         # one cross-validation fold -> runs/gfnet/fold2/best.pt
     python train.py --cv             # all 5 folds -> val mean ± std + runs/gfnet/cv_best.pt
     python train.py --subset 0.05    # quick test on 5% of patients
+    python train.py --cv --no-crop-flip   # train without RandomResizedCrop / HorizontalFlip
 """
 
 import argparse
@@ -30,7 +31,7 @@ LR = 5e-4                       # Starting learning rate for AdamW
 MIN_LR = 1e-6                   # Learning rate at the end of cosine decay
 WEIGHT_DECAY = 0.05             # AdamW weight decay (GFNet/DeiT default)
 LABEL_SMOOTHING = 0.1           # Soft targets [0.05, 0.95] instead of [0, 1]
-PATIENCE = 20                   # Stop after this many epochs without val improvement
+PATIENCE = 40                   # Stop after this many epochs without val improvement
 WORKERS = 4                     # Background processes loading images
 SEED = 42                       # Makes weight init, batch order and splits repeatable
 OUT_DIR = "runs/gfnet"          # Where checkpoints / history.json are saved
@@ -215,6 +216,8 @@ def parse_args():
     ap.add_argument("--subset", type=float, default=FULL_SUBSET)    # Fraction of patients, e.g. 0.05
     ap.add_argument("--workers", type=int, default=WORKERS)
     ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--no-crop-flip", dest="crop_flip", action="store_false",
+                    help="disable RandomResizedCrop and RandomHorizontalFlip")
     return ap.parse_args()
 
 
@@ -223,9 +226,10 @@ def main():
     os.makedirs(args.out, exist_ok=True)
     device = get_device()
     print(f"Device: {device}")
+    print(f"Crop + flip augmentation: {'on' if args.crop_flip else 'off'}")
 
     loader_kw = dict(root=args.root, batch_size=args.batch_size, num_workers=args.workers,
-                     seed=args.seed, subset=args.subset)
+                     seed=args.seed, subset=args.subset, crop_flip=args.crop_flip)
 
     # ---- cross-validation: one fold or all folds ----
     if args.cv or args.fold is not None:
@@ -252,7 +256,7 @@ def main():
         if len(results) > 1:
             accs = np.array([r["val_acc"] for r in results])
             pats = np.array([r["val_patient_acc"] for r in results])
-            summary = {"folds": results,
+            summary = {"folds": results, "crop_flip": args.crop_flip,
                        "val_acc_mean": accs.mean(), "val_acc_std": accs.std(),
                        "val_patient_acc_mean": pats.mean(), "val_patient_acc_std": pats.std(),
                        "total_time": sum(r["train_time"] for r in results)}

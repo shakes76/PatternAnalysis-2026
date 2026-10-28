@@ -43,6 +43,7 @@ DEFAULT_MEAN = 0.1155
 DEFAULT_STD = 0.2224
  
 # Data augmentation parameters
+AUG_CROP_FLIP = True            # False = no RandomResizedCrop / RandomHorizontalFlip
 AUG_SCALE_RANGE = (0.85, 1.0)
 AUG_RATIO_RANGE = (0.95, 1.05)
 AUG_AFFINE_DEGREES = 10
@@ -217,16 +218,24 @@ def get_transforms(
     in_chans: int = DEFAULT_IN_CHANS,
     mean: float = DEFAULT_MEAN,
     std: float = DEFAULT_STD,
+    crop_flip: bool = AUG_CROP_FLIP,
 ):
     """Train: light geometric + intensity augmentation. Eval: deterministic.
+    crop_flip=False removes RandomResizedCrop and RandomHorizontalFlip, so
+    training sees the same framing as evaluation (affine + jitter still apply).
     in_chans=3 repeats the grey channel (for ImageNet-pretrained GFNet weights)."""
     ops: list = []
     if train:
+        if crop_flip:
+            ops += [
+                transforms.RandomResizedCrop(
+                    img_size, scale=AUG_SCALE_RANGE, ratio=AUG_RATIO_RANGE
+                ),
+                transforms.RandomHorizontalFlip(),
+            ]
+        else:
+            ops += [transforms.Resize((img_size, img_size))]
         ops += [
-            transforms.RandomResizedCrop(
-                img_size, scale=AUG_SCALE_RANGE, ratio=AUG_RATIO_RANGE
-            ),
-            transforms.RandomHorizontalFlip(),
             transforms.RandomAffine(
                 degrees=AUG_AFFINE_DEGREES, translate=AUG_TRANSLATE_RANGE
             ),
@@ -258,6 +267,7 @@ def _build_loaders(
     std: float,
     subset: float = 1.0,
     seed: int = DEFAULT_SEED,
+    crop_flip: bool = AUG_CROP_FLIP,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     train_samples = subsample_patients(train_samples, subset, seed)
     val_samples = subsample_patients(val_samples, subset, seed)
@@ -266,7 +276,7 @@ def _build_loaders(
         num_workers = min(MAX_DATALOADER_WORKERS, os.cpu_count() or 0)
     pin = torch.cuda.is_available()             # pin_memory is a no-op/warning on MPS
  
-    tf_train = get_transforms(True, img_size, in_chans, mean, std)
+    tf_train = get_transforms(True, img_size, in_chans, mean, std, crop_flip)
     tf_eval = get_transforms(False, img_size, in_chans, mean, std)
  
     train_ds = ADNIDataset(train_samples, tf_train)
@@ -296,6 +306,7 @@ def get_dataloaders(
     mean: float = DEFAULT_MEAN,
     std: float = DEFAULT_STD,
     subset: float = 1.0,
+    crop_flip: bool = AUG_CROP_FLIP,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     """Single hold-out split. Return (train_loader, val_loader, test_loader).
     `subset` < 1 keeps that fraction of patients in every split (quick runs)."""
@@ -305,7 +316,7 @@ def get_dataloaders(
     test_samples = scan_split(root, "test")
     return _build_loaders(
         train_samples, val_samples, test_samples,
-        batch_size, img_size, in_chans, num_workers, mean, std, subset, seed,
+        batch_size, img_size, in_chans, num_workers, mean, std, subset, seed, crop_flip,
     )
  
  
@@ -321,6 +332,7 @@ def get_fold_dataloaders(
     mean: float = DEFAULT_MEAN,
     std: float = DEFAULT_STD,
     subset: float = 1.0,
+    crop_flip: bool = AUG_CROP_FLIP,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     """Loaders for one CV fold (0-indexed). Return (train, val, test).
  
@@ -335,7 +347,7 @@ def get_fold_dataloaders(
     test_samples = scan_split(root, "test")
     return _build_loaders(
         train_samples, val_samples, test_samples,
-        batch_size, img_size, in_chans, num_workers, mean, std, subset, seed,
+        batch_size, img_size, in_chans, num_workers, mean, std, subset, seed, crop_flip,
     )
  
  
@@ -409,6 +421,8 @@ if __name__ == "__main__":
     ap.add_argument("--cv", action="store_true", help="check K-fold CV splits")
     ap.add_argument("--n-folds", type=int, default=DEFAULT_N_FOLDS)
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    ap.add_argument("--no-crop-flip", dest="crop_flip", action="store_false",
+                    help="disable RandomResizedCrop and RandomHorizontalFlip")
     args = ap.parse_args()
  
     if args.stats:
@@ -419,17 +433,19 @@ if __name__ == "__main__":
         _check_cv(args.root, args.n_folds, args.seed)
         tr, _, _ = get_fold_dataloaders(
             0, args.root, n_folds=args.n_folds, batch_size=args.batch_size,
-            num_workers=0, seed=args.seed,
+            num_workers=0, seed=args.seed, crop_flip=args.crop_flip,
         )
     else:
         tr, va, te = get_dataloaders(
-            args.root, batch_size=args.batch_size, num_workers=0, seed=args.seed
+            args.root, batch_size=args.batch_size, num_workers=0, seed=args.seed,
+            crop_flip=args.crop_flip,
         )
         for name, dl in (("train", tr), ("val", va), ("test", te)):
             _describe(name, dl.dataset)
         overlap = set(tr.dataset.patients) & set(va.dataset.patients)
         print("train/val patient overlap:", len(overlap))   # should be 0
  
+    print("train transform:", tr.dataset.transform)
     x, y = next(iter(tr))
     print(
         "batch:",
