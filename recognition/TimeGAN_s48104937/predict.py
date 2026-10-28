@@ -102,7 +102,7 @@ def main() -> None:
     for k, ticker in enumerate(cfg.tickers):
         # Randomly sample this ticker's real windows (no repeats) and generate as many synthetic ones
         pool = np.flatnonzero(labels == k)
-        idx: np.ndarray = rng.choice(pool, size=min(500, len(pool)), replace=False)
+        idx: np.ndarray = rng.choice(pool, size=min(1000, len(pool)), replace=False)
         with torch.no_grad():
             synth_x = model.sample(n=len(idx), window_length=cfg.sample_length + cfg.burn_in, ticker=k).cpu().numpy()
             synth_x = synth_x[:, cfg.burn_in:]

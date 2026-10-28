@@ -19,8 +19,8 @@ batch_size = 128          # windows per batch (each batch holds a single ticker)
 learning_rate = 1e-3      # Adam learning rate for all three phases
 embedding_epochs = 50     # phase 1: embedder + recovery (autoencoder)
 supervised_epochs = 25    # phase 2: supervisor on real latents
-joint_epochs = 150        # phase 3: adversarial training of all networks
-d_threshold = 0.5         # discriminator only updates while its loss is above this, so it can't dominate the generator
+joint_epochs = 50        # phase 3: adversarial training of all networks
+d_threshold = 1.0         # discriminator only updates while its loss is above this, so it can't dominate the generator
 train_seed = 0            # seed for torch and batch shuffling during training
 
 # Evaluation

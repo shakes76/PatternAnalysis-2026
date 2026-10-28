@@ -81,12 +81,13 @@ def train_supervisor(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, va
     return losses
 
 # Training Phase 2: Joint Generator and Discriminator
-def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScaler], epochs: int) -> dict:
+def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScaler], epochs: int, meta: dict) -> dict:
     """Phase 3: adversarial training with embedder fine-tuning.
 
     Each batch performs two generator + embedder updates and then one
     discriminator update, skipped while the discriminator is already winning
     (loss below D_THRESHOLD) so it cannot overpower the generator.
+    Saves a checkpoint every 10 epochs.
     """
     opt_g = torch.optim.Adam(
         list(model.generator.parameters()) + list(model.supervisor.parameters()), lr=cfg.learning_rate)
@@ -127,7 +128,7 @@ def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScale
                 e_loss.backward()
                 opt_e.step()
 
-            # Discriminator: two updates per batch, each on fresh synthetic windows
+            # Discriminator with two updates per batch, each on fresh synthetic windows
             with torch.no_grad():
                 h = model.embedder(x, c)
                 e_hat = model.generator(model.noise(n, seq_len), c)
@@ -148,10 +149,13 @@ def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScale
             totals["g_mid_w1"] += g_mid_w1.item()
             totals["e_loss"] += e_loss.item()
 
+        if epoch % 10 == 0:
+            torch.save({**meta, "model": model.state_dict(), "epoch": epoch},
+                       Path(f"models/checkpoints/timegan_joint_epoch{epoch:03d}.pt"))
+
         for name in losses:
             losses[name].append(totals[name] / len(loader))
-        print(f"[Joint      {epoch:3d}/{epochs}] "
-              + "  ".join(f"{k} {v[-1]:.4f}" for k, v in losses.items()))
+        print(f"[Joint      {epoch:3d}/{epochs}] " + "  ".join(f"{k} {v[-1]:.4f}" for k, v in losses.items()))
 
     return losses
 
@@ -159,6 +163,7 @@ def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScale
 def main() -> None:
     # Initialize rng and required filepaths
     Path("models").mkdir(exist_ok=True)
+    Path("models/checkpoints").mkdir(exist_ok=True)
     Path("figures").mkdir(exist_ok=True)
     torch.manual_seed(cfg.train_seed)
 
@@ -195,6 +200,15 @@ def main() -> None:
     model = TimeGAN(feature_dim, cfg.hidden_dim, cfg.noise_dim, cfg.num_layers, len(cfg.tickers)).to(DEVICE)
     val_c = model.one_hot(val_y)
 
+    # Metadata saved with every checkpoint and the final model
+    meta = {
+        "config": cfg.to_dict(),
+        "scaler_lo": {ticker: s.lo.tolist() for ticker, s in scalers.items()},
+        "scaler_hi": {ticker: s.hi.tolist() for ticker, s in scalers.items()},
+        "feature_cols": FEATURE_COLS,
+        "feature_dim": feature_dim,
+    }
+
     # Resource profiling: reset the GPU's peak-memory counter, then time each phase
     if DEVICE.type == "cuda":
         torch.cuda.reset_peak_memory_stats()
@@ -209,7 +223,7 @@ def main() -> None:
     times["supervised"] = time.perf_counter() - start
 
     start = time.perf_counter()
-    joint_losses = train_joint(model, loader, list(scalers.values()), epochs=cfg.joint_epochs)
+    joint_losses = train_joint(model, loader, list(scalers.values()), epochs=cfg.joint_epochs, meta=meta)
     times["joint"] = time.perf_counter() - start
 
     profile = {
@@ -227,14 +241,7 @@ def main() -> None:
 
 
     # Save model and loss plots
-    torch.save({
-        "model": model.state_dict(),
-        "config": cfg.to_dict(),
-        "scaler_lo": {ticker: s.lo.tolist() for ticker, s in scalers.items()},
-        "scaler_hi": {ticker: s.hi.tolist() for ticker, s in scalers.items()},
-        "feature_cols": FEATURE_COLS,
-        "feature_dim": feature_dim,
-    }, Path("models/timegan.pt"))
+    torch.save({**meta, "model": model.state_dict()}, Path("models/timegan.pt"))
     plot_losses(embedding_losses, supervisor_losses, joint_losses, Path("figures/timegan_losses.png"))
 
 
