@@ -1,0 +1,14 @@
+# Never commit datasets or model weights (spec Section 4.1)
+data/
+*.nii
+*.nii.gz
+*.pt
+*.pth
+checkpoints/
+outputs/
+runs/
+results/
+predictions/
+slurm-*.out
+__pycache__/
+*.pyc
