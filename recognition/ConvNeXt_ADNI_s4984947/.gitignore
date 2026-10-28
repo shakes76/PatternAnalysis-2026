@@ -1,0 +1,10 @@
+__pycache__/
+runs/
+*.pt
+*.pth
+*.ckpt
+slurm-*.out
+quick-*.out
+baseline-*.out
+convnext-*.out
+convnext-v1-*.out

@@ -1,0 +1,10 @@
+{
+  "python": "3.11.15",
+  "packages": {
+    "torch": "2.14.0",
+    "torchvision": "0.29.0",
+    "numpy": "2.4.6",
+    "pillow": "12.3.0",
+    "matplotlib": "3.11.2"
+  }
+}
