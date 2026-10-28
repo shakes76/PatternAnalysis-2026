@@ -6,15 +6,12 @@
 #   3. Creates the 'torch' env + installs PyTorch   (guide steps 5–6, plus matplotlib/pillow/numpy)
 #   4. Runs conda init bash, checks CUDA            (guide section 3)
 #   5. Copies your project into ~/ (Linux home is much faster than /mnt/c)
-#   6. Streams ADNI AD_NC from Rangpur into ~/data  (optional)
-#   7. Optionally starts training
+#   6. Copies ADNI AD_NC from ~/EAIT-Home/data to ~/data (local disk, faster)
 #
 # Every step is skipped if already done, so it is safe to re-run after a machine reset.
 #
-# Usage (inside Ubuntu/WSL):
-#   bash setup_wsl.sh                # setup + data
-#   bash setup_wsl.sh --train        # setup + data + train
-#   bash setup_wsl.sh --no-data      # skip the ADNI download
+# Usage:
+#   bash tools/setup_wsl.sh
 #
 # If you saved this file from Windows and see "$'\r': command not found", run:
 #   sed -i 's/\r$//' setup_wsl.sh
@@ -26,22 +23,9 @@ ENV_NAME="torch"
 UQ_USER="s4718955"
 PROJECT_SRC="/mnt/c/Users/${UQ_USER}/PatternAnalysis"   # your project on the Windows side
 PROJECT_DIR="$HOME/PatternAnalysis"                     # where it will live in Linux
-RANGPUR_HOST="rangpur.compute.eait.uq.edu.au"
-RANGPUR_ADNI="/home/groups/comp3710/ADNI"               # folder on Rangpur that contains AD_NC
+SRC_DATA="$HOME/EAIT-Home/data"                         # moss home, mounted on the GPU lab
 DATA_DIR="$HOME/data"
-EPOCHS=30
-BATCH_SIZE=64
-WORKERS=6
 # ----------------------------------------------------------------
-
-DO_DATA=1; DO_TRAIN=0
-for arg in "$@"; do
-  case "$arg" in
-    --no-data) DO_DATA=0 ;;
-    --train)   DO_TRAIN=1 ;;
-    *) echo "Unknown option: $arg"; exit 1 ;;
-  esac
-done
 
 step() { printf '\n\033[1;36m=== %s ===\033[0m\n' "$1"; }
 CONDA_DIR="$HOME/miniconda3"
@@ -108,33 +92,21 @@ else
 fi
 
 # ---------------- 6. ADNI data ----------------
+step "6/6 ADNI dataset"
 ADNI_ROOT="$DATA_DIR/AD_NC"
-if [ "$DO_DATA" -eq 1 ]; then
-  step "6/6 ADNI dataset"
-  if [ -d "$ADNI_ROOT/train" ]; then
-    echo "Already present at $ADNI_ROOT"
-  else
-    mkdir -p "$DATA_DIR"
-    echo "Streaming AD_NC from Rangpur (UQ network/VPN needed; enter your UQ password)..."
-    # Stream a tar over ssh: one password prompt, no temp file, much faster than copying JPEGs one by one
-    ssh "${UQ_USER}@${RANGPUR_HOST}" "tar -cf - -C '$RANGPUR_ADNI' AD_NC" | tar -xf - -C "$DATA_DIR"
-    [ -d "$ADNI_ROOT/train" ] || { echo "Download finished but $ADNI_ROOT/train is missing — check RANGPUR_ADNI"; exit 1; }
-    echo "Saved to $ADNI_ROOT ($(find "$ADNI_ROOT" -type f | wc -l) files)"
-  fi
+if [ -d "$ADNI_ROOT/train" ]; then
+  echo "Already present at $ADNI_ROOT"
+elif [ -d "$SRC_DATA/AD_NC/train" ]; then
+  mkdir -p "$DATA_DIR"
+  echo "Copying $SRC_DATA/AD_NC -> $ADNI_ROOT ..."
+  tar -cf - -C "$SRC_DATA" AD_NC | tar -xf - -C "$DATA_DIR"   # faster than cp for many small files
+  echo "Done ($(find "$ADNI_ROOT" -type f | wc -l) files)"
 else
-  step "6/6 ADNI dataset (skipped)"
+  echo "No AD_NC found in $SRC_DATA - copy it there via moss first."
+  exit 1
 fi
 
-# ---------------- 7. Train (optional) ----------------
-TRAIN_CMD="python train.py --root \"$ADNI_ROOT\" --epochs $EPOCHS --batch-size $BATCH_SIZE --workers $WORKERS"
-if [ "$DO_TRAIN" -eq 1 ]; then
-  step "Training"
-  cd "$PROJECT_DIR"
-  eval "$TRAIN_CMD"
-else
-  step "Done"
-  echo "Next time, open Ubuntu and run:"
-  echo "  conda activate $ENV_NAME"
-  echo "  cd $PROJECT_DIR"
-  echo "  $TRAIN_CMD"
-fi
+step "Setup complete"
+echo "  conda activate $ENV_NAME"
+echo "  cd $PROJECT_DIR"
+echo "  python train.py --root $ADNI_ROOT --epochs 30 --batch-size 64 --workers 6"
