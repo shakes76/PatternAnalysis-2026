@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+
+# Model weights / checkpoints
+*.pt
+*.pth
+
+# Local training outputs and logs
+outputs*/
+*_log.txt
+
+data/
+
+# macOS
+.DS_Store
