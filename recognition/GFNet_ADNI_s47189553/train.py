@@ -1,11 +1,12 @@
 """
 train.py — train GFNet on ADNI (AD vs NC). Test-set evaluation is in predict.py.
 
-    python train.py                  # one train/val split -> runs/gfnet/best_no_cv.pt
-    python train.py --fold 2         # one cross-validation fold -> runs/gfnet/fold2/best.pt
-    python train.py --cv             # all 5 folds -> val mean ± std + runs/gfnet/cv_best.pt
-    python train.py --subset 0.05    # quick test on 5% of patients
+    python train.py                       # one train/val split -> runs/gfnet/best_no_cv.pt
+    python train.py --fold 2              # one cross-validation fold -> runs/gfnet/fold2/best.pt
+    python train.py --cv                  # all 5 folds -> val mean ± std + runs/gfnet/cv_best.pt
+    python train.py --subset 0.05         # quick test on 5% of patients
     python train.py --cv --no-crop-flip   # train without RandomResizedCrop / HorizontalFlip
+    python train.py --model simplecnn     # train a SimpleCNN instead of GFNet
 """
 
 import argparse
