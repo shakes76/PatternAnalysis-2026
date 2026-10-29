@@ -46,16 +46,18 @@ def mask_to_yolo_bboxes(mask_path: Path, class_id: int = 0, min_area: int = 25):
 
 def discover_isic_directories(raw_root: Path):
     """
-    Automatically locates image and mask directories inside /home/groups/comp3710/ISIC2018
-    or local ISIC2018 directory structures.
+    Automatically locates image and mask directories inside ISIC 2017 or ISIC 2018
+    directory structures (both local and /home/groups/comp3710/ISIC2018).
     """
     candidates_img = [
+        raw_root / "ISIC-2017_Training_Data",
         raw_root / "ISIC2018_Task1-2_Training_Input",
         raw_root / "ISIC2018_Task1-2_Training_Input_x2",
         raw_root / "images",
         raw_root,
     ]
     candidates_mask = [
+        raw_root / "ISIC-2017_Training_Part1_GroundTruth",
         raw_root / "ISIC2018_Task1_Training_GroundTruth",
         raw_root / "ISIC2018_Task1_Training_GroundTruth_x2",
         raw_root / "masks",
@@ -68,10 +70,9 @@ def discover_isic_directories(raw_root: Path):
     if img_dir is None or mask_dir is None:
         raise FileNotFoundError(
             f"Could not find ISIC_*.jpg and *_segmentation.png inside {raw_root}. "
-            f"Verify your --raw_dir path."
+            f"Verify that both Training_Data and Part1_GroundTruth zips are extracted."
         )
     return img_dir, mask_dir
-
 
 def load_patient_metadata(raw_root: Path, image_ids: list):
     """
