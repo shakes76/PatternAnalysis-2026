@@ -19,6 +19,11 @@ SOURCES = ("Real", "Synthetic")
 LEVEL_LABELS = [f"bid {l}" for l in reversed(LEVELS)] + [f"ask {l}" for l in LEVELS]
 SHADES = np.linspace(1.0, 0.35, DEPTH)   # level 1 darkest, deeper levels lighter
 
+def mid_changes(book: dict) -> np.ndarray:
+    """Step-to-step mid-price change in half-ticks (always an integer)."""
+    twice_mid = book["ask_px"][..., 0] + book["bid_px"][..., 0]
+    return np.diff(twice_mid, axis=1)
+
 
 # Training Plots
 def plot_losses(embedding_losses: dict, supervisor_losses: dict, joint_losses: dict, path: Path) -> None:
@@ -82,17 +87,18 @@ def plot_distributions(real: dict, synth: dict, path: Path) -> None:
     """Histograms of spread, mid and VWAP returns, plus volatility clustering."""
     histograms = {
         "Spread (ticks)": (spread, tick_bins),          # one bin per tick
-        "Mid-price log-returns": (mid_returns, central_bins),
-        "Book VWAP log-returns": (vwap_returns, central_bins),
+        "Mid-price returns": (mid_changes, tick_bins),
+        "VWAP log-returns": (vwap_returns, central_bins),
     }
     fig, axes = plt.subplots(1, len(histograms) + 1, figsize=(20, 4), constrained_layout=True)
 
     for ax, (title, (stat, make_bins)) in zip(axes, histograms.items()):
         values = [stat(real), stat(synth)]
-        bins = make_bins(*values)                       # shared, so the two histograms align
+        bins = make_bins(*values)
         for v, name in zip(values, SOURCES):
             ax.hist(v.ravel(), bins=bins, alpha=0.5, density=True, label=name)
         ax.set_title(title)
+        ax.set_yscale("log")
 
     ax = axes[-1]
     for book, name in zip((real, synth), SOURCES):

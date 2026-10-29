@@ -90,11 +90,12 @@ def report(
 def main() -> None:
     # Initialize rng and required filepaths
     Path("figures").mkdir(exist_ok=True)
-    rng = np.random.default_rng(48)
-    torch.manual_seed(48)
+    rng = np.random.default_rng()
+    # torch.manual_seed(48)
 
     # Load model from checkpoint; keep the training length for the extrapolation marker
-    model, scalers, cfg = load_model(Path("models/timegan.pt"), device=DEVICE)
+    # model, scalers, cfg = load_model(Path("models/timegan.pt"), device=DEVICE)
+    model, scalers, cfg = load_model(Path("models_w1x10/timegan_w1x10.pt"), device=DEVICE)
 
     # Load real books and encode every window of the chosen split
     books = load_books(cfg.tickers, cfg.resample_freq, "", cfg.train_frac, cfg.val_frac, cfg.test_frac)

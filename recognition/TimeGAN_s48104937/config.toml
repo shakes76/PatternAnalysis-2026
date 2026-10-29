@@ -2,12 +2,13 @@
 
 # Data
 tickers = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]  # LOBSTER tickers to train on; each gets its own scaler and label
+# tickers = ["AMZN"]  # LOBSTER tickers to train on; each gets its own scaler and label
 resample_freq = "1s"      # pandas frequency the book is resampled to
 trim_regimes = ""         # pandas duration cut from both the open and the close of each day
 window_length = 64        # steps per training window (seconds, at 1 s resampling)
 train_frac = 0.7          # chronological share of each ticker's day used for training
-val_frac = 0.15           # following share used for validation (early stopping, model choice)
-test_frac = 0.15          # final share held out for the reported results; the three must sum to 1
+val_frac = 0.25           # following share used for validation (early stopping, model choice)
+test_frac = 0.05          # final share held out for the reported results; the three must sum to 1
 
 # Model
 hidden_dim = 64           # width of the latent space and of the generator, supervisor and discriminator GRUs

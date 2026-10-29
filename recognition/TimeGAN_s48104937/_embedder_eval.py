@@ -37,7 +37,7 @@ def main() -> None:
     rng: np.random.Generator = np.random.default_rng(SEED)
     torch.manual_seed(SEED)
 
-    model, scalers, cfg = load_model(Path("models/timegan.pt"), device=DEVICE)
+    model, scalers, cfg = load_model(Path("models_v1_norm/checkpoints/timegan_joint_epoch010.pt"), device=DEVICE)
     model.eval()
     window_length = WINDOW_LENGTH or cfg.window_length
     k = cfg.tickers.index(TICKER)
@@ -49,7 +49,6 @@ def main() -> None:
 
     # Real windows through the autoencoder only: embedder -> latent -> recovery
     with torch.no_grad():
-        x = torch.from_numpy(real_x).float().to(DEVICE)
         c = model.one_hot(torch.from_numpy(labels).long().to(DEVICE))
         h = torch.cat([model.embedder(xb, cb) for xb, cb in zip(x.split(256), c.split(256))])
         recon = torch.cat([model.recovery(hb, cb) for hb, cb in zip(h.split(256), c.split(256))])

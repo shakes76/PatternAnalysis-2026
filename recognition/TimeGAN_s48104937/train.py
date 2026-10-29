@@ -183,10 +183,9 @@ def main() -> None:
     )
 
     # Validation subset
-    n = len(val_windows)
-    val_idx = np.sort(np.random.default_rng(0).choice(n, size=min(4096, n), replace=False))
-    val_x = torch.from_numpy(train_windows[val_idx]).float().to(DEVICE)
-    val_y = torch.from_numpy(train_labels[val_idx]).to(DEVICE)
+    val_idx = np.arange(0, len(val_windows), 8)
+    val_x = torch.from_numpy(val_windows[val_idx]).float().to(DEVICE)
+    val_y = torch.from_numpy(val_labels[val_idx]).to(DEVICE)
 
     # Model and training
     feature_dim = train_windows.shape[2]
@@ -233,7 +232,7 @@ def main() -> None:
         print(f"Peak GPU memory   {profile['peak_vram_mib']:.0f} MiB")
 
     # Save model and loss plots
-    torch.save({**meta, "model": model.state_dict()}, Path("models/timegan.pt"))
+    torch.save({**meta, "model": model.state_dict()}, Path("models/embedder_grouped.pt"))
     plot_losses(embedding_losses, supervisor_losses, joint_losses, Path("figures/timegan_losses.png"))
 
 
