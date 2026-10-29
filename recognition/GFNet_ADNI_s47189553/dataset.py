@@ -22,7 +22,7 @@ from torchvision import transforms
 # --------------------------------------------------------------------------- #
 CLASSES = ("NC", "AD")                               # index = label
 CLASS_TO_IDX = {c: i for i, c in enumerate(CLASSES)}  # {"NC": 0, "AD": 1}
-IMG_EXTS = {".jpeg", ".jpg", ".png"}
+IMG_EXTS = {".jpeg"}
  
 DEFAULT_ROOT = "/Users/ryanhuang/Documents/UQ/Sem 2 2026/COMP3710/ADNI/AD_NC"
 # DEFAULT_ROOT = "/home/groups/comp3710/ADNI/AD_NC"
@@ -55,7 +55,6 @@ AUG_CONTRAST_JITTER = 0.1
 DEFAULT_BATCH_SIZE = 64
 CLI_DEFAULT_BATCH_SIZE = 32
 STATS_COMPUTE_BATCH_SIZE = 128
-DISPLAY_PREVIEW_COUNT = 8
  
 Sample = tuple[str, int]
  
@@ -452,6 +451,6 @@ if __name__ == "__main__":
         tuple(x.shape),
         x.dtype,
         "labels:",
-        y[:DISPLAY_PREVIEW_COUNT].tolist(),
+        y.tolist(),
         f"range=[{x.min():.2f}, {x.max():.2f}]",
     )

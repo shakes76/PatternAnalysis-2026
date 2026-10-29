@@ -20,7 +20,7 @@ import torch
 import torch.nn as nn
 
 from dataset import DEFAULT_N_FOLDS, DEFAULT_ROOT, get_dataloaders, get_fold_dataloaders
-from modules import GFNet
+from modules import GFNet, SimpleCNN
 
 # --------------------------------------------------------------------------- #
 # 0. Configuration
@@ -105,13 +105,13 @@ def patient_accuracy(dataset, probs) -> float:
 # --------------------------------------------------------------------------- #
 def run_training(args, train_loader, val_loader, out_dir, device, ckpt_name="best.pt"):
     """Train a fresh GFNet; keep the best-val checkpoint as out_dir/ckpt_name.
-    Returns (model, ckpt, history)."""
+    Returns (ckpt, history)."""
     set_seed(args.seed)                                     # Same starting weights for every fold
     os.makedirs(out_dir, exist_ok=True)
     best_path = os.path.abspath(os.path.join(out_dir, ckpt_name))
 
     # ---- model ----
-    model = GFNet().to(device)                              # Settings live in modules.py
+    model = (SimpleCNN() if args.model == "simplecnn" else GFNet()).to(device)   # Settings live in modules.py
 
     # ---- optimizer: no weight decay on biases, LayerNorm and pos_embed ----
     decay, no_decay = [], []
@@ -195,9 +195,8 @@ def run_training(args, train_loader, val_loader, out_dir, device, ckpt_name="bes
     print(f"Total training time: {format_time(history['train_time'])} "
           f"({epoch} epochs, avg {format_time(np.mean(history['epoch_time']))}/epoch)")
 
-    ckpt = torch.load(best_path, map_location=device)       # Return the best model, not the last
-    model.load_state_dict(ckpt["model"])
-    return model, ckpt, history
+    ckpt = torch.load(best_path, map_location=device)       # Best epoch's info, not the last
+    return ckpt, history
 
 
 # --------------------------------------------------------------------------- #
@@ -207,6 +206,7 @@ def parse_args():
     ap = argparse.ArgumentParser(description="Train GFNet on ADNI AD vs NC")
     ap.add_argument("--root", default=DEFAULT_ROOT)
     ap.add_argument("--out", default=OUT_DIR)
+    ap.add_argument("--model", choices=["gfnet", "simplecnn"], default="gfnet")   # Architecture to train
     mode = ap.add_mutually_exclusive_group()
     mode.add_argument("--fold", type=int)                   # One CV fold (0-indexed)
     mode.add_argument("--cv", action="store_true")          # All CV folds
@@ -226,6 +226,7 @@ def main():
     os.makedirs(args.out, exist_ok=True)
     device = get_device()
     print(f"Device: {device}")
+    print(f"Model: {args.model}")
     print(f"Crop + flip augmentation: {'on' if args.crop_flip else 'off'}")
 
     loader_kw = dict(root=args.root, batch_size=args.batch_size, num_workers=args.workers,
@@ -242,7 +243,7 @@ def main():
             )
             print(f"Slices — train {len(train_loader.dataset)}, val {len(val_loader.dataset)}")
             fold_dir = os.path.join(args.out, f"fold{k}")
-            _, ckpt, history = run_training(args, train_loader, val_loader, fold_dir, device)
+            ckpt, history = run_training(args, train_loader, val_loader, fold_dir, device)
             res = {"fold": k, "best_epoch": ckpt["epoch"], "val_acc": ckpt["val_acc"],
                    "val_patient_acc": ckpt["val_patient_acc"],
                    "train_time": history["train_time"]}
@@ -281,8 +282,8 @@ def main():
     # ---- single train/val split: train, keep the best epoch on val ----
     train_loader, val_loader, _ = get_dataloaders(**loader_kw)
     print(f"Slices — train {len(train_loader.dataset)}, val {len(val_loader.dataset)}")
-    _, ckpt, history = run_training(args, train_loader, val_loader, args.out, device,
-                                    ckpt_name=NO_CV_CKPT)
+    ckpt, history = run_training(args, train_loader, val_loader, args.out, device,
+                                 ckpt_name=NO_CV_CKPT)
 
     print(f"\nBest epoch {ckpt['epoch']} (val acc {ckpt['val_acc']:.4f}, "
           f"val patient acc {ckpt['val_patient_acc']:.4f})")
