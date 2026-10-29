@@ -1,0 +1,16 @@
+# From-scratch baseline: no ImageNet weights, so it gets more epochs and a higher learning rate.
+pretrained: false         # random initialisation
+image_size: 384
+batch_size: 32
+epochs: 15                # one epoch = as many sampled images as training images
+learning_rate: 0.001      # AdamW peak, one-cycle warm-up then cosine decay
+weight_decay: 0.05
+label_smoothing: 0.1      # stops logits saturating on memorised melanomas
+melanoma_fraction: 0.15   # share of melanomas drawn per epoch (natural share 1.8%)
+contrastive_weight: 0.0
+contrastive_margin: 1.0
+neighbours: 15            # closest references per class averaged in the reference score
+target_specificity: 0.8   # decision threshold: ~80% of benign images cleared (accuracy ~0.8)
+review_recall: 0.95       # review threshold: refer >= 95% of calibration melanomas
+seed: 42
+workers: 12
