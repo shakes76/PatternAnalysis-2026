@@ -2,11 +2,12 @@
 predict.py — use a trained checkpoint to make predictions (metrics, confusion matrix, learning curve).
 
 Usage:
-    # Test-set evaluation (defaults to runs/gfnet/best.pt)
-    python predict.py --root /path/to/dataset
-    python predict.py --ckpt runs/gfnet/best.pt --root /path/to/dataset
+    # Learning curve (defaults to runs/gfnet/best.pt)
+    python predict.py --ckpt runs/gfnet/best.pt
 
-    python predict.py --ckpt "runs/gfnet_cropflip/cv_best.pt" 
+    # Test-set metrics + confusion matrix
+    python predict.py --ckpt runs/gfnet/best.pt --root /path/to/dataset --test
+
 """
 
 import argparse
@@ -26,7 +27,8 @@ from train import evaluate, get_device
 # --------------------------------------------------------------------------- #
 # Constants — edit these instead of passing flags every run
 # --------------------------------------------------------------------------- #
-DATA_ROOT = DEFAULT_ROOT              # dataset root; set a path here to override dataset.py
+# dataset root; set a path here to override dataset.py
+DATA_ROOT = DEFAULT_ROOT
 CKPT_PATH = "runs/gfnet/best.pt"      # checkpoint to evaluate
 
 BATCH_SIZE = 64
@@ -50,11 +52,13 @@ def load_model(ckpt_path: str, device):
     ckpt = torch.load(ckpt_path, map_location=device)
     # Pick the architecture from the saved weights (SimpleCNN has conv "features.*" keys)
     is_cnn = any(k.startswith("features.") for k in ckpt["model"])
-    model = (SimpleCNN() if is_cnn else GFNet()).to(device)   # same settings as training
+    model = (SimpleCNN() if is_cnn else GFNet()).to(
+        device)   # same settings as training
     print(f"Model: {type(model).__name__}")
     model.load_state_dict(ckpt["model"])
     model.eval()
-    print(f"Loaded {ckpt_path} (epoch {ckpt.get('epoch')}, val acc {ckpt.get('val_acc', 0):.4f})")
+    print(
+        f"Loaded {ckpt_path} (epoch {ckpt.get('epoch')}, val acc {ckpt.get('val_acc', 0):.4f})")
     return model, ckpt
 
 
@@ -70,7 +74,7 @@ def load_history(ckpt, ckpt_path: str):
 
 
 # --------------------------------------------------------------------------- #
-# Metrics 
+# Metrics
 # --------------------------------------------------------------------------- #
 def binary_metrics(labels, probs, threshold=THRESHOLD) -> dict:
     """AD = positive class. Returns accuracy, precision, recall, specificity, F1, confusion matrix."""
@@ -82,12 +86,14 @@ def binary_metrics(labels, probs, threshold=THRESHOLD) -> dict:
     precision = tp / (tp + fp) if tp + fp else 0.0
     recall = tp / (tp + fn) if tp + fn else 0.0          # sensitivity
     specificity = tn / (tn + fp) if tn + fp else 0.0
-    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+    f1 = 2 * precision * recall / \
+        (precision + recall) if precision + recall else 0.0
     return {
         "accuracy": (tp + tn) / len(labels),
         "precision": precision, "recall": recall, "specificity": specificity, "f1": f1,
         "auc": roc_auc(labels, probs),
-        "confusion": [[tn, fp], [fn, tp]],                # rows = true NC/AD, cols = predicted NC/AD
+        # rows = true NC/AD, cols = predicted NC/AD
+        "confusion": [[tn, fp], [fn, tp]],
     }
 
 
@@ -131,7 +137,8 @@ def print_confusion(name, m):
     print(f"\n  {name:10s}" + "".join(f"{'pred ' + c:>16s}" for c in CLASSES))
     for c, row in zip(CLASSES, m["confusion"]):
         total = sum(row) or 1
-        print(f"  {'true ' + c:10s}" + "".join(f"{f'{n} ({100 * n / total:.1f}%)':>16s}" for n in row))
+        print(f"  {'true ' + c:10s}" +
+              "".join(f"{f'{n} ({100 * n / total:.1f}%)':>16s}" for n in row))
     print(f"  accuracy: {pct(m['accuracy'])} %")
 
 
@@ -144,7 +151,8 @@ def plot_learning_curve(history, name, out_path):
     for ax, metric, title in zip(axes, ["loss", "acc"], ["Loss", "Accuracy"]):
         for split in ["train", "val"]:
             values = history.get(f"{split}_{metric}")
-            if isinstance(values, list):                   # fold history.json has val_acc as one number
+            # fold history.json has val_acc as one number
+            if isinstance(values, list):
                 ax.plot(range(1, len(values) + 1), values, label=split)
         ax.set_title(title)
         ax.set_xlabel("Epoch")
@@ -184,26 +192,32 @@ def evaluate_test_set(model, args, device):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Evaluate a trained ADNI model on the test set")
+    ap = argparse.ArgumentParser(
+        description="Evaluate a trained ADNI model on the test set")
     ap.add_argument("--ckpt", default=CKPT_PATH)
     ap.add_argument("--root", default=DATA_ROOT, help="dataset root")
     ap.add_argument("--batch-size", type=int, default=BATCH_SIZE)
     ap.add_argument("--workers", type=int, default=NUM_WORKERS)
+    ap.add_argument("--test", action="store_true",
+                    help="run test metrics + confusion matrix instead of the learning curve")
     args = ap.parse_args()
 
     device = get_device()
     print(f"Device: {device}")
     model, ckpt = load_model(args.ckpt, device)
 
+    if args.test:
+        evaluate_test_set(model, args, device)
+        return
+
     history = load_history(ckpt, args.ckpt)
     if history:
         name = type(model).__name__
-        out_path = os.path.join(os.path.dirname(args.ckpt), f"learning_curve_{name}.png")
+        out_path = os.path.join(os.path.dirname(
+            args.ckpt), f"learning_curve_{name}.png")
         plot_learning_curve(history, name, out_path)
     else:
         print("No training history found, skipping learning curve")
-
-    evaluate_test_set(model, args, device)
 
 
 if __name__ == "__main__":
