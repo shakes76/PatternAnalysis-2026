@@ -1,0 +1,1179 @@
+{
+  "research_root": "20261017",
+  "sources": {
+    "results\\experiments\\improved_3d_v4\\comprehensive_audit_20261021\\metrics.json": "74c298b956b684be3c377e495f70d6deb03445a9f5782663b189c33cdc6dbbc2",
+    "results\\experiments\\improved_3d_v5\\comparisons\\test_assessment_20261021\\metrics.json": "454a8080d1ecff3fb0bfe0d675af420cad5a26f69f236458e0036ed56e511986",
+    "code/tools/evaluate_v5_missing.py": "08643aa61d8a83861d1ef9dd30f13fb3e62fada2ff0775c30467365b78984c04",
+    "results\\experiments\\improved_3d_v5\\case_studies\\validation\\best_cls_review\\provenance.json": "9c1ba4987c37c7f0eff8184f7c71d8a23e2686162512bd2e3a1886d69a3fbd1b",
+    "results\\experiments\\improved_3d_v5\\comparisons\\validation_analysis\\remote_record_hashes.json": "10babd5fefb2c2e13e9bc0cda59d74f32c7e1654ad5f4fdcd0e2ad228bce162e",
+    "logs\\training\\baseline_2d\\epoch_001.json": "b42d4e83d7652d0ff868dcb77793e55f410581608c2ce154264f5c73ddc44ea4",
+    "logs\\training\\baseline_2d\\epoch_002.json": "399fea57c92eb6480f63c43378f29b8026a292b179b937a4b8130a03c3c4fb18",
+    "logs\\training\\baseline_2d\\epoch_003.json": "efbc5f6f906cae7192544b60bb14146e0c6f6ae95edbbfeb882566a03f5f7e16",
+    "logs\\training\\baseline_2d\\epoch_004.json": "f852ba67aebfeaf2a042a49d1b084e66be090244c3ce9b251f70fc00cbad9d55",
+    "logs\\training\\baseline_2d\\epoch_005.json": "9b3e1c0685197f9ad4875de09341f604464b9619aaff4a9d17c01503151d2fca",
+    "logs\\training\\baseline_2d\\epoch_006.json": "10cd65ff5f04314aca4f124c4bc90036a6931b2142ac89bf64790c959c1e2be2",
+    "logs\\training\\baseline_2d\\epoch_007.json": "54dba29659a3290d4648df7f87b8785f66e7131b7b7c4e727ba6799c8281622f",
+    "logs\\training\\baseline_2d\\epoch_008.json": "7f2c6d3dc13da3eb26f23c9f6784db590434c5dafaaf6b9c13fbf9e56c56654d",
+    "logs\\training\\baseline_2d\\epoch_009.json": "c86dd77c91198e0e4af937c100a5c6d53d17cfd07c8559b1fb5ed64b46c7fac0",
+    "logs\\training\\baseline_2d\\epoch_010.json": "86a280e1997e5218fb97b0e274d2c1d3dbb2fa1bf5138d40dd9ab736c0835801",
+    "logs\\training\\baseline_2d\\epoch_011.json": "a1a74aefa5d0cfeaedce999eb627654c88dc0f685759540402e380f8cf9060a0",
+    "logs\\training\\baseline_2d\\epoch_012.json": "6e3cc41b158dc3cc6d7a4288f0929615cfd0d8288d7a768549af880ef97bd8ec",
+    "logs\\training\\baseline_2d\\epoch_013.json": "0249195535fe56abe9a25b47b17838db842fc2203a6f9084fa3294664d9e9e79",
+    "logs\\training\\baseline_2d\\epoch_014.json": "3352d64068eaddff9bb7e64bd107926dc64ab979aceec08c62d1242bc8c6288d",
+    "logs\\training\\baseline_2d\\epoch_015.json": "76dda3158cf3867766abe62b4c9ee42f7714bce99127a7a0a2be53fd2c4f7ba4",
+    "logs\\training\\baseline_2d\\epoch_016.json": "ac11ca7c0f4d435cf1211c225464d3575edc3f9d6b1ef5bac6e3c16b6b9c0f79",
+    "logs\\training\\baseline_2d\\epoch_017.json": "86ab21e2ea04a6570f973ed223bb7623ab02140af658ad7e106bd20fbf0ddc59",
+    "logs\\training\\baseline_2d\\epoch_018.json": "de113a1f9695af459b01050b4904d85d357a8f74e1a364d6ccc42bf3df36516f",
+    "logs\\training\\baseline_2d\\epoch_019.json": "d056ae29d4937ff8071c6d5c708710e496c36d009c3c2d8f1fcba04f157c1011",
+    "logs\\training\\baseline_2d\\epoch_020.json": "e40b3972ef7f46aaaabddc33bc3e86c8dfae996764e1524138e94cbad0bbea72",
+    "logs\\training\\baseline_2d\\epoch_021.json": "0d86ec0ecb4e3165cd65562dcdc4b1d75b3e7fecbc1fbfc8c9fbfb6894960f70",
+    "logs\\training\\baseline_2d\\epoch_022.json": "7649979eadf8ddf625f8d9567d1c8227da7a8c44e48d19169c745defb5ea290e",
+    "logs\\training\\baseline_2d\\epoch_023.json": "96d55abb86dae4585267dca1822aaacabd5a9c4c753e8fb0fd45b6ffacc9180e",
+    "logs\\training\\baseline_2d\\epoch_024.json": "2cd68fab0e561248cf1dc5f5e58211f8c51ef06ffed95e841b3578feb457ed44",
+    "logs\\training\\baseline_2d\\epoch_025.json": "9a3b3acd4e24a0669f010d3272378020945a07c2c94fd822bb77f3b8f09e9822",
+    "logs\\training\\baseline_2d\\epoch_026.json": "a1bb0ec3cb2a71fdbae271aa7fd4851c75179d2a42661a6170351f233d61672a",
+    "logs\\training\\baseline_2d\\epoch_027.json": "242b06e0feef53b9da5cfb82f5ca733578dd4426a6c879e16c8bacf911b21eaa",
+    "logs\\training\\baseline_2d\\epoch_028.json": "e10856e4916fb3b8c846db45604b89e9243e8ca00710a52a8335a96ed8ddd033",
+    "logs\\training\\baseline_2d\\epoch_029.json": "8115bae14616ffd107471e3bf49300079d19ca6437c51c50dd3704c27ac3442a",
+    "logs\\training\\baseline_2d\\epoch_030.json": "f8d1b1d4a00c767600e83256df1b89e98ac5352477bceba0dc875013aa08d1cd",
+    "logs\\training\\baseline_2d\\epoch_031.json": "1d159cb55f433e06324d3dd340075328a03d92009ae78c2013ab7bead5eaedd5",
+    "logs\\training\\baseline_2d\\epoch_032.json": "e929a95b5a759bfd6f382018f91129684ab7883d91fe68f17c1f0240f290d893",
+    "logs\\training\\baseline_2d\\epoch_033.json": "abd98ed8ea5393c1d17760dcb81f83e42461e00e336abe4bf6edc91e0c0a7789",
+    "logs\\training\\baseline_2d\\epoch_034.json": "6843ac23046770effec9ae7017893233c87cba2d76982c4678e6818c091ee129",
+    "logs\\training\\baseline_2d\\epoch_035.json": "cade91a33056db2e2157d2fcf31c3b26bd2966930373842fcf136c0b07f3ab35",
+    "logs\\training\\baseline_2d\\epoch_036.json": "b9dbf8375642795cd0b850323361d25eb2d7dd9589577a98ed3e3d27d209bd82",
+    "logs\\training\\baseline_2d\\epoch_037.json": "d2d7964830dbcbe546903e48ee45c75b6bd67b3111e3c6bf32a13f3110a55e90",
+    "logs\\training\\baseline_2d\\epoch_038.json": "1fc78a9327867198acc4aa1a9774f09028fe8bb0dcc8e97b0aa3611ad672189a",
+    "logs\\training\\baseline_2d\\epoch_039.json": "df73179e1c59c3da2ef8e8b5fffb69593d6b38398225d51414f9bb379d9f84ec",
+    "logs\\training\\baseline_2d\\epoch_040.json": "be7af2f2912884b0b88a3ffa731bb3ff13d5dc76cf67a4f1feb02e3ea390c35a",
+    "logs\\training\\baseline_2d\\epoch_041.json": "093a9442d20224060acea8b0e80a315466bac1544d5f88684917d8823e88d638",
+    "logs\\training\\baseline_2d\\epoch_042.json": "a37a9f70d8e74ab5721fba3a2086be01f55b0885acc50f5b83039881c4640d82",
+    "logs\\training\\baseline_2d\\epoch_043.json": "f3b8234d011e70e1d45bc299da00169fc9cb3abec6e94cd348c23c4fb8cf9222",
+    "logs\\training\\baseline_2d\\epoch_044.json": "c9f55d67086884b8021d62f0d0d09fb8926a6e16dc8716ece42aad71771aa8f6",
+    "logs\\training\\baseline_2d\\epoch_045.json": "e5786442a72f0ddfef9a68247aa5d65ac9f91fa33d8ecf57ca15a8eb41f3bf12",
+    "logs\\training\\baseline_2d\\epoch_046.json": "7d9cf063165dc38ca5103df46683ac32aef15b8188eea18c99137876b289696e",
+    "logs\\training\\baseline_2d\\epoch_047.json": "f149606e217de9d5c4101fbb2d075135eea119ba5133def5b97b5a609217f912",
+    "logs\\training\\baseline_2d\\epoch_048.json": "51ffa962ce2d1474cb4f0b8a36ee4fd8f5efbaf43e164ebbdbfb914f21c36d8c",
+    "logs\\training\\baseline_2d\\epoch_049.json": "c58accb8f9f22eca77db7604fa8d733a3d8f1f2b73a117fe35c163397a0b40c0",
+    "logs\\training\\baseline_2d\\epoch_050.json": "364c40ebb8c5e460ca99787e242653bc8a39e4868af439cf266be004ce2d6587",
+    "logs\\training\\baseline_3d\\epoch_001.json": "a7e410b448f1a883eb1dbd3924db3f0ae0bc1a80d0bdbf1dea1e7a969a9d7421",
+    "logs\\training\\baseline_3d\\epoch_002.json": "fa81ee372dbd5b0ab92376be10d559b1ff9e525733e4dc4f9676cc92a7745858",
+    "logs\\training\\baseline_3d\\epoch_003.json": "07f7ff9b50a902cc33ff78928b731bb1aec83d55ed08bebb9914560df5acca97",
+    "logs\\training\\baseline_3d\\epoch_004.json": "e5a5938b4bac8b5757e066a3b1e5b75eb9875be16979a4e39b223af5c8e8eef7",
+    "logs\\training\\baseline_3d\\epoch_005.json": "9536dd5848f1bcacd916e7ee945ace771ffda6a6191a19d1e522b73fe4a42dc0",
+    "logs\\training\\baseline_3d\\epoch_006.json": "0176c5873899ba1b5b10e8259edef0e88c70c59ea22411b07423e7bf7f7b5f96",
+    "logs\\training\\baseline_3d\\epoch_007.json": "997c68801d7fc1f36748caad0e37c93d1e25c9921657da22e5b91aeed1fba0c7",
+    "logs\\training\\baseline_3d\\epoch_008.json": "aa5f02bed72a5111d4a4736059992c71e1005b7e5c524c661ff708aba8933d0a",
+    "logs\\training\\baseline_3d\\epoch_009.json": "83e93887511c3bee15a3fab96b284205bed8cf06934aff399e96cdc859b67013",
+    "logs\\training\\baseline_3d\\epoch_010.json": "10b361c4f9c02e5ebfc0ccb000bdb84d3ce9cb28794c78078a5e838fd4a85db9",
+    "logs\\training\\baseline_3d\\epoch_011.json": "db3d25e7b59c22f7e858b08c6485a34ddf7ced625ced1f7fcb3e5ec50537f603",
+    "logs\\training\\baseline_3d\\epoch_012.json": "d8b46145f80a1d3baaa96fcb9d58ed7fa89f6c2811959f573f224873c6880a02",
+    "logs\\training\\baseline_3d\\epoch_013.json": "ca159fa5224048fb4d4ee40f106ce7994dfae7d8d4236addfb7a68cfe9473ea4",
+    "logs\\training\\baseline_3d\\epoch_014.json": "9e91e61c936080539279ad2892e62fcbf0f25facbb0d92afa1f53416d85f0337",
+    "logs\\training\\baseline_3d\\epoch_015.json": "e1a44e0b64a323e7350476b8815dffe65409d958dbb07d43fe263dae0558f0e3",
+    "logs\\training\\baseline_3d\\epoch_016.json": "4562731897070db05a7036ceac67cf01071a3dedb4928dd90dc5782a0c0499e0",
+    "logs\\training\\baseline_3d\\epoch_017.json": "7ad55a1dec8f80b36c7abea52b1a462420d1395020f0c4ed24168d6d4199bf76",
+    "logs\\training\\baseline_3d\\epoch_018.json": "d7adcaa459787ae512d610c36dba5b51692a5f68eaf13e671608e0730327a6d9",
+    "logs\\training\\baseline_3d\\epoch_019.json": "f0aacd3dfeef2e0a9ced742ed73cf611f2761fa679f18b6e209a73dbdad40cc2",
+    "logs\\training\\baseline_3d\\epoch_020.json": "52913dc033ad630bdc0ca56ff31090ea8d35f8416e08c8b01988dc80559c9fc9",
+    "logs\\training\\baseline_3d\\epoch_021.json": "4a88a103a9f21f6106c9bac32387c4d70f650714d5cd364809805f8156beccae",
+    "logs\\training\\baseline_3d\\epoch_022.json": "bff9b5cf8211e48cb39cf66a2cb963264d62d699740502fd02dfb9f312f33f16",
+    "logs\\training\\baseline_3d\\epoch_023.json": "e5199b6d588754ef733efdb59de462c2dda163207c0553f2792dc1637069138f",
+    "logs\\training\\baseline_3d\\epoch_024.json": "96c622e4e222cac8d08a0cbbbd64417711ae49895a6783fbba7d8551fdfca581",
+    "logs\\training\\baseline_3d\\epoch_025.json": "9da8541b4fa01651ffd33198051bbb217ecf00c884aee1d10a979071518c9744",
+    "logs\\training\\baseline_3d\\epoch_026.json": "5a4bfbf55f452dfc7a09db4445b44a526c51bec2c50437106fe9069a2a62cc51",
+    "logs\\training\\baseline_3d\\epoch_027.json": "6215e13462f2d3dc6366fdb9e1f335fc90bfb06922e9f9c933121bdf0ec87d89",
+    "logs\\training\\baseline_3d\\epoch_028.json": "e7d7f801fc801d086a07da8f64b7d9d0b7043bf98cead003bdc875aed9d6b53e",
+    "logs\\training\\baseline_3d\\epoch_029.json": "2cb76810722db1e8957daed0f625b308eb729e3bcece3ddf3c0bf3ec70050042",
+    "logs\\training\\baseline_3d\\epoch_030.json": "a16e1fcc716ef9eed38c09fb7cee5d9e05e4aba3bfc95be4e0c44c1883738544",
+    "logs\\training\\baseline_3d\\epoch_031.json": "c5ec83a09348002c7a312b62722c08e1b3b2ea47424ac43aa66698aebf7991b8",
+    "logs\\training\\baseline_3d\\epoch_032.json": "39b07c6a972a06004f5ae68ddee2fa5e75759f76bbb7852bbaaa881cac547aac",
+    "logs\\training\\baseline_3d\\epoch_033.json": "2dbca0d9dbc1be0147a49907dde4ca116bddb3fa2ec8cd72b183b1d24f104512",
+    "logs\\training\\baseline_3d\\epoch_034.json": "f35b7d3578497fa96f3e13d3270fc3b479bec3bfca0846c7113c1d7aa5e56691",
+    "logs\\training\\baseline_3d\\epoch_035.json": "bdbdedadecc8ebea6b8fb0711c8d60471e689b67045f82794c9904652acbd1e9",
+    "logs\\training\\baseline_3d\\epoch_036.json": "9e437e8882d974eef92276662b846df9fbc9caa28d9bff7236dabd456fcc77e8",
+    "logs\\training\\baseline_3d\\epoch_037.json": "47a7605fc076d6456382968960ba44287e2c6c0dd2272f6b88a10c1fec461151",
+    "logs\\training\\baseline_3d\\epoch_038.json": "28614eb6d4ce8c6f54e374d45c6ea1d219126c33db984252bda7541101badfdd",
+    "logs\\training\\baseline_3d\\epoch_039.json": "1c6a70867daacc2f1d72a47e32488068d5ed4a1128d21faab7c84f93510ca324",
+    "logs\\training\\baseline_3d\\epoch_040.json": "38b0a3f2c44a89d1c388324c2e58943ce0f81266f0c926fb46a666ccf4962f00",
+    "logs\\training\\baseline_3d\\epoch_041.json": "4b511f3d44bae8a3115035274eb466be9864354b3d1d66374c8fc619399771e0",
+    "logs\\training\\baseline_3d\\epoch_042.json": "c5c11f2e517b4255a3e2bdbca8b0948758592095b055d59398438851fea968c8",
+    "logs\\training\\baseline_3d\\epoch_043.json": "12fcaa8cf9043eb3ade49e3ab9189ce869e747928b51912f76c351662dd19e37",
+    "logs\\training\\baseline_3d\\epoch_044.json": "4ce416b1a7ffb9dec8906fe36d18be5a00a40c041b05a1f0706692471f179a7c",
+    "logs\\training\\baseline_3d\\epoch_045.json": "eae1e0dc7e4b9860be8a3e0ca252c736f42a8e722328713d05745df253434293",
+    "logs\\training\\baseline_3d\\epoch_046.json": "0c4dc51992e4d7055f5dd506684e92d46c700735bf68f9508ad2418c8324ffd1",
+    "logs\\training\\baseline_3d\\epoch_047.json": "54face1507cc20df82333d3a95976cb6865814723042685cb8b9c56a157ee702",
+    "logs\\training\\baseline_3d\\epoch_048.json": "fa9f75b81a5b8593d090e0e6fd532853a94676d4f35d0ca7f76f84188ec025bb",
+    "logs\\training\\baseline_3d\\epoch_049.json": "3930e97cea790086db1f9628d26acfd43deb740e37fda93c7412e7a8557df2d0",
+    "logs\\training\\baseline_3d\\epoch_050.json": "2d2714b66e2b0d72026f081ce06fbc7416b51f547dc24602b88103a8e4d70497",
+    "logs\\training\\improved_3d\\epoch_001.json": "cb5df8d66aebaba4460472360348f44e7c80815a4d9f2e97184deb7fe366ed90",
+    "logs\\training\\improved_3d\\epoch_002.json": "4f9aaefed21efb96c95b92aee979ad32451914ce144aae822e461489e6221e81",
+    "logs\\training\\improved_3d\\epoch_003.json": "3ce430fb389e204683946392293b6ec994c381f431a97b3d594c3bc8512214af",
+    "logs\\training\\improved_3d\\epoch_004.json": "9cf402b61d75aba508724dcc2f35e47dc2eabf9d3052115af5416321f8286c69",
+    "logs\\training\\improved_3d\\epoch_005.json": "3e1d4f98415f1985999d5c3d235ebd601c65e6a4a5431bce69081b5e1b79e5a7",
+    "logs\\training\\improved_3d\\epoch_006.json": "3d337cb36119209153498e64cea7aac243aecb85db71fe37b506aed19dbfceca",
+    "logs\\training\\improved_3d\\epoch_007.json": "0b80a7f695f7403d8118262896e6209b3c6debf343328dd5f7522f0613cbf5f1",
+    "logs\\training\\improved_3d\\epoch_008.json": "bd64286d34042f702e2a2df0b1778b274f7eec5ccb706a21016ff247cf496466",
+    "logs\\training\\improved_3d\\epoch_009.json": "a137995fa4b7ce4ec318b3813221c5f0f1a78cfa61b3b045ed6289cadea3b0af",
+    "logs\\training\\improved_3d\\epoch_010.json": "ca7ecaa16cb82cb2261f9159957dc5ef5a9901b49950c444582ded1686ed4f96",
+    "logs\\training\\improved_3d\\epoch_011.json": "b9a39401d390781604bb86c30e741ea2d48645a0b97247af0f25bea859e09237",
+    "logs\\training\\improved_3d\\epoch_012.json": "b9cc1754202db8cfc35bb4a77fcccc6ae5bd92daadc2d4492db922e304dd147f",
+    "logs\\training\\improved_3d\\epoch_013.json": "5ef772c22f07d2f1aee47e7d526e0727427df29fb2ccbb1a7f13283e008d17f7",
+    "logs\\training\\improved_3d\\epoch_014.json": "23d84b7632d49d8b0b6c48df0343b8c3cb0c2a91c95c67dd234b74abbdcdb6b1",
+    "logs\\training\\improved_3d\\epoch_015.json": "cb390d6b458e07dea123f390afa984810e5ccdfdd520ccf65c270cc4e0c016fd",
+    "logs\\training\\improved_3d\\epoch_016.json": "9205ff865e8e849594d529f82bb41044a478b2816335c610bb62ec6570627717",
+    "logs\\training\\improved_3d\\epoch_017.json": "059c849b7b8bec6c7182082c7e4a74b286cfd5d02568cde9822ac7b1ae59a879",
+    "logs\\training\\improved_3d\\epoch_018.json": "9ed9c452c051a16b1793931ddf9493063c4b3e3131d0a9baa86c6b2a9c655b89",
+    "logs\\training\\improved_3d\\epoch_019.json": "5117b2087cb5bd78aec47451603535f1cb431f4f42bf9dfe8e43a6ff37bc45b1",
+    "logs\\training\\improved_3d\\epoch_020.json": "6b0e3b0893f4c8d4db1bd6682cdcc50e1c9fe683a3ab837a414ff4ccc6de5f58",
+    "logs\\training\\improved_3d\\epoch_021.json": "b3aec22281f1cf74f9ded1c7825c94fc5bb4ee3820281fcf3abbe88cc409c70d",
+    "logs\\training\\improved_3d\\epoch_022.json": "bd3e2ae0d82f1e59b08ebb28e5f7d916ffa7c01dd8d5074c2876374ecdd769d1",
+    "logs\\training\\improved_3d\\epoch_023.json": "0f10e46af1aaac4f9510ca53f7975a1215a94198afb8ede2cd2b42bbf304d355",
+    "logs\\training\\improved_3d\\epoch_024.json": "2e642e849eef4672bfde18420e5a8a408a7ce6f9296fd6555dbebf5a224b02e9",
+    "logs\\training\\improved_3d\\epoch_025.json": "2621c0e7fd66bcc819c6d925143ac3dbbed61ae9ac0618310fe5f3959e66bdb2",
+    "logs\\training\\improved_3d\\epoch_026.json": "f38df95efaec3b269ab16a0fbea8cadbbf1cab3ee0269a87aec3a83703106d70",
+    "logs\\training\\improved_3d\\epoch_027.json": "6de245407db45d3f91f496aa120608e476d666c394ffa9abcfe25fcdbf2b174a",
+    "logs\\training\\improved_3d\\epoch_028.json": "f92412dc29b2d73d3c6fafe5c4037a13a20defb719ed6c68f455710ec02b166d",
+    "logs\\training\\improved_3d\\epoch_029.json": "fc2a87e3ab127f66f001b186168a32fdedebbeb89cc4352314128ee693bf00cd",
+    "logs\\training\\improved_3d\\epoch_030.json": "00720a4a82ced7ac1380b7448fc3b8977bae799de0f2f954c417555cdaf3403a",
+    "logs\\training\\improved_3d\\epoch_031.json": "40c94fe4e9d692d8cf1ec740761d092700a8e8cfaaebef2f84ff3a1b56644baf",
+    "logs\\training\\improved_3d\\epoch_032.json": "021feca950a411b2ec9d0a9c05ab4f3e3a3c41daa5e678313e7d3c33b1c26775",
+    "logs\\training\\improved_3d\\epoch_033.json": "7dd34816d0397c9c1ee21ed193f953b534d1a9c1e74dfbdab422715593f40a48",
+    "logs\\training\\improved_3d\\epoch_034.json": "eb1b6397f81b44fed29a5bfb1b5d6d64c47cbc791699f06b11ee3a7d59155678",
+    "logs\\training\\improved_3d\\epoch_035.json": "3281c717fa7b307e6cf34bf88fa22e9b3171b62b74be39aa07c123fc101aefc1",
+    "logs\\training\\improved_3d\\epoch_036.json": "f3a288af18a4657727b87a8ed59b07015fe9e7af0b3ab56ed587111bae8f5d12",
+    "logs\\training\\improved_3d\\epoch_037.json": "772bffc5ae152ff81435e5b0166df0cb9dc6bb390234fc2b7b99cb5d4f391824",
+    "logs\\training\\improved_3d\\epoch_038.json": "13753e8e3ba72c24dd73b52a5cd27de8c24042c5cb035e1f7243dff0f61abfc7",
+    "logs\\training\\improved_3d\\epoch_039.json": "9314881169739d3bc7d508f325a2d61ce706d6756edf9280bd01c3bc0dc9ce23",
+    "logs\\training\\improved_3d\\epoch_040.json": "6a564923a89d13ceafc09b154bafb10c33447db812dc116b076a21673ed8746a",
+    "logs\\training\\improved_3d\\epoch_041.json": "951b9357056c4713b4c71e9a489bdf2815ed8ca3f54b9a878ee6eb39096e5c22",
+    "logs\\training\\improved_3d\\epoch_042.json": "00a64f0cc83d4d33ea64699717f89d5fad0c8c9fcf47c77b26a70f8af8921fcb",
+    "logs\\training\\improved_3d\\epoch_043.json": "53a513f269089ad02bb12385ddfcc60133e70aa17da55a9395238285380861b9",
+    "logs\\training\\improved_3d\\epoch_044.json": "824802a949fed7fdaf82099370bed9374421620e901553ff52e640896de85217",
+    "logs\\training\\improved_3d\\epoch_045.json": "fbf5fd718d680c3e32ba1982bdea36e8abbe11159565ab92bf568d689cf99db6",
+    "logs\\training\\improved_3d\\epoch_046.json": "69cb18be1f5f9019990bb24472cacaa82acf13bbac6fc440c0402d3513fb3eba",
+    "logs\\training\\improved_3d\\epoch_047.json": "22d83e81341d72fc603bd51f829ebb5dad5be5462f0369555b57cc2ee1795980",
+    "logs\\training\\improved_3d\\epoch_048.json": "555d74b05fefdb5b2749cc18818ea9ecb0f9933209464d433f0fa54afdd149c7",
+    "logs\\training\\improved_3d\\epoch_049.json": "ab4467da555d8b75a0e63c1b006df732306a1c1ea789c6139a86c4294d3d4328",
+    "logs\\training\\improved_3d\\epoch_050.json": "f6fb40e72a56abff0b1c8c63527a24ad4b4a48b37b309369ffdb53e2625d025d",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_001.json": "aa8f5e8a5459970a60d03b6d9e2dd4b1df30274345aed8c068ab41badb98c284",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_002.json": "78d98b5a3fe3be219f511d0252d09c5c489f885694c407ec75093cb58e7816df",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_003.json": "0fd06d8aa496bea8795ff0d2a9fcf8aa02906f6e4d77fb9415537a69d6a26242",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_004.json": "547501c4c97562dd103dd5070a501110e8e83726dd0f7a0202c080b343fa9003",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_005.json": "023379fdca3654f1c312a87af51525a3e4c2a2dac90bd1ba9c6caef90a62fc20",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_006.json": "5af5c75dfea141f6cc5bd69fca3d5dc0a8dfa0b68083ca0cb2a64b0e63663559",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_007.json": "368a8119866115cfb17eb00c7ac0d766ffef3c39a59518d1fcd9dafb56edb3c8",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_008.json": "9b83bf22ece6e8f3eee21095107a802c912956927f6037801f007ffa21c74a66",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_009.json": "9aefc7dea66a43c47a7c1dfe555972dfcd372a6ac0b108086e6a673409ac3deb",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_010.json": "9391b9a5f9aa89804f12c869bceb56b0102cd4cf3a4eec85cdabd0f115faefe7",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_011.json": "956028b1f80f3eae71995ebc5a3686034a903f8cb1bec97f566dc51008ccb80d",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_012.json": "366d0de227f47a7696827a3a927faf7d38ccce6016de387cb718465550f208d0",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_013.json": "a907b957197d9bf09fb02e26580cd657ed7fe0c75759f83fec2edf2d449cef0a",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_014.json": "d06ff33384843d4d9d664781bdbfb35c579c9b954e8a4f3ee6cac0ca602ff5c7",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_015.json": "4489b9a32b074c604838251d28738edecc2716695baf8ce9ad3d68aa2f319024",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_016.json": "47c30aee4409fd48bcc36325742cec7158f62909f5766026f3b29733e367a9ca",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_017.json": "06ec6d4ce921488979f45bd3a1d36110decba1e59a54b21cf002ed72ab9d8c74",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_018.json": "986275edc34cd7ceebeee457a90ffa3942c1434879ab8134398e5313e9dd0691",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_019.json": "eda2439deffd9e9a7d1ab311489ab501a447ac5b11927bccbc4052efd4405651",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_020.json": "420da0ae1c06cd086be3d236b5de36f7a10febc349b0c31fdc1f989779d8ce42",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_021.json": "99f19f112d48e1418adc436cbf7e93d114fddaa24fc860cd011c5b6aa8fa5ac0",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_022.json": "8c4f19fc165d0dbe0f5bfc91f6bd7c41643da700cf4dfdfaae42f740d8d45277",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_023.json": "8284de401e660c3cc647f4d96d030348e44b947031ce4b794b87fd7d3569efeb",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_024.json": "9890013eec17d32d01e18cdd8883eaf6791a8932cf04155dab0fa698a939b590",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_025.json": "7733c7d7af887e21a4ffaa08b71a9cdb4d4d8d8915b4dd765e0c3a23805b6651",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_026.json": "5e142edd8732f4e3ba783469e29879089c12a99e2cd8ad0e38a2062401b4fde2",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_027.json": "53891f236f2dbc78114154a44832f76292988fee1c4862cc18eadb8660cce7c1",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_028.json": "d1a6cb9087abdb843d38d7ed03f5adeed9ae4b4f14442f012ae2ba623c36b5f9",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_029.json": "a05f747f1d10c62eecaf83c7dcb3c3c79b1216f65056198f4ef2387323f1192d",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_030.json": "d2d0b9b6642dd72667b5e0ca33ba99882b3635cb8f366a160bd28a5a6e817963",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_031.json": "12447b7752124432eac6da6e3e3ffd825121aad8972bd402bfe32e056dcfdc84",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_032.json": "0d33a4a031427e074c8274ec0d0d1fc0df5d08e09d87190ff124474c8e29225e",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_033.json": "0cc3475e243be692457e8e3ece013f94d9557e8d592d597fab94d99d8abab688",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_034.json": "0e156c31bbee7cd4ec6388cb440f256daedba3b5cc35d719c1a84f13026458e4",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_035.json": "24614ad734cb236d09c44333a7bd0a2e8814ed5dc40aef7a824239f76a5add64",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_036.json": "c125d11f2ed22e1ed29487d7614c5f90b8159bde0a99dc03b89b33b8ef7da78d",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_037.json": "3bc0ff7062ac32f6ba0cb81ae1c79ec138a61072d48b994ed799eb2694c2db95",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_038.json": "65fcf8105a3c9e3a00cc33f4607674a877db2e239ea3d8daa3e49a764c1c3421",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_039.json": "06e855c335c310eb8df66b4eea8f66d3fa031d0494071a611ffb72654ae7466d",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_040.json": "618a72b660e8ba519babd2af6cbda9acd58891d489b3cda7be72614368bed9cb",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_041.json": "1f708e4131cc2e3b2bbcb43618fadd5a0564f30047a653f32d6c8cbe1ad55a2d",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_042.json": "733bce98b10f4bda72a2761debffcd5700c3ac071b8d5d91318cbae23561b299",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_043.json": "c079b4269a51af63de3d72dcd0cae4c7080af028bd8c9fc85dbf1e425f9b6f15",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_044.json": "a11edefbb8e2e09b9922d501f018c069cf53cf6a1e5cf13c4cdee2ec1ee99e22",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_045.json": "f913a2cf443c14606e7f40ba12d692aca0a8e1eccd1bca00e0817556e8951bc6",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_046.json": "08c9931f992f576ca0848df653dcb03367c6e4bf39183f1030d1dd1880f204fc",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_047.json": "e4d30d6d48b998afd06357bb524b23132773da55e783051b4b331fd2f3dfeeeb",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_048.json": "45438553a68a9a61bc08bcbbbfdcf96e20710d53034f7f6ecc5e86f0b34fc814",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_049.json": "b4e4966f6b8a41e9cc3b4cd1e8264b935378f91df1ec000aca7ab229843cc4d6",
+    "results\\experiments\\improved_3d_v2\\training_records\\epoch_050.json": "d11d0fd780b22af4862907d17c8d42c6b8a091e0fbe5cded0335710063d50973",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_001.json": "10f750782bcb7402577d1e70cee1c96d9a3cb029cfe7742a96f82d841b41cf6f",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_002.json": "a0c4bd99ee9f68f1998e78cddc74367f61a68ea90cf2571fc12bdfa300855578",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_003.json": "bd9516321216126b96fe5c10ca27b9b09b9ca07023b2bc6189612f2844ceba15",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_004.json": "efdb826d734c404e0c8ca5d29d7a0e408cedf27786b973e277bc261ce371b3c0",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_005.json": "897644d26240ff76ca82fc1435e4aceba2db47649cc158469fea139fc77427d8",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_006.json": "060573a6ec16666d4cb5454ec9f58c7bd28e84fce8575df973e5182a4c37f5c3",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_007.json": "d9eb7d137dd5fb413977e6b639c111d0fa20495b980e22c436e521779502fdad",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_008.json": "5f79f5e2f7d75f50ba4e4c007b9c8ce1b7fd6de04d6770ca19f9d27db2e828f2",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_009.json": "2709ffbe89a0ca4a0cdd0eba468147506dfaeac58d5dc6bc2c016fd2b16a1960",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_010.json": "a66f611002affd4d19b141f025e99d2b1f8f31d603ac6f544757c5def98999fd",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_011.json": "c95351763e415362f78ea57f874d18f0ea6ddb662ce7b5163ae164f491d4ed25",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_012.json": "95f5a292aca0b23c0db78d1218fab55ddea990722a69d64b182cce36e8b731bf",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_013.json": "4bc982c3320878c3ceb10ed73d4ff3b9f9671fc0be490dbbb445c80f8891b779",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_014.json": "e60353ff0ce01bb0a3bdb309b41dd5f7ca2cdf3edfa61a2430ff6afcb967f492",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_015.json": "6e8474136c8d50631d8e016d9c5eebd661eb063848825168b43ed446a3a4bcbb",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_016.json": "b7a37a3c7188e0c1ec07a13f8fdd252bf7fac6f1ae5235b3d021f64e42a3a49c",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_017.json": "fbb2abe33a68c6c69c0696ed035396d8344868ec7b161d1539ef9dd2e9c462bd",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_018.json": "2a4b759d0611ecdc31ef3b6c0db7b1543d44a0acec7f91c9763d0b20abcdf53b",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_019.json": "7d7e8909885a00694f849b0deaf963ef5f275b48f2f080d77e82c6063574f568",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_020.json": "834be5940d58da0f92c488d8e81304544cc781efe3b9faa9f16676938f0475a4",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_021.json": "e5fe521683fcbb06e8cc735d4dddcf577d7c3b212344468ce926e9e1d90ebb26",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_022.json": "f23c7fdd0724060971039d8f250b8fa219bf2b353624479e1e797646da05f39d",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_023.json": "6dcf3aca3f967de6e853a218a8e84e4783212d56970791c0caae232de35e8543",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_024.json": "927c450b3ee730d350cd4c5a640c31e551bcd558a2e4b0192acab1dddf0578e9",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_025.json": "3a86b377d9696f3bfd5d3d25d2b003116396b34bd97bc61129a87d33f005e473",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_026.json": "e26246da8860ca5742a212f314422e499eb9cc432f4ec9b9d5a6a4252b41abb2",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_027.json": "d7a999432c6f68569fb9b9f2750726d31d8f017f91a64256be2b51bd99ca446a",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_028.json": "6597622e3c25da5c1a8a30bac1ec94d5a8bf8d52cefae3e73273a59532b2ff9e",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_029.json": "a2e2906a5cd48d7e68b6d79c39fbfd404bef907f0170516a368e96a8847fc7e0",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_030.json": "75eaa8f716e450e6e1bacf799ae49ea55470d9ed3b940e08ba97059e53cebf49",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_031.json": "5961c3e3242219602a330d63679769d11c2dffae88f750f7e560553e87777f19",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_032.json": "40e18b18f5e62815f25899716b0384d2aa53aebefa67e41f40ff5199c9438311",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_033.json": "d76d670075bb424d3737f2b7203cf98d5cd4024498e7ee286c01896783314957",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_034.json": "590e65baaa4c93b4b92503f067abcfb6ffbedadfb3ddf9d0c199f39e9d66fba1",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_035.json": "114ff7badee6b215ef1d4e94b5e6732a8f8ef9667adb62dbc90bb788a451a87a",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_036.json": "f88c80377ffd844e7e5f6077fa79815fb5a40bf3fc7320f9500cee2d1af72403",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_037.json": "7477beafdafe43c3dae27c6e35a5aa93927e48c70d9767e5ecb6214acf444a75",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_038.json": "e5479ee76fc54cc6b0171607f256a3405fe11f1e3b3166b4a177a05a3a9dfd4d",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_039.json": "fc276bff148e53e4fbf89509b8edd362c47ea61b90e7c59a990778e2270ba2c8",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_040.json": "6ea5169632e23ae4280c7813380514e9683efa3a0c8c2b4baf9364935a06807d",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_041.json": "db41fb06fdd72a199d7bb2544002832028bbae9faf21c705d0790be50328aa60",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_042.json": "a65962c969b4a49e27ca4fcbcac4754e96f58de4342c8a8ed3f4478c061aa917",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_043.json": "bd2051d5cd6074c7f52584a71d6007e5264e6f9c62c45ec7df5edd4ee6400bdb",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_044.json": "9c71cad61bfb67d9b1828ff2cf3d189559382951fe301fbeceda907b4b2c7c36",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_045.json": "d588486cf7656992509d84c4acf5d25fa09cce4cdb66a618b7cd554b356fd5a7",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_046.json": "3e694bf905dddae6ec9a08d8b2b8ab349cd14248eab1b4bdbf01e32bf9da0986",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_047.json": "61af7b5ce3921a6a64aae7c5d67c59a84f2005b63e5a340d7c548e94afcc24c4",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_048.json": "63ab9caf75ca85fd01e3c80abee5707301d1eb97f3220d230c2e0a942b9cf83e",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_049.json": "b1216dd522f74f1b8aedfcd317463875b98261033e57b095aadd0ff4073c03c9",
+    "results\\experiments\\improved_3d_v3\\training_records\\epoch_050.json": "5901abd105dfc2e82670966bdd24661f57fbb886ce4cb4cb3342c3a34f7a04d0",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_001.json": "c03f3b6f5fd462b9f2b580e6f70580026449a94fdd95378b45db9bbd6f85d75b",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_002.json": "53a7cc3904c9e55b1ae44a8f81804bed8aa7e7bcf8e146898216746538558320",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_003.json": "106bf7f04d7b48dec97b0b5974660532db2eccc0279fd3f072dc33efeb6d2335",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_004.json": "d8f344d730937284da361a55ffa840d9d5661455103aa27a46e6f6b901b06bd1",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_005.json": "9154f5aa4133e19603e52628c105daa373e68176326e4d6b29914ba3c16477f9",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_006.json": "5946ade6f4a8ae1934fcf77950c6233e0d88a7d36b2d1fc9956e0f54e121c090",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_007.json": "0202750118035dcff37694415e81abf1f0325e5c3bf4179a25285d59e4ffb92c",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_008.json": "91f488cbb524248660d79f9fe6176c7e7efb8fc4802d72f4162abd72d77e346b",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_009.json": "8db5ca1030c7e49b0fd323cafc7efc180c224e9322936299148f775cbad76e19",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_010.json": "ae84620530e7ced0e3aa2e02b527916e8a6d2fc92d84ba909a5d85cbd500dfb4",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_011.json": "af8e1142124c7672409f3f452c322b0d5876d3fdbafff378af5e1f1ef7508e28",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_012.json": "8136f6d68b472bf1c6665b54b50c1c53636548eafae4d0cdf70d2b77a2a802e6",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_013.json": "29117d05d6a13935676b5390061111d1e5d04be65cd593ac64193b4878bd62bc",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_014.json": "1f05a2621e79dba611e537ac261d9c07c94c5d883c8917610c66a55d8d9e9a37",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_015.json": "47cf8e295c51824761e4edac0bf3c5d56ccdecd3f53aeac329178342753c2b4c",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_016.json": "83214b06d1dcbfc7b68577972dde94a75ea6ecbd7c2d75ce1e0f00922ba0b5e5",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_017.json": "31b41a310d9e9af16211ec6f5443649d129a52a7361a5fcb48dd683a5dd3c2b4",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_018.json": "419dc7c99f38711d3837fd3ed17712670d3afec6bdab7a02b30c6357f71ddc08",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_019.json": "a50ce81d870f8e52135358c5e2f586d7913883b9632e8b5b4196f2705b4563d4",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_020.json": "f852bf2ed8b1c7a9513cd77211be1ee9fd8a7d935402983a0805be45080a4d09",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_021.json": "bb487ed4c9add956b060a05c7c98ede925a2abe313609bb3aa1ccf1903d8c4cc",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_022.json": "dedbe309c532d7cc723f00da2aaf7130f68401452d3e4a5acc51b381141329e0",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_023.json": "b399b25a8085907441c02bf0cf8f63efa194c3c69179144446f3ea41eed4c287",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_024.json": "742eb40f2b66111317057ae5afba008fbbbbece9bba23335a972eca5616a7a91",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_025.json": "de1e91a64df2d0304a400c581c732a929fee6d81130bb043c2e78f473755996b",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_026.json": "b6e88a7edaa8af56dc9c998af1609536c17ed0002683c06e6cf43a8e43d5dd36",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_027.json": "3ccc3fc9e95921315e3e3ee225fd0a2a1e13dbb9f4566279f1e0f2301c1f2a3a",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_028.json": "86b0f96a0d2527d976d54e255521cb520d8e745fe5f6f0a878e7c490fa8fedfa",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_029.json": "01ed69efa9ed94fa9c3f51ecfe6770edafb41b61ac3e1d6d9d9df82cfe8c29a9",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_030.json": "4acf1371cfa27f362bb053cc497c5a09d3ebd9fb835a310e58e3ff79b2390d3f",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_031.json": "ce0bb9e5c041f213edfd9892aaae3ac346962cf9a8c844e1e8c68e7cb5683b20",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_032.json": "a654d044d64feb6d1f2329828546f84bac7d235d96c78809ebb76459f8bd0e2f",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_033.json": "1ffcbfd7efcec0a875783037c0c557a7fc6db9e3c98a22f16e4b172be8859bb9",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_034.json": "59e963f6a32fec45076d116da048ce9dea6da84f14795f1cbe9195feb6416c63",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_035.json": "448553bf3e403d6acd9b279d37141d65bc871efc216c60378b72ae4b0b37aee0",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_036.json": "f331c66d75071d412487c2f3c7d72acb929a659a23f966919334de609e7d8d1a",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_037.json": "dc1d7c3877d70c7c143dba938ce3dd694e5799bc4d4a035c456eaa4c3b5995f8",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_038.json": "02d74ea27507711de7b01155b64262cea8c5a8937b1155bde2a2b30d832ef064",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_039.json": "afdf9b449c631af5ddb5de5c109ba75d5b2d3236b5ea1825396f09565bb09f9a",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_040.json": "a965125f85da957d2e2ec0ff9f960deee98dda553d7a580643037bfcb2dc67c1",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_041.json": "e4099c4530144335534f51d065a3e85d2fae494a16b747331de90f00abfb49e3",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_042.json": "b1918231f49122603b50893a39fe01b19d4bb4cfcca39b1890869513fdc6506d",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_043.json": "ec761075cbb8f67e56afe2dc0d009240abcb02b8764f88d401b0c92a824ea698",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_044.json": "f6a2ca74625b6771cfc570286047a69978d9c796d83744245ee1f1f54d3b990f",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_045.json": "525e217975c762bd23b8d80929270c3c3c0f5491f7c8275d8f9a003a485c452d",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_046.json": "28655c58e8de8da8456eb4482215596d8bd28785d1b1cf65f7c818ef7422178f",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_047.json": "a5913ef6af6cf658cea47d5ac4100382b4dcba9c17f6fe207acbbd73b559dc45",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_048.json": "eed925d67b71d17192ea931649f871d76a49640f0c838456afbb3ba88a4676f5",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_049.json": "8209fe815bcf8e9886c47b09f5f86e3b603a117fdbf804556d372898491cd679",
+    "results\\experiments\\improved_3d_v4\\a0\\training_records\\epoch_050.json": "4e93e1261ca3dd7800b3caa37d58fa6373ff661ac5039c19640c8582f35c5a3e",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_001.json": "351c2e3af19b4da315148ccb9df3cb0d7b4471c98292c9449c7c8ac42990e07b",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_002.json": "85ae0783e3c9a9d51179d198d52a89dc56aa08e26a100c186a8ae63835fe7501",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_003.json": "c3f0345caf6d939ea21320539176715dbcc682a09f5026e5e73715e386d56cab",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_004.json": "b60ab74037d8e244ae767d3fae83a968b1305016fe44b98b643e8023c633a402",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_005.json": "480179f47551f45f27679697ff5253f976cb4d419aa6f73096b0ec00760fb8b0",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_006.json": "d7f387b68aab45641224abb4189ab31c34428f7b21c407431d46e0f335b66cc3",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_007.json": "0b1df1ca39bcf85ff087880565802a008ec7abbb8878ee94d794d08dd92b0764",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_008.json": "6cf070137889a9f325da16bebe452c8d11425145f39f9826561be695a3c5f4db",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_009.json": "6cb854a0ada9beb6d63d85698c2607e47612fcf015b20317b2acd1d1ee8da23a",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_010.json": "b25c84ab29b3f526d40f149ce9f0da0cd4b0546c0f447af9275e327bb99be6ce",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_011.json": "43398357d6bfa0fc7d2ab4082a7d643fcf66ec3482e377cccc0796af4e8b6c3c",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_012.json": "e1aed9fd1a087ff9a6321888370a124534d08cf7d70c3682a8f142b07ebbd305",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_013.json": "41fa3549d1c425d0a3e6d8ee59c9997de064a40bc40e6d766a80f90083126b7c",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_014.json": "37aea8df9355a28e3d94e9ab4bcf911e21b03302f45e6051f8d4d711d8316128",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_015.json": "0c8c7dd4506674886415db1c75520a32d53160c43f092d121b66c19f9d80e416",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_016.json": "9242cfb7256c98819d17129976d4a626fc1971c0e2f1539b9f46c2915bf0fbc1",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_017.json": "97f33062e373ffc97d25e6911e2d3cbc5a8a9135c0d2dbccd69e255535d1d052",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_018.json": "3d31246ee332083bd47766823c454ba33df17751056ff08dbb985e3884dddde6",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_019.json": "4149c555abb9eae970341e1e2dbd48c02c5936106826ec58280ebd1c8c5dff9f",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_020.json": "64d5c2f6f862ee27df5ad7b570d0b3b0ac81de4343a6abac030a1677af50d264",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_021.json": "4d1d0ff08ed808317c7bc6d9db8c8362b977bebc1cdde0eda868d1fa58a78541",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_022.json": "c3eb7e2e477211710b6b86056641b54a2f06e5b2966a586d7e932e2bc96594c8",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_023.json": "d4a64dbd4caef0b525ae0e998dafde31daf40c8f73a4bb966d61ec4e483c2fe1",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_024.json": "0cbedde1b556d613eb2a63aad26e05115f6bfb4ddac1752e3d1ad2c108babe11",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_025.json": "76c9d484cd887653ecd10c975c4998d176778326be7d4004bae563b09d590f85",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_026.json": "5e2b45ec57827b595135211b925ed52ea280fccc65b10be4a9ebe811adedbde6",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_027.json": "9acec60736e61d9e28f9707987565b89aab69809fd33b905700bbfccd55140c9",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_028.json": "0ba1ae924d5affe7ec469b439b5953c77a068edc18f1f9ea6a76635e29645030",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_029.json": "ea3a48a147d6f81e6c5bac21805eddfeecbd9893ce09c0f296176de686c14b1d",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_030.json": "ffa27205f5bd64a80c6c2b54792a3b52c8d94098f744a80e5d47b57165f40031",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_031.json": "ca0a293827a0531aa1f1b048c364c85530dc63c2d112c81b865701bc32172ff4",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_032.json": "96e83314bf53bc5b39eec617e3bc23c1b1380f4f5329e77115a1546d26d2e46f",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_033.json": "5a2d8ec3cdec96ffe3cc203cdb011132e508f0096c0024a8a443ee451d915f4f",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_034.json": "cfbdc305b343a0eaeb82044d46a2adb784eee9f59edb975f362be055dce83866",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_035.json": "055d03c71802c9bbbbbb2e3b3a265caa2a05e9c6dd1103f8df5ba40985b3d90f",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_036.json": "a8315fc8874f05997ffb2c19ef368db3aab29288db8ecc8ad8df45d4d03379d8",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_037.json": "d21717ca9ffbe9ffa3c531754b34afe5f3bcd8dc12a25fa6033e44a7175a5bbb",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_038.json": "23abf5e31d17375a39b98cb9b69476b4fb79ed29d3e9360f494e5713311b6944",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_039.json": "e5d3b92b78dd72a725bbab895284a62a331b7ae1333b42b225b01e70b5360547",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_040.json": "c0eba528f9ffba201c0a86ca081a71c346fd63ee4e7cf2c7e98e291aa3dfe541",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_041.json": "09984410cbe737fe1175755c6cfe01f6f9b7180529ec06f726a3463614366935",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_042.json": "8de8022389ed99718e6d97e095a4a4d7b96e31e0d5d566ec0cb6e8560e91577e",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_043.json": "090a446d3be119e715d491d152ffce7e7f6038ad6b1dd88456705e7f37530e12",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_044.json": "e489e804e8f183b9c76dcc64fbe5c7c7f0e5b956a3d0fc933828e2e56168ac62",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_045.json": "29249a6b64ebcb1b08bf939a71d86c0bda31b860777d0b13f21e0a1df2fd4759",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_046.json": "34e39a902314bd15944c9ced63322f5fd72a8b26c8146f9148d190280b2dfb22",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_047.json": "43d6e3fa0d2d02193c285f7238280dc97cfb596e4f6ad4d5e180b333dd549552",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_048.json": "b98351cdbcdf844441bd02299320548a8d10cc35a7ed6c95da7cbccb7019da76",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_049.json": "b9d05444acc05e11619e66405a4617821c2d7b3d86413e9c111a6bbdda1ff3a6",
+    "results\\experiments\\improved_3d_v4\\a1\\training_records\\epoch_050.json": "33ad4b5a24e253c48bf85a8d8572716fe3b3cf7c138366ecba10228004cf62ef",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_001.json": "478505ec1523bc4ca826414a40fbd661273299e02df24b64162fb97ccdd05da9",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_002.json": "7e98507ab69b3194207c05a165751c23a8a34e7eff2a497dc80dcc20a370fbc9",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_003.json": "423bba540aad08c6d8854484fef579391112c87635a52cff0da723ed0447f9cc",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_004.json": "2affb68c3d982fc19732737b4783635f4cfad35be90c76621ad4ac537dc76770",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_005.json": "e5b3b7798b3b292e6129c6396f5ff8f1cdd06843fb8e6bd5865d15ad8632c415",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_006.json": "ab97529eba775121165a27d77cc88e02a056757690eae7ef82d32ead24ca8c6c",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_007.json": "57cf73bbe9b775e84b73638daf69e48bb97e0338a2b039954c626a92689ee8b6",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_008.json": "5a96e18bc8f55b96e14067433f1c69c5d08e421b61b4f3bcf783fd9605a27039",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_009.json": "705a407429ebd057830836a9d71ac364d79e8ec084d44ff89804907254dfe0a1",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_010.json": "03f14cb7198b0d29f4b4f554e8300374b6772561ae38208add9854d6ddfb27be",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_011.json": "e0347ed0db5b69e66f917a9e9dca85e2521e7c8888b62bc6da797722f8634699",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_012.json": "5221548941b737f617d113a03de3ba4fbea8d3821a015ea039fbc9294b42022a",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_013.json": "c5e36c40bf83280ef7082183d32d04b6d5bd7788a3b6a33048d687497bbb5320",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_014.json": "57e6035fc42e8084b907a50f60810fcd14f6b9e8e317675e553e3de75819f895",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_015.json": "2ffa2a9f78be96b20f64bdde14c17b46855635d518206e9625d00ac435d95a8f",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_016.json": "8e8dd0cc2bcf18ca4c3dd24831e37b08572e04ac3e26b58a7b546372e1ce4b6c",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_017.json": "616b5c60f1595939e7b2b944a12aab69d6ac6c93b5e960dbf6c2d3171621aaa4",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_018.json": "f15b21f82850590d97717c865091f0cf13c4aef767b87cc9ffc96cf9cbf4e1ea",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_019.json": "1c9985828955c26bfbe113c56542d02193596954eb0652992d844d3fe030b571",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_020.json": "cfc792a66696b8be15f2ca637f8d4e9606098ffaf21449ec51a1773164284c0a",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_021.json": "ae1f0d0631f7d41e201424fc7ebf9011076849dbe1c692e8333a5142fbf309cd",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_022.json": "1b42ff763c057ffa7b0f323fe08f28386d6284c49969a7a5d54b374c0dcd2cc0",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_023.json": "5df40e34c81a14e1f0b5e75f87914f2cbc624c6f12f07a75d62065aa9f3a9d79",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_024.json": "ced38b07d42130aefc9b48a42da6057a8e781c5909905388c0dc4f5ffb0214b6",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_025.json": "a851924c884587fc67791e56ff38cc8d57113e37b399bbb20dcab1e0b3d4a3c9",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_026.json": "5b07d7860e82ae988aeb1ee0edffa8497c8f89df49837b4097d2caede7aec06c",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_027.json": "d7534890eec53cbece91bc6a06e87f47cab4716a717e39b3b95d39f7d8fe7a4d",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_028.json": "5297b531de7db6ae0b4cca462c858bb92e3f076c2ddefe02c4d40e6f78c2ac88",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_029.json": "f72580c866160b1858a7b7696a37d86567b5ae833346fe6309ef9a02ce5013b7",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_030.json": "24c524c6e3bba766936c292c3b26f2cc84f156f86b7d1c0bc7a72023772db75d",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_031.json": "a94915531139c19646cbf1335bf7561bd71a802e4fc0bef3983687f614b3a1a8",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_032.json": "abfec25986caa6a47810421c48640efa545c87ead80f74f5bdff98ca3031345f",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_033.json": "c9001f25112615422e733caa3a5da4d4df2a5e299c1060811f5cd8849b833e57",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_034.json": "9bce286f3e720881743753155db9ca423636cb7a1cd3a47824978e5ed94b964a",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_035.json": "e431bcdcf544cd871ebd8dab7009011d39ff2b251ffc61b6cbccdec8eef7d14a",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_036.json": "4b9dbc649a0bc5401fe9d8c29eff25e634f830cbd10ea53db85145b05b4a623c",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_037.json": "7691369b17c18e7d2a2e7f0fdfccc47b42f22ce46bcfbb37faf37cb2f2185313",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_038.json": "bf0c0c368aef63ea03bc550541e3de9e7231d3e9917b1de27cf45fad8436235b",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_039.json": "8d00d59dfefaa50736d796a0ef13d3fd8c895506dbb3fe801a051eb29133c75a",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_040.json": "71a8024cf386216f581b87caef0100a1669fb2782eb339af448d39d2689116cf",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_041.json": "09eb22d5a4d44eb9ba29d82d1f44f49be4e3602c4864d3425d32e86a86ed5220",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_042.json": "f5ccc11415becc2b00f72108636a74f3a12f4586da84260f06046074258603bb",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_043.json": "2b74eb394e1748d62e66fa14beefc7818d1930730d1caae4fcc6481416a725a5",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_044.json": "e8d241dd31811f42f5cf158577f34c84593d10ef15ac2351efbb7f0e165bc7ca",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_045.json": "831c2c89389f156c5c2607094dd03845bad47c8fd5dec5848cb6af12315f604c",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_046.json": "924edc0e5dc608bda7c11860d3f95d49a4f45df48287c0e68cba703869e3aa92",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_047.json": "b55b021d6c63f036f9aa51ab8070145d37c54a47dc8ae1ce85203a0f31288649",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_048.json": "02e5bc1c7053425842d30d554c39cc798c868d1d61d76c26569b44d80eb8d8c3",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_049.json": "694ac9be0da0bb6264cfb8c7e6977212de95f7f43ddb203c5dc25d8de1f9fb79",
+    "results\\experiments\\improved_3d_v5\\c\\training_records\\epoch_050.json": "a386dcb09912068cc800cdc8a953ac8bab0bfe4789a515c7188e5067280adb3f",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_001.json": "37006260b637e6271e89368d314fd2499f89fa946e7284fc62d7b013ca92af76",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_002.json": "4f558793a17e69a3d06787d61ab3a63d1e4f6e4d70314769d9a4cfc9d58de95d",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_003.json": "52e920879b11cb447abb534c6dc67294651fa9751cd977d3fa88bd2b86c3b41f",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_004.json": "7007adcdc0d3e4452192176e8e4f25b381e6139917656d26574d569cc734ecaf",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_005.json": "560476bfec04f844d73f8a554880e8140d83a6d82437829cd389745ea94f0b0b",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_006.json": "df0d6e03abf957dd29e425878b13981a391cb6e206d89f717f6e219779d02148",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_007.json": "84e266e7138e7fe391c10514d4661c5efa1d3f5a776e68043ea11876e404bfe9",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_008.json": "d7d7ff33e5fa2be42c43e9ca6d43ce09e567b3c857c0bf2c8f6a7c0f9491539e",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_009.json": "e8f730b803b70dfb67975caf86bb26709bbaa649d47119ed66fa887bf06b9958",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_010.json": "1dcb90c8260243e4337f976abee6afb2ef2b0e43f718c6b6dd1b1689eec71e30",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_011.json": "b47ff6627082ec6830ef40fbc459d01f9b53d8f8954bc834faa6ba5a70c012c5",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_012.json": "31c9cd17a5535f4e07f4f499d31547e5e301a23a7f01b3e6744c76f6dfbf80f3",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_013.json": "840c9d99c04a938ea694ace2a1bb1b303d747c00d30cbd17f807bc9406d9e4e2",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_014.json": "de30cc596d12ea6689837a4dd5446f0f8f13c94a80b89165100af9b789d368a9",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_015.json": "554f8dac570c6ab3d78c5d8f5f9416b153121b31ad28a812a7b4986e1e0c6dcb",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_016.json": "ec636809963372160cac154106e621e4868de33a70ffa36d75d0750af9553e10",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_017.json": "68f26d45ee2604d67de3d64e843f034e0fc0a9d512222db71847d1aeebe01c1c",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_018.json": "785a3b977b0ff97ff9a944cb61536a038011f266b44b4eccc816b2e569055cf7",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_019.json": "3b454dd66e218031b7e1b859885e6e60858437db58f95a0ca24ba89d4d4a288e",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_020.json": "cc6d8dd7fdbc7b60ca3688c6a276e16f9d98cc49ae863245e71a69a6d8d8bd1d",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_021.json": "dc4ca0f957a8b30e646e992a61b4a5c66752d975c2a371f7413ed6170c80013b",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_022.json": "7be343e51ba678ee6203fcc46f10e28169435716c560be2727fe326d1fa45186",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_023.json": "f7b07e25d3833be3893435e148c29572eeae71c99279861e0ffa5b388c9748f5",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_024.json": "ce498a76a0788af54fd5bcf5c9110e9e87d55646d0a8fba8160b13a350bdbb26",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_025.json": "e26995dafec73e62f8d7c7cc1a753fe433952fb292c4330e5ec368e59ca6e9bd",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_026.json": "3e634f9ef65d7d417032a6919b1be3dd64a50a759471a9ffc825bd04962825a3",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_027.json": "bb7e944965738ca6e45b681e7444ac52bdd220c5d3fd6d8efeae79d572a9ca87",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_028.json": "ab6d75c0ad52cc86b5383880d17851d408adbc94c4a1c50931c6f8c11b73b7f4",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_029.json": "6e3887f5056d82a423de471f4fbe4cdf4de8cf813bb7eb7fa13de74c0c83f10a",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_030.json": "41d983744d188d40e932677fef67b2d8d05ae0a7da7b25791648e9050f9f8b26",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_031.json": "01d19fc5c910eb2c6f07696620f810d5ff3dc14145d0b01f7189b2d36ec3b0ac",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_032.json": "c9565467e67403a38e283708cc10c7429b8008d54a64cb90f838c1b40cfd0878",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_033.json": "e8bbe684bf65fa93ce798117267efc44a74875b76bd4605ea2b0ea2c8792ecf9",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_034.json": "3a473315711871fd4004f09e93c4985e9d2b23896708c9ae38c9676df01844a1",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_035.json": "6923cbcb20c06cd34e8fb5f45b27aa8f1bf2ceebad8f13ebe418404009863cf2",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_036.json": "56e87efb204ae5777c1c401f0ed2a28adc08b256035b41974351606a36472436",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_037.json": "cfdecf86e1985a4cba37c0b69b2e28b9ac937cb9c13c68a6d57a485ff0bf0a05",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_038.json": "1b07744d64099c705f4af50c02e552a8ef0676e72c38250b90385e0d04864ff4",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_039.json": "5e75bb7a5a640985c8919d4a744c8bc4521dfbf32ced2c1fb415c988e6e38793",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_040.json": "a2f12461ca018a87797dca6fe634cdd2d204419dc193badf714bc0b1e35a4eec",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_041.json": "fdb5a39575f361e29a9cc3032e8fdfe9246d2ca33c0d9d301f6bfc3946624398",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_042.json": "76e24f8e2054112d3a1fcea4268962513032261652c1c972ba2896080cd7d3a9",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_043.json": "9e409d04eba4320492857027a8f99205eed13195c75da865445f5e0359d3f0ca",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_044.json": "cfe5c36e450e7c622e82d206ca37422f0141dc0e93b1f57ad825bc6a087ef4c3",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_045.json": "92bf5918eafb79cf93977551b0e88f9f1c4b9b3b14e2fac3ab98db1809f16a88",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_046.json": "c099fe87dc55c5934c40091f7f40f611dccbe4e3e118508a593b8a0e015d8762",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_047.json": "058d29e67fe9e45e7a55d236b1965742c636cbb131f6c032ce18e89c3df8d83e",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_048.json": "b69f0d9a1c38c656865f47207fc4b30d920a1b6d3fd845dbd4daca5cc20de52e",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_049.json": "0193e4d78a4f3d5676d2a7f8cd13c41bbc9f81b5e61ee297e73e2a7a982e7d3c",
+    "results\\experiments\\improved_3d_v5\\l\\training_records\\epoch_050.json": "f2adf01a75c8d63b913ed22d2f4c28b3546a0e10081e8be0e52105982e924fd7",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_001.json": "e9818fd04d8c5182caf73aaa40d4a46ac4fa9cd4f7e998388d578ccb2d85b27c",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_002.json": "c0e3267c1656060d934872aab59d2225e2b2aecbcfe28b140af2d92c4540df9f",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_003.json": "21e4042d254a5a7a87b04a842c7a5930db52ca40dedce513043f3e62e827771c",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_004.json": "44a07614a152742b9042fa40766a3b4d70f8f078661672c13211be12e76a1523",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_005.json": "1f06d2952fa8669c2bee54252130518038e2cf3d85a4b3bd7c6574b6830c55eb",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_006.json": "9647fd77828d15b4739e1a7af3db7410cf0dd06bef926264d8eb91e65c61e2e4",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_007.json": "19f7becdc681c292a754af9619d4b2c94042e5afa7ddf043299f4130beea04df",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_008.json": "54ed7fe2d91a384341b7b49a54ac0077d94b1db8dc1fc3a3c9f9e442bfdeb550",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_009.json": "ae0080ef357c38f0f7e2e486e69c9192d86deb16561ee10498e01bcbea385a45",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_010.json": "a89667b436d07160dc0ade6775d272db380aa591d2ef999629af292c6130720a",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_011.json": "0cdfed00364eaae8063b49c06908898f948add316e75a5048d98976e557145cc",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_012.json": "b04ff0270c79141de9de9b2f87aaa7c4c2f815d581661d91b1823b90d0582815",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_013.json": "50eb11854afb8a6dd0b8bf4e46fb703fd81ef8a4f8e2951d8a3f27b0ab6ac631",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_014.json": "de4be3cacc2ea2cf363fc2f8f5fccb53d3e32bad9b84be3d12670d82ba8d3809",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_015.json": "ab22e3b3fd5ad89ac11cdeb82da8440db8d7e8d45dfb6c74826b6d92faad84b8",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_016.json": "8d8fa7bf9d15d8f9eaea74b2e31384ac3c31a89c6cfb7c10e2ffdecd27cb0962",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_017.json": "b2eee3983709e83854ff152abe2bb9883dc5c58460c9b7bc662e40b238d01ba3",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_018.json": "88b9f6dd8def13d5f8c6ca4f4a0a646268e8b125abca5a89443a47588ad1856c",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_019.json": "cfed34325b8dd9ef6a34e7d5839119d92eb51e5af5136a5835b42efb93141574",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_020.json": "ac2ab7d8b61e42151772f64e58368c05e960c8d2119b6767ddc196da13ecac32",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_021.json": "5356cca99c9cf75724007845208cf7d5691fcd3f9507ae28f7dbeb46fb4b917a",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_022.json": "5324287ad021e578005e11a48e46f6a5f2f17a6ddf20e0cf88a915730c139d32",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_023.json": "f30c28c3e96e951a60929916e3e3a969b283fcf7350f63de936af382c623e705",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_024.json": "8c437b9938ec9bdaeeb26094ad8dbbdce09ae541d1013c344bc7be36b2a65958",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_025.json": "74d742c0682ed2969632e9535bdab871bb773e6d16f96b7208ffc722c26a0756",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_026.json": "0e8b7804fb2bbcb240fb667bb6d5ae9581e83f5cdd807c72a1b6b177b4a4a011",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_027.json": "ad9945da3303709fd5604a0b48d8a707d5029f1e3d7100f78edc938e385ba0c1",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_028.json": "a3ccdd62e8f3b9263a24b95dfed440f3899cd22a97726b3d76579347cba7fc2f",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_029.json": "10008dc0cf8322e75a916a15899aead2b22b126a4abe8854775a26be2573565c",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_030.json": "3d167a99aee950be1d80ccac1b2a2cb05d0afc4df6e0fcf7eca635d6e59ee9df",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_031.json": "5a76657c36fcacef5a92c2f0d19f3bbdfc8c98e2074d32e5a25d09371355ca98",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_032.json": "a9bb44b174ed74f49f4e756489793c7345df8a483a3bfc2128e522039a8fa433",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_033.json": "ff9853481a296224e98ccd38dcbf751a8bd89a65fff398666cb3cfc80fdfcca6",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_034.json": "4ca974f0a4f06920f35713a55b5b0af2515dc3dbc1c1e97a781e3afcc1b07080",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_035.json": "69696f48ddab287bae943251aa5131d8e999574de0de5ee2e578cf3745e809c8",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_036.json": "97c26e5bbbcc061be7c4081ac3a41e28cfe90df09abb202c737766481f2a6e45",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_037.json": "6b593e6da97de75a29ca052d8c52203c12057560537da4dbcdedd8a6165a749c",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_038.json": "7e9f5ca286abb91a529542f1656813af1f2237d9ec9438642d9a1c6f8386958e",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_039.json": "2f347dc778dbc8066a5b1b51d58da643d957886653a5425de10ae2f8de9e7166",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_040.json": "3a989c7ec61b7cb45e1c6ee176a38ed48f511a9972b0ef6aa76bc36faf28ead8",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_041.json": "21de725063133824113f878dbb1181361a4ff409f0e8a904afb8271a152510f8",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_042.json": "640abf2b6a9f81c56a53df016cafc4d7c56be07a38c8046b3caea8a1ae535fe2",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_043.json": "bdc33db84379b2c1951479624359b79c24679f0b193c81416a748ee8c2775047",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_044.json": "da32f21ff1a302a5eefbc4c7100830904ccb4148e369facbd1e62e7c70739360",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_045.json": "e54336da19aa6b95361022a1b28aa9d5e96cf50dfc3b339d3a94de4a7fffd728",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_046.json": "8c46bad5ce44800200779b4501f982fd7dcdfb472710e57a57855fd7bedb6d46",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_047.json": "e9c42af350ff10297cf0b72922e04eb55aee6348f5106f9a120a5caf41689564",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_048.json": "d4905ad3a254439d844d629eae1d83616b3b095f840aecf2e7f41c63c905efb3",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_049.json": "8e42547b873159cde301b8c82487659cc24ec9fc3cf3aeb12decd2b3ef81a3b0",
+    "results\\experiments\\improved_3d_v5\\s\\training_records\\epoch_050.json": "7a3ed43280a87e6d9c326279093bba9122621670ba36b8fd0b211e19b8eac8b2"
+  },
+  "clinical_figures": {
+    "failure_bladder.png": "b19326f250acf041371b0699fc7dfc45fc5a686375c58bc9e94d76e9b4ca080b",
+    "failure_body.png": "cd16b47656440fbb8284b9283633afb9eec11d059e4e99e81f311685ac5bb258",
+    "failure_bones.png": "a56b42acf1ed0836a560eb1b63dc6d7bd64c618f7316f821552a9f7a72baa9a1",
+    "failure_prostate_ends.png": "8559ab25d0fbe53e9037283c554ec32613b2b154704f7da7ed8d1f6e7f154ae3",
+    "failure_rectum.png": "801ae7f9ea9a7b38e7eb2f021250505eed847b38d16766537c5d4446e7114e72"
+  },
+  "preserved_original_panels": true,
+  "panel_note": "Seven historical model columns retained and labelled; no new inference or retouched contours",
+  "pretraining_review": {
+    "scope": "Existing Train-only audits; no new MRI decoding, training or Test tuning for report revision",
+    "raw_audit": {
+      "research_path": "logs/audits/train_full_20261018_job671208.json",
+      "sha256": "6a4c674564a0364f5f56730cbc31e67b3ff9a8ffeae7d9d3dd18b198bbd0e1a1",
+      "cases": 143,
+      "case_errors": 0,
+      "mechanical_pass": true,
+      "anatomical_review_complete": false,
+      "unknown_mask_unit_count": 143,
+      "max_affine_absolute_difference": 0.0,
+      "class_voxel_counts": {
+        "Background": 720230975,
+        "Bladder": 7253501,
+        "Body": 429188773,
+        "Bones": 40906813,
+        "Prostate": 1295814,
+        "Rectum": 1743644
+      },
+      "class_share_percent": {
+        "Background": 59.98827796836087,
+        "Bladder": 0.6041465159586944,
+        "Body": 35.74727595633294,
+        "Bones": 3.4071420894439566,
+        "Prostate": 0.10792877996852825,
+        "Rectum": 0.14522868993500956
+      }
+    },
+    "preprocessing_audit": {
+      "research_path": "logs/audits/g3_existing_pipeline_full_20261018_job671892.json",
+      "sha256": "319973a8759265521870f831e7b17eb7249f4130b6a9e9634fe993f22bf687e9",
+      "cases": 143,
+      "case_errors": 0,
+      "pipeline_pass": true,
+      "small_organ_physical_volume_ratio": {
+        "Bladder": {
+          "minimum": 0.9760489213521317,
+          "median": 0.9997118875208879,
+          "maximum": 1.0172822539082629,
+          "volumes_retaining_organ": 143
+        },
+        "Rectum": {
+          "minimum": 0.9720718398212597,
+          "median": 1.0020562028786841,
+          "maximum": 1.027981866499922,
+          "volumes_retaining_organ": 143
+        },
+        "Prostate": {
+          "minimum": 0.938345864661654,
+          "median": 0.9980715027443999,
+          "maximum": 1.0422976501305485,
+          "volumes_retaining_organ": 143
+        }
+      }
+    },
+    "visual_screen": "Two axial sections per Train volume; gross alignment screen, not expert anatomical certification",
+    "learning_diagnostic": "Controlled two-patch 500-update weighted/unweighted CE comparison; not a generalisation result",
+    "optimizer_and_capacity_sources": [
+      {
+        "research_path": "logs/profiles/g5_standard_500_20261018.json",
+        "sha256": "d10c454a24f1bdb1876fec034784a53fbb4d0a5c0da6fcfdcdc0dee75a72c53f",
+        "job_id": "672228",
+        "kind": "G5_two_patch_Train_only_learning_check_no_checkpoint",
+        "recorded_updates": 500,
+        "final_small_organ_metrics": {
+          "Bladder": {
+            "dice": 0.0,
+            "predicted_voxels": 0,
+            "recall": 0.0,
+            "true_positive_voxels": 0,
+            "true_voxels": 2450
+          },
+          "Rectum": {
+            "dice": 0.0,
+            "predicted_voxels": 0,
+            "recall": 0.0,
+            "true_positive_voxels": 0,
+            "true_voxels": 2723
+          },
+          "Prostate": {
+            "dice": 0.0,
+            "predicted_voxels": 0,
+            "recall": 0.0,
+            "true_positive_voxels": 0,
+            "true_voxels": 2171
+          }
+        }
+      },
+      {
+        "research_path": "logs/profiles/g5_standard_weighted_500_20261018.json",
+        "sha256": "f9f53f6eaaabb922f29e04d4905d5529ad24c668b3b2733620c9de340008b7c7",
+        "job_id": "672730",
+        "kind": "G5_two_patch_Train_only_learning_check_no_checkpoint",
+        "recorded_updates": 500,
+        "final_small_organ_metrics": {
+          "Bladder": {
+            "dice": 0.9842995169082126,
+            "predicted_voxels": 2518,
+            "recall": 0.9979591836734694,
+            "true_positive_voxels": 2445,
+            "true_voxels": 2450
+          },
+          "Rectum": {
+            "dice": 0.9795692987299834,
+            "predicted_voxels": 2710,
+            "recall": 0.9772309952258539,
+            "true_positive_voxels": 2661,
+            "true_voxels": 2723
+          },
+          "Prostate": {
+            "dice": 0.9721723518850988,
+            "predicted_voxels": 2285,
+            "recall": 0.9976969138645785,
+            "true_positive_voxels": 2166,
+            "true_voxels": 2171
+          }
+        }
+      },
+      {
+        "research_path": "logs/profiles/g5_training_smoke_20261018.json",
+        "sha256": "4161b30138243dbf3f52ba44cb097aead6046e50d60e37b60d64329bf6a336d5",
+        "job_id": "672807",
+        "kind": "G5_two_patient_paired_training_smoke_no_checkpoint"
+      },
+      {
+        "research_path": "logs/profiles/g5_full_volume_probe_20261018.json",
+        "sha256": "263c2309e00d21666e69418a8c82d436585e3037285c0e02f17f959488b21c53",
+        "job_id": "672782",
+        "kind": "G5_random_weight_full_Train_volume_inference_capacity_only"
+      }
+    ]
+  },
+  "assessment_alignment": {
+    "specification_name": "COMP3710_Report_2026_draft_v2.2.pdf",
+    "sha256": "0e05eab1e3f7597424a235e84db778106875ffa4419f0702c803ee2b052954ea",
+    "page_mapping": {
+      "spatial_context_boundary_dilemma_and_measurements": 5,
+      "baseline_and_hard_model_route": 6,
+      "README_method_figure_feasibility_and_disclosure": 14
+    },
+    "research_question_scope": "Course-derived 2D/3D continuity, local boundary errors and computation; methods and clinical measurement limitations stated separately"
+  },
+  "report_diagnostic_summaries": {
+    "source_bundle_sha256": "80047fcb5ebcf0522ab216b3e0adff2674386c2229216c9eeacb1001fe35aa87",
+    "body_comparison": {
+      "Standard": {
+        "validation_median_body_hd95_mm": 4.750873686097116,
+        "distant_body_fp_voxels": {
+          "validation": 1007,
+          "test": 2804
+        }
+      },
+      "v1": {
+        "validation_median_body_hd95_mm": 76.61218887436603,
+        "distant_body_fp_voxels": {
+          "validation": 1358516,
+          "test": 667239
+        }
+      },
+      "v3": {
+        "validation_median_body_hd95_mm": 4.58473226283704,
+        "distant_body_fp_voxels": {
+          "validation": 73204,
+          "test": 81145
+        }
+      },
+      "A0": {
+        "validation_median_body_hd95_mm": 4.750873686097116,
+        "distant_body_fp_voxels": {
+          "validation": 9572,
+          "test": 9636
+        }
+      },
+      "A1": {
+        "validation_median_body_hd95_mm": 5.683763745312066,
+        "distant_body_fp_voxels": {
+          "validation": 1171,
+          "test": 535
+        }
+      }
+    },
+    "auxiliary_output_diagnostic": {
+      "source_sha256": "117fc77eee556299144ee7e56354edcec0ac5524bc2a12f29d12067b9ee5bab2",
+      "research_path": "results/tables/comparisons/g5_validation_aux_logits.json",
+      "split": "validation",
+      "cases": 38,
+      "outputs": {
+        "combined": {
+          "patient_small_organ_score": 0.8419960108142014,
+          "median_body_hd95_mm": 76.61218887436603,
+          "background_to_body_at_least_20mm": 1358516
+        },
+        "main_only": {
+          "patient_small_organ_score": 0.24144979763109478,
+          "median_body_hd95_mm": 108.95698911300349,
+          "background_to_body_at_least_20mm": 7275330
+        }
+      }
+    },
+    "selected_four_case_inference_diagnostic": [
+      {
+        "case": "K018_Week4",
+        "research_path": "logs/validation/inference_context/p2_four_cases_20261020/K018_Week4_improved_3d.json",
+        "sha256": "a84c794963cc91b521f873a2749e57f8dbb66a2a6445fb6838610d92308626dd",
+        "full_confusion_reproduced": true,
+        "protocols": {
+          "full": {
+            "distant_body_fp_voxels": 58078,
+            "volume_mean_small_organ_dice": 0.7609512926345644
+          },
+          "sliding": {
+            "distant_body_fp_voxels": 18650,
+            "volume_mean_small_organ_dice": 0.7157906865787685
+          }
+        }
+      },
+      {
+        "case": "B040_Week4",
+        "research_path": "logs/validation/inference_context/p2_four_cases_20261020/B040_Week4_improved_3d.json",
+        "sha256": "845b51f18ccc61dbd664f2e3ce2b5219d4873b77306f3234e81bda78f7208b1a",
+        "full_confusion_reproduced": true,
+        "protocols": {
+          "full": {
+            "distant_body_fp_voxels": 31574,
+            "volume_mean_small_organ_dice": 0.8122714784431903
+          },
+          "sliding": {
+            "distant_body_fp_voxels": 6032,
+            "volume_mean_small_organ_dice": 0.831500099587572
+          }
+        }
+      },
+      {
+        "case": "J026_Week4",
+        "research_path": "logs/validation/inference_context/p2_four_cases_20261020/J026_Week4_improved_3d.json",
+        "sha256": "1add2084deb18cd46a7b9122a5852cd47e1c28545d98acb95dab7fd926270e22",
+        "full_confusion_reproduced": true,
+        "protocols": {
+          "full": {
+            "distant_body_fp_voxels": 59591,
+            "volume_mean_small_organ_dice": 0.8682979853186458
+          },
+          "sliding": {
+            "distant_body_fp_voxels": 4511,
+            "volume_mean_small_organ_dice": 0.8824662704021802
+          }
+        }
+      },
+      {
+        "case": "K008_Week0",
+        "research_path": "logs/validation/inference_context/p2_four_cases_20261020/K008_Week0_improved_3d.json",
+        "sha256": "21f3ad67ebc2299bb20708b2978095dc11694b646b3edacfb2759f6e2ce50171",
+        "full_confusion_reproduced": true,
+        "protocols": {
+          "full": {
+            "distant_body_fp_voxels": 4643,
+            "volume_mean_small_organ_dice": 0.8542818377304043
+          },
+          "sliding": {
+            "distant_body_fp_voxels": 955,
+            "volume_mean_small_organ_dice": 0.8285914111024318
+          }
+        }
+      }
+    ],
+    "patient_sensitivity": {
+      "validation": {
+        "v3_minus_standard_small_organ_dice": 0.006133539025479973,
+        "patients_improving": 5,
+        "patient_deltas": {
+          "B040": 0.0010290394635527056,
+          "J026": 0.0203121308440114,
+          "K008": -0.0034748239680262305,
+          "K018": 0.011672204025610089,
+          "M030": 0.0025533724207629227,
+          "S022": 0.004709311366969393
+        }
+      },
+      "test": {
+        "v3_minus_standard_small_organ_dice": 0.0293762003837974,
+        "patients_improving": 3,
+        "patient_deltas": {
+          "B037": -0.004181937859006779,
+          "L011": 0.02003502570709781,
+          "M015": 0.2010370554067425,
+          "M020": 0.00872684848308003,
+          "W029": -0.04439121157196568,
+          "W041": -0.0049685778631627375
+        },
+        "delta_without_M015": -0.004955970620791339,
+        "v3_patients_prostate_dice_below_07": 1
+      }
+    },
+    "case_autopsy_metrics": {
+      "M015_Week7": {
+        "Standard": {
+          "dice": 0.06756225425950196,
+          "status": "both_present",
+          "hd95_mm": 109.4880072591844,
+          "assd_mm": 58.087325022706786,
+          "far_body_fp": 244
+        },
+        "v3": {
+          "dice": 0.5223784341545208,
+          "status": "both_present",
+          "hd95_mm": 58.83866737772955,
+          "assd_mm": 11.455180437175223,
+          "far_body_fp": 2928
+        }
+      },
+      "W029_Week6": {
+        "Standard": {
+          "dice": 0.46226415094339623,
+          "status": "both_present",
+          "hd95_mm": 19.228737232254478,
+          "assd_mm": 7.375159704972785,
+          "far_body_fp": 2
+        },
+        "v3": {
+          "dice": 0.4376701143168209,
+          "status": "both_present",
+          "hd95_mm": 20.5894546924353,
+          "assd_mm": 8.107120989324052,
+          "far_body_fp": 2712
+        }
+      },
+      "K018_Week4": {
+        "Standard": {
+          "dice": 0.973969414893617,
+          "status": "both_present",
+          "hd95_mm": 4.750873686097116,
+          "assd_mm": 1.3153382316006492,
+          "far_body_fp": 5
+        },
+        "v3": {
+          "dice": 0.974201193724791,
+          "status": "both_present",
+          "hd95_mm": 6.239990234375,
+          "assd_mm": 2.5008359062454737,
+          "far_body_fp": 3128
+        }
+      },
+      "J026_Week4": {
+        "Standard": {
+          "dice": 0.810958904109589,
+          "status": "both_present",
+          "hd95_mm": 6.239990234375,
+          "assd_mm": 1.9977983682367868,
+          "far_body_fp": 38
+        },
+        "v3": {
+          "dice": 0.8436911487758946,
+          "status": "both_present",
+          "hd95_mm": 6.239990234375,
+          "assd_mm": 1.7305762627290926,
+          "far_body_fp": 303
+        }
+      },
+      "B040_Week1": {
+        "Standard": {
+          "dice": 0.8606647023250428,
+          "status": "both_present",
+          "hd95_mm": 7.407831740379491,
+          "assd_mm": 2.4630398589626887,
+          "far_body_fp": 1
+        },
+        "v3": {
+          "dice": 0.9026451294350003,
+          "status": "both_present",
+          "hd95_mm": 4.58473226283704,
+          "assd_mm": 1.7076462328402908,
+          "far_body_fp": 1610
+        }
+      }
+    }
+  },
+  "method_figure": {
+    "filename": "figures/method.png",
+    "sha256": "7d12042af161db3f54eee34c2891d9a57f6d5aae422a57407c0670c61a8056b4",
+    "generator": "20261017/code/tools/build_submission_evidence.py::draw_method_figure",
+    "generator_sha256": "a6dcc169cc6e2647e38393db8e67d5d5c9c06fe348b853cdeec4bf670a1b162a",
+    "architecture_source_sha256": "5aef53b4b1b3b282c1964338fe610af8dfc0c62258e3f7291a83bc18da479914",
+    "description": "Programmatically drawn from the implemented data path and model definitions; not a measured MRI image or prediction"
+  },
+  "documentation_review_20261022": {
+    "cohort_resource_summary": {
+      "path": "evidence/cohort_inference_summary.json",
+      "sha256": "451835647b637c07336a2921fdd28ecd7452cca0c04b2963a0aa1d5c71793456"
+    },
+    "saved_record_example": {
+      "path": "evidence/example_K008_v3_record.json",
+      "sha256": "e874f7386296e5b63b40fc1ba59b68ccf030292759bf486955873e42c56bc1a7"
+    },
+    "local_environment": {
+      "path": "evidence/local_environment.json",
+      "sha256": "0a9c8caec757609fdf7a2d314f2aea53b28c71ad5a77d173a1b30628699c51d0"
+    },
+    "checkoff": {
+      "source": "Student statement in conversation received 2026-10-22",
+      "completed": true,
+      "reported_timing": "last Tuesday; exact date not inferred",
+      "original_written_review": "Lost according to student; Appendix C is retrospective reconstruction",
+      "original_plan": "At most five models, subsequently expanded to ten completed runs",
+      "independent_tutor_receipt_available": false
+    },
+    "fixed_prediction_replay": {
+      "job_id": "686318",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:00:26",
+      "download_archive_sha256": "65ecca8db94822fe0e4ed96f60aeab2b282fdcdb72a777fd09399d2d40fec1dc",
+      "receipt_path": "evidence/documentation_replay.json",
+      "receipt_sha256": "f902fce6554871b9a03c946fcaa684c1eb41966c38b46eae016d1ba66433c2ab",
+      "cli_metrics_path": "evidence/example_K008_v3_prediction.json",
+      "cli_metrics_sha256": "1b550dd61adf81f5214b746cc92debd729bf337dd02f9952a324c223fb637b69",
+      "figure_sha256": {
+        "failure_bladder_clear.png": "f4e07a6f31f7c0f0624e28539da2264eb7c76a71bd59af7d5c60d19f611c430b",
+        "failure_body_clear.png": "f24bf6bae0990eab2b3f4e7ecdfafa65c7d52472f5efd3fd51ed8031c6dc4c64",
+        "failure_bones_clear.png": "e0d06d3ecbcf746fe14238f73f437a1c491508d692e979c59da2fae0ce2ac728",
+        "failure_prostate_apex_clear.png": "5c17edf00902ffcc7bebf4d3be516348062453134e6ae0ec31b4390197c0153b",
+        "failure_prostate_base_clear.png": "a2949fbedb622b2b6660bf7e459bd11b1b59ef4f7b0b5205bd799a7e3ecb2601",
+        "failure_rectum_clear.png": "6140234094e19aa6e67b55cc488d1e158d20eb933a7b8b2a14f899fe4ae8a1b8"
+      },
+      "cli_figure_sha256": "9ba3bf636510c8cb613af0bdc1a24100bde195f3c51cc139e467441f97f48ece",
+      "purpose": "Documentation only; fixed weights and slices; no training or new selection"
+    }
+  },
+  "clinical_figure_archive": "20261017/archives/submission_verification/documentation_replay_20261022/historical_panels",
+  "section_3_6_review_20261023": {
+    "source_bundle_sha256": "80047fcb5ebcf0522ab216b3e0adff2674386c2229216c9eeacb1001fe35aa87",
+    "scope": "Existing fixed cases/slices/checkpoints; whole-volume count recalculation and editorial clarification only; no new inference or case replacement",
+    "selection": "Purposive examples of observed error patterns, not a random sample or a claim about prevalence",
+    "clinical_limit": "Disagreement with supplied labels does not establish annotation completeness, true anatomical absence or dose effects",
+    "cases": {
+      "M015_Week7": {
+        "split": "test",
+        "label": "Bladder",
+        "label_index": 3,
+        "views": [
+          {
+            "axis": 2,
+            "index": 47,
+            "organ": "Bladder"
+          }
+        ],
+        "models": {
+          "Standard": {
+            "tp_voxels": 1031,
+            "fp_voxels": 24513,
+            "fn_voxels": 3945,
+            "gt_voxels": 4976,
+            "prediction_voxels": 25544,
+            "gt_occupied_z_slices": 17,
+            "ascending_volume_dice_rank": 1,
+            "split_volumes": 30
+          },
+          "v3": {
+            "tp_voxels": 2025,
+            "fp_voxels": 752,
+            "fn_voxels": 2951,
+            "gt_voxels": 4976,
+            "prediction_voxels": 2777,
+            "gt_occupied_z_slices": 17,
+            "ascending_volume_dice_rank": 6,
+            "split_volumes": 30
+          }
+        }
+      },
+      "W029_Week6": {
+        "split": "test",
+        "label": "Prostate",
+        "label_index": 5,
+        "views": [
+          {
+            "axis": 2,
+            "index": 41,
+            "organ": "Prostate base"
+          }
+        ],
+        "models": {
+          "Standard": {
+            "tp_voxels": 392,
+            "fp_voxels": 895,
+            "fn_voxels": 17,
+            "gt_voxels": 409,
+            "prediction_voxels": 1287,
+            "gt_occupied_z_slices": 12,
+            "ascending_volume_dice_rank": 5,
+            "split_volumes": 30,
+            "prostate_regions": {
+              "apex": 0.727170868347339,
+              "central": 0.6154620574385781,
+              "base": 0.21114223467164642
+            }
+          },
+          "v3": {
+            "tp_voxels": 402,
+            "fp_voxels": 1026,
+            "fn_voxels": 7,
+            "gt_voxels": 409,
+            "prediction_voxels": 1428,
+            "gt_occupied_z_slices": 12,
+            "ascending_volume_dice_rank": 6,
+            "split_volumes": 30,
+            "prostate_regions": {
+              "apex": 0.8273606283388188,
+              "central": 0.6068857290746247,
+              "base": 0.21584100973796494
+            }
+          }
+        },
+        "additional_views": [
+          {
+            "axis": 2,
+            "index": 32,
+            "organ": "Prostate apex"
+          }
+        ]
+      },
+      "K018_Week4": {
+        "split": "validation",
+        "label": "Body",
+        "label_index": 1,
+        "views": [
+          {
+            "axis": 2,
+            "index": 0,
+            "organ": "Body"
+          }
+        ],
+        "models": {
+          "Standard": {
+            "tp_voxels": 263673,
+            "fp_voxels": 3490,
+            "fn_voxels": 10604,
+            "gt_voxels": 274277,
+            "prediction_voxels": 267163,
+            "gt_occupied_z_slices": 64,
+            "ascending_volume_dice_rank": 9,
+            "split_volumes": 38
+          },
+          "v3": {
+            "tp_voxels": 268824,
+            "fp_voxels": 8785,
+            "fn_voxels": 5453,
+            "gt_voxels": 274277,
+            "prediction_voxels": 277609,
+            "gt_occupied_z_slices": 64,
+            "ascending_volume_dice_rank": 6,
+            "split_volumes": 38
+          }
+        }
+      },
+      "J026_Week4": {
+        "split": "validation",
+        "label": "Rectum",
+        "label_index": 4,
+        "views": [
+          {
+            "axis": 2,
+            "index": 49,
+            "organ": "Rectum"
+          }
+        ],
+        "models": {
+          "Standard": {
+            "tp_voxels": 888,
+            "fp_voxels": 361,
+            "fn_voxels": 53,
+            "gt_voxels": 941,
+            "prediction_voxels": 1249,
+            "gt_occupied_z_slices": 23,
+            "ascending_volume_dice_rank": 24,
+            "split_volumes": 38
+          },
+          "v3": {
+            "tp_voxels": 896,
+            "fp_voxels": 287,
+            "fn_voxels": 45,
+            "gt_voxels": 941,
+            "prediction_voxels": 1183,
+            "gt_occupied_z_slices": 23,
+            "ascending_volume_dice_rank": 21,
+            "split_volumes": 38
+          }
+        }
+      },
+      "B040_Week1": {
+        "split": "validation",
+        "label": "Bones",
+        "label_index": 2,
+        "views": [
+          {
+            "axis": 2,
+            "index": 63,
+            "organ": "Bones"
+          }
+        ],
+        "models": {
+          "Standard": {
+            "tp_voxels": 33445,
+            "fp_voxels": 9589,
+            "fn_voxels": 1240,
+            "gt_voxels": 34685,
+            "prediction_voxels": 43034,
+            "gt_occupied_z_slices": 64,
+            "ascending_volume_dice_rank": 25,
+            "split_volumes": 38
+          },
+          "v3": {
+            "tp_voxels": 31992,
+            "fp_voxels": 4208,
+            "fn_voxels": 2693,
+            "gt_voxels": 34685,
+            "prediction_voxels": 36200,
+            "gt_occupied_z_slices": 64,
+            "ascending_volume_dice_rank": 27,
+            "split_volumes": 38
+          }
+        }
+      }
+    }
+  },
+  "final_packaging_review_20261029": {
+    "historical_sources": "Original research files and private weight backups archived separately; historical origin paths are not runtime dependencies",
+    "archived_tracked_files_found": 393,
+    "missing_archived_tracked_files": 0,
+    "archive_files_matching_HEAD_allowing_line_endings": 387,
+    "existing_local_revisions_preserved": 6,
+    "isolated_submission_tests_passed": 9,
+    "cli_smoke_checks_passed": 3,
+    "saved_K008_export_matches": true,
+    "standard_v3_checkpoint_identities_and_synthetic_cpu_forward_verified": true,
+    "historical_metric_recalculation": "500 epochs, 680 case entries, 400 foreground values, case autopsies, resources and replay hashes verified against relocated archive",
+    "new_training_or_MRI_decoding": false,
+    "selected_weights_or_metrics_changed": false,
+    "historical_repository_commit_before_archive": "f4ae12c53933eb248f258225ce3e8d5ab17e9371",
+    "course_target_branch_commit": "552b9029a3fbee3e12d0b4e95f38e73d8d1d51a5",
+    "course_root_readme_and_license_restored_exactly": true,
+    "shared_recognition_index_preserved_with_project_entry_appended": true,
+    "obsolete_attributes_for_archived_directory_removed": true,
+    "history_archive_cleanup_commit": "b1f11ad",
+    "shared_repository_correction_commit": "85122ac",
+    "historical_commits_preserved": true
+  },
+  "earlier_feasibility_proposal": {
+    "filename": "feasidual report.docx",
+    "sha256": "d3e6b914220d28d16aff3b89506e77f6f50651c8b56a376f480e6b13dc1f7756",
+    "location": "Separately archived research documents",
+    "document_role": "Surviving earlier bilingual proposal; student cannot confirm whether it was the tutor check-off version",
+    "planned_initial_testing_gpu_hours_maximum": 1,
+    "planned_gpu_memory_envelope": "A100 40 GB",
+    "budget_scope": "Provisional initial smoke tests and throughput measurements, not total formal training cost",
+    "split_seed_3710_in_proposal": "A proposal statement, not a verified record of the original split-generation procedure; the submitted fixed patient lists are unchanged",
+    "student_document_identity_confirmation": {
+      "received": "2026-10-29",
+      "response": "Cannot confirm whether this is the check-off version",
+      "scope": "Document identity only; does not retract the previously reported completion of check-off"
+    }
+  }
+}

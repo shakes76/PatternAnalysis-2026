@@ -1,0 +1,34 @@
+# Local development files
+.vscode/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.venv-*/
+venv/
+env/
+.conda/
+
+# Raw data and model artefacts
+data/
+dataset/
+datasets/
+*.nii
+*.nii.gz
+*.pt
+*.pth
+*.ckpt
+checkpoints/
+runs/
+wandb/
+lightning_logs/
+experiment_store.zip
+
+# Temporary files
+tmp/
+*.tmp
+*.log
+.DS_Store
+Thumbs.db

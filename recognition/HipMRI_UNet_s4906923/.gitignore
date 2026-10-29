@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+outputs/
+checkpoints/
+*.pt
+*.pth
+*.nii
+*.nii.gz
+*.tmp
+.writer.lock

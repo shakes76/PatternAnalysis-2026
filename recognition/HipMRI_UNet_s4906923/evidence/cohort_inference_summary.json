@@ -1,0 +1,79 @@
+{
+  "source_sha256": "80047fcb5ebcf0522ab216b3e0adff2674386c2229216c9eeacb1001fe35aa87",
+  "scope": "Historical single recorded inference pass per volume; volume-weighted quantiles, not a repeated latency benchmark or patient-equal score",
+  "quantile_method": "numpy linear interpolation",
+  "rows": [
+    {
+      "model": "2D",
+      "split": "validation",
+      "volumes": 38,
+      "patients": 6,
+      "seconds_median": 0.141203893115744,
+      "seconds_q1": 0.14061429351568222,
+      "seconds_q3": 0.1414937332738191,
+      "seconds_p95": 0.14173361947759985,
+      "peak_allocated_gib_median": 0.0761113166809082,
+      "peak_allocated_gib_max": 0.0761113166809082
+    },
+    {
+      "model": "2D",
+      "split": "test",
+      "volumes": 30,
+      "patients": 6,
+      "seconds_median": 0.14006947819143534,
+      "seconds_q1": 0.13939782639499754,
+      "seconds_q3": 0.14102614088915288,
+      "seconds_p95": 0.14135504465084522,
+      "peak_allocated_gib_median": 0.0761113166809082,
+      "peak_allocated_gib_max": 0.0761113166809082
+    },
+    {
+      "model": "Standard",
+      "split": "validation",
+      "volumes": 38,
+      "patients": 6,
+      "seconds_median": 0.17328870901837945,
+      "seconds_q1": 0.17220629670191556,
+      "seconds_q3": 0.17365216312464327,
+      "seconds_p95": 0.17444848460145296,
+      "peak_allocated_gib_median": 0.24601268768310547,
+      "peak_allocated_gib_max": 0.24601268768310547
+    },
+    {
+      "model": "Standard",
+      "split": "test",
+      "volumes": 30,
+      "patients": 6,
+      "seconds_median": 0.17404042393900454,
+      "seconds_q1": 0.16998583218082786,
+      "seconds_q3": 0.17443086067214608,
+      "seconds_p95": 0.17469165837392212,
+      "peak_allocated_gib_median": 0.24601268768310547,
+      "peak_allocated_gib_max": 0.24601268768310547
+    },
+    {
+      "model": "v3",
+      "split": "validation",
+      "volumes": 38,
+      "patients": 6,
+      "seconds_median": 0.1668746848590672,
+      "seconds_q1": 0.1664945170050487,
+      "seconds_q3": 0.1671434766612947,
+      "seconds_p95": 0.16746036184486002,
+      "peak_allocated_gib_median": 0.34577274322509766,
+      "peak_allocated_gib_max": 0.34577274322509766
+    },
+    {
+      "model": "v3",
+      "split": "test",
+      "volumes": 30,
+      "patients": 6,
+      "seconds_median": 0.1666314520407468,
+      "seconds_q1": 0.1664697853848338,
+      "seconds_q3": 0.1667787777259946,
+      "seconds_p95": 0.16701131351292134,
+      "peak_allocated_gib_median": 0.34577274322509766,
+      "peak_allocated_gib_max": 0.34577274322509766
+    }
+  ]
+}
