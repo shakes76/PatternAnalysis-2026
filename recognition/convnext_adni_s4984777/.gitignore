@@ -1,0 +1,23 @@
+# Dataset and patient data
+ADNI/
+splits.csv
+*.nii
+*.nii.gz
+*.jpeg
+
+# Trained weights
+checkpoints/
+*.pth
+*.pt
+*.ckpt
+
+# Experiment logs
+*.out
+*.err
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated evaluation outputs
+results/
