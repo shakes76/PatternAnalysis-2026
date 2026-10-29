@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "recommendation": "reject_policy",
+  "reason": "17/41 malignant TP versus 18/41 with the same 12 benign image alerts; malignant all-GT class-correct IoU also lower",
+  "confirmation_triggered": false,
+  "new_reassessment_inference": false,
+  "policy_results_sha256": "269b955bb3385d6120441393170a0c5cacce74fe9ffe573dc30643b79870b723"
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.pt
+*.pth
+.venv/
+output/
+outputs/
+data/
+weights/
+.DS_Store

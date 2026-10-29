@@ -1,0 +1,12 @@
+{
+  "status": "verified",
+  "payload_files": 1119,
+  "checks": "Exact archive membership and each payload size/SHA-256",
+  "archive_name": "COMP3710_s4905914_review_inputs_20261028.zip",
+  "archive_sha256": "307b312aab2865537ca1b4fa0e5a3b1b152e00b975ed32e937099b2770515144",
+  "archive_bytes": 32589053,
+  "final_checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "final_confidence": 0.4,
+  "code_and_configs": "Restore from the matching public course checkout",
+  "photographs": "Obtain the unchanged school ISIC2018 Task1-2 Training Input x2 files"
+}

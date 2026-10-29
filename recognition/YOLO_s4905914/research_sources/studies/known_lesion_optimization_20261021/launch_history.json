@@ -1,0 +1,7 @@
+{
+  "cancelled_job": 681414,
+  "reason": "Replaced sequential execution with three independent array tasks; same planned configurations and total epoch budget",
+  "observed_before_cancel": "Python dependency installation, no train_n run directory or candidate staging yet",
+  "new_training_results_used": false,
+  "time": "2026-10-21T10:51:36.219025+10:00"
+}

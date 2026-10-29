@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "job_id": 706962,
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed_including_setup": "00:02:29",
+  "node": "a100-5",
+  "started_utc": "2026-10-28T00:02:32Z",
+  "completed_utc": "2026-10-28T00:05:00Z",
+  "observations": 495,
+  "distinct_validation_images": 165,
+  "mean_median_p95_fps_independently_recomputed": true,
+  "inputs_before_after_and_local_hashes_match": true,
+  "benchmark_source_and_core_protocol_match_original_n_s": true,
+  "simultaneous_controlled_model_comparison": false,
+  "model_threshold_or_accuracy_results_changed": false,
+  "summary_sha256": "f88ba82588351c140cf40c9f572b313bc092a5d0bb1c0a751e59d968b39f1e88",
+  "measurements_sha256": "c1f84997a77ea5fbc7ebde97efc3ac04aa4cfa304bc5fd1f3f8e087eeeca86ce",
+  "benchmark_script_sha256": "c2618ead0b06818450a22ad7ef274fdc9b3b4a6731ffbdceff88b8ab6ad6590c",
+  "environment_sha256": "6bf18ff5d2c3e17a34c6c99a597bc5e168716cc61a0171a34d6055aa0c8f222f",
+  "evidence_directory": "outputs/final_benchmark_20261028_706962",
+  "submitted_or_pushed": false
+}

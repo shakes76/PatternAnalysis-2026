@@ -1,0 +1,16 @@
+{
+  "job_id": 686313,
+  "submitted_at_recorded": "2026-10-22T20:53:56.832310+10:00",
+  "state_at_last_check": "PENDING (Priority)",
+  "network_recovered": true,
+  "authentication_recovered": true,
+  "original_photos_verified": 165,
+  "bundle_files_verified": 22,
+  "bundle_archive_sha256": "53755c919e5e4be590b0b9c559719747630d74b64ca46e8c862d9c642dc0c62b",
+  "selected_model": "n_geometry seed 3710",
+  "threshold": 0.4,
+  "new_training": false,
+  "threshold_search": false,
+  "fresh_blind_test": false,
+  "selection_changed": false
+}

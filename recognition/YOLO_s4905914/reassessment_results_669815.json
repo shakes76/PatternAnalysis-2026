@@ -1,0 +1,466 @@
+{
+  "status": "passed",
+  "split": "reassessment",
+  "fresh_blind_test": false,
+  "course_acceptance_confirmed": false,
+  "primary_model": "n",
+  "source_run": "outputs/reassessment_20261017_669815",
+  "analysis_source_sha256": "d209b42309591c1828827d10d93fb9ca9e8d4a98d488f5f43b6afe56fadd5d83",
+  "plan_sha256": "718f4061bdc86dadafbd2941955c859994a723fa1ba3bc84d8e0407cb9f494b0",
+  "models": {
+    "n": {
+      "mAP50": 0.5431540117278584,
+      "mAP50_95": 0.3618779502940478,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.7883417428279992,
+          "AP50_95": 0.5539918832682525
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.2979662806277177,
+          "AP50_95": 0.16976401731984303
+        }
+      },
+      "operating_point": {
+        "threshold": 0.5,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 93,
+            "fp": 33,
+            "fn": 31,
+            "precision": 0.7380952380952381,
+            "recall": 0.75,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.6512283115591775,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.7473912542697366,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.8522743993935056,
+                "denominator": 93
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 10,
+            "fp": 20,
+            "fn": 31,
+            "precision": 0.3333333333333333,
+            "recall": 0.24390243902439024,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.22717981042321891,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.638781651509026,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.7791538447248085,
+                "denominator": 10
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 14,
+          "malignant_fn": 27,
+          "benign_fp": 16,
+          "benign_tn": 108,
+          "sensitivity": 0.34146341463414637,
+          "benign_false_alert_rate": 0.12903225806451613
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "checkpoint_sha256": "fcb51c9524a66df34318065f7c24a797f3fd59418c97dc0e3b6addf5a67ac59c",
+      "selection_lock_sha256": "c46a69fa30a7a27058c24c584f25f092151c4603b288d808bb768dd46fcf0d9e",
+      "benchmark": {
+        "status": "completed",
+        "split": "val",
+        "metrics_or_model_selection": false,
+        "config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+        "checkpoint_sha256": "fcb51c9524a66df34318065f7c24a797f3fd59418c97dc0e3b6addf5a67ac59c",
+        "selection_lock_sha256": "c46a69fa30a7a27058c24c584f25f092151c4603b288d808bb768dd46fcf0d9e",
+        "manifest_sha256": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3",
+        "source_sha256": "6d6d72fa4fe54677890229bc6ae8e97a73e3e9ba00bec046c1e3062ca028c8a3",
+        "runtime": {
+          "python": "3.13.16",
+          "platform": "Linux-4.18.0-553.148.1.el8_10.x86_64-x86_64-with-glibc2.28",
+          "ultralytics": "8.3.221",
+          "torch": "2.8.0",
+          "torchvision": "0.23.0"
+        },
+        "gpu": "NVIDIA A100-PCIE-40GB",
+        "device": "0",
+        "batch": 1,
+        "imgsz": 640,
+        "dtype": "FP32",
+        "warmup_calls": 10,
+        "timed_repeats": 3,
+        "images_per_repeat": 165,
+        "confidence_floor": 0.001,
+        "operating_threshold": 0.5,
+        "nms_iou": 0.7,
+        "wall_timing_scope": "Serial predict(path): read/decode, preprocessing, device transfer, model, NMS, operating-threshold filter and CPU prediction materialization; synchronized CUDA. Excludes model startup, warmup, plots, saves and UI.",
+        "cache_note": "Repeated original image paths; OS/network file caches may be warm. Not cold-start or mobile latency.",
+        "wall": {
+          "mean_ms": 54.88529424136034,
+          "median_ms": 41.84589581564069,
+          "p95_ms": 97.85893834196031,
+          "observations": 495
+        },
+        "library_inference": {
+          "mean_ms": 6.822241118384732,
+          "median_ms": 6.80127926170826,
+          "p95_ms": 7.238727482035755,
+          "observations": 495
+        },
+        "serial_images_per_second": 18.2198166890107,
+        "peak_cuda_allocated_bytes_after_warmup": 36736512,
+        "peak_cuda_reserved_bytes_after_warmup": 60817408
+      },
+      "evaluation_sha256": "671781335ecc26a1c10e508c9e3fe298c1cf7fa1246df7e416dc184b66139ebe",
+      "predictions_sha256": "e54b15b6f84b30f0d914d1281a2a0cb2dcd821a26fe2e33c5110ae8b180391a8"
+    },
+    "s": {
+      "mAP50": 0.5290710008947457,
+      "mAP50_95": 0.35274640918289213,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.7721609576758721,
+          "AP50_95": 0.5434124269796049
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.28598104411361935,
+          "AP50_95": 0.16208039138617933
+        }
+      },
+      "operating_point": {
+        "threshold": 0.8,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 61,
+            "fp": 10,
+            "fn": 63,
+            "precision": 0.8591549295774648,
+            "recall": 0.49193548387096775,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.42819254281836805,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.44885203430215675,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.8704241854012728,
+                "denominator": 61
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 6,
+            "fp": 5,
+            "fn": 35,
+            "precision": 0.5454545454545454,
+            "recall": 0.14634146341463414,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.13211572981428665,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.3524167683914975,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.7874598865029213,
+                "denominator": 6
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 8,
+          "malignant_fn": 33,
+          "benign_fp": 3,
+          "benign_tn": 121,
+          "sensitivity": 0.1951219512195122,
+          "benign_false_alert_rate": 0.024193548387096774
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "checkpoint_sha256": "c0a93dab2e63d02b9c12e860ed9cc575de0ff74190527e464057a789f3c86c54",
+      "selection_lock_sha256": "8ad9eb1d2fcb7acc7be4170b432be3061d045d9945503a23a0b8dd967aa14826",
+      "benchmark": {
+        "status": "completed",
+        "split": "val",
+        "metrics_or_model_selection": false,
+        "config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+        "checkpoint_sha256": "c0a93dab2e63d02b9c12e860ed9cc575de0ff74190527e464057a789f3c86c54",
+        "selection_lock_sha256": "8ad9eb1d2fcb7acc7be4170b432be3061d045d9945503a23a0b8dd967aa14826",
+        "manifest_sha256": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3",
+        "source_sha256": "6d6d72fa4fe54677890229bc6ae8e97a73e3e9ba00bec046c1e3062ca028c8a3",
+        "runtime": {
+          "python": "3.13.16",
+          "platform": "Linux-4.18.0-553.148.1.el8_10.x86_64-x86_64-with-glibc2.28",
+          "ultralytics": "8.3.221",
+          "torch": "2.8.0",
+          "torchvision": "0.23.0"
+        },
+        "gpu": "NVIDIA A100-PCIE-40GB",
+        "device": "0",
+        "batch": 1,
+        "imgsz": 640,
+        "dtype": "FP32",
+        "warmup_calls": 10,
+        "timed_repeats": 3,
+        "images_per_repeat": 165,
+        "confidence_floor": 0.001,
+        "operating_threshold": 0.8,
+        "nms_iou": 0.7,
+        "wall_timing_scope": "Serial predict(path): read/decode, preprocessing, device transfer, model, NMS, operating-threshold filter and CPU prediction materialization; synchronized CUDA. Excludes model startup, warmup, plots, saves and UI.",
+        "cache_note": "Repeated original image paths; OS/network file caches may be warm. Not cold-start or mobile latency.",
+        "wall": {
+          "mean_ms": 47.60786018174405,
+          "median_ms": 35.600814037024975,
+          "p95_ms": 81.95001459680498,
+          "observations": 495
+        },
+        "library_inference": {
+          "mean_ms": 5.747114916830653,
+          "median_ms": 5.762975197285414,
+          "p95_ms": 5.9266154654324055,
+          "observations": 495
+        },
+        "serial_images_per_second": 21.004934819218466,
+        "peak_cuda_allocated_bytes_after_warmup": 82389504,
+        "peak_cuda_reserved_bytes_after_warmup": 113246208
+      },
+      "evaluation_sha256": "52a9e52d5406fc04313f3b637561e826a17c1ecab84ad442ee33f95475fa3dc7",
+      "predictions_sha256": "2ca4a31086f345ba08c22b802fb7e205eb3abb24fbe65871aa1c7b3d8b6bc3c9"
+    }
+  },
+  "case_selection": "Lowest image ID per explicit category, without reusing an image. Categories are illustrative, not a random sample or causal experiment.",
+  "cases": [
+    {
+      "category": "Localized benign prediction on malignant GT",
+      "selection_model": "n",
+      "image_id": "ISIC_0012989",
+      "models": {
+        "n": {
+          "gt_matched": false,
+          "malignant_alert": false,
+          "retained": [
+            {
+              "class_id": 0,
+              "confidence": 0.737410843372345,
+              "box": [
+                0.4602046608924866,
+                0.4256213903427124,
+                0.5949973464012146,
+                0.6483114361763
+              ],
+              "IoU": 0.6762466772751599
+            }
+          ],
+          "best_low_floor_malignant_score_at_IoU_0_5": null,
+          "pairwise_same_class_IoU": []
+        },
+        "s": {
+          "gt_matched": false,
+          "malignant_alert": false,
+          "retained": [],
+          "best_low_floor_malignant_score_at_IoU_0_5": 0.42656755447387695,
+          "pairwise_same_class_IoU": []
+        }
+      },
+      "class_id": 1,
+      "image_sha256": "e516691bddc872f59fbcde861e10220cba389c4b3f977887eced3adb1d35865a",
+      "figure": "assets/reassessment_case_1.png"
+    },
+    {
+      "category": "Malignant false alert on benign GT",
+      "selection_model": "n",
+      "image_id": "ISIC_0013114",
+      "models": {
+        "n": {
+          "gt_matched": false,
+          "malignant_alert": true,
+          "retained": [
+            {
+              "class_id": 1,
+              "confidence": 0.7576553821563721,
+              "box": [
+                0.3301924467086792,
+                0.2259015291929245,
+                0.7239702939987183,
+                0.7813959717750549
+              ],
+              "IoU": 0.8569212045905303
+            }
+          ],
+          "best_low_floor_malignant_score_at_IoU_0_5": 0.7576553821563721,
+          "pairwise_same_class_IoU": []
+        },
+        "s": {
+          "gt_matched": false,
+          "malignant_alert": false,
+          "retained": [],
+          "best_low_floor_malignant_score_at_IoU_0_5": 0.4300966262817383,
+          "pairwise_same_class_IoU": []
+        }
+      },
+      "class_id": 0,
+      "image_sha256": "5fbee87d9f6930561d2c5fb8218fe7af3875ddab873ebb6bb79e92917fc6847c",
+      "figure": "assets/reassessment_case_2.png"
+    },
+    {
+      "category": "Malignant alert with insufficient localization",
+      "selection_model": "n",
+      "image_id": "ISIC_0014072",
+      "models": {
+        "n": {
+          "gt_matched": false,
+          "malignant_alert": true,
+          "retained": [
+            {
+              "class_id": 1,
+              "confidence": 0.6103278398513794,
+              "box": [
+                0.17147226631641388,
+                0.16524802148342133,
+                0.6210588216781616,
+                0.9555843472480774
+              ],
+              "IoU": 0.4361245739898297
+            }
+          ],
+          "best_low_floor_malignant_score_at_IoU_0_5": 0.006119236350059509,
+          "pairwise_same_class_IoU": []
+        },
+        "s": {
+          "gt_matched": false,
+          "malignant_alert": true,
+          "retained": [
+            {
+              "class_id": 1,
+              "confidence": 0.8755955100059509,
+              "box": [
+                0.19925223290920258,
+                0.20547053217887878,
+                0.5926541686058044,
+                0.6612237691879272
+              ],
+              "IoU": 0.22006529261719843
+            }
+          ],
+          "best_low_floor_malignant_score_at_IoU_0_5": null,
+          "pairwise_same_class_IoU": []
+        }
+      },
+      "class_id": 1,
+      "image_sha256": "cb3e1e7790732e62b585a68d2fcec68d0b3c9b34d40ca54e8972351d057aba2a",
+      "figure": "assets/reassessment_case_3.png"
+    },
+    {
+      "category": "Additional same-class prediction after a TP",
+      "selection_model": "n",
+      "image_id": "ISIC_0013000",
+      "models": {
+        "n": {
+          "gt_matched": true,
+          "malignant_alert": false,
+          "retained": [
+            {
+              "class_id": 0,
+              "confidence": 0.6350722908973694,
+              "box": [
+                0.38724949955940247,
+                0.38363033533096313,
+                0.4828919768333435,
+                0.5716021656990051
+              ],
+              "IoU": 0.6229712491655828
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.5457077622413635,
+              "box": [
+                0.38099250197410583,
+                0.3690277934074402,
+                0.5128347277641296,
+                0.5746557116508484
+              ],
+              "IoU": 0.6274475837229182
+            }
+          ],
+          "best_low_floor_malignant_score_at_IoU_0_5": null,
+          "pairwise_same_class_IoU": [
+            0.6631426825045376
+          ]
+        },
+        "s": {
+          "gt_matched": false,
+          "malignant_alert": false,
+          "retained": [],
+          "best_low_floor_malignant_score_at_IoU_0_5": null,
+          "pairwise_same_class_IoU": []
+        }
+      },
+      "class_id": 0,
+      "image_sha256": "3aee8f8ddd65f8077723b2965fda6d0ad98075aea31d67cab271d9169b36047d",
+      "figure": "assets/reassessment_case_4.png"
+    },
+    {
+      "category": "No retained box; low-score malignant candidate exists",
+      "selection_model": "n",
+      "image_id": "ISIC_0013198",
+      "models": {
+        "n": {
+          "gt_matched": false,
+          "malignant_alert": false,
+          "retained": [],
+          "best_low_floor_malignant_score_at_IoU_0_5": 0.005310534965246916,
+          "pairwise_same_class_IoU": []
+        },
+        "s": {
+          "gt_matched": false,
+          "malignant_alert": false,
+          "retained": [],
+          "best_low_floor_malignant_score_at_IoU_0_5": 0.0119241364300251,
+          "pairwise_same_class_IoU": []
+        }
+      },
+      "class_id": 1,
+      "image_sha256": "be150dc14ec0a92a8f9a457924ecd20c26656f160f6d2fd2fe2bab5810d71fcc",
+      "figure": "assets/reassessment_case_5.png"
+    }
+  ],
+  "paired_malignant": {
+    "both": 5,
+    "n_only": 5,
+    "s_only": 1,
+    "neither": 30
+  }
+}

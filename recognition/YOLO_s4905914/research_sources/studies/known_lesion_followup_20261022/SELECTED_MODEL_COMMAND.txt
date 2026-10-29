@@ -1,0 +1,4 @@
+Run from restart_20261017 in the pinned ML environment.
+Replace the image path and choose a fresh output directory. This command has not been executed on reassessment images.
+
+python recognition/YOLO_s4905914/predict.py --config studies/known_lesion_optimization_20261021/n_geometry.json --checkpoint outputs/known_lesion_optimization_20261021_681452/n_geometry/train_n/fit/weights/best.pt --lock outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n/selection_lock.json --image /path/to/image.jpg --output outputs/followup_selected_prediction --device cpu

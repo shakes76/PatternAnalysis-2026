@@ -1,0 +1,216 @@
+{
+  "status": "passed",
+  "pdf_pages": 27,
+  "README_sha256": "21f41f450594e6e8cc9adbbfc13cedf45cca9d459025cc8d972d7289741d8e7b",
+  "PDF_sha256": "27929588ff4f358412c29103b7cda8f952e6b7ed2d2df9b00408c33dae89dc16",
+  "report_fragments_in_PDF": 1041,
+  "README_to_PDF_fragments_missing": [],
+  "page_text_bounds": [
+    {
+      "page": 1,
+      "left": 48.0,
+      "right": 547.2755999999996,
+      "top": 47.93299999999999,
+      "bottom": 693.9665
+    },
+    {
+      "page": 2,
+      "left": 48.0,
+      "right": 547.2755999999999,
+      "top": 46.69100000000003,
+      "bottom": 654.9665
+    },
+    {
+      "page": 3,
+      "left": 48.0,
+      "right": 545.9329999999999,
+      "top": 46.69100000000003,
+      "bottom": 669.4665
+    },
+    {
+      "page": 4,
+      "left": 48.0,
+      "right": 546.4745,
+      "top": 46.69100000000003,
+      "bottom": 763.6360900000001
+    },
+    {
+      "page": 5,
+      "left": 48.0,
+      "right": 547.2755999999999,
+      "top": 46.69100000000003,
+      "bottom": 796.46654
+    },
+    {
+      "page": 6,
+      "left": 48.0,
+      "right": 547.0513,
+      "top": 46.69100000000003,
+      "bottom": 610.4665
+    },
+    {
+      "page": 7,
+      "left": 48.0,
+      "right": 547.2756000000002,
+      "top": 46.69100000000003,
+      "bottom": 616.9665
+    },
+    {
+      "page": 8,
+      "left": 48.0,
+      "right": 547.2755899999996,
+      "top": 46.69100000000003,
+      "bottom": 754.46654
+    },
+    {
+      "page": 9,
+      "left": 48.0,
+      "right": 546.9874999999997,
+      "top": 46.69100000000003,
+      "bottom": 614.4665
+    },
+    {
+      "page": 10,
+      "left": 48.0,
+      "right": 543.2444999999999,
+      "top": 46.69100000000003,
+      "bottom": 720.4870000000001
+    },
+    {
+      "page": 11,
+      "left": 48.0,
+      "right": 547.2755940000001,
+      "top": 46.17349999999999,
+      "bottom": 639.4870000000001
+    },
+    {
+      "page": 12,
+      "left": 48.0,
+      "right": 545.9805,
+      "top": 46.17349999999999,
+      "bottom": 634.4768
+    },
+    {
+      "page": 13,
+      "left": 48.0,
+      "right": 547.2755939999995,
+      "top": 46.69100000000003,
+      "bottom": 784.96654
+    },
+    {
+      "page": 14,
+      "left": 48.0,
+      "right": 547.275597,
+      "top": 46.69100000000003,
+      "bottom": 774.46654
+    },
+    {
+      "page": 15,
+      "left": 48.0,
+      "right": 547.2755999999996,
+      "top": 46.69100000000003,
+      "bottom": 527.9665
+    },
+    {
+      "page": 16,
+      "left": 48.0,
+      "right": 545.439,
+      "top": 46.69100000000003,
+      "bottom": 704.9665
+    },
+    {
+      "page": 17,
+      "left": 48.0,
+      "right": 547.2755849999995,
+      "top": 46.69100000000003,
+      "bottom": 633.4665
+    },
+    {
+      "page": 18,
+      "left": 48.0,
+      "right": 547.2755969999998,
+      "top": 46.69100000000003,
+      "bottom": 472.46650000000005
+    },
+    {
+      "page": 19,
+      "left": 48.0,
+      "right": 552.475,
+      "top": 46.69100000000003,
+      "bottom": 531.9665
+    },
+    {
+      "page": 20,
+      "left": 48.0,
+      "right": 547.0254999999997,
+      "top": 46.69100000000003,
+      "bottom": 543.9665
+    },
+    {
+      "page": 21,
+      "left": 48.0,
+      "right": 547.2755859999999,
+      "top": 46.69100000000003,
+      "bottom": 503.96650000000005
+    },
+    {
+      "page": 22,
+      "left": 48.0,
+      "right": 543.8239999999997,
+      "top": 46.69100000000003,
+      "bottom": 542.9665
+    },
+    {
+      "page": 23,
+      "left": 48.0,
+      "right": 548.0809,
+      "top": 46.69100000000003,
+      "bottom": 599.9665
+    },
+    {
+      "page": 24,
+      "left": 48.0,
+      "right": 547.2755999999999,
+      "top": 46.69100000000003,
+      "bottom": 667.4665
+    },
+    {
+      "page": 25,
+      "left": 48.0,
+      "right": 547.2755919999996,
+      "top": 46.69100000000003,
+      "bottom": 521.4665
+    },
+    {
+      "page": 26,
+      "left": 48.0,
+      "right": 544.85,
+      "top": 46.69100000000003,
+      "bottom": 574.9665
+    },
+    {
+      "page": 27,
+      "left": 48.0,
+      "right": 546.4935,
+      "top": 46.69100000000003,
+      "bottom": 353.96650000000005
+    }
+  ],
+  "unit_tests": 47,
+  "unit_test_log_sha256": "a0021398d9795348c38cbad5586753ed66901a7f37d871b1d470e472b503dd5f",
+  "pages_changed_after_all_page_visual_review": [
+    "closed-page-05.png",
+    "closed-page-09.png",
+    "closed-page-10.png",
+    "closed-page-26.png"
+  ],
+  "visual_review": "All 27 pages inspected; final changed pages 5, 9, 10 and 26 re-inspected; all other page renders unchanged",
+  "running_headers_footers_page_numbers": false,
+  "fixed_final_metric_audit": "passed",
+  "final_summary_sha256": "39b75e12443c0a40c342b75626f1f92ca5c38e42f6c1dcc3bd8958d515b7555e",
+  "selection_changed": false,
+  "fresh_blind_test": false,
+  "source_bundle_photo_checks": 165,
+  "new_inference_device": "cpu",
+  "cancelled_before_start_A100_job": 686313
+}

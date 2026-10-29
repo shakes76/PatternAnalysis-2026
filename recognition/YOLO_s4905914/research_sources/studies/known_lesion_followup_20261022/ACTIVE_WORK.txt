@@ -1,0 +1,3 @@
+Completed: this bounded validation-only round.
+Selected: reference_geometry; confidence 0.4.
+No further training planned; no reassessment inference; see decision.json.

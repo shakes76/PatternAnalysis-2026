@@ -1,0 +1,41 @@
+{
+  "status": "completed",
+  "array_job": 681415,
+  "scope": "known-lesion train/validation only",
+  "tasks": {
+    "0": "n_cls1",
+    "1": "n_geometry",
+    "2": "n_long120"
+  },
+  "server_limit": "QOSMaxJobsPerUserLimit; one active job per user",
+  "new_reassessment_inference": false,
+  "plan_sha256": "fe9902ce2b00dc9433ce8588dc647c5677c1b72f5de99e4e08161170eaf2d5aa",
+  "submitted_at": "2026-10-21T10:54:05.554283+10:00",
+  "confirmation_array_job": 681542,
+  "initial_runmap": {
+    "n_long120": "outputs/known_lesion_optimization_20261021_681415",
+    "n_cls1": "outputs/known_lesion_optimization_20261021_681416",
+    "n_geometry": "outputs/known_lesion_optimization_20261021_681452"
+  },
+  "highest_ranked_initial_candidate": "n_geometry",
+  "resumed_at": "2026-10-22T03:18:22.281666+10:00",
+  "remote_status_verified": true,
+  "latest_connection_result": "connected; both confirmation outputs downloaded and verified",
+  "pause_hold_verified": true,
+  "confirmation_released": true,
+  "duplicate_submission": false,
+  "released_at": "2026-10-22T03:29:07.293878+10:00",
+  "latest_slurm_state": "COMPLETED",
+  "latest_slurm_reason": null,
+  "confirmation_runmap": {
+    "n_geometry_seed3711": "outputs/known_lesion_confirmation_20261021_681542",
+    "n_baseline_seed3711": "outputs/known_lesion_confirmation_20261021_683930"
+  },
+  "baseline_confirmation_downloaded": true,
+  "candidate_confirmation_downloaded": true,
+  "completed_at": "2026-10-22T04:01:31.422761+10:00",
+  "confirmation_passed": true,
+  "chosen_candidate": "n_geometry",
+  "chosen_confidence": 0.4,
+  "further_training_planned": false
+}

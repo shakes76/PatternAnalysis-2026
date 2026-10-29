@@ -1,0 +1,1204 @@
+{
+  "status": "passed",
+  "scope": "expanded-data n/s exploratory validation comparison",
+  "plan_sha256": "736670a97a8e66e567dfb2f2ca17234ec9fca436e7ad1fd9ff5970fac4d6839c",
+  "analysis_source_sha256": "84104f656f6564a2e0d82365124727bd293e1106712042b6c1c45ff398b13d5d",
+  "same_training_hyperparameters": true,
+  "same_optimizer_learning_rates_each_call": true,
+  "same_all_2593_image_file_hashes": true,
+  "same_validation_images_and_labels": true,
+  "validation_images": 165,
+  "validation_malignant": 41,
+  "validation_benign": 124,
+  "independently_replayed_working_points": 28,
+  "AP_independently_recomputed": false,
+  "models": {
+    "n": {
+      "mAP50": 0.6353198346807515,
+      "mAP50_95": 0.4369851749103553,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.7395614536170831,
+          "AP50_95": 0.5302380174028831
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.5310782157444198,
+          "AP50_95": 0.34373233241782747
+        }
+      },
+      "selected_threshold": 0.7,
+      "selected_point": {
+        "threshold": 0.7,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 36,
+            "fp": 6,
+            "fn": 88,
+            "precision": 0.8571428571428571,
+            "recall": 0.2903225806451613,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.26064047676628727,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.29421409636908524,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.8977616421949894,
+                "denominator": 36
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 12,
+            "fp": 5,
+            "fn": 29,
+            "precision": 0.7058823529411765,
+            "recall": 0.2926829268292683,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.24525039946194482,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.3780590565995861,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.8379388648283115,
+                "denominator": 12
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 12,
+          "malignant_fn": 29,
+          "benign_fp": 5,
+          "benign_tn": 119,
+          "sensitivity": 0.2926829268292683,
+          "benign_false_alert_rate": 0.04032258064516129
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "fixed_points": {
+        "0.05": {
+          "threshold": 0.05,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 99,
+              "fp": 63,
+              "fn": 25,
+              "precision": 0.6111111111111112,
+              "recall": 0.7983870967741935,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.6927990434576804,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8202649722470389,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8425126872040621,
+                  "denominator": 99
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 33,
+              "fp": 85,
+              "fn": 8,
+              "precision": 0.2796610169491525,
+              "recall": 0.8048780487804879,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.663184162908905,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.839540739576771,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8098371621804346,
+                  "denominator": 33
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 33,
+            "malignant_fn": 8,
+            "benign_fp": 55,
+            "benign_tn": 69,
+            "sensitivity": 0.8048780487804879,
+            "benign_false_alert_rate": 0.4435483870967742
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        "0.5": {
+          "threshold": 0.5,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 78,
+              "fp": 15,
+              "fn": 46,
+              "precision": 0.8387096774193549,
+              "recall": 0.6290322580645161,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.55081855962306,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7011869837746691,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8657903501715611,
+                  "denominator": 78
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 24,
+              "fp": 31,
+              "fn": 17,
+              "precision": 0.43636363636363634,
+              "recall": 0.5853658536585366,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.48477444343431103,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.72072566265911,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8238928750161928,
+                  "denominator": 24
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 24,
+            "malignant_fn": 17,
+            "benign_fp": 28,
+            "benign_tn": 96,
+            "sensitivity": 0.5853658536585366,
+            "benign_false_alert_rate": 0.22580645161290322
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        "0.7": {
+          "threshold": 0.7,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 36,
+              "fp": 6,
+              "fn": 88,
+              "precision": 0.8571428571428571,
+              "recall": 0.2903225806451613,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.26064047676628727,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.29421409636908524,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8977616421949894,
+                  "denominator": 36
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 12,
+              "fp": 5,
+              "fn": 29,
+              "precision": 0.7058823529411765,
+              "recall": 0.2926829268292683,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.24525039946194482,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.3780590565995861,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8379388648283115,
+                  "denominator": 12
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 12,
+            "malignant_fn": 29,
+            "benign_fp": 5,
+            "benign_tn": 119,
+            "sensitivity": 0.2926829268292683,
+            "benign_false_alert_rate": 0.04032258064516129
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        }
+      },
+      "training_seconds": 783.4193802219816,
+      "parameters": 3011238,
+      "peak_cuda_allocated_bytes": 4481888768,
+      "best_epoch": 29,
+      "optimizer_calls": 8520,
+      "checkpoint_sha256": "1bc4fc127b2072b9631802c0be09df446c18d21aa7cefca926bf38d04ac8aaf5",
+      "evaluation_sha256": "73810b91ddab37d915850f0a981ec68ecc4fd04689c502c165775f967e6e9394"
+    },
+    "s": {
+      "mAP50": 0.6436675918132575,
+      "mAP50_95": 0.4540370008810271,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.8040851395110953,
+          "AP50_95": 0.5805147084053333
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.4832500441154198,
+          "AP50_95": 0.3275592933567209
+        }
+      },
+      "selected_threshold": 0.5,
+      "selected_point": {
+        "threshold": 0.5,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 107,
+            "fp": 27,
+            "fn": 17,
+            "precision": 0.7985074626865671,
+            "recall": 0.8629032258064516,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.743851933821085,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.7778714338490327,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.852580041617855,
+                "denominator": 107
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 16,
+            "fp": 13,
+            "fn": 25,
+            "precision": 0.5517241379310345,
+            "recall": 0.3902439024390244,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.3239088334042862,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.7381695672722801,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.81198638804193,
+                "denominator": 16
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 16,
+          "malignant_fn": 25,
+          "benign_fp": 10,
+          "benign_tn": 114,
+          "sensitivity": 0.3902439024390244,
+          "benign_false_alert_rate": 0.08064516129032258
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "fixed_points": {
+        "0.05": {
+          "threshold": 0.05,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 115,
+              "fp": 71,
+              "fn": 9,
+              "precision": 0.6182795698924731,
+              "recall": 0.9274193548387096,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.8021664934953391,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8214918527945342,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8432186847096644,
+                  "denominator": 115
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 20,
+              "fp": 31,
+              "fn": 21,
+              "precision": 0.39215686274509803,
+              "recall": 0.4878048780487805,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.4071936084674275,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8421730798086847,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8203228993129837,
+                  "denominator": 20
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 20,
+            "malignant_fn": 21,
+            "benign_fp": 26,
+            "benign_tn": 98,
+            "sensitivity": 0.4878048780487805,
+            "benign_false_alert_rate": 0.20967741935483872
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        "0.5": {
+          "threshold": 0.5,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 107,
+              "fp": 27,
+              "fn": 17,
+              "precision": 0.7985074626865671,
+              "recall": 0.8629032258064516,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.743851933821085,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7778714338490327,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.852580041617855,
+                  "denominator": 107
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 16,
+              "fp": 13,
+              "fn": 25,
+              "precision": 0.5517241379310345,
+              "recall": 0.3902439024390244,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3239088334042862,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7381695672722801,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.81198638804193,
+                  "denominator": 16
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 16,
+            "malignant_fn": 25,
+            "benign_fp": 10,
+            "benign_tn": 114,
+            "sensitivity": 0.3902439024390244,
+            "benign_false_alert_rate": 0.08064516129032258
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        "0.7": {
+          "threshold": 0.7,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 90,
+              "fp": 20,
+              "fn": 34,
+              "precision": 0.8181818181818182,
+              "recall": 0.7258064516129032,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.6442670541895581,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.6587958246590028,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8738895991813969,
+                  "denominator": 90
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 13,
+              "fp": 4,
+              "fn": 28,
+              "precision": 0.7647058823529411,
+              "recall": 0.3170731707317073,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.2616276780405389,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.6103389454852208,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8029426799044033,
+                  "denominator": 13
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 13,
+            "malignant_fn": 28,
+            "benign_fp": 3,
+            "benign_tn": 121,
+            "sensitivity": 0.3170731707317073,
+            "benign_false_alert_rate": 0.024193548387096774
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        }
+      },
+      "training_seconds": 1069.4818044750718,
+      "parameters": 11136374,
+      "peak_cuda_allocated_bytes": 10305766912,
+      "best_epoch": 41,
+      "optimizer_calls": 8520,
+      "checkpoint_sha256": "728931d79727d9f81d4d7fd2a3b92c5d01a0d538eea2687d77a913600d4c6902",
+      "evaluation_sha256": "c61841b80f51cd37839ac415b19bec12ea08c07e1aaa9e75f5c507099fdca2fb"
+    }
+  },
+  "same_threshold_comparisons": [
+    {
+      "threshold": 0.01,
+      "n": {
+        "threshold": 0.01,
+        "malignant_tp": 35,
+        "malignant_fp": 138,
+        "malignant_fn": 6,
+        "malignant_precision": 0.2023121387283237,
+        "malignant_recall": 0.8536585365853658,
+        "benign_false_alert_images": 62,
+        "benign_false_alert_rate": 0.5,
+        "malignant_image_alerts": 35,
+        "malignant_image_alert_sensitivity": 0.8536585365853658
+      },
+      "s": {
+        "threshold": 0.01,
+        "malignant_tp": 24,
+        "malignant_fp": 46,
+        "malignant_fn": 17,
+        "malignant_precision": 0.34285714285714286,
+        "malignant_recall": 0.5853658536585366,
+        "benign_false_alert_images": 32,
+        "benign_false_alert_rate": 0.25806451612903225,
+        "malignant_image_alerts": 25,
+        "malignant_image_alert_sensitivity": 0.6097560975609756
+      },
+      "s_minus_n_malignant_tp": -11,
+      "s_minus_n_benign_false_alert_images": -30,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.02,
+      "n": {
+        "threshold": 0.02,
+        "malignant_tp": 34,
+        "malignant_fp": 113,
+        "malignant_fn": 7,
+        "malignant_precision": 0.23129251700680273,
+        "malignant_recall": 0.8292682926829268,
+        "benign_false_alert_images": 58,
+        "benign_false_alert_rate": 0.46774193548387094,
+        "malignant_image_alerts": 35,
+        "malignant_image_alert_sensitivity": 0.8536585365853658
+      },
+      "s": {
+        "threshold": 0.02,
+        "malignant_tp": 23,
+        "malignant_fp": 40,
+        "malignant_fn": 18,
+        "malignant_precision": 0.36507936507936506,
+        "malignant_recall": 0.5609756097560976,
+        "benign_false_alert_images": 30,
+        "benign_false_alert_rate": 0.24193548387096775,
+        "malignant_image_alerts": 24,
+        "malignant_image_alert_sensitivity": 0.5853658536585366
+      },
+      "s_minus_n_malignant_tp": -11,
+      "s_minus_n_benign_false_alert_images": -28,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.05,
+      "n": {
+        "threshold": 0.05,
+        "malignant_tp": 33,
+        "malignant_fp": 85,
+        "malignant_fn": 8,
+        "malignant_precision": 0.2796610169491525,
+        "malignant_recall": 0.8048780487804879,
+        "benign_false_alert_images": 55,
+        "benign_false_alert_rate": 0.4435483870967742,
+        "malignant_image_alerts": 33,
+        "malignant_image_alert_sensitivity": 0.8048780487804879
+      },
+      "s": {
+        "threshold": 0.05,
+        "malignant_tp": 20,
+        "malignant_fp": 31,
+        "malignant_fn": 21,
+        "malignant_precision": 0.39215686274509803,
+        "malignant_recall": 0.4878048780487805,
+        "benign_false_alert_images": 26,
+        "benign_false_alert_rate": 0.20967741935483872,
+        "malignant_image_alerts": 20,
+        "malignant_image_alert_sensitivity": 0.4878048780487805
+      },
+      "s_minus_n_malignant_tp": -13,
+      "s_minus_n_benign_false_alert_images": -29,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.1,
+      "n": {
+        "threshold": 0.1,
+        "malignant_tp": 30,
+        "malignant_fp": 72,
+        "malignant_fn": 11,
+        "malignant_precision": 0.29411764705882354,
+        "malignant_recall": 0.7317073170731707,
+        "benign_false_alert_images": 54,
+        "benign_false_alert_rate": 0.43548387096774194,
+        "malignant_image_alerts": 32,
+        "malignant_image_alert_sensitivity": 0.7804878048780488
+      },
+      "s": {
+        "threshold": 0.1,
+        "malignant_tp": 20,
+        "malignant_fp": 30,
+        "malignant_fn": 21,
+        "malignant_precision": 0.4,
+        "malignant_recall": 0.4878048780487805,
+        "benign_false_alert_images": 26,
+        "benign_false_alert_rate": 0.20967741935483872,
+        "malignant_image_alerts": 20,
+        "malignant_image_alert_sensitivity": 0.4878048780487805
+      },
+      "s_minus_n_malignant_tp": -10,
+      "s_minus_n_benign_false_alert_images": -28,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.15,
+      "n": {
+        "threshold": 0.15,
+        "malignant_tp": 30,
+        "malignant_fp": 67,
+        "malignant_fn": 11,
+        "malignant_precision": 0.30927835051546393,
+        "malignant_recall": 0.7317073170731707,
+        "benign_false_alert_images": 53,
+        "benign_false_alert_rate": 0.4274193548387097,
+        "malignant_image_alerts": 32,
+        "malignant_image_alert_sensitivity": 0.7804878048780488
+      },
+      "s": {
+        "threshold": 0.15,
+        "malignant_tp": 20,
+        "malignant_fp": 28,
+        "malignant_fn": 21,
+        "malignant_precision": 0.4166666666666667,
+        "malignant_recall": 0.4878048780487805,
+        "benign_false_alert_images": 24,
+        "benign_false_alert_rate": 0.1935483870967742,
+        "malignant_image_alerts": 20,
+        "malignant_image_alert_sensitivity": 0.4878048780487805
+      },
+      "s_minus_n_malignant_tp": -10,
+      "s_minus_n_benign_false_alert_images": -29,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.2,
+      "n": {
+        "threshold": 0.2,
+        "malignant_tp": 30,
+        "malignant_fp": 61,
+        "malignant_fn": 11,
+        "malignant_precision": 0.32967032967032966,
+        "malignant_recall": 0.7317073170731707,
+        "benign_false_alert_images": 52,
+        "benign_false_alert_rate": 0.41935483870967744,
+        "malignant_image_alerts": 32,
+        "malignant_image_alert_sensitivity": 0.7804878048780488
+      },
+      "s": {
+        "threshold": 0.2,
+        "malignant_tp": 20,
+        "malignant_fp": 27,
+        "malignant_fn": 21,
+        "malignant_precision": 0.425531914893617,
+        "malignant_recall": 0.4878048780487805,
+        "benign_false_alert_images": 24,
+        "benign_false_alert_rate": 0.1935483870967742,
+        "malignant_image_alerts": 20,
+        "malignant_image_alert_sensitivity": 0.4878048780487805
+      },
+      "s_minus_n_malignant_tp": -10,
+      "s_minus_n_benign_false_alert_images": -28,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.3,
+      "n": {
+        "threshold": 0.3,
+        "malignant_tp": 28,
+        "malignant_fp": 52,
+        "malignant_fn": 13,
+        "malignant_precision": 0.35,
+        "malignant_recall": 0.6829268292682927,
+        "benign_false_alert_images": 46,
+        "benign_false_alert_rate": 0.3709677419354839,
+        "malignant_image_alerts": 30,
+        "malignant_image_alert_sensitivity": 0.7317073170731707
+      },
+      "s": {
+        "threshold": 0.3,
+        "malignant_tp": 20,
+        "malignant_fp": 26,
+        "malignant_fn": 21,
+        "malignant_precision": 0.43478260869565216,
+        "malignant_recall": 0.4878048780487805,
+        "benign_false_alert_images": 23,
+        "benign_false_alert_rate": 0.18548387096774194,
+        "malignant_image_alerts": 20,
+        "malignant_image_alert_sensitivity": 0.4878048780487805
+      },
+      "s_minus_n_malignant_tp": -8,
+      "s_minus_n_benign_false_alert_images": -23,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.4,
+      "n": {
+        "threshold": 0.4,
+        "malignant_tp": 27,
+        "malignant_fp": 46,
+        "malignant_fn": 14,
+        "malignant_precision": 0.3698630136986301,
+        "malignant_recall": 0.6585365853658537,
+        "benign_false_alert_images": 42,
+        "benign_false_alert_rate": 0.3387096774193548,
+        "malignant_image_alerts": 28,
+        "malignant_image_alert_sensitivity": 0.6829268292682927
+      },
+      "s": {
+        "threshold": 0.4,
+        "malignant_tp": 17,
+        "malignant_fp": 22,
+        "malignant_fn": 24,
+        "malignant_precision": 0.4358974358974359,
+        "malignant_recall": 0.4146341463414634,
+        "benign_false_alert_images": 19,
+        "benign_false_alert_rate": 0.1532258064516129,
+        "malignant_image_alerts": 17,
+        "malignant_image_alert_sensitivity": 0.4146341463414634
+      },
+      "s_minus_n_malignant_tp": -10,
+      "s_minus_n_benign_false_alert_images": -23,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.5,
+      "n": {
+        "threshold": 0.5,
+        "malignant_tp": 24,
+        "malignant_fp": 31,
+        "malignant_fn": 17,
+        "malignant_precision": 0.43636363636363634,
+        "malignant_recall": 0.5853658536585366,
+        "benign_false_alert_images": 28,
+        "benign_false_alert_rate": 0.22580645161290322,
+        "malignant_image_alerts": 24,
+        "malignant_image_alert_sensitivity": 0.5853658536585366
+      },
+      "s": {
+        "threshold": 0.5,
+        "malignant_tp": 16,
+        "malignant_fp": 13,
+        "malignant_fn": 25,
+        "malignant_precision": 0.5517241379310345,
+        "malignant_recall": 0.3902439024390244,
+        "benign_false_alert_images": 10,
+        "benign_false_alert_rate": 0.08064516129032258,
+        "malignant_image_alerts": 16,
+        "malignant_image_alert_sensitivity": 0.3902439024390244
+      },
+      "s_minus_n_malignant_tp": -8,
+      "s_minus_n_benign_false_alert_images": -18,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.6,
+      "n": {
+        "threshold": 0.6,
+        "malignant_tp": 20,
+        "malignant_fp": 17,
+        "malignant_fn": 21,
+        "malignant_precision": 0.5405405405405406,
+        "malignant_recall": 0.4878048780487805,
+        "benign_false_alert_images": 15,
+        "benign_false_alert_rate": 0.12096774193548387,
+        "malignant_image_alerts": 20,
+        "malignant_image_alert_sensitivity": 0.4878048780487805
+      },
+      "s": {
+        "threshold": 0.6,
+        "malignant_tp": 14,
+        "malignant_fp": 7,
+        "malignant_fn": 27,
+        "malignant_precision": 0.6666666666666666,
+        "malignant_recall": 0.34146341463414637,
+        "benign_false_alert_images": 6,
+        "benign_false_alert_rate": 0.04838709677419355,
+        "malignant_image_alerts": 14,
+        "malignant_image_alert_sensitivity": 0.34146341463414637
+      },
+      "s_minus_n_malignant_tp": -6,
+      "s_minus_n_benign_false_alert_images": -9,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.7,
+      "n": {
+        "threshold": 0.7,
+        "malignant_tp": 12,
+        "malignant_fp": 5,
+        "malignant_fn": 29,
+        "malignant_precision": 0.7058823529411765,
+        "malignant_recall": 0.2926829268292683,
+        "benign_false_alert_images": 5,
+        "benign_false_alert_rate": 0.04032258064516129,
+        "malignant_image_alerts": 12,
+        "malignant_image_alert_sensitivity": 0.2926829268292683
+      },
+      "s": {
+        "threshold": 0.7,
+        "malignant_tp": 13,
+        "malignant_fp": 4,
+        "malignant_fn": 28,
+        "malignant_precision": 0.7647058823529411,
+        "malignant_recall": 0.3170731707317073,
+        "benign_false_alert_images": 3,
+        "benign_false_alert_rate": 0.024193548387096774,
+        "malignant_image_alerts": 13,
+        "malignant_image_alert_sensitivity": 0.3170731707317073
+      },
+      "s_minus_n_malignant_tp": 1,
+      "s_minus_n_benign_false_alert_images": -2,
+      "strict_joint_improvement_by_s": true,
+      "s_no_worse_on_both_and_better_on_one": true
+    },
+    {
+      "threshold": 0.8,
+      "n": {
+        "threshold": 0.8,
+        "malignant_tp": 4,
+        "malignant_fp": 0,
+        "malignant_fn": 37,
+        "malignant_precision": 1.0,
+        "malignant_recall": 0.0975609756097561,
+        "benign_false_alert_images": 0,
+        "benign_false_alert_rate": 0.0,
+        "malignant_image_alerts": 4,
+        "malignant_image_alert_sensitivity": 0.0975609756097561
+      },
+      "s": {
+        "threshold": 0.8,
+        "malignant_tp": 6,
+        "malignant_fp": 1,
+        "malignant_fn": 35,
+        "malignant_precision": 0.8571428571428571,
+        "malignant_recall": 0.14634146341463414,
+        "benign_false_alert_images": 1,
+        "benign_false_alert_rate": 0.008064516129032258,
+        "malignant_image_alerts": 6,
+        "malignant_image_alert_sensitivity": 0.14634146341463414
+      },
+      "s_minus_n_malignant_tp": 2,
+      "s_minus_n_benign_false_alert_images": 1,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    },
+    {
+      "threshold": 0.9,
+      "n": {
+        "threshold": 0.9,
+        "malignant_tp": 0,
+        "malignant_fp": 0,
+        "malignant_fn": 41,
+        "malignant_precision": null,
+        "malignant_recall": 0.0,
+        "benign_false_alert_images": 0,
+        "benign_false_alert_rate": 0.0,
+        "malignant_image_alerts": 0,
+        "malignant_image_alert_sensitivity": 0.0
+      },
+      "s": {
+        "threshold": 0.9,
+        "malignant_tp": 1,
+        "malignant_fp": 0,
+        "malignant_fn": 40,
+        "malignant_precision": 1.0,
+        "malignant_recall": 0.024390243902439025,
+        "benign_false_alert_images": 0,
+        "benign_false_alert_rate": 0.0,
+        "malignant_image_alerts": 1,
+        "malignant_image_alert_sensitivity": 0.024390243902439025
+      },
+      "s_minus_n_malignant_tp": 1,
+      "s_minus_n_benign_false_alert_images": 0,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": true
+    },
+    {
+      "threshold": 0.95,
+      "n": {
+        "threshold": 0.95,
+        "malignant_tp": 0,
+        "malignant_fp": 0,
+        "malignant_fn": 41,
+        "malignant_precision": null,
+        "malignant_recall": 0.0,
+        "benign_false_alert_images": 0,
+        "benign_false_alert_rate": 0.0,
+        "malignant_image_alerts": 0,
+        "malignant_image_alert_sensitivity": 0.0
+      },
+      "s": {
+        "threshold": 0.95,
+        "malignant_tp": 0,
+        "malignant_fp": 0,
+        "malignant_fn": 41,
+        "malignant_precision": null,
+        "malignant_recall": 0.0,
+        "benign_false_alert_images": 0,
+        "benign_false_alert_rate": 0.0,
+        "malignant_image_alerts": 0,
+        "malignant_image_alert_sensitivity": 0.0
+      },
+      "s_minus_n_malignant_tp": 0,
+      "s_minus_n_benign_false_alert_images": 0,
+      "strict_joint_improvement_by_s": false,
+      "s_no_worse_on_both_and_better_on_one": false
+    }
+  ],
+  "paired_outcomes": {
+    "0.01": {
+      "malignant_detection": {
+        "both": 24,
+        "n_only": 11,
+        "s_only": 0,
+        "neither": 6
+      },
+      "benign_false_alert": {
+        "both": 28,
+        "n_only": 34,
+        "s_only": 4,
+        "neither": 58
+      }
+    },
+    "0.02": {
+      "malignant_detection": {
+        "both": 23,
+        "n_only": 11,
+        "s_only": 0,
+        "neither": 7
+      },
+      "benign_false_alert": {
+        "both": 27,
+        "n_only": 31,
+        "s_only": 3,
+        "neither": 63
+      }
+    },
+    "0.05": {
+      "malignant_detection": {
+        "both": 20,
+        "n_only": 13,
+        "s_only": 0,
+        "neither": 8
+      },
+      "benign_false_alert": {
+        "both": 25,
+        "n_only": 30,
+        "s_only": 1,
+        "neither": 68
+      }
+    },
+    "0.1": {
+      "malignant_detection": {
+        "both": 19,
+        "n_only": 11,
+        "s_only": 1,
+        "neither": 10
+      },
+      "benign_false_alert": {
+        "both": 25,
+        "n_only": 29,
+        "s_only": 1,
+        "neither": 69
+      }
+    },
+    "0.15": {
+      "malignant_detection": {
+        "both": 19,
+        "n_only": 11,
+        "s_only": 1,
+        "neither": 10
+      },
+      "benign_false_alert": {
+        "both": 24,
+        "n_only": 29,
+        "s_only": 0,
+        "neither": 71
+      }
+    },
+    "0.2": {
+      "malignant_detection": {
+        "both": 19,
+        "n_only": 11,
+        "s_only": 1,
+        "neither": 10
+      },
+      "benign_false_alert": {
+        "both": 24,
+        "n_only": 28,
+        "s_only": 0,
+        "neither": 72
+      }
+    },
+    "0.3": {
+      "malignant_detection": {
+        "both": 19,
+        "n_only": 9,
+        "s_only": 1,
+        "neither": 12
+      },
+      "benign_false_alert": {
+        "both": 23,
+        "n_only": 23,
+        "s_only": 0,
+        "neither": 78
+      }
+    },
+    "0.4": {
+      "malignant_detection": {
+        "both": 15,
+        "n_only": 12,
+        "s_only": 2,
+        "neither": 12
+      },
+      "benign_false_alert": {
+        "both": 17,
+        "n_only": 25,
+        "s_only": 2,
+        "neither": 80
+      }
+    },
+    "0.5": {
+      "malignant_detection": {
+        "both": 15,
+        "n_only": 9,
+        "s_only": 1,
+        "neither": 16
+      },
+      "benign_false_alert": {
+        "both": 9,
+        "n_only": 19,
+        "s_only": 1,
+        "neither": 95
+      }
+    },
+    "0.6": {
+      "malignant_detection": {
+        "both": 14,
+        "n_only": 6,
+        "s_only": 0,
+        "neither": 21
+      },
+      "benign_false_alert": {
+        "both": 2,
+        "n_only": 13,
+        "s_only": 4,
+        "neither": 105
+      }
+    },
+    "0.7": {
+      "malignant_detection": {
+        "both": 11,
+        "n_only": 1,
+        "s_only": 2,
+        "neither": 27
+      },
+      "benign_false_alert": {
+        "both": 0,
+        "n_only": 5,
+        "s_only": 3,
+        "neither": 116
+      }
+    },
+    "0.8": {
+      "malignant_detection": {
+        "both": 3,
+        "n_only": 1,
+        "s_only": 3,
+        "neither": 34
+      },
+      "benign_false_alert": {
+        "both": 0,
+        "n_only": 0,
+        "s_only": 1,
+        "neither": 123
+      }
+    },
+    "0.9": {
+      "malignant_detection": {
+        "both": 0,
+        "n_only": 0,
+        "s_only": 1,
+        "neither": 40
+      },
+      "benign_false_alert": {
+        "both": 0,
+        "n_only": 0,
+        "s_only": 0,
+        "neither": 124
+      }
+    },
+    "0.95": {
+      "malignant_detection": {
+        "both": 0,
+        "n_only": 0,
+        "s_only": 0,
+        "neither": 41
+      },
+      "benign_false_alert": {
+        "both": 0,
+        "n_only": 0,
+        "s_only": 0,
+        "neither": 124
+      }
+    }
+  },
+  "primary_points_with_strict_joint_improvement": [],
+  "all_grid_points_with_strict_joint_improvement": [
+    0.7
+  ],
+  "reassessment_inference": false,
+  "original_study_replaced": false,
+  "limitations": [
+    "Validation has already been reused for development; this is not a blind test.",
+    "Missing training identity links may inflate scores.",
+    "One training seed and 41 malignant validation images do not establish population superiority.",
+    "n/s initialization transfer and architecture differ; equal training settings do not isolate a single architectural cause.",
+    "Models ran in separate jobs/nodes; measured training time is descriptive, not a controlled speed benchmark."
+  ]
+}

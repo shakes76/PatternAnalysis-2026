@@ -1,0 +1,26 @@
+{
+  "s_geometry": {
+    "run": "outputs/known_lesion_followup_20261022_684063",
+    "phase": "completed",
+    "model": "s",
+    "epoch": 60,
+    "epoch_budget": 60,
+    "training_status": "completed"
+  },
+  "n_resolution896": {
+    "run": "outputs/known_lesion_followup_20261022_684064",
+    "phase": "completed",
+    "model": "n",
+    "epoch": 60,
+    "epoch_budget": 60,
+    "training_status": "completed"
+  },
+  "n_positive2": {
+    "run": "outputs/known_lesion_followup_20261022_684093",
+    "phase": "completed",
+    "model": "n",
+    "epoch": 60,
+    "epoch_budget": 60,
+    "training_status": "completed"
+  }
+}

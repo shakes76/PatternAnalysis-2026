@@ -1,0 +1,33 @@
+{
+  "job_id": 669929,
+  "state": "completed_training_validation_and_independent_audit",
+  "submitted_at": "2026-10-17T23:26:09.988638+10:00",
+  "models": [
+    "n"
+  ],
+  "remote_output": "/home/Student/s4905914/comp3710-restart-20261017/outputs/expanded_training_20261017_669929",
+  "training_images": 2263,
+  "validation_images": 165,
+  "epochs": 60,
+  "reassessment_inference": false,
+  "original_experiment_replaced": false,
+  "course_acceptance_confirmed": false,
+  "observed_completed_epochs": 60,
+  "school_input_audit_passed": true,
+  "audited_images": 2593,
+  "cross_split_exact_decoded_duplicates": 0,
+  "completed_at": "2026-10-17T23:44:34.682595+10:00",
+  "optimizer_calls": 8520,
+  "best_epoch": 29,
+  "school_exit_code": "0:0",
+  "school_elapsed_seconds": 1035,
+  "node": "a100-3",
+  "training_seconds": 783.4193802219816,
+  "local_output": "outputs/expanded_training_20261017_669929",
+  "results": "studies/expanded_training_20261017/results.json",
+  "comparison": "studies/expanded_training_20261017/RESULTS_zh.txt",
+  "primary_metric_malignant_AP50": {
+    "restricted": 0.35909609544898846,
+    "expanded": 0.5310782157444198
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "candidate": "n_geometry",
+  "confidence": 0.4,
+  "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "config_path": "studies/known_lesion_optimization_20261021/n_geometry.json",
+  "checkpoint_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/train_n/fit/weights/best.pt",
+  "selection_lock_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n/selection_lock.json",
+  "evaluation_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n",
+  "model_selection_evidence": "validation only",
+  "confirmation_policy_sha256": "bcd935e95c82d5f300b758071cdbf394c320892afc51c803f964865e7a733323",
+  "confirmation_triggered": true,
+  "confirmation_passed": true,
+  "report_summary": "The initial comparison ranked n_geometry highest: 18/41 malignant TP and 12/124 benign alerts at confidence 0.40, with malignant all-GT correct-class IoU 0.3757. Original n had 13/41 TP, 11/124 benign alerts and IoU 0.2870 at confidence 0.50. The gain met the same rule at seed 3711. I recommend the seed 3710 n_geometry checkpoint at confidence 0.40 for further coursework development, while preserving the original n/s evaluation as the historical baseline. This is repeated improvement on the same validation images; it is not new independent test evidence.",
+  "further_training_planned": false,
+  "new_reassessment_inference": false,
+  "expanded_training_models_eligible": false,
+  "clinical_safety_or_course_pass_claim": false
+}

@@ -1,0 +1,2380 @@
+{
+  "n_resolution896": {
+    "recovered_malignant": [],
+    "newly_missed_malignant": [
+      "ISIC_0013334",
+      "ISIC_0013411",
+      "ISIC_0013578",
+      "ISIC_0013840",
+      "ISIC_0014506",
+      "ISIC_0014663",
+      "ISIC_0014975",
+      "ISIC_0015115",
+      "ISIC_0015204"
+    ],
+    "new_benign_alerts": [],
+    "removed_benign_alerts": [
+      "ISIC_0013748",
+      "ISIC_0014682",
+      "ISIC_0014807",
+      "ISIC_0015020",
+      "ISIC_0015152",
+      "ISIC_0015211",
+      "ISIC_0015313",
+      "ISIC_0015404",
+      "ISIC_0015466"
+    ],
+    "cases": {
+      "ISIC_0013334": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.924512181073909,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5524512529373169,
+              "box": [
+                0.16765394806861877,
+                0.18199391663074493,
+                0.69680255651474,
+                0.8403066396713257
+              ]
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.49156707525253296,
+              "box": [
+                0.17535991966724396,
+                0.16878588497638702,
+                0.6970176100730896,
+                0.8323848843574524
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6137439012527466,
+              "box": [
+                0.19151811301708221,
+                0.17989195883274078,
+                0.6927015781402588,
+                0.8280612230300903
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013411": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.9081828370362839,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6537041664123535,
+              "box": [
+                0.03233194351196289,
+                0.27801114320755005,
+                0.7132872939109802,
+                0.9853773713111877
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013578": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.7746332041368245,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.4138687551021576,
+              "box": [
+                0.3869014084339142,
+                0.18154725432395935,
+                0.6587164998054504,
+                0.8211380243301392
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013748": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.44257083535194397,
+              "box": [
+                0.3600294291973114,
+                0.2208288609981537,
+                0.6455004215240479,
+                0.7840141654014587
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013840": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.7312802110731812,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.7518312335014343,
+              "box": [
+                0.13607721030712128,
+                0.0038700271397829056,
+                0.8157848119735718,
+                0.9447002410888672
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014506": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.937420587668914,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5294321179389954,
+              "box": [
+                0.21188701689243317,
+                0.016686847433447838,
+                0.8400270342826843,
+                0.9493140578269958
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014663": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8311352411569438,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.616657018661499,
+              "box": [
+                0.21093375980854034,
+                0.0,
+                0.9266307353973389,
+                0.9778610467910767
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.5006885528564453,
+              "box": [
+                0.17128504812717438,
+                0.0,
+                0.9399940371513367,
+                0.9807669520378113
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6154517531394958,
+              "box": [
+                0.20991434156894684,
+                0.0,
+                0.9434773325920105,
+                0.9976188540458679
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014682": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.8885659261264877,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6197946071624756,
+              "box": [
+                0.005098533350974321,
+                0.032743364572525024,
+                0.9741355776786804,
+                1.0
+              ]
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.5437168478965759,
+              "box": [
+                0.00305938720703125,
+                0.0,
+                0.9914705753326416,
+                1.0
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.776370505160948,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5940721035003662,
+              "box": [
+                0.21382562816143036,
+                0.04920882731676102,
+                0.9406001567840576,
+                0.9874114394187927
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014807": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.864340987512902,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7440180778503418,
+              "box": [
+                0.11752700805664062,
+                0.013872957788407803,
+                0.9894170165061951,
+                0.9734774231910706
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.4582904577255249,
+              "box": [
+                0.09651470184326172,
+                0.0,
+                0.9947046041488647,
+                0.9786306619644165
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.8646209642643699,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.575028121471405,
+              "box": [
+                0.09524863213300705,
+                0.0,
+                0.9709049463272095,
+                0.9557865858078003
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014975": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.84726114349011,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5475888252258301,
+              "box": [
+                0.14753521978855133,
+                0.010427026078104973,
+                0.8411921858787537,
+                0.9700225591659546
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015020": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6898544430732727,
+              "box": [
+                0.21465426683425903,
+                0.19712336361408234,
+                0.8077316284179688,
+                0.9226698279380798
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015115": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8744419255364876,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.48662108182907104,
+              "box": [
+                0.12003277987241745,
+                0.07892944663763046,
+                0.859870970249176,
+                0.9440074563026428
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015152": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.6857460403162008,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.4896440804004669,
+              "box": [
+                0.2895236015319824,
+                0.22069810330867767,
+                0.7638157606124878,
+                0.8121562004089355
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.41657689213752747,
+              "box": [
+                0.28566843271255493,
+                0.21455931663513184,
+                0.7694607973098755,
+                0.8218669891357422
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.6521077045002762,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5005320310592651,
+              "box": [
+                0.2963290810585022,
+                0.21553479135036469,
+                0.7630020976066589,
+                0.7871624827384949
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015204": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8983980826075004,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.628259539604187,
+              "box": [
+                0.06687991321086884,
+                0.07701468467712402,
+                0.8438242673873901,
+                0.9794194102287292
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5256257653236389,
+              "box": [
+                0.08163683116436005,
+                0.08116775751113892,
+                0.8610488176345825,
+                0.955779492855072
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015211": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.5065951162355465,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.4525753855705261,
+              "box": [
+                0.2818463444709778,
+                0.157235786318779,
+                0.8216559290885925,
+                0.8537282347679138
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.4424488842487335,
+              "box": [
+                0.27100932598114014,
+                0.16014781594276428,
+                0.8293396830558777,
+                0.8826661705970764
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.4820183738324791,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6348617076873779,
+              "box": [
+                0.3058754801750183,
+                0.1594257652759552,
+                0.8322391510009766,
+                0.8390575647354126
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015313": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9684065346083446,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6163232922554016,
+              "box": [
+                0.010161970742046833,
+                0.003351860214024782,
+                0.8428893685340881,
+                0.9613195061683655
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.49901488423347473,
+              "box": [
+                0.00814676284790039,
+                0.0,
+                0.8674295544624329,
+                0.9893044233322144
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9089405631202672,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.815490186214447,
+              "box": [
+                0.02499130740761757,
+                0.011546061374247074,
+                0.8079367876052856,
+                0.9859451055526733
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015404": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5063859224319458,
+              "box": [
+                0.20331993699073792,
+                0.015571365132927895,
+                0.852876603603363,
+                0.9632444381713867
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015466": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9641701331771743,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6591264605522156,
+              "box": [
+                0.010220241732895374,
+                0.0,
+                0.8795456886291504,
+                0.9888159036636353
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.551243007183075,
+              "box": [
+                0.00386142753995955,
+                0.0026187447365373373,
+                0.899139404296875,
+                0.9873277544975281
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.7895755207553556,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5530178546905518,
+              "box": [
+                0.17233772575855255,
+                0.009051838889718056,
+                0.8780246376991272,
+                0.9597825407981873
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "n_positive2": {
+    "recovered_malignant": [
+      "ISIC_0014132",
+      "ISIC_0014545",
+      "ISIC_0014946",
+      "ISIC_0015180"
+    ],
+    "newly_missed_malignant": [
+      "ISIC_0013578",
+      "ISIC_0013840",
+      "ISIC_0014506",
+      "ISIC_0014663",
+      "ISIC_0015115"
+    ],
+    "new_benign_alerts": [
+      "ISIC_0014458",
+      "ISIC_0014537"
+    ],
+    "removed_benign_alerts": [
+      "ISIC_0013748",
+      "ISIC_0013896",
+      "ISIC_0014682",
+      "ISIC_0014786",
+      "ISIC_0015152",
+      "ISIC_0015211",
+      "ISIC_0015466"
+    ],
+    "cases": {
+      "ISIC_0013578": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.7746332041368245,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.4138687551021576,
+              "box": [
+                0.3869014084339142,
+                0.18154725432395935,
+                0.6587164998054504,
+                0.8211380243301392
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013748": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.44257083535194397,
+              "box": [
+                0.3600294291973114,
+                0.2208288609981537,
+                0.6455004215240479,
+                0.7840141654014587
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013840": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.7312802110731812,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.7518312335014343,
+              "box": [
+                0.13607721030712128,
+                0.0038700271397829056,
+                0.8157848119735718,
+                0.9447002410888672
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013896": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.909216382333331,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.4686489403247833,
+              "box": [
+                0.359701931476593,
+                0.40568649768829346,
+                0.6512049436569214,
+                0.8736489415168762
+              ]
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.4189760684967041,
+              "box": [
+                0.35174816846847534,
+                0.4015210270881653,
+                0.6412585377693176,
+                0.856789231300354
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014132": {
+        "reference": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7738838195800781,
+              "box": [
+                0.15805435180664062,
+                0.10687915235757828,
+                0.5661033987998962,
+                0.6886294484138489
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8335475787705553,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.7749178409576416,
+              "box": [
+                0.1379016935825348,
+                0.11049196869134903,
+                0.5799477100372314,
+                0.7263101935386658
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014458": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.8947463145461532,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.545782208442688,
+              "box": [
+                0.44009944796562195,
+                0.4649565815925598,
+                0.590510368347168,
+                0.7172355055809021
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.708956241607666,
+              "box": [
+                0.4382248818874359,
+                0.467467337846756,
+                0.5915360450744629,
+                0.7172256112098694
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014506": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.937420587668914,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5294321179389954,
+              "box": [
+                0.21188701689243317,
+                0.016686847433447838,
+                0.8400270342826843,
+                0.9493140578269958
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014537": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.7966398615354595,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6188521981239319,
+              "box": [
+                0.17337271571159363,
+                0.13735109567642212,
+                0.6412218809127808,
+                0.8695510625839233
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.7651415467262268,
+              "box": [
+                0.1594562530517578,
+                0.13466677069664001,
+                0.6645349264144897,
+                0.9382234215736389
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014545": {
+        "reference": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6647865772247314,
+              "box": [
+                0.32834532856941223,
+                0.4552801251411438,
+                0.5451741814613342,
+                0.794827401638031
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.9366746431963099,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.7147058248519897,
+              "box": [
+                0.3214299976825714,
+                0.4509279131889343,
+                0.5435592532157898,
+                0.802108108997345
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014663": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8311352411569438,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.616657018661499,
+              "box": [
+                0.21093375980854034,
+                0.0,
+                0.9266307353973389,
+                0.9778610467910767
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.5006885528564453,
+              "box": [
+                0.17128504812717438,
+                0.0,
+                0.9399940371513367,
+                0.9807669520378113
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.715312659740448,
+              "box": [
+                0.22182093560695648,
+                0.0,
+                0.9329882264137268,
+                0.9849269390106201
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014682": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.8885659261264877,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6197946071624756,
+              "box": [
+                0.005098533350974321,
+                0.032743364572525024,
+                0.9741355776786804,
+                1.0
+              ]
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.5437168478965759,
+              "box": [
+                0.00305938720703125,
+                0.0,
+                0.9914705753326416,
+                1.0
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014786": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6397131085395813,
+              "box": [
+                0.1495136171579361,
+                0.061196982860565186,
+                0.8287765979766846,
+                0.9589993953704834
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014946": {
+        "reference": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7503699064254761,
+              "box": [
+                0.2304682731628418,
+                0.08110839128494263,
+                0.7500916719436646,
+                0.9154843091964722
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.934496447388449,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.7256129384040833,
+              "box": [
+                0.223120778799057,
+                0.08909250050783157,
+                0.7499305605888367,
+                0.9299667477607727
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015115": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8744419255364876,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.48662108182907104,
+              "box": [
+                0.12003277987241745,
+                0.07892944663763046,
+                0.859870970249176,
+                0.9440074563026428
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015152": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.6857460403162008,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.4896440804004669,
+              "box": [
+                0.2895236015319824,
+                0.22069810330867767,
+                0.7638157606124878,
+                0.8121562004089355
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.41657689213752747,
+              "box": [
+                0.28566843271255493,
+                0.21455931663513184,
+                0.7694607973098755,
+                0.8218669891357422
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.7147822982666369,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7768530249595642,
+              "box": [
+                0.296512246131897,
+                0.21547067165374756,
+                0.782035768032074,
+                0.8177114129066467
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015180": {
+        "reference": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.6624261970335619,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.8041684031486511,
+              "box": [
+                0.07052058726549149,
+                0.14773935079574585,
+                0.7289314866065979,
+                0.9523584246635437
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015211": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.5065951162355465,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.4525753855705261,
+              "box": [
+                0.2818463444709778,
+                0.157235786318779,
+                0.8216559290885925,
+                0.8537282347679138
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.4424488842487335,
+              "box": [
+                0.27100932598114014,
+                0.16014781594276428,
+                0.8293396830558777,
+                0.8826661705970764
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.4553988550622889,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7637803554534912,
+              "box": [
+                0.3205152750015259,
+                0.16203640401363373,
+                0.8182113766670227,
+                0.841120719909668
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015466": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9641701331771743,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6591264605522156,
+              "box": [
+                0.010220241732895374,
+                0.0,
+                0.8795456886291504,
+                0.9888159036636353
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.551243007183075,
+              "box": [
+                0.00386142753995955,
+                0.0026187447365373373,
+                0.899139404296875,
+                0.9873277544975281
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      }
+    }
+  },
+  "s_geometry": {
+    "recovered_malignant": [
+      "ISIC_0013995",
+      "ISIC_0014132"
+    ],
+    "newly_missed_malignant": [
+      "ISIC_0013334",
+      "ISIC_0013411",
+      "ISIC_0013578",
+      "ISIC_0013987",
+      "ISIC_0014302",
+      "ISIC_0014506",
+      "ISIC_0014663",
+      "ISIC_0014975",
+      "ISIC_0015115",
+      "ISIC_0015132"
+    ],
+    "new_benign_alerts": [
+      "ISIC_0013288",
+      "ISIC_0013424",
+      "ISIC_0013461",
+      "ISIC_0013489",
+      "ISIC_0013695",
+      "ISIC_0015390",
+      "ISIC_0015544"
+    ],
+    "removed_benign_alerts": [
+      "ISIC_0013748",
+      "ISIC_0014682",
+      "ISIC_0014786",
+      "ISIC_0014807",
+      "ISIC_0015152",
+      "ISIC_0015211",
+      "ISIC_0015313",
+      "ISIC_0015466"
+    ],
+    "cases": {
+      "ISIC_0013288": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.7133337598961891,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5403291583061218,
+              "box": [
+                0.34846752882003784,
+                0.42546185851097107,
+                0.5668229460716248,
+                0.7472314238548279
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5038478970527649,
+              "box": [
+                0.32612425088882446,
+                0.3924688696861267,
+                0.5763795375823975,
+                0.7711103558540344
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013334": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.924512181073909,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5524512529373169,
+              "box": [
+                0.16765394806861877,
+                0.18199391663074493,
+                0.69680255651474,
+                0.8403066396713257
+              ]
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.49156707525253296,
+              "box": [
+                0.17535991966724396,
+                0.16878588497638702,
+                0.6970176100730896,
+                0.8323848843574524
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6102558970451355,
+              "box": [
+                0.17502963542938232,
+                0.17973996698856354,
+                0.697515070438385,
+                0.823994517326355
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013411": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.9081828370362839,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6537041664123535,
+              "box": [
+                0.03233194351196289,
+                0.27801114320755005,
+                0.7132872939109802,
+                0.9853773713111877
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013424": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5204052329063416,
+              "box": [
+                0.2282242774963379,
+                0.15646566450595856,
+                0.663474440574646,
+                0.8602932691574097
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013461": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.558441162109375,
+              "box": [
+                0.35251423716545105,
+                0.4881289303302765,
+                0.6602264046669006,
+                0.8635087609291077
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013489": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.8692689308766455,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5812117457389832,
+              "box": [
+                0.38065022230148315,
+                0.3158959746360779,
+                0.6145985722541809,
+                0.6520388722419739
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5398138165473938,
+              "box": [
+                0.37153467535972595,
+                0.30418068170547485,
+                0.6175940036773682,
+                0.6606266498565674
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013578": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.7746332041368245,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.4138687551021576,
+              "box": [
+                0.3869014084339142,
+                0.18154725432395935,
+                0.6587164998054504,
+                0.8211380243301392
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013695": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5138503313064575,
+              "box": [
+                0.38333889842033386,
+                0.3702940344810486,
+                0.6463561058044434,
+                0.7538997530937195
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013748": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.44257083535194397,
+              "box": [
+                0.3600294291973114,
+                0.2208288609981537,
+                0.6455004215240479,
+                0.7840141654014587
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0013987": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8212549230533505,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5051807761192322,
+              "box": [
+                0.3509587049484253,
+                0.31731605529785156,
+                0.6230878233909607,
+                0.7379340529441833
+              ]
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.4802810549736023,
+              "box": [
+                0.3503419756889343,
+                0.3208383321762085,
+                0.6253820061683655,
+                0.7297004461288452
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5419345498085022,
+              "box": [
+                0.3539000451564789,
+                0.3200021982192993,
+                0.6144461631774902,
+                0.725860595703125
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0013995": {
+        "reference": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6066389083862305,
+              "box": [
+                0.40362751483917236,
+                0.3442622125148773,
+                0.6482529640197754,
+                0.6393303275108337
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8856408694854224,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5497548580169678,
+              "box": [
+                0.39200547337532043,
+                0.34053730964660645,
+                0.6465635895729065,
+                0.6378955841064453
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.5257314443588257,
+              "box": [
+                0.38606807589530945,
+                0.3386690020561218,
+                0.6445969939231873,
+                0.6308372616767883
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014132": {
+        "reference": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7738838195800781,
+              "box": [
+                0.15805435180664062,
+                0.10687915235757828,
+                0.5661033987998962,
+                0.6886294484138489
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.9006766757399565,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6119657754898071,
+              "box": [
+                0.1613345593214035,
+                0.10025166720151901,
+                0.5717129111289978,
+                0.6921460032463074
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014302": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.7696987145591817,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.4194284677505493,
+              "box": [
+                0.4297366142272949,
+                0.2666310966014862,
+                0.6303732991218567,
+                0.654554545879364
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.4177948236465454,
+              "box": [
+                0.4150528013706207,
+                0.26341524720191956,
+                0.6418821215629578,
+                0.6661439538002014
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014506": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.937420587668914,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5294321179389954,
+              "box": [
+                0.21188701689243317,
+                0.016686847433447838,
+                0.8400270342826843,
+                0.9493140578269958
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014663": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8311352411569438,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.616657018661499,
+              "box": [
+                0.21093375980854034,
+                0.0,
+                0.9266307353973389,
+                0.9778610467910767
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.5006885528564453,
+              "box": [
+                0.17128504812717438,
+                0.0,
+                0.9399940371513367,
+                0.9807669520378113
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7850856781005859,
+              "box": [
+                0.2216164469718933,
+                0.0,
+                0.9239628911018372,
+                0.9678319692611694
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014682": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.8885659261264877,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6197946071624756,
+              "box": [
+                0.005098533350974321,
+                0.032743364572525024,
+                0.9741355776786804,
+                1.0
+              ]
+            },
+            {
+              "class_id": 0,
+              "confidence": 0.5437168478965759,
+              "box": [
+                0.00305938720703125,
+                0.0,
+                0.9914705753326416,
+                1.0
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.944490748111635,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5572190284729004,
+              "box": [
+                0.029154298827052116,
+                0.02489306405186653,
+                0.9714784026145935,
+                1.0
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014786": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6397131085395813,
+              "box": [
+                0.1495136171579361,
+                0.061196982860565186,
+                0.8287765979766846,
+                0.9589993953704834
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0014807": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.864340987512902,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.7440180778503418,
+              "box": [
+                0.11752700805664062,
+                0.013872957788407803,
+                0.9894170165061951,
+                0.9734774231910706
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.4582904577255249,
+              "box": [
+                0.09651470184326172,
+                0.0,
+                0.9947046041488647,
+                0.9786306619644165
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9259262245157314,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5082393288612366,
+              "box": [
+                0.05958547815680504,
+                0.0,
+                0.9876300692558289,
+                0.9657759666442871
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0014975": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.84726114349011,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5475888252258301,
+              "box": [
+                0.14753521978855133,
+                0.010427026078104973,
+                0.8411921858787537,
+                0.9700225591659546
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6589796543121338,
+              "box": [
+                0.1393415480852127,
+                0.009262044914066792,
+                0.8171608448028564,
+                0.9735183715820312
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015115": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.8744419255364876,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.48662108182907104,
+              "box": [
+                0.12003277987241745,
+                0.07892944663763046,
+                0.859870970249176,
+                0.9440074563026428
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015132": {
+        "reference": {
+          "class_id": 1,
+          "tp": true,
+          "correct_class_best_iou": 0.9224418720805528,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.6320542097091675,
+              "box": [
+                0.17833870649337769,
+                0.03707593306899071,
+                0.9069480299949646,
+                0.9885875582695007
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 1,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015152": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.6857460403162008,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.4896440804004669,
+              "box": [
+                0.2895236015319824,
+                0.22069810330867767,
+                0.7638157606124878,
+                0.8121562004089355
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.41657689213752747,
+              "box": [
+                0.28566843271255493,
+                0.21455931663513184,
+                0.7694607973098755,
+                0.8218669891357422
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.7064944021490642,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.5442034602165222,
+              "box": [
+                0.2845139503479004,
+                0.2078166902065277,
+                0.770585298538208,
+                0.8024035692214966
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015211": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.5065951162355465,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.4525753855705261,
+              "box": [
+                0.2818463444709778,
+                0.157235786318779,
+                0.8216559290885925,
+                0.8537282347679138
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.4424488842487335,
+              "box": [
+                0.27100932598114014,
+                0.16014781594276428,
+                0.8293396830558777,
+                0.8826661705970764
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.49702233535570856,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.589604914188385,
+              "box": [
+                0.30468082427978516,
+                0.1496874839067459,
+                0.8217511177062988,
+                0.8630697727203369
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015313": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9684065346083446,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6163232922554016,
+              "box": [
+                0.010161970742046833,
+                0.003351860214024782,
+                0.8428893685340881,
+                0.9613195061683655
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.49901488423347473,
+              "box": [
+                0.00814676284790039,
+                0.0,
+                0.8674295544624329,
+                0.9893044233322144
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9708615269124934,
+          "malignant_alert": false,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6602879166603088,
+              "box": [
+                0.007701968774199486,
+                0.0,
+                0.8430758714675903,
+                0.9961613416671753
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015390": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5273305773735046,
+              "box": [
+                0.10143794119358063,
+                0.09595488011837006,
+                0.8221796751022339,
+                0.9424391388893127
+              ]
+            }
+          ]
+        }
+      },
+      "ISIC_0015466": {
+        "reference": {
+          "class_id": 0,
+          "tp": true,
+          "correct_class_best_iou": 0.9641701331771743,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 0,
+              "confidence": 0.6591264605522156,
+              "box": [
+                0.010220241732895374,
+                0.0,
+                0.8795456886291504,
+                0.9888159036636353
+              ]
+            },
+            {
+              "class_id": 1,
+              "confidence": 0.551243007183075,
+              "box": [
+                0.00386142753995955,
+                0.0026187447365373373,
+                0.899139404296875,
+                0.9873277544975281
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        }
+      },
+      "ISIC_0015544": {
+        "reference": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": false,
+          "retained_predictions": []
+        },
+        "candidate": {
+          "class_id": 0,
+          "tp": false,
+          "correct_class_best_iou": 0.0,
+          "malignant_alert": true,
+          "retained_predictions": [
+            {
+              "class_id": 1,
+              "confidence": 0.5464580655097961,
+              "box": [
+                0.0013950824504718184,
+                0.011356892064213753,
+                0.7896712422370911,
+                0.9782140851020813
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

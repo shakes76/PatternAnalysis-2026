@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "date": "2026-10-28",
+  "purpose": "Fill final geometry n A100 resource measurements and synchronize edited report prose",
+  "readme_sha256": "652fad892e45886861a04622d70bd1e5c9af6c9ad68439cec983f088964e93b4",
+  "pdf_sha256": "d9cfcf62cf25170b14e7aca24faeba7cf8dedf382e44345a82d777d798758d7d",
+  "bilingual_pdf_sha256": "37e6f3ad1e09ad36f50ad9ed244a82a4227d3e650409bddc89146ad29a33e7eb",
+  "english_pages": 14,
+  "bilingual_pages": 18,
+  "readme_changes_this_turn": "Three resource table cells, timing-method paragraph and supporting-record links only; preceding manual prose edits preserved.",
+  "manual_generator_consistency": "All prose and table content agree after whitespace normalization; verified using a temporary build, without overwriting README.",
+  "english_pdf_all_source_paragraphs_tables_code_present": true,
+  "bilingual_complete_same_page_paragraph_pairs": 112,
+  "visual_check": "All-page contact sheets and full-size resource pages reviewed.",
+  "resource_page_english": 12,
+  "resource_page_bilingual": 14,
+  "web_reader_pages_regenerated": true,
+  "web_reader_screenshot": "tmp/final_benchmark_20261028/reader-updated.png",
+  "course_checkout_copies_match": [
+    "README.md",
+    "report_compact.py",
+    "final_candidate_benchmark_20261028.json",
+    "final_candidate_benchmark_measurements_20261028.json",
+    "final_candidate_benchmark_verification_20261028.json"
+  ],
+  "new_research_sources_hashes_verified": [
+    "studies/final_benchmark_20261028/benchmark_a100.sh",
+    "studies/final_benchmark_20261028/README.md",
+    "studies/final_benchmark_20261028/inputs.sha256"
+  ],
+  "historical_research_sources": "Preserved; full historical rehash interrupted during a slow read of an unrelated expanded-data plan. New study files and all changed course report files independently verified.",
+  "model_checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "operating_threshold": 0.4,
+  "classification_detection_or_localization_results_changed": false,
+  "committed_pushed_or_submitted": false
+}

@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "held_out_manifests_and_labels_identical": true,
+  "original_train_is_subset": true,
+  "all_2593_binary_images_accounted_for": true,
+  "identity_fields_equal_metadata": true,
+  "identity_imputation": false,
+  "training_configuration_unchanged": true,
+  "regression_checks": [
+    "strict default rejects unknown train identities",
+    "wrong experiment purpose rejects unknown train identities",
+    "unknown validation identity rejected",
+    "known cross-split patient link rejected"
+  ],
+  "runtime_snapshot_differences": [
+    "dataset.py"
+  ],
+  "image_decoding_and_exact_duplicate_audit": "Required on school host before training"
+}

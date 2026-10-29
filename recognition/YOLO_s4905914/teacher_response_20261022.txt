@@ -1,0 +1,22 @@
+Source: message supplied by the student in this project conversation on 22 October 2026.
+Author as signed in the supplied message: Zhao.
+The original email or Ed thread was not independently fetched.
+
+Hi there,
+
+Thanks for the questions. Here are the answers:
+
+1. Per-class localisation IoU: Please report both the overall average and the per-class IoU.
+2. IoU >= 0.8: This is a mandatory requirement. However, if you run a reasonable number of trial experiments, make your best effort, and still can't reach the target, you won't lose marks as long as you include a sound analysis that supports your explanation.
+3. Classification performance: Reporting accuracy is the baseline. If the dataset is imbalanced, please also report other metrics such as F1 score or recall.
+
+Cheers,
+Zhao
+
+Interpretation for this report:
+- Report overall and separate Benign/Malignant IoU, stating the selection rule and denominator.
+- The reply does not specify how wrong-class predictions, missed lesions, or multiple predictions enter IoU.
+- The target remains mandatory; the reply permits an evidence-supported shortfall after reasonable trials and best effort. It does not guarantee an overall pass or confirm all implementation requirements.
+- Accuracy is required. Classwise recall and F1 are added because the evaluation cohort is imbalanced.
+- The 10% benign-image alert limit remains a project-defined comparison constraint, not a course or clinical minimum.
+- This reply does not confirm component-source acceptance, check-off completion, a deadline, or submission.

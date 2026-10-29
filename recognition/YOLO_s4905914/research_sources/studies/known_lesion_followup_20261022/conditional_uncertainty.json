@@ -1,0 +1,118 @@
+{
+  "n_resolution896": {
+    "known_identity_components": 157,
+    "draws": 5000,
+    "valid_draws": 5000,
+    "conditioning": "Fixed fitted models and validation-selected thresholds; no correction for tuning/selection; missing patient links remain unknown",
+    "differences": {
+      "malignant_recall": {
+        "candidate_minus_baseline_mean": -0.21951219512195122,
+        "paired_percentile_95_interval": [
+          -0.35416666666666663,
+          -0.0967741935483871
+        ]
+      },
+      "malignant_all_GT_correct_IoU": {
+        "candidate_minus_baseline_mean": -0.19205884836870338,
+        "paired_percentile_95_interval": [
+          -0.30802262945473236,
+          -0.08536903249753243
+        ]
+      },
+      "benign_false_alert_rate": {
+        "candidate_minus_baseline_mean": -0.07258064516129031,
+        "paired_percentile_95_interval": [
+          -0.12195121951219512,
+          -0.03076335877862604
+        ]
+      }
+    }
+  },
+  "n_positive2": {
+    "known_identity_components": 157,
+    "draws": 5000,
+    "valid_draws": 5000,
+    "conditioning": "Fixed fitted models and validation-selected thresholds; no correction for tuning/selection; missing patient links remain unknown",
+    "differences": {
+      "malignant_recall": {
+        "candidate_minus_baseline_mean": -0.024390243902439046,
+        "paired_percentile_95_interval": [
+          -0.16666666666666669,
+          0.12195121951219512
+        ]
+      },
+      "malignant_all_GT_correct_IoU": {
+        "candidate_minus_baseline_mean": -0.023027567748406697,
+        "paired_percentile_95_interval": [
+          -0.1428427525734131,
+          0.10097674388374739
+        ]
+      },
+      "benign_false_alert_rate": {
+        "candidate_minus_baseline_mean": -0.04032258064516129,
+        "paired_percentile_95_interval": [
+          -0.09016547516331815,
+          0.0077534520348836984
+        ]
+      }
+    }
+  },
+  "s_geometry": {
+    "known_identity_components": 157,
+    "draws": 5000,
+    "valid_draws": 5000,
+    "conditioning": "Fixed fitted models and validation-selected thresholds; no correction for tuning/selection; missing patient links remain unknown",
+    "differences": {
+      "malignant_recall": {
+        "candidate_minus_baseline_mean": -0.1951219512195122,
+        "paired_percentile_95_interval": [
+          -0.35555555555555557,
+          -0.04545454545454547
+        ]
+      },
+      "malignant_all_GT_correct_IoU": {
+        "candidate_minus_baseline_mean": -0.166565013349279,
+        "paired_percentile_95_interval": [
+          -0.3056290548995833,
+          -0.03555998566908348
+        ]
+      },
+      "benign_false_alert_rate": {
+        "candidate_minus_baseline_mean": -0.008064516129032251,
+        "paired_percentile_95_interval": [
+          -0.06977764177886578,
+          0.054698265255905355
+        ]
+      }
+    }
+  },
+  "single_lesion_policy": {
+    "known_identity_components": 157,
+    "draws": 5000,
+    "valid_draws": 5000,
+    "conditioning": "Fixed fitted models and validation-selected thresholds; no correction for tuning/selection; missing patient links remain unknown",
+    "differences": {
+      "malignant_recall": {
+        "candidate_minus_baseline_mean": -0.024390243902439046,
+        "paired_percentile_95_interval": [
+          -0.1346283783783784,
+          0.08108108108108109
+        ]
+      },
+      "malignant_all_GT_correct_IoU": {
+        "candidate_minus_baseline_mean": -0.008726138263665695,
+        "paired_percentile_95_interval": [
+          -0.1017063554728619,
+          0.07946356459837603
+        ]
+      },
+      "benign_false_alert_rate": {
+        "candidate_minus_baseline_mean": 0.0,
+        "paired_percentile_95_interval": [
+          -0.04999999999999999,
+          0.053445390487375066
+        ]
+      }
+    }
+  }
+}

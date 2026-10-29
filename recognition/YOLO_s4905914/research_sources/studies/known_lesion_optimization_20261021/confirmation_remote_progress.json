@@ -1,0 +1,16 @@
+{
+  "n_geometry_seed3711": {
+    "run": "outputs/known_lesion_confirmation_20261021_681542",
+    "phase": "completed",
+    "epoch": 60,
+    "epoch_budget": 60,
+    "training_status": "completed"
+  },
+  "n_baseline_seed3711": {
+    "run": "outputs/known_lesion_confirmation_20261021_683930",
+    "phase": "completed",
+    "epoch": 60,
+    "epoch_budget": 60,
+    "training_status": "completed"
+  }
+}

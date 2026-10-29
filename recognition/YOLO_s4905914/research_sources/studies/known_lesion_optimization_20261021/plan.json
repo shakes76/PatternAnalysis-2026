@@ -1,0 +1,109 @@
+{
+  "status": "locked_before_training",
+  "created_at": "2026-10-21T10:49:23.204189+10:00",
+  "cohort": {
+    "known_lesion_total": 1098,
+    "train": 768,
+    "validation": 165,
+    "excluded_from_this_study": 165
+  },
+  "scope": "Known-lesion train/validation only; no new reassessment inference or selection",
+  "baseline_run": "outputs/provisional_20261017_669143",
+  "baseline_config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+  "original_source_sha256": {
+    "runtime.py": "e2d2696e8c8dcedfe610929a5b24d586e1d69b480189cbc79f311f0d39057ee4",
+    "dataset.py": "bcb250fa5617d6ffbc027ec63870131a0326b9c9598a94f53a4c45b753f33288",
+    "train.py": "4f835b8465674828e5f49cd2fe454ae10db4cf91a786fbff477ef3c21f3e35ed",
+    "evaluation.py": "b123d75f1862ebcfae45d0eedbdb19c80628ec5e26608081b838a7a4236b204e",
+    "modules.py": "0af074132a4d7f5b323d9df7a2c25f7c4270f02aea64604fcda0cd59f993a359",
+    "preprocessing.py": "c86006c777015ab93f6be34acba442948cc20dd45a42fbcdecf0ff39addb1091",
+    "schedule.py": "ce34bc2a19979375b6d24bd255ef339ba74b644f23abfc15d9fac5aa2e1891df",
+    "checkpoints.py": "fa6ab2849ab87ce562d22f7e2c3d09fa9a528bdabc06f63adc75f2b0105143c9",
+    "audit_real_inputs.py": "4dd080daf1fa167f8fa39adb4493725157cf103c9445db0fc6a8e3385db9a397",
+    "preflight.py": "ecf2af12d3a6423d53d102f9b28654467d7f42ea6be80992f996bdaf568b7eb3",
+    "weights_registry.json": "6226043ae7d30da8672e8ad174da011441c2c05f5099dc57642ee3b83b9bc290",
+    "requirements.txt": "85ab7383b119a5d373f1452a112438119b260d2cda221233e2dd810fd7e8396c",
+    "requirements-linux-a100.lock.txt": "6bf18ff5d2c3e17a34c6c99a597bc5e168716cc61a0171a34d6055aa0c8f222f"
+  },
+  "snapshot_source_sha256": {
+    "runtime.py": "81e5d1ca1e8eb7dfa2d4c59680e893f1f235a4c7f1aac2689c7089a29fcf082b",
+    "dataset.py": "ffaea517830784f8cf76da0f06485ca9346e575c8a611713a37ee78fe67c0afd",
+    "train.py": "54a96ad1a525fe28b40fa97be6240b528d0da994f95d657a2de4e3a6bc887f1a",
+    "evaluation.py": "b123d75f1862ebcfae45d0eedbdb19c80628ec5e26608081b838a7a4236b204e",
+    "modules.py": "0af074132a4d7f5b323d9df7a2c25f7c4270f02aea64604fcda0cd59f993a359",
+    "preprocessing.py": "c86006c777015ab93f6be34acba442948cc20dd45a42fbcdecf0ff39addb1091",
+    "schedule.py": "ce34bc2a19979375b6d24bd255ef339ba74b644f23abfc15d9fac5aa2e1891df",
+    "checkpoints.py": "fa6ab2849ab87ce562d22f7e2c3d09fa9a528bdabc06f63adc75f2b0105143c9",
+    "audit_real_inputs.py": "e5125b5f5d0859c33104939d77df63c080f8b2632b88d18cdf6aad21a8faf5b0",
+    "preflight.py": "ecf2af12d3a6423d53d102f9b28654467d7f42ea6be80992f996bdaf568b7eb3",
+    "weights_registry.json": "6226043ae7d30da8672e8ad174da011441c2c05f5099dc57642ee3b83b9bc290",
+    "requirements.txt": "85ab7383b119a5d373f1452a112438119b260d2cda221233e2dd810fd7e8396c",
+    "requirements-linux-a100.lock.txt": "6bf18ff5d2c3e17a34c6c99a597bc5e168716cc61a0171a34d6055aa0c8f222f"
+  },
+  "variant_training_changes": {
+    "n_long120": {
+      "epochs": 120
+    },
+    "n_cls1": {
+      "cls": 1.0
+    },
+    "n_geometry": {
+      "degrees": 15.0,
+      "translate": 0.05,
+      "scale": 0.15
+    }
+  },
+  "config_sha256": {
+    "n_long120": "723cd393c3711dc42925d2ec0235ad6f57cc84aabed5c8da4e272e4cc30e785d",
+    "n_cls1": "641e82fae3a402044c0bec96b9c10a58235bc9260afe86fc57401acd18822050",
+    "n_geometry": "2b5bcd080dd641273f304c3f3eab66fef9a15fd7a4a3e0cb1a0af9957b9a8922"
+  },
+  "same_for_all": [
+    "train/val images and labels",
+    "COCO n initialization",
+    "seed 3710",
+    "FP32",
+    "batch 16",
+    "imgsz 640",
+    "AdamW lr0 0.001",
+    "NMS IoU 0.7 single-label class-aware",
+    "match IoU 0.5",
+    "14-point threshold grid and 10% benign-image false-alert budget",
+    "EMA best macro mAP50:95 checkpoint"
+  ],
+  "primary": "Malignant detection recall at the validation-selected threshold within <=10% benign image false alerts (max 12/124)",
+  "candidate_selection": [
+    "highest malignant recall within budget",
+    "highest malignant all-GT class-correct IoU at selected threshold",
+    "highest malignant AP50:95",
+    "fewer benign image false alerts",
+    "prefer original n then lexicographic variant name"
+  ],
+  "fixed_threshold_comparisons": [
+    0.05,
+    0.5
+  ],
+  "secondary": [
+    "Malignant AP50 and AP50:95",
+    "Benign AP50:95",
+    "macro mAP50:95",
+    "per-class all-GT class-correct IoU (missing correct-class box = 0)",
+    "class-agnostic IoU and TP-only IoU, explicitly different denominators",
+    "detection recall at matching IoU 0.75, with already-selected threshold"
+  ],
+  "material_improvement_rule": "Recommend a development candidate only if malignant TP at selected point rises by >=3/41 and malignant all-GT class-correct IoU also increases versus baseline n; otherwise keep baseline and report no convincing gain",
+  "confirmation_rule": "If a candidate meets the improvement rule, repeat baseline n and the best candidate once at seed 3711; report both seeds without choosing the better seed",
+  "compute_limit": "Three initial n runs (240 total epochs); at most two confirmation runs",
+  "no_additional_trials_after_results": true,
+  "uncertainty": "Validation selection is optimistic; 41 malignant images and group dependence limit precision. Any bootstrap interval is conditional on fixed selected thresholds, not corrected for model/threshold selection.",
+  "patient_independence_proven": false,
+  "teacher_guidance": "User reports teacher directed using the known-lesion subset; no evidence of other course approvals",
+  "new_reassessment_inference": false,
+  "limitations": [
+    "one small repeatedly-used validation set",
+    "initial single seed",
+    "longer training changes LR decay and checkpoint-selection opportunities",
+    "cls is not malignant-specific weighting",
+    "geometry bundle does not isolate individual transforms"
+  ]
+}

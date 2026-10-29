@@ -1,0 +1,23 @@
+{
+  "n_long120": {
+    "run": "outputs/known_lesion_optimization_20261021_681415",
+    "phase": "completed",
+    "epoch": 120,
+    "epoch_budget": 120,
+    "training_status": "completed"
+  },
+  "n_cls1": {
+    "run": "outputs/known_lesion_optimization_20261021_681416",
+    "phase": "completed",
+    "epoch": 60,
+    "epoch_budget": 60,
+    "training_status": "completed"
+  },
+  "n_geometry": {
+    "run": "outputs/known_lesion_optimization_20261021_681452",
+    "phase": "completed",
+    "epoch": 60,
+    "epoch_budget": 60,
+    "training_status": "completed"
+  }
+}

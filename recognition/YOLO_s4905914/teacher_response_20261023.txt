@@ -1,0 +1,21 @@
+Provenance
+Supplied by the student as an Ed screenshot on 23 October 2026.
+Responder shown: Zhao Wang, STAFF. The screenshot shows relative times,
+so this filename records receipt date, not a verified posting timestamp.
+The Ed thread was not independently retrieved. No reply was sent.
+
+Student question (transcribed):
+Thank you for the clarification. For the mean localisation IoU, should we average over all ground-truth lesions, assigning zero to missed lesions, or only over matched detections? Also, must the predicted class be correct for a box to contribute to the localisation IoU?
+
+Teacher reply (transcribed):
+It really depends on what you want to report. I’d recommend reading the paper carefully to see which evaluation metrics the authors report and why. Your evaluation results should be evidence that supports your claims. For example, if you report per-class accuracy, what conclusion or analysis can you draw from it? And if you leave it out, what would be missing from the evaluation of this kind of model?
+
+This project is not just about finishing some work and hitting set targets. It’s more like open research, where you’re welcome to add your own ideas and analysis. Enjoy! :)
+
+Report interpretation (not a teacher quotation):
+Choose and justify metrics according to the research claims. This reply does
+not prescribe an IoU denominator, approve a particular implementation, or
+withdraw the earlier target/best-effort guidance. Report all existing IoU
+variants with their denominators, classification metrics and detection
+metrics, and explain what each can and cannot establish. Keep the selected
+model, threshold, predictions and selection rules unchanged.

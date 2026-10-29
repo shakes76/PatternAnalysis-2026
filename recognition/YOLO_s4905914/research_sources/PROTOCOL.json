@@ -1,0 +1,109 @@
+{
+  "version": "restart-20261017-v1",
+  "status": "provisional_study_completed_course_acceptance_pending",
+  "task": "one lesion bounding box plus Benign/Malignant classification",
+  "proposal": "known-lesion supplementary study, subject to course acceptance of restricted cohort",
+  "cohort": {
+    "images": 1098,
+    "benign": 824,
+    "malignant": 274,
+    "unknown_lesion_excluded_from_all_phases": 1496,
+    "indeterminate_excluded_by_cohort_rule": 1
+  },
+  "grouping": {
+    "required_field": "lesion_id",
+    "additional_constraint": "keep every known patient_id together",
+    "strategy": "connected components of all recorded lesion/patient links",
+    "seed": 3710,
+    "impute_missing_ids": false,
+    "patient_independent_claim": false,
+    "missing_patient_id_within_cohort": 708
+  },
+  "split_roles": {
+    "train": {
+      "images": 768,
+      "Benign": 576,
+      "Malignant": 192
+    },
+    "val": {
+      "images": 165,
+      "Benign": 124,
+      "Malignant": 41
+    },
+    "reassessment": {
+      "images": 165,
+      "Benign": 124,
+      "Malignant": 41,
+      "fresh_blind_test": false,
+      "evaluate_during_model_or_threshold_selection": false
+    }
+  },
+  "classes": {
+    "0": "Benign",
+    "1": "Malignant"
+  },
+  "reuse": {
+    "binary_masks_and_box_coordinates": "reuse verified original-mask preparation",
+    "old_trained_checkpoints": "prohibited as initialisation in regrouped comparison",
+    "old_results": "historical exposure and provenance retained; local old experiment artifacts removed from workspace via Trash at user request; school server and GitHub unchanged"
+  },
+  "models": {
+    "baseline": "YOLOv8n",
+    "comparator": "YOLOv8s",
+    "implementation": "existing Ultralytics 8.3.221; acceptance of component packaging unresolved",
+    "initialisation": "separate original COCO pretrained weights for both"
+  },
+  "training_protocol": {
+    "status": "candidate configuration locked before training; instructor acceptance unconfirmed",
+    "same_cohort_and_seed": true,
+    "same_update_budget_and_augmentation_policy": true,
+    "explicit_optimizer_and_learning_rate_schedule": true,
+    "checkpoint_selection_rule": "declare primary before training; do not choose after metric inspection"
+  },
+  "evaluation": {
+    "metrics": [
+      "mAP50",
+      "mAP50:95",
+      "per-class Precision/Recall",
+      "per-class IoU with all-GT and TP-only denominators separately",
+      "image alert sensitivity and benign false-alert rate",
+      "parameters",
+      "peak GPU memory",
+      "latency"
+    ],
+    "detection_match_iou": 0.5,
+    "course_target_localisation_iou": 0.8,
+    "course_target_aggregation": "teacher clarification pending",
+    "threshold_selection": "validation only under a predeclared false-alert budget; budget and grid must be locked before scoring",
+    "comparison_scope": "compare n/s within this new protocol; old/new metric differences are not causal model improvement"
+  },
+  "pending_course_items": [
+    "acceptance of known-lesion-only cohort",
+    "model source/component packaging",
+    "IoU target denominator",
+    "feasibility check-off record and current deadline"
+  ],
+  "no_automatic_clinical_clearance": true,
+  "active_candidate_config": "recognition/YOLO_s4905914/experiment_provisional.json",
+  "active_candidate_job_id": 669143,
+  "validation_comparison": {
+    "job_id": 669143,
+    "completed": true,
+    "evidence": "recognition/YOLO_s4905914/validation_results_669143.json",
+    "primary_model": "n",
+    "thresholds": {
+      "n": 0.5,
+      "s": 0.8
+    },
+    "reassessment_model_evaluated": true
+  },
+  "supplementary_evaluation": {
+    "job_id": 669815,
+    "completed": true,
+    "plan": "recognition/YOLO_s4905914/reassessment_plan.json",
+    "results": "recognition/YOLO_s4905914/reassessment_results_669815.json",
+    "fresh_blind_test": false,
+    "thresholds_changed": false,
+    "model_policy_changed": false
+  }
+}

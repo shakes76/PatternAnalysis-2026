@@ -1,0 +1,51 @@
+公开分组 ID 复核（2026-10-17）
+
+结论
+当前已核查的官方公开来源没有完整覆盖这 2,594 张 Task 1 图像的病灶和
+患者身份。不是 image_id 缺失：2,594 个图像 ID 均完整且唯一。缺少的是
+把不同照片关联到同一病灶/患者的 lesion_id 和 patient_id。
+未发现完整补充映射，不等于证明原作者或其他尚未发现的来源没有映射。
+
+本次实际复核
+1. 从 https://api.isic-archive.com/collections/63/metadata/ 重新下载完整 CSV。
+   文件 SHA-256 与项目保存的版本完全相同：
+   4d7d982a56c265d5440f3f85560690bbf3e3ec91b890c62873acc2315e61e0af
+2. 按官方 OpenAPI 的 images/search 接口查询 collection 63，遍历全部 26 页。
+   得到 2,594 个不重复图像 ID，与本项目逐一相同；不是只看第一页或抽样。
+   API 中临床分组字段与 CSV 一致，没有新增或改变的身份映射。
+3. 结果：lesion_id 有值 1,098 张、缺失 1,496 张；patient_id 有值 390 张、
+   缺失 2,204 张。已记录的不同病灶共 1,083 个、不同患者共 350 个。
+   “有 ID 的图片数”和“不同身份数”不是同一个统计量。
+4. 官方集合网页也显示 2,594 images / 1,083 specified lesions /
+   350 specified patients，与程序复核一致。
+5. 官方 2020 training metadata v2（33,126 行）及 test metadata（10,982 行）
+   与当前图像 ID 均无交集，不能用于补全。2020 test 的患者列叫 patient；
+   本次先核对图像交集为 0，不据空的 patient_id 列推断其身份字段缺失。
+6. 此前官方 2018 Task 3 分组表与本项目交集为 0；2019 metadata 匹配
+   772 张，其中仅 1 张带 lesion_id，且本项目原先已有，无新增补全。
+
+不能采用的替代办法
+不能把 ISIC 图像编号当成病灶编号，不能给空 ID 逐图制造“独立病灶”，
+不能用年龄、性别或图片相似性推断相同患者。去重可用于发现重复风险，
+不能证明缺失身份部分患者独立。
+
+继续实验的判断
+先用已知病灶子集开展候选实验有可解释的依据：明确排除缺失病灶 ID，
+保持已知病灶和已知患者联系不跨集合。无需把等待教师回复设为所有
+技术实验的前置条件；此前等待属于避免返工的项目安排。
+课程对缩小子集和第三方组件组织的接受程度仍未确认。候选结果只能
+解释这个子集；708 张仍缺患者 ID，旧 test 的曝光历史也必须保留。
+如果教师后来给出新的映射或明确要求，应据其要求调整方案和重跑范围。
+本次核查没有改变样本清单、标签或训练参数。随后单独锁定候选配置，
+在学校运行检查通过后启动作业 669143；课程接受情况仍明确标记为未确认。
+
+证据（项目根目录下）
+outputs/id_recheck_20261017/fresh_csv_audit.json
+outputs/id_recheck_20261017/full_api_audit.json（各页 URL、哈希及计数）
+outputs/id_recheck_20261017/2020_mapping_audit.json
+outputs/grouping_followup_20261017/external_metadata_audit.json
+
+官方来源
+https://api.isic-archive.com/collections/63/
+https://api.isic-archive.com/api/docs/swagger/
+https://challenge.isic-archive.com/data/

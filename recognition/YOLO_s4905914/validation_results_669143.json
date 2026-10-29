@@ -1,0 +1,265 @@
+{
+  "status": "passed",
+  "scope": "validation_only",
+  "AP_independently_recomputed": false,
+  "fixed_threshold_metrics_independently_recomputed": true,
+  "config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+  "manifest_sha256": {
+    "train": "8528722216b67d62078fe32632cb64128149053cc41ece6daec7399369126fca",
+    "val": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3",
+    "reassessment": "5264555d5de0ee5cbaa5b69e090d0b6e24c907b4efd50acc69cc32afd35a8df6"
+  },
+  "model_policy": "YOLOv8n is the predeclared primary; YOLOv8s is the comparator, not a result-selected replacement",
+  "course_acceptance_confirmed": false,
+  "fresh_blind_test": false,
+  "reassessment_model_evaluated": false,
+  "models": {
+    "n": {
+      "mAP50": 0.587406007723231,
+      "mAP50_95": 0.40549136382689754,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.8157159199974737,
+          "AP50_95": 0.5598343782173362
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.35909609544898846,
+          "AP50_95": 0.2511483494364588
+        }
+      },
+      "operating_point": {
+        "threshold": 0.5,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 92,
+            "fp": 24,
+            "fn": 32,
+            "precision": 0.7931034482758621,
+            "recall": 0.7419354838709677,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.6371932694257194,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.7015088831534058,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.8558801666067477,
+                "denominator": 92
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 13,
+            "fp": 13,
+            "fn": 28,
+            "precision": 0.5,
+            "recall": 0.3170731707317073,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.2869604264542831,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.7235870290347268,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.857050268914902,
+                "denominator": 13
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 15,
+          "malignant_fn": 26,
+          "benign_fp": 11,
+          "benign_tn": 113,
+          "sensitivity": 0.36585365853658536,
+          "benign_false_alert_rate": 0.08870967741935484
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "FN_cache_partition": {
+        "only_benign_candidates_localize_at_IoU_0.5": 7,
+        "no_cached_candidate_reaches_IoU_0.5": 2,
+        "qualified_malignant_candidate_below_operating_threshold": 19
+      },
+      "training_seconds": 483.1886325409869,
+      "parameters": 3011238,
+      "peak_cuda_allocated_GiB": 4.174084186553955,
+      "checkpoint_selection": {
+        "best_epoch": 32,
+        "completed_epochs": 60,
+        "selection_validation_mAP50_95": 0.40685,
+        "last_epoch_validation_mAP50_95": 0.39668,
+        "weight_source": "EMA",
+        "tie_rule": "later epoch wins exact ties",
+        "score_scope": "Training-time validation of in-memory EMA before FP16 serialization",
+        "finalized_file_epoch_is_not_selection_epoch": true
+      },
+      "best_sha256": "fcb51c9524a66df34318065f7c24a797f3fd59418c97dc0e3b6addf5a67ac59c",
+      "predictions_sha256": "792f04b9601a1b64f055ed6a6aea83e24e461a49d7604e28bffb73f965a985f0",
+      "evaluation_sha256": "703fe47fa84604ada9acc277be2f51cc04e57c806fdbe2a227de4f4c13acc40f",
+      "current_source_differences": [
+        "transfer.py"
+      ],
+      "source_difference_note": "transfer.py is packaging only, not imported by training/evaluation; all other recorded source files match.",
+      "low_floor_diagnostic": {
+        "threshold": 0.001,
+        "malignant_counts": {
+          "gt": 41,
+          "tp": 32,
+          "fp": 297,
+          "fn": 9,
+          "precision": 0.0972644376899696,
+          "recall": 0.7804878048780488
+        }
+      }
+    },
+    "s": {
+      "mAP50": 0.5974828426992087,
+      "mAP50_95": 0.39256955350077954,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.7897737871216641,
+          "AP50_95": 0.5435564719479941
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.4051918982767532,
+          "AP50_95": 0.24158263505356498
+        }
+      },
+      "operating_point": {
+        "threshold": 0.8,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 65,
+            "fp": 10,
+            "fn": 59,
+            "precision": 0.8666666666666667,
+            "recall": 0.5241935483870968,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.4552445716339169,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.4993525872697954,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.868466567424703,
+                "denominator": 65
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 11,
+            "fp": 8,
+            "fn": 30,
+            "precision": 0.5789473684210527,
+            "recall": 0.2682926829268293,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.21180775290706486,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.43621461509996845,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.7894652608354236,
+                "denominator": 11
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 11,
+          "malignant_fn": 30,
+          "benign_fp": 7,
+          "benign_tn": 117,
+          "sensitivity": 0.2682926829268293,
+          "benign_false_alert_rate": 0.056451612903225805
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "FN_cache_partition": {
+        "qualified_malignant_candidate_below_operating_threshold": 21,
+        "only_benign_candidates_localize_at_IoU_0.5": 8,
+        "no_cached_candidate_reaches_IoU_0.5": 1
+      },
+      "training_seconds": 573.1695269680349,
+      "parameters": 11136374,
+      "peak_cuda_allocated_GiB": 6.120575904846191,
+      "checkpoint_selection": {
+        "best_epoch": 42,
+        "completed_epochs": 60,
+        "selection_validation_mAP50_95": 0.39275,
+        "last_epoch_validation_mAP50_95": 0.38487,
+        "weight_source": "EMA",
+        "tie_rule": "later epoch wins exact ties",
+        "score_scope": "Training-time validation of in-memory EMA before FP16 serialization",
+        "finalized_file_epoch_is_not_selection_epoch": true
+      },
+      "best_sha256": "c0a93dab2e63d02b9c12e860ed9cc575de0ff74190527e464057a789f3c86c54",
+      "predictions_sha256": "38d1a709d24cd635daa2c43114a3d3143cfbde9e0b69dda7924286b12470dde5",
+      "evaluation_sha256": "6410d77da9f9169bb261193f40cf8e278369531f695af07b03549c39f61a6308",
+      "current_source_differences": [
+        "transfer.py"
+      ],
+      "source_difference_note": "transfer.py is packaging only, not imported by training/evaluation; all other recorded source files match.",
+      "low_floor_diagnostic": {
+        "threshold": 0.001,
+        "malignant_counts": {
+          "gt": 41,
+          "tp": 32,
+          "fp": 210,
+          "fn": 9,
+          "precision": 0.1322314049586777,
+          "recall": 0.7804878048780488
+        }
+      }
+    }
+  },
+  "limitations": [
+    "One seed and 41 malignant validation images; no population superiority claim.",
+    "Validation selects checkpoint and threshold; these are development results.",
+    "708 cohort images lack patient ID; only recorded identity links are constrained.",
+    "Previous test exposure remains; regrouping does not create a fresh blind test.",
+    "Cached candidates are after NMS and score floor 0.001, not full class scores.",
+    "FN partitions describe available predictions, not causes of network errors."
+  ],
+  "paired_malignant_TP": {
+    "neither": 22,
+    "s_only": 6,
+    "n_only": 8,
+    "both": 5
+  },
+  "paired_benign_false_alerts": {
+    "neither": 107,
+    "n_only": 10,
+    "s_only": 6,
+    "both": 1
+  },
+  "analysis_source_sha256": "78e9902cac4c77b17449a8fb8f640812894719ca54f9eb28424ddb5475bd7ef8"
+}

@@ -1,0 +1,87 @@
+{
+  "scope": "validation only",
+  "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "runtime": {
+    "python": "3.13.13",
+    "platform": "macOS-26.3.1-arm64-arm-64bit-Mach-O",
+    "ultralytics": "8.3.221",
+    "torch": "2.8.0",
+    "torchvision": "0.23.0"
+  },
+  "device": "CPU",
+  "image_count": 165,
+  "new_reassessment_inference": false,
+  "cpu_GPU_cached_operating_counts_match": true,
+  "CPU_operating_point": {
+    "threshold": 0.4,
+    "score_rule": "confidence > threshold",
+    "match_iou": 0.5,
+    "classes": {
+      "Benign": {
+        "gt": 124,
+        "tp": 102,
+        "fp": 28,
+        "fn": 22,
+        "precision": 0.7846153846153846,
+        "recall": 0.8225806451612904,
+        "iou": {
+          "all_gt_class_correct": {
+            "mean": 0.7056904037317673,
+            "denominator": 124
+          },
+          "all_gt_class_agnostic": {
+            "mean": 0.738376528038995,
+            "denominator": 124
+          },
+          "tp_only": {
+            "mean": 0.8529034085937409,
+            "denominator": 102
+          }
+        }
+      },
+      "Malignant": {
+        "gt": 41,
+        "tp": 18,
+        "fp": 12,
+        "fn": 23,
+        "precision": 0.6,
+        "recall": 0.43902439024390244,
+        "iou": {
+          "all_gt_class_correct": {
+            "mean": 0.3757128728861382,
+            "denominator": 41
+          },
+          "all_gt_class_agnostic": {
+            "mean": 0.748266102348523,
+            "denominator": 41
+          },
+          "tp_only": {
+            "mean": 0.8557904326850925,
+            "denominator": 18
+          }
+        }
+      }
+    },
+    "image_alerts": {
+      "malignant_tp": 18,
+      "malignant_fn": 23,
+      "benign_fp": 12,
+      "benign_tn": 112,
+      "sensitivity": 0.43902439024390244,
+      "benign_false_alert_rate": 0.0967741935483871
+    },
+    "images": 165,
+    "image_alerts_are_biopsy_counts": false
+  },
+  "malignant_raw_chain": {
+    "0.001": {
+      "loses_class_argmax": 11,
+      "post_NMS_TP_available": 30
+    },
+    "0.4": {
+      "malignant_score_below_threshold": 23,
+      "post_NMS_TP_available": 18
+    }
+  },
+  "GT_oracle_warning": "Raw best-IoU and well-localized candidate statistics use GT solely for autopsy; not deployable predictions or model performance"
+}

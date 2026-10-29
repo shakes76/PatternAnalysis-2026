@@ -1,0 +1,7 @@
+Completed known-lesion optimization and seed confirmation.
+
+Read RESULTS_zh.txt, decision.json and confirmation_results.json. No further
+training or reassessment inference is planned. Do not release or resubmit681542.
+README/PDF rebuilt from completed evidence; check report verification.json
+for final visual review status. Original configs/results/locks are preserved.
+No submission, push, commit, external messages or automation created.

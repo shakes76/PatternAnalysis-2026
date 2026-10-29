@@ -1,0 +1,378 @@
+{
+  "status": "passed",
+  "new_reassessment_inference": true,
+  "new_training": false,
+  "selection_changed": false,
+  "fresh_blind_test": false,
+  "model": "n_geometry seed 3710",
+  "threshold": 0.4,
+  "source_run": "outputs/final_reassessment_cpu_20261022",
+  "plan_sha256": "d83574913228042f529e8a8b479d223ada9d7b5c13b87ba3a3169610245652ad",
+  "evaluation_sha256": "646fc9506936bcc411e29aa85bdff8891ec8e94ac72bc2f5dc6b6ab9193e4337",
+  "predictions_sha256": "29c9d49632583c1e11aae0cb00c8caad774a64189ce2228e50f60babd701d60a",
+  "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "selection_lock_sha256": "ce6210ddad958648fc49c039e21735f467df0ff1325c5d3136649185232a319f",
+  "manifest_sha256": "5264555d5de0ee5cbaa5b69e090d0b6e24c907b4efd50acc69cc32afd35a8df6",
+  "metrics": {
+    "reporting_version": "course-closeout-v1",
+    "detection": {
+      "threshold": 0.4,
+      "score_rule": "confidence > threshold",
+      "match_iou": 0.5,
+      "classes": {
+        "Benign": {
+          "gt": 124,
+          "tp": 104,
+          "fp": 24,
+          "fn": 20,
+          "precision": 0.8125,
+          "recall": 0.8387096774193549,
+          "iou": {
+            "all_gt_class_correct": {
+              "mean": 0.7150497902167324,
+              "denominator": 124
+            },
+            "all_gt_class_agnostic": {
+              "mean": 0.7725591319893903,
+              "denominator": 124
+            },
+            "tp_only": {
+              "mean": 0.8469528302254186,
+              "denominator": 104
+            }
+          }
+        },
+        "Malignant": {
+          "gt": 41,
+          "tp": 13,
+          "fp": 16,
+          "fn": 28,
+          "precision": 0.4482758620689655,
+          "recall": 0.3170731707317073,
+          "iou": {
+            "all_gt_class_correct": {
+              "mean": 0.26799959679953783,
+              "denominator": 41
+            },
+            "all_gt_class_agnostic": {
+              "mean": 0.603370363994737,
+              "denominator": 41
+            },
+            "tp_only": {
+              "mean": 0.8099683178381815,
+              "denominator": 13
+            }
+          }
+        }
+      },
+      "image_alerts": {
+        "malignant_tp": 15,
+        "malignant_fn": 26,
+        "benign_fp": 13,
+        "benign_tn": 111,
+        "sensitivity": 0.36585365853658536,
+        "benign_false_alert_rate": 0.10483870967741936
+      },
+      "images": 165,
+      "image_alerts_are_biopsy_counts": false
+    },
+    "detection_f1": {
+      "Benign": 0.8253968253968254,
+      "Malignant": 0.37142857142857144
+    },
+    "classification": {
+      "rule": "Highest-confidence box after the existing score threshold; no GT-based box choice; no IoU requirement",
+      "tie_rule": "Lower class ID, then lexicographically smaller box coordinates",
+      "no_prediction_rule": "Abstention; incorrect in full-cohort accuracy and FN for the true class",
+      "confusion_matrix": [
+        [
+          105,
+          10,
+          9
+        ],
+        [
+          16,
+          15,
+          10
+        ]
+      ],
+      "row_labels": [
+        "Benign",
+        "Malignant"
+      ],
+      "column_labels": [
+        "Benign",
+        "Malignant",
+        "No prediction"
+      ],
+      "correct": 120,
+      "images": 165,
+      "accuracy": 0.7272727272727273,
+      "covered": 146,
+      "coverage": 0.8848484848484849,
+      "conditional_accuracy_covered_only": 0.821917808219178,
+      "classes": {
+        "Benign": {
+          "support": 124,
+          "tp": 105,
+          "fp": 16,
+          "fn": 19,
+          "abstentions": 9,
+          "precision": 0.8677685950413223,
+          "recall": 0.8467741935483871,
+          "f1": 0.8571428571428571
+        },
+        "Malignant": {
+          "support": 41,
+          "tp": 15,
+          "fp": 10,
+          "fn": 26,
+          "abstentions": 10,
+          "precision": 0.6,
+          "recall": 0.36585365853658536,
+          "f1": 0.45454545454545453
+        }
+      },
+      "macro_f1": 0.6558441558441558,
+      "support_weighted_f1": 0.757103502558048,
+      "balanced_accuracy": 0.6063139260424862,
+      "extra_boxes": "Ignored only for the single image-class decision; still counted by detection metrics"
+    },
+    "localization": {
+      "all_gt_class_correct": {
+        "overall": {
+          "mean": 0.6039645906403387,
+          "denominator": 165
+        },
+        "per_class": {
+          "Benign": {
+            "mean": 0.7150497902167324,
+            "denominator": 124
+          },
+          "Malignant": {
+            "mean": 0.26799959679953783,
+            "denominator": 41
+          }
+        },
+        "macro_class_mean": 0.4915246935081351
+      },
+      "all_gt_class_agnostic": {
+        "overall": {
+          "mean": 0.7305182866089007,
+          "denominator": 165
+        },
+        "per_class": {
+          "Benign": {
+            "mean": 0.7725591319893903,
+            "denominator": 124
+          },
+          "Malignant": {
+            "mean": 0.603370363994737,
+            "denominator": 41
+          }
+        },
+        "macro_class_mean": 0.6879647479920636
+      },
+      "tp_only": {
+        "overall": {
+          "mean": 0.8428434399601701,
+          "denominator": 117
+        },
+        "per_class": {
+          "Benign": {
+            "mean": 0.8469528302254186,
+            "denominator": 104
+          },
+          "Malignant": {
+            "mean": 0.8099683178381815,
+            "denominator": 13
+          }
+        },
+        "macro_class_mean": 0.8284605740318001
+      },
+      "primary_box_ignore_class": {
+        "overall": {
+          "mean": 0.7256135437832844,
+          "denominator": 165
+        },
+        "per_class": {
+          "Benign": {
+            "mean": 0.766220819624434,
+            "denominator": 124
+          },
+          "Malignant": {
+            "mean": 0.602801294897856,
+            "denominator": 41
+          }
+        },
+        "macro_class_mean": 0.684511057261145
+      },
+      "primary_box_correct_class": {
+        "overall": {
+          "mean": 0.5906452798258675,
+          "denominator": 165
+        },
+        "per_class": {
+          "Benign": {
+            "mean": 0.6973265137297345,
+            "denominator": 124
+          },
+          "Malignant": {
+            "mean": 0.26799959679953783,
+            "denominator": 41
+          }
+        },
+        "macro_class_mean": 0.48266305526463615
+      }
+    },
+    "overall_iou_rule": "Pool individual observations; do not substitute the unweighted mean of class means",
+    "best_box_iou_caveat": "All-GT best-box IoUs use GT overlap as an oracle diagnostic and do not penalize extra predictions",
+    "tp_only_caveat": "Excludes wrong-class, poorly localized and missed GTs; pooled denominator is TP count",
+    "primary_box_iou_caveat": "Uses the same GT-free highest-score choice as classification; no prediction is zero",
+    "selection_changed": false
+  },
+  "ap": {
+    "0": {
+      "name": "Benign",
+      "AP50": 0.8391758296276092,
+      "AP50_95": 0.5862561102420969
+    },
+    "1": {
+      "name": "Malignant",
+      "AP50": 0.42327338338117454,
+      "AP50_95": 0.27167448775003344
+    }
+  },
+  "mAP50": 0.6312246065043918,
+  "mAP50_95": 0.4289652989960652,
+  "malignant_fn_partition": {
+    "localized_benign_prediction": 16,
+    "no_retained_prediction": 10,
+    "other_localization_or_classification_failure": 2
+  },
+  "paired_malignant_vs_original_n": {
+    "both": 7,
+    "geometry_only": 6,
+    "original_n_only": 3,
+    "neither": 25
+  },
+  "cases": [
+    {
+      "image_id": "ISIC_0012989",
+      "category": "Malignant GT with localized benign prediction",
+      "class_id": 1,
+      "gt_box": [
+        0.45478723404255317,
+        0.396,
+        0.6083776595744681,
+        0.6849999999999999
+      ],
+      "detection_tp": false,
+      "primary_class": 0,
+      "retained": [
+        {
+          "class_id": 0,
+          "confidence": 0.702587366104126,
+          "box": [
+            0.4600023329257965,
+            0.42405402660369873,
+            0.5918229818344116,
+            0.6616902947425842
+          ],
+          "iou": 0.7057228549516241
+        }
+      ]
+    },
+    {
+      "image_id": "ISIC_0012884",
+      "category": "Benign GT with malignant alert",
+      "class_id": 0,
+      "gt_box": [
+        0.39827127659574474,
+        0.28900000000000003,
+        0.6722074468085106,
+        0.789
+      ],
+      "detection_tp": true,
+      "primary_class": 0,
+      "retained": [
+        {
+          "class_id": 0,
+          "confidence": 0.6964024901390076,
+          "box": [
+            0.3955262005329132,
+            0.2845211327075958,
+            0.6408538818359375,
+            0.7505911588668823
+          ],
+          "iou": 0.8036373282431135
+        },
+        {
+          "class_id": 1,
+          "confidence": 0.5420109033584595,
+          "box": [
+            0.39730510115623474,
+            0.29199787974357605,
+            0.6653708219528198,
+            0.79082852602005
+          ],
+          "iou": 0.9623788620799034
+        }
+      ]
+    },
+    {
+      "image_id": "ISIC_0014072",
+      "category": "Malignant alert with insufficient localization",
+      "class_id": 1,
+      "gt_box": [
+        0.08022388059701496,
+        0.013342696629213446,
+        0.9095149253731343,
+        0.9957865168539326
+      ],
+      "detection_tp": false,
+      "primary_class": 1,
+      "retained": [
+        {
+          "class_id": 1,
+          "confidence": 0.45534026622772217,
+          "box": [
+            0.156816765666008,
+            0.18086251616477966,
+            0.6092239022254944,
+            0.9161701798439026
+          ],
+          "iou": 0.408304191951709
+        }
+      ]
+    },
+    {
+      "image_id": "ISIC_0013198",
+      "category": "No retained prediction on malignant GT",
+      "class_id": 1,
+      "gt_box": [
+        0.24601063829787234,
+        0.261,
+        0.6050531914893618,
+        0.92
+      ],
+      "detection_tp": false,
+      "primary_class": null,
+      "retained": []
+    }
+  ],
+  "case_selection": "Lowest ID per available category, unique images; illustrative only",
+  "hardware": "macOS-26.3.1-arm64-arm-64bit-Mach-O; Apple M2; device=cpu; FP32; OMP_NUM_THREADS=4",
+  "device": "cpu",
+  "device_decision_sha256": "a7038584180853bbe95c688c47c33c34ebbad2045cd5d623b86405dd15ba1c20",
+  "command_resource": {
+    "elapsed_seconds": 63.134313874994405,
+    "exit_code": 0,
+    "scope": "One evaluation command including photo verification, AP validation and per-image prediction; excludes transfer and queueing",
+    "device": "cpu",
+    "not_A100_benchmark": true
+  },
+  "AP_independently_recomputed": false,
+  "fixed_threshold_metrics_independently_recomputed": true,
+  "audit_source_sha256": "012c94b7f99d382b8ac626f9c71c3b1a8761980150fe1d672ca1a86f7e4b3704"
+}

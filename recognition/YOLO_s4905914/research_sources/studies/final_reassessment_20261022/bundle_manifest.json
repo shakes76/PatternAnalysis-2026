@@ -1,0 +1,30 @@
+{
+  "plan_sha256": "d83574913228042f529e8a8b479d223ada9d7b5c13b87ba3a3169610245652ad",
+  "files": {
+    "code/evaluate_locked_candidate.py": "c48dfd0e088f5315752a5587609204fe1f2025496e1e0bfa23d55b0743ca5273",
+    "code/requirements.txt": "85ab7383b119a5d373f1452a112438119b260d2cda221233e2dd810fd7e8396c",
+    "code/classification_metrics.py": "8b240d92486db6f614a3ba72f597a83dab0335a1f68569e8d494660f919d79a3",
+    "code/evaluation.py": "b123d75f1862ebcfae45d0eedbdb19c80628ec5e26608081b838a7a4236b204e",
+    "code/complete_course_metrics.py": "1ab4a6cbf1c525c9b4796d337dda9a39f4fc63b2744d0bc639a3218edd12e2e7",
+    "code/requirements-linux-a100.lock.txt": "6bf18ff5d2c3e17a34c6c99a597bc5e168716cc61a0171a34d6055aa0c8f222f",
+    "code/runtime.py": "e2d2696e8c8dcedfe610929a5b24d586e1d69b480189cbc79f311f0d39057ee4",
+    "code/preprocessing.py": "c86006c777015ab93f6be34acba442948cc20dd45a42fbcdecf0ff39addb1091",
+    "code/course_closeout_plan.json": "d83574913228042f529e8a8b479d223ada9d7b5c13b87ba3a3169610245652ad",
+    "code/modules.py": "0af074132a4d7f5b323d9df7a2c25f7c4270f02aea64604fcda0cd59f993a359",
+    "code/weights_registry.json": "6226043ae7d30da8672e8ad174da011441c2c05f5099dc57642ee3b83b9bc290",
+    "locked_inputs/outputs/provisional_20261017_669143/inputs/staged/audit.json": "c854e35ca79ca73f11926f1cb18cc288cfc3ca33f82f2103b8a52d8fd7aecad9",
+    "locked_inputs/outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n/selection_lock.json": "ce6210ddad958648fc49c039e21735f467df0ff1325c5d3136649185232a319f",
+    "locked_inputs/outputs/known_lesion_optimization_20261021_681452/n_geometry/train_n/fit/weights/best.pt": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+    "locked_inputs/data/known_lesion_v1/val.csv": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3",
+    "locked_inputs/data/known_lesion_v1/reassessment.csv": "5264555d5de0ee5cbaa5b69e090d0b6e24c907b4efd50acc69cc32afd35a8df6",
+    "locked_inputs/data/known_lesion_v1/train.csv": "8528722216b67d62078fe32632cb64128149053cc41ece6daec7399369126fca",
+    "locked_inputs/studies/known_lesion_followup_20261022/decision.json": "6776838f41e66c5e2a99bea1065580bbfbfbb8accc4a1c8689aaa4b556e73138",
+    "locked_inputs/studies/known_lesion_optimization_20261021/n_geometry.json": "2b5bcd080dd641273f304c3f3eab66fef9a15fd7a4a3e0cb1a0af9957b9a8922",
+    "locked_inputs/studies/known_lesion_optimization_20261021/decision.json": "c95c7f061ea2e3c13f8e0048125eb86425d125474760d9d81042a7c41759e2ab",
+    "evaluate_a100.sh": "9440ef64197749de1ff60b55eafe2964609a2bc0131ba26a812b4cdd473282ed",
+    "verify_bundle.py": "ea985d991ce7a5be3a31e04be815676dbd354131d11cdbda4888377ccf0d1905"
+  },
+  "new_training": false,
+  "threshold_search": false,
+  "selection_changed": false
+}

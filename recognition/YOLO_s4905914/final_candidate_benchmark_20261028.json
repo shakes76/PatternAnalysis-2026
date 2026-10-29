@@ -1,0 +1,45 @@
+{
+  "status": "completed",
+  "split": "val",
+  "metrics_or_model_selection": false,
+  "config_sha256": "2b5bcd080dd641273f304c3f3eab66fef9a15fd7a4a3e0cb1a0af9957b9a8922",
+  "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "selection_lock_sha256": "ce6210ddad958648fc49c039e21735f467df0ff1325c5d3136649185232a319f",
+  "manifest_sha256": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3",
+  "source_sha256": "6d6d72fa4fe54677890229bc6ae8e97a73e3e9ba00bec046c1e3062ca028c8a3",
+  "runtime": {
+    "python": "3.13.16",
+    "platform": "Linux-4.18.0-553.148.1.el8_10.x86_64-x86_64-with-glibc2.28",
+    "ultralytics": "8.3.221",
+    "torch": "2.8.0",
+    "torchvision": "0.23.0"
+  },
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "device": "0",
+  "batch": 1,
+  "imgsz": 640,
+  "dtype": "FP32",
+  "warmup_calls": 10,
+  "timed_repeats": 3,
+  "images_per_repeat": 165,
+  "confidence_floor": 0.001,
+  "operating_threshold": 0.4,
+  "nms_iou": 0.7,
+  "wall_timing_scope": "Serial predict(path): read/decode, preprocessing, device transfer, model, NMS, operating-threshold filter and CPU prediction materialization; synchronized CUDA. Excludes model startup, warmup, plots, saves and UI.",
+  "cache_note": "Repeated original image paths; OS/network file caches may be warm. Not cold-start or mobile latency.",
+  "wall": {
+    "mean_ms": 66.05650303565493,
+    "median_ms": 69.94964368641376,
+    "p95_ms": 147.50409647822363,
+    "observations": 495
+  },
+  "library_inference": {
+    "mean_ms": 6.509766381497335,
+    "median_ms": 6.542601622641087,
+    "p95_ms": 7.102660182863474,
+    "observations": 495
+  },
+  "serial_images_per_second": 15.138554934708486,
+  "peak_cuda_allocated_bytes_after_warmup": 36737536,
+  "peak_cuda_reserved_bytes_after_warmup": 60817408
+}

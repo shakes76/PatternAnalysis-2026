@@ -1,0 +1,145 @@
+{
+  "scope": "Read-only extraction of existing restricted-cohort validation results; not new inference or lock change",
+  "validation_n_points": {
+    "0.05": {
+      "threshold": 0.05,
+      "score_rule": "confidence > threshold",
+      "match_iou": 0.5,
+      "classes": {
+        "Benign": {
+          "gt": 124,
+          "tp": 114,
+          "fp": 71,
+          "fn": 10,
+          "precision": 0.6162162162162163,
+          "recall": 0.9193548387096774,
+          "iou": {
+            "all_gt_class_correct": {
+              "mean": 0.7783917439852159,
+              "denominator": 124
+            },
+            "all_gt_class_agnostic": {
+              "mean": 0.8262468528997337,
+              "denominator": 124
+            },
+            "tp_only": {
+              "mean": 0.8308437133243456,
+              "denominator": 114
+            }
+          }
+        },
+        "Malignant": {
+          "gt": 41,
+          "tp": 25,
+          "fp": 72,
+          "fn": 16,
+          "precision": 0.25773195876288657,
+          "recall": 0.6097560975609756,
+          "iou": {
+            "all_gt_class_correct": {
+              "mean": 0.5276813884563121,
+              "denominator": 41
+            },
+            "all_gt_class_agnostic": {
+              "mean": 0.8314346065203333,
+              "denominator": 41
+            },
+            "tp_only": {
+              "mean": 0.8404485175190767,
+              "denominator": 25
+            }
+          }
+        }
+      },
+      "image_alerts": {
+        "malignant_tp": 27,
+        "malignant_fn": 14,
+        "benign_fp": 38,
+        "benign_tn": 86,
+        "sensitivity": 0.6585365853658537,
+        "benign_false_alert_rate": 0.3064516129032258
+      },
+      "images": 165,
+      "image_alerts_are_biopsy_counts": false
+    },
+    "0.5": {
+      "threshold": 0.5,
+      "score_rule": "confidence > threshold",
+      "match_iou": 0.5,
+      "classes": {
+        "Benign": {
+          "gt": 124,
+          "tp": 92,
+          "fp": 24,
+          "fn": 32,
+          "precision": 0.7931034482758621,
+          "recall": 0.7419354838709677,
+          "iou": {
+            "all_gt_class_correct": {
+              "mean": 0.6371932694257194,
+              "denominator": 124
+            },
+            "all_gt_class_agnostic": {
+              "mean": 0.7015088831534058,
+              "denominator": 124
+            },
+            "tp_only": {
+              "mean": 0.8558801666067477,
+              "denominator": 92
+            }
+          }
+        },
+        "Malignant": {
+          "gt": 41,
+          "tp": 13,
+          "fp": 13,
+          "fn": 28,
+          "precision": 0.5,
+          "recall": 0.3170731707317073,
+          "iou": {
+            "all_gt_class_correct": {
+              "mean": 0.2869604264542831,
+              "denominator": 41
+            },
+            "all_gt_class_agnostic": {
+              "mean": 0.7235870290347268,
+              "denominator": 41
+            },
+            "tp_only": {
+              "mean": 0.857050268914902,
+              "denominator": 13
+            }
+          }
+        }
+      },
+      "image_alerts": {
+        "malignant_tp": 15,
+        "malignant_fn": 26,
+        "benign_fp": 11,
+        "benign_tn": 113,
+        "sensitivity": 0.36585365853658536,
+        "benign_false_alert_rate": 0.08870967741935484
+      },
+      "images": 165,
+      "image_alerts_are_biopsy_counts": false
+    }
+  },
+  "first_pilot_user_reported": {
+    "confidence": 0.05,
+    "test_malignant_tp": 38,
+    "test_malignant_gt": 77,
+    "test_malignant_recall": 0.4935064935064935,
+    "source": "User-provided original experiment summary; different images, training configuration and class scheme",
+    "training_images": 1818,
+    "epochs": 30,
+    "optimizer": "auto",
+    "mosaic_active_epochs": 20,
+    "validation_benign_false_alerts": 30,
+    "validation_benign_images": 311,
+    "validation_malignant_image_alerts": 48,
+    "validation_malignant_images": 77,
+    "test_malignant_AP50": 0.4985
+  },
+  "comparing_pilot_test_with_current_validation_is_not_a_paired_experiment": true,
+  "new_reassessment_threshold_sweep": false
+}

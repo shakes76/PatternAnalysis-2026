@@ -1,0 +1,18 @@
+{
+  "expanded_ns_results_670000.json": {
+    "source": "studies/expanded_training_20261017/ns_results.json",
+    "sha256": "e4f6cbfaaa499cc99e70f227c02b54bd9dd56e373e48b247dac45d854b64eade"
+  },
+  "expanded_n_results_669929.json": {
+    "source": "studies/expanded_training_20261017/results.json",
+    "sha256": "832abe406e6f8734218f0b55edd41c24234c5f4b47780a0d3529851eaf9de278"
+  },
+  "expanded_ns_comparison_plan.json": {
+    "source": "studies/expanded_training_20261017/ns_comparison_plan.json",
+    "sha256": "736670a97a8e66e567dfb2f2ca17234ec9fca436e7ad1fd9ff5970fac4d6839c"
+  },
+  "assets/expanded_threshold_tradeoff.png": {
+    "source": "studies/expanded_training_20261017/assets/threshold_tradeoff_ns.png",
+    "sha256": "b9eef67cd17f627fea8978bc9bf009c17fdfe5d7656b32e2b619787a0172d163"
+  }
+}

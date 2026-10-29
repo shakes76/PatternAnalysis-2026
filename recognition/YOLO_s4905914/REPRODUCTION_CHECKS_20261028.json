@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-28",
+  "status": "passed",
+  "scope": "Reproduction handoff and documentation; no training or new lesion evaluation",
+  "fresh_source_restore": "All frozen source hashes verified by restore_study_sources.py",
+  "private_bundle": {
+    "status": "verified",
+    "payload_files": 1119,
+    "checks": "Exact archive membership and each payload size/SHA-256",
+    "archive_name": "COMP3710_s4905914_review_inputs_20261028.zip",
+    "archive_sha256": "307b312aab2865537ca1b4fa0e5a3b1b152e00b975ed32e937099b2770515144",
+    "archive_bytes": 32589053,
+    "final_checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+    "final_confidence": 0.4,
+    "code_and_configs": "Restore from the matching public course checkout",
+    "photographs": "Obtain the unchanged school ISIC2018 Task1-2 Training Input x2 files"
+  },
+  "prepared_label_replay": {
+    "label_files_identical": 1098,
+    "split_csvs_identical": 3,
+    "group_manifest_identical": true
+  },
+  "baseline_plan": {
+    "counts": {
+      "train": 768,
+      "val": 165,
+      "reassessment": 165
+    },
+    "enabled": true,
+    "epochs": 60,
+    "optimizer_calls": 2880
+  },
+  "final_geometry_plan": {
+    "counts": {
+      "train": 768,
+      "val": 165
+    },
+    "enabled": true,
+    "epochs": 60,
+    "optimizer_calls": 2880
+  },
+  "tests": {
+    "passed": 47,
+    "duration_seconds": 15.301
+  },
+  "saved_model_smoke": {
+    "device": "cpu",
+    "input": "Synthetic constant RGB image, 320x240; no GT or performance inference",
+    "prediction_json_and_overlay_written": true,
+    "threshold": 0.4,
+    "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c"
+  },
+  "readme_sha256": "f2d738849518afd60c75cf9dfdffeb52b42df3cca843b086c94975b6ef8bc5ca",
+  "pdfs": [
+    {
+      "file": "COMP3710_Project3_Report.pdf",
+      "pages": 14,
+      "sha256": "8d2b3babddd226291e482d3f09e78f1ec20e15a17522761656f73f4ad105fc55",
+      "text_bounds_passed": true
+    },
+    {
+      "file": "COMP3710_Project3_Report_Bilingual_Study.pdf",
+      "pages": 18,
+      "sha256": "3a0bd81c6ab50598efe6658dba0fe167d5e7fff9e34db45cf89b75ce95a3e3f6",
+      "text_bounds_passed": true
+    }
+  ],
+  "report_generator_matches_reviewed_readme": "passed, ignoring whitespace only",
+  "all_readme_paragraphs_table_cells_and_code_in_pdf": true,
+  "all_result_table_rows_and_figure_references_unchanged": true,
+  "bilingual_pairs_verified": 112,
+  "visual_review": "All-page contact sheets and updated reproduction pages inspected; no clipping or overlapping text",
+  "not_repeated": [
+    "Full GPU training",
+    "Full photograph staging on Rangpur",
+    "Reassessment or threshold selection"
+  ],
+  "clinical_performance_inferred_from_smoke_test": false
+}

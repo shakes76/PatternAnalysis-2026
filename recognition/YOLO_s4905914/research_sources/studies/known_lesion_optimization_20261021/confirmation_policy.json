@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-21T10:59:08.280749+10:00",
+  "timing": "Before any candidate has completed training or produced final validation evaluation; original plan remains unchanged",
+  "parent_plan_sha256": "fe9902ce2b00dc9433ce8588dc647c5677c1b72f5de99e4e08161170eaf2d5aa",
+  "trigger": "Exactly the material-improvement rule recorded in plan.json",
+  "confirmation_runs": [
+    "baseline_n at seed 3711",
+    "highest-ranked candidate at seed 3711"
+  ],
+  "only_config_change_from_each_seed3710_run": "train.seed = 3711",
+  "threshold_rule": "Select separately per fitted model using the unchanged grid and 10% benign false-alert budget",
+  "confirmation_success": "Candidate again gains >=3 malignant TP and higher malignant all-GT class-correct IoU versus the matched baseline at seed 3711",
+  "if_success": "Recommend the original seed 3710 candidate and its validation-selected threshold as a development model; report both seeds",
+  "if_failure": "Keep original baseline n / 0.50 as the main reproducible reference; report candidate gain as seed-sensitive, not robust improvement",
+  "new_seed_selection": "Never choose whichever seed looks better",
+  "new_reassessment_inference": false,
+  "further_training_trials_after_confirmation": false
+}

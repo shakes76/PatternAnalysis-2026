@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-10-18T00:35:04.640879+10:00",
+  "status": "reporting_decision_recorded",
+  "primary_experiment_replaced": false,
+  "new_training_or_inference": false,
+  "fresh_blind_test": false,
+  "course_acceptance_confirmed": false,
+  "choices": [
+    {
+      "role": "coursework_primary",
+      "model": "YOLOv8n",
+      "training_images": 768,
+      "confidence": 0.5,
+      "checkpoint": "outputs/provisional_20261017_669143/train_n/fit/weights/best.pt",
+      "checkpoint_sha256": "fcb51c9524a66df34318065f7c24a797f3fd59418c97dc0e3b6addf5a67ac59c",
+      "selection_lock": "outputs/provisional_20261017_669143/val_n/selection_lock.json",
+      "selection_lock_sha256": "c46a69fa30a7a27058c24c584f25f092151c4603b288d808bb768dd46fcf0d9e",
+      "config": "recognition/YOLO_s4905914/experiment_provisional.json",
+      "config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d"
+    },
+    {
+      "role": "expanded_development_candidate",
+      "model": "YOLOv8s",
+      "training_images": 2263,
+      "confidence": 0.5,
+      "checkpoint": "outputs/expanded_s_20261018_670000/train_s/fit/weights/best.pt",
+      "checkpoint_sha256": "728931d79727d9f81d4d7fd2a3b92c5d01a0d538eea2687d77a913600d4c6902",
+      "selection_lock": "outputs/expanded_s_20261018_670000/val_s/selection_lock.json",
+      "selection_lock_sha256": "2b64968dea00081de6d08353458d16247141890e9454f6d26823a7af7faddabe",
+      "config": "studies/expanded_training_20261017/experiment_expanded_s.json",
+      "config_sha256": "a34ce2fb711aec54fc48a4ffa0ab2b9dc0ad4d50b3c279c65ae38509a5e38b41"
+    }
+  ],
+  "rationale": {
+    "primary": "Retain the predeclared known-lesion cohort n primary and its original validation-selected 0.50 lock; complete main-study results already exist. This is protocol continuity, not a claim of best measured accuracy or full course compliance.",
+    "expanded_candidate": "After examining the exploratory comparison, s at its existing validation-selected 0.50 point has higher malignant detection recall than expanded n at its 0.70 point under the same predeclared 10% benign-image false-alert budget. Thresholds differ and s has more false alerts. This reporting recommendation was made after results, not a retroactively predeclared primary.",
+    "stop_rule": "No further performance-driven tuning in this coursework revision. Prioritize report review, course clarification, check-off and submission preparation."
+  }
+}

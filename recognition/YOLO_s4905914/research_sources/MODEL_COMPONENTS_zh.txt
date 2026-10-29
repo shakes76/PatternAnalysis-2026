@@ -1,0 +1,115 @@
+YOLOv8 组件：源码核对与学习笔记
+核对版本：Ultralytics v8.3.221，2026-10-17
+
+范围：核对官方固定版本 YAML/Python 源码，并用人工测试图检查新代码
+实际调用模型/loader、两类训练、保存/重载和前向计算。没有自行实现
+YOLO 的网络模块；人工图验证不是 ISIC 效果证据。
+这份笔记提供可解释性和来源证据，不宣称已经解决课程组件提交要求。
+
+1. Backbone：提取特征
+
+可理解为从原图逐步提取纹理、边缘和更复杂的组合特征。
+官方 YOLOv8 配置的 backbone 使用 Conv、C2f、SPPF。
+Conv 在该实现中通常是卷积、BatchNorm 和激活的组合。
+C2f 将特征分支、经过 bottleneck，再拼接融合；不是一个分类标签。
+SPPF 使用连续池化汇集更大范围的信息，再拼接和卷积融合。
+
+2. Neck：融合不同尺度特征
+
+官方 YAML 将这部分和最终检测层一起列在 head 下。
+从功能上看，上采样、Concat、C2f 和下采样卷积负责多尺度融合。
+不要机械地把 YAML 的 head 字段当作“只有最后的预测层”。
+P3/P4/P5 的步长分别为 8/16/32。640×640 输入对应 80×80、40×40、
+20×20 的网格尺寸。网格位置合计 8,400，不表示最终有 8,400 个病灶。
+
+3. Detect head：预测框和类别
+
+源码的 Detect 类将 cv2 用于框回归，cv3 用于分类，之后拼接输出。
+DFL 相关结构用于距离分布的定位表示/解码。
+推理中对分类 logits 做 sigmoid 得到类别分数。这些分数没有因这一操作
+就成为校准的患癌概率；也不是框的实际 IoU。
+旧实验有三个分类输出；新候选数据任务是两个类别，实际新模型必须检查
+nc/names 与类别映射，不能直接套旧的三类 checkpoint。
+
+4. Loss：告诉模型哪些预测需要调整
+
+v8DetectionLoss 中分类使用 BCEWithLogitsLoss，定位包含 CIoU 和 DFL；
+TaskAlignedAssigner 参与训练目标分配。
+分类与定位损失不同，解释了为何框很好、类别却可能错误。
+它们也共享前面的特征，不能说两项任务互不影响。
+检测评估中的一对一匹配，与训练时的目标分配不是同一个步骤。
+
+5. NMS：输出后的筛选
+
+NMS 是推理后处理，不是 Backbone/Neck 的特征学习模块。
+它按分数和框间重叠筛选预测，不会把一个判为良性的病灶学成恶性。
+减少重复框可能减少 FP，但也可能压掉有效预测，所以要实际验证。
+
+6. 迁移学习：实际复用了哪些权重
+
+audit_initialization.py 对原始 COCO 文件校验 SHA-256，并以相同随机状态
+分别构造未加载/已加载权重的两类模型。逐项确认：名称和形状匹配的状态
+等于 COCO 来源，不匹配的状态保持新模型初始化值。没有读取 ISIC 图片，
+没有调用优化器，也没有保存训练权重。
+
+YOLOv8n：355 个状态条目中复用 319 个，36 个保留新初始化。
+YOLOv8s：355 个状态条目中复用 349 个，6 个保留新初始化。
+状态条目包括 BatchNorm 缓冲区，不能当作参数个数或百分比。
+两者 Backbone、Neck、框回归分支的全部状态都已复用。
+
+分类分支的内部宽度由源码 c3=max(ch[0], min(nc,100)) 决定：
+- n 从 COCO 的 80 类转成 2 类时，内部宽度从 80 变成 64。
+  分类分支的全部可训练参数重新初始化；只复用 6 个 BatchNorm 计数器。
+- s 的内部宽度始终为 128。只有三个尺度的最后分类输出卷积（各一组
+  weight/bias）形状不匹配，其余分类分支状态可以复用。
+因此不能笼统写“两个模型都只替换最后一层”，也不能把 n/s 比较解释成
+只改变参数量。复用范围不同是结构事实，尚不能证明其造成任何效果差异。
+
+当前 freeze=null；Backbone、Neck、框回归和分类分支都允许训练更新。
+DFL 解码积分的 16 个固定坐标参数保持冻结。这不是冻结 Backbone。
+n 的可训练标量参数为 3,011,222，s 为 11,136,358。预训练只规定起点，
+不等于冻结参数，也不说明模型已经学会了良恶性分类。
+
+完整逐项证据：outputs/initialization_audit_20261017/initialization.json。
+这是本次候选两类模型的初始化审计，不能据此直接解释旧三类实验的失败。
+
+当前项目与第三方代码的边界
+
+训练辅助机制 EMA（Exponential Moving Average，指数移动平均）由
+上游 ModelEMA 实现。它维护训练模型浮点状态的移动平均副本，供训练
+期间验证和 checkpoint 保存使用，属于训练与权重管理。当前内存中
+训练/EMA 参数是 FP32；上游序列化 EMA 时使用 FP16，加载时恢复为
+FP32 张量。保存精度与计算精度要分别描述。新代码记录选择轮次和
+实际分数，没有自行重写 EMA 算法；详见代码目录内的 EXPERIMENT_NOTES_zh.txt。
+
+旧 modules.py 只调用 ultralytics.YOLO 加载模型；旧 train.py 的项目
+trainer 子类实际调用 dataset.py 的 loader 接口，数据变换和训练主体
+仍由 Ultralytics 提供。不能说这些网络、loss 或训练引擎是学生原创。
+新项目 modules.build_detector 实际构造上游 DetectionModel(nc=2)，
+train.py 的 trainer 实际调用它和 dataset.get_dataloader，运行记录可核查。
+人工试跑保存的 n/s checkpoint 都检查了 names/nc；640 输入的解码
+输出形状为 (1, 6, 8400)：4 个框坐标 + 2 个类别分数，8400 个候选位置。
+这仍不等于学生自行实现了这些组件；需让老师确认需要哪些本地组件源码。
+不会为满足文件名要求而复制未使用的模块或改变已验证模型的计算。
+
+需要老师解释的两处文字
+
+- 课程导论第 29 页：现有模型可复用，不需自行重新实现。
+- 项目说明第 12 页：modules.py 包含模型组件实现源码。
+具体提问见 TEACHER_QUESTIONS.txt。允许预训练不自动回答组件打包要求。
+
+官方版本源码（缓存只用于核对，保留原来源和许可证；未当作学生代码）
+
+网络定义：
+https://github.com/ultralytics/ultralytics/blob/v8.3.221/ultralytics/cfg/models/v8/yolov8.yaml
+Conv / Concat：
+https://github.com/ultralytics/ultralytics/blob/v8.3.221/ultralytics/nn/modules/conv.py
+C2f / SPPF / DFL：
+https://github.com/ultralytics/ultralytics/blob/v8.3.221/ultralytics/nn/modules/block.py
+Detect：
+https://github.com/ultralytics/ultralytics/blob/v8.3.221/ultralytics/nn/modules/head.py
+Loss：
+https://github.com/ultralytics/ultralytics/blob/v8.3.221/ultralytics/utils/loss.py
+
+源码哈希记录在 outputs/grouping_followup_20261017/upstream_source/manifest.json。
+以上是组件说明及软件接口验证，不是 ISIC 性能结果或课程接受证明。

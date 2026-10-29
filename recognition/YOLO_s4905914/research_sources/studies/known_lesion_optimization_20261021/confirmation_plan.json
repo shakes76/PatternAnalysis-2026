@@ -1,0 +1,19 @@
+{
+  "locked_at": "2026-10-21T11:36:45.782910+10:00",
+  "candidate": "n_geometry",
+  "policy_sha256": "bcd935e95c82d5f300b758071cdbf394c320892afc51c803f964865e7a733323",
+  "initial_results_sha256": "10b897076b51e2a3e75eb3b4551540c7f2f0929305c422a62a44a686912891fd",
+  "variants": {
+    "n_baseline_seed3711": {
+      "parent_config": "recognition/YOLO_s4905914/experiment_provisional.json",
+      "parent_config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+      "config_sha256": "67b78470f11e1ac0535bcd20cfbaace28a6c906b7f75f40afb3f19ad1716df5e"
+    },
+    "n_geometry_seed3711": {
+      "parent_config": "studies/known_lesion_optimization_20261021/n_geometry.json",
+      "parent_config_sha256": "2b5bcd080dd641273f304c3f3eab66fef9a15fd7a4a3e0cb1a0af9957b9a8922",
+      "config_sha256": "6eece88676e529c29d672e5e47e57284d720aba790951b4fe976acd15f99e00a"
+    }
+  },
+  "new_reassessment_inference": false
+}

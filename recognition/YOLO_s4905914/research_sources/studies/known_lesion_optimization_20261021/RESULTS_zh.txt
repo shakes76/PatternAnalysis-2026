@@ -1,0 +1,41 @@
+最新状态（2026-10-22，布里斯班）
+
+三组已知病灶子集优化和两次 seed=3711 确认均已完成，结果按原规则比较。
+当前选择：轻度几何增强 n（seed=3710），confidence=0.40。
+两次 seed 比较均达到事先规定的改善标准，推荐初次几何增强模型。
+没有从两个 seed 中挑较好的一个；当前选择仍指 seed=3710 的权重。
+
+运行 / seed | confidence | 恶性 TP/41 | 良性误警报/124 | 恶性全 GT 正确类别 IoU
+Original n / 3710 | 0.50 | 13 | 11 | 0.2870
+Candidate / 3710 | 0.40 | 18 | 12 | 0.3757
+Original n / 3711 | 0.80 | 12 | 8 | 0.2415
+Candidate / 3711 | 0.50 | 15 | 7 | 0.3114
+
+以上都来自同一 validation。每次拟合按相同网格和最多 12 张良性误警报
+的规则选择阈值。IoU 包括全部 41 个恶性 GT，无正确类别预测时记 0。
+第二个 seed 是对训练随机性的一次检查，不是独立验证或新盲测。
+两次 seed 不能证明普遍稳定性；这里的“通过确认”仅指达到本次预定规则。
+
+当前仅使用 1,098 张已知 lesion_id 图片：train 768、validation 165、
+reassessment 165。本次优化只使用 train/validation，没有新补充评估推理或调参。
+老师建议使用这个子集的情况来自学生转述；708 张缺 patient_id，仍不能
+证明完整患者独立。扩充数据模型只作为历史探索，不参与当前选择。
+
+模型选择记录：recognition/YOLO_s4905914/known_optimization_decision_20261021.json
+对应 validation 输出：outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n
+checkpoint SHA-256：a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c
+预测命令模板：studies/known_lesion_optimization_20261021/SELECTED_MODEL_COMMAND.txt
+报告：recognition/YOLO_s4905914/README.md
+PDF：output/pdf/COMP3710_Project3_Report.pdf
+结果和来源：studies/known_lesion_optimization_20261021/results.json
+报告核验：outputs/known_optimization_report_20261021/verification.json
+报告的逐页视觉检查是否完成，以该核验文件的最新状态为准。
+
+本轮固定实验到此停止，不追加模型或阈值搜索。原训练配置、阈值锁和
+原始预测记录均保留。没有改写历史结果，没有 commit、push、新 PR、
+对外消息或正式提交；也没有创建定时自动任务。
+
+剩余课程事项：IoU 分母/性能门槛及第三方组件要求；个人 feasibility
+check-off、准确截止时间；学生审阅与课程仓库整合。当前英文问题稿
+为 TEACHER_CONFIRMATION_EN.txt，尚未发送。子集选择不再重复询问。
+旧转移 ZIP 和 18 日提交前检查属于历史版本，不能当作当前提交包。

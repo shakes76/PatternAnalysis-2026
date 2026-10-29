@@ -1,0 +1,3962 @@
+[
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012656",
+    "wall_ms": 20.46238351613283,
+    "library_preprocess_ms": 1.9305860623717308,
+    "library_inference_ms": 6.415572017431259,
+    "library_postprocess_ms": 1.605793833732605
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012657",
+    "wall_ms": 19.18401475995779,
+    "library_preprocess_ms": 2.027668058872223,
+    "library_inference_ms": 6.36823195964098,
+    "library_postprocess_ms": 1.5968671068549156
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012663",
+    "wall_ms": 24.3452750146389,
+    "library_preprocess_ms": 1.9276104867458344,
+    "library_inference_ms": 6.2230778858065605,
+    "library_postprocess_ms": 1.6443254426121712
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012674",
+    "wall_ms": 24.813026189804077,
+    "library_preprocess_ms": 1.9138837233185768,
+    "library_inference_ms": 6.182802841067314,
+    "library_postprocess_ms": 3.979414701461792
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012685",
+    "wall_ms": 23.512737825512886,
+    "library_preprocess_ms": 2.2053727880120277,
+    "library_inference_ms": 6.406203843653202,
+    "library_postprocess_ms": 1.6610883176326752
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012690",
+    "wall_ms": 25.920932181179523,
+    "library_preprocess_ms": 1.9935332238674164,
+    "library_inference_ms": 6.539062596857548,
+    "library_postprocess_ms": 2.1293293684720993
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012693",
+    "wall_ms": 25.61782021075487,
+    "library_preprocess_ms": 2.125733532011509,
+    "library_inference_ms": 6.4660171046853065,
+    "library_postprocess_ms": 2.078874036669731
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012713",
+    "wall_ms": 21.79004345089197,
+    "library_preprocess_ms": 1.920255832374096,
+    "library_inference_ms": 6.084056571125984,
+    "library_postprocess_ms": 2.036615274846554
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012721",
+    "wall_ms": 23.247817531228065,
+    "library_preprocess_ms": 1.9255662336945534,
+    "library_inference_ms": 6.08569011092186,
+    "library_postprocess_ms": 2.6028724387288094
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012770",
+    "wall_ms": 23.433787748217583,
+    "library_preprocess_ms": 1.9423486664891243,
+    "library_inference_ms": 6.386165507137775,
+    "library_postprocess_ms": 1.6121761873364449
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012786",
+    "wall_ms": 105.77340330928564,
+    "library_preprocess_ms": 2.172119915485382,
+    "library_inference_ms": 6.934679113328457,
+    "library_postprocess_ms": 11.135650798678398
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012789",
+    "wall_ms": 80.35823423415422,
+    "library_preprocess_ms": 2.50320415943861,
+    "library_inference_ms": 6.738319061696529,
+    "library_postprocess_ms": 5.389138124883175
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012804",
+    "wall_ms": 54.741895757615566,
+    "library_preprocess_ms": 2.152292989194393,
+    "library_inference_ms": 6.806567311286926,
+    "library_postprocess_ms": 1.732783392071724
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012856",
+    "wall_ms": 101.60763841122389,
+    "library_preprocess_ms": 2.450023777782917,
+    "library_inference_ms": 7.227560505270958,
+    "library_postprocess_ms": 3.674418665468693
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012880",
+    "wall_ms": 68.74371226876974,
+    "library_preprocess_ms": 2.1085813641548157,
+    "library_inference_ms": 6.655793637037277,
+    "library_postprocess_ms": 2.6064692065119743
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012887",
+    "wall_ms": 71.17229606956244,
+    "library_preprocess_ms": 2.4509448558092117,
+    "library_inference_ms": 6.621339358389378,
+    "library_postprocess_ms": 2.2411709651350975
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012902",
+    "wall_ms": 86.43210120499134,
+    "library_preprocess_ms": 2.2326745092868805,
+    "library_inference_ms": 6.941772066056728,
+    "library_postprocess_ms": 12.732286006212234
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012907",
+    "wall_ms": 72.4058486521244,
+    "library_preprocess_ms": 2.4658432230353355,
+    "library_inference_ms": 6.656944751739502,
+    "library_postprocess_ms": 2.2598551586270332
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012941",
+    "wall_ms": 124.72755555063486,
+    "library_preprocess_ms": 2.367177978157997,
+    "library_inference_ms": 7.010380737483501,
+    "library_postprocess_ms": 31.094525009393692
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012965",
+    "wall_ms": 75.22596977651119,
+    "library_preprocess_ms": 2.311643213033676,
+    "library_inference_ms": 6.958954967558384,
+    "library_postprocess_ms": 8.068935014307499
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0012999",
+    "wall_ms": 71.98156043887138,
+    "library_preprocess_ms": 2.2192588075995445,
+    "library_inference_ms": 7.343118079006672,
+    "library_postprocess_ms": 2.796837128698826
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013034",
+    "wall_ms": 66.77198968827724,
+    "library_preprocess_ms": 2.221212722361088,
+    "library_inference_ms": 6.895175203680992,
+    "library_postprocess_ms": 2.605556510388851
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013045",
+    "wall_ms": 75.50698798149824,
+    "library_preprocess_ms": 2.1314527839422226,
+    "library_inference_ms": 6.686992011964321,
+    "library_postprocess_ms": 2.219138666987419
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013056",
+    "wall_ms": 96.76826652139425,
+    "library_preprocess_ms": 2.183130942285061,
+    "library_inference_ms": 6.456398405134678,
+    "library_postprocess_ms": 18.249967135488987
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013071",
+    "wall_ms": 85.22965759038925,
+    "library_preprocess_ms": 2.212114632129669,
+    "library_inference_ms": 6.674979813396931,
+    "library_postprocess_ms": 3.5324012860655785
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013072",
+    "wall_ms": 53.65816503763199,
+    "library_preprocess_ms": 1.8946677446365356,
+    "library_inference_ms": 6.277129985392094,
+    "library_postprocess_ms": 4.838721826672554
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013112",
+    "wall_ms": 98.29858876764774,
+    "library_preprocess_ms": 2.279592677950859,
+    "library_inference_ms": 7.337798364460468,
+    "library_postprocess_ms": 2.3884279653429985
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013128",
+    "wall_ms": 84.99116823077202,
+    "library_preprocess_ms": 2.132185734808445,
+    "library_inference_ms": 6.788052618503571,
+    "library_postprocess_ms": 2.7229785919189453
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013140",
+    "wall_ms": 70.4349773004651,
+    "library_preprocess_ms": 2.153784967958927,
+    "library_inference_ms": 7.128794677555561,
+    "library_postprocess_ms": 1.8004309386014938
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013177",
+    "wall_ms": 64.74205758422613,
+    "library_preprocess_ms": 2.3712357506155968,
+    "library_inference_ms": 6.675349548459053,
+    "library_postprocess_ms": 3.927965648472309
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013193",
+    "wall_ms": 83.92193354666233,
+    "library_preprocess_ms": 1.9487002864480019,
+    "library_inference_ms": 6.59954734146595,
+    "library_postprocess_ms": 8.55906680226326
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013197",
+    "wall_ms": 85.64027026295662,
+    "library_preprocess_ms": 2.0295707508921623,
+    "library_inference_ms": 6.748137064278126,
+    "library_postprocess_ms": 8.442147634923458
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013204",
+    "wall_ms": 59.6354091539979,
+    "library_preprocess_ms": 1.965271309018135,
+    "library_inference_ms": 6.620205938816071,
+    "library_postprocess_ms": 1.6483739018440247
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013212",
+    "wall_ms": 61.926184222102165,
+    "library_preprocess_ms": 2.036886289715767,
+    "library_inference_ms": 6.639672443270683,
+    "library_postprocess_ms": 12.322294525802135
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013249",
+    "wall_ms": 98.78676757216454,
+    "library_preprocess_ms": 2.149248495697975,
+    "library_inference_ms": 6.634374149143696,
+    "library_postprocess_ms": 2.7048932388424873
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013275",
+    "wall_ms": 75.05999691784382,
+    "library_preprocess_ms": 2.157573588192463,
+    "library_inference_ms": 6.695158779621124,
+    "library_postprocess_ms": 1.740066334605217
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013287",
+    "wall_ms": 98.47862739115953,
+    "library_preprocess_ms": 2.3023951798677444,
+    "library_inference_ms": 7.106572389602661,
+    "library_postprocess_ms": 2.047445625066757
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013288",
+    "wall_ms": 92.25997608155012,
+    "library_preprocess_ms": 2.2669490426778793,
+    "library_inference_ms": 7.113765925168991,
+    "library_postprocess_ms": 5.487724207341671
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013330",
+    "wall_ms": 84.8369374871254,
+    "library_preprocess_ms": 2.197488211095333,
+    "library_inference_ms": 6.860198453068733,
+    "library_postprocess_ms": 2.6774918660521507
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013334",
+    "wall_ms": 81.87372796237469,
+    "library_preprocess_ms": 2.4060411378741264,
+    "library_inference_ms": 7.29058962315321,
+    "library_postprocess_ms": 2.7434667572379112
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013364",
+    "wall_ms": 101.02342907339334,
+    "library_preprocess_ms": 2.1639447659254074,
+    "library_inference_ms": 6.890656426548958,
+    "library_postprocess_ms": 2.7697961777448654
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013398",
+    "wall_ms": 71.37031853199005,
+    "library_preprocess_ms": 2.2200504317879677,
+    "library_inference_ms": 7.168940268456936,
+    "library_postprocess_ms": 3.240392543375492
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013411",
+    "wall_ms": 83.04888103157282,
+    "library_preprocess_ms": 2.1499674767255783,
+    "library_inference_ms": 6.925561465322971,
+    "library_postprocess_ms": 2.2573713213205338
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013423",
+    "wall_ms": 77.39255856722593,
+    "library_preprocess_ms": 2.1979687735438347,
+    "library_inference_ms": 7.132641971111298,
+    "library_postprocess_ms": 3.7513338029384613
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013424",
+    "wall_ms": 102.70048677921295,
+    "library_preprocess_ms": 2.4174414575099945,
+    "library_inference_ms": 6.889333948493004,
+    "library_postprocess_ms": 17.89993792772293
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013461",
+    "wall_ms": 91.45622234791517,
+    "library_preprocess_ms": 2.4284031242132187,
+    "library_inference_ms": 6.914179772138596,
+    "library_postprocess_ms": 3.06155439466238
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013465",
+    "wall_ms": 105.16557935625315,
+    "library_preprocess_ms": 2.377767115831375,
+    "library_inference_ms": 7.1548838168382645,
+    "library_postprocess_ms": 3.6472389474511147
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013473",
+    "wall_ms": 89.21559434384108,
+    "library_preprocess_ms": 2.3674285039305687,
+    "library_inference_ms": 7.123954594135284,
+    "library_postprocess_ms": 2.785325050354004
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013488",
+    "wall_ms": 66.93332269787788,
+    "library_preprocess_ms": 1.7682397738099098,
+    "library_inference_ms": 6.462509743869305,
+    "library_postprocess_ms": 4.645637236535549
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013489",
+    "wall_ms": 65.22425450384617,
+    "library_preprocess_ms": 2.089965157210827,
+    "library_inference_ms": 6.542601622641087,
+    "library_postprocess_ms": 2.6120487600564957
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013552",
+    "wall_ms": 115.22662453353405,
+    "library_preprocess_ms": 3.433085046708584,
+    "library_inference_ms": 7.042591460049152,
+    "library_postprocess_ms": 7.093769498169422
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013561",
+    "wall_ms": 91.93597547709942,
+    "library_preprocess_ms": 2.1873489022254944,
+    "library_inference_ms": 7.400906644761562,
+    "library_postprocess_ms": 6.757856346666813
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013578",
+    "wall_ms": 116.9572938233614,
+    "library_preprocess_ms": 2.225770615041256,
+    "library_inference_ms": 7.00967013835907,
+    "library_postprocess_ms": 4.33096569031477
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013637",
+    "wall_ms": 76.60955470055342,
+    "library_preprocess_ms": 2.181478776037693,
+    "library_inference_ms": 6.9565000012516975,
+    "library_postprocess_ms": 2.2088391706347466
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013652",
+    "wall_ms": 79.15078941732645,
+    "library_preprocess_ms": 2.1193111315369606,
+    "library_inference_ms": 6.693955510854721,
+    "library_postprocess_ms": 7.428659126162529
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013674",
+    "wall_ms": 119.95897721499205,
+    "library_preprocess_ms": 2.2322526201605797,
+    "library_inference_ms": 7.222711108624935,
+    "library_postprocess_ms": 3.184105269610882
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013688",
+    "wall_ms": 118.33119206130505,
+    "library_preprocess_ms": 2.069327048957348,
+    "library_inference_ms": 6.82442169636488,
+    "library_postprocess_ms": 2.8210021555423737
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013695",
+    "wall_ms": 75.38476772606373,
+    "library_preprocess_ms": 2.0523350685834885,
+    "library_inference_ms": 7.008678279817104,
+    "library_postprocess_ms": 2.6668524369597435
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013708",
+    "wall_ms": 146.34958375245333,
+    "library_preprocess_ms": 2.057444304227829,
+    "library_inference_ms": 6.784697063267231,
+    "library_postprocess_ms": 5.7887304574251175
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013740",
+    "wall_ms": 86.87406405806541,
+    "library_preprocess_ms": 1.8775658681988716,
+    "library_inference_ms": 6.508004851639271,
+    "library_postprocess_ms": 10.963626205921173
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013748",
+    "wall_ms": 103.35904639214277,
+    "library_preprocess_ms": 2.0454926416277885,
+    "library_inference_ms": 7.140777073800564,
+    "library_postprocess_ms": 3.615177236497402
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013798",
+    "wall_ms": 97.34550304710865,
+    "library_preprocess_ms": 2.042246051132679,
+    "library_inference_ms": 6.911915726959705,
+    "library_postprocess_ms": 4.881852306425571
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013839",
+    "wall_ms": 82.21103250980377,
+    "library_preprocess_ms": 2.109241671860218,
+    "library_inference_ms": 6.916784681379795,
+    "library_postprocess_ms": 3.166251815855503
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013840",
+    "wall_ms": 72.44307920336723,
+    "library_preprocess_ms": 1.9379490986466408,
+    "library_inference_ms": 6.553732790052891,
+    "library_postprocess_ms": 3.859306685626507
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013844",
+    "wall_ms": 51.41712352633476,
+    "library_preprocess_ms": 2.0398106426000595,
+    "library_inference_ms": 6.828279234468937,
+    "library_postprocess_ms": 2.6229489594697952
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013865",
+    "wall_ms": 110.16643606126308,
+    "library_preprocess_ms": 2.163534052670002,
+    "library_inference_ms": 7.024097256362438,
+    "library_postprocess_ms": 1.7756037414073944
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013879",
+    "wall_ms": 105.6114574894309,
+    "library_preprocess_ms": 2.058597281575203,
+    "library_inference_ms": 6.816496141254902,
+    "library_postprocess_ms": 6.477528251707554
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013888",
+    "wall_ms": 108.4762942045927,
+    "library_preprocess_ms": 2.050081267952919,
+    "library_inference_ms": 7.093587890267372,
+    "library_postprocess_ms": 2.1318038925528526
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013896",
+    "wall_ms": 90.22615570574999,
+    "library_preprocess_ms": 2.080388367176056,
+    "library_inference_ms": 6.99667539447546,
+    "library_postprocess_ms": 2.8751231729984283
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013897",
+    "wall_ms": 110.37544999271631,
+    "library_preprocess_ms": 2.0088329911231995,
+    "library_inference_ms": 7.025841623544693,
+    "library_postprocess_ms": 2.6155151426792145
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013929",
+    "wall_ms": 158.40142872184515,
+    "library_preprocess_ms": 2.0389584824442863,
+    "library_inference_ms": 6.991385482251644,
+    "library_postprocess_ms": 24.565800093114376
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013942",
+    "wall_ms": 87.06782851368189,
+    "library_preprocess_ms": 2.0508822053670883,
+    "library_inference_ms": 7.1056196466088295,
+    "library_postprocess_ms": 1.7532221972942352
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013961",
+    "wall_ms": 112.92494088411331,
+    "library_preprocess_ms": 2.057364210486412,
+    "library_inference_ms": 6.8432968109846115,
+    "library_postprocess_ms": 11.693419888615608
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013982",
+    "wall_ms": 87.1748710051179,
+    "library_preprocess_ms": 2.0298222079873085,
+    "library_inference_ms": 7.023235782980919,
+    "library_postprocess_ms": 20.678249187767506
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013983",
+    "wall_ms": 84.17702559381723,
+    "library_preprocess_ms": 1.9707819446921349,
+    "library_inference_ms": 6.880256347358227,
+    "library_postprocess_ms": 3.0145160853862762
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013984",
+    "wall_ms": 70.09969558566809,
+    "library_preprocess_ms": 1.8430305644869804,
+    "library_inference_ms": 6.381346844136715,
+    "library_postprocess_ms": 2.8699850663542747
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013986",
+    "wall_ms": 107.67265036702156,
+    "library_preprocess_ms": 1.9207671284675598,
+    "library_inference_ms": 6.659830920398235,
+    "library_postprocess_ms": 10.149852372705936
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013987",
+    "wall_ms": 76.58265344798565,
+    "library_preprocess_ms": 1.9152471795678139,
+    "library_inference_ms": 6.688536144793034,
+    "library_postprocess_ms": 3.7269871681928635
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0013995",
+    "wall_ms": 95.98308708518744,
+    "library_preprocess_ms": 2.1111564710736275,
+    "library_inference_ms": 6.986076012253761,
+    "library_postprocess_ms": 3.139553591609001
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014028",
+    "wall_ms": 82.11152628064156,
+    "library_preprocess_ms": 1.9564740359783173,
+    "library_inference_ms": 6.651745177805424,
+    "library_postprocess_ms": 1.7038388177752495
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014046",
+    "wall_ms": 70.7725128158927,
+    "library_preprocess_ms": 2.047535963356495,
+    "library_inference_ms": 6.945339031517506,
+    "library_postprocess_ms": 2.2161537781357765
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014049",
+    "wall_ms": 88.16154766827822,
+    "library_preprocess_ms": 2.0393207669258118,
+    "library_inference_ms": 6.791449151933193,
+    "library_postprocess_ms": 4.263869486749172
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014132",
+    "wall_ms": 82.24373497068882,
+    "library_preprocess_ms": 2.146361395716667,
+    "library_inference_ms": 7.031000219285488,
+    "library_postprocess_ms": 4.746267572045326
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014150",
+    "wall_ms": 98.41891564428806,
+    "library_preprocess_ms": 2.2513093426823616,
+    "library_inference_ms": 7.071616128087044,
+    "library_postprocess_ms": 1.7542224377393723
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014163",
+    "wall_ms": 85.98236367106438,
+    "library_preprocess_ms": 2.280483953654766,
+    "library_inference_ms": 6.4219338819384575,
+    "library_postprocess_ms": 1.674954779446125
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014174",
+    "wall_ms": 90.36789368838072,
+    "library_preprocess_ms": 2.298266626894474,
+    "library_inference_ms": 6.566345691680908,
+    "library_postprocess_ms": 4.342316649854183
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014274",
+    "wall_ms": 90.15065338462591,
+    "library_preprocess_ms": 2.283059060573578,
+    "library_inference_ms": 7.056208327412605,
+    "library_postprocess_ms": 1.8198266625404358
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014302",
+    "wall_ms": 94.6721276268363,
+    "library_preprocess_ms": 2.1914467215538025,
+    "library_inference_ms": 6.969333626329899,
+    "library_postprocess_ms": 2.654147334396839
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014419",
+    "wall_ms": 104.42544519901276,
+    "library_preprocess_ms": 2.227134071290493,
+    "library_inference_ms": 6.869085133075714,
+    "library_postprocess_ms": 6.009908393025398
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014458",
+    "wall_ms": 86.64733730256557,
+    "library_preprocess_ms": 2.2632814943790436,
+    "library_inference_ms": 6.976837292313576,
+    "library_postprocess_ms": 3.0737780034542084
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014475",
+    "wall_ms": 70.60753181576729,
+    "library_preprocess_ms": 2.1725213155150414,
+    "library_inference_ms": 6.936972960829735,
+    "library_postprocess_ms": 1.7697522416710854
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014490",
+    "wall_ms": 74.61322471499443,
+    "library_preprocess_ms": 2.2313809022307396,
+    "library_inference_ms": 6.993619725108147,
+    "library_postprocess_ms": 3.59415914863348
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014506",
+    "wall_ms": 85.86610574275255,
+    "library_preprocess_ms": 2.1639643236994743,
+    "library_inference_ms": 6.989131681621075,
+    "library_postprocess_ms": 5.307464860379696
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014518",
+    "wall_ms": 96.11514676362276,
+    "library_preprocess_ms": 2.183872275054455,
+    "library_inference_ms": 6.925501860678196,
+    "library_postprocess_ms": 9.277359582483768
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014527",
+    "wall_ms": 90.20726941525936,
+    "library_preprocess_ms": 2.0693475380539894,
+    "library_inference_ms": 7.012104615569115,
+    "library_postprocess_ms": 2.6888642460107803
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014537",
+    "wall_ms": 100.73964484035969,
+    "library_preprocess_ms": 2.0192330703139305,
+    "library_inference_ms": 6.946811452507973,
+    "library_postprocess_ms": 10.84066554903984
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014541",
+    "wall_ms": 101.11271683126688,
+    "library_preprocess_ms": 2.0148344337940216,
+    "library_inference_ms": 7.035708986222744,
+    "library_postprocess_ms": 4.006625153124332
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014545",
+    "wall_ms": 74.46925342082977,
+    "library_preprocess_ms": 2.030053175985813,
+    "library_inference_ms": 6.815874949097633,
+    "library_postprocess_ms": 2.0563220605254173
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014663",
+    "wall_ms": 127.29020230472088,
+    "library_preprocess_ms": 2.5249551981687546,
+    "library_inference_ms": 7.0040905848145485,
+    "library_postprocess_ms": 2.2163037210702896
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014666",
+    "wall_ms": 178.81546076387167,
+    "library_preprocess_ms": 2.5077611207962036,
+    "library_inference_ms": 7.0683304220438,
+    "library_postprocess_ms": 3.64840030670166
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014680",
+    "wall_ms": 163.9223052188754,
+    "library_preprocess_ms": 2.6005078107118607,
+    "library_inference_ms": 7.095420733094215,
+    "library_postprocess_ms": 1.7749816179275513
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014682",
+    "wall_ms": 163.64385094493628,
+    "library_preprocess_ms": 2.439333125948906,
+    "library_inference_ms": 7.118253968656063,
+    "library_postprocess_ms": 2.904249355196953
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014722",
+    "wall_ms": 213.3274907246232,
+    "library_preprocess_ms": 2.4979542940855026,
+    "library_inference_ms": 7.228432223200798,
+    "library_postprocess_ms": 1.7374726012349129
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014730",
+    "wall_ms": 172.19648603349924,
+    "library_preprocess_ms": 2.617909573018551,
+    "library_inference_ms": 7.258287630975246,
+    "library_postprocess_ms": 2.7057956904172897
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014731",
+    "wall_ms": 150.19795950502157,
+    "library_preprocess_ms": 2.5161486119031906,
+    "library_inference_ms": 7.102495059370995,
+    "library_postprocess_ms": 1.7768563702702522
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014748",
+    "wall_ms": 168.93515456467867,
+    "library_preprocess_ms": 2.440215088427067,
+    "library_inference_ms": 7.071716710925102,
+    "library_postprocess_ms": 2.5469157844781876
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014753",
+    "wall_ms": 171.18653375655413,
+    "library_preprocess_ms": 2.4744197726249695,
+    "library_inference_ms": 7.054565474390984,
+    "library_postprocess_ms": 1.7747916281223297
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014780",
+    "wall_ms": 192.41635221987963,
+    "library_preprocess_ms": 2.572152763605118,
+    "library_inference_ms": 7.049635984003544,
+    "library_postprocess_ms": 2.2409893572330475
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014782",
+    "wall_ms": 183.21871291846037,
+    "library_preprocess_ms": 2.401142381131649,
+    "library_inference_ms": 6.87576737254858,
+    "library_postprocess_ms": 1.7233956605196
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014783",
+    "wall_ms": 179.71094697713852,
+    "library_preprocess_ms": 2.4649817496538162,
+    "library_inference_ms": 7.151065394282341,
+    "library_postprocess_ms": 1.7617475241422653
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014786",
+    "wall_ms": 159.42364279180765,
+    "library_preprocess_ms": 2.487093210220337,
+    "library_inference_ms": 7.009419612586498,
+    "library_postprocess_ms": 2.8818966820836067
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014794",
+    "wall_ms": 166.6192440316081,
+    "library_preprocess_ms": 2.60334275662899,
+    "library_inference_ms": 7.035369053483009,
+    "library_postprocess_ms": 1.727723516523838
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014807",
+    "wall_ms": 144.65276803821325,
+    "library_preprocess_ms": 2.4432213976979256,
+    "library_inference_ms": 7.062078453600407,
+    "library_postprocess_ms": 2.7031712234020233
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014821",
+    "wall_ms": 132.1074841544032,
+    "library_preprocess_ms": 2.540864050388336,
+    "library_inference_ms": 7.071066647768021,
+    "library_postprocess_ms": 1.792004331946373
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014836",
+    "wall_ms": 136.2109212204814,
+    "library_preprocess_ms": 2.4741189554333687,
+    "library_inference_ms": 7.047380320727825,
+    "library_postprocess_ms": 1.7948094755411148
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014844",
+    "wall_ms": 142.89583917707205,
+    "library_preprocess_ms": 2.60345172137022,
+    "library_inference_ms": 7.103045471012592,
+    "library_postprocess_ms": 2.534974366426468
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014855",
+    "wall_ms": 187.4079005792737,
+    "library_preprocess_ms": 2.4748817086219788,
+    "library_inference_ms": 7.064042612910271,
+    "library_postprocess_ms": 4.6653347089886665
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014860",
+    "wall_ms": 184.85967256128788,
+    "library_preprocess_ms": 2.521769143640995,
+    "library_inference_ms": 7.015910930931568,
+    "library_postprocess_ms": 1.7695818096399307
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014863",
+    "wall_ms": 173.81609603762627,
+    "library_preprocess_ms": 2.4731066077947617,
+    "library_inference_ms": 7.045908831059933,
+    "library_postprocess_ms": 1.7160018905997276
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014872",
+    "wall_ms": 218.1540485471487,
+    "library_preprocess_ms": 2.5413958355784416,
+    "library_inference_ms": 6.993880495429039,
+    "library_postprocess_ms": 9.15995892137289
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014897",
+    "wall_ms": 194.99287381768227,
+    "library_preprocess_ms": 2.4841781705617905,
+    "library_inference_ms": 6.967461667954922,
+    "library_postprocess_ms": 2.2540846839547157
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014903",
+    "wall_ms": 176.4177344739437,
+    "library_preprocess_ms": 2.6447298005223274,
+    "library_inference_ms": 7.023416459560394,
+    "library_postprocess_ms": 5.329175852239132
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014913",
+    "wall_ms": 203.82909383624792,
+    "library_preprocess_ms": 2.535805106163025,
+    "library_inference_ms": 7.055135443806648,
+    "library_postprocess_ms": 2.1449988707900047
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014919",
+    "wall_ms": 181.52892962098122,
+    "library_preprocess_ms": 2.604324370622635,
+    "library_inference_ms": 7.082877680659294,
+    "library_postprocess_ms": 1.7024558037519455
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014920",
+    "wall_ms": 220.78344132751226,
+    "library_preprocess_ms": 2.4873632937669754,
+    "library_inference_ms": 7.020279765129089,
+    "library_postprocess_ms": 3.1036846339702606
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014921",
+    "wall_ms": 215.31159710139036,
+    "library_preprocess_ms": 2.541656605899334,
+    "library_inference_ms": 7.109647616744041,
+    "library_postprocess_ms": 1.7598336562514305
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014946",
+    "wall_ms": 236.24527640640736,
+    "library_preprocess_ms": 2.6078512892127037,
+    "library_inference_ms": 7.061216980218887,
+    "library_postprocess_ms": 1.7865048721432686
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014952",
+    "wall_ms": 145.65115794539452,
+    "library_preprocess_ms": 2.5809509679675102,
+    "library_inference_ms": 7.0607466623187065,
+    "library_postprocess_ms": 2.678615041077137
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014956",
+    "wall_ms": 86.37743908911943,
+    "library_preprocess_ms": 2.566814422607422,
+    "library_inference_ms": 7.030218839645386,
+    "library_postprocess_ms": 1.7895391210913658
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0014975",
+    "wall_ms": 80.94273507595062,
+    "library_preprocess_ms": 2.5585880503058434,
+    "library_inference_ms": 7.116670720279217,
+    "library_postprocess_ms": 1.7754128202795982
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015018",
+    "wall_ms": 73.01726005971432,
+    "library_preprocess_ms": 2.527819946408272,
+    "library_inference_ms": 7.084871642291546,
+    "library_postprocess_ms": 2.300742082297802
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015019",
+    "wall_ms": 76.14184450358152,
+    "library_preprocess_ms": 2.496592700481415,
+    "library_inference_ms": 6.98983296751976,
+    "library_postprocess_ms": 3.9464812725782394
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015020",
+    "wall_ms": 81.16494212299585,
+    "library_preprocess_ms": 2.5964491069316864,
+    "library_inference_ms": 7.082517258822918,
+    "library_postprocess_ms": 3.1783748418092728
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015034",
+    "wall_ms": 82.1075988933444,
+    "library_preprocess_ms": 3.0941469594836235,
+    "library_inference_ms": 8.3828866481781,
+    "library_postprocess_ms": 2.3137275129556656
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015044",
+    "wall_ms": 91.991170309484,
+    "library_preprocess_ms": 3.509058617055416,
+    "library_inference_ms": 9.040404111146927,
+    "library_postprocess_ms": 2.207105979323387
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015115",
+    "wall_ms": 99.8918879777193,
+    "library_preprocess_ms": 2.550463192164898,
+    "library_inference_ms": 7.136538624763489,
+    "library_postprocess_ms": 2.6608211919665337
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015129",
+    "wall_ms": 82.28710573166609,
+    "library_preprocess_ms": 2.5009391829371452,
+    "library_inference_ms": 7.042772136628628,
+    "library_postprocess_ms": 1.7382223159074783
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015132",
+    "wall_ms": 82.73342531174421,
+    "library_preprocess_ms": 2.441045828163624,
+    "library_inference_ms": 6.941852159798145,
+    "library_postprocess_ms": 2.1981094032526016
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015133",
+    "wall_ms": 77.37584877759218,
+    "library_preprocess_ms": 2.4652620777487755,
+    "library_inference_ms": 6.956820376217365,
+    "library_postprocess_ms": 3.3749649301171303
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015146",
+    "wall_ms": 80.53337410092354,
+    "library_preprocess_ms": 2.4897288531064987,
+    "library_inference_ms": 7.010681554675102,
+    "library_postprocess_ms": 1.7666574567556381
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015150",
+    "wall_ms": 72.84361310303211,
+    "library_preprocess_ms": 2.442380413413048,
+    "library_inference_ms": 6.743790581822395,
+    "library_postprocess_ms": 1.7056213691830635
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015152",
+    "wall_ms": 70.80675661563873,
+    "library_preprocess_ms": 2.398226410150528,
+    "library_inference_ms": 6.872382014989853,
+    "library_postprocess_ms": 2.149597741663456
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015166",
+    "wall_ms": 67.48329941183329,
+    "library_preprocess_ms": 2.44872085750103,
+    "library_inference_ms": 6.80968351662159,
+    "library_postprocess_ms": 1.723073422908783
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015180",
+    "wall_ms": 73.48322868347168,
+    "library_preprocess_ms": 2.388307824730873,
+    "library_inference_ms": 6.730274297297001,
+    "library_postprocess_ms": 2.9946286231279373
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015204",
+    "wall_ms": 72.58687913417816,
+    "library_preprocess_ms": 2.36564502120018,
+    "library_inference_ms": 6.792260333895683,
+    "library_postprocess_ms": 2.894330769777298
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015208",
+    "wall_ms": 66.8340865522623,
+    "library_preprocess_ms": 2.442179247736931,
+    "library_inference_ms": 6.839198991656303,
+    "library_postprocess_ms": 1.7317309975624084
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015211",
+    "wall_ms": 83.02979450672865,
+    "library_preprocess_ms": 2.4020643904805183,
+    "library_inference_ms": 6.83173444122076,
+    "library_postprocess_ms": 2.4157091975212097
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015215",
+    "wall_ms": 73.78546707332134,
+    "library_preprocess_ms": 2.4812929332256317,
+    "library_inference_ms": 6.867232732474804,
+    "library_postprocess_ms": 1.6977470368146896
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015254",
+    "wall_ms": 70.36689948290586,
+    "library_preprocess_ms": 2.438761293888092,
+    "library_inference_ms": 6.8053556606173515,
+    "library_postprocess_ms": 1.738373190164566
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015291",
+    "wall_ms": 78.78476101905107,
+    "library_preprocess_ms": 2.4996567517518997,
+    "library_inference_ms": 6.880287081003189,
+    "library_postprocess_ms": 2.1664798259735107
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015313",
+    "wall_ms": 90.00742342323065,
+    "library_preprocess_ms": 2.57978867739439,
+    "library_inference_ms": 6.79645873606205,
+    "library_postprocess_ms": 7.183979265391827
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015390",
+    "wall_ms": 90.66870994865894,
+    "library_preprocess_ms": 2.5606220588088036,
+    "library_inference_ms": 6.797460839152336,
+    "library_postprocess_ms": 3.4543750807642937
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015403",
+    "wall_ms": 73.29066377133131,
+    "library_preprocess_ms": 2.433633431792259,
+    "library_inference_ms": 6.747887469828129,
+    "library_postprocess_ms": 2.1532047539949417
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015404",
+    "wall_ms": 81.2257481738925,
+    "library_preprocess_ms": 2.4743489921092987,
+    "library_inference_ms": 6.683135405182838,
+    "library_postprocess_ms": 3.4471526741981506
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015412",
+    "wall_ms": 79.25225049257278,
+    "library_preprocess_ms": 2.417212352156639,
+    "library_inference_ms": 6.684497930109501,
+    "library_postprocess_ms": 2.120092511177063
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015419",
+    "wall_ms": 71.97248376905918,
+    "library_preprocess_ms": 2.448922023177147,
+    "library_inference_ms": 6.76385685801506,
+    "library_postprocess_ms": 3.001582808792591
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015443",
+    "wall_ms": 71.111842058599,
+    "library_preprocess_ms": 2.3774774745106697,
+    "library_inference_ms": 6.728651002049446,
+    "library_postprocess_ms": 2.2211624309420586
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015455",
+    "wall_ms": 84.3656500801444,
+    "library_preprocess_ms": 2.494928427040577,
+    "library_inference_ms": 6.683725863695145,
+    "library_postprocess_ms": 2.1792734041810036
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015466",
+    "wall_ms": 69.14185173809528,
+    "library_preprocess_ms": 2.394489012658596,
+    "library_inference_ms": 6.64608646184206,
+    "library_postprocess_ms": 2.573835663497448
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015468",
+    "wall_ms": 85.55501978844404,
+    "library_preprocess_ms": 2.423473633825779,
+    "library_inference_ms": 6.619255058467388,
+    "library_postprocess_ms": 2.086399123072624
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015476",
+    "wall_ms": 86.00427582859993,
+    "library_preprocess_ms": 2.421851269900799,
+    "library_inference_ms": 6.694957613945007,
+    "library_postprocess_ms": 2.416921779513359
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015510",
+    "wall_ms": 80.5406766012311,
+    "library_preprocess_ms": 2.461615949869156,
+    "library_inference_ms": 6.694957613945007,
+    "library_postprocess_ms": 1.6789007931947708
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015544",
+    "wall_ms": 63.14357742667198,
+    "library_preprocess_ms": 2.4228431284427643,
+    "library_inference_ms": 6.749269552528858,
+    "library_postprocess_ms": 3.8840537890791893
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015617",
+    "wall_ms": 79.94245178997517,
+    "library_preprocess_ms": 2.4455860257148743,
+    "library_inference_ms": 6.682724691927433,
+    "library_postprocess_ms": 1.7230240628123283
+  },
+  {
+    "repeat": 1,
+    "image_id": "ISIC_0015631",
+    "wall_ms": 85.15414502471685,
+    "library_preprocess_ms": 2.4847788736224174,
+    "library_inference_ms": 6.6588688641786575,
+    "library_postprocess_ms": 1.7080362886190414
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012656",
+    "wall_ms": 18.597240559756756,
+    "library_preprocess_ms": 1.772947609424591,
+    "library_inference_ms": 5.446465685963631,
+    "library_postprocess_ms": 2.4606138467788696
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012657",
+    "wall_ms": 18.156541511416435,
+    "library_preprocess_ms": 1.790783368051052,
+    "library_inference_ms": 5.853352136909962,
+    "library_postprocess_ms": 1.5160348266363144
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012663",
+    "wall_ms": 23.34313839673996,
+    "library_preprocess_ms": 1.7868448048830032,
+    "library_inference_ms": 5.6995730847120285,
+    "library_postprocess_ms": 1.9195657223463058
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012674",
+    "wall_ms": 24.37943033874035,
+    "library_preprocess_ms": 1.9187340512871742,
+    "library_inference_ms": 6.016440689563751,
+    "library_postprocess_ms": 3.9638737216591835
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012685",
+    "wall_ms": 23.360831663012505,
+    "library_preprocess_ms": 2.3324228823184967,
+    "library_inference_ms": 6.429596804082394,
+    "library_postprocess_ms": 1.6312524676322937
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012690",
+    "wall_ms": 22.690598852932453,
+    "library_preprocess_ms": 1.7263107001781464,
+    "library_inference_ms": 5.722765810787678,
+    "library_postprocess_ms": 1.8940763548016548
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012693",
+    "wall_ms": 24.559217505156994,
+    "library_preprocess_ms": 1.888016238808632,
+    "library_inference_ms": 6.167653948068619,
+    "library_postprocess_ms": 2.024381421506405
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012713",
+    "wall_ms": 21.24873362481594,
+    "library_preprocess_ms": 1.7844205722212791,
+    "library_inference_ms": 5.902605131268501,
+    "library_postprocess_ms": 1.8939673900604248
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012721",
+    "wall_ms": 23.237559013068676,
+    "library_preprocess_ms": 1.8393034115433693,
+    "library_inference_ms": 6.067606620490551,
+    "library_postprocess_ms": 1.561441458761692
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012770",
+    "wall_ms": 21.412251517176628,
+    "library_preprocess_ms": 1.8163006752729416,
+    "library_inference_ms": 6.03730883449316,
+    "library_postprocess_ms": 1.4981413260102272
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012786",
+    "wall_ms": 39.137160405516624,
+    "library_preprocess_ms": 1.920606940984726,
+    "library_inference_ms": 6.3606370240449905,
+    "library_postprocess_ms": 8.326208218932152
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012789",
+    "wall_ms": 24.399016052484512,
+    "library_preprocess_ms": 1.82376429438591,
+    "library_inference_ms": 5.877307616174221,
+    "library_postprocess_ms": 4.110630601644516
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012804",
+    "wall_ms": 21.58995531499386,
+    "library_preprocess_ms": 1.8911212682724,
+    "library_inference_ms": 6.198151968419552,
+    "library_postprocess_ms": 1.5540160238742828
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012856",
+    "wall_ms": 32.16697368770838,
+    "library_preprocess_ms": 1.8491419032216072,
+    "library_inference_ms": 6.584108807146549,
+    "library_postprocess_ms": 3.419979475438595
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012880",
+    "wall_ms": 23.648763075470924,
+    "library_preprocess_ms": 1.8309978768229485,
+    "library_inference_ms": 6.079939194023609,
+    "library_postprocess_ms": 2.4711834266781807
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012887",
+    "wall_ms": 23.260491900146008,
+    "library_preprocess_ms": 1.7805229872465134,
+    "library_inference_ms": 6.172804161906242,
+    "library_postprocess_ms": 2.0372774451971054
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012902",
+    "wall_ms": 41.015757247805595,
+    "library_preprocess_ms": 1.84737890958786,
+    "library_inference_ms": 6.5189553424716,
+    "library_postprocess_ms": 12.101667933166027
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012907",
+    "wall_ms": 29.35091033577919,
+    "library_preprocess_ms": 1.9065095111727715,
+    "library_inference_ms": 6.4402371644973755,
+    "library_postprocess_ms": 2.0642271265387535
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012941",
+    "wall_ms": 59.49730146676302,
+    "library_preprocess_ms": 1.8663853406906128,
+    "library_inference_ms": 6.4047109335660934,
+    "library_postprocess_ms": 29.146896675229073
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012965",
+    "wall_ms": 26.530970819294453,
+    "library_preprocess_ms": 1.8501542508602142,
+    "library_inference_ms": 6.470944732427597,
+    "library_postprocess_ms": 6.33029080927372
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0012999",
+    "wall_ms": 30.767337419092655,
+    "library_preprocess_ms": 1.8625883385539055,
+    "library_inference_ms": 6.544384174048901,
+    "library_postprocess_ms": 2.504635602235794
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013034",
+    "wall_ms": 24.55158345401287,
+    "library_preprocess_ms": 1.8630791455507278,
+    "library_inference_ms": 5.63727505505085,
+    "library_postprocess_ms": 2.3250477388501167
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013045",
+    "wall_ms": 26.744102127850056,
+    "library_preprocess_ms": 1.832631416618824,
+    "library_inference_ms": 6.087523885071278,
+    "library_postprocess_ms": 2.0093536004424095
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013056",
+    "wall_ms": 36.45860590040684,
+    "library_preprocess_ms": 1.7913030460476875,
+    "library_inference_ms": 5.778251215815544,
+    "library_postprocess_ms": 15.872780233621597
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013071",
+    "wall_ms": 26.310295797884464,
+    "library_preprocess_ms": 1.7860941588878632,
+    "library_inference_ms": 6.019194610416889,
+    "library_postprocess_ms": 2.8637126088142395
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013072",
+    "wall_ms": 23.75691756606102,
+    "library_preprocess_ms": 1.7420602962374687,
+    "library_inference_ms": 5.614983849227428,
+    "library_postprocess_ms": 3.619506023824215
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013112",
+    "wall_ms": 22.775739431381226,
+    "library_preprocess_ms": 1.7304690554738045,
+    "library_inference_ms": 5.697279237210751,
+    "library_postprocess_ms": 1.9216686487197876
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013128",
+    "wall_ms": 31.94640949368477,
+    "library_preprocess_ms": 1.819876953959465,
+    "library_inference_ms": 6.101479753851891,
+    "library_postprocess_ms": 2.409498207271099
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013140",
+    "wall_ms": 27.86677610129118,
+    "library_preprocess_ms": 1.822812482714653,
+    "library_inference_ms": 6.094718351960182,
+    "library_postprocess_ms": 1.5098126605153084
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013177",
+    "wall_ms": 24.575117975473404,
+    "library_preprocess_ms": 1.7536822706460953,
+    "library_inference_ms": 5.749496631324291,
+    "library_postprocess_ms": 2.9938584193587303
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013193",
+    "wall_ms": 30.393855646252632,
+    "library_preprocess_ms": 1.9855489954352379,
+    "library_inference_ms": 6.199775263667107,
+    "library_postprocess_ms": 8.096086792647839
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013197",
+    "wall_ms": 30.184722505509853,
+    "library_preprocess_ms": 1.811412163078785,
+    "library_inference_ms": 6.364655680954456,
+    "library_postprocess_ms": 7.8376587480306625
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013204",
+    "wall_ms": 22.457901388406754,
+    "library_preprocess_ms": 1.7700828611850739,
+    "library_inference_ms": 6.102251820266247,
+    "library_postprocess_ms": 1.4842953532934189
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013212",
+    "wall_ms": 32.641286961734295,
+    "library_preprocess_ms": 1.8257983028888702,
+    "library_inference_ms": 6.014686077833176,
+    "library_postprocess_ms": 11.775544844567776
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013249",
+    "wall_ms": 34.86165776848793,
+    "library_preprocess_ms": 1.9918205216526985,
+    "library_inference_ms": 6.541067734360695,
+    "library_postprocess_ms": 2.546144649386406
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013275",
+    "wall_ms": 37.11994085460901,
+    "library_preprocess_ms": 1.9988641142845154,
+    "library_inference_ms": 6.660112179815769,
+    "library_postprocess_ms": 1.6365516930818558
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013287",
+    "wall_ms": 32.36869350075722,
+    "library_preprocess_ms": 1.9933832809329033,
+    "library_inference_ms": 6.388140842318535,
+    "library_postprocess_ms": 1.618027687072754
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013288",
+    "wall_ms": 37.657844834029675,
+    "library_preprocess_ms": 1.9492506980895996,
+    "library_inference_ms": 6.37101661413908,
+    "library_postprocess_ms": 4.676675423979759
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013330",
+    "wall_ms": 33.728715032339096,
+    "library_preprocess_ms": 1.8674563616514206,
+    "library_inference_ms": 6.332915276288986,
+    "library_postprocess_ms": 2.4566957727074623
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013334",
+    "wall_ms": 35.79314332455397,
+    "library_preprocess_ms": 1.8767137080430984,
+    "library_inference_ms": 6.4934175461530685,
+    "library_postprocess_ms": 2.5237230584025383
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013364",
+    "wall_ms": 34.5068397000432,
+    "library_preprocess_ms": 1.865362748503685,
+    "library_inference_ms": 6.315422244369984,
+    "library_postprocess_ms": 2.515477128326893
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013398",
+    "wall_ms": 35.818721167743206,
+    "library_preprocess_ms": 1.8612546846270561,
+    "library_inference_ms": 6.321954540908337,
+    "library_postprocess_ms": 2.9115835204720497
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013411",
+    "wall_ms": 35.00023949891329,
+    "library_preprocess_ms": 1.902613788843155,
+    "library_inference_ms": 6.387898698449135,
+    "library_postprocess_ms": 2.087892033159733
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013423",
+    "wall_ms": 34.46991927921772,
+    "library_preprocess_ms": 1.866394653916359,
+    "library_inference_ms": 6.34213350713253,
+    "library_postprocess_ms": 3.3307019621133804
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013424",
+    "wall_ms": 48.34641143679619,
+    "library_preprocess_ms": 1.85399129986763,
+    "library_inference_ms": 6.354626268148422,
+    "library_postprocess_ms": 16.728823073208332
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013461",
+    "wall_ms": 37.40405663847923,
+    "library_preprocess_ms": 2.1222252398729324,
+    "library_inference_ms": 6.547610275447369,
+    "library_postprocess_ms": 2.8208326548337936
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013465",
+    "wall_ms": 35.07548104971647,
+    "library_preprocess_ms": 1.9026519730687141,
+    "library_inference_ms": 6.4350273460149765,
+    "library_postprocess_ms": 3.2238001003861427
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013473",
+    "wall_ms": 37.09846083074808,
+    "library_preprocess_ms": 1.902582123875618,
+    "library_inference_ms": 6.291287951171398,
+    "library_postprocess_ms": 2.4557746946811676
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013488",
+    "wall_ms": 19.929279573261738,
+    "library_preprocess_ms": 1.7027370631694794,
+    "library_inference_ms": 5.985391326248646,
+    "library_postprocess_ms": 2.8248699381947517
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013489",
+    "wall_ms": 19.6796590462327,
+    "library_preprocess_ms": 1.7832275480031967,
+    "library_inference_ms": 5.9652430936694145,
+    "library_postprocess_ms": 2.429334446787834
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013552",
+    "wall_ms": 44.61492504924536,
+    "library_preprocess_ms": 2.0270468667149544,
+    "library_inference_ms": 6.639833562076092,
+    "library_postprocess_ms": 6.740894168615341
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013561",
+    "wall_ms": 30.228804796934128,
+    "library_preprocess_ms": 1.8987245857715607,
+    "library_inference_ms": 6.357171572744846,
+    "library_postprocess_ms": 6.639842875301838
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013578",
+    "wall_ms": 35.19782051444054,
+    "library_preprocess_ms": 2.0307637751102448,
+    "library_inference_ms": 6.757806055247784,
+    "library_postprocess_ms": 4.200519993901253
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013637",
+    "wall_ms": 33.221920020878315,
+    "library_preprocess_ms": 2.00025737285614,
+    "library_inference_ms": 6.589187309145927,
+    "library_postprocess_ms": 2.1511511877179146
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013652",
+    "wall_ms": 27.68097724765539,
+    "library_preprocess_ms": 1.8918029963970184,
+    "library_inference_ms": 6.143659353256226,
+    "library_postprocess_ms": 6.051335483789444
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013674",
+    "wall_ms": 39.74578622728586,
+    "library_preprocess_ms": 2.0293816924095154,
+    "library_inference_ms": 6.610759533941746,
+    "library_postprocess_ms": 2.978929318487644
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013688",
+    "wall_ms": 33.400547690689564,
+    "library_preprocess_ms": 1.9887946546077728,
+    "library_inference_ms": 6.532100960612297,
+    "library_postprocess_ms": 2.0848363637924194
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013695",
+    "wall_ms": 33.67035463452339,
+    "library_preprocess_ms": 2.00797151774168,
+    "library_inference_ms": 6.509116850793362,
+    "library_postprocess_ms": 2.553408034145832
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013708",
+    "wall_ms": 34.35391280800104,
+    "library_preprocess_ms": 2.0932015031576157,
+    "library_inference_ms": 6.776891648769379,
+    "library_postprocess_ms": 5.289481021463871
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013740",
+    "wall_ms": 31.59917425364256,
+    "library_preprocess_ms": 1.79249607026577,
+    "library_inference_ms": 5.992054007947445,
+    "library_postprocess_ms": 10.730546899139881
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013748",
+    "wall_ms": 36.719948053359985,
+    "library_preprocess_ms": 1.9874731078743935,
+    "library_inference_ms": 6.533071398735046,
+    "library_postprocess_ms": 3.4406688064336777
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013798",
+    "wall_ms": 30.553024262189865,
+    "library_preprocess_ms": 1.958617940545082,
+    "library_inference_ms": 6.586202420294285,
+    "library_postprocess_ms": 4.739625379443169
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013839",
+    "wall_ms": 34.5335491001606,
+    "library_preprocess_ms": 2.1264953538775444,
+    "library_inference_ms": 6.575011648237705,
+    "library_postprocess_ms": 3.0209291726350784
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013840",
+    "wall_ms": 25.634482502937317,
+    "library_preprocess_ms": 1.9304249435663223,
+    "library_inference_ms": 6.284473463892937,
+    "library_postprocess_ms": 2.7748048305511475
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013844",
+    "wall_ms": 24.32428579777479,
+    "library_preprocess_ms": 1.8893582746386528,
+    "library_inference_ms": 6.636396981775761,
+    "library_postprocess_ms": 2.586470916867256
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013865",
+    "wall_ms": 34.30965915322304,
+    "library_preprocess_ms": 2.0320164039731026,
+    "library_inference_ms": 6.640033796429634,
+    "library_postprocess_ms": 1.6888603568077087
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013879",
+    "wall_ms": 38.66736497730017,
+    "library_preprocess_ms": 1.9950270652770996,
+    "library_inference_ms": 6.616239435970783,
+    "library_postprocess_ms": 5.681839771568775
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013888",
+    "wall_ms": 33.3102373406291,
+    "library_preprocess_ms": 1.9606119021773338,
+    "library_inference_ms": 6.557939574122429,
+    "library_postprocess_ms": 1.947738230228424
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013896",
+    "wall_ms": 33.872636035084724,
+    "library_preprocess_ms": 1.9880030304193497,
+    "library_inference_ms": 6.4926063641905785,
+    "library_postprocess_ms": 2.1276259794831276
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013897",
+    "wall_ms": 35.07453016936779,
+    "library_preprocess_ms": 1.9040759652853012,
+    "library_inference_ms": 6.437322124838829,
+    "library_postprocess_ms": 2.5796983391046524
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013929",
+    "wall_ms": 57.734470814466476,
+    "library_preprocess_ms": 2.300132066011429,
+    "library_inference_ms": 6.757776252925396,
+    "library_postprocess_ms": 23.91542587429285
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013942",
+    "wall_ms": 33.504352904856205,
+    "library_preprocess_ms": 1.9753901287913322,
+    "library_inference_ms": 6.516191177070141,
+    "library_postprocess_ms": 1.6180574893951416
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013961",
+    "wall_ms": 45.7089152187109,
+    "library_preprocess_ms": 2.0051663741469383,
+    "library_inference_ms": 6.5865227952599525,
+    "library_postprocess_ms": 11.011115275323391
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013982",
+    "wall_ms": 54.312155582010746,
+    "library_preprocess_ms": 1.9277799874544144,
+    "library_inference_ms": 6.556667387485504,
+    "library_postprocess_ms": 20.569545216858387
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013983",
+    "wall_ms": 26.255731470882893,
+    "library_preprocess_ms": 1.9309362396597862,
+    "library_inference_ms": 6.399249657988548,
+    "library_postprocess_ms": 2.945786342024803
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013984",
+    "wall_ms": 24.515154771506786,
+    "library_preprocess_ms": 2.057645469903946,
+    "library_inference_ms": 6.705556996166706,
+    "library_postprocess_ms": 2.182931639254093
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013986",
+    "wall_ms": 31.91519994288683,
+    "library_preprocess_ms": 1.8458161503076553,
+    "library_inference_ms": 5.940757691860199,
+    "library_postprocess_ms": 10.053781792521477
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013987",
+    "wall_ms": 25.135342963039875,
+    "library_preprocess_ms": 1.8843887373805046,
+    "library_inference_ms": 6.31555262953043,
+    "library_postprocess_ms": 3.6777155473828316
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0013995",
+    "wall_ms": 36.42452135682106,
+    "library_preprocess_ms": 2.007400617003441,
+    "library_inference_ms": 6.568027660250664,
+    "library_postprocess_ms": 2.9798010364174843
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014028",
+    "wall_ms": 22.991365753114223,
+    "library_preprocess_ms": 1.8901284784078598,
+    "library_inference_ms": 6.306525319814682,
+    "library_postprocess_ms": 1.5998827293515205
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014046",
+    "wall_ms": 33.52191485464573,
+    "library_preprocess_ms": 2.087460830807686,
+    "library_inference_ms": 6.570853292942047,
+    "library_postprocess_ms": 2.1329354494810104
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014049",
+    "wall_ms": 35.666695795953274,
+    "library_preprocess_ms": 2.031235024333,
+    "library_inference_ms": 6.515759974718094,
+    "library_postprocess_ms": 4.177437163889408
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014132",
+    "wall_ms": 37.695664912462234,
+    "library_preprocess_ms": 2.075538970530033,
+    "library_inference_ms": 6.643330678343773,
+    "library_postprocess_ms": 4.634016193449497
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014150",
+    "wall_ms": 33.39089918881655,
+    "library_preprocess_ms": 1.982082612812519,
+    "library_inference_ms": 6.46988395601511,
+    "library_postprocess_ms": 1.6412707045674324
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014163",
+    "wall_ms": 33.14559627324343,
+    "library_preprocess_ms": 1.9858889281749725,
+    "library_inference_ms": 6.484542042016983,
+    "library_postprocess_ms": 1.65614765137434
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014174",
+    "wall_ms": 36.814406514167786,
+    "library_preprocess_ms": 1.9752681255340576,
+    "library_inference_ms": 6.522642448544502,
+    "library_postprocess_ms": 4.313653334975243
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014274",
+    "wall_ms": 35.55138688534498,
+    "library_preprocess_ms": 1.965750940144062,
+    "library_inference_ms": 6.539285182952881,
+    "library_postprocess_ms": 1.6375426203012466
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014302",
+    "wall_ms": 34.994808956980705,
+    "library_preprocess_ms": 1.9418364390730858,
+    "library_inference_ms": 6.5899500623345375,
+    "library_postprocess_ms": 2.5322390720248222
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014419",
+    "wall_ms": 39.7237753495574,
+    "library_preprocess_ms": 2.123739570379257,
+    "library_inference_ms": 6.557118147611618,
+    "library_postprocess_ms": 5.952078849077225
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014458",
+    "wall_ms": 34.86017510294914,
+    "library_preprocess_ms": 1.9229110330343246,
+    "library_inference_ms": 6.339537911117077,
+    "library_postprocess_ms": 2.9197074472904205
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014475",
+    "wall_ms": 31.574377790093422,
+    "library_preprocess_ms": 1.976211555302143,
+    "library_inference_ms": 6.313730031251907,
+    "library_postprocess_ms": 1.567731611430645
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014490",
+    "wall_ms": 32.98712894320488,
+    "library_preprocess_ms": 1.9351635128259659,
+    "library_inference_ms": 6.376358680427074,
+    "library_postprocess_ms": 3.4241285175085068
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014506",
+    "wall_ms": 37.05039992928505,
+    "library_preprocess_ms": 1.9469363614916801,
+    "library_inference_ms": 6.342784501612186,
+    "library_postprocess_ms": 5.171367898583412
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014518",
+    "wall_ms": 45.69497890770435,
+    "library_preprocess_ms": 1.9157882779836655,
+    "library_inference_ms": 6.511912681162357,
+    "library_postprocess_ms": 9.001631289720535
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014527",
+    "wall_ms": 34.72608234733343,
+    "library_preprocess_ms": 1.9513750448822975,
+    "library_inference_ms": 6.381547078490257,
+    "library_postprocess_ms": 2.460193820297718
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014537",
+    "wall_ms": 44.9210312217474,
+    "library_preprocess_ms": 1.944011077284813,
+    "library_inference_ms": 6.297648884356022,
+    "library_postprocess_ms": 10.440780781209469
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014541",
+    "wall_ms": 37.11136430501938,
+    "library_preprocess_ms": 1.9544707611203194,
+    "library_inference_ms": 6.307957693934441,
+    "library_postprocess_ms": 3.7852786481380463
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014545",
+    "wall_ms": 31.21145535260439,
+    "library_preprocess_ms": 1.9329795613884926,
+    "library_inference_ms": 6.329459138214588,
+    "library_postprocess_ms": 1.9354252144694328
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014663",
+    "wall_ms": 71.10540010035038,
+    "library_preprocess_ms": 2.5209281593561172,
+    "library_inference_ms": 6.682593375444412,
+    "library_postprocess_ms": 2.0994339138269424
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014666",
+    "wall_ms": 75.2379922196269,
+    "library_preprocess_ms": 2.442719414830208,
+    "library_inference_ms": 6.560523994266987,
+    "library_postprocess_ms": 2.8467709198594093
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014680",
+    "wall_ms": 70.67190390080214,
+    "library_preprocess_ms": 2.4568457156419754,
+    "library_inference_ms": 6.573689170181751,
+    "library_postprocess_ms": 1.6352282837033272
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014682",
+    "wall_ms": 69.26214788109064,
+    "library_preprocess_ms": 2.3864340037107468,
+    "library_inference_ms": 6.657937541604042,
+    "library_postprocess_ms": 2.0557623356580734
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014722",
+    "wall_ms": 76.03044342249632,
+    "library_preprocess_ms": 2.3819254711270332,
+    "library_inference_ms": 6.488547660410404,
+    "library_postprocess_ms": 1.616382971405983
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014730",
+    "wall_ms": 78.09932064265013,
+    "library_preprocess_ms": 2.455565147101879,
+    "library_inference_ms": 6.547799333930016,
+    "library_postprocess_ms": 2.545192837715149
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014731",
+    "wall_ms": 67.45078787207603,
+    "library_preprocess_ms": 2.3921653628349304,
+    "library_inference_ms": 6.616148166358471,
+    "library_postprocess_ms": 1.6217734664678574
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014748",
+    "wall_ms": 81.8077027797699,
+    "library_preprocess_ms": 2.407352440059185,
+    "library_inference_ms": 6.68929610401392,
+    "library_postprocess_ms": 2.4053500965237617
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014753",
+    "wall_ms": 70.16673218458891,
+    "library_preprocess_ms": 2.430737018585205,
+    "library_inference_ms": 6.6631268709897995,
+    "library_postprocess_ms": 1.6111331060528755
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014780",
+    "wall_ms": 84.93579365313053,
+    "library_preprocess_ms": 2.473347820341587,
+    "library_inference_ms": 6.46976288408041,
+    "library_postprocess_ms": 2.0609498023986816
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014782",
+    "wall_ms": 80.25447838008404,
+    "library_preprocess_ms": 2.3661162704229355,
+    "library_inference_ms": 6.507814861834049,
+    "library_postprocess_ms": 1.6221553087234497
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014783",
+    "wall_ms": 81.24768827110529,
+    "library_preprocess_ms": 2.42441613227129,
+    "library_inference_ms": 6.502704694867134,
+    "library_postprocess_ms": 1.6214428469538689
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014786",
+    "wall_ms": 77.17954739928246,
+    "library_preprocess_ms": 2.4315984919667244,
+    "library_inference_ms": 6.58382847905159,
+    "library_postprocess_ms": 3.3944938331842422
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014794",
+    "wall_ms": 71.0924444720149,
+    "library_preprocess_ms": 2.530706115067005,
+    "library_inference_ms": 6.613013334572315,
+    "library_postprocess_ms": 1.667700707912445
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014807",
+    "wall_ms": 74.80631861835718,
+    "library_preprocess_ms": 2.4080853909254074,
+    "library_inference_ms": 6.611138582229614,
+    "library_postprocess_ms": 2.568497322499752
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014821",
+    "wall_ms": 65.4192017391324,
+    "library_preprocess_ms": 2.3915544152259827,
+    "library_inference_ms": 6.518294103443623,
+    "library_postprocess_ms": 1.620592549443245
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014836",
+    "wall_ms": 79.01167869567871,
+    "library_preprocess_ms": 2.392745576798916,
+    "library_inference_ms": 6.556046195328236,
+    "library_postprocess_ms": 1.5936307609081268
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014844",
+    "wall_ms": 66.49226322770119,
+    "library_preprocess_ms": 2.451997250318527,
+    "library_inference_ms": 6.604026071727276,
+    "library_postprocess_ms": 2.436256967484951
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014855",
+    "wall_ms": 81.65070787072182,
+    "library_preprocess_ms": 2.43225134909153,
+    "library_inference_ms": 6.503427401185036,
+    "library_postprocess_ms": 4.421766847372055
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014860",
+    "wall_ms": 74.75609425455332,
+    "library_preprocess_ms": 2.3890789598226547,
+    "library_inference_ms": 6.6134138032794,
+    "library_postprocess_ms": 1.6070464625954628
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014863",
+    "wall_ms": 74.11049865186214,
+    "library_preprocess_ms": 2.3865634575486183,
+    "library_inference_ms": 6.530198268592358,
+    "library_postprocess_ms": 1.6025081276893616
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014872",
+    "wall_ms": 84.5007449388504,
+    "library_preprocess_ms": 2.4470994248986244,
+    "library_inference_ms": 6.58087246119976,
+    "library_postprocess_ms": 8.874761871993542
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014897",
+    "wall_ms": 79.93147056549788,
+    "library_preprocess_ms": 2.429845742881298,
+    "library_inference_ms": 6.727899424731731,
+    "library_postprocess_ms": 2.137155272066593
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014903",
+    "wall_ms": 70.41602116078138,
+    "library_preprocess_ms": 2.5137243792414665,
+    "library_inference_ms": 6.664680317044258,
+    "library_postprocess_ms": 2.978087402880192
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014913",
+    "wall_ms": 82.9824861139059,
+    "library_preprocess_ms": 2.4109892547130585,
+    "library_inference_ms": 6.647628732025623,
+    "library_postprocess_ms": 2.5631356984376907
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014919",
+    "wall_ms": 83.54021515697241,
+    "library_preprocess_ms": 2.547898329794407,
+    "library_inference_ms": 6.627660244703293,
+    "library_postprocess_ms": 1.6739023849368095
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014920",
+    "wall_ms": 78.05106975138187,
+    "library_preprocess_ms": 2.4713538587093353,
+    "library_inference_ms": 6.709585897624493,
+    "library_postprocess_ms": 2.8570201247930527
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014921",
+    "wall_ms": 89.46649637073278,
+    "library_preprocess_ms": 2.5118300691246986,
+    "library_inference_ms": 6.782270967960358,
+    "library_postprocess_ms": 1.6824379563331604
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014946",
+    "wall_ms": 79.64163552969694,
+    "library_preprocess_ms": 2.4140365421772003,
+    "library_inference_ms": 6.366628222167492,
+    "library_postprocess_ms": 1.6460688784718513
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014952",
+    "wall_ms": 87.40284014493227,
+    "library_preprocess_ms": 2.449152059853077,
+    "library_inference_ms": 6.709335371851921,
+    "library_postprocess_ms": 2.5840764865279198
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014956",
+    "wall_ms": 84.00363847613335,
+    "library_preprocess_ms": 2.450695261359215,
+    "library_inference_ms": 6.626148708164692,
+    "library_postprocess_ms": 1.67947169393301
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0014975",
+    "wall_ms": 78.763741068542,
+    "library_preprocess_ms": 2.5146454572677612,
+    "library_inference_ms": 6.757576018571854,
+    "library_postprocess_ms": 1.6089798882603645
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015018",
+    "wall_ms": 71.42334897071123,
+    "library_preprocess_ms": 2.4845683947205544,
+    "library_inference_ms": 6.671613082289696,
+    "library_postprocess_ms": 2.187819220125675
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015019",
+    "wall_ms": 75.51429234445095,
+    "library_preprocess_ms": 2.44895089417696,
+    "library_inference_ms": 6.6153984516859055,
+    "library_postprocess_ms": 3.9124684408307076
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015020",
+    "wall_ms": 79.57769464701414,
+    "library_preprocess_ms": 2.461835741996765,
+    "library_inference_ms": 6.822117604315281,
+    "library_postprocess_ms": 3.019426017999649
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015034",
+    "wall_ms": 78.91326304525137,
+    "library_preprocess_ms": 2.4738479405641556,
+    "library_inference_ms": 6.837003864347935,
+    "library_postprocess_ms": 2.2675497457385063
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015044",
+    "wall_ms": 74.76680539548397,
+    "library_preprocess_ms": 2.4523381143808365,
+    "library_inference_ms": 6.547889672219753,
+    "library_postprocess_ms": 1.6664592549204826
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015115",
+    "wall_ms": 81.74883294850588,
+    "library_preprocess_ms": 2.418123185634613,
+    "library_inference_ms": 6.85279443860054,
+    "library_postprocess_ms": 2.6319772005081177
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015129",
+    "wall_ms": 80.67572209984064,
+    "library_preprocess_ms": 2.4013519287109375,
+    "library_inference_ms": 6.739881820976734,
+    "library_postprocess_ms": 1.6330154612660408
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015132",
+    "wall_ms": 81.4856868237257,
+    "library_preprocess_ms": 2.4125929921865463,
+    "library_inference_ms": 6.68268371373415,
+    "library_postprocess_ms": 2.125893719494343
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015133",
+    "wall_ms": 76.07731223106384,
+    "library_preprocess_ms": 2.3717759177088737,
+    "library_inference_ms": 6.711399182677269,
+    "library_postprocess_ms": 2.991783432662487
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015146",
+    "wall_ms": 79.13969829678535,
+    "library_preprocess_ms": 2.4059200659394264,
+    "library_inference_ms": 6.7022405564785,
+    "library_postprocess_ms": 1.688689924776554
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015150",
+    "wall_ms": 72.19686452299356,
+    "library_preprocess_ms": 2.4089058861136436,
+    "library_inference_ms": 6.682404316961765,
+    "library_postprocess_ms": 1.6566598787903786
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015152",
+    "wall_ms": 69.75261121988297,
+    "library_preprocess_ms": 2.409827895462513,
+    "library_inference_ms": 6.914200261235237,
+    "library_postprocess_ms": 2.130763605237007
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015166",
+    "wall_ms": 66.32395647466183,
+    "library_preprocess_ms": 2.4537593126296997,
+    "library_inference_ms": 6.777592934668064,
+    "library_postprocess_ms": 1.7045186832547188
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015180",
+    "wall_ms": 72.92032800614834,
+    "library_preprocess_ms": 2.39371694624424,
+    "library_inference_ms": 6.71842135488987,
+    "library_postprocess_ms": 2.9873857274651527
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015204",
+    "wall_ms": 72.23395444452763,
+    "library_preprocess_ms": 2.8844820335507393,
+    "library_inference_ms": 6.707340478897095,
+    "library_postprocess_ms": 2.853192389011383
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015208",
+    "wall_ms": 65.9352233633399,
+    "library_preprocess_ms": 2.402595244348049,
+    "library_inference_ms": 6.644822657108307,
+    "library_postprocess_ms": 1.6198698431253433
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015211",
+    "wall_ms": 81.9998849183321,
+    "library_preprocess_ms": 2.3610061034560204,
+    "library_inference_ms": 6.8025607615709305,
+    "library_postprocess_ms": 2.3845015093684196
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015215",
+    "wall_ms": 72.82103132456541,
+    "library_preprocess_ms": 2.401812933385372,
+    "library_inference_ms": 6.697372533380985,
+    "library_postprocess_ms": 1.637413166463375
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015254",
+    "wall_ms": 69.59131918847561,
+    "library_preprocess_ms": 2.3841196671128273,
+    "library_inference_ms": 6.590691395103931,
+    "library_postprocess_ms": 1.667921431362629
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015291",
+    "wall_ms": 77.91303936392069,
+    "library_preprocess_ms": 2.501589246094227,
+    "library_inference_ms": 6.6353147849440575,
+    "library_postprocess_ms": 2.0836638286709785
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015313",
+    "wall_ms": 88.87079358100891,
+    "library_preprocess_ms": 2.4691903963685036,
+    "library_inference_ms": 6.576615385711193,
+    "library_postprocess_ms": 7.1950191631913185
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015390",
+    "wall_ms": 89.60982598364353,
+    "library_preprocess_ms": 2.517281100153923,
+    "library_inference_ms": 6.628361530601978,
+    "library_postprocess_ms": 3.445688635110855
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015403",
+    "wall_ms": 72.1399188041687,
+    "library_preprocess_ms": 2.4284934625029564,
+    "library_inference_ms": 6.606129929423332,
+    "library_postprocess_ms": 2.09940318018198
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015404",
+    "wall_ms": 79.69488576054573,
+    "library_preprocess_ms": 2.3742513731122017,
+    "library_inference_ms": 6.571704521775246,
+    "library_postprocess_ms": 3.3627618104219437
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015412",
+    "wall_ms": 78.22127919644117,
+    "library_preprocess_ms": 2.4050194770097733,
+    "library_inference_ms": 6.535938009619713,
+    "library_postprocess_ms": 2.099924720823765
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015419",
+    "wall_ms": 71.07868976891041,
+    "library_preprocess_ms": 2.4512866511940956,
+    "library_inference_ms": 6.798793561756611,
+    "library_postprocess_ms": 3.024997189640999
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015443",
+    "wall_ms": 70.6895375624299,
+    "library_preprocess_ms": 2.43514496833086,
+    "library_inference_ms": 6.68600108474493,
+    "library_postprocess_ms": 2.2876178845763206
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015455",
+    "wall_ms": 82.85063784569502,
+    "library_preprocess_ms": 2.4586403742432594,
+    "library_inference_ms": 6.57378975301981,
+    "library_postprocess_ms": 2.0700786262750626
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015466",
+    "wall_ms": 68.48358269780874,
+    "library_preprocess_ms": 2.4223513901233673,
+    "library_inference_ms": 6.576023064553738,
+    "library_postprocess_ms": 2.498876303434372
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015468",
+    "wall_ms": 83.89968331903219,
+    "library_preprocess_ms": 2.3976657539606094,
+    "library_inference_ms": 6.523373536765575,
+    "library_postprocess_ms": 2.0699985325336456
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015476",
+    "wall_ms": 85.2547837421298,
+    "library_preprocess_ms": 2.421719953417778,
+    "library_inference_ms": 6.798401474952698,
+    "library_postprocess_ms": 2.4335933849215508
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015510",
+    "wall_ms": 79.97492235153913,
+    "library_preprocess_ms": 2.4953093379735947,
+    "library_inference_ms": 6.711628288030624,
+    "library_postprocess_ms": 1.6716578975319862
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015544",
+    "wall_ms": 62.67647724598646,
+    "library_preprocess_ms": 2.4299463257193565,
+    "library_inference_ms": 6.708764471113682,
+    "library_postprocess_ms": 3.8702283054590225
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015617",
+    "wall_ms": 78.73413432389498,
+    "library_preprocess_ms": 2.418062649667263,
+    "library_inference_ms": 6.693233735859394,
+    "library_postprocess_ms": 1.68707687407732
+  },
+  {
+    "repeat": 2,
+    "image_id": "ISIC_0015631",
+    "wall_ms": 84.25008319318295,
+    "library_preprocess_ms": 2.4885861203074455,
+    "library_inference_ms": 6.753487512469292,
+    "library_postprocess_ms": 1.6450276598334312
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012656",
+    "wall_ms": 20.236708223819733,
+    "library_preprocess_ms": 1.7500659450888634,
+    "library_inference_ms": 5.748835392296314,
+    "library_postprocess_ms": 3.9567407220602036
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012657",
+    "wall_ms": 18.680347129702568,
+    "library_preprocess_ms": 1.8014730885624886,
+    "library_inference_ms": 6.271759979426861,
+    "library_postprocess_ms": 1.4989934861660004
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012663",
+    "wall_ms": 22.670631296932697,
+    "library_preprocess_ms": 1.7959019169211388,
+    "library_inference_ms": 5.79508300870657,
+    "library_postprocess_ms": 1.4518434181809425
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012674",
+    "wall_ms": 23.71234353631735,
+    "library_preprocess_ms": 1.806151121854782,
+    "library_inference_ms": 5.8981264010071754,
+    "library_postprocess_ms": 3.7561431527137756
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012685",
+    "wall_ms": 21.626435220241547,
+    "library_preprocess_ms": 1.7669685184955597,
+    "library_inference_ms": 5.893106572329998,
+    "library_postprocess_ms": 1.4423355460166931
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012690",
+    "wall_ms": 23.783937096595764,
+    "library_preprocess_ms": 1.7286259680986404,
+    "library_inference_ms": 6.535817869007587,
+    "library_postprocess_ms": 2.0833034068346024
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012693",
+    "wall_ms": 24.197125807404518,
+    "library_preprocess_ms": 1.790311187505722,
+    "library_inference_ms": 6.0736266896128654,
+    "library_postprocess_ms": 1.9831648096442223
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012713",
+    "wall_ms": 21.5612119063735,
+    "library_preprocess_ms": 1.8079252913594246,
+    "library_inference_ms": 6.0297641903162,
+    "library_postprocess_ms": 1.9858991727232933
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012721",
+    "wall_ms": 22.78309315443039,
+    "library_preprocess_ms": 1.774180680513382,
+    "library_inference_ms": 5.979268811643124,
+    "library_postprocess_ms": 1.5775812789797783
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012770",
+    "wall_ms": 21.355604752898216,
+    "library_preprocess_ms": 1.7992788925766945,
+    "library_inference_ms": 6.011861376464367,
+    "library_postprocess_ms": 1.460750587284565
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012786",
+    "wall_ms": 39.27668370306492,
+    "library_preprocess_ms": 1.9325586035847664,
+    "library_inference_ms": 6.51182234287262,
+    "library_postprocess_ms": 8.510717190802097
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012789",
+    "wall_ms": 24.759153835475445,
+    "library_preprocess_ms": 1.810508780181408,
+    "library_inference_ms": 6.102330982685089,
+    "library_postprocess_ms": 4.193245433270931
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012804",
+    "wall_ms": 21.339215338230133,
+    "library_preprocess_ms": 1.8135448917746544,
+    "library_inference_ms": 6.018895655870438,
+    "library_postprocess_ms": 1.5000449493527412
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012856",
+    "wall_ms": 32.247915863990784,
+    "library_preprocess_ms": 2.017619088292122,
+    "library_inference_ms": 6.639272905886173,
+    "library_postprocess_ms": 3.4551871940493584
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012880",
+    "wall_ms": 23.141968995332718,
+    "library_preprocess_ms": 1.7960220575332642,
+    "library_inference_ms": 5.878038704395294,
+    "library_postprocess_ms": 2.417071722447872
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012887",
+    "wall_ms": 22.79836218804121,
+    "library_preprocess_ms": 1.787366345524788,
+    "library_inference_ms": 5.916771478950977,
+    "library_postprocess_ms": 1.9647488370537758
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012902",
+    "wall_ms": 40.16849212348461,
+    "library_preprocess_ms": 1.8435120582580566,
+    "library_inference_ms": 6.218018941581249,
+    "library_postprocess_ms": 11.89382839947939
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012907",
+    "wall_ms": 29.19071912765503,
+    "library_preprocess_ms": 1.9282707944512367,
+    "library_inference_ms": 6.46581593900919,
+    "library_postprocess_ms": 2.0696166902780533
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012941",
+    "wall_ms": 59.2153687030077,
+    "library_preprocess_ms": 1.8723057582974434,
+    "library_inference_ms": 6.309771910309792,
+    "library_postprocess_ms": 29.144100844860077
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012965",
+    "wall_ms": 26.856853626668453,
+    "library_preprocess_ms": 1.9874535501003265,
+    "library_inference_ms": 6.5949587151408195,
+    "library_postprocess_ms": 6.387217901647091
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0012999",
+    "wall_ms": 30.631262809038162,
+    "library_preprocess_ms": 1.8703918904066086,
+    "library_inference_ms": 6.433425471186638,
+    "library_postprocess_ms": 2.500428818166256
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013034",
+    "wall_ms": 24.83451645821333,
+    "library_preprocess_ms": 1.744755543768406,
+    "library_inference_ms": 5.998935550451279,
+    "library_postprocess_ms": 2.439272589981556
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013045",
+    "wall_ms": 26.630006730556488,
+    "library_preprocess_ms": 1.8524881452322006,
+    "library_inference_ms": 6.4037395641207695,
+    "library_postprocess_ms": 2.074996940791607
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013056",
+    "wall_ms": 37.255726754665375,
+    "library_preprocess_ms": 1.8480895087122917,
+    "library_inference_ms": 6.0970718041062355,
+    "library_postprocess_ms": 16.29890315234661
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013071",
+    "wall_ms": 26.416043750941753,
+    "library_preprocess_ms": 1.8252376466989517,
+    "library_inference_ms": 6.313049234449863,
+    "library_postprocess_ms": 2.926810644567013
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013072",
+    "wall_ms": 23.770291358232498,
+    "library_preprocess_ms": 1.7265407368540764,
+    "library_inference_ms": 5.88176678866148,
+    "library_postprocess_ms": 3.704695962369442
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013112",
+    "wall_ms": 22.96707034111023,
+    "library_preprocess_ms": 1.7371010035276413,
+    "library_inference_ms": 5.966334603726864,
+    "library_postprocess_ms": 2.1352311596274376
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013128",
+    "wall_ms": 32.02848415821791,
+    "library_preprocess_ms": 1.8400447443127632,
+    "library_inference_ms": 6.555746309459209,
+    "library_postprocess_ms": 2.4996278807520866
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013140",
+    "wall_ms": 28.210594318807125,
+    "library_preprocess_ms": 1.8934663385152817,
+    "library_inference_ms": 6.477608345448971,
+    "library_postprocess_ms": 1.5657590702176094
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013177",
+    "wall_ms": 24.341998621821404,
+    "library_preprocess_ms": 1.7932765185832977,
+    "library_inference_ms": 6.019546650350094,
+    "library_postprocess_ms": 2.70190741866827
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013193",
+    "wall_ms": 29.262224212288857,
+    "library_preprocess_ms": 1.7422409728169441,
+    "library_inference_ms": 5.9555452316999435,
+    "library_postprocess_ms": 8.030010387301445
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013197",
+    "wall_ms": 28.935489244759083,
+    "library_preprocess_ms": 1.773359254002571,
+    "library_inference_ms": 6.05674646794796,
+    "library_postprocess_ms": 7.845413871109486
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013204",
+    "wall_ms": 21.89006097614765,
+    "library_preprocess_ms": 1.7796214669942856,
+    "library_inference_ms": 6.007794290781021,
+    "library_postprocess_ms": 1.5294598415493965
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013212",
+    "wall_ms": 31.86422400176525,
+    "library_preprocess_ms": 1.743081957101822,
+    "library_inference_ms": 5.95184788107872,
+    "library_postprocess_ms": 11.456052772700787
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013249",
+    "wall_ms": 34.61408335715532,
+    "library_preprocess_ms": 2.1219560876488686,
+    "library_inference_ms": 6.689055822789669,
+    "library_postprocess_ms": 2.5389017537236214
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013275",
+    "wall_ms": 36.499662324786186,
+    "library_preprocess_ms": 2.0792558789253235,
+    "library_inference_ms": 6.7061493173241615,
+    "library_postprocess_ms": 1.644667237997055
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013287",
+    "wall_ms": 32.141425646841526,
+    "library_preprocess_ms": 1.998373307287693,
+    "library_inference_ms": 6.483720615506172,
+    "library_postprocess_ms": 1.6352087259292603
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013288",
+    "wall_ms": 37.50336263328791,
+    "library_preprocess_ms": 2.0106257870793343,
+    "library_inference_ms": 6.520929746329784,
+    "library_postprocess_ms": 4.72606997936964
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013330",
+    "wall_ms": 34.48817506432533,
+    "library_preprocess_ms": 1.973586156964302,
+    "library_inference_ms": 6.6242339089512825,
+    "library_postprocess_ms": 2.518303692340851
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013334",
+    "wall_ms": 35.6818325817585,
+    "library_preprocess_ms": 1.9450625404715538,
+    "library_inference_ms": 6.564732640981674,
+    "library_postprocess_ms": 2.5079818442463875
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013364",
+    "wall_ms": 34.593733958899975,
+    "library_preprocess_ms": 2.0258650183677673,
+    "library_inference_ms": 6.701860576868057,
+    "library_postprocess_ms": 2.545132301747799
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013398",
+    "wall_ms": 36.208074539899826,
+    "library_preprocess_ms": 1.9678547978401184,
+    "library_inference_ms": 6.528363563120365,
+    "library_postprocess_ms": 2.944675274193287
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013411",
+    "wall_ms": 35.21934151649475,
+    "library_preprocess_ms": 1.945624127984047,
+    "library_inference_ms": 6.4727794378995895,
+    "library_postprocess_ms": 2.1278271451592445
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013423",
+    "wall_ms": 34.358009696006775,
+    "library_preprocess_ms": 1.9708015024662018,
+    "library_inference_ms": 6.436530500650406,
+    "library_postprocess_ms": 3.3660493791103363
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013424",
+    "wall_ms": 48.246524296700954,
+    "library_preprocess_ms": 1.8979841843247414,
+    "library_inference_ms": 6.473910994827747,
+    "library_postprocess_ms": 16.882861964404583
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013461",
+    "wall_ms": 37.95403242111206,
+    "library_preprocess_ms": 2.401292324066162,
+    "library_inference_ms": 6.803902797400951,
+    "library_postprocess_ms": 3.073347732424736
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013465",
+    "wall_ms": 34.81439873576164,
+    "library_preprocess_ms": 1.913784071803093,
+    "library_inference_ms": 6.462219171226025,
+    "library_postprocess_ms": 3.27975582331419
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013473",
+    "wall_ms": 37.06751298159361,
+    "library_preprocess_ms": 1.9084541127085686,
+    "library_inference_ms": 6.489289924502373,
+    "library_postprocess_ms": 2.4893786758184433
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013488",
+    "wall_ms": 19.231846556067467,
+    "library_preprocess_ms": 1.6842614859342575,
+    "library_inference_ms": 5.840367637574673,
+    "library_postprocess_ms": 2.7527539059519768
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013489",
+    "wall_ms": 19.346831366419792,
+    "library_preprocess_ms": 1.775694079697132,
+    "library_inference_ms": 5.9257373213768005,
+    "library_postprocess_ms": 2.3977942764759064
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013552",
+    "wall_ms": 43.99254359304905,
+    "library_preprocess_ms": 2.049229107797146,
+    "library_inference_ms": 6.602613255381584,
+    "library_postprocess_ms": 6.7954761907458305
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013561",
+    "wall_ms": 29.32514250278473,
+    "library_preprocess_ms": 1.8834667280316353,
+    "library_inference_ms": 6.272341124713421,
+    "library_postprocess_ms": 6.427675485610962
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013578",
+    "wall_ms": 34.903897903859615,
+    "library_preprocess_ms": 2.1364232525229454,
+    "library_inference_ms": 6.727457977831364,
+    "library_postprocess_ms": 4.201682284474373
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013637",
+    "wall_ms": 32.94607065618038,
+    "library_preprocess_ms": 2.0400425419211388,
+    "library_inference_ms": 6.528493948280811,
+    "library_postprocess_ms": 2.088143490254879
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013652",
+    "wall_ms": 27.134226635098457,
+    "library_preprocess_ms": 1.8514376133680344,
+    "library_inference_ms": 6.030125543475151,
+    "library_postprocess_ms": 5.985410884022713
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013674",
+    "wall_ms": 39.21418450772762,
+    "library_preprocess_ms": 2.0310943946242332,
+    "library_inference_ms": 6.5383221954107285,
+    "library_postprocess_ms": 2.9591815546154976
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013688",
+    "wall_ms": 32.69948624074459,
+    "library_preprocess_ms": 2.0151641219854355,
+    "library_inference_ms": 6.440288387238979,
+    "library_postprocess_ms": 2.0517734810709953
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013695",
+    "wall_ms": 32.97427482903004,
+    "library_preprocess_ms": 1.9509335979819298,
+    "library_inference_ms": 6.4216433092951775,
+    "library_postprocess_ms": 2.4907905608415604
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013708",
+    "wall_ms": 33.738262951374054,
+    "library_preprocess_ms": 2.295413054525852,
+    "library_inference_ms": 6.75521045923233,
+    "library_postprocess_ms": 5.252200178802013
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013740",
+    "wall_ms": 31.11537452787161,
+    "library_preprocess_ms": 1.7832573503255844,
+    "library_inference_ms": 5.95330074429512,
+    "library_postprocess_ms": 10.760463774204254
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013748",
+    "wall_ms": 36.22786235064268,
+    "library_preprocess_ms": 1.9593192264437675,
+    "library_inference_ms": 6.529215723276138,
+    "library_postprocess_ms": 3.4101419150829315
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013798",
+    "wall_ms": 29.918920248746872,
+    "library_preprocess_ms": 1.9474774599075317,
+    "library_inference_ms": 6.4651742577552795,
+    "library_postprocess_ms": 4.721531644463539
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013839",
+    "wall_ms": 34.09292083233595,
+    "library_preprocess_ms": 2.189774066209793,
+    "library_inference_ms": 6.690499372780323,
+    "library_postprocess_ms": 3.0669961124658585
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013840",
+    "wall_ms": 24.96765647083521,
+    "library_preprocess_ms": 1.8873242661356926,
+    "library_inference_ms": 6.1212461441755295,
+    "library_postprocess_ms": 2.771838568150997
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013844",
+    "wall_ms": 22.997846826910973,
+    "library_preprocess_ms": 1.7975345253944397,
+    "library_inference_ms": 5.9900302439928055,
+    "library_postprocess_ms": 2.38838791847229
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013865",
+    "wall_ms": 34.124149940907955,
+    "library_preprocess_ms": 2.1136710420250893,
+    "library_inference_ms": 6.655794568359852,
+    "library_postprocess_ms": 1.6831401735544205
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013879",
+    "wall_ms": 38.23556192219257,
+    "library_preprocess_ms": 1.9944962114095688,
+    "library_inference_ms": 6.510489620268345,
+    "library_postprocess_ms": 5.63333835452795
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013888",
+    "wall_ms": 32.75120444595814,
+    "library_preprocess_ms": 1.9156569615006447,
+    "library_inference_ms": 6.427663378417492,
+    "library_postprocess_ms": 1.9229911267757416
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013896",
+    "wall_ms": 33.30955654382706,
+    "library_preprocess_ms": 1.9766027107834816,
+    "library_inference_ms": 6.414960138499737,
+    "library_postprocess_ms": 2.1185483783483505
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013897",
+    "wall_ms": 34.30147282779217,
+    "library_preprocess_ms": 1.9249450415372849,
+    "library_inference_ms": 6.294794380664825,
+    "library_postprocess_ms": 2.4415673688054085
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013929",
+    "wall_ms": 55.469295009970665,
+    "library_preprocess_ms": 1.9254563376307487,
+    "library_inference_ms": 6.215274333953857,
+    "library_postprocess_ms": 23.345020599663258
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013942",
+    "wall_ms": 32.60234463959932,
+    "library_preprocess_ms": 1.9069109112024307,
+    "library_inference_ms": 6.417805328965187,
+    "library_postprocess_ms": 1.5571219846606255
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013961",
+    "wall_ms": 44.491724111139774,
+    "library_preprocess_ms": 1.9116699695587158,
+    "library_inference_ms": 6.272371858358383,
+    "library_postprocess_ms": 10.747639462351799
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013982",
+    "wall_ms": 52.7496337890625,
+    "library_preprocess_ms": 1.8852204084396362,
+    "library_inference_ms": 6.262823008000851,
+    "library_postprocess_ms": 20.078880712389946
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013983",
+    "wall_ms": 25.28165839612484,
+    "library_preprocess_ms": 1.8891571089625359,
+    "library_inference_ms": 6.1713410541415215,
+    "library_postprocess_ms": 2.8659962117671967
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013984",
+    "wall_ms": 22.727157920598984,
+    "library_preprocess_ms": 1.751127652823925,
+    "library_inference_ms": 5.831771530210972,
+    "library_postprocess_ms": 1.926477998495102
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013986",
+    "wall_ms": 31.011097133159637,
+    "library_preprocess_ms": 1.7681485041975975,
+    "library_inference_ms": 5.793840624392033,
+    "library_postprocess_ms": 9.921012446284294
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013987",
+    "wall_ms": 24.47521034628153,
+    "library_preprocess_ms": 1.8293848261237144,
+    "library_inference_ms": 6.278051994740963,
+    "library_postprocess_ms": 3.632078878581524
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0013995",
+    "wall_ms": 35.05450114607811,
+    "library_preprocess_ms": 1.9503626972436905,
+    "library_inference_ms": 6.298891268670559,
+    "library_postprocess_ms": 2.9156794771552086
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014028",
+    "wall_ms": 22.22184557467699,
+    "library_preprocess_ms": 1.8741097301244736,
+    "library_inference_ms": 6.1034634709358215,
+    "library_postprocess_ms": 1.5495382249355316
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014046",
+    "wall_ms": 32.491594552993774,
+    "library_preprocess_ms": 1.9829943776130676,
+    "library_inference_ms": 6.349417380988598,
+    "library_postprocess_ms": 2.07352451980114
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014049",
+    "wall_ms": 34.49944593012333,
+    "library_preprocess_ms": 1.9432296976447105,
+    "library_inference_ms": 6.281279027462006,
+    "library_postprocess_ms": 4.058893769979477
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014132",
+    "wall_ms": 36.17884963750839,
+    "library_preprocess_ms": 1.9526369869709015,
+    "library_inference_ms": 6.2639666721224785,
+    "library_postprocess_ms": 4.466239362955093
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014150",
+    "wall_ms": 32.67137426882982,
+    "library_preprocess_ms": 2.0727934315800667,
+    "library_inference_ms": 6.485623307526112,
+    "library_postprocess_ms": 1.5922794118523598
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014163",
+    "wall_ms": 32.463012263178825,
+    "library_preprocess_ms": 1.9567850977182388,
+    "library_inference_ms": 6.273923441767693,
+    "library_postprocess_ms": 1.612636260688305
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014174",
+    "wall_ms": 36.051759496331215,
+    "library_preprocess_ms": 1.9617453217506409,
+    "library_inference_ms": 6.37003593146801,
+    "library_postprocess_ms": 4.301199689507484
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014274",
+    "wall_ms": 34.93459615856409,
+    "library_preprocess_ms": 1.9505731761455536,
+    "library_inference_ms": 6.340229883790016,
+    "library_postprocess_ms": 1.6168253496289253
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014302",
+    "wall_ms": 34.14412774145603,
+    "library_preprocess_ms": 1.9122706726193428,
+    "library_inference_ms": 6.277511827647686,
+    "library_postprocess_ms": 2.527800388634205
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014419",
+    "wall_ms": 38.47214672714472,
+    "library_preprocess_ms": 1.942276954650879,
+    "library_inference_ms": 6.280376575887203,
+    "library_postprocess_ms": 5.785825662314892
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014458",
+    "wall_ms": 34.805573523044586,
+    "library_preprocess_ms": 2.0570941269397736,
+    "library_inference_ms": 6.4627500250935555,
+    "library_postprocess_ms": 2.9429923743009567
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014475",
+    "wall_ms": 31.073405407369137,
+    "library_preprocess_ms": 1.9418764859437943,
+    "library_inference_ms": 6.276530213654041,
+    "library_postprocess_ms": 1.544988714158535
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014490",
+    "wall_ms": 32.80117828398943,
+    "library_preprocess_ms": 1.9719721749424934,
+    "library_inference_ms": 6.571515463292599,
+    "library_postprocess_ms": 3.393210470676422
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014506",
+    "wall_ms": 36.9970491155982,
+    "library_preprocess_ms": 1.9902680069208145,
+    "library_inference_ms": 6.44458644092083,
+    "library_postprocess_ms": 5.358971655368805
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014518",
+    "wall_ms": 45.256572775542736,
+    "library_preprocess_ms": 1.943950541317463,
+    "library_inference_ms": 6.444375030696392,
+    "library_postprocess_ms": 9.05267708003521
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014527",
+    "wall_ms": 34.49206333607435,
+    "library_preprocess_ms": 1.9501317292451859,
+    "library_inference_ms": 6.366168148815632,
+    "library_postprocess_ms": 2.536776475608349
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014537",
+    "wall_ms": 45.473591424524784,
+    "library_preprocess_ms": 2.026657573878765,
+    "library_inference_ms": 6.4188167452812195,
+    "library_postprocess_ms": 10.519148781895638
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014541",
+    "wall_ms": 36.29069961607456,
+    "library_preprocess_ms": 1.9249152392148972,
+    "library_inference_ms": 6.276348605751991,
+    "library_postprocess_ms": 3.7628058344125748
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014545",
+    "wall_ms": 30.809538438916206,
+    "library_preprocess_ms": 1.9561843946576118,
+    "library_inference_ms": 6.289784796535969,
+    "library_postprocess_ms": 1.901722513139248
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014663",
+    "wall_ms": 70.44840324670076,
+    "library_preprocess_ms": 2.4962201714515686,
+    "library_inference_ms": 6.677092984318733,
+    "library_postprocess_ms": 2.080298028886318
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014666",
+    "wall_ms": 74.03026800602674,
+    "library_preprocess_ms": 2.415529452264309,
+    "library_inference_ms": 6.444685161113739,
+    "library_postprocess_ms": 2.8361110016703606
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014680",
+    "wall_ms": 69.35521401464939,
+    "library_preprocess_ms": 2.4229418486356735,
+    "library_inference_ms": 6.5191760659217834,
+    "library_postprocess_ms": 1.8558157607913017
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014682",
+    "wall_ms": 68.1638102978468,
+    "library_preprocess_ms": 2.3842398077249527,
+    "library_inference_ms": 6.577395834028721,
+    "library_postprocess_ms": 2.1080700680613518
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014722",
+    "wall_ms": 75.60457196086645,
+    "library_preprocess_ms": 2.3490935564041138,
+    "library_inference_ms": 6.5143173560500145,
+    "library_postprocess_ms": 1.59552413970232
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014730",
+    "wall_ms": 77.5073952972889,
+    "library_preprocess_ms": 2.468138001859188,
+    "library_inference_ms": 6.578599102795124,
+    "library_postprocess_ms": 2.5431597605347633
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014731",
+    "wall_ms": 66.12803600728512,
+    "library_preprocess_ms": 2.4593323469161987,
+    "library_inference_ms": 6.523814983665943,
+    "library_postprocess_ms": 1.622936688363552
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014748",
+    "wall_ms": 80.58624248951674,
+    "library_preprocess_ms": 2.4094367399811745,
+    "library_inference_ms": 6.491013802587986,
+    "library_postprocess_ms": 2.4059806019067764
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014753",
+    "wall_ms": 69.94964368641376,
+    "library_preprocess_ms": 2.4579688906669617,
+    "library_inference_ms": 6.256991997361183,
+    "library_postprocess_ms": 1.5486674383282661
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014780",
+    "wall_ms": 85.83429548889399,
+    "library_preprocess_ms": 2.6765111833810806,
+    "library_inference_ms": 6.328647956252098,
+    "library_postprocess_ms": 2.003162167966366
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014782",
+    "wall_ms": 79.31154314428568,
+    "library_preprocess_ms": 2.396421507000923,
+    "library_inference_ms": 6.223258562386036,
+    "library_postprocess_ms": 1.5832409262657166
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014783",
+    "wall_ms": 79.83322534710169,
+    "library_preprocess_ms": 2.3637115955352783,
+    "library_inference_ms": 6.246612407267094,
+    "library_postprocess_ms": 1.5460317954421043
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014786",
+    "wall_ms": 75.71856770664454,
+    "library_preprocess_ms": 2.363600768148899,
+    "library_inference_ms": 6.186649203300476,
+    "library_postprocess_ms": 3.0257878825068474
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014794",
+    "wall_ms": 70.39544358849525,
+    "library_preprocess_ms": 2.4684788659214973,
+    "library_inference_ms": 6.283482536673546,
+    "library_postprocess_ms": 1.5867780894041061
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014807",
+    "wall_ms": 73.37392214685678,
+    "library_preprocess_ms": 2.4343039840459824,
+    "library_inference_ms": 6.3033392652869225,
+    "library_postprocess_ms": 2.418424002826214
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014821",
+    "wall_ms": 64.30730875581503,
+    "library_preprocess_ms": 2.4114809930324554,
+    "library_inference_ms": 6.127499043941498,
+    "library_postprocess_ms": 1.5287790447473526
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014836",
+    "wall_ms": 77.27458700537682,
+    "library_preprocess_ms": 2.3417389020323753,
+    "library_inference_ms": 6.057556718587875,
+    "library_postprocess_ms": 1.5333574265241623
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014844",
+    "wall_ms": 65.20669162273407,
+    "library_preprocess_ms": 2.4306075647473335,
+    "library_inference_ms": 6.218870170414448,
+    "library_postprocess_ms": 2.263152040541172
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014855",
+    "wall_ms": 81.38603903353214,
+    "library_preprocess_ms": 2.38984078168869,
+    "library_inference_ms": 6.177282892167568,
+    "library_postprocess_ms": 4.3145641684532166
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014860",
+    "wall_ms": 74.27220325917006,
+    "library_preprocess_ms": 2.4070031940937042,
+    "library_inference_ms": 6.255730055272579,
+    "library_postprocess_ms": 1.6018357127904892
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014863",
+    "wall_ms": 73.19554593414068,
+    "library_preprocess_ms": 2.3928461596369743,
+    "library_inference_ms": 6.167653948068619,
+    "library_postprocess_ms": 1.5624118968844414
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014872",
+    "wall_ms": 83.11101794242859,
+    "library_preprocess_ms": 2.328895963728428,
+    "library_inference_ms": 5.9642428532242775,
+    "library_postprocess_ms": 8.754124864935875
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014897",
+    "wall_ms": 77.38213893026114,
+    "library_preprocess_ms": 2.3398669436573982,
+    "library_inference_ms": 5.876285955309868,
+    "library_postprocess_ms": 1.9266679883003235
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014903",
+    "wall_ms": 68.41214839369059,
+    "library_preprocess_ms": 2.3306189104914665,
+    "library_inference_ms": 5.937592126429081,
+    "library_postprocess_ms": 2.8174053877592087
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014913",
+    "wall_ms": 81.13382384181023,
+    "library_preprocess_ms": 2.3433128371834755,
+    "library_inference_ms": 5.874471738934517,
+    "library_postprocess_ms": 2.3904815316200256
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014919",
+    "wall_ms": 81.51036221534014,
+    "library_preprocess_ms": 2.385161817073822,
+    "library_inference_ms": 5.934746004641056,
+    "library_postprocess_ms": 1.4843158423900604
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014920",
+    "wall_ms": 76.35915279388428,
+    "library_preprocess_ms": 2.3629898205399513,
+    "library_inference_ms": 5.957318469882011,
+    "library_postprocess_ms": 2.7252817526459694
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014921",
+    "wall_ms": 87.97868434339762,
+    "library_preprocess_ms": 2.3866649717092514,
+    "library_inference_ms": 6.0365162789821625,
+    "library_postprocess_ms": 1.5151044353842735
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014946",
+    "wall_ms": 78.27245630323887,
+    "library_preprocess_ms": 2.3162616416811943,
+    "library_inference_ms": 6.013102829456329,
+    "library_postprocess_ms": 1.5767188742756844
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014952",
+    "wall_ms": 85.36531310528517,
+    "library_preprocess_ms": 2.3044301196932793,
+    "library_inference_ms": 5.892256274819374,
+    "library_postprocess_ms": 2.3979246616363525
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014956",
+    "wall_ms": 81.79372735321522,
+    "library_preprocess_ms": 2.281094901263714,
+    "library_inference_ms": 5.74153196066618,
+    "library_postprocess_ms": 1.484304666519165
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0014975",
+    "wall_ms": 77.02306285500526,
+    "library_preprocess_ms": 2.368530258536339,
+    "library_inference_ms": 5.940716713666916,
+    "library_postprocess_ms": 1.4745071530342102
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015018",
+    "wall_ms": 69.84058767557144,
+    "library_preprocess_ms": 2.2852541878819466,
+    "library_inference_ms": 5.886103957891464,
+    "library_postprocess_ms": 2.0238012075424194
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015019",
+    "wall_ms": 73.0510838329792,
+    "library_preprocess_ms": 2.3207608610391617,
+    "library_inference_ms": 5.88600430637598,
+    "library_postprocess_ms": 3.5847704857587814
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015020",
+    "wall_ms": 77.4111645296216,
+    "library_preprocess_ms": 2.284492366015911,
+    "library_inference_ms": 5.8924853801727295,
+    "library_postprocess_ms": 2.8492650017142296
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015034",
+    "wall_ms": 76.82470045983791,
+    "library_preprocess_ms": 2.328174188733101,
+    "library_inference_ms": 5.8495160192251205,
+    "library_postprocess_ms": 2.0213965326547623
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015044",
+    "wall_ms": 73.31521157175303,
+    "library_preprocess_ms": 2.3297471925616264,
+    "library_inference_ms": 5.841599777340889,
+    "library_postprocess_ms": 1.5323348343372345
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015115",
+    "wall_ms": 79.75528761744499,
+    "library_preprocess_ms": 2.296765334904194,
+    "library_inference_ms": 5.884450860321522,
+    "library_postprocess_ms": 2.393997274339199
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015129",
+    "wall_ms": 78.55715230107307,
+    "library_preprocess_ms": 2.265266142785549,
+    "library_inference_ms": 5.844214931130409,
+    "library_postprocess_ms": 1.4697164297103882
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015132",
+    "wall_ms": 79.38508037477732,
+    "library_preprocess_ms": 2.308156341314316,
+    "library_inference_ms": 5.8467695489525795,
+    "library_postprocess_ms": 1.9206870347261429
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015133",
+    "wall_ms": 73.8856652751565,
+    "library_preprocess_ms": 2.2872667759656906,
+    "library_inference_ms": 5.894959904253483,
+    "library_postprocess_ms": 2.7937712147831917
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015146",
+    "wall_ms": 76.80987194180489,
+    "library_preprocess_ms": 2.2502467036247253,
+    "library_inference_ms": 5.766859278082848,
+    "library_postprocess_ms": 1.4658411964774132
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015150",
+    "wall_ms": 69.86559554934502,
+    "library_preprocess_ms": 2.241441048681736,
+    "library_inference_ms": 5.7741329073905945,
+    "library_postprocess_ms": 1.4502806589007378
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015152",
+    "wall_ms": 67.7047548815608,
+    "library_preprocess_ms": 2.2773882374167442,
+    "library_inference_ms": 5.788280628621578,
+    "library_postprocess_ms": 1.950894482433796
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015166",
+    "wall_ms": 64.50142338871956,
+    "library_preprocess_ms": 2.2958023473620415,
+    "library_inference_ms": 5.775585770606995,
+    "library_postprocess_ms": 1.478203572332859
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015180",
+    "wall_ms": 70.7478765398264,
+    "library_preprocess_ms": 2.277999185025692,
+    "library_inference_ms": 5.734588950872421,
+    "library_postprocess_ms": 2.7647260576486588
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015204",
+    "wall_ms": 69.40917577594519,
+    "library_preprocess_ms": 2.270566299557686,
+    "library_inference_ms": 5.824067629873753,
+    "library_postprocess_ms": 2.685626968741417
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015208",
+    "wall_ms": 64.3944013863802,
+    "library_preprocess_ms": 2.3455964401364326,
+    "library_inference_ms": 5.891404114663601,
+    "library_postprocess_ms": 1.5258034691214561
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015211",
+    "wall_ms": 80.39010409265757,
+    "library_preprocess_ms": 2.274814061820507,
+    "library_inference_ms": 5.957639776170254,
+    "library_postprocess_ms": 2.242954447865486
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015215",
+    "wall_ms": 71.23869098722935,
+    "library_preprocess_ms": 2.2971658036112785,
+    "library_inference_ms": 6.001891568303108,
+    "library_postprocess_ms": 1.5191705897450447
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015254",
+    "wall_ms": 68.0667981505394,
+    "library_preprocess_ms": 2.3268619552254677,
+    "library_inference_ms": 5.922572687268257,
+    "library_postprocess_ms": 1.5518730506300926
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015291",
+    "wall_ms": 76.38325728476048,
+    "library_preprocess_ms": 2.3605553433299065,
+    "library_inference_ms": 5.961224436759949,
+    "library_postprocess_ms": 1.994444988667965
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015313",
+    "wall_ms": 87.30110805481672,
+    "library_preprocess_ms": 2.3686718195676804,
+    "library_inference_ms": 5.9289950877428055,
+    "library_postprocess_ms": 6.977930665016174
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015390",
+    "wall_ms": 88.34269922226667,
+    "library_preprocess_ms": 2.4601630866527557,
+    "library_inference_ms": 5.995600484311581,
+    "library_postprocess_ms": 3.2635945826768875
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015403",
+    "wall_ms": 70.7574151456356,
+    "library_preprocess_ms": 2.3489240556955338,
+    "library_inference_ms": 5.940276198089123,
+    "library_postprocess_ms": 1.9708406180143356
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015404",
+    "wall_ms": 78.6130279302597,
+    "library_preprocess_ms": 2.2975467145442963,
+    "library_inference_ms": 5.98752498626709,
+    "library_postprocess_ms": 3.2497597858309746
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015412",
+    "wall_ms": 76.97414048016071,
+    "library_preprocess_ms": 2.2846227511763573,
+    "library_inference_ms": 5.721224471926689,
+    "library_postprocess_ms": 1.9060596823692322
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015419",
+    "wall_ms": 68.9670629799366,
+    "library_preprocess_ms": 2.353532239794731,
+    "library_inference_ms": 5.799139849841595,
+    "library_postprocess_ms": 2.7980487793684006
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015443",
+    "wall_ms": 68.46961565315723,
+    "library_preprocess_ms": 2.3206304758787155,
+    "library_inference_ms": 5.791296251118183,
+    "library_postprocess_ms": 2.0265262573957443
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015455",
+    "wall_ms": 80.93892689794302,
+    "library_preprocess_ms": 2.360044978559017,
+    "library_inference_ms": 5.820290185511112,
+    "library_postprocess_ms": 1.9029434770345688
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015466",
+    "wall_ms": 66.74277409911156,
+    "library_preprocess_ms": 2.277989871799946,
+    "library_inference_ms": 5.80256711691618,
+    "library_postprocess_ms": 2.3509282618761063
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015468",
+    "wall_ms": 82.61074498295784,
+    "library_preprocess_ms": 2.338734455406666,
+    "library_inference_ms": 5.8157118037343025,
+    "library_postprocess_ms": 1.9149156287312508
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015476",
+    "wall_ms": 83.4492351859808,
+    "library_preprocess_ms": 2.3069847375154495,
+    "library_inference_ms": 5.7815564796328545,
+    "library_postprocess_ms": 2.1447790786623955
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015510",
+    "wall_ms": 77.90818996727467,
+    "library_preprocess_ms": 2.32874508947134,
+    "library_inference_ms": 5.841120146214962,
+    "library_postprocess_ms": 1.4599086716771126
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015544",
+    "wall_ms": 60.41282322257757,
+    "library_preprocess_ms": 2.2894013673067093,
+    "library_inference_ms": 5.769243463873863,
+    "library_postprocess_ms": 3.6570774391293526
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015617",
+    "wall_ms": 76.8445385619998,
+    "library_preprocess_ms": 2.3182956501841545,
+    "library_inference_ms": 5.828446708619595,
+    "library_postprocess_ms": 1.528448425233364
+  },
+  {
+    "repeat": 3,
+    "image_id": "ISIC_0015631",
+    "wall_ms": 81.90254122018814,
+    "library_preprocess_ms": 2.3227641358971596,
+    "library_inference_ms": 5.799129605293274,
+    "library_postprocess_ms": 1.5196120366454124
+  }
+]

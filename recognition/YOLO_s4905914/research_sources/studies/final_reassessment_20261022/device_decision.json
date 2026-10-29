@@ -1,0 +1,14 @@
+{
+  "decision_time": "2026-10-22T20:55:58.753988+10:00",
+  "reason": "Scheduler estimates A100 start at 2026-10-23T06:40:00; finish the single fixed evaluation on local CPU",
+  "cancelled_job": 686313,
+  "cancellation_state": "CANCELLED before start; elapsed 00:00:00; no assigned node",
+  "original_device": "A100 allocation requested",
+  "final_device": "cpu",
+  "precision": "FP32",
+  "selection_changed": false,
+  "threshold": 0.4,
+  "inference_results_seen_before_device_decision": false,
+  "same_checkpoint_preprocessing_nms_and_matching": true,
+  "timing_comparable_to_A100": false
+}

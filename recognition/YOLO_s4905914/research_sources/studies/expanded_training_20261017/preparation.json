@@ -1,0 +1,116 @@
+{
+  "status": "prepared_and_locked_before_training",
+  "study": "studies/expanded_training_20261017",
+  "prepared": "data/expanded_training_v1",
+  "config_sha256": "feedb27cffd59c0d62dc9a23da8d68761ff6c0643771a06603d75a410bdb255f",
+  "baseline_config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+  "source_snapshot_sha256": {
+    "official_metadata": "4d7d982a56c265d5440f3f85560690bbf3e3ec91b890c62873acc2315e61e0af",
+    "official_mask_boxes": "19a56ef18ac91f1d07d2db8130fc2563ac51cff13fca2a0c25b9b2750e7ce482",
+    "candidate_manifest": "9e4765ab436c313cfa5a94932e32e25d1bde2cd73821db715e3667ab1c17577c"
+  },
+  "base_runtime_source_sha256": {
+    "train.py": "4f835b8465674828e5f49cd2fe454ae10db4cf91a786fbff477ef3c21f3e35ed",
+    "dataset.py": "bcb250fa5617d6ffbc027ec63870131a0326b9c9598a94f53a4c45b753f33288",
+    "evaluation.py": "b123d75f1862ebcfae45d0eedbdb19c80628ec5e26608081b838a7a4236b204e",
+    "modules.py": "0af074132a4d7f5b323d9df7a2c25f7c4270f02aea64604fcda0cd59f993a359",
+    "runtime.py": "e2d2696e8c8dcedfe610929a5b24d586e1d69b480189cbc79f311f0d39057ee4",
+    "schedule.py": "ce34bc2a19979375b6d24bd255ef339ba74b644f23abfc15d9fac5aa2e1891df",
+    "checkpoints.py": "fa6ab2849ab87ce562d22f7e2c3d09fa9a528bdabc06f63adc75f2b0105143c9",
+    "preprocessing.py": "c86006c777015ab93f6be34acba442948cc20dd45a42fbcdecf0ff39addb1091",
+    "preflight.py": "ecf2af12d3a6423d53d102f9b28654467d7f42ea6be80992f996bdaf568b7eb3",
+    "audit_real_inputs.py": "4dd080daf1fa167f8fa39adb4493725157cf103c9445db0fc6a8e3385db9a397",
+    "weights_registry.json": "6226043ae7d30da8672e8ad174da011441c2c05f5099dc57642ee3b83b9bc290",
+    "requirements.txt": "85ab7383b119a5d373f1452a112438119b260d2cda221233e2dd810fd7e8396c",
+    "requirements-linux-a100.lock.txt": "6bf18ff5d2c3e17a34c6c99a597bc5e168716cc61a0171a34d6055aa0c8f222f"
+  },
+  "snapshot_runtime_source_sha256": {
+    "train.py": "4f835b8465674828e5f49cd2fe454ae10db4cf91a786fbff477ef3c21f3e35ed",
+    "dataset.py": "b7370253e39ee93fa692e4101721ab881ae57d4cd86fa1eb4140b5532b1012f3",
+    "evaluation.py": "b123d75f1862ebcfae45d0eedbdb19c80628ec5e26608081b838a7a4236b204e",
+    "modules.py": "0af074132a4d7f5b323d9df7a2c25f7c4270f02aea64604fcda0cd59f993a359",
+    "runtime.py": "e2d2696e8c8dcedfe610929a5b24d586e1d69b480189cbc79f311f0d39057ee4",
+    "schedule.py": "ce34bc2a19979375b6d24bd255ef339ba74b644f23abfc15d9fac5aa2e1891df",
+    "checkpoints.py": "fa6ab2849ab87ce562d22f7e2c3d09fa9a528bdabc06f63adc75f2b0105143c9",
+    "preprocessing.py": "c86006c777015ab93f6be34acba442948cc20dd45a42fbcdecf0ff39addb1091",
+    "preflight.py": "ecf2af12d3a6423d53d102f9b28654467d7f42ea6be80992f996bdaf568b7eb3",
+    "audit_real_inputs.py": "4dd080daf1fa167f8fa39adb4493725157cf103c9445db0fc6a8e3385db9a397",
+    "weights_registry.json": "6226043ae7d30da8672e8ad174da011441c2c05f5099dc57642ee3b83b9bc290",
+    "requirements.txt": "85ab7383b119a5d373f1452a112438119b260d2cda221233e2dd810fd7e8396c",
+    "requirements-linux-a100.lock.txt": "6bf18ff5d2c3e17a34c6c99a597bc5e168716cc61a0171a34d6055aa0c8f222f"
+  },
+  "only_runtime_code_difference": "dataset.py explicitly permits missing lesion_id in declared exploratory TRAIN only",
+  "counts": {
+    "train": {
+      "images": 2263,
+      "Benign": 1826,
+      "Malignant": 437
+    },
+    "val": {
+      "images": 165,
+      "Benign": 124,
+      "Malignant": 41
+    },
+    "reassessment": {
+      "images": 165,
+      "Benign": 124,
+      "Malignant": 41
+    }
+  },
+  "added_training_images": 1495,
+  "added_class_counts": {
+    "Benign": 1250,
+    "Malignant": 245
+  },
+  "added_historical_membership": {
+    "train": 1053,
+    "test": 221,
+    "val": 221
+  },
+  "excluded_indeterminate_ids": [
+    "ISIC_0010566"
+  ],
+  "excluded_known_links_to_held_out": [],
+  "held_out_manifests_and_labels_unchanged": true,
+  "known_id_overlap": {
+    "lesion_id": {
+      "train_val": 0,
+      "train_reassessment": 0,
+      "val_reassessment": 0
+    },
+    "patient_id": {
+      "train_val": 0,
+      "train_reassessment": 0,
+      "val_reassessment": 0
+    }
+  },
+  "missing_ids_per_split": {
+    "train": {
+      "lesion_id": 1495,
+      "patient_id": 1999
+    },
+    "val": {
+      "lesion_id": 0,
+      "patient_id": 98
+    },
+    "reassessment": {
+      "lesion_id": 0,
+      "patient_id": 106
+    }
+  },
+  "training_optimizer_calls": 8520,
+  "baseline_optimizer_calls": 2880,
+  "increased_training_updates_confound_pure_sample_size_attribution": true,
+  "fresh_blind_test": false,
+  "unrecorded_identity_leakage_possible": true,
+  "course_acceptance_confirmed": false,
+  "primary_comparison_metric": "Malignant AP50 on the identical existing validation set",
+  "additional_comparisons": [
+    "macro mAP50:95",
+    "fixed confidence 0.05",
+    "fixed confidence 0.50",
+    "same 10% benign-alert selection rule"
+  ],
+  "baseline_results": "outputs/provisional_20261017_669143/val_n",
+  "reassessment_inference_planned": false
+}

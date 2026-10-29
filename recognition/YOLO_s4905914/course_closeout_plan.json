@@ -1,0 +1,158 @@
+{
+  "version": "course-closeout-v1",
+  "created_at": "2026-10-22T18:05:34.787320+10:00",
+  "purpose": "Post-hoc descriptive reporting after teacher clarification; no new model or threshold selection",
+  "teacher_response_sha256": "f8d678cc4161638a9309bb0fc81203931cd2a562b556d936db33c465d72a5299",
+  "selected_model": {
+    "status": "completed",
+    "selected": "reference_geometry",
+    "confidence": 0.4,
+    "checkpoint_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/train_n/fit/weights/best.pt",
+    "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+    "config_path": "studies/known_lesion_optimization_20261021/n_geometry.json",
+    "evaluation_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n",
+    "confirmation_triggered": false,
+    "confirmation_passed": null,
+    "single_lesion_policy": "rejected",
+    "further_trials_planned": false,
+    "new_reassessment_inference": false,
+    "course_test_IoU_target_proven": false,
+    "reason": "No candidate passed the complete improvement rule; retain the prior geometry model",
+    "evidence_scope": "Repeatedly-used validation; exploratory selection, not new independent test",
+    "initial_results_sha256": "342e6032c0aa8db9c442c0240170fd21938d4b4a8065cff00417277725113a1c",
+    "parent_plan_sha256": "750729e6f26ad8ee3c5184c0b0fdb3e8f3f714216362238fac345b97401e954f"
+  },
+  "selection_records_sha256": {
+    "studies/known_lesion_optimization_20261021/decision.json": "c95c7f061ea2e3c13f8e0048125eb86425d125474760d9d81042a7c41759e2ab",
+    "studies/known_lesion_followup_20261022/decision.json": "6776838f41e66c5e2a99bea1065580bbfbfbb8accc4a1c8689aaa4b556e73138",
+    "outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n/selection_lock.json": "ce6210ddad958648fc49c039e21735f467df0ff1325c5d3136649185232a319f"
+  },
+  "manifest_sha256": {
+    "train": "8528722216b67d62078fe32632cb64128149053cc41ece6daec7399369126fca",
+    "val": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3",
+    "reassessment": "5264555d5de0ee5cbaa5b69e090d0b6e24c907b4efd50acc69cc32afd35a8df6"
+  },
+  "reporting_code_sha256": {
+    "classification_metrics.py": "8b240d92486db6f614a3ba72f597a83dab0335a1f68569e8d494660f919d79a3",
+    "complete_course_metrics.py": "1ab4a6cbf1c525c9b4796d337dda9a39f4fc63b2744d0bc639a3218edd12e2e7",
+    "evaluation.py": "b123d75f1862ebcfae45d0eedbdb19c80628ec5e26608081b838a7a4236b204e",
+    "runtime.py": "e2d2696e8c8dcedfe610929a5b24d586e1d69b480189cbc79f311f0d39057ee4"
+  },
+  "classification_policy": {
+    "prediction": "Highest-confidence retained box, GT-free deterministic tie rule",
+    "no_prediction": "Incorrect in accuracy and false negative for true class",
+    "localization_required": false,
+    "other_boxes": "Remain in detection metrics"
+  },
+  "iou_policy": {
+    "overall": "Pool individual GT observations for all-GT measures; pool matched predictions for TP-only",
+    "per_class": [
+      "Benign",
+      "Malignant"
+    ],
+    "missing_prediction": 0,
+    "macro": "Reported separately, never substituted for pooled overall"
+  },
+  "threshold_search": false,
+  "new_training": false,
+  "cached_runs": {
+    "baseline_n_validation": {
+      "label": "Original n",
+      "split": "val",
+      "evaluation_path": "outputs/provisional_20261017_669143/val_n",
+      "threshold": 0.5,
+      "checkpoint_sha256": "fcb51c9524a66df34318065f7c24a797f3fd59418c97dc0e3b6addf5a67ac59c",
+      "evaluation_sha256": "703fe47fa84604ada9acc277be2f51cc04e57c806fdbe2a227de4f4c13acc40f",
+      "predictions_sha256": "792f04b9601a1b64f055ed6a6aea83e24e461a49d7604e28bffb73f965a985f0"
+    },
+    "baseline_n_reassessment": {
+      "label": "Original n",
+      "split": "reassessment",
+      "evaluation_path": "outputs/reassessment_20261017_669815/eval_n",
+      "threshold": 0.5,
+      "checkpoint_sha256": "fcb51c9524a66df34318065f7c24a797f3fd59418c97dc0e3b6addf5a67ac59c",
+      "evaluation_sha256": "671781335ecc26a1c10e508c9e3fe298c1cf7fa1246df7e416dc184b66139ebe",
+      "predictions_sha256": "e54b15b6f84b30f0d914d1281a2a0cb2dcd821a26fe2e33c5110ae8b180391a8"
+    },
+    "baseline_s_validation": {
+      "label": "Original s",
+      "split": "val",
+      "evaluation_path": "outputs/provisional_20261017_669143/val_s",
+      "threshold": 0.8,
+      "checkpoint_sha256": "c0a93dab2e63d02b9c12e860ed9cc575de0ff74190527e464057a789f3c86c54",
+      "evaluation_sha256": "6410d77da9f9169bb261193f40cf8e278369531f695af07b03549c39f61a6308",
+      "predictions_sha256": "38d1a709d24cd635daa2c43114a3d3143cfbde9e0b69dda7924286b12470dde5"
+    },
+    "baseline_s_reassessment": {
+      "label": "Original s",
+      "split": "reassessment",
+      "evaluation_path": "outputs/reassessment_20261017_669815/eval_s",
+      "threshold": 0.8,
+      "checkpoint_sha256": "c0a93dab2e63d02b9c12e860ed9cc575de0ff74190527e464057a789f3c86c54",
+      "evaluation_sha256": "52a9e52d5406fc04313f3b637561e826a17c1ecab84ad442ee33f95475fa3dc7",
+      "predictions_sha256": "2ca4a31086f345ba08c22b802fb7e205eb3abb24fbe65871aa1c7b3d8b6bc3c9"
+    },
+    "n_long120_validation": {
+      "label": "n, 120 epochs",
+      "split": "val",
+      "evaluation_path": "outputs/known_lesion_optimization_20261021_681415/n_long120/val_n",
+      "threshold": 0.9,
+      "checkpoint_sha256": "561701316e99c3dc521461b88469259a9e17c3d5e62a8003eb9061204555f617",
+      "evaluation_sha256": "2f4889d5998080d11a3a19d9511f5887301e74248a7656bec0552de1c5235070",
+      "predictions_sha256": "6019ec84797603f93e34477eb4c90289ec3dd7bf5857d39b8da663138b8282fe"
+    },
+    "n_cls1_validation": {
+      "label": "n, cls=1.0",
+      "split": "val",
+      "evaluation_path": "outputs/known_lesion_optimization_20261021_681416/n_cls1/val_n",
+      "threshold": 0.8,
+      "checkpoint_sha256": "c903ae81da33b1a0761fada59158d8bceae8af6a6f3865353ca53445bfca137c",
+      "evaluation_sha256": "79e2e5618bfc35032864b126eb1f534179fd05196f720a53cca54a8059c21627",
+      "predictions_sha256": "d64061bcc8cb0899464f8a8a29713c426412da2ba04b0823c394c4443ad8e0e8"
+    },
+    "n_geometry_validation": {
+      "label": "n, light geometry",
+      "split": "val",
+      "evaluation_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n",
+      "threshold": 0.4,
+      "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+      "evaluation_sha256": "914a5cfc6bdf989ee8aa3b1c46a19c07e00b5998188d1b7b1f3f8d0246f5e576",
+      "predictions_sha256": "722e65746ab4514f408fcc366b82f9da430616ffc822265a7c94bb973ce1d372"
+    },
+    "n_resolution896_validation": {
+      "label": "n, input 896",
+      "split": "val",
+      "evaluation_path": "outputs/known_lesion_followup_20261022_684064/n_resolution896/val_n",
+      "threshold": 0.5,
+      "checkpoint_sha256": "ef8a896589e2a64f073fc05aa61dc6a97b431829cde3ff1d06dbd78364a522d1",
+      "evaluation_sha256": "81e0095bb379b8d04862a0baa00710497604c24948e49c1b4ae6a762ff68a17e",
+      "predictions_sha256": "8f0b21448afe3fd3c18824fa51c5f5c5b07e64670d3c0a9700554112c0083bfd"
+    },
+    "n_positive2_validation": {
+      "label": "n, malignant positive weight 2",
+      "split": "val",
+      "evaluation_path": "outputs/known_lesion_followup_20261022_684093/n_positive2/val_n",
+      "threshold": 0.7,
+      "checkpoint_sha256": "07029718bab250242214426bd395ff8183a2bebd712dc66f38bffa1d8ede67f7",
+      "evaluation_sha256": "ff859e13087bd6bb03c005f77b3b65239bca1966fb755ea23942de7ca2683ce0",
+      "predictions_sha256": "055a67f36a9d9912fd38ab38ad8f6fab93b1686412126312b1605df1543b5446"
+    },
+    "s_geometry_validation": {
+      "label": "s, light geometry",
+      "split": "val",
+      "evaluation_path": "outputs/known_lesion_followup_20261022_684063/s_geometry/val_s",
+      "threshold": 0.5,
+      "checkpoint_sha256": "525432512d0bbfe91326306279146b42ec39b1101c91ff46f220fff57bffbad8",
+      "evaluation_sha256": "2d9e60d2be8f263d15915df51bd7797e63918b8a644334d2a8721b11fac9917d",
+      "predictions_sha256": "d297967c7d57bc3dd057ef27e552f0af05e0411cadb8a5528b202d00adadefad"
+    }
+  },
+  "optional_final_reassessment": {
+    "model": "n_geometry seed 3710",
+    "confidence": 0.4,
+    "locked_before_new_inference": true,
+    "fresh_blind_test": false,
+    "can_change_selection": false,
+    "status": "not started; school SSH timed out"
+  }
+}

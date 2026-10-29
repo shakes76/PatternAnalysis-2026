@@ -1,0 +1,2231 @@
+{
+  "status": "completed",
+  "scope": "validation_only",
+  "candidate": "n_geometry",
+  "new_reassessment_inference": false,
+  "confirmation_plan_sha256": "59ad4328ca7f33092ae64bb31221b2aa39f59d595b9cefa5c7d6dbf8043be328",
+  "reports": {
+    "n_geometry_seed3711": {
+      "selected": {
+        "threshold": 0.5,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 95,
+            "fp": 20,
+            "fn": 29,
+            "precision": 0.8260869565217391,
+            "recall": 0.7661290322580645,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.662210603509419,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.7061201699099828,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.8571185059253775,
+                "denominator": 95
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 15,
+            "fp": 9,
+            "fn": 26,
+            "precision": 0.625,
+            "recall": 0.36585365853658536,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.3114145444953752,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.7054743468052744,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.8053519009250593,
+                "denominator": 15
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 16,
+          "malignant_fn": 25,
+          "benign_fp": 7,
+          "benign_tn": 117,
+          "sensitivity": 0.3902439024390244,
+          "benign_false_alert_rate": 0.056451612903225805
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "grid": [
+        {
+          "threshold": 0.01,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 115,
+              "fp": 122,
+              "fn": 9,
+              "precision": 0.48523206751054854,
+              "recall": 0.9274193548387096,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7904642533679079,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8391902857891296,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8348914593352172,
+                  "denominator": 115
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 27,
+              "fp": 125,
+              "fn": 14,
+              "precision": 0.17763157894736842,
+              "recall": 0.6585365853658537,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.5535827968666419,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8449269459252859,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.7951832024058539,
+                  "denominator": 27
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 29,
+            "malignant_fn": 12,
+            "benign_fp": 54,
+            "benign_tn": 70,
+            "sensitivity": 0.7073170731707317,
+            "benign_false_alert_rate": 0.43548387096774194
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.02,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 114,
+              "fp": 94,
+              "fn": 10,
+              "precision": 0.5480769230769231,
+              "recall": 0.9193548387096774,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7857504569636481,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8331323723064673,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8366707535059499,
+                  "denominator": 114
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 27,
+              "fp": 94,
+              "fn": 14,
+              "precision": 0.2231404958677686,
+              "recall": 0.6585365853658537,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.5442922225050406,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8449269459252859,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.7951832024058539,
+                  "denominator": 27
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 28,
+            "malignant_fn": 13,
+            "benign_fp": 47,
+            "benign_tn": 77,
+            "sensitivity": 0.6829268292682927,
+            "benign_false_alert_rate": 0.3790322580645161
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.05,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 113,
+              "fp": 67,
+              "fn": 11,
+              "precision": 0.6277777777777778,
+              "recall": 0.9112903225806451,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7782211673736282,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8259290512513305,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8383884837787295,
+                  "denominator": 113
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 25,
+              "fp": 62,
+              "fn": 16,
+              "precision": 0.28735632183908044,
+              "recall": 0.6097560975609756,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.5091245620063299,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.844164178815887,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8011228953804367,
+                  "denominator": 25
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 26,
+            "malignant_fn": 15,
+            "benign_fp": 35,
+            "benign_tn": 89,
+            "sensitivity": 0.6341463414634146,
+            "benign_false_alert_rate": 0.28225806451612906
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.1,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 111,
+              "fp": 51,
+              "fn": 13,
+              "precision": 0.6851851851851852,
+              "recall": 0.8951612903225806,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.763327155492024,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8144105888990366,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.841449479960773,
+                  "denominator": 111
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 24,
+              "fp": 49,
+              "fn": 17,
+              "precision": 0.3287671232876712,
+              "recall": 0.5853658536585366,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.4879108648319711,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8229504816415282,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.7982629500150918,
+                  "denominator": 24
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 25,
+            "malignant_fn": 16,
+            "benign_fp": 28,
+            "benign_tn": 96,
+            "sensitivity": 0.6097560975609756,
+            "benign_false_alert_rate": 0.22580645161290322
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.15,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 108,
+              "fp": 45,
+              "fn": 16,
+              "precision": 0.7058823529411765,
+              "recall": 0.8709677419354839,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7463469123664656,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8085780560339912,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8453272419266349,
+                  "denominator": 108
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 23,
+              "fp": 35,
+              "fn": 18,
+              "precision": 0.39655172413793105,
+              "recall": 0.5609756097560976,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.48179682980308286,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8168364466126399,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8034976133718728,
+                  "denominator": 23
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 25,
+            "malignant_fn": 16,
+            "benign_fp": 23,
+            "benign_tn": 101,
+            "sensitivity": 0.6097560975609756,
+            "benign_false_alert_rate": 0.18548387096774194
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.2,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 107,
+              "fp": 37,
+              "fn": 17,
+              "precision": 0.7430555555555556,
+              "recall": 0.8629032258064516,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7384170884181189,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8022116533413757,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.848398244398257,
+                  "denominator": 107
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 23,
+              "fp": 31,
+              "fn": 18,
+              "precision": 0.42592592592592593,
+              "recall": 0.5609756097560976,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.4757399435560839,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8164492032750902,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8034976133718728,
+                  "denominator": 23
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 25,
+            "malignant_fn": 16,
+            "benign_fp": 22,
+            "benign_tn": 102,
+            "sensitivity": 0.6097560975609756,
+            "benign_false_alert_rate": 0.1774193548387097
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.3,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 101,
+              "fp": 31,
+              "fn": 23,
+              "precision": 0.7651515151515151,
+              "recall": 0.8145161290322581,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7041133479892517,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.773971804174635,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.853824944927848,
+                  "denominator": 101
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 22,
+              "fp": 20,
+              "fn": 19,
+              "precision": 0.5238095238095238,
+              "recall": 0.5365853658536586,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.44753121219610875,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8009914929319801,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8027755404366349,
+                  "denominator": 22
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 23,
+            "malignant_fn": 18,
+            "benign_fp": 18,
+            "benign_tn": 106,
+            "sensitivity": 0.5609756097560976,
+            "benign_false_alert_rate": 0.14516129032258066
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.4,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 99,
+              "fp": 27,
+              "fn": 25,
+              "precision": 0.7857142857142857,
+              "recall": 0.7983870967741935,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.6889857941860588,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7570238511788685,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8560240576445877,
+                  "denominator": 99
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 19,
+              "fp": 17,
+              "fn": 22,
+              "precision": 0.5277777777777778,
+              "recall": 0.4634146341463415,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.394985342147837,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7429720708452177,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8161411167172011,
+                  "denominator": 19
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 20,
+            "malignant_fn": 21,
+            "benign_fp": 15,
+            "benign_tn": 109,
+            "sensitivity": 0.4878048780487805,
+            "benign_false_alert_rate": 0.12096774193548387
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.5,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 95,
+              "fp": 20,
+              "fn": 29,
+              "precision": 0.8260869565217391,
+              "recall": 0.7661290322580645,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.662210603509419,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7061201699099828,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8571185059253775,
+                  "denominator": 95
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 15,
+              "fp": 9,
+              "fn": 26,
+              "precision": 0.625,
+              "recall": 0.36585365853658536,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3114145444953752,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7054743468052744,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8053519009250593,
+                  "denominator": 15
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 16,
+            "malignant_fn": 25,
+            "benign_fp": 7,
+            "benign_tn": 117,
+            "sensitivity": 0.3902439024390244,
+            "benign_false_alert_rate": 0.056451612903225805
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.6,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 83,
+              "fp": 19,
+              "fn": 41,
+              "precision": 0.8137254901960784,
+              "recall": 0.6693548387096774,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.5790335345945448,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.6038110530368174,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8608414203615163,
+                  "denominator": 83
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 10,
+              "fp": 4,
+              "fn": 31,
+              "precision": 0.7142857142857143,
+              "recall": 0.24390243902439024,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.19520308098295663,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.5892628832928559,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8003326320301222,
+                  "denominator": 10
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 10,
+            "malignant_fn": 31,
+            "benign_fp": 4,
+            "benign_tn": 120,
+            "sensitivity": 0.24390243902439024,
+            "benign_false_alert_rate": 0.03225806451612903
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.7,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 61,
+              "fp": 12,
+              "fn": 63,
+              "precision": 0.8356164383561644,
+              "recall": 0.49193548387096775,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.42617061567371295,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.42617061567371295,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8663140384186951,
+                  "denominator": 61
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 4,
+              "fp": 0,
+              "fn": 37,
+              "precision": 1.0,
+              "recall": 0.0975609756097561,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.08648076068988216,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.34679866042913576,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8864277970712922,
+                  "denominator": 4
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 4,
+            "malignant_fn": 37,
+            "benign_fp": 0,
+            "benign_tn": 124,
+            "sensitivity": 0.0975609756097561,
+            "benign_false_alert_rate": 0.0
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.8,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 31,
+              "fp": 5,
+              "fn": 93,
+              "precision": 0.8611111111111112,
+              "recall": 0.25,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.22032567683432666,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.22032567683432666,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8813027073373066,
+                  "denominator": 31
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 0,
+              "fp": 0,
+              "fn": 41,
+              "precision": null,
+              "recall": 0.0,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.0,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.10824643135856453,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": null,
+                  "denominator": 0
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 0,
+            "malignant_fn": 41,
+            "benign_fp": 0,
+            "benign_tn": 124,
+            "sensitivity": 0.0,
+            "benign_false_alert_rate": 0.0
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.9,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 2,
+              "fp": 0,
+              "fn": 122,
+              "precision": 1.0,
+              "recall": 0.016129032258064516,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.014625834268810436,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.014625834268810436,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.9068017246662471,
+                  "denominator": 2
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 0,
+              "fp": 0,
+              "fn": 41,
+              "precision": null,
+              "recall": 0.0,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.0,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.0,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": null,
+                  "denominator": 0
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 0,
+            "malignant_fn": 41,
+            "benign_fp": 0,
+            "benign_tn": 124,
+            "sensitivity": 0.0,
+            "benign_false_alert_rate": 0.0
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.95,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 0,
+              "fp": 0,
+              "fn": 124,
+              "precision": null,
+              "recall": 0.0,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.0,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.0,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": null,
+                  "denominator": 0
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 0,
+              "fp": 0,
+              "fn": 41,
+              "precision": null,
+              "recall": 0.0,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.0,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.0,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": null,
+                  "denominator": 0
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 0,
+            "malignant_fn": 41,
+            "benign_fp": 0,
+            "benign_tn": 124,
+            "sensitivity": 0.0,
+            "benign_false_alert_rate": 0.0
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        }
+      ],
+      "mAP50": 0.6242125375309967,
+      "mAP50_95": 0.4195824293464547,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.7940617627794911,
+          "AP50_95": 0.550637853797683
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.4543633122825022,
+          "AP50_95": 0.28852700489522626
+        }
+      },
+      "resources": {
+        "elapsed_seconds": 490.25490585598163,
+        "optimizer_steps": 2880,
+        "parameters": 3011238,
+        "peak_cuda_allocated_bytes": 4481888768,
+        "checkpoint_selection": {
+          "best_epoch": 54,
+          "completed_epochs": 60,
+          "selection_validation_mAP50_95": 0.41961,
+          "last_epoch_validation_mAP50_95": 0.4124,
+          "weight_source": "EMA",
+          "tie_rule": "later epoch wins exact ties",
+          "score_scope": "Training-time validation of in-memory EMA before FP16 serialization",
+          "finalized_file_epoch_is_not_selection_epoch": true
+        }
+      },
+      "fixed_thresholds": {
+        "0.05": {
+          "threshold": 0.05,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 113,
+              "fp": 67,
+              "fn": 11,
+              "precision": 0.6277777777777778,
+              "recall": 0.9112903225806451,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7782211673736282,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8259290512513305,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8383884837787295,
+                  "denominator": 113
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 25,
+              "fp": 62,
+              "fn": 16,
+              "precision": 0.28735632183908044,
+              "recall": 0.6097560975609756,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.5091245620063299,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.844164178815887,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8011228953804367,
+                  "denominator": 25
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 26,
+            "malignant_fn": 15,
+            "benign_fp": 35,
+            "benign_tn": 89,
+            "sensitivity": 0.6341463414634146,
+            "benign_false_alert_rate": 0.28225806451612906
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        "0.5": {
+          "threshold": 0.5,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 95,
+              "fp": 20,
+              "fn": 29,
+              "precision": 0.8260869565217391,
+              "recall": 0.7661290322580645,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.662210603509419,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7061201699099828,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8571185059253775,
+                  "denominator": 95
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 15,
+              "fp": 9,
+              "fn": 26,
+              "precision": 0.625,
+              "recall": 0.36585365853658536,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3114145444953752,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7054743468052744,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8053519009250593,
+                  "denominator": 15
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 16,
+            "malignant_fn": 25,
+            "benign_fp": 7,
+            "benign_tn": 117,
+            "sensitivity": 0.3902439024390244,
+            "benign_false_alert_rate": 0.056451612903225805
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        }
+      }
+    },
+    "n_baseline_seed3711": {
+      "selected": {
+        "threshold": 0.8,
+        "score_rule": "confidence > threshold",
+        "match_iou": 0.5,
+        "classes": {
+          "Benign": {
+            "gt": 124,
+            "tp": 72,
+            "fp": 17,
+            "fn": 52,
+            "precision": 0.8089887640449438,
+            "recall": 0.5806451612903226,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.49677357037274994,
+                "denominator": 124
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.5404286918441946,
+                "denominator": 124
+              },
+              "tp_only": {
+                "mean": 0.8523029166523498,
+                "denominator": 72
+              }
+            }
+          },
+          "Malignant": {
+            "gt": 41,
+            "tp": 12,
+            "fp": 8,
+            "fn": 29,
+            "precision": 0.6,
+            "recall": 0.2926829268292683,
+            "iou": {
+              "all_gt_class_correct": {
+                "mean": 0.24146116903440135,
+                "denominator": 41
+              },
+              "all_gt_class_agnostic": {
+                "mean": 0.586166335053834,
+                "denominator": 41
+              },
+              "tp_only": {
+                "mean": 0.8249923275342046,
+                "denominator": 12
+              }
+            }
+          }
+        },
+        "image_alerts": {
+          "malignant_tp": 12,
+          "malignant_fn": 29,
+          "benign_fp": 8,
+          "benign_tn": 116,
+          "sensitivity": 0.2926829268292683,
+          "benign_false_alert_rate": 0.06451612903225806
+        },
+        "images": 165,
+        "image_alerts_are_biopsy_counts": false
+      },
+      "grid": [
+        {
+          "threshold": 0.01,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 113,
+              "fp": 94,
+              "fn": 11,
+              "precision": 0.5458937198067633,
+              "recall": 0.9112903225806451,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.771539862170299,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8234923337227815,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8280880081903662,
+                  "denominator": 113
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 24,
+              "fp": 53,
+              "fn": 17,
+              "precision": 0.3116883116883117,
+              "recall": 0.5853658536585366,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.47099732381393855,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8351218102142252,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.7958056941049686,
+                  "denominator": 24
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 25,
+            "malignant_fn": 16,
+            "benign_fp": 40,
+            "benign_tn": 84,
+            "sensitivity": 0.6097560975609756,
+            "benign_false_alert_rate": 0.3225806451612903
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.02,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 111,
+              "fp": 71,
+              "fn": 13,
+              "precision": 0.6098901098901099,
+              "recall": 0.8951612903225806,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7657163944616067,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8129765412767426,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8322686202155472,
+                  "denominator": 111
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 23,
+              "fp": 49,
+              "fn": 18,
+              "precision": 0.3194444444444444,
+              "recall": 0.5609756097560976,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.44776713986398486,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8304222124668317,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.7889956137639629,
+                  "denominator": 23
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 24,
+            "malignant_fn": 17,
+            "benign_fp": 38,
+            "benign_tn": 86,
+            "sensitivity": 0.5853658536585366,
+            "benign_false_alert_rate": 0.3064516129032258
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.05,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 110,
+              "fp": 57,
+              "fn": 14,
+              "precision": 0.6586826347305389,
+              "recall": 0.8870967741935484,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7617471570774813,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8112039267686736,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8350032998917406,
+                  "denominator": 110
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 21,
+              "fp": 43,
+              "fn": 20,
+              "precision": 0.328125,
+              "recall": 0.5121951219512195,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.43072250788330546,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8278013418857576,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8122307451916917,
+                  "denominator": 21
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 23,
+            "malignant_fn": 18,
+            "benign_fp": 37,
+            "benign_tn": 87,
+            "sensitivity": 0.5609756097560976,
+            "benign_false_alert_rate": 0.29838709677419356
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.1,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 108,
+              "fp": 49,
+              "fn": 16,
+              "precision": 0.6878980891719745,
+              "recall": 0.8709677419354839,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7429718552989899,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8050527668558989,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.837377956189719,
+                  "denominator": 108
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 21,
+              "fp": 39,
+              "fn": 20,
+              "precision": 0.35,
+              "recall": 0.5121951219512195,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.43072250788330546,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8115680546789796,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8122307451916917,
+                  "denominator": 21
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 23,
+            "malignant_fn": 18,
+            "benign_fp": 36,
+            "benign_tn": 88,
+            "sensitivity": 0.5609756097560976,
+            "benign_false_alert_rate": 0.2903225806451613
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.15,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 106,
+              "fp": 48,
+              "fn": 18,
+              "precision": 0.6883116883116883,
+              "recall": 0.8548387096774194,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7350739219654404,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7993808835346774,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8400118946165351,
+                  "denominator": 106
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 20,
+              "fp": 37,
+              "fn": 21,
+              "precision": 0.3508771929824561,
+              "recall": 0.4878048780487805,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.41721522985684933,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8115680546789796,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8251523624970412,
+                  "denominator": 20
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 22,
+            "malignant_fn": 19,
+            "benign_fp": 34,
+            "benign_tn": 90,
+            "sensitivity": 0.5365853658536586,
+            "benign_false_alert_rate": 0.27419354838709675
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.2,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 106,
+              "fp": 44,
+              "fn": 18,
+              "precision": 0.7066666666666667,
+              "recall": 0.8548387096774194,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7298321048449345,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7956094660946851,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8400118946165351,
+                  "denominator": 106
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 20,
+              "fp": 35,
+              "fn": 21,
+              "precision": 0.36363636363636365,
+              "recall": 0.4878048780487805,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.41721522985684933,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7988509339935926,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8251523624970412,
+                  "denominator": 20
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 22,
+            "malignant_fn": 19,
+            "benign_fp": 33,
+            "benign_tn": 91,
+            "sensitivity": 0.5365853658536586,
+            "benign_false_alert_rate": 0.2661290322580645
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.3,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 103,
+              "fp": 37,
+              "fn": 21,
+              "precision": 0.7357142857142858,
+              "recall": 0.8306451612903226,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7085821440949914,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7848998208473077,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8388957834598035,
+                  "denominator": 103
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 20,
+              "fp": 33,
+              "fn": 21,
+              "precision": 0.37735849056603776,
+              "recall": 0.4878048780487805,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.41721522985684933,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.798131588549403,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8251523624970412,
+                  "denominator": 20
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 22,
+            "malignant_fn": 19,
+            "benign_fp": 31,
+            "benign_tn": 93,
+            "sensitivity": 0.5365853658536586,
+            "benign_false_alert_rate": 0.25
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.4,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 100,
+              "fp": 33,
+              "fn": 24,
+              "precision": 0.7518796992481203,
+              "recall": 0.8064516129032258,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.689803142745306,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7689056655915685,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8407766952899877,
+                  "denominator": 100
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 18,
+              "fp": 29,
+              "fn": 23,
+              "precision": 0.3829787234042553,
+              "recall": 0.43902439024390244,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3741421163542797,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7947703977065042,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8187249775741926,
+                  "denominator": 18
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 20,
+            "malignant_fn": 21,
+            "benign_fp": 27,
+            "benign_tn": 97,
+            "sensitivity": 0.4878048780487805,
+            "benign_false_alert_rate": 0.21774193548387097
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.5,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 97,
+              "fp": 29,
+              "fn": 27,
+              "precision": 0.7698412698412699,
+              "recall": 0.782258064516129,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.6683858322079119,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7538479904437329,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8421989181487252,
+                  "denominator": 97
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 18,
+              "fp": 23,
+              "fn": 23,
+              "precision": 0.43902439024390244,
+              "recall": 0.43902439024390244,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3741421163542797,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7919822074886338,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8187249775741926,
+                  "denominator": 18
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 20,
+            "malignant_fn": 21,
+            "benign_fp": 21,
+            "benign_tn": 103,
+            "sensitivity": 0.4878048780487805,
+            "benign_false_alert_rate": 0.1693548387096774
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.6,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 92,
+              "fp": 24,
+              "fn": 32,
+              "precision": 0.7931034482758621,
+              "recall": 0.7419354838709677,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.6384261851307973,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7294072316357662,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8442947559006184,
+                  "denominator": 92
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 18,
+              "fp": 20,
+              "fn": 23,
+              "precision": 0.47368421052631576,
+              "recall": 0.43902439024390244,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3741421163542797,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7532941395192752,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8187249775741926,
+                  "denominator": 18
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 20,
+            "malignant_fn": 21,
+            "benign_fp": 18,
+            "benign_tn": 106,
+            "sensitivity": 0.4878048780487805,
+            "benign_false_alert_rate": 0.14516129032258066
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.7,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 84,
+              "fp": 20,
+              "fn": 40,
+              "precision": 0.8076923076923077,
+              "recall": 0.6774193548387096,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.5855581168326232,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.6679498357712906,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8525872435287534,
+                  "denominator": 84
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 16,
+              "fp": 16,
+              "fn": 25,
+              "precision": 0.5,
+              "recall": 0.3902439024390244,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3332250509947117,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.6682474696201851,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8162156197870738,
+                  "denominator": 16
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 18,
+            "malignant_fn": 23,
+            "benign_fp": 14,
+            "benign_tn": 110,
+            "sensitivity": 0.43902439024390244,
+            "benign_false_alert_rate": 0.11290322580645161
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.8,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 72,
+              "fp": 17,
+              "fn": 52,
+              "precision": 0.8089887640449438,
+              "recall": 0.5806451612903226,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.49677357037274994,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.5404286918441946,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8523029166523498,
+                  "denominator": 72
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 12,
+              "fp": 8,
+              "fn": 29,
+              "precision": 0.6,
+              "recall": 0.2926829268292683,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.24146116903440135,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.586166335053834,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8249923275342046,
+                  "denominator": 12
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 12,
+            "malignant_fn": 29,
+            "benign_fp": 8,
+            "benign_tn": 116,
+            "sensitivity": 0.2926829268292683,
+            "benign_false_alert_rate": 0.06451612903225806
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.9,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 33,
+              "fp": 8,
+              "fn": 91,
+              "precision": 0.8048780487804879,
+              "recall": 0.2661290322580645,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.23196037487420598,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.24688414957033794,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8716086813455012,
+                  "denominator": 33
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 5,
+              "fp": 2,
+              "fn": 36,
+              "precision": 0.7142857142857143,
+              "recall": 0.12195121951219512,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.10138103012881722,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.2742061329458941,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8313244470563012,
+                  "denominator": 5
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 5,
+            "malignant_fn": 36,
+            "benign_fp": 2,
+            "benign_tn": 122,
+            "sensitivity": 0.12195121951219512,
+            "benign_false_alert_rate": 0.016129032258064516
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        {
+          "threshold": 0.95,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 2,
+              "fp": 0,
+              "fn": 122,
+              "precision": 1.0,
+              "recall": 0.016129032258064516,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.014795911593463234,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.014795911593463234,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.9173465187947205,
+                  "denominator": 2
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 1,
+              "fp": 0,
+              "fn": 40,
+              "precision": 1.0,
+              "recall": 0.024390243902439025,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.020281454172685485,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.020281454172685485,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8315396210801048,
+                  "denominator": 1
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 1,
+            "malignant_fn": 40,
+            "benign_fp": 0,
+            "benign_tn": 124,
+            "sensitivity": 0.024390243902439025,
+            "benign_false_alert_rate": 0.0
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        }
+      ],
+      "mAP50": 0.5808977826955675,
+      "mAP50_95": 0.3833290448963117,
+      "ap": {
+        "0": {
+          "name": "Benign",
+          "AP50": 0.7645551865716175,
+          "AP50_95": 0.516052802837227
+        },
+        "1": {
+          "name": "Malignant",
+          "AP50": 0.39724037881951757,
+          "AP50_95": 0.25060528695539636
+        }
+      },
+      "resources": {
+        "elapsed_seconds": 466.63990085106343,
+        "optimizer_steps": 2880,
+        "parameters": 3011238,
+        "peak_cuda_allocated_bytes": 4481888768,
+        "checkpoint_selection": {
+          "best_epoch": 51,
+          "completed_epochs": 60,
+          "selection_validation_mAP50_95": 0.3842,
+          "last_epoch_validation_mAP50_95": 0.36096,
+          "weight_source": "EMA",
+          "tie_rule": "later epoch wins exact ties",
+          "score_scope": "Training-time validation of in-memory EMA before FP16 serialization",
+          "finalized_file_epoch_is_not_selection_epoch": true
+        }
+      },
+      "fixed_thresholds": {
+        "0.05": {
+          "threshold": 0.05,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 110,
+              "fp": 57,
+              "fn": 14,
+              "precision": 0.6586826347305389,
+              "recall": 0.8870967741935484,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.7617471570774813,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8112039267686736,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8350032998917406,
+                  "denominator": 110
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 21,
+              "fp": 43,
+              "fn": 20,
+              "precision": 0.328125,
+              "recall": 0.5121951219512195,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.43072250788330546,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.8278013418857576,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8122307451916917,
+                  "denominator": 21
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 23,
+            "malignant_fn": 18,
+            "benign_fp": 37,
+            "benign_tn": 87,
+            "sensitivity": 0.5609756097560976,
+            "benign_false_alert_rate": 0.29838709677419356
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        },
+        "0.5": {
+          "threshold": 0.5,
+          "score_rule": "confidence > threshold",
+          "match_iou": 0.5,
+          "classes": {
+            "Benign": {
+              "gt": 124,
+              "tp": 97,
+              "fp": 29,
+              "fn": 27,
+              "precision": 0.7698412698412699,
+              "recall": 0.782258064516129,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.6683858322079119,
+                  "denominator": 124
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7538479904437329,
+                  "denominator": 124
+                },
+                "tp_only": {
+                  "mean": 0.8421989181487252,
+                  "denominator": 97
+                }
+              }
+            },
+            "Malignant": {
+              "gt": 41,
+              "tp": 18,
+              "fp": 23,
+              "fn": 23,
+              "precision": 0.43902439024390244,
+              "recall": 0.43902439024390244,
+              "iou": {
+                "all_gt_class_correct": {
+                  "mean": 0.3741421163542797,
+                  "denominator": 41
+                },
+                "all_gt_class_agnostic": {
+                  "mean": 0.7919822074886338,
+                  "denominator": 41
+                },
+                "tp_only": {
+                  "mean": 0.8187249775741926,
+                  "denominator": 18
+                }
+              }
+            }
+          },
+          "image_alerts": {
+            "malignant_tp": 20,
+            "malignant_fn": 21,
+            "benign_fp": 21,
+            "benign_tn": 103,
+            "sensitivity": 0.4878048780487805,
+            "benign_false_alert_rate": 0.1693548387096774
+          },
+          "images": 165,
+          "image_alerts_are_biopsy_counts": false
+        }
+      }
+    }
+  },
+  "provenance": {
+    "n_geometry_seed3711": {
+      "output_root": "outputs/known_lesion_confirmation_20261021_681542",
+      "config_sha256": "6eece88676e529c29d672e5e47e57284d720aba790951b4fe976acd15f99e00a",
+      "checkpoint_sha256": "994d43548eb1c67b1f46e83c72e9bf88952d664db5129e06689666c2c9882b7a",
+      "evaluation_sha256": "36d4f7afed6f778e1a0e719da1f2a2b4cbe0e4cdf89211fa052cf9d65b7b4c7b",
+      "predictions_sha256": "02a7d97200b405bfe5c3bb8fafe3ad8fa42e57da463bda8c7ca833fed0d75330",
+      "input_audit_sha256": "044cb6e16a04c10c74dea61310ce1765711e25c715f2e29ebb82ec46375224d0",
+      "environment_equal_to_original": true,
+      "only_training_parameter_changed_from_parent": "seed: 3710 to 3711",
+      "configuration_metadata_may_differ": [
+        "decisions_pending",
+        "design_notes",
+        "model_policy",
+        "purpose",
+        "release_decision",
+        "teacher_guidance",
+        "version"
+      ],
+      "scope_normalization": "Reassessment entries removed; train/val hashes and counts unchanged",
+      "staged_file_and_pixel_hashes_match_original": true
+    },
+    "n_baseline_seed3711": {
+      "output_root": "outputs/known_lesion_confirmation_20261021_683930",
+      "config_sha256": "67b78470f11e1ac0535bcd20cfbaace28a6c906b7f75f40afb3f19ad1716df5e",
+      "checkpoint_sha256": "8de2f881294ab5984cd23987ee42ce16d9a701a6cb33a547b5394098ea17e5b9",
+      "evaluation_sha256": "30fbc4999ec8809e92ea6e95bcc7e2f7dbd982f0e798c6c666ab1a50530cba25",
+      "predictions_sha256": "3254f9d380aae04a99550fc51931b471a5a4fe1ab468eeb80d00f9cce41e09f6",
+      "input_audit_sha256": "3148b8321001691d21fc39f5a7401c1786a692734fa860adb27a61f3dc3692de",
+      "environment_equal_to_original": true,
+      "only_training_parameter_changed_from_parent": "seed: 3710 to 3711",
+      "configuration_metadata_may_differ": [
+        "decisions_pending",
+        "design_notes",
+        "model_policy",
+        "purpose",
+        "release_decision",
+        "teacher_guidance",
+        "version"
+      ],
+      "scope_normalization": "Reassessment entries removed; train/val hashes and counts unchanged",
+      "staged_file_and_pixel_hashes_match_original": true
+    }
+  },
+  "passes_predeclared_confirmation_rule": true,
+  "report_rows": [
+    [
+      "Original n / 3710",
+      "0.50",
+      13,
+      11,
+      "0.2870"
+    ],
+    [
+      "Candidate / 3710",
+      "0.40",
+      18,
+      12,
+      "0.3757"
+    ],
+    [
+      "Original n / 3711",
+      "0.80",
+      12,
+      8,
+      "0.2415"
+    ],
+    [
+      "Candidate / 3711",
+      "0.50",
+      15,
+      7,
+      "0.3114"
+    ]
+  ],
+  "report_interpretation": "At seed 3711, the candidate detects 15/41 malignant lesions versus 12/41 for the matched baseline, with 7 versus 8 benign alerts. Malignant all-GT IoU is 0.3114 versus 0.2415. The gain passes the prespecified confirmation rule on this validation set. This does not establish performance on new patients."
+}

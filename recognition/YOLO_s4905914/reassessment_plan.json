@@ -1,0 +1,39 @@
+{
+  "status": "locked_before_supplementary_evaluation",
+  "locked_at": "2026-10-17T22:27:08.419100+10:00",
+  "config_sha256": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+  "training_job": 669143,
+  "split": "reassessment",
+  "images": 165,
+  "Benign": 124,
+  "Malignant": 41,
+  "fresh_blind_test": false,
+  "course_acceptance_confirmed": false,
+  "model_policy": "n remains predeclared primary; s comparator; no result-selected replacement",
+  "threshold_sweep": false,
+  "training": false,
+  "models": {
+    "n": {
+      "threshold": 0.5,
+      "checkpoint_sha256": "fcb51c9524a66df34318065f7c24a797f3fd59418c97dc0e3b6addf5a67ac59c",
+      "selection_lock_sha256": "c46a69fa30a7a27058c24c584f25f092151c4603b288d808bb768dd46fcf0d9e"
+    },
+    "s": {
+      "threshold": 0.8,
+      "checkpoint_sha256": "c0a93dab2e63d02b9c12e860ed9cc575de0ff74190527e464057a789f3c86c54",
+      "selection_lock_sha256": "8ad9eb1d2fcb7acc7be4170b432be3061d045d9945503a23a0b8dd967aa14826"
+    }
+  },
+  "benchmark": {
+    "split": "val",
+    "batch": 1,
+    "imgsz": 640,
+    "FP32": true,
+    "warmup_calls": 10,
+    "repeats": 3,
+    "timed_images_each_repeat": 165,
+    "purpose": "descriptive timing only; no model, threshold or protocol selection",
+    "scope": "synchronized serial file-to-CPU prediction; model startup, output plots/saves and UI excluded; caches may be warm"
+  },
+  "failure_examples": "Select 3-5 actual supplementary cases by explicit failure categories and ascending image ID. If a category is empty, disclose that; do not invent examples or infer artefacts cause an error."
+}

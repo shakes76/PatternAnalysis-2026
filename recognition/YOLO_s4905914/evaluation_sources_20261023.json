@@ -1,0 +1,75 @@
+{
+  "checked_on": "2026-10-23",
+  "purpose": "Post-development reporting rationale; no selection changes",
+  "sources": [
+    {
+      "file": "yolov7.pdf",
+      "url": "https://arxiv.org/pdf/2207.02696",
+      "location": "YOLOv7; Section 5.1, Table 2",
+      "verified_finding": "COCO train/val/test, AP/AP50/AP75 and size-specific AP/FPS; not a definition of our mean box IoU.",
+      "sha256": "61827f8908649249cbe20f75a96c2899fae0ec2e1a888869572271eb5fd0ca4f"
+    },
+    {
+      "file": "isic2018.pdf",
+      "url": "https://arxiv.org/pdf/1902.03368v2",
+      "location": "ISIC 2018 challenge; Sections 2.1 and 2.3",
+      "verified_finding": "Task 1 thresholded pixel Jaccard with T=0.65; Task 3 seven-class balanced accuracy. Neither is this binary box task.",
+      "sha256": "1c5c08a83625c5b748139fa54985824534fe9b9cec3ef1d501aa1bbdc4d9a421"
+    },
+    {
+      "file": "metrics.py",
+      "url": "https://raw.githubusercontent.com/ultralytics/ultralytics/v8.3.221/ultralytics/utils/metrics.py",
+      "location": "compute_ap, ap_per_class, Metric",
+      "verified_finding": "101-point interpolated trapezoidal AP; class-equal mAP; max-F1 library summaries are distinct from the fixed operating point.",
+      "sha256": "f03d414ddd0a2fedaeca61c3766c486ee9e2d4fa833417d96026530363f7bc7d"
+    },
+    {
+      "file": "validator.py",
+      "url": "https://raw.githubusercontent.com/ultralytics/ultralytics/v8.3.221/ultralytics/engine/validator.py",
+      "location": "BaseValidator.match_predictions",
+      "verified_finding": "Class-aware matching at each IoU cutoff; upstream matching is preserved for AP, separate from the operational matcher.",
+      "sha256": "1e8044e4b73b468ec84394e57c30bde0be4199d39bf09f327c69442e8cd9e843"
+    },
+    {
+      "file": "detect_val.py",
+      "url": "https://raw.githubusercontent.com/ultralytics/ultralytics/v8.3.221/ultralytics/models/yolo/detect/val.py",
+      "location": "DetectionValidator.__init__, postprocess",
+      "verified_finding": "Ten IoU thresholds 0.50:0.05:0.95. Project adapter explicitly changes default multi-label NMS to single-label.",
+      "sha256": "59c8a753af8a8fb2bd82ace2a84a062cdb734d7b66dce20f387211544d8b7fd5"
+    },
+    {
+      "file": "cocoeval.py",
+      "url": "https://raw.githubusercontent.com/cocodataset/cocoapi/master/PythonAPI/pycocotools/cocoeval.py",
+      "location": "COCOeval.evaluateImg, accumulate, Params.setDetParams",
+      "verified_finding": "Official COCO defaults: 10 IoU thresholds, 101 recall points, maxDets [1,10,100]. Not run to compute this report AP.",
+      "sha256": "e514af401848d5a4cc5d3512bd93d2c317f92272c6d30f218e0f00b7b4110534"
+    }
+  ],
+  "installed_ultralytics_8_3_221": {
+    "utils/metrics.py": {
+      "sha256": "f03d414ddd0a2fedaeca61c3766c486ee9e2d4fa833417d96026530363f7bc7d",
+      "identical_to_tagged_source": true
+    },
+    "engine/validator.py": {
+      "sha256": "1e8044e4b73b468ec84394e57c30bde0be4199d39bf09f327c69442e8cd9e843",
+      "identical_to_tagged_source": true
+    },
+    "models/yolo/detect/val.py": {
+      "sha256": "59c8a753af8a8fb2bd82ace2a84a062cdb734d7b66dce20f387211544d8b7fd5",
+      "identical_to_tagged_source": true
+    }
+  },
+  "project_implementation_checked": [
+    "evaluation.py:score_records and validator_class",
+    "classification_metrics.py"
+  ],
+  "teacher_reply": "teacher_response_20261023.txt",
+  "limits": [
+    "No direct comparison to YOLOv7 COCO or ISIC challenge scores",
+    "Custom IoU summaries are not prescribed by the papers",
+    "AP was not independently recomputed",
+    "Sources do not establish clinical safety or a course pass"
+  ],
+  "training_or_inference_performed": false,
+  "model_or_threshold_changed": false
+}

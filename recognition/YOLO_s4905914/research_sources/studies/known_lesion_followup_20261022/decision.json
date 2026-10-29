@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "selected": "reference_geometry",
+  "confidence": 0.4,
+  "checkpoint_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/train_n/fit/weights/best.pt",
+  "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "config_path": "studies/known_lesion_optimization_20261021/n_geometry.json",
+  "evaluation_path": "outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n",
+  "confirmation_triggered": false,
+  "confirmation_passed": null,
+  "single_lesion_policy": "rejected",
+  "further_trials_planned": false,
+  "new_reassessment_inference": false,
+  "course_test_IoU_target_proven": false,
+  "reason": "No candidate passed the complete improvement rule; retain the prior geometry model",
+  "evidence_scope": "Repeatedly-used validation; exploratory selection, not new independent test",
+  "initial_results_sha256": "342e6032c0aa8db9c442c0240170fd21938d4b4a8065cff00417277725113a1c",
+  "parent_plan_sha256": "750729e6f26ad8ee3c5184c0b0fdb3e8f3f714216362238fac345b97401e954f"
+}

@@ -1,0 +1,180 @@
+{
+  "status": "passed",
+  "plan_sha256": "fe9902ce2b00dc9433ce8588dc647c5677c1b72f5de99e4e08161170eaf2d5aa",
+  "reassessment_rejected_before_io": true,
+  "known_ids_and_no_known_train_val_overlap": true,
+  "images_decoded": 0,
+  "candidate_plans": {
+    "n_long120": {
+      "purpose": "known_lesion_validation_optimization",
+      "ready_for_full_training": true,
+      "config_sha256": "723cd393c3711dc42925d2ec0235ad6f57cc84aabed5c8da4e272e4cc30e785d",
+      "manifest_sha256": {
+        "train": "8528722216b67d62078fe32632cb64128149053cc41ece6daec7399369126fca",
+        "val": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3"
+      },
+      "counts": {
+        "train": 768,
+        "val": 165
+      },
+      "models": {
+        "n": {
+          "file": "yolov8n.pt",
+          "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt",
+          "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+        },
+        "s": {
+          "file": "yolov8s.pt",
+          "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt",
+          "sha256": "1f47a78bf100391c2a140b7ac73a1caae18c32779be7d310658112f7ac9aa78a"
+        }
+      },
+      "epochs_per_model": 120,
+      "training_batches_per_epoch": 48,
+      "planned_optimizer_steps_per_model": 5760,
+      "optimizer_step_count_means": "Calls to optimizer.step, not a guarantee of changed parameters",
+      "learning_rate_schedule": {
+        "evidence": "projection_from_pinned_schedule_not_observed_full_training",
+        "batches_per_epoch": 48,
+        "planned_optimizer_step_calls": 5760,
+        "warmup_last_global_batch_index_inclusive": 144,
+        "planned_zero_lr_step_calls": 1,
+        "first_step_lrs": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "last_step_lrs": [
+          1.8249999999999973e-05,
+          1.8249999999999973e-05,
+          1.8249999999999973e-05
+        ],
+        "maximum_lr": 0.000976670138888889,
+        "AdamW_betas": [
+          0.9,
+          0.999
+        ],
+        "warmup_momentum_changes_AdamW_betas": false,
+        "positive_lr_does_not_guarantee_every_parameter_changes": true
+      },
+      "gradient_accumulation": 1,
+      "full_training_started": false,
+      "image_decoding_and_GPU_preflight_still_required": true,
+      "checkpoint_selection": "best.pt by maximum validation macro mAP50:95 over the fixed 120 epochs; upstream later epoch wins exact ties"
+    },
+    "n_cls1": {
+      "purpose": "known_lesion_validation_optimization",
+      "ready_for_full_training": true,
+      "config_sha256": "641e82fae3a402044c0bec96b9c10a58235bc9260afe86fc57401acd18822050",
+      "manifest_sha256": {
+        "train": "8528722216b67d62078fe32632cb64128149053cc41ece6daec7399369126fca",
+        "val": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3"
+      },
+      "counts": {
+        "train": 768,
+        "val": 165
+      },
+      "models": {
+        "n": {
+          "file": "yolov8n.pt",
+          "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt",
+          "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+        },
+        "s": {
+          "file": "yolov8s.pt",
+          "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt",
+          "sha256": "1f47a78bf100391c2a140b7ac73a1caae18c32779be7d310658112f7ac9aa78a"
+        }
+      },
+      "epochs_per_model": 60,
+      "training_batches_per_epoch": 48,
+      "planned_optimizer_steps_per_model": 2880,
+      "optimizer_step_count_means": "Calls to optimizer.step, not a guarantee of changed parameters",
+      "learning_rate_schedule": {
+        "evidence": "projection_from_pinned_schedule_not_observed_full_training",
+        "batches_per_epoch": 48,
+        "planned_optimizer_step_calls": 2880,
+        "warmup_last_global_batch_index_inclusive": 144,
+        "planned_zero_lr_step_calls": 1,
+        "first_step_lrs": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "last_step_lrs": [
+          2.650000000000005e-05,
+          2.650000000000005e-05,
+          2.650000000000005e-05
+        ],
+        "maximum_lr": 0.0009602847222222222,
+        "AdamW_betas": [
+          0.9,
+          0.999
+        ],
+        "warmup_momentum_changes_AdamW_betas": false,
+        "positive_lr_does_not_guarantee_every_parameter_changes": true
+      },
+      "gradient_accumulation": 1,
+      "full_training_started": false,
+      "image_decoding_and_GPU_preflight_still_required": true,
+      "checkpoint_selection": "best.pt by maximum validation macro mAP50:95 over the fixed 60 epochs; upstream later epoch wins exact ties"
+    },
+    "n_geometry": {
+      "purpose": "known_lesion_validation_optimization",
+      "ready_for_full_training": true,
+      "config_sha256": "2b5bcd080dd641273f304c3f3eab66fef9a15fd7a4a3e0cb1a0af9957b9a8922",
+      "manifest_sha256": {
+        "train": "8528722216b67d62078fe32632cb64128149053cc41ece6daec7399369126fca",
+        "val": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3"
+      },
+      "counts": {
+        "train": 768,
+        "val": 165
+      },
+      "models": {
+        "n": {
+          "file": "yolov8n.pt",
+          "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt",
+          "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+        },
+        "s": {
+          "file": "yolov8s.pt",
+          "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt",
+          "sha256": "1f47a78bf100391c2a140b7ac73a1caae18c32779be7d310658112f7ac9aa78a"
+        }
+      },
+      "epochs_per_model": 60,
+      "training_batches_per_epoch": 48,
+      "planned_optimizer_steps_per_model": 2880,
+      "optimizer_step_count_means": "Calls to optimizer.step, not a guarantee of changed parameters",
+      "learning_rate_schedule": {
+        "evidence": "projection_from_pinned_schedule_not_observed_full_training",
+        "batches_per_epoch": 48,
+        "planned_optimizer_step_calls": 2880,
+        "warmup_last_global_batch_index_inclusive": 144,
+        "planned_zero_lr_step_calls": 1,
+        "first_step_lrs": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "last_step_lrs": [
+          2.650000000000005e-05,
+          2.650000000000005e-05,
+          2.650000000000005e-05
+        ],
+        "maximum_lr": 0.0009602847222222222,
+        "AdamW_betas": [
+          0.9,
+          0.999
+        ],
+        "warmup_momentum_changes_AdamW_betas": false,
+        "positive_lr_does_not_guarantee_every_parameter_changes": true
+      },
+      "gradient_accumulation": 1,
+      "full_training_started": false,
+      "image_decoding_and_GPU_preflight_still_required": true,
+      "checkpoint_selection": "best.pt by maximum validation macro mAP50:95 over the fixed 60 epochs; upstream later epoch wins exact ties"
+    }
+  }
+}

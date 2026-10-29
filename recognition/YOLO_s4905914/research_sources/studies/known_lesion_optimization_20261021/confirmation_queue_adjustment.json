@@ -1,0 +1,9 @@
+{
+  "job": 681542,
+  "time": "2026-10-21T11:40:51.076335+10:00",
+  "old_requested_walltime": "04:00:00",
+  "new_requested_walltime": "00:45:00",
+  "reason": "Two completed 60-epoch variants used about 8.5 minutes for training; 45 minutes per run includes installation, auditing and validation with margin. Shorter walltime may allow normal scheduler backfill.",
+  "training_config_or_epoch_budget_changed": false,
+  "prior_scheduler_start_estimate": "2026-10-21T17:59:00+10:00"
+}

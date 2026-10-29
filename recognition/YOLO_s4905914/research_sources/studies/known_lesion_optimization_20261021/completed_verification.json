@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "new_reassessment_inference": false,
+  "baseline_config_and_runtime_unchanged": true,
+  "plan_sha256": "fe9902ce2b00dc9433ce8588dc647c5677c1b72f5de99e4e08161170eaf2d5aa",
+  "checks": {
+    "n_long120": {
+      "status": "passed",
+      "job_output": "outputs/known_lesion_optimization_20261021_681415",
+      "epochs": 120,
+      "optimizer_step_calls": 5760,
+      "best_checkpoint_sha256": "561701316e99c3dc521461b88469259a9e17c3d5e62a8003eb9061204555f617",
+      "input_audit_sha256": "940ca4b2e6d7781869687a4e5f6b78f7a5f6b46a0d1870cef9cf420d3aabca6e",
+      "evaluation_sha256": "2f4889d5998080d11a3a19d9511f5887301e74248a7656bec0552de1c5235070",
+      "prediction_sha256": "6019ec84797603f93e34477eb4c90289ec3dd7bf5857d39b8da663138b8282fe",
+      "packages_identical_to_baseline": true,
+      "staged_ids_equal_train_plus_val": true
+    },
+    "n_cls1": {
+      "status": "passed",
+      "job_output": "outputs/known_lesion_optimization_20261021_681416",
+      "epochs": 60,
+      "optimizer_step_calls": 2880,
+      "best_checkpoint_sha256": "c903ae81da33b1a0761fada59158d8bceae8af6a6f3865353ca53445bfca137c",
+      "input_audit_sha256": "263c857b242175a48315e5ec245cae194a2206b29c5ed98a16f820aed2f845e7",
+      "evaluation_sha256": "79e2e5618bfc35032864b126eb1f534179fd05196f720a53cca54a8059c21627",
+      "prediction_sha256": "d64061bcc8cb0899464f8a8a29713c426412da2ba04b0823c394c4443ad8e0e8",
+      "packages_identical_to_baseline": true,
+      "staged_ids_equal_train_plus_val": true
+    },
+    "n_geometry": {
+      "status": "passed",
+      "job_output": "outputs/known_lesion_optimization_20261021_681452",
+      "epochs": 60,
+      "optimizer_step_calls": 2880,
+      "best_checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+      "input_audit_sha256": "e3cbe74514c8ccec09bd91b84448fe4743854b5dbe95a81d6837ee5106b77c83",
+      "evaluation_sha256": "914a5cfc6bdf989ee8aa3b1c46a19c07e00b5998188d1b7b1f3f8d0246f5e576",
+      "prediction_sha256": "722e65746ab4514f408fcc366b82f9da430616ffc822265a7c94bb973ce1d372",
+      "packages_identical_to_baseline": true,
+      "staged_ids_equal_train_plus_val": true
+    }
+  },
+  "AP_independently_recomputed": false,
+  "score_grid_recalculated_from_saved_validation_predictions": true
+}

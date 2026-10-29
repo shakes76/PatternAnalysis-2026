@@ -1,0 +1,19 @@
+{
+  "new_inference": false,
+  "selection_changed": false,
+  "photos": {
+    "ISIC_0012989.jpg": "e516691bddc872f59fbcde861e10220cba389c4b3f977887eced3adb1d35865a",
+    "ISIC_0012884.jpg": "f34bf8af51633cd92308b147ec72272299cfbc8de7abec036f2d19193b018552",
+    "ISIC_0014072.jpg": "cb3e1e7790732e62b585a68d2fcec68d0b3c9b34d40ca54e8972351d057aba2a"
+  },
+  "figures": {
+    "report_pipeline.png": "71383ad9eb84783151f6f41a3788e2dce2df4b966b0ac4633eb4ac78e151039a",
+    "report_threshold_tradeoff.png": "37494a37b98c4120e62a0d687b5799d2190f38b925e55dba5041e5a073697ced",
+    "report_final_case_1.png": "c1e5e93fe5a949f114830f0a6e53b95e14c049775ded94fc3557bed646e51218",
+    "report_final_case_2.png": "580719e395ab483f48947317105528e68d8ddc651cf5786b96ed70268f46769c",
+    "report_final_case_3.png": "50064e185d317f0fba46acc157c065c99aecc1104a85fdcc6b2bf0cf1b323c86"
+  },
+  "summary_sha256": "39b75e12443c0a40c342b75626f1f92ca5c38e42f6c1dcc3bd8958d515b7555e",
+  "threshold_summary_sha256": "00c62dcd4878a8392f434ac25e87866f40edb94731e7521ae16f788f1eb6556a",
+  "builder_sha256": "f5c77e8cc18507d1a99e71e46c7f2744f6380e19ce6642f91b9af6feb7d358ba"
+}

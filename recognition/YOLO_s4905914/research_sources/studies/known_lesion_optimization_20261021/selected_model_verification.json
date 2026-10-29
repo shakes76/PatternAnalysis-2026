@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "scope": "selected paths, hashes, configuration, validation lock and checkpoint loading only",
+  "real_image_inference": false,
+  "new_reassessment_inference": false,
+  "candidate": "n_geometry",
+  "confidence": 0.4,
+  "checkpoint_sha256": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+  "parameters": 3011238,
+  "classes": {
+    "0": "Benign",
+    "1": "Malignant"
+  },
+  "runtime": {
+    "python": "3.13.13",
+    "platform": "macOS-26.3.1-arm64-arm-64bit-Mach-O",
+    "ultralytics": "8.3.221",
+    "torch": "2.8.0",
+    "torchvision": "0.23.0"
+  }
+}

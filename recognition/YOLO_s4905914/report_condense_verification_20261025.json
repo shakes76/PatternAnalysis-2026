@@ -1,0 +1,171 @@
+{
+  "status": "passed",
+  "date": "2026-10-25",
+  "pages_before": 30,
+  "pages_after": 14,
+  "tables_before": 39,
+  "tables_after": 8,
+  "figures_before": 9,
+  "figures_after": 6,
+  "readme_fragments_present_in_pdf": 322,
+  "protected_files_unchanged": {
+    "recognition/YOLO_s4905914/course_metrics_20261022.json": "f63cddc9ba9fcf4c40c541337ce2a78096fd74513cc2edb387638abe421bbd2f",
+    "recognition/YOLO_s4905914/reassessment_plan.json": "718f4061bdc86dadafbd2941955c859994a723fa1ba3bc84d8e0407cb9f494b0",
+    "recognition/YOLO_s4905914/evaluation_sources_20261023.json": "769823ef75b732bbec24a7df9620e8d28d47dade4b694ce831f907c020cdad2d",
+    "recognition/YOLO_s4905914/closeout_verification_20261022.json": "affcc993422593e27b5de379169b7e3dc061b09f2bece0079fba22307a8587be",
+    "recognition/YOLO_s4905914/report_revision_verification_20261023.json": "bbc3550d189744924456d4315b1134ea3b668b803ce95126ac89ab00d154101e",
+    "recognition/YOLO_s4905914/experiment_provisional.json": "b304d0a6b69df04ef1fae4ecd9dda5a0beca7020cd8ff8c72c589535b960857d",
+    "recognition/YOLO_s4905914/expanded_ns_comparison_plan.json": "736670a97a8e66e567dfb2f2ca17234ec9fca436e7ad1fd9ff5970fac4d6839c",
+    "recognition/YOLO_s4905914/reassessment_results_669815.json": "96280f5fe7dbfbe2f32a0b8616fe295e81be367c87b0a772d7d6aa24b4617cb4",
+    "recognition/YOLO_s4905914/coursework_model_decision.json": "d1ac66eb7fc76df97050e6332a39ed14595594539febdd72b62fc8f468cd23b5",
+    "recognition/YOLO_s4905914/followup_policy_decision_20261022.json": "fb330132d5032476c54a21cbdc5366446ca74aba01acb995a1d6c184a976348c",
+    "recognition/YOLO_s4905914/known_optimization_results_20261021.json": "00c62dcd4878a8392f434ac25e87866f40edb94731e7521ae16f788f1eb6556a",
+    "recognition/YOLO_s4905914/final_candidate_reassessment_20261022.json": "39b75e12443c0a40c342b75626f1f92ca5c38e42f6c1dcc3bd8958d515b7555e",
+    "recognition/YOLO_s4905914/known_optimization_decision_20261021.json": "c95c7f061ea2e3c13f8e0048125eb86425d125474760d9d81042a7c41759e2ab",
+    "recognition/YOLO_s4905914/followup_raw_diagnosis_20261022.json": "a5da734743b591047f5bdf1ea2ed0ef4b7db4383e5b03fb25c886ecdd9b1f199",
+    "recognition/YOLO_s4905914/expanded_n_results_669929.json": "832abe406e6f8734218f0b55edd41c24234c5f4b47780a0d3529851eaf9de278",
+    "recognition/YOLO_s4905914/expanded_evidence_provenance.json": "aa3ca58ac1d23bf673d5a911c53dfa1311806d8b9aa3c632eac857f594be904a",
+    "recognition/YOLO_s4905914/course_closeout_plan.json": "d83574913228042f529e8a8b479d223ada9d7b5c13b87ba3a3169610245652ad",
+    "recognition/YOLO_s4905914/expanded_ns_results_670000.json": "e4f6cbfaaa499cc99e70f227c02b54bd9dd56e373e48b247dac45d854b64eade",
+    "recognition/YOLO_s4905914/experiment.json": "7890293787b98902cadcf62878abd9e8f8c7396598f132e9437b590fe1650a5d",
+    "recognition/YOLO_s4905914/final_candidate_verification_20261022.json": "c74cb146ba613d7c81995ed50a3bcfd7402bd01e8a1ddf02f230048a904d0119",
+    "recognition/YOLO_s4905914/followup_policy_results_20261022.json": "269b955bb3385d6120441393170a0c5cacce74fe9ffe573dc30643b79870b723",
+    "recognition/YOLO_s4905914/validation_results_669143.json": "d9a12d978b3fcbcd2fad6b8eecee3dc9cd2d141725c02ade272c080899b0eef1",
+    "recognition/YOLO_s4905914/followup_decision_20261022.json": "6776838f41e66c5e2a99bea1065580bbfbfbb8accc4a1c8689aaa4b556e73138",
+    "recognition/YOLO_s4905914/weights_registry.json": "6226043ae7d30da8672e8ad174da011441c2c05f5099dc57642ee3b83b9bc290",
+    "recognition/YOLO_s4905914/followup_results_20261022.json": "342e6032c0aa8db9c442c0240170fd21938d4b4a8065cff00417277725113a1c",
+    "recognition/YOLO_s4905914/evaluation.py": "b123d75f1862ebcfae45d0eedbdb19c80628ec5e26608081b838a7a4236b204e",
+    "recognition/YOLO_s4905914/classification_metrics.py": "8b240d92486db6f614a3ba72f597a83dab0335a1f68569e8d494660f919d79a3",
+    "recognition/YOLO_s4905914/complete_course_metrics.py": "1ab4a6cbf1c525c9b4796d337dda9a39f4fc63b2744d0bc639a3218edd12e2e7",
+    "recognition/YOLO_s4905914/runtime.py": "e2d2696e8c8dcedfe610929a5b24d586e1d69b480189cbc79f311f0d39057ee4",
+    "outputs/known_lesion_optimization_20261021_681452/n_geometry/train_n/fit/weights/best.pt": "a1bd556186a1dc98d4b1d731fd59897e3084a70f6484e6b700586e6a09ef794c",
+    "outputs/known_lesion_optimization_20261021_681452/n_geometry/val_n/selection_lock.json": "ce6210ddad958648fc49c039e21735f467df0ff1325c5d3136649185232a319f",
+    "outputs/final_reassessment_cpu_20261022/evaluation/predictions.json": "29c9d49632583c1e11aae0cb00c8caad774a64189ce2228e50f60babd701d60a"
+  },
+  "long_report_preserved": true,
+  "removed_requested_header": true,
+  "no_running_headers_footers_page_numbers": true,
+  "source_sha256": "553e3026762beb529f0aa2be46a6b09639ed7f6e6d6f43c3ceacf66f830b5fc2",
+  "pdf_sha256": "1b5e9a6f4f5182a58dc4da2b7fbd23435c346fe3a7f4eda72ecfad8935ac4262",
+  "visual_check": "All 14 pages inspected; pipeline, cases and reproduction commands checked again after final edits; no clipping or overflow found",
+  "text_bounds": [
+    {
+      "page": 1,
+      "left": 48.0,
+      "right": 547.2755969999996,
+      "top": 47.93299999999999,
+      "bottom": 504.46650000000005
+    },
+    {
+      "page": 2,
+      "left": 48.0,
+      "right": 547.2755999999999,
+      "top": 46.69100000000003,
+      "bottom": 654.9665
+    },
+    {
+      "page": 3,
+      "left": 48.0,
+      "right": 547.275597,
+      "top": 46.69100000000003,
+      "bottom": 577.2497000000001
+    },
+    {
+      "page": 4,
+      "left": 48.0,
+      "right": 547.2755970000003,
+      "top": 46.69100000000003,
+      "bottom": 525.9665
+    },
+    {
+      "page": 5,
+      "left": 48.0,
+      "right": 547.2755829999995,
+      "top": 46.69100000000003,
+      "bottom": 556.9665
+    },
+    {
+      "page": 6,
+      "left": 48.0,
+      "right": 545.9519999999999,
+      "top": 46.69100000000003,
+      "bottom": 584.3895
+    },
+    {
+      "page": 7,
+      "left": 48.0,
+      "right": 547.2755899999995,
+      "top": 46.69100000000003,
+      "bottom": 474.96650000000005
+    },
+    {
+      "page": 8,
+      "left": 48.0,
+      "right": 545.4009999999997,
+      "top": 46.69100000000003,
+      "bottom": 433.96650000000005
+    },
+    {
+      "page": 9,
+      "left": 48.0,
+      "right": 547.2755959999998,
+      "top": 46.69100000000003,
+      "bottom": 487.46650000000005
+    },
+    {
+      "page": 10,
+      "left": 48.0,
+      "right": 547.2755969999995,
+      "top": 46.69100000000003,
+      "bottom": 567.8569
+    },
+    {
+      "page": 11,
+      "left": 48.0,
+      "right": 547.2755989999999,
+      "top": 46.69100000000003,
+      "bottom": 500.91170000000005
+    },
+    {
+      "page": 12,
+      "left": 48.0,
+      "right": 545.3819999999997,
+      "top": 46.69100000000003,
+      "bottom": 481.96650000000005
+    },
+    {
+      "page": 13,
+      "left": 48.0,
+      "right": 547.2249999999996,
+      "top": 46.69100000000003,
+      "bottom": 559.9665
+    },
+    {
+      "page": 14,
+      "left": 48.0,
+      "right": 547.2755819999996,
+      "top": 46.69100000000003,
+      "bottom": 519.4665
+    }
+  ],
+  "new_training": false,
+  "new_inference": false,
+  "model_or_threshold_changed": false,
+  "commit_performed": false,
+  "push_or_submission_performed": false,
+  "figure_choices": {
+    "retained": "one model pipeline, original baseline training histories, original-n versus geometry-n threshold comparison, three frozen final-model cases",
+    "supporting_record": "Full prior tables, exploratory expanded-data results and original baseline cases in EXPERIMENT_DETAILS.md"
+  },
+  "course_content_coverage": {
+    "problem_and_algorithm": "Sections 1 and 3",
+    "feasibility": "Section 2, one page",
+    "train_val_splits": "Section 1",
+    "training_curves": "Figure 2",
+    "baseline_comparison": "Sections 5 and 6",
+    "resources": "Section 10",
+    "failure_cases": "Figures 4-6",
+    "ioU_and_classification": "Sections 7-8",
+    "reproduction_and_disclosure": "Section 11"
+  }
+}

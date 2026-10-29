@@ -1,0 +1,10 @@
+{
+  "ordinary_predict_interface_compatible": true,
+  "model_names": {
+    "0": "Benign",
+    "1": "Malignant"
+  },
+  "checkpoint_sha256": "07029718bab250242214426bd395ff8183a2bebd712dc66f38bffa1d8ede67f7",
+  "no_image_inference": true,
+  "source": "main submission modules.py and runtime.py"
+}

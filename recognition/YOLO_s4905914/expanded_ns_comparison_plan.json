@@ -1,0 +1,71 @@
+{
+  "status": "locked_before_s_training",
+  "locked_at": "2026-10-18T00:00:59.320243+10:00",
+  "scope": "Exploratory n/s comparison on expanded training data and identical existing validation images",
+  "n_config_sha256": "feedb27cffd59c0d62dc9a23da8d68761ff6c0643771a06603d75a410bdb255f",
+  "s_config_sha256": "a34ce2fb711aec54fc48a4ffa0ab2b9dc0ad4d50b3c279c65ae38509a5e38b41",
+  "configuration_differences_only": [
+    "version",
+    "model_policy",
+    "release_decision"
+  ],
+  "n_reference_job": 669929,
+  "n_checkpoint_sha256": "1bc4fc127b2072b9631802c0be09df446c18d21aa7cefca926bf38d04ac8aaf5",
+  "n_evaluation_sha256": "73810b91ddab37d915850f0a981ec68ecc4fd04689c502c165775f967e6e9394",
+  "n_predictions_sha256": "f274bd3bf7b2bf39d659bec0412179c9f1ee7bbb0951b99717b6f47f65d76c93",
+  "n_selection_lock_sha256": "4ad151ffa24d29db909441931088610e264b2e8d6b198e16d7e22cc7a2ff5f15",
+  "same_training_evaluation_and_data_settings": true,
+  "training_images": 2263,
+  "training_classes": {
+    "Benign": 1826,
+    "Malignant": 437
+  },
+  "validation_images": 165,
+  "validation_classes": {
+    "Benign": 124,
+    "Malignant": 41
+  },
+  "epochs_each": 60,
+  "optimizer_calls_each": 8520,
+  "fresh_original_COCO_initialization_each": true,
+  "primary_fixed_thresholds": [
+    0.05,
+    0.5
+  ],
+  "additional_fixed_reference_threshold": 0.7,
+  "full_threshold_grid": [
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    0.95
+  ],
+  "primary_question": "At the same declared confidence threshold, does s increase malignant detection TP/recall AND reduce benign-image false alerts compared with n?",
+  "strict_joint_improvement_definition": "s malignant TP > n malignant TP and s benign false-alert image count < n benign false-alert image count; equal or mixed outcomes reported separately",
+  "other_reports": [
+    "classwise AP50/AP50:95 and macro mAP",
+    "all 14 fixed thresholds without grid refinement",
+    "same predeclared 10% benign-image false-alert selection rule with threshold differences explicit",
+    "paired per-image outcomes",
+    "training time, parameter counts and peak CUDA allocated memory; no mobile speed claim"
+  ],
+  "new_reassessment_inference": false,
+  "original_study_replaced": false,
+  "patient_or_complete_lesion_independence_proven": false,
+  "course_acceptance_confirmed": false,
+  "limitations": [
+    "Validation has already been reused for development; this is not a blind test.",
+    "Missing training identity links may inflate scores.",
+    "One training seed and 41 malignant validation images do not establish population superiority.",
+    "n/s initialization transfer and architecture differ; equal training settings do not isolate a single architectural cause."
+  ]
+}

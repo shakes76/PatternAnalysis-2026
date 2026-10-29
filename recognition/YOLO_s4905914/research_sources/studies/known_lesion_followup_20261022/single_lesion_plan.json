@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-10-22T04:46:10.696163+10:00",
+  "status": "locked_before_policy_scoring",
+  "basis": "Raw-score autopsy found class argmax losses but no localized malignant loss to NMS; user authorized further validation improvements",
+  "extension": "One explicit additional inference-policy trial; original three training comparisons remain unchanged",
+  "input_models": [
+    "n_geometry seed3710",
+    "n_geometry seed3711 only if initial rule passes"
+  ],
+  "rule": "At raw max-class-score floor 0.001 retain the single candidate with highest max(B,M); M if M/(B+M)>threshold, otherwise B; no GT is used in selection or decision",
+  "ratio_is_malignancy_probability": false,
+  "multi_lesion_applicability_proven": false,
+  "threshold_grid": [
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    0.95
+  ],
+  "benign_false_alert_budget": 0.1,
+  "selection_rule": "Highest malignant TP; ties: detection precision, fewer benign alerts, higher ratio threshold",
+  "improvement_rule": {
+    "extra_malignant_TP_at_least": 3,
+    "malignant_all_GT_IoU": "strictly greater",
+    "benign_all_GT_IoU": "no more than 0.03 lower than same-seed geometry reference"
+  },
+  "confirmation": "Apply unchanged policy and same grid to existing geometry seed3711 only if seed3710 meets rule; same-seed original operating point is reference",
+  "comparison_to_training_round": "If both a training variant and this policy confirm, choose higher malignant TP then higher all-GT M IoU, fewer B alerts, then prefer unchanged standard inference; do not combine policy with new training variants",
+  "new_reassessment_inference": false,
+  "manifest_sha256": {
+    "train": "8528722216b67d62078fe32632cb64128149053cc41ece6daec7399369126fca",
+    "val": "a4f6b6e9d8c7bbb476353f6789ec9e4d9170018564d04c70b855a2b10a125ff3"
+  },
+  "code_sha256": "8be8094483e925cfd5b2f5592c2bb3a1821c1255e79d509fc726ce5dcbc5c6a0",
+  "raw_diagnosis_sha256": "786d8edc55d78baa2f53d1300af623756aea95b0aa5b4eaa5219c30997f57aff",
+  "scope": "exploratory validation-only extension after diagnostic evidence, before observing policy results"
+}

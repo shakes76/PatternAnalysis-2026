@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "main_plan_sha256": "750729e6f26ad8ee3c5184c0b0fdb3e8f3f714216362238fac345b97401e954f",
+  "decision_sha256": "6776838f41e66c5e2a99bea1065580bbfbfbb8accc4a1c8689aaa4b556e73138",
+  "initial_training_runs": {
+    "n_resolution896": {
+      "environment_matches_reference": true,
+      "checkpoint_sha256": "ef8a896589e2a64f073fc05aa61dc6a97b431829cde3ff1d06dbd78364a522d1",
+      "validation_records": 165,
+      "optimizer_steps": 2880
+    },
+    "n_positive2": {
+      "environment_matches_reference": true,
+      "checkpoint_sha256": "07029718bab250242214426bd395ff8183a2bebd712dc66f38bffa1d8ede67f7",
+      "validation_records": 165,
+      "optimizer_steps": 2880
+    },
+    "s_geometry": {
+      "environment_matches_reference": true,
+      "checkpoint_sha256": "525432512d0bbfe91326306279146b42ec39b1101c91ff46f220fff57bffbad8",
+      "validation_records": 165,
+      "optimizer_steps": 2880
+    }
+  },
+  "source_and_provenance_checked_by_compare": true,
+  "old_protected_files_unchanged": 53,
+  "selected_config_checkpoint_lock_agree": true,
+  "new_reassessment_inference": false,
+  "raw_diagnostic_CPUGPU_counts_match": true,
+  "all_four_policy_and_training_trials_reported": true,
+  "s_checkpoint_loads_in_existing_predict_interface": true,
+  "no_new_confirmation_required": true
+}

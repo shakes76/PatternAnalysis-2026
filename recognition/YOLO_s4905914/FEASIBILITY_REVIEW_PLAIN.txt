@@ -1,0 +1,21 @@
+COMP3710 Project 3: Feasibility Review
+s4905914 | Plan dated 17 October 2026; wording revised 21 October | Check-off not verified
+
+Purpose and scope
+For a project manager considering a dermoscopy prototype, this study will compare YOLOv8n as the main baseline with YOLOv8s. The aim is to assess malignant detection recall while limiting alerts on benign images. Each image contains one annotated lesion, so multiple-lesion scenes are outside the study. Image alerts are a proxy for workload, not actual biopsy counts, and confidence is not a cancer probability.
+
+Data and model choice
+The planned main dataset contains the 1,098 images with lesion IDs from ISIC2018 Task 1: 824 benign and 274 malignant. Images connected by recorded lesion or patient IDs will stay in one split, giving 768 training, 165 validation and 165 supplementary reassessment images. The remaining 1,496 images are excluded. The selected subset still has 708 missing patient IDs, so full patient independence cannot be established. The teacher has accepted this restricted subset. Boxes come from official binary masks and classes from matched metadata. Both models use their own original COCO weights. The design applies convolutional features, multiscale fusion, box/class losses and NMS. Ultralytics provides the network and trainer.
+
+Five testable acceptance criteria
+1. Check every selected image, box and class label; verify split counts and no overlap of recorded lesion or patient IDs.
+2. Train n/s on the same split for 60 epochs with input size 640, batch 16, FP32, AdamW and flips only. Keep hashes of weights, data, configuration and checkpoints.
+3. Report classwise AP, precision, recall, TP/FP/FN and IoU with explicit matching and denominators. Confirm how the course's IoU target of 0.8 is averaged before claiming it is met.
+4. Select thresholds on validation to maximise malignant detection recall with at most 12 alerts among 124 benign images. This 10% limit is an experimental rule, not a clinical standard. Report if no threshold qualifies.
+5. Run an A100 preflight at batch 16 and input size 640 without nonfinite values or memory errors. Record peak memory, training time and the scope of latency/FPS measurements. The original budget is four GPU-hours for both main runs; runtime was not yet measured when this plan was written.
+
+Evidence, risks and next decision
+At the planning stage, checks included 40 unit tests, one-epoch synthetic n/s runs, preprocessing comparisons and original COCO weight checks. Synthetic results do not establish lesion accuracy. Risks include missing IDs, subset bias, weak malignant classification and repeated validation use. Earlier test images had been viewed; regrouping would not create a blind test. The planned sequence was tutor clarification and real-input/GPU checks, then a fixed n/s training protocol, validation threshold selection, one supplementary evaluation and 3-5 failure examples. If the subset was rejected, the split would need revision before training. If resource or numerical checks failed, both models' shared protocol would need review before rerunning.
+
+Course and authorship notes
+YOLOv8 is the Normal-difficulty option. The imported-component approach is accepted. Section 8 explains the IoU definitions and the teacher guidance. Codex assisted with code, checks and drafting; I remain responsible for reviewing and explaining the work. Sources: assessment Sections 2.3, 3 and 4; Ultralytics 8.3.221; Ed threads #136 and #147.

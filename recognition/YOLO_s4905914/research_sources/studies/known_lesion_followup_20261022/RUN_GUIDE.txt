@@ -1,0 +1,60 @@
+COMP3710 known-lesion follow-up, 22 October 2026
+
+Scope
+The main training plan was locked before new training. The three comparisons
+change resolution, malignant positive BCE weight or model capacity relative to
+the previously confirmed light-geometry YOLOv8n. A separate plan records one
+additional postprocessing trial motivated by raw-score diagnosis. All four
+comparisons must be reported, including negative outcomes. No reassessment
+images or predictions are read by the training or selection scripts.
+
+Data
+Use the existing data/known_lesion_v1 train and val manifests without resplitting.
+Known-ID cohort: 1,098 total, 768 train, 165 validation, 165 excluded reassessment.
+Source photos and masks remain unchanged. Recorded lesion and patient links
+do not cross these splits; missing patient IDs prevent a full independence claim.
+
+Reproduce on the school host, from the project root
+1. Use the pinned requirements in this study's code directory. The Slurm script
+   builds a node-local environment and checks package compatibility.
+2. python studies/known_lesion_followup_20261022/verify.py
+3. sbatch studies/known_lesion_followup_20261022/array_a100.sh
+   Use fresh output directories. Do not resubmit an already active/completed job.
+4. remote_status.py reads compact progress. The local sync.py downloads only
+   completed results, excluding staged photos, labels, caches and last.pt.
+5. python studies/known_lesion_followup_20261022/compare.py
+   This validates provenance and recomputes all operating-point metrics from
+   cached validation predictions. It does not run inference on another split.
+6. If and only if the completed comparison requests confirmation, run
+   prepare_confirmation.py once, upload the generated config and script, and
+   submit confirmation_a100.sh. There is at most one new confirmation run.
+7. Run finalize.py after all required comparisons and confirmation are complete.
+   Then run uncertainty.py and case_comparison.py. build_addendum.py creates
+   a separate report supplement; the earlier report and evidence are preserved.
+
+Implementation details
+The original Ultralytics detection loss is retained. In the weighting trial,
+BCEWithLogitsLoss uses pos_weight=[1,2], which changes only the malignant
+positive term for the upstream soft assignment targets. Assignment, box loss,
+DFL and sampling are unchanged. Its absolute cls_loss is not directly comparable
+to the unweighted training loss. Validation uses the ordinary unweighted loss.
+Checks show unit weights exactly reproduce upstream detection loss, box and
+DFL terms stay unchanged for fixed predictions, and backward gradients are finite.
+The callback is installed after EMA creation. Saved EMA checkpoints remain
+ordinary YOLOv8 models usable by the existing prediction interface.
+
+The single_lesion_policy.py extension accepts only raw boxes and scores. It has
+no access to GT. The highest max(B,M) candidate is retained and its M/(B+M) ratio
+is compared with the locked grid. That ratio is not a malignancy probability.
+GT is added by evaluate_policy.py only to compute evaluation metrics. This rule
+was rejected at seed3710 and does not replace ordinary inference.
+
+Evidence and limitations
+Main endpoint: malignant recall with <=12/124 benign-image alerts, match IoU0.5.
+All-GT correct-class IoU, TP-only IoU and class-agnostic IoU have different meanings.
+The course test-IoU target and its denominator cannot be inferred from validation.
+Repeated tuning on these 165 images increases selection optimism. A second seed
+on the same images checks repeatability, not independent generalization.
+The 10% false-alert budget is an experimental comparison rule, not a clinical
+acceptability claim. Image alerts are not biopsy counts. No submission or remote
+repository publication is performed by these scripts.

@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "completed_recorded_at": "2026-10-22T21:01:55.447142+10:00",
+  "cancelled_pending_A100_job": 686313,
+  "actual_run": "outputs/final_reassessment_cpu_20261022",
+  "device": "cpu",
+  "audit_status": "passed",
+  "report_summary": "recognition/YOLO_s4905914/final_candidate_reassessment_20261022.json",
+  "new_training": false,
+  "threshold_search": false,
+  "selection_changed": false,
+  "fresh_blind_test": false
+}
