@@ -1,0 +1,4 @@
+model,accuracy,ad_recall,cn_specificity,main_ad_misses,main_cn_false_alarms,supplement_ad_misses,supplement_cn_false_alarms
+CNN-A,0.7205882353,0.3863636364,0.8804347826,27,11,10,24
+CNN-B,0.7352941176,0.4545454545,0.8695652174,24,12,11,21
+ConvNeXt-F,0.8088235294,0.6590909091,0.8804347826,15,11,3,21

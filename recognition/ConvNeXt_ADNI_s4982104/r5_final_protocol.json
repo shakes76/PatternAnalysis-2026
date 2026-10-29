@@ -1,0 +1,311 @@
+{
+  "schema": 1,
+  "scope": "frozen_final_evaluation",
+  "models": [
+    "CNN-A",
+    "CNN-B",
+    "ConvNeXt-F"
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "primary_model": "ConvNeXt-F",
+  "source_summaries_sha256": {
+    "r5_ensemble_validation/ensemble_summary.json": "cd2e5f92fd07b7154b3ba04ffdfe65f3aedca02a02577e5eb5b64c0c9cf2d109",
+    "r5_temperature_validation/temperature_summary.json": "0c13afa9f7b35b36d5fb04dacb3ff0ba4ad9e8d212fa10075c8adc51e27c7bd9",
+    "r5_ensemble_thresholds/threshold_summary.json": "e8f29b5319dfe1b97d71a1e7f703fb8ac778ed704fa8e3b419b2cbfa9ecd3dc2",
+    "r5_referral_validation/referral_summary.json": "60ef5534cbb85cabc309424aeec6981f605f34c2cc4def08c1acdfcfeb8c63f3"
+  },
+  "split_files_sha256": {
+    "split_seed42_60_20_20/split_samples.csv": "633d2122e447203d2506f4b214f6638b5b15c7afe73927de2c0acc28f0e4fe20",
+    "split_seed42_60_20_20/split_summary.json": "453693f6338b34cefe7f26491b396e2be59b13af691492bbd5a75f819490236c"
+  },
+  "checkpoints": [
+    {
+      "model": "CNN-A",
+      "seed": 42,
+      "epoch": 28,
+      "checkpoint_sha256": "2bc73f2cd6e0dd19dd303e67bd12754769141c6da0e42bd199e076351dbef106",
+      "source": "r3_cnn_formal_seed42_705863/run/A",
+      "files": {
+        "training_summary.json": "1337710abb39792ed4225faafa8fdcb9f43a80d5a4352fa4106dadcdc7788cdb",
+        "selection/selection_summary.json": "fcfb28aa1111b46baff73c734558fcb72edc5ded3e2fa70358e171d7eb366f8b",
+        "reload/patient_nll/patient_predictions.csv": "117c264d65059bea2ba1a12347976ace8efa5a7c8b9d99dd485f25fc203306f8",
+        "selection/best_patient_nll.pt": "2bc73f2cd6e0dd19dd303e67bd12754769141c6da0e42bd199e076351dbef106"
+      }
+    },
+    {
+      "model": "CNN-B",
+      "seed": 42,
+      "epoch": 27,
+      "checkpoint_sha256": "035cb71446378ba3db4bb97f7cbfcc63d0ec144bb98a39fb14a58dfcd0000158",
+      "source": "r3_cnn_formal_seed42_705863/run/B",
+      "files": {
+        "training_summary.json": "daa3ae66cf3e954cc632054237046cf4c1187269d1dcc949698f1f68dc9c81bd",
+        "selection/selection_summary.json": "872a5922dd53df39ae6922061aec8995e1ff5a35cfc043cae0cfcda293a60754",
+        "reload/patient_nll/patient_predictions.csv": "333ab5da74ea507263fd1e7730b1aaa00cd8fd5496d9af9955fb885efd6ba3d6",
+        "selection/best_patient_nll.pt": "035cb71446378ba3db4bb97f7cbfcc63d0ec144bb98a39fb14a58dfcd0000158"
+      }
+    },
+    {
+      "model": "CNN-A",
+      "seed": 43,
+      "epoch": 24,
+      "checkpoint_sha256": "47cc8aad908cc16c1ab00edea817f52aba16a2fa271e1ab0e96ee301a013730b",
+      "source": "r3_cnn_formal_seed43_705982/run/A",
+      "files": {
+        "training_summary.json": "84cd57405493bca161c3c9b540991590d550656211fc4d4781dc8fbf01781fb7",
+        "selection/selection_summary.json": "d23b0113881f64177f52871874b91cb3bf67983ac8d75caed11e343aa5b08d5e",
+        "reload/patient_nll/patient_predictions.csv": "4cd1fc244d0900e8a5569c2d5dd5d46fe9802c9a217c52c2443c175f1411e682",
+        "selection/best_patient_nll.pt": "47cc8aad908cc16c1ab00edea817f52aba16a2fa271e1ab0e96ee301a013730b"
+      }
+    },
+    {
+      "model": "CNN-B",
+      "seed": 43,
+      "epoch": 20,
+      "checkpoint_sha256": "e4faced66a93fb9b7d3f5fc4256836a9c5ce6b8e6074955ad44ef74a2200fe70",
+      "source": "r3_cnn_formal_seed43_705982/run/B",
+      "files": {
+        "training_summary.json": "2b64a61b47949483baf01421fae0ca39efc6a4943c73cffd1734a0552ce06854",
+        "selection/selection_summary.json": "82063cbbb0ce0c625446484b7b26814bc98093f2d067dca391ce84ecddea40e8",
+        "reload/patient_nll/patient_predictions.csv": "44e79184e9e414b066ed7ffa519ffd05b4b2b023744c810c7abafd7e27bade75",
+        "selection/best_patient_nll.pt": "e4faced66a93fb9b7d3f5fc4256836a9c5ce6b8e6074955ad44ef74a2200fe70"
+      }
+    },
+    {
+      "model": "CNN-A",
+      "seed": 44,
+      "epoch": 26,
+      "checkpoint_sha256": "72332d9e67a70354aae2e78c60fccf6d599f32810171b2c489677dfc7c3edd66",
+      "source": "r3_cnn_formal_seed44_705983/run/A",
+      "files": {
+        "training_summary.json": "4b3f4b2419047e4fdad3ae701dd2993f461e1148d73de5c026046b98dda7de86",
+        "selection/selection_summary.json": "3c204aa9199915d9ddebc21e735bdc9404b889d0fa11edc79c8d652a03581f27",
+        "reload/patient_nll/patient_predictions.csv": "47207c701607d09da4568f6832cc7d79bea6e2b0dd1933771f0609358712ad59",
+        "selection/best_patient_nll.pt": "72332d9e67a70354aae2e78c60fccf6d599f32810171b2c489677dfc7c3edd66"
+      }
+    },
+    {
+      "model": "CNN-B",
+      "seed": 44,
+      "epoch": 25,
+      "checkpoint_sha256": "ac0fafdd27e6b6ac8754f054c4fda149b3e4e5bfe0a1d844095c99259537552c",
+      "source": "r3_cnn_formal_seed44_705983/run/B",
+      "files": {
+        "training_summary.json": "68e7a96e6429aec9397e242458187483bb32575088452f2da5854a08bd43c672",
+        "selection/selection_summary.json": "89029b5205549ff48dcba20dd60476c81d1cb431f064de67e57f90f63e774c09",
+        "reload/patient_nll/patient_predictions.csv": "0828ace62f3cda48387d091dd894a85df410917da7aca1586f5f4f2ccae4fc18",
+        "selection/best_patient_nll.pt": "ac0fafdd27e6b6ac8754f054c4fda149b3e4e5bfe0a1d844095c99259537552c"
+      }
+    },
+    {
+      "model": "ConvNeXt-F",
+      "seed": 42,
+      "epoch": 4,
+      "checkpoint_sha256": "23c97fe3698458ba6a94fc1a20578cc7376eed6f99fdd2a69e01f087025ea4fb",
+      "source": "r3_convnext_seed42_706130/run",
+      "files": {
+        "training_summary.json": "98e5cf0d81732d3edab3de3f8eaa3b4a2ac948312c1a870f21d0ea2a99beb934",
+        "selection/selection_summary.json": "04a18f739dcf48d3618c934e08b28401d0dcd969ff5954c4c5759b8124a3dc4b",
+        "reload/patient_nll/patient_predictions.csv": "3c9bc37f793179f166ed3dfbd877bfb1a10b9740f50750481084961e096498f2",
+        "selection/best_patient_nll.pt": "23c97fe3698458ba6a94fc1a20578cc7376eed6f99fdd2a69e01f087025ea4fb"
+      }
+    },
+    {
+      "model": "ConvNeXt-F",
+      "seed": 43,
+      "epoch": 1,
+      "checkpoint_sha256": "b74567d4a4eb25f438120e685133a61433f9fa3279ebf3e4af52f2d453e0249c",
+      "source": "r3_convnext_seed43_706348/run",
+      "files": {
+        "training_summary.json": "77d933350d8ae8bcc936d64a8d8c30cca0f7412e7bcb1b7e3c09848ca2565854",
+        "selection/selection_summary.json": "95e935ceb023e2bdcdc7a3e174e0e6b5805904bf5baa8d6d47b0faefa2bab1fd",
+        "reload/patient_nll/patient_predictions.csv": "0efbbaccaa4899930561108f80e1e2888bbde85140afd84eb506e3429d0bb988",
+        "selection/best_patient_nll.pt": "b74567d4a4eb25f438120e685133a61433f9fa3279ebf3e4af52f2d453e0249c"
+      }
+    },
+    {
+      "model": "ConvNeXt-F",
+      "seed": 44,
+      "epoch": 30,
+      "checkpoint_sha256": "b4b46de769ad440e497746d14ca603cf431eb2b2b0855abe1838534a8009a1e3",
+      "source": "r3_convnext_seed44_706349/run",
+      "files": {
+        "training_summary.json": "8d83d72e607a788f94171db5dbb87ed26ebc8f6fe67ff8c9f15a2cbc9f0e1e4f",
+        "selection/selection_summary.json": "7aa346b12ab5a4315c746b33bbc744b5b5c1e6618963869033f21032e7918eba",
+        "reload/patient_nll/patient_predictions.csv": "889a49450af52105f5c470645c66b7a07f9607f6b3af2aaef46588c5f335038f",
+        "selection/best_patient_nll.pt": "b4b46de769ad440e497746d14ca603cf431eb2b2b0855abe1838534a8009a1e3"
+      }
+    }
+  ],
+  "selection_rule": "patient_nll",
+  "temperatures": {
+    "CNN-A": 0.812076771567428,
+    "CNN-B": 0.8030905948350363,
+    "ConvNeXt-F": 1.2772514989471826
+  },
+  "supplemental_thresholds": {
+    "CNN-A": 0.28893170066982987,
+    "CNN-B": 0.3335873641114919,
+    "ConvNeXt-F": 0.30321078002306473
+  },
+  "cohort": {
+    "split": "test",
+    "patients": 136,
+    "ad": 44,
+    "nc": 92,
+    "slices": 2720,
+    "manifest_records_sha256": "d61b1ff18139dda8186631759fef1ada75729743d94afff1e29522ebe6e95954"
+  },
+  "aggregation": {
+    "slices_per_patient": 20,
+    "seed_weights": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ]
+  },
+  "inference": {
+    "batch_size": 4,
+    "precision": "float32",
+    "tf32": false,
+    "amp": false,
+    "compile": false,
+    "num_workers": 0,
+    "cpu_threads": 2,
+    "cudnn_benchmark": false,
+    "deterministic": true,
+    "memory_format": "contiguous",
+    "mode": "inference_mode",
+    "shuffle": false,
+    "drop_last": false,
+    "preprocessing": {
+      "CNN-A": {
+        "height": 240,
+        "width": 256,
+        "channels": 1,
+        "color_mode": "L",
+        "resize": "Pillow bilinear (only when size differs)",
+        "normalization": "uint8 / 255.0",
+        "value_range": [
+          0.0,
+          1.0
+        ],
+        "image_dtype": "torch.float32",
+        "label_dtype": "torch.int64",
+        "random_augmentation": false
+      },
+      "CNN-B": {
+        "height": 240,
+        "width": 256,
+        "channels": 1,
+        "color_mode": "L",
+        "resize": "Pillow bilinear (only when size differs)",
+        "normalization": "uint8 / 255.0",
+        "value_range": [
+          0.0,
+          1.0
+        ],
+        "image_dtype": "torch.float32",
+        "label_dtype": "torch.int64",
+        "random_augmentation": false
+      },
+      "ConvNeXt-F": {
+        "color_mode": "L replicated to RGB",
+        "channels": 3,
+        "resize_short_edge": 236,
+        "crop_size": 224,
+        "interpolation": "bilinear",
+        "antialias": true,
+        "normalization": "uint8 / 255, then channel (x-mean)/std",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "image_dtype": "torch.float32",
+        "label_dtype": "torch.int64",
+        "random_augmentation": false,
+        "backend": "PIL resize/crop, TorchVision tensor conversion"
+      }
+    }
+  },
+  "evaluation": {
+    "main_threshold": 0.5,
+    "nll_epsilon": 1e-07,
+    "ece_bins": 10,
+    "referral_rates": [
+      0,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "primary_referral_rate": 0.1,
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 42,
+    "confidence_level": 0.95,
+    "quantile_method": "linear"
+  },
+  "referral": {
+    "ranking": "abs(raw ensemble p - 0.5) ascending then patient_id lexicographic",
+    "rounding": "ceil(rate*N)",
+    "selection_inputs": [
+      "patient_id",
+      "p_ad_raw"
+    ],
+    "human_correction_assumed": false,
+    "zero_denominator": null
+  },
+  "reporting": {
+    "primary": "full-cohort calibrated ConvNeXt-F ensemble at 0.5",
+    "metrics": [
+      "accuracy",
+      "ad_recall",
+      "nc_specificity",
+      "macro_f1",
+      "auroc",
+      "nll",
+      "brier",
+      "confidence_ece_at_0_5"
+    ],
+    "seed_sd": "sample SD, separate from patient bootstrap intervals",
+    "bootstrap": "2000 stratified patient draws, PCG64 seed42, NC then AD; shared indices; percentile 95%",
+    "uncertainty_scope": "conditional on fixed models, calibration, thresholds and class counts; ECE/referral descriptive",
+    "test_policy": "apply frozen rules once; no fitting, threshold search, model selection or human-oracle correction"
+  },
+  "runtime_reference": {
+    "python": "3.11.13",
+    "torch": "2.14.0+cu130",
+    "torchvision": "0.29.0",
+    "cuda": "13.0",
+    "gpu": "NVIDIA A100-PCIE-40GB"
+  },
+  "code_sha256": {
+    "check_dataloader.py": "5025f675a8d407adcbebd4b43f73b8057803a227b6ebbbeca3252ee6ad1faa73",
+    "dataset.py": "3dcce03fd55ebeec9ad5512082c5a3252ada76297a03fe63db50af8b527c9d56",
+    "final_evaluation.py": "6718262c01be20411846423df7814ad310d5e0f7d36f137d3598e4cb08f7d95d",
+    "modules.py": "47bdd94a3392a2ac23e0b40a23606ec3837c4c1f4153747a3e38c830ceb5b4c6",
+    "patient_evaluation.py": "d7297cae5bf4381466c1b39893acf98ade4ce4573b86693c9c37f048f7da60f5",
+    "plot_r5_referral.py": "90eb9586dc4f7d2923d9929563a72bc28f323cc77ce7bc65f6c5dec92adad679",
+    "plot_r5_reliability.py": "82a83157347d8028f6acd5284b061d87f4249c1dcf567750701a386bc4ab09b6",
+    "predict.py": "0baf2309f2fe724092b499fe859a652c20ee361b5af5c89a4277265914594e44",
+    "r4_frozen_bests.json": "d781fb6bec3f9e378aaf6ddfa08229aadb2fc3c7361159f01e87b3be0106ebb4",
+    "requirements.txt": "b7dc2777ca0b27d2d20b307a7d0ca274d1c367e1effaa6142fd4a47c2bcbacb8",
+    "run_r3_threshold.py": "5b71c9f27374731b9c5fbcd9dd97f4781c426635993289e93157bb1cc518f762",
+    "run_r5_ensemble.py": "314161e9e4912e1d555aabcbc471961dde07ab93af20d550cf749d1d56801b3b",
+    "run_r5_freeze.py": "b59d2b662537468126d78a81b4cc354f9dbe44b5491d44aff437e0b944fb6982",
+    "run_r5_referral.py": "dbeb8753d126be7926caf9ab36c18545a9c33ff842a2f4adfb85cdc9ca7f6aac",
+    "run_r5_temperature.py": "7cf8b075fe069f6ca6a6ca2b39876344a28c736597b7be2595ec150ab5206c5b",
+    "run_r5_threshold.py": "b34db5f7ee07207b09895d8caed3a860d11aeddc41a2a6118cde1bb2718ca3be",
+    "train.py": "f49c3e4990c3470314083beca7eff464c0650214ea83e8166cf64032a33388d7"
+  },
+  "physical_checkpoint_verification": "required on cluster before R6 inference; not claimed locally"
+}

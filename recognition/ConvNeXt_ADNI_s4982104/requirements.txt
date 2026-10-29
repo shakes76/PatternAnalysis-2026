@@ -1,0 +1,12 @@
+# Data manifest and scan-selection stage
+Pillow==12.3.0
+
+# C0b: PyTorch dataset and NumPy interoperability
+torch==2.14.0
+numpy==2.4.6
+
+# N1: official reference model and preprocessing; torch stays at 2.14.0
+torchvision==0.29.0
+
+# R5b: local reliability plots; training settings are unchanged
+matplotlib==3.11.2

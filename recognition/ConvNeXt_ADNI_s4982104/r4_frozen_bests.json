@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "selection_rule": "patient_nll",
+  "r3f_summary_sha256": "09b6292cdc99afd6d3ba84410f9cfce353f904ec8f60ba78f124f77d4dbd4a32",
+  "data_files": {
+    "split_seed42_60_20_20/split_samples.csv": "633d2122e447203d2506f4b214f6638b5b15c7afe73927de2c0acc28f0e4fe20",
+    "split_seed42_60_20_20/split_summary.json": "453693f6338b34cefe7f26491b396e2be59b13af691492bbd5a75f819490236c"
+  },
+  "runs": [
+    {
+      "model": "CNN-A",
+      "seed": 42,
+      "epoch": 28,
+      "checkpoint_sha256": "2bc73f2cd6e0dd19dd303e67bd12754769141c6da0e42bd199e076351dbef106",
+      "source": "r3_cnn_formal_seed42_705863/run/A",
+      "files": {
+        "training_summary.json": "1337710abb39792ed4225faafa8fdcb9f43a80d5a4352fa4106dadcdc7788cdb",
+        "selection/selection_summary.json": "fcfb28aa1111b46baff73c734558fcb72edc5ded3e2fa70358e171d7eb366f8b",
+        "reload/patient_nll/patient_predictions.csv": "117c264d65059bea2ba1a12347976ace8efa5a7c8b9d99dd485f25fc203306f8",
+        "selection/best_patient_nll.pt": "2bc73f2cd6e0dd19dd303e67bd12754769141c6da0e42bd199e076351dbef106"
+      }
+    },
+    {
+      "model": "CNN-B",
+      "seed": 42,
+      "epoch": 27,
+      "checkpoint_sha256": "035cb71446378ba3db4bb97f7cbfcc63d0ec144bb98a39fb14a58dfcd0000158",
+      "source": "r3_cnn_formal_seed42_705863/run/B",
+      "files": {
+        "training_summary.json": "daa3ae66cf3e954cc632054237046cf4c1187269d1dcc949698f1f68dc9c81bd",
+        "selection/selection_summary.json": "872a5922dd53df39ae6922061aec8995e1ff5a35cfc043cae0cfcda293a60754",
+        "reload/patient_nll/patient_predictions.csv": "333ab5da74ea507263fd1e7730b1aaa00cd8fd5496d9af9955fb885efd6ba3d6",
+        "selection/best_patient_nll.pt": "035cb71446378ba3db4bb97f7cbfcc63d0ec144bb98a39fb14a58dfcd0000158"
+      }
+    },
+    {
+      "model": "CNN-A",
+      "seed": 43,
+      "epoch": 24,
+      "checkpoint_sha256": "47cc8aad908cc16c1ab00edea817f52aba16a2fa271e1ab0e96ee301a013730b",
+      "source": "r3_cnn_formal_seed43_705982/run/A",
+      "files": {
+        "training_summary.json": "84cd57405493bca161c3c9b540991590d550656211fc4d4781dc8fbf01781fb7",
+        "selection/selection_summary.json": "d23b0113881f64177f52871874b91cb3bf67983ac8d75caed11e343aa5b08d5e",
+        "reload/patient_nll/patient_predictions.csv": "4cd1fc244d0900e8a5569c2d5dd5d46fe9802c9a217c52c2443c175f1411e682",
+        "selection/best_patient_nll.pt": "47cc8aad908cc16c1ab00edea817f52aba16a2fa271e1ab0e96ee301a013730b"
+      }
+    },
+    {
+      "model": "CNN-B",
+      "seed": 43,
+      "epoch": 20,
+      "checkpoint_sha256": "e4faced66a93fb9b7d3f5fc4256836a9c5ce6b8e6074955ad44ef74a2200fe70",
+      "source": "r3_cnn_formal_seed43_705982/run/B",
+      "files": {
+        "training_summary.json": "2b64a61b47949483baf01421fae0ca39efc6a4943c73cffd1734a0552ce06854",
+        "selection/selection_summary.json": "82063cbbb0ce0c625446484b7b26814bc98093f2d067dca391ce84ecddea40e8",
+        "reload/patient_nll/patient_predictions.csv": "44e79184e9e414b066ed7ffa519ffd05b4b2b023744c810c7abafd7e27bade75",
+        "selection/best_patient_nll.pt": "e4faced66a93fb9b7d3f5fc4256836a9c5ce6b8e6074955ad44ef74a2200fe70"
+      }
+    },
+    {
+      "model": "CNN-A",
+      "seed": 44,
+      "epoch": 26,
+      "checkpoint_sha256": "72332d9e67a70354aae2e78c60fccf6d599f32810171b2c489677dfc7c3edd66",
+      "source": "r3_cnn_formal_seed44_705983/run/A",
+      "files": {
+        "training_summary.json": "4b3f4b2419047e4fdad3ae701dd2993f461e1148d73de5c026046b98dda7de86",
+        "selection/selection_summary.json": "3c204aa9199915d9ddebc21e735bdc9404b889d0fa11edc79c8d652a03581f27",
+        "reload/patient_nll/patient_predictions.csv": "47207c701607d09da4568f6832cc7d79bea6e2b0dd1933771f0609358712ad59",
+        "selection/best_patient_nll.pt": "72332d9e67a70354aae2e78c60fccf6d599f32810171b2c489677dfc7c3edd66"
+      }
+    },
+    {
+      "model": "CNN-B",
+      "seed": 44,
+      "epoch": 25,
+      "checkpoint_sha256": "ac0fafdd27e6b6ac8754f054c4fda149b3e4e5bfe0a1d844095c99259537552c",
+      "source": "r3_cnn_formal_seed44_705983/run/B",
+      "files": {
+        "training_summary.json": "68e7a96e6429aec9397e242458187483bb32575088452f2da5854a08bd43c672",
+        "selection/selection_summary.json": "89029b5205549ff48dcba20dd60476c81d1cb431f064de67e57f90f63e774c09",
+        "reload/patient_nll/patient_predictions.csv": "0828ace62f3cda48387d091dd894a85df410917da7aca1586f5f4f2ccae4fc18",
+        "selection/best_patient_nll.pt": "ac0fafdd27e6b6ac8754f054c4fda149b3e4e5bfe0a1d844095c99259537552c"
+      }
+    },
+    {
+      "model": "ConvNeXt-F",
+      "seed": 42,
+      "epoch": 4,
+      "checkpoint_sha256": "23c97fe3698458ba6a94fc1a20578cc7376eed6f99fdd2a69e01f087025ea4fb",
+      "source": "r3_convnext_seed42_706130/run",
+      "files": {
+        "training_summary.json": "98e5cf0d81732d3edab3de3f8eaa3b4a2ac948312c1a870f21d0ea2a99beb934",
+        "selection/selection_summary.json": "04a18f739dcf48d3618c934e08b28401d0dcd969ff5954c4c5759b8124a3dc4b",
+        "reload/patient_nll/patient_predictions.csv": "3c9bc37f793179f166ed3dfbd877bfb1a10b9740f50750481084961e096498f2",
+        "selection/best_patient_nll.pt": "23c97fe3698458ba6a94fc1a20578cc7376eed6f99fdd2a69e01f087025ea4fb"
+      }
+    },
+    {
+      "model": "ConvNeXt-F",
+      "seed": 43,
+      "epoch": 1,
+      "checkpoint_sha256": "b74567d4a4eb25f438120e685133a61433f9fa3279ebf3e4af52f2d453e0249c",
+      "source": "r3_convnext_seed43_706348/run",
+      "files": {
+        "training_summary.json": "77d933350d8ae8bcc936d64a8d8c30cca0f7412e7bcb1b7e3c09848ca2565854",
+        "selection/selection_summary.json": "95e935ceb023e2bdcdc7a3e174e0e6b5805904bf5baa8d6d47b0faefa2bab1fd",
+        "reload/patient_nll/patient_predictions.csv": "0efbbaccaa4899930561108f80e1e2888bbde85140afd84eb506e3429d0bb988",
+        "selection/best_patient_nll.pt": "b74567d4a4eb25f438120e685133a61433f9fa3279ebf3e4af52f2d453e0249c"
+      }
+    },
+    {
+      "model": "ConvNeXt-F",
+      "seed": 44,
+      "epoch": 30,
+      "checkpoint_sha256": "b4b46de769ad440e497746d14ca603cf431eb2b2b0855abe1838534a8009a1e3",
+      "source": "r3_convnext_seed44_706349/run",
+      "files": {
+        "training_summary.json": "8d83d72e607a788f94171db5dbb87ed26ebc8f6fe67ff8c9f15a2cbc9f0e1e4f",
+        "selection/selection_summary.json": "7aa346b12ab5a4315c746b33bbc744b5b5c1e6618963869033f21032e7918eba",
+        "reload/patient_nll/patient_predictions.csv": "889a49450af52105f5c470645c66b7a07f9607f6b3af2aaef46588c5f335038f",
+        "selection/best_patient_nll.pt": "b4b46de769ad440e497746d14ca603cf431eb2b2b0855abe1838534a8009a1e3"
+      }
+    }
+  ]
+}

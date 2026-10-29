@@ -1,0 +1,134 @@
+# Local datasets and learned weights
+/data/
+/datasets/
+/checkpoints/
+/runs/
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.hdf5
+*.safetensors
+*.onnx
+*.nii
+*.nii.gz
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+.env
+.DS_Store
+
+# Generated manifests and issue logs stay on the cluster
+samples.csv
+samples_issues.csv
+manifest_summary.json
+/manifests/
+
+# B3 private scan checks and selection outputs
+/selection_seed42*/
+scan_checks.csv
+selected_scans.csv
+selected_samples.csv
+selection_summary.json
+
+# B6 patient split outputs (private)
+/split_seed42_60_20_20*/
+patient_splits.csv
+split_samples.csv
+split_summary.json
+
+# C0a environment evidence and private sample
+/c0a_environment_check*/
+environment_check_summary.json
+training_sample.jpeg
+
+# Private dataset-loading check outputs
+/c0b_dataset_check*/
+dataset_check_summary.json
+
+# Private C0c evidence
+/c0c_loader_check*/
+loader_check_summary.json
+loader_check.log
+
+# Private CNN smoke evidence and weights
+/cnn_smoke_check*/
+cnn_check_summary.json
+cnn_check.log
+smoke_checkpoint.pt
+
+# Private C2 pilot evidence
+/c2_pilot*/
+c2-slurm-*.out
+training_summary.json
+training.log
+epochs.jsonl
+
+# Private C3 validation predictions
+/c3_validation*/
+c3-slurm-*.out
+prediction_summary.json
+prediction.log
+slice_predictions.csv
+patient_predictions.csv
+
+# Private paired compatibility evidence
+/e2_compatibility*/
+e2-slurm-*.out
+e2_summary.json
+e2_error.log
+
+# Private E3 baseline evidence
+/e3_A42*/
+e3-slurm-*.out
+e3_summary.json
+e3_error.log
+comparison.csv
+
+# Private E4 weighted comparison evidence
+/e4_B42*/
+e4-slurm-*.out
+e4_summary.json
+e4_error.log
+comparison_A42_B42.csv
+
+# Private E5 multi-seed evidence
+/e5_pairs*/
+e5-slurm-*.out
+e5_summary.json
+e5_error.log
+runs.csv
+paired_differences.csv
+aggregate.csv
+
+# Private ConvNeXt weight and smoke evidence
+/convnext_pretrained_check*/
+/convnext_smoke_check*/
+convnext_tiny_weights_summary.json
+convnext_check_summary.json
+convnext_check.log
+crop_previews.json
+/crop_previews/
+n2-slurm-*.out
+n2-slurm-*.err
+
+# N3 private evidence
+/convnext_pilot*/
+/n3-slurm-*.out
+/n3-slurm-*.err
+
+# N5 private formal run evidence
+/convnext_formal*/
+/n5-slurm-*.out
+/n5-slurm-*.err
+n5_summary.json
+n5_error.log
+*.pt.tmp
+
+# R2 diagnostic evidence remains private
+/r2_diagnostic*/
+/r2-slurm-*.out
+/r2-slurm-*.err
+r2_summary.json
+r2_error.log
