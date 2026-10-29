@@ -1,0 +1,53 @@
+{
+  "model": "baseline",
+  "arguments": {
+    "model": "baseline",
+    "epochs": 2,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "data_root": "adni_subset\\AD_NC",
+    "output_dir": "testout_local",
+    "num_workers": 0,
+    "seed": 42
+  },
+  "trainable_parameters": 421474,
+  "best_epoch": 1,
+  "best_validation_accuracy": 0.5,
+  "test_metrics": {
+    "accuracy": 0.5,
+    "per_class": {
+      "NC": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 400
+      },
+      "AD": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "true_positives": 400,
+        "false_positives": 400,
+        "false_negatives": 0
+      }
+    },
+    "macro_f1": 0.3333333333333333
+  },
+  "resources": {
+    "peak_vram_gb": 1.258784294128418,
+    "total_training_seconds": 20.16021203994751,
+    "mean_epoch_seconds": 10.063142895698547,
+    "inference": {
+      "images_per_second": 1305.5291193268172,
+      "milliseconds_per_image": 0.7659729570150375
+    },
+    "device": "NVIDIA GeForce RTX 5050 Laptop GPU"
+  },
+  "versions": {
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8"
+  }
+}

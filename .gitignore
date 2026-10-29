@@ -1,0 +1,117 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments. My venv lives outside the repo, but this catches the
+# case where I accidentally create one inside it.
+venv/
+.venv/
+env/
+ENV/
+
+# ---------------------------------------------------------------------------
+# Vim leftovers
+# ---------------------------------------------------------------------------
+# Vim writes a swap file while a buffer is open and leaves it behind if the
+# session is killed - which happens often on Rangpur when an SSH connection
+# drops. The extensions run .swp, .swo, .swn and so on as more swaps pile up
+# for the same file, so the pattern covers the whole range.
+*.swp
+*.swo
+*.sw[a-z]
+
+# Backup copies vim writes when 'backup' is on, and the undo history files.
+*~
+*.bak
+*.un~
+.netrwhist
+
+# ---------------------------------------------------------------------------
+# Other editors, in case I open the repo locally rather than on the cluster
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-*
+
+# ---------------------------------------------------------------------------
+# macOS and Linux filesystem clutter
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# ---------------------------------------------------------------------------
+# Trained model files - THE IMPORTANT ONE
+# ---------------------------------------------------------------------------
+# The assignment says not to commit model files, and that committing
+# multi-gigabyte files will get the pull request rejected. A GFNet checkpoint
+# is tens or hundreds of MB, and git keeps every version forever, so one
+# careless 'git add .' during a training run could bloat the repo permanently
+# and be awkward to undo.
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.hdf5
+*.onnx
+*.pkl
+checkpoints/
+weights/
+runs/
+
+# ---------------------------------------------------------------------------
+# Datasets
+# ---------------------------------------------------------------------------
+# The assignment says not to commit datasets either. The ADNI data lives at
+# /home/groups/comp3710/ADNI and is read from there directly, so it should
+# never appear inside the repo - but if I ever symlink or copy it in for a
+# local test, these patterns stop it being staged.
+data/
+dataset/
+ADNI/
+AD_NC/
+*.jpeg
+*.jpg
+*.nii
+*.nii.gz
+*.npy
+*.npz
+
+# ---------------------------------------------------------------------------
+# SLURM job output
+# ---------------------------------------------------------------------------
+# Every job writes a .out and .err file. Over a week of runs these add up to
+# dozens of near-identical files that say nothing about how the code evolved.
+# If a particular log matters for the report I will quote the relevant numbers
+# in the README rather than committing the raw file.
+logs/
+slurm-*.out
+slurm-*.err
+*.out
+*.err
+
+# Files to be ignored for local testing and datasets imported from rangpur to local
+# system.
+adni_subset/
+*.tar.gz
+*.tgz
+*.zip
+
+# ---------------------------------------------------------------------------
+# NOT ignored, on purpose
+# ---------------------------------------------------------------------------
+# PNG and SVG files are deliberately absent from the lists above. The README
+# needs figures - training curves, prediction overlays, confusion matrices,
+# the learned frequency filters - and those have to be committed or the
+# documentation marks suffer. The rule I am following: ignore things the code
+# produces as a side effect, keep things a reader needs to see.
+#
+# The *.jpeg and *.jpg patterns above are there to block dataset images. If I
+# ever need a .jpg figure in the README, I force it in with:
+#     git add -f recognition/GFNet_s4967283/figures/my_figure.jpg
+# Better still, save figures as .png so this never comes up.
+outputs/
+figures_pre_recipe/
