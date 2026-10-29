@@ -1,0 +1,420 @@
+"""Train, validate and test one model (MLP, CNN or ConvNeXt) on ADNI AD-vs-NC.
+
+Author:  Vanessa Recla (s4929158)
+Course:  COMP3710/COMP7710 Pattern Recognition, The University of Queensland, October 2026
+
+All three models share exactly the same data splits, augmentation, optimiser,
+schedule and epoch budget, so differences in the results come from the
+architecture and not from the training recipe.
+
+Protocol
+--------
+* Train on the patient-level training split; select the best epoch on the
+  validation split only (the test set is never used for any decision). The
+  selection metric is ``--select-metric``: validation loss by default, and
+  validation AUROC for the final models (it needs no decision threshold and is
+  less noisy on a small validation set).
+* After training, reload the best checkpoint and evaluate on the held-out test
+  set exactly once. Per-slice test logits are saved so that calibration,
+  reject-option and failure-case analysis can be done without re-running the model.
+* Evaluation is per-slice (each image counted separately), which is the
+  recommended protocol for a 2D model.
+
+Outputs (in ``--out-dir``, default ``runs/<model>_seed<seed>``):
+    best.pt                checkpoint (NOT to be committed)
+    history.csv            per-epoch loss / accuracy / AUROC
+    curves.png             loss and metric curves
+    test_predictions.csv   per-slice test logits, one row per image
+    val_predictions.csv    per-slice validation logits (used by evaluate.py to fit
+                           temperature scaling and the reject threshold)
+    results.json           test metrics, parameter count, peak VRAM, latency, args
+
+Examples:
+    python train.py --model convnext --epochs 40
+    # final ConvNeXt recipe (clean patient-level split, drop path 0.3, AUROC selection):
+    python train.py --model convnext --amp --group-by subject --drop-test-overlap \\
+        --select-metric auroc --drop-path 0.3 --out-dir runs/convnext_v2_dp
+"""
+
+import argparse
+import copy
+import csv
+import json
+import math
+import random
+import time
+from pathlib import Path
+from typing import Dict, List
+
+import matplotlib
+
+matplotlib.use("Agg")  # no display on the cluster
+import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+from sklearn.metrics import roc_auc_score
+from torch.utils.data import DataLoader
+
+from dataset import IDX_TO_CLASS, get_datasets
+from modules import build_model, count_parameters
+
+
+# --------------------------------------------------------------------------
+# Utilities
+# --------------------------------------------------------------------------
+def set_seed(seed: int) -> None:
+    """Seed Python and PyTorch RNGs. Some GPU ops stay slightly non-deterministic."""
+    random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
+
+def make_param_groups(model: nn.Module, weight_decay: float) -> List[dict]:
+    """AdamW groups: no weight decay on biases, norm parameters or layer scale.
+
+    All of these are 1-D tensors, so a dimensionality test is enough. This is
+    the usual convention for ConvNeXt/transformer training and is applied to
+    every model so the recipe stays identical.
+    """
+    decay, no_decay = [], []
+    for p in model.parameters():
+        if p.requires_grad:
+            (no_decay if p.ndim <= 1 else decay).append(p)
+    return [
+        {"params": decay, "weight_decay": weight_decay},
+        {"params": no_decay, "weight_decay": 0.0},
+    ]
+
+
+def lr_multiplier(step: int, total_steps: int, warmup_steps: int) -> float:
+    """Linear warmup followed by cosine decay to zero."""
+    if step < warmup_steps:
+        return (step + 1) / max(1, warmup_steps)
+    progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
+    return 0.5 * (1.0 + math.cos(math.pi * progress))
+
+
+@torch.no_grad()
+def evaluate(model: nn.Module, loader: DataLoader, device: torch.device) -> Dict:
+    """Run the model over a loader and return metrics plus raw logits.
+
+    Evaluation runs in full fp32 (no autocast) so saved logits are precise,
+    which matters for the calibration analysis.
+    """
+    model.eval()
+    criterion = nn.CrossEntropyLoss(reduction="sum")
+    total_loss, n = 0.0, 0
+    all_logits, all_labels, all_idx = [], [], []
+    for images, labels, idx in loader:
+        images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+        logits = model(images)
+        total_loss += criterion(logits, labels).item()
+        n += labels.numel()
+        all_logits.append(logits.float().cpu())
+        all_labels.append(labels.cpu())
+        all_idx.append(idx)
+    logits = torch.cat(all_logits)
+    labels = torch.cat(all_labels)
+    idx = torch.cat(all_idx)
+    probs_ad = torch.softmax(logits, dim=1)[:, 1]
+    return {
+        "loss": total_loss / n,
+        "acc": (logits.argmax(1) == labels).float().mean().item(),
+        "auroc": float(roc_auc_score(labels.numpy(), probs_ad.numpy())),
+        "logits": logits,
+        "labels": labels,
+        "idx": idx,
+    }
+
+
+class ModelEMA:
+    """Exponential moving average of the model weights (Polyak averaging).
+
+    After every optimiser step each parameter p_ema <- d * p_ema + (1 - d) * p, so the
+    averaged copy changes smoothly instead of jumping with every noisy update. Validation
+    and the saved checkpoint use this averaged copy. d ramps up from a small value so the
+    average is not dominated by the random initial weights.
+    """
+
+    def __init__(self, model: nn.Module, decay: float):
+        self.decay = decay
+        self.module = copy.deepcopy(model).eval()
+        for p in self.module.parameters():
+            p.requires_grad_(False)
+
+    @torch.no_grad()
+    def update(self, model: nn.Module, step: int) -> None:
+        d = min(self.decay, (1.0 + step) / (10.0 + step))
+        for p_ema, p in zip(self.module.parameters(), model.parameters()):
+            p_ema.mul_(d).add_(p.detach(), alpha=1.0 - d)
+        for b_ema, b in zip(self.module.buffers(), model.buffers()):
+            b_ema.copy_(b)  # e.g. BatchNorm running statistics are copied, not averaged
+
+
+def train_one_epoch(model, loader, optimizer, scaler, device, step, total_steps, warmup_steps, base_lr, amp, clip,
+                    label_smoothing: float = 0.0, mixup_alpha: float = 0.0, ema=None):
+    """One pass over the training data. Returns (loss, accuracy, new_global_step).
+
+    Label smoothing applies to the training loss only; validation and test loss
+    stay plain cross-entropy so they remain comparable across runs.
+
+    Mixup (Zhang et al., 2018), when ``mixup_alpha`` > 0: each batch is blended with a
+    shuffled copy of itself, lam ~ Beta(alpha, alpha), and the loss is the same blend of
+    the two cross-entropies. Training accuracy is then measured against the label of
+    the image that contributes more, so it is only a rough guide in this mode.
+    """
+    model.train()
+    criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+    beta = torch.distributions.Beta(mixup_alpha, mixup_alpha) if mixup_alpha > 0 else None
+    loss_sum, correct, n = 0.0, 0, 0
+    for images, labels, _ in loader:
+        images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+        lr = base_lr * lr_multiplier(step, total_steps, warmup_steps)
+        for group in optimizer.param_groups:
+            group["lr"] = lr
+        if beta is not None:
+            lam = float(beta.sample())
+            perm = torch.randperm(images.size(0), device=device)
+            images = lam * images + (1.0 - lam) * images[perm]
+            labels_b = labels[perm]
+        optimizer.zero_grad(set_to_none=True)
+        with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=amp):
+            logits = model(images)
+            if beta is not None:
+                loss = lam * criterion(logits, labels) + (1.0 - lam) * criterion(logits, labels_b)
+            else:
+                loss = criterion(logits, labels)
+        scaler.scale(loss).backward()
+        if clip > 0:
+            scaler.unscale_(optimizer)
+            nn.utils.clip_grad_norm_(model.parameters(), clip)
+        scaler.step(optimizer)
+        scaler.update()
+        if ema is not None:
+            ema.update(model, step)
+        loss_sum += loss.item() * labels.numel()
+        target = labels if (beta is None or lam >= 0.5) else labels_b
+        correct += (logits.argmax(1) == target).sum().item()
+        n += labels.numel()
+        step += 1
+    return loss_sum / n, correct / n, step
+
+
+@torch.no_grad()
+def measure_inference(model: nn.Module, device: torch.device, img_size: int) -> Dict[str, float]:
+    """Latency (batch 1, ms/image) and throughput (batch 64, images/s)."""
+    model.eval()
+
+    def timed(batch: int, iters: int) -> float:
+        x = torch.randn(batch, 1, img_size, img_size, device=device)
+        for _ in range(5):  # warm-up
+            model(x)
+        if device.type == "cuda":
+            torch.cuda.synchronize()
+        start = time.perf_counter()
+        for _ in range(iters):
+            model(x)
+        if device.type == "cuda":
+            torch.cuda.synchronize()
+        return (time.perf_counter() - start) / iters
+
+    return {
+        "latency_ms_batch1": timed(1, 50) * 1000.0,
+        "throughput_img_per_s_batch64": 64.0 / timed(64, 10),
+    }
+
+
+def save_history(history: List[Dict], path: Path) -> None:
+    with open(path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(history[0].keys()))
+        writer.writeheader()
+        writer.writerows(history)
+
+
+def plot_history(history: List[Dict], path: Path, title: str) -> None:
+    """Plot loss, accuracy and validation AUROC against epoch."""
+    epochs = [h["epoch"] for h in history]
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+    axes[0].plot(epochs, [h["train_loss"] for h in history], label="train")
+    axes[0].plot(epochs, [h["val_loss"] for h in history], label="val")
+    axes[0].set(title="Loss", xlabel="epoch", ylabel="cross-entropy")
+    axes[1].plot(epochs, [h["train_acc"] for h in history], label="train")
+    axes[1].plot(epochs, [h["val_acc"] for h in history], label="val")
+    axes[1].set(title="Accuracy", xlabel="epoch", ylabel="accuracy")
+    axes[2].plot(epochs, [h["val_auroc"] for h in history], label="val AUROC", color="tab:green")
+    axes[2].set(title="Validation AUROC", xlabel="epoch", ylabel="AUROC")
+    for ax in axes:
+        ax.grid(alpha=0.3)
+        ax.legend()
+    fig.suptitle(title)
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
+def save_test_predictions(result: Dict, samples, path: Path) -> None:
+    """Write one CSV row per test slice so analysis can reuse the logits."""
+    with open(path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["path", "patient", "slice_idx", "label", "logit_nc", "logit_ad"])
+        for logit, label, i in zip(result["logits"], result["labels"], result["idx"]):
+            s = samples[int(i)]
+            writer.writerow([s.path, s.patient, s.slice_idx, int(label), f"{logit[0]:.6f}", f"{logit[1]:.6f}"])
+
+
+# --------------------------------------------------------------------------
+# Main
+# --------------------------------------------------------------------------
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Train one model on ADNI AD vs NC")
+    p.add_argument("--model", choices=["mlp", "cnn", "convnext"], required=True)
+    p.add_argument("--root", default="/home/groups/comp3710/ADNI/AD_NC")
+    p.add_argument("--out-dir", default=None, help="default: runs/<model>_seed<seed>")
+    p.add_argument("--epochs", type=int, default=40)
+    p.add_argument("--batch-size", type=int, default=64)
+    p.add_argument("--lr", type=float, default=5e-4)
+    p.add_argument("--weight-decay", type=float, default=0.05)
+    p.add_argument("--warmup-epochs", type=int, default=3)
+    p.add_argument("--clip-grad", type=float, default=1.0, help="max grad norm, 0 disables")
+    p.add_argument("--patience", type=int, default=10, help="early stopping on the selection metric, 0 disables")
+    p.add_argument("--select-metric", choices=["loss", "auroc", "acc"], default="loss",
+                   help="validation metric used to pick the best epoch and for early stopping")
+    p.add_argument("--drop-path", type=float, default=None,
+                   help="ConvNeXt stochastic-depth rate (default: model default, 0.1)")
+    p.add_argument("--aug", choices=["mild", "strong"], default="mild", help="training augmentation strength")
+    p.add_argument("--label-smoothing", type=float, default=0.0, help="label smoothing for the training loss")
+    p.add_argument("--convnext-size", choices=["base", "small", "tiny", "large"], default="base",
+                   help="base=(48,96,192,384)/(2,2,6,2) as before; small and tiny are narrower and shallower; "
+                        "large=(96,192,384,768)/(3,3,9,3), the ConvNeXt-Tiny layout, about 28M parameters")
+    p.add_argument("--ema", type=float, default=0.0,
+                   help="EMA decay for the weights used in validation and the saved checkpoint (0 disables; try 0.998)")
+    p.add_argument("--select-smooth", type=int, default=1,
+                   help="pick the best epoch by the mean of the selection metric over the last N epochs (1 = off)")
+    p.add_argument("--hflip", action="store_true", help="add random horizontal flips to the training augmentation")
+    p.add_argument("--mixup", type=float, default=0.0, help="mixup alpha (0 disables; 0.2 is a common value)")
+    p.add_argument("--img-size", type=int, default=224)
+    p.add_argument("--val-fraction", type=float, default=0.15)
+    p.add_argument("--group-by", choices=["subject", "scan"], default="subject",
+                   help="unit kept intact when splitting train/val (subject needs the metadata JSON)")
+    p.add_argument("--meta", default=None, help="metadata JSON (default: next to the dataset folder)")
+    p.add_argument("--drop-test-overlap", action="store_true",
+                   help="remove subjects that also appear in the test folder from the training data")
+    p.add_argument("--allow-test-overlap", action="store_true",
+                   help="ABLATION ONLY: keep subjects shared by the official train and test folders (leaky test result)")
+    p.add_argument("--split-seed", type=int, default=42, help="fixes the patient split across all runs")
+    p.add_argument("--seed", type=int, default=0, help="training seed (init, shuffling, augmentation)")
+    p.add_argument("--num-workers", type=int, default=4)
+    p.add_argument("--amp", action="store_true", help="mixed precision training (GPU only)")
+    return p.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    amp = args.amp and device.type == "cuda"
+    set_seed(args.seed)
+    out_dir = Path(args.out_dir or f"runs/{args.model}_seed{args.seed}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Data: the split depends only on --split-seed, so every model sees identical splits.
+    train_ds, val_ds, test_ds = get_datasets(
+        args.root, args.val_fraction, args.split_seed, args.img_size,
+        group_by=args.group_by, meta_path=args.meta, drop_test_overlap=args.drop_test_overlap,
+        aug=args.aug, allow_test_overlap=args.allow_test_overlap, hflip=args.hflip,
+    )
+    gen = torch.Generator().manual_seed(args.seed)
+    common = dict(batch_size=args.batch_size, num_workers=args.num_workers, pin_memory=device.type == "cuda")
+    train_loader = DataLoader(train_ds, shuffle=True, drop_last=True, generator=gen, **common)
+    val_loader = DataLoader(val_ds, shuffle=False, **common)
+    test_loader = DataLoader(test_ds, shuffle=False, **common)
+    print(f"device={device} amp={amp} | train={len(train_ds)} val={len(val_ds)} test={len(test_ds)} slices")
+
+    model_kwargs = {}
+    if args.model == "convnext":
+        sizes = {"base": None, "small": ((32, 64, 128, 256), (2, 2, 4, 2)), "tiny": ((24, 48, 96, 192), (1, 1, 3, 1)),
+                 "large": ((96, 192, 384, 768), (3, 3, 9, 3))}
+        if sizes[args.convnext_size] is not None:
+            model_kwargs["dims"], model_kwargs["depths"] = sizes[args.convnext_size]
+        if args.drop_path is not None:
+            model_kwargs["drop_path_rate"] = args.drop_path
+    model = build_model(args.model, **model_kwargs).to(device)
+    n_params = count_parameters(model)
+    print(f"model={args.model} trainable parameters={n_params:,}")
+
+    optimizer = torch.optim.AdamW(make_param_groups(model, args.weight_decay), lr=args.lr)
+    ema = ModelEMA(model, args.ema) if args.ema > 0 else None
+    eval_model = ema.module if ema is not None else model  # the weights that get validated and saved
+    scaler = torch.amp.GradScaler("cuda", enabled=amp)
+    steps_per_epoch = len(train_loader)
+    total_steps = args.epochs * steps_per_epoch
+    warmup_steps = args.warmup_epochs * steps_per_epoch
+
+    if device.type == "cuda":
+        torch.cuda.reset_peak_memory_stats()
+
+    history: List[Dict] = []
+    best_val_loss, best_epoch, step = float("inf"), -1, 0
+    best_score = float("-inf")  # higher is better; loss is negated so one comparison works for all metrics
+    recent_scores: List[float] = []  # raw per-epoch scores, for --select-smooth
+    train_start = time.perf_counter()
+    for epoch in range(1, args.epochs + 1):
+        t0 = time.perf_counter()
+        tr_loss, tr_acc, step = train_one_epoch(
+            model, train_loader, optimizer, scaler, device, step, total_steps,
+            warmup_steps, args.lr, amp, args.clip_grad, args.label_smoothing, args.mixup, ema,
+        )
+        val = evaluate(eval_model, val_loader, device)
+        history.append({
+            "epoch": epoch, "train_loss": tr_loss, "train_acc": tr_acc,
+            "val_loss": val["loss"], "val_acc": val["acc"], "val_auroc": val["auroc"],
+            "lr": optimizer.param_groups[0]["lr"], "epoch_seconds": time.perf_counter() - t0,
+        })
+        print(f"epoch {epoch:3d}/{args.epochs} | train loss {tr_loss:.4f} acc {tr_acc:.4f} | "
+              f"val loss {val['loss']:.4f} acc {val['acc']:.4f} auroc {val['auroc']:.4f} | "
+              f"{history[-1]['epoch_seconds']:.1f}s")
+
+        recent_scores.append(-val["loss"] if args.select_metric == "loss" else val[args.select_metric])
+        window = recent_scores[-max(args.select_smooth, 1):]
+        score = sum(window) / len(window)  # equals the raw score when --select-smooth is 1
+        if score > best_score:
+            best_score, best_val_loss, best_epoch = score, val["loss"], epoch
+            torch.save({"model": args.model, "model_kwargs": model_kwargs, "state_dict": eval_model.state_dict(),
+                        "epoch": epoch, "args": vars(args)}, out_dir / "best.pt")
+        elif args.patience > 0 and epoch - best_epoch >= args.patience:
+            print(f"early stopping: no val-{args.select_metric} improvement for {args.patience} epochs")
+            break
+    train_seconds = time.perf_counter() - train_start
+    peak_vram_mb = torch.cuda.max_memory_allocated() / 2**20 if device.type == "cuda" else None
+
+    save_history(history, out_dir / "history.csv")
+    plot_history(history, out_dir / "curves.png", f"{args.model} (best epoch {best_epoch})")
+
+    # Final test: best checkpoint, evaluated once.
+    ckpt = torch.load(out_dir / "best.pt", map_location=device, weights_only=True)
+    model.load_state_dict(ckpt["state_dict"])
+    test = evaluate(model, test_loader, device)
+    save_test_predictions(test, test_ds.samples, out_dir / "test_predictions.csv")
+    # Validation logits too: evaluate.py fits temperature scaling and the reject
+    # threshold on these, so nothing is ever tuned on the test set.
+    val_best = evaluate(model, val_loader, device)
+    save_test_predictions(val_best, val_ds.samples, out_dir / "val_predictions.csv")
+    inference = measure_inference(model, device, args.img_size)
+
+    results = {
+        "model": args.model, "best_epoch": best_epoch, "epochs_run": len(history),
+        "test_acc": test["acc"], "test_loss": test["loss"], "test_auroc": test["auroc"],
+        "val_loss_at_best": best_val_loss, "trainable_params": n_params,
+        "peak_train_vram_mb": peak_vram_mb, "train_seconds": train_seconds,
+        "class_names": IDX_TO_CLASS, **inference, "args": vars(args),
+    }
+    with open(out_dir / "results.json", "w") as f:
+        json.dump(results, f, indent=2)
+    print(f"\nTEST (best epoch {best_epoch}): acc {test['acc']:.4f} auroc {test['auroc']:.4f} "
+          f"loss {test['loss']:.4f} | latency {inference['latency_ms_batch1']:.2f} ms/img")
+    print(f"results written to {out_dir}")
+
+
+if __name__ == "__main__":
+    main()
