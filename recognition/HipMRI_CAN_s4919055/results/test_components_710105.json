@@ -1,0 +1,55 @@
+{
+  "connectivity": "6-neighbour face adjacency on resized RAS prostate predictions; descriptive only; no post-processing applied",
+  "component_sizes": {
+    "can3d/T014_Week3": [
+      1030,
+      1
+    ],
+    "unet2d/T014_Week3": [
+      1263
+    ],
+    "can3d/J026_Week6": [
+      1312,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "unet2d/J026_Week6": [
+      1183,
+      16,
+      15,
+      1
+    ],
+    "can3d/K008_Week0": [
+      1333
+    ],
+    "unet2d/K008_Week0": [
+      1024,
+      26,
+      3,
+      3,
+      2,
+      2,
+      1
+    ],
+    "can3d/S028_Week0": [
+      1533
+    ],
+    "unet2d/S028_Week0": [
+      1454,
+      22,
+      1,
+      1
+    ],
+    "can3d/V027_Week6": [
+      1009
+    ],
+    "unet2d/V027_Week6": [
+      1114
+    ]
+  }
+}

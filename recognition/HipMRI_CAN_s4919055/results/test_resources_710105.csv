@@ -1,0 +1,3 @@
+model,parameters,mean_case_median_seconds,peak_allocated_mib,peak_reserved_mib,gpu,host,job_id
+can3d,170342,0.21060116175148222,196.6630859375,282.0,NVIDIA A100-PCIE-40GB,a100-8,710105
+unet2d,1940902,0.21961091493290882,74.92822265625,92.0,NVIDIA A100-PCIE-40GB,a100-8,710105

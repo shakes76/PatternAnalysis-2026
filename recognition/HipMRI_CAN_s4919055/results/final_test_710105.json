@@ -1,0 +1,166 @@
+{
+  "can3d": {
+    "case_count": 27,
+    "patient_count": 6,
+    "case_macro_dice": [
+      0.9955356784333821,
+      0.971949523709477,
+      0.8286062581728197,
+      0.8501140913781436,
+      0.7267087188504144,
+      0.7592530591901822
+    ],
+    "patient_macro_dice": [
+      0.9952388964313136,
+      0.9715747170529556,
+      0.8194697768188971,
+      0.8614524029883825,
+      0.7203680425693498,
+      0.7762010271872276
+    ],
+    "case_macro_iou": [
+      0.991113410869791,
+      0.9454791212395828,
+      0.7081055203350488,
+      0.7527890635126216,
+      0.5735185377743581,
+      0.6191142124244767
+    ],
+    "patient_macro_iou": [
+      0.9905246508601674,
+      0.9447494992155822,
+      0.6947752708580311,
+      0.7646821108785128,
+      0.566293286287103,
+      0.6394592470917905
+    ],
+    "model": "can3d",
+    "split": "test",
+    "label_names": {
+      "0": "Background",
+      "1": "Body",
+      "2": "Bones",
+      "3": "Bladder",
+      "4": "Rectum",
+      "5": "Prostate"
+    },
+    "checkpoint_sha256": "76350738141f1765d1f3d1714bf9b51f339e2efe2aff52bb2383cc84d6355991",
+    "checkpoint_epoch": 7,
+    "manifest_sha256": "47a19c81dee93d9ddd2a920b86572bf57db240cc8a968ea731305d54a181d25e",
+    "plan_sha256": "f0b2d2fdde96413a3b7df9bac51ce180a6e691dc0e354436c4ee9f252fefaa02",
+    "shape_dhw": [
+      64,
+      128,
+      128
+    ],
+    "protocol": {
+      "warmups_per_case": 2,
+      "repeats_per_case": 3,
+      "slice_batch_size": 8,
+      "example_count": 5
+    },
+    "selection_scope": "Lowest CAN3D prostate Dice; one scan per distinct test patient; same cases for baseline",
+    "parameter_count": 170342,
+    "mean_case_median_seconds": 0.21060116175148222,
+    "median_case_median_seconds": 0.20981780253350735,
+    "peak_allocated_mib": 196.6630859375,
+    "peak_reserved_mib": 282.0,
+    "device": "cuda",
+    "gpu_name": "NVIDIA A100-PCIE-40GB",
+    "hostname": "a100-8",
+    "slurm_job_id": "710105",
+    "python": "3.11.16",
+    "torch_version": "2.14.0+cu130",
+    "nibabel_version": "5.4.2",
+    "numpy_version": "2.4.6",
+    "cpu_threads": 1,
+    "cudnn_deterministic": true,
+    "cudnn_allow_tf32": true,
+    "matmul_allow_tf32": false,
+    "timing_scope": "Preprocessed CPU image -> complete CPU hard prediction; includes transfers, model and argmax; excludes disk/preprocessing/metrics/plots",
+    "memory_scope": "PyTorch peak allocated/reserved after per-case warmup; model plus inference tensors; excludes driver/context and other processes",
+    "accuracy_scope": "All frozen test cases; patient-macro primary, scan-macro secondary; no training or post-processing changes"
+  },
+  "unet2d": {
+    "case_count": 27,
+    "patient_count": 6,
+    "case_macro_dice": [
+      0.9956110549741296,
+      0.977060917748561,
+      0.876097864741539,
+      0.901116464464248,
+      0.7912594391879332,
+      0.7058547431121686
+    ],
+    "patient_macro_dice": [
+      0.9952214866363144,
+      0.9765959357119667,
+      0.8680363762142872,
+      0.9028635313826792,
+      0.7902562226430175,
+      0.702005486023193
+    ],
+    "case_macro_iou": [
+      0.9912640434791368,
+      0.9551669253282987,
+      0.779720193924607,
+      0.8264839773505966,
+      0.659103666792256,
+      0.5549068853133734
+    ],
+    "patient_macro_iou": [
+      0.9904915295271192,
+      0.9542726360018005,
+      0.7670901062752039,
+      0.8268808430225786,
+      0.6576394152449966,
+      0.5481710280006826
+    ],
+    "model": "unet2d",
+    "split": "test",
+    "label_names": {
+      "0": "Background",
+      "1": "Body",
+      "2": "Bones",
+      "3": "Bladder",
+      "4": "Rectum",
+      "5": "Prostate"
+    },
+    "checkpoint_sha256": "094deac975b46ecd9c0fa497d9581fd188d120bd34c318b9897e6bf3239a303c",
+    "checkpoint_epoch": 7,
+    "manifest_sha256": "47a19c81dee93d9ddd2a920b86572bf57db240cc8a968ea731305d54a181d25e",
+    "plan_sha256": "f0b2d2fdde96413a3b7df9bac51ce180a6e691dc0e354436c4ee9f252fefaa02",
+    "shape_dhw": [
+      64,
+      128,
+      128
+    ],
+    "protocol": {
+      "warmups_per_case": 2,
+      "repeats_per_case": 3,
+      "slice_batch_size": 8,
+      "example_count": 5
+    },
+    "selection_scope": "Lowest CAN3D prostate Dice; one scan per distinct test patient; same cases for baseline",
+    "parameter_count": 1940902,
+    "mean_case_median_seconds": 0.21961091493290882,
+    "median_case_median_seconds": 0.2203149488195777,
+    "peak_allocated_mib": 74.92822265625,
+    "peak_reserved_mib": 92.0,
+    "device": "cuda",
+    "gpu_name": "NVIDIA A100-PCIE-40GB",
+    "hostname": "a100-8",
+    "slurm_job_id": "710105",
+    "python": "3.11.16",
+    "torch_version": "2.14.0+cu130",
+    "nibabel_version": "5.4.2",
+    "numpy_version": "2.4.6",
+    "cpu_threads": 1,
+    "cudnn_deterministic": true,
+    "cudnn_allow_tf32": true,
+    "matmul_allow_tf32": false,
+    "timing_scope": "Preprocessed CPU image -> complete CPU hard prediction; includes transfers, model and argmax; excludes disk/preprocessing/metrics/plots",
+    "memory_scope": "PyTorch peak allocated/reserved after per-case warmup; model plus inference tensors; excludes driver/context and other processes",
+    "accuracy_scope": "All frozen test cases; patient-macro primary, scan-macro secondary; no training or post-processing changes"
+  }
+}

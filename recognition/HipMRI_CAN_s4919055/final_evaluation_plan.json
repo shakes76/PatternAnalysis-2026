@@ -1,0 +1,46 @@
+{
+  "plan_version": 1,
+  "freeze_date": "2026-10-29",
+  "seed": 42,
+  "manifest_sha256": "47a19c81dee93d9ddd2a920b86572bf57db240cc8a968ea731305d54a181d25e",
+  "shape_dhw": [
+    64,
+    128,
+    128
+  ],
+  "test_case_count": 27,
+  "test_patient_count": 6,
+  "selection_rule": "Each model frozen at epoch 7, selected only by patient-macro validation prostate Dice; no further tuning from test results.",
+  "limitations": [
+    "Single seed; filename-derived patient groups.",
+    "2D uses balanced slices without flips; CAN3D uses whole volumes and train-only paired left/right flips; update counts differ. This is a recipe comparison, not an isolated architecture ablation.",
+    "Fixed CAN3D then U-Net process order on one GPU. Wall latency includes transfers and CPU argmax; excludes preprocessing, I/O and metric/plot generation. CUDA context and other processes excluded from PyTorch peak memory."
+  ],
+  "protocol": {
+    "warmups_per_case": 2,
+    "repeats_per_case": 3,
+    "slice_batch_size": 8,
+    "example_count": 5
+  },
+  "models": {
+    "can3d": {
+      "checkpoint": "runs/can3d_resume_709852/best.pt",
+      "checkpoint_sha256": "76350738141f1765d1f3d1714bf9b51f339e2efe2aff52bb2383cc84d6355991",
+      "epoch": 7
+    },
+    "unet2d": {
+      "checkpoint": "runs/baseline_dice_ce_resume_709041/best.pt",
+      "checkpoint_sha256": "094deac975b46ecd9c0fa497d9581fd188d120bd34c318b9897e6bf3239a303c",
+      "epoch": 7
+    }
+  },
+  "code_sha256": {
+    "final_evaluate.py": "de6af921d0acb1ba3b2723a9956e0b09030f1005e01c3af41410f9029127ee7b",
+    "experiment.py": "437a02dfa1bff52beef611999b0af85d851f122ef5a295617d96ad226f46be86",
+    "dataset.py": "73862e763ff1fcf0ecb0419103a1de71aafdb48f007595611c117ce9faf2f77b",
+    "modules.py": "f35da4800c91a67f1c0883211b0433410f48093711fa5f632af0edc39f6a8efe",
+    "can3d.py": "3b1ec3a7107338a18203e84bb09e26c08c4c3cc302f8c60ca669f6c4da1b684d",
+    "predict.py": "4715cb2c5dd9b4451cf596a005211438933e269a77a278a26206a082a7f68d6f",
+    "validate_best.py": "48e33810d18d50a466672f81499a8a3d836cfd2008e7561d75ebcfc00b75b3a5"
+  }
+}

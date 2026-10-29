@@ -1,0 +1,28 @@
+# Local datasets and medical-image files
+data/
+datasets/
+*.nii
+*.nii.gz
+*.dcm
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# Model weights and training artifacts
+checkpoints/
+runs/
+logs/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.log
+
+# Local environments and Python caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
