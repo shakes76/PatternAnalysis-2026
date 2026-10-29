@@ -1,0 +1,17 @@
+# Local Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+# Local dataset and trained models
+*.npz
+*.pt
+*.pth
+*.ckpt
+data/
+# Regenerable outputs; README figures are in figures/
+outputs/
+# Local backups
+*.before_full_training_*
+*.before_readme_*
+.readme_stage_state.json
+
