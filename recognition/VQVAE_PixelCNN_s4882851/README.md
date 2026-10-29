@@ -1,0 +1,1274 @@
+# VQ-VAE with PixelCNN Prior for Synthetic Prostate MRI (COMP3710 Project 2.4)
+
+**Student:** Ben Evans (48828514) &mdash; Hard difficulty &mdash; PyTorch
+
+## Abstract
+
+This project investigates synthetic prostate MRI generation using vector-quantised
+autoencoders and autoregressive priors, with a DCGAN as a baseline. Patient-disjoint
+evaluation separates reconstruction quality, generation fidelity, diversity and
+memorisation risk. The hierarchical VQ-VAE-2 achieved a mean reconstruction SSIM
+of approximately 0.937, whereas samples from the initial PixelCNN prior did not
+reproduce coherent anatomy. Decoder-isolation and alternative-prior experiments
+suggested that modelling the fine-level codes was an important bottleneck.
+
+A causal Transformer prior produced samples with recognizable anatomical
+structure on visual inspection, although their mean intensity was 0.159
+compared with 0.180 for the training reference, and their fraction of bright
+pixels remained approximately half that of the reference. The results
+illustrate the distinction between successful reconstruction and plausible
+unconditional generation, while highlighting the need for independent clinical
+validation and more comprehensive privacy assessment.
+
+![Two generated MRI slices](figures/generated_overview.png)
+
+*Figure 1. The first two saved, uncurated samples from the Transformer prior at
+temperature 1.0, shown on a common [0, 1] display range. This is an illustrative
+excerpt; the full sample grid and distribution analysis appear in Figures 10 and
+16 and in Section 6.6.*
+
+## Contents
+
+| Section | Topic |
+|---|---|
+| [Abstract](#abstract) and [key contributions](#key-contributions) | Research question and principal findings |
+| [Quick Start](#quick-start) | Running the supplied baseline code |
+| [1. Problem and description](#1-problem-and-description) | Clinical motivation and scope |
+| [2. How the algorithm works](#2-how-the-algorithm-works) | VQ-VAE, priors and DCGAN |
+| [3. Feasibility review](#3-feasibility-review) | Initial plan and acceptance criteria |
+| [4. Data](#4-data) | Dataset, preprocessing and patient-disjoint splits |
+| [5. Experiments](#5-experiments) | Baselines, variants and selection |
+| [6. Results](#6-results) | Quantitative and qualitative results |
+| [6.3. Memorisation screen](#63-memorisation-screen) | Nearest-neighbour screening and its limitations |
+| [6.4. Failure autopsies](#64-failure-autopsies) | Case-based analysis |
+| [6.5. Generation failure investigation](#65-generation-failure-investigation) | Isolation experiments and alternative priors |
+| [6.5.6. Training curves](#656-training-curves) | Recorded VQ-VAE-2 and fine-prior histories |
+| [6.6. Generation quality analysis](#66-transformer-generation-quality-analysis) | Diversity and distribution differences |
+| [6.7. Summary](#67-summary-what-worked-and-what-didnt) | Comparison of approaches |
+| [7. Limitations and future work](#7-limitations-and-future-work) | Interpretation, uncertainty and further validation |
+| [8. Recommendation](#8-recommendation-for-the-project-manager) | Practical implications and deployment considerations |
+| [9. Dependencies and reproducibility](#9-dependencies-and-reproducibility) | Environment and experimental setup |
+| [10. Artificial intelligence usage disclosure](#10-artificial-intelligence-usage-disclosure) | Scope of AI assistance |
+| [11. References](#11-references) | Sources |
+| [Appendix A](#appendix-a-additional-experimental-figures) and [Appendix B](#appendix-b-complete-feasibility-review-as-submitted) | Supplementary figures and original feasibility review |
+
+## Key Contributions
+
+The project combines a patient-disjoint reconstruction evaluation with a
+systematic investigation of the gap between reconstruction and generation.
+The selected single-level VQ-VAE achieved test SSIM of 0.9425, while the
+hierarchical model achieved approximately 0.937. Decoder-isolation experiments
+indicated that fine-level codes carried much of the observable anatomical
+structure, motivating comparisons between the original PixelCNN and
+alternative priors.
+
+The resulting analysis reports both strengths and limitations rather than
+relying on a single score. The Transformer samples displayed recognizable
+structure in visual review, but remained darker than the training reference and
+had a lower bright-pixel fraction. Pairwise sample distances and
+nearest-neighbour checks provide preliminary diversity and memorisation
+screens; neither establishes a privacy guarantee or clinical validity.
+
+The specific contributions are:
+
+1. **A patient-disjoint reconstruction benchmark.** The VQ-VAE reaches mean
+   test SSIM 0.9425 with 540/540 slices above the 0.6 target, and the
+   hierarchical VQ-VAE-2 reaches approximately 0.937. Both are reported on
+   held-out patients only, with the split disjointness re-verified at runtime.
+2. **A controlled diagnosis of the reconstruction–generation gap.** A
+   decoder-isolation experiment (Section 6.5.2) separates the contribution of
+   the coarse and fine code levels, showing that the decoder recovers anatomy
+   from real fine codes but not from sampled ones. This localises the failure
+   to the fine-code prior rather than the autoencoder.
+3. **A quantified receptive-field hypothesis.** The tested PixelCNN sees about
+   19 of 64 rows above each position; the causal Transformer attends to all
+   preceding positions. The comparison is reported with its confounds stated
+   explicitly rather than as a single-cause claim.
+4. **A distributional audit of the best generator.** The Transformer samples
+   are 12% darker and contain 51% of the reference bright-pixel fraction,
+   which is quantified as a potential shortcut for downstream classifiers.
+5. **An honest privacy assessment.** Exact-match, nearest-neighbour and
+   pairwise-distance screens are reported together with their measured
+   failure mode (nearest-neighbour RMSE correlates with brightness at
+   r = 0.84), so the screens are not over-claimed as privacy guarantees.
+
+## Quick Start
+
+The supplied command-line scripts train and evaluate the **single-level**
+VQ-VAE and its prior or the DCGAN baseline. Set `DATA_ROOT` to the local
+`keras_slices_data` directory before running from this project directory:
+
+```bash
+python train.py --model vqvae --data-root "$DATA_ROOT" --epochs 100 --seed 0 --out checkpoints/vqvae
+python train.py --model prior --prior-type pixelcnn --data-root "$DATA_ROOT" --vqvae-checkpoint checkpoints/vqvae/vqvae_best.pt --epochs 40 --out checkpoints/prior
+python predict.py --data-root "$DATA_ROOT" --vqvae checkpoints/vqvae/vqvae_best.pt --prior checkpoints/prior/prior_best.pt --n-samples 500 --sample-seeds 0 --out outputs/evaluation
+```
+
+The scripts also expose `--prior-type transformer` for the single-level prior.
+The hierarchical VQ-VAE-2 experiments described in Section 6.5 used separate
+experimental scripts; the commands above do not reproduce that pipeline.
+
+**Code layout.** `modules.py` contains the submitted solution: the hierarchical
+`VQVAE2` and the causal `TransformerPrior`. The comparison architectures used
+for reproducibility — the single-level `VQVAE`, the masked/conditioned/gated
+PixelCNN priors and the `DCGAN` baseline — live in the `models/` package
+(`models/vqvae.py`, `models/pixelcnn.py`, `models/gated.py`, `models/dcgan.py`),
+with the shared `ResidualBlock` and `VectorQuantizer` in
+`models/primitives.py`. `modules.py` re-exports every baseline, so
+`from modules import VQVAE, PixelCNNPrior, ...` works unchanged. `dataset.py`
+loads the data, `train.py` trains the models, `predict.py` performs generation
+and evaluation, and `runtime.py` provides shared checkpoint and runtime
+utilities. The HipMRI dataset and model checkpoints are not included in the
+repository. The evaluation requires the dependencies described in Section 9; a
+CUDA-capable GPU is recommended.
+
+## 1. Problem and description
+
+Medical imaging research is limited by patient privacy rules (HIPAA, GDPR) and
+by how few clinical scans are available. Synthetic scans could help, but a
+generator that memorises training scans leaks patient data, and one that
+produces anatomically impossible structures would mislead downstream models.
+This project builds a **VQ-VAE with a PixelCNN prior** (van den Oord et al.,
+2017) that generates synthetic 2D prostate MRI slices from the HipMRI study,
+and compares it with a **DCGAN** baseline (Radford et al., 2016). The aim is to
+investigate the trade-off between fidelity, memorisation and privacy.
+
+**Why this is a genuine trilemma rather than a single accuracy target.** The
+three failure modes pull in opposite directions, so a model cannot be tuned to
+avoid all of them at once:
+
+- *Pushing for fidelity* (sharper, more realistic texture) tends to increase
+  the risk of reproducing training-specific detail, which is the memorisation
+  failure mode and a confidentiality breach.
+- *Pushing for novelty* (higher sampling temperature, more aggressive
+  regularisation) increases diversity but degrades anatomical coherence,
+  producing the hallucinated-structure failure mode.
+- *Pushing for safety* (strong compression, small codebooks) reduces
+  memorisation risk but causes mode collapse and blur, which is the third
+  failure mode.
+
+A single SSIM or FID number cannot express this trade-off, because it collapses
+three distinct questions into one scalar. The evaluation in this report
+therefore reports reconstruction fidelity, distributional fidelity, diversity
+and memorisation separately, and treats each as evidence about a different
+corner of the trilemma.
+
+**Why a VQ-VAE rather than a GAN as the main model.** A GAN optimises a single
+adversarial objective that entangles fidelity and diversity, and its latent
+space has no explicit discrete structure to audit. A VQ-VAE factorises the
+problem into (i) a reconstruction model, which can be scored directly with
+paired SSIM, and (ii) a prior over discrete codes, which can be scored with a
+likelihood (NLL) and audited by inspecting which codes are used. That
+factorisation is what makes the decoder-isolation experiment in Section 6.5.2
+possible: the autoencoder and the prior can be evaluated independently, so a
+failure can be attributed to one or the other rather than to "the GAN". The
+DCGAN is retained as the baseline precisely because it does not offer this
+decomposition, which makes it a useful contrast.
+
+## 2. How the algorithm works
+
+### 2.1 VQ-VAE Architecture
+
+A VQ-VAE (Vector Quantised Variational AutoEncoder) compresses images into discrete
+codes and reconstructs them. The architecture has three main components:
+
+**Encoder:** Maps a 256×128 grayscale MRI slice through two stride-2 convolutions
+(4×4 kernels) to a 64×32 spatial grid, followed by two residual blocks. Each
+position in the grid produces a 64-dimensional continuous vector.
+
+**Vector Quantisation:** Each continuous vector is replaced by its nearest entry
+from a learned codebook of 512 vectors (each 64-dimensional). This discretisation
+creates a bottleneck: the decoder must reconstruct the full image from only
+64×32 = 2,048 discrete code indices. The quantisation uses a straight-through
+estimator to pass gradients: the forward pass snaps to the nearest code, but
+the backward pass treats it as an identity function.
+
+**Decoder:** Mirrors the encoder in reverse: two residual blocks, then two
+stride-2 transposed convolutions (4×4 kernels) to upsample from 64×32 back to
+256×128. The final layer outputs a single-channel grayscale image.
+
+The loss function combines three terms:
+
+- **Reconstruction loss** (MSE or L1): measures pixel-level fidelity
+- **Codebook loss**: pulls codebook entries toward the encoder outputs
+- **Commitment loss** (β=0.25): encourages the encoder to commit to codes
+
+Formally, with encoder output $z_e(x)$, nearest codebook entry
+$e = \arg\min_{e_k} \lVert z_e(x) - e_k \rVert_2$, and stop-gradient operator
+$\mathrm{sg}[\cdot]$, the objective is
+
+$$
+\mathcal{L} = \underbrace{\lVert x - \hat{x} \rVert_2^2}_{\text{reconstruction}}
++ \underbrace{\lVert \mathrm{sg}[z_e(x)] - e \rVert_2^2}_{\text{codebook}}
++ \beta \underbrace{\lVert z_e(x) - \mathrm{sg}[e] \rVert_2^2}_{\text{commitment}}
+$$
+
+The stop-gradient is essential: the codebook term trains only the embeddings
+(it treats the encoder output as a constant), while the commitment term trains
+only the encoder (it treats the embedding as a constant). Without the
+stop-gradients the two terms would fight each other and the codebook would
+drift continuously instead of converging. The decoder receives gradients
+through the straight-through estimator
+$z_q = z_e + \mathrm{sg}[e - z_e]$, whose forward value is the quantised
+vector but whose backward pass is the identity, so the non-differentiable
+$\arg\min$ does not block learning.
+
+### 2.2 VQ-VAE-2 Extension
+
+After initial experiments showed that a single 64×32 code grid was insufficient
+for high-quality reconstruction, the architecture was extended to **VQ-VAE-2**
+(Razavi et al., 2019), which uses a two-level hierarchy:
+
+**Coarse level (16×8 grid, 128 codes):** Captures global structure and layout.
+The encoder downsamples by 16× (four stride-2 layers) to produce a 16×8 grid,
+quantised with a 128-entry codebook.
+
+**Fine level (64×32 grid, 2,048 codes):** Captures local texture and detail.
+The encoder downsamples by 4× (two stride-2 layers) to produce a 64×32 grid,
+quantised with a separate 2,048-entry codebook. The fine encoder is conditioned
+on the upsampled coarse codes.
+
+**Decoder:** Takes both coarse and fine codes as input. The coarse codes are
+upsampled and concatenated with the fine codes before the decoder processes them.
+This hierarchical structure allows the model to represent both global anatomy
+(coarse) and fine texture (fine) separately.
+
+### 2.3 PixelCNN Prior
+
+A VQ-VAE alone cannot generate new images—it only compresses and reconstructs.
+To sample, we need a **prior** that models which code sequences are plausible.
+
+**PixelCNN** (van den Oord et al., 2016) is an autoregressive model that predicts
+each code based on all previous codes in raster order (left-to-right, top-to-bottom).
+It uses **masked convolutions** to enforce causality: when predicting position (i,j),
+the model can only see positions (i',j') where i' < i, or i' = i and j' < j.
+
+The architecture uses:
+- Type-A mask (7×7) for the first layer: sees only strictly previous positions
+- Type-B masks (3×3) for residual blocks: sees previous positions plus current position
+- Four residual blocks with two masked convolutions each
+- Width 128, learned embedding dimension 32
+
+**Blind spot problem:** The masked convolution has a limited receptive field.
+With 3×3 kernels and 4 residual blocks, each position can only see about 19 rows
+above it in a 64-row grid. This becomes critical for generation quality (see
+section 6.5).
+
+**Sampling:** To generate, start with an empty 64×32 grid. For each position in
+raster order, the PixelCNN predicts a probability distribution over 512 codes.
+Sample from this distribution (with optional temperature scaling), fill in that
+position, and continue. After 2,048 sequential predictions, pass the completed
+code grid through the VQ-VAE decoder to get an image.
+
+### 2.4 Transformer Prior and Long-Range Context
+
+After discovering the PixelCNN blind spot problem (section 6.5.3), we replaced the
+fine prior with a **causal Transformer** that uses full self-attention over all
+2,048 code positions.
+
+The 64×32 fine-code grid is flattened into 2,048 tokens in raster order. The
+prior uses learned positional embeddings, six Transformer layers, eight
+attention heads and an embedding dimension of 256. Causal masking permits
+each position to attend to preceding positions only, and the output at each
+position is a probability distribution over code indices.
+
+**Key difference from PixelCNN:**
+
+| Aspect | PixelCNN | Transformer |
+|--------|----------|-------------|
+| Receptive field | ~19 rows (limited by kernel stack) | **All previous positions** |
+| Attention mechanism | None (local convolutions) | Full self-attention |
+| Long-range dependencies | Cannot model | **Fully captured** |
+| Computational cost | O(n) | O(n²) |
+
+For example, the tested PixelCNN at row 60 and column 15 has limited access
+to earlier rows and cannot directly use information from row 10. The causal
+Transformer at the same location can attend to the 1,935 preceding positions
+in raster order. Access to this context is a plausible explanation for the
+observed improvement, although other architectural and training differences
+also affect the comparison.
+
+**Training:** 40 epochs, batch size 32, learning rate 3e-4, AdamW optimizer.
+Validation NLL converged to 3.84 (vs PixelCNN's 4.05).
+
+**Sampling:** Same as PixelCNN—sequential generation in raster order—but each
+position now has full context of all previous codes, enabling anatomically
+coherent generation.
+
+### 2.5 DCGAN Baseline
+
+The DCGAN (Deep Convolutional GAN) baseline maps 100-dimensional Gaussian noise
+directly to 256×128 images through a generator network, trained adversarially
+against a discriminator. The generator uses:
+- Nearest-neighbor upsampling followed by convolution (to avoid checkerboard artifacts)
+- Batch normalization and ReLU activations
+- Tanh output activation
+
+The discriminator uses:
+- Strided convolutions for downsampling
+- Spectral normalization (Miyato et al., 2018) for training stability
+- LeakyReLU activations
+
+Training alternates between updating the discriminator (to distinguish real from
+fake) and the generator (to fool the discriminator). Real labels are smoothed to
+0.9 to reduce discriminator overconfidence.
+
+![VQ-VAE-2 Architecture](figures/architecture_diagram.png)
+
+*Figure 2. VQ-VAE-2 architecture showing the hierarchical coarse (16×8) and fine
+(64×32) quantization levels, with the Transformer prior replacing the PixelCNN
+for anatomically coherent generation.*
+
+## 3. Feasibility review
+
+*Summary of the one-page feasibility review written before the experiments
+(source: `feasibility_review.tex`).*
+
+**User need.** Synthetic scans could support research when real data is
+limited or cannot be shared. Generated images must keep anatomical structure
+without copying training scans.
+
+**Acceptance criteria (as planned).**
+- Reconstruction: mean SSIM ≥ 0.6 between held-out slices and their
+  reconstructions.
+- Generation: 500 samples per unconditional model, compared with held-out real
+  slices by Kernel Inception Distance (KID).
+- Diversity: codebook use and distinct entries; uncurated grids.
+- Memorisation: exact duplicate checks and nearest-neighbour screening against
+  held-out real-to-training similarities. This is a screen, not a privacy
+  guarantee.
+- Compute: 3 hours of training, and 500 samples within 15 minutes.
+
+**Preliminary evidence.** A 5-epoch smoke test gave held-out SSIM 0.624 but
+used only 13 of 512 codes (perplexity 6.8). A PixelCNN on those codes cut
+cross-entropy from 6.24 to 0.63. A 3-epoch DCGAN produced banded,
+near-identical samples (pixel standard deviation 0.067 against 0.130 for real
+slices). The pipeline fitted the compute budget; sample quality was the open
+risk.
+
+**Planned mitigations.** Codebook tuning (initialisation, dead-code handling,
+size), a commitment-weight sweep, a reconstruction-loss comparison, and
+resize-convolution upsampling with spectral normalisation for the DCGAN.
+
+## 4. Data
+
+### 4.1 Source and layout
+
+The HipMRI prostate study provides 2D slices in `keras_slices_data`, split into
+train, validation and test folders. The dataset is not redistributed in this
+repository.
+
+### 4.2 Audit findings
+
+| Property | Finding | Consequence |
+|---|---|---|
+| Slices | 12,660 in total; 11,460 train (31 patients, 191 scans), 660 validation (4 patients), 540 test (3 patients) | Splits are about 90.5 / 5.2 / 4.3% by slice |
+| Patient overlap | None between splits | Patient-disjoint evaluation |
+| Size | 256×128 float32, except one scan (patient 019, week 1) at 256×144 | That scan is centre-cropped to 256×128 |
+| Intensity | 0–1212; median slice maximum 397 | Per-slice normalisation is required |
+| Labels | Six classes; prostate (label 5) about 0.4% of pixels | Segmentation is not used by these models; the class imbalance is noted for future work |
+| Load speed | about 230 slices/s; about 1.7 GB in RAM | Full set kept in memory |
+
+The audit was performed with a separate exploration script; its summary
+statistics are the source of the table above. The exploration figures are not
+included in this repository, which contains only the model code and the figures
+referenced in this report.
+
+### 4.3 Preprocessing
+
+Each slice is divided by its own maximum to map it to [0, 1]. Raw intensity
+scales differ between scans, so a global scale would vary with the scan. The
+single 256×144 scan is centre-cropped to 256×128 so every input has the same
+shape. The grayscale value is kept as a single channel.
+
+**Why per-slice maximum rather than a global or per-dataset statistic.** The
+audit found raw intensities spanning 0–1212 with a median slice maximum of 397,
+so a single global divisor would leave most slices compressed into a narrow
+band near zero and a few bright slices dominating the loss. Per-slice
+normalisation instead guarantees every input uses the full [0, 1] range, which
+matters because the decoder ends in a sigmoid and the reconstruction loss is
+computed in that range. The trade-off is that absolute intensity information is
+discarded: two slices with the same structure but different acquisition
+brightness become identical after normalisation. That is acceptable here
+because the task is unconditional structure generation, not intensity
+regression, but it is the reason the generated samples' mean intensity (0.159
+versus 0.180) must be interpreted as a *relative* distributional difference
+rather than an absolute calibration error.
+
+**Why not standardise (zero mean, unit variance).** Standardisation would push
+values outside [0, 1], which is incompatible with the sigmoid output and the
+SSIM `data_range=1.0` convention used throughout. Min–max scaling by the slice
+maximum keeps the target range consistent with the decoder's output range, so
+the reconstruction loss and SSIM are measured on the same scale the model
+produces.
+
+**Why the single 256×144 scan is cropped rather than resized.** Resizing would
+resample every pixel in that one scan and introduce interpolation artefacts
+that no other scan has, creating a systematic difference between that patient
+and the rest. A centre crop to 256×128 removes 8 columns from each side, which
+is a rigid, artefact-free operation and keeps the pixel grid aligned with every
+other slice. The crop is applied only when the shape is exactly (256, 144), so
+it cannot silently affect a correctly shaped slice.
+
+### 4.4 Splits
+
+The splits come from the dataset provider and are kept patient-disjoint. Every
+training script re-checks this at startup, because one leaked patient would
+invalidate the privacy claims. The validation split is used for all model and
+hyperparameter selection. The test split is used once, for the final reported
+numbers, and was not used to choose settings.
+
+## 5. Experiments
+
+Experiments were run in order. The variants below were compared on validation
+metrics; test numbers are reported but were not used to choose between them.
+
+### 5.1 Baseline VQ-VAE and the codebook collapse
+
+The first model followed van den Oord et al. (2017): two 4×4 stride-2
+convolutions, two residual blocks, a 512-entry codebook of dimension 64,
+β = 0.25, Adam at 2×10⁻⁴, and width 128. In the 5-epoch smoke test it reached
+validation SSIM 0.624, but only 13 codes were used (perplexity 6.8). This
+codebook collapse is a known failure mode, and the campaign was designed to test
+whether longer training recovers code use.
+
+### 5.2 Longer training and reconstruction loss
+
+Training for 100 epochs raised code use to 199–338 of 512 on the test set,
+depending on seed and configuration. The L1 reconstruction variant was selected
+on validation SSIM (0.93164), against 0.93111 for the main configuration with
+seed 0. The difference is very small, so the choice is not strong evidence that
+L1 is better. It was made by the predeclared validation rule, not by test
+performance.
+
+### 5.3 Codebook and downsampling variants
+
+| Variant | Validation SSIM | Codes used (test) | Decision |
+|---|---:|---:|---|
+| Baseline (L1, 4× downsampling, 512 codes) | 0.9316 | 199 | **Selected** |
+| Data-based codebook initialisation | 0.9287 | 236 | Not selected |
+| 128 codes | 0.9184 | 128 | Not selected; lower perplexity (66) |
+| 8× downsampling (32×16 grid) | 0.7850 | 187 | Not selected; large loss of detail |
+
+Eight-fold downsampling makes sampling about four times cheaper, but the
+reconstruction quality drops sharply, so it was rejected. Reducing the codebook
+to 128 entries lowered perplexity and did not help.
+
+### 5.4 Prior variants
+
+The PixelCNN prior was trained on the frozen selected VQ-VAE. The selected prior
+reached a validation NLL of 3.455 nats per code. Other prior variants ranged from
+2.924 to 3.602 nats. The selected prior's
+validation loss improved only slowly in its last ten epochs (about 3.468 at
+epoch 30 and 3.457 at epoch 40), so the prior was not expected to gain much from
+longer training.
+
+### 5.5 DCGAN baseline
+
+The first DCGAN produced banded samples, a known artefact of transposed
+convolutions (Odena et al., 2016). The final generator uses nearest-neighbour
+upsampling followed by convolution, with spectral normalisation in the
+discriminator. The baseline was trained for 50 epochs with two seeds.
+
+### 5.6 What did not work
+
+- 8× downsampling: reconstructions lost too much detail (see 5.3).
+- 128 codes: lower perplexity and no gain in quality.
+- Longer prior training on its own: validation NLL improvement had slowed by
+  the final epochs.
+- The first DCGAN: banded samples. The resize-convolution upsampling change in
+  Section 5.5 removed the banding; the resulting samples are shown in Figure 5.
+
+## 6. Results
+
+All numbers come from the frozen campaign. Test numbers use the 540 held-out test
+slices from 3 patients, and each number is a single run unless stated.
+
+### 6.1 Quantitative results
+
+**Reconstruction (test, SSIM).** The selected VQ-VAE reaches mean SSIM
+**0.9425**, with 540/540 reconstructions at or above 0.6. Seeds 0 and 1 of the
+main configuration give 0.9414 and 0.9432. The 0.6 target applies to
+reconstructions, following the teaching-team clarification.
+
+*What this number does and does not mean.* SSIM compares local luminance,
+contrast and structure over sliding windows, so a high score means the
+reconstruction preserves the *local* appearance of the input. It does not mean
+the reconstruction is diagnostically equivalent: a blurred reconstruction that
+smooths a tumour margin can still score highly, because SSIM rewards
+structural agreement at the window scale rather than the presence of a
+specific pathology. The 0.9425 figure therefore supports the claim that the
+encoder–decoder pair preserves anatomy, and is used here only for that claim.
+The seed spread (0.9414–0.9432, a range of 0.0018) is small relative to the
+gap to the 0.6 target, so the result is not sensitive to the random seed.
+
+**Generation (unpaired SSIM, supplementary).** Each generated slice is compared
+with its nearest held-out real slice by pixel L2. The same protocol on real
+scans gives mean 0.2504, so this measure cannot reach 0.6 even for real data.
+
+| Cohort | Mean SSIM to nearest reference | Fraction ≥ 0.6 |
+|---|---:|---:|
+| Real test scans (control) | 0.2504 | 0.000 |
+| VQ-VAE + PixelCNN prior (selected) | 0.1827 | 0.000 |
+| DCGAN (seed 0) | 0.2154 | 0.000 |
+
+**Distribution fidelity (KID, 1,500 samples per model).**
+
+| Run | VQ-VAE + prior | DCGAN |
+|---|---:|---:|
+| Seed 0 | 0.4218 (selected) / 0.3734 (main) | 0.4890 |
+| Seed 1 | 0.4308 (main) | 0.2830 |
+
+Lower is better. The two seeds disagree about which model is better, so this
+report does not claim a consistent winner. The K128 variant scored 0.3478 on the
+test set, but it was not chosen on test results.
+
+*Why KID rather than FID, and why the seed disagreement matters.* KID is the
+unbiased estimator of the maximum mean discrepancy between Inception feature
+distributions; unlike FID it does not assume Gaussian features, which is
+preferable for a small, non-natural-image cohort. It is still computed on
+ImageNet features, so it measures similarity in a feature space that was never
+trained on MRI, and a low KID would not by itself establish clinical realism.
+The seed disagreement (VQ-VAE better at seed 0, DCGAN better at seed 1) is
+reported rather than averaged away because averaging two opposite orderings
+would produce a number that describes neither run. With only two seeds the
+honest conclusion is that the two models are not separated by this metric at
+this sample size, which is why the recommendation in Section 8 does not rest
+on KID alone.
+
+**Resources (A100-PCIE-40GB).** Parameter counts are exact, obtained by
+instantiating each model at its reported configuration and summing
+`p.numel()` over `model.parameters()`.
+
+| Model | Parameters | Epoch time (s) | Peak training VRAM (GB) | Time for 500 samples |
+|---|---:|---:|---:|---:|
+| VQ-VAE (selected, single-level) | 1,234,497 (1.23 M) | 8.21 | 1.03 | - |
+| VQ-VAE-2 (hierarchical) | 3,005,697 (3.01 M) | not recorded | not recorded | - |
+| PixelCNN prior (selected) | 1,463,936 (1.46 M) | 7.85 | 0.68 | about 40 s |
+| Transformer prior | 5,526,272 (5.53 M) | not recorded | not recorded | not recorded |
+| DCGAN generator | 1,822,401 (1.82 M) | 8.65 | 1.01 | about 0.08 s |
+| DCGAN discriminator | 3,928,833 (3.93 M) | 8.65 | 1.01 | about 0.08 s |
+
+The VQ-VAE-2 and Transformer rows are marked "not recorded" because those
+experiments ran outside the instrumented campaign and their per-epoch timings
+and peak memory were not logged; reporting a number for them would be
+fabrication. Their parameter counts are exact because they follow from the
+architecture. Total GPU allocation for the campaign was 3.03 hours, of which
+2.53 hours was training.
+
+**Reading the table.** The Transformer prior is the largest model (5.53 M,
+about 3.8× the PixelCNN prior) yet it is the one that produced coherent
+anatomy, so the improvement is not explained by capacity alone: the PixelCNN
+prior has a larger receptive-field deficit than its parameter count suggests.
+Conversely, the DCGAN discriminator (3.93 M) is larger than its generator
+(1.82 M), which is a common source of adversarial imbalance and is consistent
+with the instability observed in Section 5.5.
+
+### 6.2 Qualitative results
+
+![Test reconstructions](figures/reconstruction.png)
+
+*Figure 3. Test-set reconstructions from the selected VQ-VAE, uncurated.*
+
+![VQ-VAE + prior samples, seed 0](figures/vqvae_prior_seed0.png)
+
+*Figure 4. Uncurated samples from the VQ-VAE + PixelCNN prior, fixed seed 0.*
+
+![DCGAN samples, seed 0](figures/dcgan_seed0.png)
+
+*Figure 5. Uncurated samples from the DCGAN baseline, fixed seed 0.*
+
+![Nearest-neighbour distances](figures/nn_distance_distributions.png)
+
+*Figure 6. Distances from generated and real slices to their nearest training
+slices, with the validation-calibrated screening threshold marked.*
+
+**Side-by-side comparison.** Visual inspection of the uncurated grids shows that
+the VQ-VAE + PixelCNN prior samples in Figure 4 lack recognizable hip anatomy:
+the bone structures are absent or distorted, and the tissue boundaries do not
+match real MRI patterns. Some DCGAN samples in Figure 5 show recognizable
+anatomy, although artifacts and variation in quality remain visible. Visual
+resemblance is not sufficient to establish clinical fidelity or adequate
+diversity, and the quantitative comparisons in Sections 6.1 and 6.7 provide
+important context.
+
+**Closest training pairs.** The audit figures show generated samples next to their
+nearest training slices by pixel L2 distance. In all cases, the generated samples
+are visually distinct from their nearest training matches, confirming that exact
+memorisation has not occurred. However, this distinctness does not imply clinical
+validity: the generated samples are distinct because they lack anatomical structure,
+not because they represent novel realistic cases.
+
+### 6.3 Memorisation screen
+
+No generated slice exactly matches a training slice after uint8 conversion, and
+all sampled slices are unique. For the selected prior, 3.9% of samples fall
+below the validation-calibrated nearest-neighbour threshold, and 13.2% do at
+lower sampling temperature.
+
+**Caveat found in the review.** Nearest-neighbour RMSE is strongly correlated
+with the mean brightness of the generated sample (Pearson r = 0.84 across all
+1,500 samples). Dark samples have low RMSE to dark training slices for reasons
+unrelated to copying. The threshold-based screen above therefore overstates
+memorisation risk, and the flagged "close" cases are mostly dark slices, not
+evidence of copying. This is a limitation of the screen, not evidence that the
+samples are safe. It is not a privacy guarantee, and it cannot rule out
+near-copies.
+
+### 6.4 Failure autopsies
+
+Four cases were selected by fixed numeric rules from the selected model's audit
+files (`vqvae_prior_audit.csv`, `reconstruction_scores.csv`), not by eye. The
+table records the selection rule, the numerical evidence and the visual
+description of each case.
+
+| Case | Rule | Evidence | Nearest training slice | Visual description |
+|---|---|---|---|---|
+| A. Sample #731 | Lowest nearest-reference SSIM (generated) | SSIM 0.086; L2 RMSE to training 0.203 | case_019, week 1, slice 51 | Dark, noisy texture with no anatomical structure; nearest training slice shows clear hip anatomy |
+| B. Sample #1004 | Closest to any training slice | RMSE 0.1025, below the calibrated 0.1207 screen; SSIM 0.26 | case_019, week 1, slice 57 | Very dark sample (mean 0.091); low RMSE due to brightness, not copying |
+| C. Sample #227 | Furthest from training (most distinct) | RMSE 0.2514 | case_010, week 5, slice 59 | Bright, high-contrast noise pattern; maximally different from any training slice |
+| D. Reconstruction, patient 042 | Lowest reconstruction SSIM | SSIM 0.9135 (the minimum is still above 0.6) | itself | Clear hip anatomy with fine detail; reconstruction quality still excellent |
+
+Two of the four cases (A and B) have their nearest training slice from patient
+019, the scan that was cropped from 256×144. This is consistent with the
+cropped scan being over-represented among the darkest training slices, which
+are the natural nearest neighbours of the dark generated samples; it is not
+evidence of copying.
+
+**Brightness check (Case B).** The three case-B samples (indices 1004, 1151, 786)
+have mean intensities of 0.091, 0.073 and 0.115, against a median of 0.150 across
+all samples. They are in the dark tail, which explains their low nearest-training
+RMSE (see Section 6.3).
+
+**Visual review of the grids.** In cases A and C, the generated samples lacked
+recognizable anatomical organisation relative to their nearest training slices.
+Case B samples were dark and similarly lacked recognizable hip structures. The
+reconstruction in case D retained recognizable anatomy despite having the lowest
+reconstruction SSIM. The uncurated fixed-seed grid in Figure 4 likewise shows no
+recognizable hip anatomy. The selected PixelCNN's visual limitations therefore
+extend beyond the numerically selected outliers; this assessment is a visual
+review rather than a blinded clinical evaluation.
+
+## 6.5 Generation Failure Investigation
+
+While the selected VQ-VAE achieved excellent reconstruction (SSIM 0.9425),
+the initial PixelCNN-based generation produced anatomically unrealistic samples.
+This section documents the investigation into that failure, the attempted fixes,
+and the subsequent Transformer results.
+
+### 6.5.1 Initial Observation: Statistical Mismatch
+
+Generated samples from the PixelCNN prior showed clear statistical differences
+from real data:
+
+| Metric | Training data | Generated samples | Ratio |
+|---|---:|---:|---:|
+| Mean intensity | 0.180 | 0.136 | 0.76× |
+| Std deviation | 0.169 | 0.111 | 0.66× |
+| Bright pixels (>0.5) | 9.69% | 3.70% | 0.38× |
+| Across-sample std | - | 0.075 | Low diversity |
+
+![Structural diagnosis](figures/structural_diagnosis.png)
+
+*Figure 7. Comparison of intensity distributions: generated samples are
+systematically darker and less variable than real scans.*
+
+![Temperature comparison](figures/temperature_comparison.png)
+
+*Figure 8. Sampling temperature sweep (T=0.7, 1.0, 1.3): higher temperature
+increases diversity but does not fix anatomical structure.*
+
+### 6.5.2 Decoder Isolation Experiment
+
+**Hypothesis:** Perhaps the VQ-VAE decoder is the bottleneck, unable to produce
+realistic anatomy even from good codes.
+
+**Method:** Test the decoder in isolation by feeding it different combinations of
+real and sampled codes:
+- Row A: Real coarse + real fine codes → reconstruct real images (control)
+- Row B: Real coarse + sampled fine codes → test if fine prior is the problem
+- Row C: Sampled coarse + sampled fine codes → full generation pipeline
+- Row D: Sampled coarse + real fine codes → test if coarse prior is the problem
+
+![Decoder isolation experiment](figures/exp1_isolation_grid.png)
+
+*Figure 9. Decoder isolation grid showing the four real/sampled code
+combinations described above.*
+
+**Finding:** Row D (shuffled coarse + real fine) produces images nearly identical
+to Row A (both real). This proves that **the decoder takes anatomical structure
+primarily from the fine 64×32 codes, not the coarse 16×8 codes**. The coarse codes
+contribute mainly to global intensity/contrast, not anatomy.
+
+Rows B and C (any sampled fine codes) both produce anatomically incoherent samples,
+confirming that **the fine PixelCNN prior is the root cause of generation failure**.
+
+### 6.5.3 Root Cause: PixelCNN Blind Spot
+
+The PixelCNN prior uses masked 3×3 convolutions with 4 residual blocks. This gives
+each position a receptive field of approximately:
+- Horizontal: full row (due to raster-order causality)
+- Vertical: ~19 rows above the current position
+
+On a 64-row grid, a position near the bottom cannot directly access rows far
+above its local receptive field. Anatomical structures can span a much larger
+vertical distance, so this limited context is a plausible contributor to
+incoherent global structure. The failure is consistent with this hypothesis,
+but the comparison does not independently establish causation.
+
+### 6.5.4 Attempted Solutions
+
+After identifying the blind spot problem, multiple alternative approaches were tested:
+
+**Hierarchical VQ-VAE-2 and PixelCNN priors.** The model was
+extended to use a 16×8 coarse grid and a 64×32 fine grid, with separate priors
+for the two levels. Reconstruction SSIM reached approximately 0.937, but the
+generated images remained anatomically incoherent, with mean intensity 0.136
+and bright-pixel fraction 0.037. The improvement in reconstruction therefore
+did not transfer automatically to unconditional generation. Fine-level
+conditioning was investigated separately in Experiment 2.
+
+**Transformer coarse prior (Experiment 4).** The coarse PixelCNN was replaced
+with a causal Transformer comprising six layers, eight attention heads and
+embedding dimension 256. After 150 training epochs, samples showed improved
+global structure and a mean intensity of 0.168, with bright-pixel fraction
+0.053, but did not display coherent anatomy. This result is consistent with
+the isolation experiment: improving coarse codes alone was insufficient when
+the fine prior remained unchanged.
+
+**Conditioned fine prior (Experiment 2).** The fine PixelCNN was explicitly
+conditioned on coarse codes and trained for 150 epochs, reaching validation
+NLL of approximately 4.0. Its bright-pixel fraction was 0.054, and visual
+quality did not improve substantially. Conditioning supplies information from
+the coarse representation, but does not by itself enlarge the fine prior's
+spatial receptive field.
+
+**Latent-space alternatives (Experiment 7).** PCA sampling projected training
+codes into a lower-dimensional space, sampled from a Gaussian, and mapped
+the result back to discrete codes. Images were blurred and lacked clear
+anatomy despite a mean intensity of 0.189 and bright-pixel fraction of 0.051.
+Dirichlet-weighted latent mixup produced overlapping structures, with mean
+0.155 and bright-pixel fraction 0.026. In prefix-conditioned completion, the
+first 16 or 32 rows were taken from real codes and the remaining rows sampled
+by the PixelCNN. The 32-row prefix produced mean intensity 0.208 and
+bright-pixel fraction 0.087, but visual quality remained limited. Because the
+completion methods use real codes, their results are not unconditional samples.
+
+**Gated PixelCNN (Experiment 8).** A 22-layer gated prior with 7×7 kernels was
+trained to increase the spatial receptive field. Its validation NLL was 4.05;
+generation was not evaluated within the available time. It is therefore not
+possible to conclude from this experiment whether the larger convolutional
+receptive field would have improved the samples.
+
+**Transformer fine prior (Experiment 6).** The fine PixelCNN was replaced by a
+causal Transformer with six layers, eight attention heads, embedding dimension
+256 and attention across the 2,048-token sequence. After 40 epochs its
+validation NLL was 3.84, compared with approximately 4.05 for the PixelCNN
+comparison. At temperature 1.0, the samples had mean intensity 0.159 and
+bright-pixel fraction 0.049, corresponding to approximately 88% and 51% of
+the training-reference values. The sample grid in Figure 10 shows recognizable
+hip structures, in contrast to the PixelCNN samples in Figure 4. The diversity
+and memorisation screens are discussed separately in Section 6.6; they do not
+constitute clinical or privacy certification.
+
+![Transformer-generated samples](figures/transformer_samples.png)
+
+*Figure 10. Uncurated samples from the Transformer fine prior (T=1.0). Unlike
+the PixelCNN samples in Figure 4, these show recognizable anatomical structure.*
+
+![Real vs Generated comparison](figures/real_vs_generated.png)
+
+*Figure 11. Side-by-side comparison: real test reconstructions (left) versus
+Transformer-generated samples (right). Generated samples are systematically
+darker but anatomically coherent.*
+
+**Interpretation.** Causal self-attention gives each token access to all
+preceding tokens, whereas the tested PixelCNN has a limited local receptive
+field. This provides a plausible mechanism for the improvement in global
+structure. The experiments support this interpretation but do not isolate
+receptive field as the sole cause: the models also differ in architecture,
+capacity and optimisation.
+
+### 6.5.5 Why This Matters
+
+The experiments demonstrate why reconstruction and unconditional generation
+must be assessed separately. The VQ-VAE-2 reconstructed held-out images with
+SSIM of approximately 0.937, and the isolation experiment showed that the
+decoder could retain recognizable structure when supplied with real fine codes.
+Replacing those codes with samples from the tested PixelCNN caused a marked
+degradation, implicating the fine-code distribution as a substantial
+bottleneck in this pipeline.
+
+The Transformer results suggest that greater access to preceding context can
+improve the generated structures, although the experiments do not prove that
+receptive field alone explains the difference. The gated PixelCNN was not
+evaluated for generation, and the Transformer samples retain measurable
+intensity-distribution differences. Consequently, neither the Transformer nor
+the rejected alternatives should be treated as clinically validated solely on
+the basis of this comparison.
+
+### 6.5.6 Training Curves
+
+![VQ-VAE training curves](figures/vqvae_training_curves.png)
+
+*Figure 12. VQ-VAE-2 training and validation loss (log scale) and validation
+SSIM over 100 epochs, plotted from the saved training history.*
+
+Validation SSIM rises from 0.645 in epoch 1 to 0.936 at epoch 100, while
+validation loss falls from 0.0725 to 0.00133. The later improvements are much
+smaller than the initial gains, suggesting diminishing returns from further
+reconstruction training. These curves assess reconstruction, not the quality of
+unconditional generation; the strong reconstruction result does not establish
+that the sampled latent codes follow the true data distribution.
+
+![Prior training curves](figures/prior_training_curves.png)
+
+*Figure 13. Fine PixelCNN prior training and validation negative log-likelihood
+(NLL), in nats per code, over 150 epochs, plotted from the saved prior history.*
+
+Training NLL decreases from 4.956 to 3.645, while validation NLL decreases from
+4.845 to 4.036. The gap at the final epoch is approximately 0.39 nats per code:
+training continues to improve more than validation, which is consistent with
+overfitting or limited generalisation. These are teacher-forced code-prediction
+scores, not direct measures of image realism. During sampling, predictions are
+conditioned on previously sampled rather than ground-truth codes, so errors can
+accumulate. Together with the isolation experiment, this explains why a
+decreasing NLL can coexist with anatomically poor generated images. The saved
+history does not separately record the reconstruction and codebook losses, so
+they are not presented as separate curves.
+
+### 6.6 Transformer Generation Quality Analysis
+
+With the Transformer prior successfully generating anatomically coherent samples,
+we conducted detailed analysis of diversity, memorization, and distribution fidelity.
+
+#### 6.6.1 Diversity Analysis
+
+![Diversity across temperatures](figures/diversity_temperature.png)
+
+*Figure 14. Samples at T=0.9 (top row) and T=1.0 (bottom row) showing
+generation diversity.*
+
+| Temperature | Mean Pairwise L2 Distance | Std of Pairwise Distance |
+|---|---:|---:|
+| T=0.9 | 37.3 | 9.3 |
+| T=1.0 | 36.0 | 5.8 |
+
+The average pairwise distances indicate measurable variation among the sampled
+images; the T=0.9 set has a slightly higher mean and a wider spread than the
+T=1.0 set. Pixel-space distance is affected by brightness and texture as well
+as anatomy, however, and cannot establish coverage of the real population.
+These generated-to-generated distances also do not test whether a sample is
+similar to a training image.
+
+#### 6.6.2 Memorization Check
+
+![Memorization check](figures/memorization_check.png)
+
+*Figure 15. Left: distribution of pairwise L2 distances between generated
+samples. Right: the most similar pair of generated samples (still visually
+distinct).*
+
+**Key findings:**
+- Minimum pairwise distance: 20.9 (far from zero)
+- Mean pairwise distance: 36.0
+- Maximum pairwise distance: 49.4
+
+The minimum distance of 20.9 is between two generated samples; it indicates that
+the examined set does not contain identical generated images under this
+metric. It does not measure distance to training data and cannot by itself
+exclude memorisation. The earlier nearest-neighbour analysis concerns the
+PixelCNN campaign rather than establishing the Transformer model's privacy.
+A separate generated-to-training audit would be required for the latter.
+
+#### 6.6.3 AI vs Real Detection: Distribution Differences
+
+![AI vs Real distributions](figures/ai_vs_real_distributions.png)
+
+*Figure 16. Comparison of statistical distributions between generated and real
+training images.*
+
+| Metric | Training | Generated (T=1.0) | Ratio |
+|---|---:|---:|---:|
+| Mean intensity | 0.180 | 0.159 | 88.2% |
+| Std deviation | 0.169 | 0.170 | 100.7% |
+| Bright pixels (>0.5) | 9.69% | 4.95% | 51.1% |
+
+The generated samples are approximately 12% darker on average and contain
+about half the fraction of bright pixels observed in the training reference.
+Their overall pixel standard deviation is similar, but a match in this
+aggregate statistic does not establish that local textures or anatomical
+structures have the correct distribution. Mean intensity and bright-pixel
+fraction are potential detection features; a classifier based on them would
+require a separately defined evaluation before its accuracy could be claimed.
+
+For research augmentation, these systematic differences could become shortcuts
+for a downstream classifier. Possible interventions include intensity
+calibration, histogram-based matching and explicit distribution constraints
+during training. Each would need evaluation on patient-disjoint data, since
+matching marginal intensity statistics alone would not necessarily correct
+anatomical errors.
+
+### 6.7 Summary: What Worked and What Didn't
+
+| Approach | Reconstruction | Generation | Notes |
+|---|---|---|---|
+| VQ-VAE (single level) | SSIM 0.93 | Failed | Codebook collapse initially |
+| VQ-VAE-2 (hierarchical) | SSIM 0.94 | Failed | Better reconstruction, same generation issues |
+| PixelCNN prior | - | Failed | Limited context is a plausible contributing factor |
+| Transformer coarse prior | - | Partial | Improved global structure, fine prior still fails |
+| Conditioned fine prior | - | Failed | Conditioning doesn't fix receptive field |
+| Latent sampling (PCA, mixup) | - | Failed | Not true learned priors |
+| **Transformer fine prior** | - | Improved | Recognizable structure in visual review; distribution gaps remain |
+| DCGAN baseline | - | Partial | Some recognizable anatomy; diversity and fidelity need further assessment |
+
+**DCGAN diversity analysis:** Some DCGAN samples show recognizable anatomy, but
+visual plausibility alone does not establish that the generator covers the full
+range of patient anatomy. In the separate one-epoch, 32-sample smoke test,
+across-sample pixel standard deviation was 0.0028, with no exact uint8 training
+matches. This smoke-test statistic must not be attributed to the 50-epoch final
+DCGAN. The earlier three-epoch feasibility test reported 0.067 versus 0.130
+for real slices. The final campaign's KID varied substantially across its two
+seeds (0.489 and 0.283), so a single favourable grid is not enough to establish
+consistent distributional fidelity or diversity. Exact-match checks and the
+nearest-neighbour screen are useful warnings, but do not prove absence of
+memorisation. More samples, patient-level coverage analysis, and direct
+generated-to-training comparisons are needed before recommending augmentation.
+
+**Interpretation:** The isolation and prior-comparison experiments indicate
+that modelling the fine-code distribution is an important factor in generation
+quality. The limited context of the tested PixelCNN is a plausible explanation,
+but the present experiments do not exclude other architectural or optimisation
+effects.
+
+## 7. Limitations and Future Work
+
+The central limitation is that reconstruction and generation answer different
+questions. A reconstruction starts from the codes of a real input; an
+unconditional generator must also reproduce the distribution of those codes.
+High reconstruction SSIM therefore supports the capacity of the encoder and
+decoder, but cannot by itself establish that synthetic samples are clinically
+faithful. Likewise, qualitative resemblance is a visual observation rather
+than a blinded clinical assessment. The brightness and bright-pixel differences
+in Section 6.6.3 are particularly important because a downstream model could
+learn these systematic artefacts instead of clinically relevant anatomy.
+
+The small patient-disjoint evaluation set makes the reported results sensitive
+to individual patients and acquisition variation. Slices from the same patient
+are correlated, so hundreds of slices should not be treated as hundreds of
+independent patients. KID provides a distribution-level comparison but uses
+features trained on natural images; it may miss medically important errors.
+Similarly, nearest-neighbour distances are affected by brightness and do not
+constitute a formal privacy guarantee. A larger, external cohort, patient-level
+uncertainty estimates, blinded expert assessment and a dedicated privacy audit
+would address different aspects of these limitations rather than relying on a
+single score.
+
+**Current Limitations:**
+- Unpaired generated-slice SSIM cannot reach 0.6 even for real scans, so the
+  target is evaluated on reconstructions only.
+- Patient numbers are small (3 test patients, 4 validation patients), so
+  per-patient variation is large and statistical power is limited.
+- KID uses ImageNet features on grayscale MRI and is not clinical validation.
+- Nearest-neighbour screening does not prove the absence of memorisation; it is a
+  heuristic screen, not a privacy guarantee.
+- No formal differential-privacy bound (ε-δ guarantees) was applied.
+- Per-epoch timings and peak VRAM were not logged for the VQ-VAE-2 and
+  Transformer experiments, which ran outside the instrumented campaign; their
+  parameter counts are exact but their resource cost is not measured here.
+
+**Recommended Future Work:**
+- **Multi-center validation:** Evaluate on larger held-out cohorts from multiple
+  clinical sites to assess generalization and per-patient variability.
+- **Clinical expert validation:** Conduct blinded radiologist review studies to
+  assess anatomical plausibility and diagnostic utility.
+- **Formal privacy guarantees:** Implement differential privacy training (DP-SGD)
+  with formal ε-δ bounds for clinical deployment.
+- **Distribution calibration:** Post-processing intensity adjustment or adversarial
+  training to match real MRI statistics (address 12% darkness, 51% bright pixel deficit).
+- **Perceptual metrics:** Evaluate with medical-imaging-specific metrics (FID on
+  medical features, radiologist Turing tests) rather than ImageNet-based KID.
+- **Conditional generation:** Extend to patient-specific or anatomy-conditioned
+  generation for targeted data augmentation.
+
+## 8. Recommendation for the project manager
+
+Based on the comprehensive experimental investigation, we provide the following phased deployment recommendation:
+
+### Phase 1: Research evaluation of reconstruction
+
+The reconstruction results justify further investigation of lossy compression
+and retrieval, but not immediate clinical deployment. The hierarchical model
+achieved mean SSIM of approximately 0.937, while the selected single-level
+campaign model achieved 0.9425 with 540/540 test slices above 0.6. The
+single-level campaign recorded approximately 8.21 seconds per training epoch
+and 1.03 GB peak training VRAM. A deployment decision would require validation
+of clinically relevant details, compression rate and performance on external
+patients; SSIM alone does not establish diagnostic equivalence.
+
+### Phase 2: Validation of synthetic cohorts
+
+Transformer samples showed recognizable structures on visual inspection, but
+their mean intensity was 0.159 versus 0.180 in the reference, and their
+bright-pixel fraction was 4.95% versus 9.69%. The mean generated-to-generated
+pairwise distance of 36.0 and minimum of 20.9 describe variation within the
+examined sample set, not privacy relative to training data. Before considering
+research augmentation, the model should be evaluated for patient-level
+distribution coverage, nearest-training similarity and utility in a downstream
+task, together with independent expert review. Intensity calibration is a
+candidate intervention, but should be evaluated rather than assumed to repair
+anatomical errors.
+
+### Phase 3: Alternative baselines
+
+The tested PixelCNN prior did not produce coherent anatomy in the visual
+review, but larger-receptive-field variants remain an open research question.
+The DCGAN produced some recognizable anatomy and remains a useful fast baseline;
+its KID varied across seeds and coverage needs further assessment. PCA and
+mixup alternatives did not yield comparable anatomical quality in the
+reported visual review.
+
+### Cost-Benefit Analysis
+
+| Approach | Anatomical Quality | Speed (500 samples) | Recommendation |
+|---|---|---|---|
+| VQ-VAE Reconstruction | Excellent (SSIM 0.937) | N/A | Research evaluation |
+| VQ-VAE + Transformer | Coherent in visual review | Not measured here | Further validation |
+| VQ-VAE + PixelCNN | Poor in visual review | 40s | Further study |
+| DCGAN | Some recognizable anatomy | 0.08s | Retain as a baseline |
+
+### Critical Success Factor
+The experiments highlight the importance of matching the prior's available
+context to the structure of the data. The Transformer result is consistent
+with a benefit from wider context, but does not prove that self-attention is
+the only viable architecture. A controlled comparison with the unevaluated
+gated PixelCNN would help separate receptive-field effects from other model
+and training differences.
+
+### Next Steps
+1. **Immediate:** Evaluate reconstruction for research compression applications
+2. **Short-term (1-2 months):** Implement distribution calibration for Transformer-generated samples
+3. **Medium-term (3-6 months):** Conduct clinical validation study with radiologists
+4. **Long-term (6-12 months):** Evaluate formal differential privacy bounds for clinical deployment
+
+## 9. Dependencies and reproducibility
+
+- Python 3.11, torch 2.13.0+cu130, torchvision 0.28.0+cu130,
+  torchmetrics 1.9.0, torch-fidelity 0.4.0, nibabel 5.4.2,
+  scikit-image 0.26.0, matplotlib 3.11.2, tqdm 4.70.0, NumPy.
+- KID requires torch-fidelity and Inception weights, cached outside Git.
+- Training runs are seeded (`--seed 0` default) and check patient-level split
+  disjointness at startup.
+- The Quick Start above describes the supplied command-line scripts; the separate
+  hierarchical experiments are not reproduced by those commands.
+
+**Reproducibility mechanisms.** Reproducibility is enforced by construction
+rather than by convention:
+
+- *Seeding.* `seed_all()` seeds Python, NumPy and PyTorch (CPU and all CUDA
+  devices) at the start of every run and again before sampling, so a given
+  `--seed` reproduces both the training trajectory and the generated samples.
+- *Configuration capture.* `start_run()` writes the complete argument set to
+  `config.json` and refuses to reuse an output directory whose stored config
+  differs, so two different experiments cannot silently share one folder.
+- *Checkpoint provenance.* Each checkpoint is fingerprinted with SHA-256, and
+  `predict.py` refuses to evaluate a prior against a VQ-VAE it was not trained
+  on. This prevents a subtle class of error where an ablation's prior is
+  scored against the wrong autoencoder.
+- *Atomic writes.* All JSON and weight files are written to a temporary file
+  and then renamed, so an interrupted run cannot leave a truncated checkpoint
+  that a later resume would load as valid.
+- *Resumable state.* The epoch-boundary checkpoint stores model weights,
+  optimiser state, per-epoch history and all RNG states, so `--resume`
+  continues the same random sequence rather than restarting it.
+- *Selection discipline.* Model selection uses validation metrics only; the
+  test split is evaluated once. This is stated in Section 4.4 and is the reason
+  the reported test numbers are not optimistic.
+
+**Environment.** The campaign ran on an A100-PCIE-40GB node of the Rangpur
+cluster. The exact package versions above are the ones recorded in the run
+environment; a different CUDA or PyTorch build may change floating-point
+reduction order and therefore the last digits of the reported metrics, though
+not the qualitative conclusions.
+
+The historical test suite is not included in the cleaned submission directory.
+The supplied scripts require the dependencies above and access to the dataset
+for end-to-end execution.
+
+## 10. Artificial Intelligence Usage Disclosure
+
+This submission was created with substantial assistance from AI tools. The following disclosure describes how these tools were used throughout the project.
+
+**AI Tools Used:**
+
+1. **Claude Sonnet 3.5 (Anthropic)** - Used extensively for report writing and analysis:
+   - Synthesizing this README from experimental findings, statistical results, graphs, and observations
+   - Improving sentence structure, grammar, and clarity throughout the document
+   - Organizing sections and creating narrative flow
+   - Interpreting experimental results and articulating technical concepts
+   - Drafting the Key Contributions section and experimental analysis
+
+2. **DeepSeek (Agentic Coding Assistant)** - Used for code development:
+   - Implementing model architectures (VQ-VAE, VQ-VAE-2, PixelCNN, Transformer prior, DCGAN)
+   - Writing training loops, evaluation metrics, and data pipelines
+   - Creating plotting scripts and figure generation code
+   - Developing the campaign system for experiment orchestration
+   - Implementing unit tests and validation checks
+
+3. **Additional AI Tools:**
+   - GitHub Copilot for code completion and suggestions
+   - ChatGPT for technical queries and debugging assistance
+   - AI-assisted documentation lookup for libraries (PyTorch, Matplotlib, NumPy)
+
+**Scope of AI Assistance:**
+
+AI tools contributed to:
+- Code implementation (models, training, evaluation, visualization)
+- Report writing (structure, grammar, technical explanations)
+- Data analysis interpretation and presentation
+- Figure generation and plotting scripts
+- Documentation and code comments
+
+**Verification and Validation:**
+
+All AI-generated content was verified through:
+- Running unit tests on all model implementations
+- Executing the full pipeline on real HipMRI data with patient-disjoint splits
+- Cross-checking reported numbers against raw output files (`campaign_results.json`)
+- Visual inspection of generated samples and figures
+- Independent recomputation of statistical analyses
+- Validation of experimental claims against logged results
+
+**Work Checked and Verified:**  
+Benjamin Evans (Student ID: 48828514)
+
+All code was tested, all results were validated, and all claims were verified against experimental evidence before inclusion in this submission.
+
+## 11. References
+
+- van den Oord, A., Vinyals, O. & Kavukcuoglu, K. (2017). Neural Discrete
+  Representation Learning. NeurIPS.
+- van den Oord, A., et al. (2016). Conditional Image Generation with PixelCNN
+  Decoders. NeurIPS.
+- Razavi, A., van den Oord, A. & Vinyals, O. (2019). Generating Diverse
+  High-Fidelity Images with VQ-VAE-2. NeurIPS.
+- Radford, A., Metz, L. & Chintala, S. (2016). Unsupervised Representation
+  Learning with Deep Convolutional GANs. ICLR.
+- Odena, A., Dumoulin, V. & Olah, C. (2016). Deconvolution and Checkerboard
+  Artifacts. Distill.
+- Miyato, T., et al. (2018). Spectral Normalization for GANs. ICLR.
+- Binkowski, M., et al. (2018). Demystifying MMD GANs (KID). ICLR.
+- Structure of the report was informed by the 2025 COMP3710 VQ-VAE README by
+  S. Subramaniam (PatternAnalysis-2025, s4858817_VQVAE). No text was copied.
+
+---
+
+## Appendix A: Additional Experimental Figures
+
+This appendix contains supplementary figures from the experimental investigation that provide additional context and visual evidence for the findings reported in Section 6.
+
+### A.1 Experiment Comparison Overview
+
+![Experiment comparison](figures/experiment_comparison.png)
+
+*Figure 17. Side-by-side comparison of all eight experimental approaches tested
+during the investigation, showing the progression from PixelCNN failure to
+Transformer success.*
+
+### A.2 Receptive Field Visualization
+
+![Receptive field comparison](figures/receptive_field_comparison.png)
+
+*Figure 18. Visual comparison of the PixelCNN's limited receptive field (~19
+rows) versus the Transformer's full attention over all 2,048 code positions.*
+
+### A.3 Transformer Sample Grid
+
+![Transformer sample grid](figures/transformer_samples_grid.png)
+
+*Figure 19. Extended grid of Transformer-generated samples (32 samples)
+demonstrating diversity and anatomical consistency across multiple generations.*
+
+### A.4 Distribution Analysis (Experiment 6)
+
+![Distribution analysis](figures/exp6_distribution_analysis.png)
+
+*Figure 20. Detailed statistical analysis from Experiment 6 (Transformer prior)
+showing intensity distributions, bright-pixel fractions and pairwise distance
+metrics.*
+
+---
+
+## Appendix B: Complete Feasibility Review (As Submitted)
+
+*This is the exact 1-page feasibility review submitted before experiments began.*
+
+### COMP3710 Project 2.4: Feasibility Review
+**The Fidelity--Memorisation--Privacy Dilemma in Synthetic Medical Imaging**  
+Hard VQ-VAE with PixelCNN Prior | DCGAN Baseline
+
+---
+
+### 1. User Need, Scope & Acceptance Criteria
+
+Synthetic medical images could support research when real patient data is limited or cannot be shared due to privacy constraints. However, generated images must preserve anatomical structure without simply reproducing training examples. This project investigates these trade-offs using 2D HipMRI slices, comparing a VQ-VAE with a PixelCNN prior against a DCGAN baseline.
+
+The project will assess the following criteria:
+
+- **Reconstruction fidelity:** achieve mean SSIM ≥ 0.6 between held-out images and their corresponding VQ-VAE reconstructions.
+
+- **Generation:** generate 500 samples from each unconditional model and compare their Kernel Inception Distance (KID) against held-out real images. Lower KID indicates greater similarity in feature distributions.
+
+- **Diversity:** report codebook utilisation and distinct entries used; assess sample variety and distribution coverage using generated grids and feature-space metrics.
+
+- **Memorisation risk:** check for exact duplicates and compare generated-to-training image similarity against held-out real-to-training similarities. Investigate unusually similar samples; this is a screening test, not a privacy guarantee.
+
+- **Computational feasibility:** record peak GPU memory, training time and generation time. Use a provisional training budget of 3 hours and target generation of 500 images within 15 minutes, with 1 hour as an upper target, subject to available hardware.
+
+### 2. Model Choice & Course Concepts
+
+The main model is a VQ-VAE trained on the provided HipMRI dataset. Its encoder maps images to latent features, which are quantised to learned codebook entries; its decoder reconstructs images from these discrete representations (van den Oord et al., 2017).
+
+A VQ-VAE alone does not learn how to sample new latent grids. A PixelCNN autoregressive prior will therefore learn the distribution of code indices, allowing new grids to be sampled and decoded into synthetic slices. A DCGAN (Radford et al., 2016) provides an alternative unconditional generation baseline: its convolutional generator creates images from random noise, while its discriminator distinguishes generated from real images. It offers a useful architectural comparison and fast sampling, although adversarial training may be unstable.
+
+The course content has covered a practical implementation of a VQ-VAE and a GAN model, as well as their concepts, and will be used to underpin this experiment.
+
+### 3. Preliminary Feasibility Evidence
+
+**Baseline configuration.** The VQ-VAE follows the architecture and settings of van den Oord et al. (2017): two 4×4 stride-2 convolutions (a 64×32 latent grid), two residual blocks, a 512-entry codebook of dimension 64, β=0.25, straight-through gradients and Adam at 2×10⁻⁴, with the width reduced to 128 channels. It was implemented directly from the paper and left untuned, as were the masked-convolution PixelCNN prior and the DCGAN. A previous-year COMP3710 VQ-VAE on this dataset (PatternAnalysis-2025, s4858817) is cited only as external evidence: it reconstructs without a generative prior and reached validation SSIM 0.757, with codebook perplexity rising from ~5 to ~100 over ~50 epochs.
+
+**Data audit (Rangpur, keras_slices_data).** The 2D data contain 12,660 slices: 11,460 train (31 patients, 191 scans), 660 validation (4 patients) and 540 test (3 patients), a 90.5/5.2/4.3% slice split with zero patient overlap between splits. Images are 256×128 float32 with paired, index-aligned masks; one scan (patient 019, week 1) is 256×144 and must be cropped. Raw intensities span 0--1212 (median slice maximum 397), so per-slice normalisation is needed. Masks carry six labels; the prostate (label 5) is only ~0.4% of pixels. Loading runs at ~230 slices/s; the full set is ~1.7 GB in RAM.
+
+**GPU smoke test (A100-40GB, 5 epochs).** The VQ-VAE (1.18M parameters) trained at 6.9 s/epoch and 3.39 GB peak, reaching held-out mean SSIM 0.624 (78% of slices ≥0.6; MSE 0.0043), though reconstructions are blurry. Only 13/512 codes were used (perplexity 6.8), resembling the early-epoch collapse reported in the cited work, so longer training may recover utilisation but must be verified. A 2.13M-parameter PixelCNN on the frozen codes cut cross-entropy from 6.24 (uniform) to 0.63, an easy target while only 13 codes are active; measured sampling cost extrapolates to 2.8 min (fp32; 1.4 min bf16) for 500 images, inside the 15-minute target. A 3-epoch DCGAN (3.2M/2.8M parameters, 3.6 s/epoch, 1.46 GB) generates 500 images in 0.12 s but gives banded, near-identical samples (pixel std 0.067 vs 0.130 real). The pipeline fits the budget; sample quality is the open risk.
+
+![Feasibility figure](figures/feasibility_fig.png)
+
+*Figure 21. Real versus VQ-VAE reconstruction pairs (blurry, SSIM 0.62) and
+DCGAN samples (banded, near-identical), as submitted in the feasibility review.*
+
+### 4. Experimental Plan & Next Steps
+
+**VQ-VAE:**
+- Retrain for 50--100 epochs with validation-SSIM checkpointing and per-epoch perplexity, testing whether the 13/512 collapse is transient.
+- If utilisation stays low: EMA codebook updates, k-means initialisation, dead-code reset; sweep K∈{256,512}, D∈{64,128} and β.
+- To reduce blur: add an L1/SSIM loss and compare 4× (2048 tokens) with 8× downsampling (512 tokens: ~4× cheaper PixelCNN sampling, possible detail loss). Select on validation SSIM, MSE, utilisation.
+
+**PixelCNN, DCGAN and evaluation:**
+- Freeze the chosen VQ-VAE, encode all splits, train PixelCNN (try gated blocks; vary depth, width, receptive field) selected on validation NLL; sample with temperature.
+- DCGAN: remove banding (resize-convolution upsampling, spectral norm, label smoothing), train 50+ epochs; WGAN-GP only if unstable.
+- 500 samples per model: KID vs held-out real images, codebook use, fixed-seed grids, nearest-training-neighbour audit. Select on validation, report test once; with 4 validation and 3 test patients, report per-patient spread and limited statistical power. Log time and peak GPU memory.
+
+### 5. Risks, Budget & Fallback
+
+**Risks:** Blurry reconstructions, codebook under-utilisation, poor generated samples, DCGAN instability, memorisation and limited computing resources.
+
+- **Poor fidelity or codebook use:** investigate loss weighting, model capacity, downsampling and codebook settings.
+- **Memorisation:** inspect suspicious matches; test early stopping, regularisation or anatomically appropriate augmentation, then reassess fidelity.
+- **Unstable generation:** tune learning rates and model settings; document persistent mode collapse or poor sample quality.
+- **Resource constraints:** reduce model size, latent-grid resolution or training duration. If PixelCNN cannot be completed, report reconstruction results separately and acknowledge that unconditional generation remains unverified.
+
+### References
+
+van den Oord, A., Vinyals, O. & Kavukcuoglu, K. (2017). *Neural Discrete Representation Learning*. NeurIPS.
+
+Radford, A., Metz, L. & Chintala, S. (2016). *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks*. ICLR.

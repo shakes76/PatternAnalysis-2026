@@ -1,0 +1,23 @@
+# Python bytecode caches
+__pycache__/
+*.py[cod]
+
+# Training artefacts: model weights, logs and figures are large and must not
+# be committed (course rule: no datasets or model files in the fork).
+checkpoints/
+outputs/
+campaigns/
+logs/
+*.pt
+*.pth
+
+# AI assistant working directory (not for submission)
+.ai/
+_archive/
+__pycache__/
+logs/
+
+# Generated PDF build of README.md. The rubric specifies README.md as the
+# documentation deliverable; the PDF is a local convenience export and is
+# regenerated with pandoc, so it is not committed (it is ~12 MB).
+README.pdf
