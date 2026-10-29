@@ -1,0 +1,10 @@
+**/__pycache__/
+**/.pytest_cache/
+**/runs/
+**/.venv/
+*.nii
+*.nii.gz
+*.pt
+*.pth
+*.ckpt
+.DS_Store
