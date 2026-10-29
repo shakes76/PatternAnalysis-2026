@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import torch
 
 from dataset import prepare_isic_yolo_dataset
-from modules import ISICBaselineDetector, compute_box_iou_tensor
+from modules import ISICDetector
 
 
 def plot_training_curves(run_dir: Path, output_fig: Path):
@@ -36,7 +36,7 @@ def plot_training_curves(run_dir: Path, output_fig: Path):
     axes[1].plot(df["epoch"], df["metrics/mAP50-95(B)"], label="Val mAP@50:95", linewidth=2)
     axes[1].plot(df["epoch"], df["metrics/recall(B)"], label="Val Recall (Sensitivity)", linestyle=":")
     axes[1].plot(df["epoch"], df["metrics/precision(B)"], label="Val Precision", linestyle=":")
-    axes[1].set_title("Validation Detection Metrics across 50 Epochs")
+    axes[1].set_title("Validation Detection Metrics")
     axes[1].set_xlabel("Epoch")
     axes[1].set_ylabel("Score")
     axes[1].legend()
@@ -49,33 +49,28 @@ def plot_training_curves(run_dir: Path, output_fig: Path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="50-Epoch YOLOv8n Baseline on ISIC 2018")
-    parser.add_argument("--raw_dir", type=str, default="/home/groups/comp3710/ISIC2018",
-                        help="Path to raw ISIC 2018 dataset")
+    parser = argparse.ArgumentParser(description="YOLOv8 ISIC Training")
+    parser.add_argument("--raw_dir", type=str, default="../../data/ISIC2017", help="Path to raw ISIC dataset")
     parser.add_argument("--data_dir", type=str, default="./data/isic2018_yolo",
-                        help="Output directory for prepared YOLO dataset")
-    parser.add_argument("--yaml_path", type=str, default="./isic2018.yaml",
-                        help="Path to save generated YOLO dataset YAML")
-    parser.add_argument("--epochs", type=int, default=50, help="Number of training epochs")
+                        help="Output directory for YOLO dataset")
+    parser.add_argument("--yaml_path", type=str, default="./isic2018.yaml", help="Path to dataset YAML")
+    parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs")
     parser.add_argument("--batch", type=int, default=16, help="Batch size")
     parser.add_argument("--imgsz", type=int, default=640, help="Image resolution")
-    parser.add_argument("--max_samples", type=int, default=None,
-                        help="Optional cap for quick debugging (leave None for full ISIC 2018 run)")
     args = parser.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"=== Running 50-Epoch ISIC 2018 Baseline on device: {device} ===")
+    print(f"=== Running ISIC Training on device: {device} ===")
 
     # 1. Prepare Patient-Stratified Dataset
     yaml_file = prepare_isic_yolo_dataset(
         raw_dir=args.raw_dir,
         output_dir=args.data_dir,
         yaml_out_path=args.yaml_path,
-        max_samples=args.max_samples,
     )
 
-    # 2. Initialize & Train Baseline Model
-    model = ISICBaselineDetector(weights_path="yolov8n.pt")
+    # 2. Initialize & Train Model
+    model = ISICDetector(weights_path="yolov8n.pt")
     project_dir = str(Path("./runs/isic_baseline").resolve())
 
     start_t = time.time()
@@ -86,11 +81,11 @@ def main():
         batch=args.batch,
         device=device,
         project=project_dir,
-        name="yolov8n_50ep",
+        name="yolov8n_100ep",
+        cache="ram",
     )
     train_time = time.time() - start_t
 
-    # Dynamically get the exact directory where Ultralytics saved the run
     run_dir = Path(train_results.save_dir)
     best_weights = run_dir / "weights" / "best.pt"
     if not best_weights.exists():
@@ -98,18 +93,10 @@ def main():
 
     plot_training_curves(run_dir, Path("baseline_training_curves.png"))
 
-    # 3. Evaluate Best Weights on Held-Out Test Split (Generates BoxPR_curve.png)
-    best_model = ISICBaselineDetector(weights_path=str(best_weights))
-    test_metrics = best_model.evaluate_split(data_yaml=yaml_file, split="test", imgsz=args.imgsz)
-
-    print("\n================ BASELINE 50-EPOCH TEST SUMMARY ================")
+    print(f"\n================ TRAINING COMPLETE ================")
     print(f"Total Training Time:      {train_time / 60:.2f} minutes")
-    print(f"Test Precision:           {test_metrics.box.mp:.4f}")
-    print(f"Test Recall (Sensitivity):{test_metrics.box.mr:.4f}")
-    print(f"Test mAP@50:              {test_metrics.box.map50:.4f}")
-    print(f"Test mAP@50:95:           {test_metrics.box.map:.4f}")
     print(f"Saved Best Weights:       {best_weights.resolve()}")
-    print("================================================================")
+    print("===================================================")
 
 
 if __name__ == "__main__":
