@@ -1,0 +1,23 @@
+# Ignore Jupyter notebooks and checkpoints
+*.ipynb
+.ipynb_checkpoints/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore saved model weights & checkpoints
+*.pth
+*.pt
+*.h5
+*.ckpt
+
+# Ignore dataset
+*.nii
+*.nii.gz
+data/
+
+# Ignore license agreements
+*.txt
+
+.idea/
