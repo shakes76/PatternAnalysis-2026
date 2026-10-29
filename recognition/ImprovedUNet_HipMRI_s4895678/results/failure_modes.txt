@@ -1,0 +1,16 @@
+28 test volumes
+
+unet2d: volumes with a run of >=2 dropout slices: 10
+  base    slices  199 | dropout  34 (17.1%) | over-segmented  17 ( 8.5%)
+  middle  slices  214 | dropout   2 ( 0.9%) | over-segmented   9 ( 4.2%)
+  apex    slices  218 | dropout   1 ( 0.5%) | over-segmented   4 ( 1.8%)
+
+improved2d: volumes with a run of >=2 dropout slices: 12
+  base    slices  199 | dropout  47 (23.6%) | over-segmented  20 (10.1%)
+  middle  slices  214 | dropout   1 ( 0.5%) | over-segmented  21 ( 9.8%)
+  apex    slices  218 | dropout   0 ( 0.0%) | over-segmented   9 ( 4.1%)
+
+improved3d: volumes with a run of >=2 dropout slices: 3
+  base    slices  199 | dropout  11 ( 5.5%) | over-segmented  38 (19.1%)
+  middle  slices  214 | dropout   0 ( 0.0%) | over-segmented  17 ( 7.9%)
+  apex    slices  218 | dropout   0 ( 0.0%) | over-segmented  18 ( 8.3%)

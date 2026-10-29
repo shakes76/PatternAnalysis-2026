@@ -1,0 +1,17 @@
+# Model weights and checkpoints
+*.pt
+*.pth
+checkpoints/
+
+# Medical image data (never commit datasets)
+*.nii
+*.nii.gz
+data/
+
+# Generated outputs and Slurm logs
+outputs/
+*.out
+*.err
+
+# Python cache
+__pycache__/
