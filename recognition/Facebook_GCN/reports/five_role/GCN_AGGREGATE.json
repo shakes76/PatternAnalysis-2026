@@ -1,0 +1,32 @@
+{
+  "all_accept": {
+    "coverage": {
+      "mean": 1.0,
+      "sample_sd": 0.0
+    },
+    "accepted_accuracy": {
+      "mean": 0.935226264418811,
+      "sample_sd": 0.0015996234585022408
+    }
+  },
+  "global97": {
+    "coverage": {
+      "mean": 0.8274179236912156,
+      "sample_sd": 0.014667502444380214
+    },
+    "accepted_accuracy": {
+      "mean": 0.9769615755003556,
+      "sample_sd": 0.0015158863847572633
+    }
+  },
+  "class98": {
+    "coverage": {
+      "mean": 0.6869269446909199,
+      "sample_sd": 0.007481005542704366
+    },
+    "accepted_accuracy": {
+      "mean": 0.9797713187603332,
+      "sample_sd": 0.0011318454636879817
+    }
+  }
+}

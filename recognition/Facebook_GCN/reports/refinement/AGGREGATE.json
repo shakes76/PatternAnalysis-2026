@@ -1,0 +1,68 @@
+{
+  "unweighted_grid": {
+    "whole_accuracy": {
+      "mean": 0.935226264418811,
+      "sample_sd": 0.0015996234585022408
+    },
+    "politician_precision": {
+      "mean": 0.9117936344570452,
+      "sample_sd": 0.010769582367877324
+    },
+    "politician_recall": {
+      "mean": 0.872636815920398,
+      "sample_sd": 0.009595672398998
+    },
+    "coverage": {
+      "mean": 0.6869269446909199,
+      "sample_sd": 0.007481005542704366
+    },
+    "accepted_accuracy": {
+      "mean": 0.9797713187603332,
+      "sample_sd": 0.0011318454636879817
+    }
+  },
+  "unweighted_exact": {
+    "whole_accuracy": {
+      "mean": 0.935226264418811,
+      "sample_sd": 0.0015996234585022408
+    },
+    "politician_precision": {
+      "mean": 0.9117936344570452,
+      "sample_sd": 0.010769582367877324
+    },
+    "politician_recall": {
+      "mean": 0.872636815920398,
+      "sample_sd": 0.009595672398998
+    },
+    "coverage": {
+      "mean": 0.722863058266785,
+      "sample_sd": 0.010207296022914767
+    },
+    "accepted_accuracy": {
+      "mean": 0.980778342017999,
+      "sample_sd": 0.0010229307177692614
+    }
+  },
+  "weighted_exact": {
+    "whole_accuracy": {
+      "mean": 0.9387755102040816,
+      "sample_sd": 0.0015996234585022408
+    },
+    "politician_precision": {
+      "mean": 0.8821616346952392,
+      "sample_sd": 0.006239336740347744
+    },
+    "politician_recall": {
+      "mean": 0.9233830845771144,
+      "sample_sd": 0.0045597768109013805
+    },
+    "coverage": {
+      "mean": 0.7237503697131027,
+      "sample_sd": 0.005255650885512205
+    },
+    "accepted_accuracy": {
+      "mean": 0.980183443115945,
+      "sample_sd": 0.0007973058462662058
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "id": "unweighted_exact-seed44",
+  "variant": "unweighted_exact",
+  "seed": 44,
+  "temperature": 1.000360369682312,
+  "thresholds": [
+    0.8950263857841492,
+    0.8794779181480408,
+    0.8933494687080383,
+    0.9997503161430359
+  ],
+  "fitting": [
+    {
+      "predicted_class": "tvshow",
+      "policy_cases": 657,
+      "minimum_accepted": 50,
+      "accepted": 507,
+      "threshold": 0.8950263857841492,
+      "accepted_accuracy": 0.980276134122288,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "government",
+      "policy_cases": 687,
+      "minimum_accepted": 50,
+      "accepted": 554,
+      "threshold": 0.8794779181480408,
+      "accepted_accuracy": 0.98014440433213,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "company",
+      "policy_cases": 597,
+      "minimum_accepted": 50,
+      "accepted": 492,
+      "threshold": 0.8933494687080383,
+      "accepted_accuracy": 0.9817073170731707,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "politician",
+      "policy_cases": 304,
+      "minimum_accepted": 50,
+      "accepted": 64,
+      "threshold": 0.9997503161430359,
+      "accepted_accuracy": 0.984375,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    }
+  ],
+  "checkpoint_sha256": "5431fb4d2dcec26063048bb003f580655f62ad23c61231aeb3bcf28087f72df6",
+  "dataset_sha256": "7a1b8a0687515e9859d1ca649dc276825f5db44568894dfbb6b55ebc1cf6a9c1",
+  "split_sha256": "c6a41ea66f97a11a3a63c7779134ecdc9ddda79470b50b86deb88e1b410230be",
+  "protocol_sha256": "b2c1d2ad17dceca53fe4632f925a26bbb7a0a2422694cb4fd5dfa76f57c22af3",
+  "evaluation_status": "Post-hoc controlled refinement; graph and final-role outcomes were previously inspected"
+}

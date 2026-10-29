@@ -1,0 +1,46 @@
+{
+  "recorded_date": "2026-10-15",
+  "timezone": "Australia/Brisbane",
+  "stage": "five-epoch CPU feasibility checks, not final assessment results",
+  "software_tests_passed": 6,
+  "test_set_evaluated": false,
+  "school_gpu_quota_used": false,
+  "models": {
+    "mlp": {
+      "epochs": 5,
+      "parameters": 8516,
+      "train_loss_start": 1.4209675788879395,
+      "train_loss_end": 1.0824681520462036,
+      "model_selection_nodes": 2245,
+      "calibration_nodes": 2248,
+      "training_seconds": 0.1549556003883481,
+      "versions": {
+        "torch": "2.14.1+cpu",
+        "torch-geometric": "2.8.1",
+        "numpy": "2.3.5",
+        "scikit-learn": "1.9.1",
+        "matplotlib": "3.11.2"
+      },
+      "checkpoint_reload_verified": true,
+      "test_evaluated": false
+    },
+    "gcn": {
+      "epochs": 5,
+      "parameters": 8516,
+      "train_loss_start": 1.392928123474121,
+      "train_loss_end": 1.068893313407898,
+      "model_selection_nodes": 2245,
+      "calibration_nodes": 2248,
+      "training_seconds": 0.8401678996160626,
+      "versions": {
+        "torch": "2.14.1+cpu",
+        "torch-geometric": "2.8.1",
+        "numpy": "2.3.5",
+        "scikit-learn": "1.9.1",
+        "matplotlib": "3.11.2"
+      },
+      "checkpoint_reload_verified": true,
+      "test_evaluated": false
+    }
+  }
+}

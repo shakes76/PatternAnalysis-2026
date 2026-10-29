@@ -1,0 +1,71 @@
+{
+  "stage": "preliminary data audit; no model training or test-set performance",
+  "source_url": "https://raw.githubusercontent.com/gayanku/facebook_page-page_dataset/ec01d02c39da4385052023ed28e36f0794f61dc8/facebook.npz",
+  "source_commit": "ec01d02c39da4385052023ed28e36f0794f61dc8",
+  "sha256": "7a1b8a0687515e9859d1ca649dc276825f5db44568894dfbb6b55ebc1cf6a9c1",
+  "archive_bytes": 11989878,
+  "num_nodes": 22470,
+  "num_features": 128,
+  "num_classes": 4,
+  "class_counts": {
+    "tvshow": 6495,
+    "government": 6880,
+    "company": 5768,
+    "politician": 3327
+  },
+  "features_are_finite": true,
+  "feature_matrix_mib": 10.9716796875,
+  "raw_edge_entries": 342004,
+  "unique_raw_directed_edges": 341825,
+  "duplicate_raw_entries": 179,
+  "raw_self_loop_entries": 358,
+  "unique_undirected_edges_including_self": 171002,
+  "raw_reverse_edges_complete": true,
+  "canonical_nonself_directed_edges": 341646,
+  "canonicalization": "deduplicate, symmetrize, remove existing self-loops; GCN adds one per node",
+  "isolated_nodes_without_self_loops": 0,
+  "degree_min_median_max": [
+    1,
+    7.0,
+    709
+  ],
+  "split_seed": 42,
+  "split_rule": "stratified per class, floor(60%) train, floor(20%) validation, remainder test",
+  "splits": {
+    "train": {
+      "count": 13481,
+      "class_counts": {
+        "tvshow": 3897,
+        "government": 4128,
+        "company": 3460,
+        "politician": 1996
+      },
+      "index_sha256": "2aeeab50089cfd5fa4ec98837c8be82fd50689c995235184ff657964a5095c13"
+    },
+    "validation": {
+      "count": 4493,
+      "class_counts": {
+        "tvshow": 1299,
+        "government": 1376,
+        "company": 1153,
+        "politician": 665
+      },
+      "index_sha256": "c8422389a547f2e54b9c42e885d76e754d6021bf6ba3bf2fe78277578dca667b"
+    },
+    "test": {
+      "count": 4496,
+      "class_counts": {
+        "tvshow": 1299,
+        "government": 1376,
+        "company": 1155,
+        "politician": 666
+      },
+      "index_sha256": "85b998e31b9c123341a738941b41b4ac0c79f15e337693741a640c8ae5bb0e9c"
+    }
+  },
+  "split_exhaustive_and_disjoint": true,
+  "page_name_objects_loaded": false,
+  "feature_provenance": "course-provided 128-dimensional SVD features; provided transductive representation",
+  "training_completed": false,
+  "gpu_time_used_for_audit": false
+}

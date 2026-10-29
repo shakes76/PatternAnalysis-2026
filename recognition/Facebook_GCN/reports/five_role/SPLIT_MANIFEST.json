@@ -1,0 +1,17 @@
+{
+  "split_sha256": "c6a41ea66f97a11a3a63c7779134ecdc9ddda79470b50b86deb88e1b410230be",
+  "counts": {
+    "train": 13481,
+    "selection": 2245,
+    "temperature": 2245,
+    "policy": 2245,
+    "final": 2254
+  },
+  "dataset_sha256": "7a1b8a0687515e9859d1ca649dc276825f5db44568894dfbb6b55ebc1cf6a9c1",
+  "source_sha256": {
+    "validation_study.py": "6e9d207118f2ebd72f2b7191804b322bfa6d82e7772b27e4459d2a228213b7f3",
+    "dataset.py": "1897646d30fc880a4bd928d89d4ce188bc456b6b7a2adb42e3e29033ed7914e5",
+    "modules.py": "04bd69839eabd2615909d813a30a1ce4061012f0d8d6892b9a35fc516e244f41",
+    "evaluation.py": "7bdf24e8d1000c3db005c5df88084087a5361705d71b297c72e37c9709e57bea"
+  }
+}

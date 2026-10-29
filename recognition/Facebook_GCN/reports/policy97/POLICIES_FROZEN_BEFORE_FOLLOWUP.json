@@ -1,0 +1,9 @@
+{
+  "protocol_sha256": "028976cad1ff128f168c2bb7b072a4e4534a3e6c8207afc30c6c752803326d36",
+  "policy_sha256": {
+    "42": "df69ff812ea2ccca1382eb61cb06050d406f3fb216c629d5ca1eb271709f110d",
+    "43": "1e1163a9ac6bf121090e9fc8864cc50605b42ed5f40b35eeb1c8e920612095d8",
+    "44": "9edae0d7487a0455503fcef762490b853c9787fc8f924110365e816e0362c24b"
+  },
+  "next_stage": "Original-test post-hoc evaluation; no policy refitting allowed"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "normal-policy97-followup-v1",
+  "decision_date_brisbane": "2026-10-26",
+  "selected_policy": "Maximum calibration coverage subject to empirical accepted accuracy >= 0.97",
+  "target_accuracy": 0.97,
+  "threshold_grid": "0.00 to 1.00 inclusive in steps of 0.01",
+  "minimum_accepted_count": "max(1, floor(0.05 * calibration_count))",
+  "tie_break": "lower threshold",
+  "no_feasible_threshold": "1.01, refer all; accepted accuracy undefined",
+  "initialization_seeds": [
+    42,
+    43,
+    44
+  ],
+  "data_split_seed": 42,
+  "validation_role_seed": 43,
+  "weights": "Original GCN checkpoints unchanged",
+  "temperature": "Original calibration-fitted values unchanged",
+  "threshold_fit_labels": "Original calibration subset only",
+  "all_policies_frozen_before_this_followup_test_metrics": true,
+  "original_test_previously_inspected": true,
+  "evaluation_status": "Post-hoc original-test reuse; not independent confirmation",
+  "parameters_will_not_be_retuned_after_followup_test": true,
+  "target_is_not_course_requirement_or_population_guarantee": true,
+  "target_97_does_not_require_threshold_0_97": true,
+  "human_review_accuracy_assumed": false
+}

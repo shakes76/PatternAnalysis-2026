@@ -1,0 +1,55 @@
+{
+  "model": "mlp",
+  "seed": 43,
+  "temperature": 1.1268237829208374,
+  "global97_threshold": 0.97,
+  "class98_thresholds": [
+    0.96,
+    0.99,
+    0.99,
+    1.01
+  ],
+  "class98_fitting": [
+    {
+      "predicted_class": "tvshow",
+      "policy_cases": 654,
+      "minimum_accepted": 50,
+      "accepted": 276,
+      "accepted_accuracy": 0.9818840579710145,
+      "threshold": 0.96,
+      "feasible_on_fitting_data": true
+    },
+    {
+      "predicted_class": "government",
+      "policy_cases": 751,
+      "minimum_accepted": 50,
+      "accepted": 54,
+      "accepted_accuracy": 0.9814814814814815,
+      "threshold": 0.99,
+      "feasible_on_fitting_data": true
+    },
+    {
+      "predicted_class": "company",
+      "policy_cases": 559,
+      "minimum_accepted": 50,
+      "accepted": 206,
+      "accepted_accuracy": 0.9854368932038835,
+      "threshold": 0.99,
+      "feasible_on_fitting_data": true
+    },
+    {
+      "predicted_class": "politician",
+      "policy_cases": 281,
+      "minimum_accepted": 50,
+      "accepted": 0,
+      "accepted_accuracy": null,
+      "threshold": 1.01,
+      "feasible_on_fitting_data": false
+    }
+  ],
+  "best_epoch": 116,
+  "epochs": 146,
+  "training_seconds_cpu": 4.45717860001605,
+  "checkpoint_sha256": "3592de87f0e9016f03792ae1d72abb55593759ff9b1428ef8436918dd20b1090",
+  "evaluation_status": "Prospectively frozen within-graph resplit; previously studied data, not external validation"
+}

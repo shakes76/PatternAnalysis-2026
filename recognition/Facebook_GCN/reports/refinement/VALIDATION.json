@@ -1,0 +1,25 @@
+{
+  "status": "Post-hoc controlled refinement; graph and final-role outcomes were previously inspected",
+  "all_policy_hashes_unchanged_after_comparison": true,
+  "all_six_prediction_accounting_checks_passed": true,
+  "tests_passed": 18,
+  "reload_checks": [
+    {
+      "run": "unweighted_exact_seed42",
+      "matched_predictions": 2254,
+      "random_audit": 82,
+      "labels_not_exported": true
+    },
+    {
+      "run": "weighted_exact_seed42",
+      "matched_predictions": 2254,
+      "random_audit": 0,
+      "labels_not_exported": true
+    }
+  ],
+  "full_precision_thresholds_preserved": true,
+  "no_policy_or_target_retuning_after_results": true,
+  "no_human_correction_assumed": true,
+  "weighted_recall_precision_tradeoff_retained": true,
+  "external_independent_validation": false
+}

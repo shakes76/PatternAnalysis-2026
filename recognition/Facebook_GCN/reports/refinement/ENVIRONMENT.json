@@ -1,0 +1,12 @@
+{
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.22621-SP0",
+  "device": "cpu",
+  "threads": 4,
+  "packages": {
+    "torch": "2.14.1+cpu",
+    "torch-geometric": "2.8.1",
+    "numpy": "2.3.5",
+    "scikit-learn": "1.9.1"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "targeted_unit_tests_passed": 26,
+  "replays": [
+    {
+      "policy": "unanimous",
+      "matched_predictions": 2254,
+      "matched_policy_decisions": 2254,
+      "random_audits": 81,
+      "no_reference_labels_exported": true
+    },
+    {
+      "policy": "mean_only",
+      "matched_predictions": 2254,
+      "matched_policy_decisions": 2254,
+      "random_audits": 0,
+      "no_reference_labels_exported": true
+    }
+  ],
+  "negative_integration_checks": [
+    {
+      "changed_policy_rejected": true,
+      "no_export_created": true
+    },
+    {
+      "changed_checkpoint_rejected": true,
+      "no_export_created": true
+    }
+  ],
+  "all_six_member_weights_preserved": true,
+  "mean_only_and_unanimous_final_decisions_identical": true,
+  "incremental_final_benefit_from_unanimity_observed": false,
+  "human_review_correction_measured": false,
+  "external_validation_completed": false
+}

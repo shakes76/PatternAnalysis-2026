@@ -1,0 +1,17 @@
+{
+  "study_id": "five-role-class-aware-v1",
+  "original_graph_seen_before": true,
+  "external_validation_completed": false,
+  "pre_evaluation_policy_hashes_unchanged": true,
+  "split_and_executed_source_hashes_verified": true,
+  "six_run_final_prediction_accounting_verified": true,
+  "reload_matches_all_2254_gcn42_predictions_and_routes": true,
+  "tests_passed": 12,
+  "hyperparameters_or_policies_changed_after_final_evaluation": false,
+  "politician_auto_coverage_limitation_disclosed": true,
+  "true_politician_wrongly_accepted": [
+    7,
+    5,
+    5
+  ]
+}

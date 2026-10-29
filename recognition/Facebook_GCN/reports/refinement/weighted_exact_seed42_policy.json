@@ -1,0 +1,59 @@
+{
+  "id": "weighted_exact-seed42",
+  "variant": "weighted_exact",
+  "seed": 42,
+  "temperature": 1.0,
+  "thresholds": [
+    0.8384490609169006,
+    0.8292105197906494,
+    0.9077472686767578,
+    0.9999409914016724
+  ],
+  "fitting": [
+    {
+      "predicted_class": "tvshow",
+      "policy_cases": 634,
+      "minimum_accepted": 50,
+      "accepted": 525,
+      "threshold": 0.8384490609169006,
+      "accepted_accuracy": 0.9809523809523809,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "government",
+      "policy_cases": 681,
+      "minimum_accepted": 50,
+      "accepted": 570,
+      "threshold": 0.8292105197906494,
+      "accepted_accuracy": 0.980701754385965,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "company",
+      "policy_cases": 591,
+      "minimum_accepted": 50,
+      "accepted": 480,
+      "threshold": 0.9077472686767578,
+      "accepted_accuracy": 0.98125,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "politician",
+      "policy_cases": 339,
+      "minimum_accepted": 50,
+      "accepted": 60,
+      "threshold": 0.9999409914016724,
+      "accepted_accuracy": 0.9833333333333333,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    }
+  ],
+  "checkpoint_sha256": "0884762d003035709c150f17eb129d66be59679f09ab0fa172d46d6e0e4b9fdf",
+  "dataset_sha256": "7a1b8a0687515e9859d1ca649dc276825f5db44568894dfbb6b55ebc1cf6a9c1",
+  "split_sha256": "c6a41ea66f97a11a3a63c7779134ecdc9ddda79470b50b86deb88e1b410230be",
+  "protocol_sha256": "b2c1d2ad17dceca53fe4632f925a26bbb7a0a2422694cb4fd5dfa76f57c22af3",
+  "evaluation_status": "Post-hoc controlled refinement; graph and final-role outcomes were previously inspected"
+}

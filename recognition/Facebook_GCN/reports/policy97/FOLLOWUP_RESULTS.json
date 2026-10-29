@@ -1,0 +1,246 @@
+{
+  "date_brisbane": "2026-10-26",
+  "protocol": {
+    "id": "normal-policy97-followup-v1",
+    "decision_date_brisbane": "2026-10-26",
+    "selected_policy": "Maximum calibration coverage subject to empirical accepted accuracy >= 0.97",
+    "target_accuracy": 0.97,
+    "threshold_grid": "0.00 to 1.00 inclusive in steps of 0.01",
+    "minimum_accepted_count": "max(1, floor(0.05 * calibration_count))",
+    "tie_break": "lower threshold",
+    "no_feasible_threshold": "1.01, refer all; accepted accuracy undefined",
+    "initialization_seeds": [
+      42,
+      43,
+      44
+    ],
+    "data_split_seed": 42,
+    "validation_role_seed": 43,
+    "weights": "Original GCN checkpoints unchanged",
+    "temperature": "Original calibration-fitted values unchanged",
+    "threshold_fit_labels": "Original calibration subset only",
+    "all_policies_frozen_before_this_followup_test_metrics": true,
+    "original_test_previously_inspected": true,
+    "evaluation_status": "Post-hoc original-test reuse; not independent confirmation",
+    "parameters_will_not_be_retuned_after_followup_test": true,
+    "target_is_not_course_requirement_or_population_guarantee": true,
+    "target_97_does_not_require_threshold_0_97": true,
+    "human_review_accuracy_assumed": false
+  },
+  "development": [
+    {
+      "seed": 42,
+      "threshold": 0.73,
+      "accepted": 2046,
+      "total": 2248,
+      "coverage": 0.9101423487544484,
+      "accepted_accuracy": 0.9701857282502444,
+      "accepted_error_rate": 0.029814271749755594
+    },
+    {
+      "seed": 43,
+      "threshold": 0.76,
+      "accepted": 2019,
+      "total": 2248,
+      "coverage": 0.8981316725978647,
+      "accepted_accuracy": 0.9702823179791976,
+      "accepted_error_rate": 0.029717682020802383
+    },
+    {
+      "seed": 44,
+      "threshold": 0.74,
+      "accepted": 2040,
+      "total": 2248,
+      "coverage": 0.9074733096085409,
+      "accepted_accuracy": 0.9700980392156863,
+      "accepted_error_rate": 0.02990196078431373
+    }
+  ],
+  "posthoc_original_test": [
+    {
+      "seed": 42,
+      "threshold": 0.73,
+      "model_accuracy_unchanged": 0.9375,
+      "original_policy": {
+        "threshold": 0.0,
+        "accepted": 4496,
+        "total": 4496,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.9375,
+        "accepted_error_rate": 0.0625
+      },
+      "new_policy_posthoc": {
+        "threshold": 0.73,
+        "accepted": 4056,
+        "total": 4496,
+        "coverage": 0.902135231316726,
+        "accepted_accuracy": 0.9701676528599605,
+        "accepted_error_rate": 0.02983234714003946
+      },
+      "reviewed": 440,
+      "referred_original_errors": 160,
+      "accepted_errors": 121,
+      "total_model_errors": 281,
+      "error_capture_fraction": 0.5693950057029724,
+      "per_true_class_posthoc": {
+        "tvshow": {
+          "total": 1299,
+          "accepted": 1180,
+          "reviewed_fraction": 0.091608926653862,
+          "accepted_accuracy": 0.9559321999549866
+        },
+        "government": {
+          "total": 1376,
+          "accepted": 1269,
+          "reviewed_fraction": 0.07776162773370743,
+          "accepted_accuracy": 0.9795114398002625
+        },
+        "company": {
+          "total": 1155,
+          "accepted": 1061,
+          "reviewed_fraction": 0.0813852846622467,
+          "accepted_accuracy": 0.9858623743057251
+        },
+        "politician": {
+          "total": 666,
+          "accepted": 546,
+          "reviewed_fraction": 0.18018017709255219,
+          "accepted_accuracy": 0.9487179517745972
+        }
+      },
+      "target_97_met_on_reused_test": true
+    },
+    {
+      "seed": 43,
+      "threshold": 0.76,
+      "model_accuracy_unchanged": 0.935720640569395,
+      "original_policy": {
+        "threshold": 0.0,
+        "accepted": 4496,
+        "total": 4496,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.935720640569395,
+        "accepted_error_rate": 0.06427935943060503
+      },
+      "new_policy_posthoc": {
+        "threshold": 0.76,
+        "accepted": 3959,
+        "total": 4496,
+        "coverage": 0.8805604982206405,
+        "accepted_accuracy": 0.9719626168224299,
+        "accepted_error_rate": 0.028037383177570097
+      },
+      "reviewed": 537,
+      "referred_original_errors": 178,
+      "accepted_errors": 111,
+      "total_model_errors": 289,
+      "error_capture_fraction": 0.6159169673919678,
+      "per_true_class_posthoc": {
+        "tvshow": {
+          "total": 1299,
+          "accepted": 1148,
+          "reviewed_fraction": 0.11624326556921005,
+          "accepted_accuracy": 0.957317054271698
+        },
+        "government": {
+          "total": 1376,
+          "accepted": 1241,
+          "reviewed_fraction": 0.09811046719551086,
+          "accepted_accuracy": 0.9822723865509033
+        },
+        "company": {
+          "total": 1155,
+          "accepted": 1046,
+          "reviewed_fraction": 0.09437229484319687,
+          "accepted_accuracy": 0.9847036600112915
+        },
+        "politician": {
+          "total": 666,
+          "accepted": 524,
+          "reviewed_fraction": 0.2132132202386856,
+          "accepted_accuracy": 0.9541984796524048
+        }
+      },
+      "target_97_met_on_reused_test": true
+    },
+    {
+      "seed": 44,
+      "threshold": 0.74,
+      "model_accuracy_unchanged": 0.9419483985765125,
+      "original_policy": {
+        "threshold": 0.0,
+        "accepted": 4496,
+        "total": 4496,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.9419483985765125,
+        "accepted_error_rate": 0.05805160142348753
+      },
+      "new_policy_posthoc": {
+        "threshold": 0.74,
+        "accepted": 4024,
+        "total": 4496,
+        "coverage": 0.895017793594306,
+        "accepted_accuracy": 0.9699304174950298,
+        "accepted_error_rate": 0.03006958250497016
+      },
+      "reviewed": 472,
+      "referred_original_errors": 140,
+      "accepted_errors": 121,
+      "total_model_errors": 261,
+      "error_capture_fraction": 0.5363984704017639,
+      "per_true_class_posthoc": {
+        "tvshow": {
+          "total": 1299,
+          "accepted": 1172,
+          "reviewed_fraction": 0.09776751697063446,
+          "accepted_accuracy": 0.9547781348228455
+        },
+        "government": {
+          "total": 1376,
+          "accepted": 1260,
+          "reviewed_fraction": 0.08430232852697372,
+          "accepted_accuracy": 0.9793650507926941
+        },
+        "company": {
+          "total": 1155,
+          "accepted": 1054,
+          "reviewed_fraction": 0.08744588494300842,
+          "accepted_accuracy": 0.9867172837257385
+        },
+        "politician": {
+          "total": 666,
+          "accepted": 538,
+          "reviewed_fraction": 0.1921921968460083,
+          "accepted_accuracy": 0.9479553699493408
+        }
+      },
+      "target_97_met_on_reused_test": false
+    }
+  ],
+  "aggregate_posthoc": {
+    "test_review_fraction": {
+      "mean": 0.1074288256227758,
+      "sample_sd": 0.010993486082079531
+    },
+    "test_coverage": {
+      "mean": 0.8925711743772242,
+      "sample_sd": 0.010993486082079566
+    },
+    "test_accepted_accuracy": {
+      "mean": 0.9706868957258068,
+      "sample_sd": 0.001111156330977089
+    },
+    "error_capture_fraction": {
+      "mean": 0.573903481165568,
+      "sample_sd": 0.0399505019260445
+    },
+    "original_all_test_accuracy": {
+      "mean": 0.9383896797153025,
+      "sample_sd": 0.003207785832263364
+    }
+  },
+  "independent_validation_completed": false,
+  "original_model_sources_and_weights_unchanged": true,
+  "policy_files_unchanged_after_followup": true,
+  "next_action": "Keep this fixed rule; report all results without further tuning. Independent confirmation remains outstanding."
+}

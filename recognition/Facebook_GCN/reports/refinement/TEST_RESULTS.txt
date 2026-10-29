@@ -1,0 +1,23 @@
+test_duplicate_self_loops_are_removed_before_gcn_normalization (test_data_pipeline.DataPipelineTests.test_duplicate_self_loops_are_removed_before_gcn_normalization) ... ok
+test_invalid_endpoints_and_nonfinite_features_are_rejected (test_data_pipeline.DataPipelineTests.test_invalid_endpoints_and_nonfinite_features_are_rejected) ... ok
+test_scaling_does_not_fit_on_held_out_nodes (test_data_pipeline.DataPipelineTests.test_scaling_does_not_fit_on_held_out_nodes) ... ok
+test_split_reproducibility_class_coverage_and_no_overlap (test_data_pipeline.DataPipelineTests.test_split_reproducibility_class_coverage_and_no_overlap) ... ok
+test_all_accept_tie_uses_zero_and_small_groups_refer (test_exact_policy.ExactPolicyTests.test_all_accept_tie_uses_zero_and_small_groups_refer) ... ok
+test_audits_are_reproducible_subsets_without_labels (test_exact_policy.ExactPolicyTests.test_audits_are_reproducible_subsets_without_labels) ... ok
+test_class_weights_use_training_labels_only (test_exact_policy.ExactPolicyTests.test_class_weights_use_training_labels_only) ... ok
+test_confidence_ties_cannot_be_partially_accepted (test_exact_policy.ExactPolicyTests.test_confidence_ties_cannot_be_partially_accepted) ... ok
+test_finds_feasible_interval_above_point99 (test_exact_policy.ExactPolicyTests.test_finds_feasible_interval_above_point99) ... ok
+test_malformed_values_and_labels_are_rejected (test_exact_policy.ExactPolicyTests.test_malformed_values_and_labels_are_rejected) ... ok
+test_binary_graph_normalization_with_duplicate_loops (test_models.GCNTests.test_binary_graph_normalization_with_duplicate_loops) ... ok
+test_permuting_nodes_permutes_predictions_and_gradients_are_finite (test_models.GCNTests.test_permuting_nodes_permutes_predictions_and_gradients_are_finite) ... ok
+test_equality_all_refer_and_invalid_probabilities (test_policy_controls.PolicyControlTests.test_equality_all_refer_and_invalid_probabilities) ... ok
+test_five_label_roles_are_disjoint_and_reproducible (test_policy_controls.PolicyControlTests.test_five_label_roles_are_disjoint_and_reproducible) ... ok
+test_partial_experiment_folder_is_preserved (test_policy_controls.PolicyControlTests.test_partial_experiment_folder_is_preserved) ... ok
+test_routes_depend_on_predicted_class (test_policy_controls.PolicyControlTests.test_routes_depend_on_predicted_class) ... ok
+test_unqualified_predicted_class_refers_all (test_policy_controls.PolicyControlTests.test_unqualified_predicted_class_refers_all) ... ok
+test_wrong_checkpoint_binding_is_rejected (test_policy_controls.PolicyControlTests.test_wrong_checkpoint_binding_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 2.300s
+
+OK

@@ -1,0 +1,2793 @@
+{
+  "protocol": {
+    "date_brisbane": "2026-10-26",
+    "id": "five-role-class-aware-v1",
+    "split_seed": 20261026,
+    "initialization_seeds": [
+      42,
+      43,
+      44
+    ],
+    "roles": "60% train, 10% selection, 10% temperature, 10% policy, remainder final; stratified flooring",
+    "architecture": "Matched 128-64-4 MLP/GCN, 8516 parameters, original Adam/dropout/early-stopping settings",
+    "policy_control": "Global 97% empirical accepted policy accuracy, maximum coverage",
+    "policy_candidate": "Per predicted class: 98% empirical accepted policy accuracy; min max(50, ceil(5% of predicted class)); maximum coverage, lower-threshold tie; infeasible class refers all",
+    "buffer_reason": "One percentage point above the desired 97%, chosen before this final-role evaluation; not a guarantee",
+    "all_six_policies_saved_before_final_role_evaluation": true,
+    "previously_studied_graph": true,
+    "external_independent_validation": false,
+    "no_split_or_threshold_search_after_final_results": true,
+    "new_cpu_training": true,
+    "original_gpu_runs_and_colab_preserved": true,
+    "human_correction_accuracy_assumed": false
+  },
+  "role_counts": {
+    "train": 13481,
+    "selection": 2245,
+    "temperature": 2245,
+    "policy": 2245,
+    "final": 2254
+  },
+  "runs": [
+    {
+      "model": "mlp",
+      "seed": 42,
+      "temperature": 1.1156522035598755,
+      "global97_threshold": 0.9500000000000001,
+      "class98_thresholds": [
+        0.95,
+        1.01,
+        0.99,
+        1.01
+      ],
+      "raw_classification": {
+        "accuracy": 0.8149955634427685,
+        "macro_f1": 0.7931665442326703,
+        "macro_ovr_auroc": 0.9498810905457111,
+        "negative_log_likelihood": 0.5317469239234924,
+        "ece_10_bins": 0.04861682428653623,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 12,
+            "accuracy": 0.16666666666666666,
+            "confidence": 0.2940767705440521
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 121,
+            "accuracy": 0.4132231404958678,
+            "confidence": 0.3571487069129944
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 192,
+            "accuracy": 0.546875,
+            "confidence": 0.453220933675766
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 189,
+            "accuracy": 0.6296296296296297,
+            "confidence": 0.5468030571937561
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 182,
+            "accuracy": 0.7747252747252747,
+            "confidence": 0.6506208777427673
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 255,
+            "accuracy": 0.8,
+            "confidence": 0.7501461505889893
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 238,
+            "accuracy": 0.8235294117647058,
+            "confidence": 0.8486271500587463
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1065,
+            "accuracy": 0.9577464788732394,
+            "confidence": 0.9824972748756409
+          }
+        ],
+        "confusion_matrix": [
+          [
+            561,
+            46,
+            7,
+            37
+          ],
+          [
+            29,
+            599,
+            50,
+            10
+          ],
+          [
+            16,
+            66,
+            483,
+            15
+          ],
+          [
+            76,
+            28,
+            37,
+            194
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.8225806451612904,
+            "recall": 0.8617511520737328,
+            "f1": 0.8417104276069017,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.8105548037889039,
+            "recall": 0.8706395348837209,
+            "f1": 0.8395234758234057,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.8370883882149047,
+            "recall": 0.8327586206896552,
+            "f1": 0.8349178910976663,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.7578125,
+            "recall": 0.5791044776119403,
+            "f1": 0.6565143824027073,
+            "support": 335
+          }
+        }
+      },
+      "scaled_classification": {
+        "accuracy": 0.8149955634427685,
+        "macro_f1": 0.7931665442326703,
+        "macro_ovr_auroc": 0.9498080116377257,
+        "negative_log_likelihood": 0.5299449563026428,
+        "ece_10_bins": 0.06078175298651448,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 14,
+            "accuracy": 0.14285714285714285,
+            "confidence": 0.2907772958278656
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 142,
+            "accuracy": 0.43661971830985913,
+            "confidence": 0.3548106849193573
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 213,
+            "accuracy": 0.5821596244131455,
+            "confidence": 0.45059630274772644
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 196,
+            "accuracy": 0.6530612244897959,
+            "confidence": 0.5472751259803772
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 212,
+            "accuracy": 0.7641509433962265,
+            "confidence": 0.6538622975349426
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 250,
+            "accuracy": 0.848,
+            "confidence": 0.7498831748962402
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 227,
+            "accuracy": 0.8105726872246696,
+            "confidence": 0.8490827679634094
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1000,
+            "accuracy": 0.963,
+            "confidence": 0.9809050559997559
+          }
+        ],
+        "confusion_matrix": [
+          [
+            561,
+            46,
+            7,
+            37
+          ],
+          [
+            29,
+            599,
+            50,
+            10
+          ],
+          [
+            16,
+            66,
+            483,
+            15
+          ],
+          [
+            76,
+            28,
+            37,
+            194
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.8225806451612904,
+            "recall": 0.8617511520737328,
+            "f1": 0.8417104276069017,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.8105548037889039,
+            "recall": 0.8706395348837209,
+            "f1": 0.8395234758234057,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.8370883882149047,
+            "recall": 0.8327586206896552,
+            "f1": 0.8349178910976663,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.7578125,
+            "recall": 0.5791044776119403,
+            "f1": 0.6565143824027073,
+            "support": 335
+          }
+        }
+      },
+      "all_accept": {
+        "total": 2254,
+        "accepted": 2254,
+        "referred": 0,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.8149955634427685,
+        "accepted_errors": 417,
+        "referred_errors": 0,
+        "whole_population_accuracy": 0.8149955634427685,
+        "predicted_class": {
+          "tvshow": {
+            "total": 682,
+            "accepted": 682,
+            "accepted_accuracy": 0.8225806451612904,
+            "accepted_errors": 121
+          },
+          "government": {
+            "total": 739,
+            "accepted": 739,
+            "accepted_accuracy": 0.8105548037889039,
+            "accepted_errors": 140
+          },
+          "company": {
+            "total": 577,
+            "accepted": 577,
+            "accepted_accuracy": 0.8370883882149047,
+            "accepted_errors": 94
+          },
+          "politician": {
+            "total": 256,
+            "accepted": 256,
+            "accepted_accuracy": 0.7578125,
+            "accepted_errors": 62
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 651,
+            "accepted_accuracy": 0.8617511520737328,
+            "accepted_errors": 90
+          },
+          "government": {
+            "total": 688,
+            "accepted": 688,
+            "accepted_accuracy": 0.8706395348837209,
+            "accepted_errors": 89
+          },
+          "company": {
+            "total": 580,
+            "accepted": 580,
+            "accepted_accuracy": 0.8327586206896552,
+            "accepted_errors": 97
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 335,
+            "accepted_accuracy": 0.5791044776119403,
+            "accepted_errors": 141
+          }
+        }
+      },
+      "global97": {
+        "total": 2254,
+        "accepted": 853,
+        "referred": 1401,
+        "coverage": 0.37843833185448095,
+        "accepted_accuracy": 0.9753810082063306,
+        "accepted_errors": 21,
+        "referred_errors": 396,
+        "whole_population_accuracy": 0.8149955634427685,
+        "predicted_class": {
+          "tvshow": {
+            "total": 682,
+            "accepted": 270,
+            "accepted_accuracy": 0.9814814814814815,
+            "accepted_errors": 5
+          },
+          "government": {
+            "total": 739,
+            "accepted": 230,
+            "accepted_accuracy": 0.9652173913043478,
+            "accepted_errors": 8
+          },
+          "company": {
+            "total": 577,
+            "accepted": 249,
+            "accepted_accuracy": 0.9759036144578314,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 256,
+            "accepted": 104,
+            "accepted_accuracy": 0.9807692307692307,
+            "accepted_errors": 2
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 271,
+            "accepted_accuracy": 0.977859778597786,
+            "accepted_errors": 6
+          },
+          "government": {
+            "total": 688,
+            "accepted": 225,
+            "accepted_accuracy": 0.9866666666666667,
+            "accepted_errors": 3
+          },
+          "company": {
+            "total": 580,
+            "accepted": 247,
+            "accepted_accuracy": 0.9838056680161943,
+            "accepted_errors": 4
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 110,
+            "accepted_accuracy": 0.9272727272727272,
+            "accepted_errors": 8
+          }
+        }
+      },
+      "class98": {
+        "total": 2254,
+        "accepted": 474,
+        "referred": 1780,
+        "coverage": 0.21029281277728482,
+        "accepted_accuracy": 0.9852320675105485,
+        "accepted_errors": 7,
+        "referred_errors": 410,
+        "whole_population_accuracy": 0.8149955634427685,
+        "predicted_class": {
+          "tvshow": {
+            "total": 682,
+            "accepted": 270,
+            "accepted_accuracy": 0.9814814814814815,
+            "accepted_errors": 5
+          },
+          "government": {
+            "total": 739,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          },
+          "company": {
+            "total": 577,
+            "accepted": 204,
+            "accepted_accuracy": 0.9901960784313726,
+            "accepted_errors": 2
+          },
+          "politician": {
+            "total": 256,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 265,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          },
+          "government": {
+            "total": 688,
+            "accepted": 1,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 1
+          },
+          "company": {
+            "total": 580,
+            "accepted": 202,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 6,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 6
+          }
+        }
+      }
+    },
+    {
+      "model": "gcn",
+      "seed": 42,
+      "temperature": 0.9831295609474182,
+      "global97_threshold": 0.84,
+      "class98_thresholds": [
+        0.87,
+        0.85,
+        0.89,
+        1.01
+      ],
+      "raw_classification": {
+        "accuracy": 0.9365572315882875,
+        "macro_f1": 0.931383888510948,
+        "macro_ovr_auroc": 0.9892296048983331,
+        "negative_log_likelihood": 0.23110626637935638,
+        "ece_10_bins": 0.02631445541092007,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 17,
+            "accuracy": 0.5294117647058824,
+            "confidence": 0.3556777536869049
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 43,
+            "accuracy": 0.5581395348837209,
+            "confidence": 0.45435631275177
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 81,
+            "accuracy": 0.691358024691358,
+            "confidence": 0.5510373115539551
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 99,
+            "accuracy": 0.7575757575757576,
+            "confidence": 0.6516302227973938
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 118,
+            "accuracy": 0.8389830508474576,
+            "confidence": 0.7571561932563782
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 199,
+            "accuracy": 0.9246231155778895,
+            "confidence": 0.8533538579940796
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1697,
+            "accuracy": 0.9805539186800236,
+            "confidence": 0.9842097163200378
+          }
+        ],
+        "confusion_matrix": [
+          [
+            619,
+            9,
+            6,
+            17
+          ],
+          [
+            17,
+            650,
+            19,
+            2
+          ],
+          [
+            3,
+            20,
+            552,
+            5
+          ],
+          [
+            33,
+            6,
+            6,
+            290
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9211309523809523,
+            "recall": 0.9508448540706606,
+            "f1": 0.9357520786092215,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.948905109489051,
+            "recall": 0.9447674418604651,
+            "f1": 0.9468317552804079,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9468267581475128,
+            "recall": 0.9517241379310345,
+            "f1": 0.9492691315563199,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.9235668789808917,
+            "recall": 0.8656716417910447,
+            "f1": 0.8936825885978429,
+            "support": 335
+          }
+        }
+      },
+      "scaled_classification": {
+        "accuracy": 0.9365572315882875,
+        "macro_f1": 0.931383888510948,
+        "macro_ovr_auroc": 0.989229273074633,
+        "negative_log_likelihood": 0.2310025542974472,
+        "ece_10_bins": 0.025065556261109984,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 16,
+            "accuracy": 0.5625,
+            "confidence": 0.3545534014701843
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 42,
+            "accuracy": 0.5476190476190477,
+            "confidence": 0.45392540097236633
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 80,
+            "accuracy": 0.675,
+            "confidence": 0.5510742664337158
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 97,
+            "accuracy": 0.7628865979381443,
+            "confidence": 0.6521890163421631
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 113,
+            "accuracy": 0.8407079646017699,
+            "confidence": 0.7560160756111145
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 199,
+            "accuracy": 0.914572864321608,
+            "confidence": 0.8533428907394409
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1707,
+            "accuracy": 0.9806678383128296,
+            "confidence": 0.9846683144569397
+          }
+        ],
+        "confusion_matrix": [
+          [
+            619,
+            9,
+            6,
+            17
+          ],
+          [
+            17,
+            650,
+            19,
+            2
+          ],
+          [
+            3,
+            20,
+            552,
+            5
+          ],
+          [
+            33,
+            6,
+            6,
+            290
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9211309523809523,
+            "recall": 0.9508448540706606,
+            "f1": 0.9357520786092215,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.948905109489051,
+            "recall": 0.9447674418604651,
+            "f1": 0.9468317552804079,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9468267581475128,
+            "recall": 0.9517241379310345,
+            "f1": 0.9492691315563199,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.9235668789808917,
+            "recall": 0.8656716417910447,
+            "f1": 0.8936825885978429,
+            "support": 335
+          }
+        }
+      },
+      "all_accept": {
+        "total": 2254,
+        "accepted": 2254,
+        "referred": 0,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.9365572315882875,
+        "accepted_errors": 143,
+        "referred_errors": 0,
+        "whole_population_accuracy": 0.9365572315882875,
+        "predicted_class": {
+          "tvshow": {
+            "total": 672,
+            "accepted": 672,
+            "accepted_accuracy": 0.9211309523809523,
+            "accepted_errors": 53
+          },
+          "government": {
+            "total": 685,
+            "accepted": 685,
+            "accepted_accuracy": 0.948905109489051,
+            "accepted_errors": 35
+          },
+          "company": {
+            "total": 583,
+            "accepted": 583,
+            "accepted_accuracy": 0.9468267581475128,
+            "accepted_errors": 31
+          },
+          "politician": {
+            "total": 314,
+            "accepted": 314,
+            "accepted_accuracy": 0.9235668789808917,
+            "accepted_errors": 24
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 651,
+            "accepted_accuracy": 0.9508448540706606,
+            "accepted_errors": 32
+          },
+          "government": {
+            "total": 688,
+            "accepted": 688,
+            "accepted_accuracy": 0.9447674418604651,
+            "accepted_errors": 38
+          },
+          "company": {
+            "total": 580,
+            "accepted": 580,
+            "accepted_accuracy": 0.9517241379310345,
+            "accepted_errors": 28
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 335,
+            "accepted_accuracy": 0.8656716417910447,
+            "accepted_errors": 45
+          }
+        }
+      },
+      "global97": {
+        "total": 2254,
+        "accepted": 1836,
+        "referred": 418,
+        "coverage": 0.8145519077196096,
+        "accepted_accuracy": 0.9782135076252724,
+        "accepted_errors": 40,
+        "referred_errors": 103,
+        "whole_population_accuracy": 0.9365572315882875,
+        "predicted_class": {
+          "tvshow": {
+            "total": 672,
+            "accepted": 550,
+            "accepted_accuracy": 0.9709090909090909,
+            "accepted_errors": 16
+          },
+          "government": {
+            "total": 685,
+            "accepted": 571,
+            "accepted_accuracy": 0.9824868651488616,
+            "accepted_errors": 10
+          },
+          "company": {
+            "total": 583,
+            "accepted": 483,
+            "accepted_accuracy": 0.979296066252588,
+            "accepted_errors": 10
+          },
+          "politician": {
+            "total": 314,
+            "accepted": 232,
+            "accepted_accuracy": 0.9827586206896551,
+            "accepted_errors": 4
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 545,
+            "accepted_accuracy": 0.9798165137614679,
+            "accepted_errors": 11
+          },
+          "government": {
+            "total": 688,
+            "accepted": 576,
+            "accepted_accuracy": 0.9739583333333334,
+            "accepted_errors": 15
+          },
+          "company": {
+            "total": 580,
+            "accepted": 479,
+            "accepted_accuracy": 0.9874739039665971,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 236,
+            "accepted_accuracy": 0.9661016949152542,
+            "accepted_errors": 8
+          }
+        }
+      },
+      "class98": {
+        "total": 2254,
+        "accepted": 1556,
+        "referred": 698,
+        "coverage": 0.6903283052351376,
+        "accepted_accuracy": 0.9794344473007712,
+        "accepted_errors": 32,
+        "referred_errors": 111,
+        "whole_population_accuracy": 0.9365572315882875,
+        "predicted_class": {
+          "tvshow": {
+            "total": 672,
+            "accepted": 538,
+            "accepted_accuracy": 0.9721189591078067,
+            "accepted_errors": 15
+          },
+          "government": {
+            "total": 685,
+            "accepted": 560,
+            "accepted_accuracy": 0.9821428571428571,
+            "accepted_errors": 10
+          },
+          "company": {
+            "total": 583,
+            "accepted": 458,
+            "accepted_accuracy": 0.9847161572052402,
+            "accepted_errors": 7
+          },
+          "politician": {
+            "total": 314,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 529,
+            "accepted_accuracy": 0.9886578449905482,
+            "accepted_errors": 6
+          },
+          "government": {
+            "total": 688,
+            "accepted": 563,
+            "accepted_accuracy": 0.9769094138543517,
+            "accepted_errors": 13
+          },
+          "company": {
+            "total": 580,
+            "accepted": 457,
+            "accepted_accuracy": 0.986870897155361,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 7,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 7
+          }
+        }
+      }
+    },
+    {
+      "model": "mlp",
+      "seed": 43,
+      "temperature": 1.1268237829208374,
+      "global97_threshold": 0.97,
+      "class98_thresholds": [
+        0.96,
+        0.99,
+        0.99,
+        1.01
+      ],
+      "raw_classification": {
+        "accuracy": 0.8025732031943212,
+        "macro_f1": 0.7815939534935031,
+        "macro_ovr_auroc": 0.949629530320221,
+        "negative_log_likelihood": 0.5336709022521973,
+        "ece_10_bins": 0.03382020667790306,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 12,
+            "accuracy": 0.4166666666666667,
+            "confidence": 0.28672167658805847
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 132,
+            "accuracy": 0.3939393939393939,
+            "confidence": 0.36121535301208496
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 195,
+            "accuracy": 0.5076923076923077,
+            "confidence": 0.4514954090118408
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 193,
+            "accuracy": 0.6062176165803109,
+            "confidence": 0.5448696613311768
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 195,
+            "accuracy": 0.6923076923076923,
+            "confidence": 0.652292013168335
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 223,
+            "accuracy": 0.8026905829596412,
+            "confidence": 0.7526763677597046
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 245,
+            "accuracy": 0.8285714285714286,
+            "confidence": 0.854231595993042
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1059,
+            "accuracy": 0.9622285174693107,
+            "confidence": 0.9832958579063416
+          }
+        ],
+        "confusion_matrix": [
+          [
+            555,
+            45,
+            12,
+            39
+          ],
+          [
+            29,
+            591,
+            56,
+            12
+          ],
+          [
+            13,
+            82,
+            469,
+            16
+          ],
+          [
+            80,
+            25,
+            36,
+            194
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.8197932053175776,
+            "recall": 0.8525345622119815,
+            "f1": 0.8358433734939759,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.7954239569313594,
+            "recall": 0.8590116279069767,
+            "f1": 0.8259958071278826,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.8184991273996509,
+            "recall": 0.8086206896551724,
+            "f1": 0.813529921942758,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.7432950191570882,
+            "recall": 0.5791044776119403,
+            "f1": 0.6510067114093959,
+            "support": 335
+          }
+        }
+      },
+      "scaled_classification": {
+        "accuracy": 0.8025732031943212,
+        "macro_f1": 0.7815939534935031,
+        "macro_ovr_auroc": 0.9496130794173363,
+        "negative_log_likelihood": 0.5319364070892334,
+        "ece_10_bins": 0.04236802869966419,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 15,
+            "accuracy": 0.4,
+            "confidence": 0.2857656180858612
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 150,
+            "accuracy": 0.4066666666666667,
+            "confidence": 0.35623836517333984
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 235,
+            "accuracy": 0.5276595744680851,
+            "confidence": 0.44973886013031006
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 195,
+            "accuracy": 0.6512820512820513,
+            "confidence": 0.5519396066665649
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 201,
+            "accuracy": 0.746268656716418,
+            "confidence": 0.6541457772254944
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 226,
+            "accuracy": 0.7876106194690266,
+            "confidence": 0.7476739883422852
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 226,
+            "accuracy": 0.8628318584070797,
+            "confidence": 0.8491027355194092
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1006,
+            "accuracy": 0.9622266401590457,
+            "confidence": 0.9800114035606384
+          }
+        ],
+        "confusion_matrix": [
+          [
+            555,
+            45,
+            12,
+            39
+          ],
+          [
+            29,
+            591,
+            56,
+            12
+          ],
+          [
+            13,
+            82,
+            469,
+            16
+          ],
+          [
+            80,
+            25,
+            36,
+            194
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.8197932053175776,
+            "recall": 0.8525345622119815,
+            "f1": 0.8358433734939759,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.7954239569313594,
+            "recall": 0.8590116279069767,
+            "f1": 0.8259958071278826,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.8184991273996509,
+            "recall": 0.8086206896551724,
+            "f1": 0.813529921942758,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.7432950191570882,
+            "recall": 0.5791044776119403,
+            "f1": 0.6510067114093959,
+            "support": 335
+          }
+        }
+      },
+      "all_accept": {
+        "total": 2254,
+        "accepted": 2254,
+        "referred": 0,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.8025732031943212,
+        "accepted_errors": 445,
+        "referred_errors": 0,
+        "whole_population_accuracy": 0.8025732031943212,
+        "predicted_class": {
+          "tvshow": {
+            "total": 677,
+            "accepted": 677,
+            "accepted_accuracy": 0.8197932053175776,
+            "accepted_errors": 122
+          },
+          "government": {
+            "total": 743,
+            "accepted": 743,
+            "accepted_accuracy": 0.7954239569313594,
+            "accepted_errors": 152
+          },
+          "company": {
+            "total": 573,
+            "accepted": 573,
+            "accepted_accuracy": 0.8184991273996509,
+            "accepted_errors": 104
+          },
+          "politician": {
+            "total": 261,
+            "accepted": 261,
+            "accepted_accuracy": 0.7432950191570882,
+            "accepted_errors": 67
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 651,
+            "accepted_accuracy": 0.8525345622119815,
+            "accepted_errors": 96
+          },
+          "government": {
+            "total": 688,
+            "accepted": 688,
+            "accepted_accuracy": 0.8590116279069767,
+            "accepted_errors": 97
+          },
+          "company": {
+            "total": 580,
+            "accepted": 580,
+            "accepted_accuracy": 0.8086206896551724,
+            "accepted_errors": 111
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 335,
+            "accepted_accuracy": 0.5791044776119403,
+            "accepted_errors": 141
+          }
+        }
+      },
+      "global97": {
+        "total": 2254,
+        "accepted": 733,
+        "referred": 1521,
+        "coverage": 0.3251996450754215,
+        "accepted_accuracy": 0.9822646657571623,
+        "accepted_errors": 13,
+        "referred_errors": 432,
+        "whole_population_accuracy": 0.8025732031943212,
+        "predicted_class": {
+          "tvshow": {
+            "total": 677,
+            "accepted": 240,
+            "accepted_accuracy": 0.9833333333333333,
+            "accepted_errors": 4
+          },
+          "government": {
+            "total": 743,
+            "accepted": 158,
+            "accepted_accuracy": 0.9810126582278481,
+            "accepted_errors": 3
+          },
+          "company": {
+            "total": 573,
+            "accepted": 240,
+            "accepted_accuracy": 0.9875,
+            "accepted_errors": 3
+          },
+          "politician": {
+            "total": 261,
+            "accepted": 95,
+            "accepted_accuracy": 0.968421052631579,
+            "accepted_errors": 3
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 238,
+            "accepted_accuracy": 0.9915966386554622,
+            "accepted_errors": 2
+          },
+          "government": {
+            "total": 688,
+            "accepted": 158,
+            "accepted_accuracy": 0.9810126582278481,
+            "accepted_errors": 3
+          },
+          "company": {
+            "total": 580,
+            "accepted": 241,
+            "accepted_accuracy": 0.983402489626556,
+            "accepted_errors": 4
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 96,
+            "accepted_accuracy": 0.9583333333333334,
+            "accepted_errors": 4
+          }
+        }
+      },
+      "class98": {
+        "total": 2254,
+        "accepted": 532,
+        "referred": 1722,
+        "coverage": 0.2360248447204969,
+        "accepted_accuracy": 0.9887218045112782,
+        "accepted_errors": 6,
+        "referred_errors": 439,
+        "whole_population_accuracy": 0.8025732031943212,
+        "predicted_class": {
+          "tvshow": {
+            "total": 677,
+            "accepted": 252,
+            "accepted_accuracy": 0.9841269841269841,
+            "accepted_errors": 4
+          },
+          "government": {
+            "total": 743,
+            "accepted": 68,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          },
+          "company": {
+            "total": 573,
+            "accepted": 212,
+            "accepted_accuracy": 0.9905660377358491,
+            "accepted_errors": 2
+          },
+          "politician": {
+            "total": 261,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 248,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          },
+          "government": {
+            "total": 688,
+            "accepted": 70,
+            "accepted_accuracy": 0.9714285714285714,
+            "accepted_errors": 2
+          },
+          "company": {
+            "total": 580,
+            "accepted": 210,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 4,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 4
+          }
+        }
+      }
+    },
+    {
+      "model": "gcn",
+      "seed": 43,
+      "temperature": 0.9885333776473999,
+      "global97_threshold": 0.81,
+      "class98_thresholds": [
+        0.89,
+        0.83,
+        0.91,
+        1.01
+      ],
+      "raw_classification": {
+        "accuracy": 0.9356699201419698,
+        "macro_f1": 0.9306319235665305,
+        "macro_ovr_auroc": 0.9898266178927959,
+        "negative_log_likelihood": 0.2234867960214615,
+        "ece_10_bins": 0.021319615306744248,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 13,
+            "accuracy": 0.5384615384615384,
+            "confidence": 0.37135469913482666
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 40,
+            "accuracy": 0.55,
+            "confidence": 0.4626406729221344
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 80,
+            "accuracy": 0.5625,
+            "confidence": 0.5530838966369629
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 86,
+            "accuracy": 0.7790697674418605,
+            "confidence": 0.6504913568496704
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 126,
+            "accuracy": 0.8492063492063492,
+            "confidence": 0.7534629106521606
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 181,
+            "accuracy": 0.9226519337016574,
+            "confidence": 0.8574016690254211
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1728,
+            "accuracy": 0.9803240740740741,
+            "confidence": 0.9842029213905334
+          }
+        ],
+        "confusion_matrix": [
+          [
+            614,
+            11,
+            5,
+            21
+          ],
+          [
+            14,
+            650,
+            21,
+            3
+          ],
+          [
+            3,
+            20,
+            549,
+            8
+          ],
+          [
+            30,
+            6,
+            3,
+            296
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9288956127080181,
+            "recall": 0.9431643625192012,
+            "f1": 0.9359756097560976,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9461426491994177,
+            "recall": 0.9447674418604651,
+            "f1": 0.9454545454545454,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9498269896193772,
+            "recall": 0.946551724137931,
+            "f1": 0.9481865284974094,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.9024390243902439,
+            "recall": 0.8835820895522388,
+            "f1": 0.8929110105580694,
+            "support": 335
+          }
+        }
+      },
+      "scaled_classification": {
+        "accuracy": 0.9356699201419698,
+        "macro_f1": 0.9306319235665305,
+        "macro_ovr_auroc": 0.9898268687065528,
+        "negative_log_likelihood": 0.22345003485679626,
+        "ece_10_bins": 0.021120308943839903,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 13,
+            "accuracy": 0.5384615384615384,
+            "confidence": 0.37263986468315125
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 39,
+            "accuracy": 0.5384615384615384,
+            "confidence": 0.46377843618392944
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 80,
+            "accuracy": 0.5625,
+            "confidence": 0.553984522819519
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 85,
+            "accuracy": 0.7764705882352941,
+            "confidence": 0.6517984867095947
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 122,
+            "accuracy": 0.8442622950819673,
+            "confidence": 0.7538462281227112
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 177,
+            "accuracy": 0.9265536723163842,
+            "confidence": 0.8564320206642151
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1738,
+            "accuracy": 0.979861910241657,
+            "confidence": 0.9843591451644897
+          }
+        ],
+        "confusion_matrix": [
+          [
+            614,
+            11,
+            5,
+            21
+          ],
+          [
+            14,
+            650,
+            21,
+            3
+          ],
+          [
+            3,
+            20,
+            549,
+            8
+          ],
+          [
+            30,
+            6,
+            3,
+            296
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9288956127080181,
+            "recall": 0.9431643625192012,
+            "f1": 0.9359756097560976,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9461426491994177,
+            "recall": 0.9447674418604651,
+            "f1": 0.9454545454545454,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9498269896193772,
+            "recall": 0.946551724137931,
+            "f1": 0.9481865284974094,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.9024390243902439,
+            "recall": 0.8835820895522388,
+            "f1": 0.8929110105580694,
+            "support": 335
+          }
+        }
+      },
+      "all_accept": {
+        "total": 2254,
+        "accepted": 2254,
+        "referred": 0,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.9356699201419698,
+        "accepted_errors": 145,
+        "referred_errors": 0,
+        "whole_population_accuracy": 0.9356699201419698,
+        "predicted_class": {
+          "tvshow": {
+            "total": 661,
+            "accepted": 661,
+            "accepted_accuracy": 0.9288956127080181,
+            "accepted_errors": 47
+          },
+          "government": {
+            "total": 687,
+            "accepted": 687,
+            "accepted_accuracy": 0.9461426491994177,
+            "accepted_errors": 37
+          },
+          "company": {
+            "total": 578,
+            "accepted": 578,
+            "accepted_accuracy": 0.9498269896193772,
+            "accepted_errors": 29
+          },
+          "politician": {
+            "total": 328,
+            "accepted": 328,
+            "accepted_accuracy": 0.9024390243902439,
+            "accepted_errors": 32
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 651,
+            "accepted_accuracy": 0.9431643625192012,
+            "accepted_errors": 37
+          },
+          "government": {
+            "total": 688,
+            "accepted": 688,
+            "accepted_accuracy": 0.9447674418604651,
+            "accepted_errors": 38
+          },
+          "company": {
+            "total": 580,
+            "accepted": 580,
+            "accepted_accuracy": 0.946551724137931,
+            "accepted_errors": 31
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 335,
+            "accepted_accuracy": 0.8835820895522388,
+            "accepted_errors": 39
+          }
+        }
+      },
+      "global97": {
+        "total": 2254,
+        "accepted": 1901,
+        "referred": 353,
+        "coverage": 0.8433895297249334,
+        "accepted_accuracy": 0.9752761704366123,
+        "accepted_errors": 47,
+        "referred_errors": 98,
+        "whole_population_accuracy": 0.9356699201419698,
+        "predicted_class": {
+          "tvshow": {
+            "total": 661,
+            "accepted": 565,
+            "accepted_accuracy": 0.9716814159292035,
+            "accepted_errors": 16
+          },
+          "government": {
+            "total": 687,
+            "accepted": 587,
+            "accepted_accuracy": 0.9778534923339012,
+            "accepted_errors": 13
+          },
+          "company": {
+            "total": 578,
+            "accepted": 502,
+            "accepted_accuracy": 0.9721115537848606,
+            "accepted_errors": 14
+          },
+          "politician": {
+            "total": 328,
+            "accepted": 247,
+            "accepted_accuracy": 0.9838056680161943,
+            "accepted_errors": 4
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 560,
+            "accepted_accuracy": 0.9803571428571428,
+            "accepted_errors": 11
+          },
+          "government": {
+            "total": 688,
+            "accepted": 593,
+            "accepted_accuracy": 0.9679595278246206,
+            "accepted_errors": 19
+          },
+          "company": {
+            "total": 580,
+            "accepted": 496,
+            "accepted_accuracy": 0.9838709677419355,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 252,
+            "accepted_accuracy": 0.9642857142857143,
+            "accepted_errors": 9
+          }
+        }
+      },
+      "class98": {
+        "total": 2254,
+        "accepted": 1560,
+        "referred": 694,
+        "coverage": 0.6921029281277729,
+        "accepted_accuracy": 0.9788461538461538,
+        "accepted_errors": 33,
+        "referred_errors": 112,
+        "whole_population_accuracy": 0.9356699201419698,
+        "predicted_class": {
+          "tvshow": {
+            "total": 661,
+            "accepted": 531,
+            "accepted_accuracy": 0.975517890772128,
+            "accepted_errors": 13
+          },
+          "government": {
+            "total": 687,
+            "accepted": 579,
+            "accepted_accuracy": 0.9792746113989638,
+            "accepted_errors": 12
+          },
+          "company": {
+            "total": 578,
+            "accepted": 450,
+            "accepted_accuracy": 0.9822222222222222,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 328,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 525,
+            "accepted_accuracy": 0.9866666666666667,
+            "accepted_errors": 7
+          },
+          "government": {
+            "total": 688,
+            "accepted": 580,
+            "accepted_accuracy": 0.9775862068965517,
+            "accepted_errors": 13
+          },
+          "company": {
+            "total": 580,
+            "accepted": 450,
+            "accepted_accuracy": 0.9822222222222222,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 5,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 5
+          }
+        }
+      }
+    },
+    {
+      "model": "mlp",
+      "seed": 44,
+      "temperature": 1.2370511293411255,
+      "global97_threshold": 0.98,
+      "class98_thresholds": [
+        0.98,
+        1.01,
+        0.99,
+        1.01
+      ],
+      "raw_classification": {
+        "accuracy": 0.8194321206743567,
+        "macro_f1": 0.7997940750721598,
+        "macro_ovr_auroc": 0.951550369066559,
+        "negative_log_likelihood": 0.5369946956634521,
+        "ece_10_bins": 0.045852884187461446,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 6,
+            "accuracy": 0.16666666666666666,
+            "confidence": 0.2902087867259979
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 104,
+            "accuracy": 0.4807692307692308,
+            "confidence": 0.35591572523117065
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 180,
+            "accuracy": 0.5555555555555556,
+            "confidence": 0.454253613948822
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 173,
+            "accuracy": 0.6242774566473989,
+            "confidence": 0.5514646768569946
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 192,
+            "accuracy": 0.703125,
+            "confidence": 0.651258647441864
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 241,
+            "accuracy": 0.7883817427385892,
+            "confidence": 0.7499083876609802
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 259,
+            "accuracy": 0.8262548262548263,
+            "confidence": 0.8519052863121033
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1099,
+            "accuracy": 0.9545040946314831,
+            "confidence": 0.9844599962234497
+          }
+        ],
+        "confusion_matrix": [
+          [
+            560,
+            42,
+            8,
+            41
+          ],
+          [
+            30,
+            594,
+            51,
+            13
+          ],
+          [
+            11,
+            65,
+            488,
+            16
+          ],
+          [
+            73,
+            21,
+            36,
+            205
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.8308605341246291,
+            "recall": 0.8602150537634409,
+            "f1": 0.8452830188679246,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.8227146814404432,
+            "recall": 0.8633720930232558,
+            "f1": 0.8425531914893617,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.8370497427101201,
+            "recall": 0.8413793103448276,
+            "f1": 0.8392089423903697,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.7454545454545455,
+            "recall": 0.6119402985074627,
+            "f1": 0.6721311475409836,
+            "support": 335
+          }
+        }
+      },
+      "scaled_classification": {
+        "accuracy": 0.8194321206743567,
+        "macro_f1": 0.7997940750721598,
+        "macro_ovr_auroc": 0.9515056200636919,
+        "negative_log_likelihood": 0.5308586359024048,
+        "ece_10_bins": 0.05690904703411044,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 12,
+            "accuracy": 0.3333333333333333,
+            "confidence": 0.2896682918071747
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 141,
+            "accuracy": 0.475177304964539,
+            "confidence": 0.3545438051223755
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 215,
+            "accuracy": 0.6,
+            "confidence": 0.4487766623497009
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 196,
+            "accuracy": 0.6581632653061225,
+            "confidence": 0.5498397350311279
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 236,
+            "accuracy": 0.7457627118644068,
+            "confidence": 0.6516008377075195
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 252,
+            "accuracy": 0.8214285714285714,
+            "confidence": 0.7497861385345459
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 217,
+            "accuracy": 0.8525345622119815,
+            "confidence": 0.8504445552825928
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 985,
+            "accuracy": 0.9644670050761421,
+            "confidence": 0.9809803366661072
+          }
+        ],
+        "confusion_matrix": [
+          [
+            560,
+            42,
+            8,
+            41
+          ],
+          [
+            30,
+            594,
+            51,
+            13
+          ],
+          [
+            11,
+            65,
+            488,
+            16
+          ],
+          [
+            73,
+            21,
+            36,
+            205
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.8308605341246291,
+            "recall": 0.8602150537634409,
+            "f1": 0.8452830188679246,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.8227146814404432,
+            "recall": 0.8633720930232558,
+            "f1": 0.8425531914893617,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.8370497427101201,
+            "recall": 0.8413793103448276,
+            "f1": 0.8392089423903697,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.7454545454545455,
+            "recall": 0.6119402985074627,
+            "f1": 0.6721311475409836,
+            "support": 335
+          }
+        }
+      },
+      "all_accept": {
+        "total": 2254,
+        "accepted": 2254,
+        "referred": 0,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.8194321206743567,
+        "accepted_errors": 407,
+        "referred_errors": 0,
+        "whole_population_accuracy": 0.8194321206743567,
+        "predicted_class": {
+          "tvshow": {
+            "total": 674,
+            "accepted": 674,
+            "accepted_accuracy": 0.8308605341246291,
+            "accepted_errors": 114
+          },
+          "government": {
+            "total": 722,
+            "accepted": 722,
+            "accepted_accuracy": 0.8227146814404432,
+            "accepted_errors": 128
+          },
+          "company": {
+            "total": 583,
+            "accepted": 583,
+            "accepted_accuracy": 0.8370497427101201,
+            "accepted_errors": 95
+          },
+          "politician": {
+            "total": 275,
+            "accepted": 275,
+            "accepted_accuracy": 0.7454545454545455,
+            "accepted_errors": 70
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 651,
+            "accepted_accuracy": 0.8602150537634409,
+            "accepted_errors": 91
+          },
+          "government": {
+            "total": 688,
+            "accepted": 688,
+            "accepted_accuracy": 0.8633720930232558,
+            "accepted_errors": 94
+          },
+          "company": {
+            "total": 580,
+            "accepted": 580,
+            "accepted_accuracy": 0.8413793103448276,
+            "accepted_errors": 92
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 335,
+            "accepted_accuracy": 0.6119402985074627,
+            "accepted_errors": 130
+          }
+        }
+      },
+      "global97": {
+        "total": 2254,
+        "accepted": 659,
+        "referred": 1595,
+        "coverage": 0.29236912156166817,
+        "accepted_accuracy": 0.9848254931714719,
+        "accepted_errors": 10,
+        "referred_errors": 397,
+        "whole_population_accuracy": 0.8194321206743567,
+        "predicted_class": {
+          "tvshow": {
+            "total": 674,
+            "accepted": 239,
+            "accepted_accuracy": 0.9832635983263598,
+            "accepted_errors": 4
+          },
+          "government": {
+            "total": 722,
+            "accepted": 101,
+            "accepted_accuracy": 0.9801980198019802,
+            "accepted_errors": 2
+          },
+          "company": {
+            "total": 583,
+            "accepted": 227,
+            "accepted_accuracy": 0.986784140969163,
+            "accepted_errors": 3
+          },
+          "politician": {
+            "total": 275,
+            "accepted": 92,
+            "accepted_accuracy": 0.9891304347826086,
+            "accepted_errors": 1
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 237,
+            "accepted_accuracy": 0.9915611814345991,
+            "accepted_errors": 2
+          },
+          "government": {
+            "total": 688,
+            "accepted": 101,
+            "accepted_accuracy": 0.9801980198019802,
+            "accepted_errors": 2
+          },
+          "company": {
+            "total": 580,
+            "accepted": 226,
+            "accepted_accuracy": 0.9911504424778761,
+            "accepted_errors": 2
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 95,
+            "accepted_accuracy": 0.9578947368421052,
+            "accepted_errors": 4
+          }
+        }
+      },
+      "class98": {
+        "total": 2254,
+        "accepted": 451,
+        "referred": 1803,
+        "coverage": 0.20008873114463177,
+        "accepted_accuracy": 0.9844789356984479,
+        "accepted_errors": 7,
+        "referred_errors": 400,
+        "whole_population_accuracy": 0.8194321206743567,
+        "predicted_class": {
+          "tvshow": {
+            "total": 674,
+            "accepted": 239,
+            "accepted_accuracy": 0.9832635983263598,
+            "accepted_errors": 4
+          },
+          "government": {
+            "total": 722,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          },
+          "company": {
+            "total": 583,
+            "accepted": 212,
+            "accepted_accuracy": 0.9858490566037735,
+            "accepted_errors": 3
+          },
+          "politician": {
+            "total": 275,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 236,
+            "accepted_accuracy": 0.9957627118644068,
+            "accepted_errors": 1
+          },
+          "government": {
+            "total": 688,
+            "accepted": 2,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 2
+          },
+          "company": {
+            "total": 580,
+            "accepted": 209,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 4,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 4
+          }
+        }
+      }
+    },
+    {
+      "model": "gcn",
+      "seed": 44,
+      "temperature": 1.000360369682312,
+      "global97_threshold": 0.84,
+      "class98_thresholds": [
+        0.9,
+        0.88,
+        0.9,
+        1.01
+      ],
+      "raw_classification": {
+        "accuracy": 0.9334516415261757,
+        "macro_f1": 0.9280518851073801,
+        "macro_ovr_auroc": 0.9894271955421828,
+        "negative_log_likelihood": 0.22853362560272217,
+        "ece_10_bins": 0.018749987063623665,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 1,
+            "accuracy": 1.0,
+            "confidence": 0.2644495964050293
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 12,
+            "accuracy": 0.3333333333333333,
+            "confidence": 0.3678952753543854
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 42,
+            "accuracy": 0.4523809523809524,
+            "confidence": 0.4629497528076172
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 71,
+            "accuracy": 0.6619718309859155,
+            "confidence": 0.5494289398193359
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 94,
+            "accuracy": 0.7659574468085106,
+            "confidence": 0.6495959758758545
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 122,
+            "accuracy": 0.8114754098360656,
+            "confidence": 0.7512363195419312
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 186,
+            "accuracy": 0.9032258064516129,
+            "confidence": 0.8567790389060974
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1726,
+            "accuracy": 0.981460023174971,
+            "confidence": 0.9847922921180725
+          }
+        ],
+        "confusion_matrix": [
+          [
+            616,
+            12,
+            5,
+            18
+          ],
+          [
+            16,
+            651,
+            19,
+            2
+          ],
+          [
+            3,
+            22,
+            546,
+            9
+          ],
+          [
+            33,
+            6,
+            5,
+            291
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9221556886227545,
+            "recall": 0.946236559139785,
+            "f1": 0.934040940106141,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9421128798842258,
+            "recall": 0.9462209302325582,
+            "f1": 0.9441624365482234,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9495652173913044,
+            "recall": 0.9413793103448276,
+            "f1": 0.9454545454545454,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.909375,
+            "recall": 0.8686567164179104,
+            "f1": 0.8885496183206106,
+            "support": 335
+          }
+        }
+      },
+      "scaled_classification": {
+        "accuracy": 0.9334516415261757,
+        "macro_f1": 0.9280518851073801,
+        "macro_ovr_auroc": 0.9894275844263187,
+        "negative_log_likelihood": 0.2285330891609192,
+        "ece_10_bins": 0.018754203986465753,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 1,
+            "accuracy": 1.0,
+            "confidence": 0.26444438099861145
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 12,
+            "accuracy": 0.3333333333333333,
+            "confidence": 0.367855042219162
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 42,
+            "accuracy": 0.4523809523809524,
+            "confidence": 0.4628906846046448
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 71,
+            "accuracy": 0.6619718309859155,
+            "confidence": 0.5493603348731995
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 94,
+            "accuracy": 0.7659574468085106,
+            "confidence": 0.6495018005371094
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 122,
+            "accuracy": 0.8114754098360656,
+            "confidence": 0.7511269450187683
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 186,
+            "accuracy": 0.9032258064516129,
+            "confidence": 0.8566750288009644
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1726,
+            "accuracy": 0.981460023174971,
+            "confidence": 0.9847726225852966
+          }
+        ],
+        "confusion_matrix": [
+          [
+            616,
+            12,
+            5,
+            18
+          ],
+          [
+            16,
+            651,
+            19,
+            2
+          ],
+          [
+            3,
+            22,
+            546,
+            9
+          ],
+          [
+            33,
+            6,
+            5,
+            291
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9221556886227545,
+            "recall": 0.946236559139785,
+            "f1": 0.934040940106141,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9421128798842258,
+            "recall": 0.9462209302325582,
+            "f1": 0.9441624365482234,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9495652173913044,
+            "recall": 0.9413793103448276,
+            "f1": 0.9454545454545454,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.909375,
+            "recall": 0.8686567164179104,
+            "f1": 0.8885496183206106,
+            "support": 335
+          }
+        }
+      },
+      "all_accept": {
+        "total": 2254,
+        "accepted": 2254,
+        "referred": 0,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.9334516415261757,
+        "accepted_errors": 150,
+        "referred_errors": 0,
+        "whole_population_accuracy": 0.9334516415261757,
+        "predicted_class": {
+          "tvshow": {
+            "total": 668,
+            "accepted": 668,
+            "accepted_accuracy": 0.9221556886227545,
+            "accepted_errors": 52
+          },
+          "government": {
+            "total": 691,
+            "accepted": 691,
+            "accepted_accuracy": 0.9421128798842258,
+            "accepted_errors": 40
+          },
+          "company": {
+            "total": 575,
+            "accepted": 575,
+            "accepted_accuracy": 0.9495652173913044,
+            "accepted_errors": 29
+          },
+          "politician": {
+            "total": 320,
+            "accepted": 320,
+            "accepted_accuracy": 0.909375,
+            "accepted_errors": 29
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 651,
+            "accepted_accuracy": 0.946236559139785,
+            "accepted_errors": 35
+          },
+          "government": {
+            "total": 688,
+            "accepted": 688,
+            "accepted_accuracy": 0.9462209302325582,
+            "accepted_errors": 37
+          },
+          "company": {
+            "total": 580,
+            "accepted": 580,
+            "accepted_accuracy": 0.9413793103448276,
+            "accepted_errors": 34
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 335,
+            "accepted_accuracy": 0.8686567164179104,
+            "accepted_errors": 44
+          }
+        }
+      },
+      "global97": {
+        "total": 2254,
+        "accepted": 1858,
+        "referred": 396,
+        "coverage": 0.8243123336291038,
+        "accepted_accuracy": 0.9773950484391819,
+        "accepted_errors": 42,
+        "referred_errors": 108,
+        "whole_population_accuracy": 0.9334516415261757,
+        "predicted_class": {
+          "tvshow": {
+            "total": 668,
+            "accepted": 558,
+            "accepted_accuracy": 0.9713261648745519,
+            "accepted_errors": 16
+          },
+          "government": {
+            "total": 691,
+            "accepted": 579,
+            "accepted_accuracy": 0.9810017271157168,
+            "accepted_errors": 11
+          },
+          "company": {
+            "total": 575,
+            "accepted": 485,
+            "accepted_accuracy": 0.979381443298969,
+            "accepted_errors": 10
+          },
+          "politician": {
+            "total": 320,
+            "accepted": 236,
+            "accepted_accuracy": 0.9788135593220338,
+            "accepted_errors": 5
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 554,
+            "accepted_accuracy": 0.9783393501805054,
+            "accepted_errors": 12
+          },
+          "government": {
+            "total": 688,
+            "accepted": 583,
+            "accepted_accuracy": 0.9742710120068611,
+            "accepted_errors": 15
+          },
+          "company": {
+            "total": 580,
+            "accepted": 482,
+            "accepted_accuracy": 0.9854771784232366,
+            "accepted_errors": 7
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 239,
+            "accepted_accuracy": 0.9665271966527197,
+            "accepted_errors": 8
+          }
+        }
+      },
+      "class98": {
+        "total": 2254,
+        "accepted": 1529,
+        "referred": 725,
+        "coverage": 0.6783496007098492,
+        "accepted_accuracy": 0.9810333551340745,
+        "accepted_errors": 29,
+        "referred_errors": 121,
+        "whole_population_accuracy": 0.9334516415261757,
+        "predicted_class": {
+          "tvshow": {
+            "total": 668,
+            "accepted": 525,
+            "accepted_accuracy": 0.9771428571428571,
+            "accepted_errors": 12
+          },
+          "government": {
+            "total": 691,
+            "accepted": 546,
+            "accepted_accuracy": 0.9835164835164835,
+            "accepted_errors": 9
+          },
+          "company": {
+            "total": 575,
+            "accepted": 458,
+            "accepted_accuracy": 0.982532751091703,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 320,
+            "accepted": 0,
+            "accepted_accuracy": null,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 519,
+            "accepted_accuracy": 0.9884393063583815,
+            "accepted_errors": 6
+          },
+          "government": {
+            "total": 688,
+            "accepted": 549,
+            "accepted_accuracy": 0.9781420765027322,
+            "accepted_errors": 12
+          },
+          "company": {
+            "total": 580,
+            "accepted": 456,
+            "accepted_accuracy": 0.9868421052631579,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 5,
+            "accepted_accuracy": 0.0,
+            "accepted_errors": 5
+          }
+        }
+      }
+    }
+  ]
+}

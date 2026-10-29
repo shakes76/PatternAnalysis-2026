@@ -1,0 +1,37 @@
+{
+  "id": "exact-threshold-weighted-gcn-v1",
+  "date_brisbane": "2026-10-26",
+  "status": "Post-hoc controlled refinement; graph and final-role outcomes were previously inspected",
+  "external_independent_validation": false,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "split_seed": 20261026,
+  "three_variants": [
+    "unweighted grid Class98",
+    "unweighted exact Class98",
+    "weighted exact Class98"
+  ],
+  "weighted_change": "Only training CE weights n_train/(4*n_class), derived from training labels",
+  "training_class_counts": [
+    3897,
+    4128,
+    3460,
+    1996
+  ],
+  "class_weights": [
+    0.8648319244384766,
+    0.8164365291595459,
+    0.9740607142448425,
+    1.6885019540786743
+  ],
+  "architecture_and_optimizer": "Original 128-64-4 GCN, dropout .5, Adam .01/weight decay .0005, max200/patience30, selection Macro-F1",
+  "temperature": "Unweighted NLL fit on temperature role; original temperatures retained for unweighted models",
+  "exact_policy": "Distinct confidence boundaries with whole ties; >=98% empirical accuracy and max(50,ceil(5% class)) cases; max coverage; all-accept cutoff0; fallback1.01",
+  "all_six_new_policies_saved_before_this_comparison": true,
+  "no_target_weight_or_threshold_retuning_after_comparison": true,
+  "no_true_labels_or_error_IDs_in_route_decisions": true,
+  "random_audit": "Optional label-free sample of eligible predictions; no human correction assumed"
+}

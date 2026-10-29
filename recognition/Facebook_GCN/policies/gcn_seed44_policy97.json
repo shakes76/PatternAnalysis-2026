@@ -1,0 +1,28 @@
+{
+  "policy_id": "normal-policy97-gcn-seed44",
+  "status": "development_fitted_frozen_for_posthoc_followup",
+  "protocol_sha256": "028976cad1ff128f168c2bb7b072a4e4534a3e6c8207afc30c6c752803326d36",
+  "dataset_sha256": "7a1b8a0687515e9859d1ca649dc276825f5db44568894dfbb6b55ebc1cf6a9c1",
+  "checkpoint_sha256": "7f16d3ea7d37bf779b1394468c13d2a567f3c00ca66cf53ac89b4c20619fa507",
+  "initialization_seed": 44,
+  "model_config": {
+    "inputs": 128,
+    "hidden": 64,
+    "classes": 4,
+    "dropout": 0.5
+  },
+  "split_seed": 42,
+  "validation_role_seed": 43,
+  "temperature": 0.8750478625297546,
+  "original_threshold": 0.0,
+  "new_threshold": 0.74,
+  "target_calibration_accepted_accuracy": 0.97,
+  "calibration_metrics": {
+    "threshold": 0.74,
+    "accepted": 2040,
+    "total": 2248,
+    "coverage": 0.9074733096085409,
+    "accepted_accuracy": 0.9700980392156863,
+    "accepted_error_rate": 0.02990196078431373
+  }
+}

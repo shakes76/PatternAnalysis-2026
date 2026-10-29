@@ -1,0 +1,194 @@
+{
+  "selection": "First five node IDs among seed42 baseline accepted missed true politicians; diagnostic, not representative sampling",
+  "cases": [
+    {
+      "node_id": 909,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9990038275718689,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.9944816827774048,
+      "unanimous": true,
+      "accepted": true,
+      "true_class": "politician",
+      "mlp_prediction": "tvshow",
+      "mlp_confidence": 0.5225977301597595,
+      "nonself_degree": 141,
+      "training_neighbour_counts": {
+        "tvshow": 53,
+        "government": 17,
+        "company": 0,
+        "politician": 20
+      },
+      "nearest_three_training_feature_classes": [
+        "politician",
+        "politician",
+        "politician"
+      ],
+      "isolated_seed42_prediction": "tvshow",
+      "isolated_seed42_confidence": 0.9992666840553284,
+      "isolated_seed42_politician_probability": 0.0007332736277021468
+    },
+    {
+      "node_id": 1958,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9083572030067444,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.8578720092773438,
+      "unanimous": true,
+      "accepted": false,
+      "true_class": "politician",
+      "mlp_prediction": "tvshow",
+      "mlp_confidence": 0.972794234752655,
+      "nonself_degree": 6,
+      "training_neighbour_counts": {
+        "tvshow": 2,
+        "government": 1,
+        "company": 0,
+        "politician": 1
+      },
+      "nearest_three_training_feature_classes": [
+        "government",
+        "politician",
+        "tvshow"
+      ],
+      "isolated_seed42_prediction": "politician",
+      "isolated_seed42_confidence": 0.9955307841300964,
+      "isolated_seed42_politician_probability": 0.9955307841300964
+    },
+    {
+      "node_id": 5152,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.8967845439910889,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.7102023959159851,
+      "unanimous": true,
+      "accepted": false,
+      "true_class": "politician",
+      "mlp_prediction": "tvshow",
+      "mlp_confidence": 0.5667147636413574,
+      "nonself_degree": 1,
+      "training_neighbour_counts": {
+        "tvshow": 1,
+        "government": 0,
+        "company": 0,
+        "politician": 0
+      },
+      "nearest_three_training_feature_classes": [
+        "politician",
+        "tvshow",
+        "politician"
+      ],
+      "isolated_seed42_prediction": "tvshow",
+      "isolated_seed42_confidence": 0.8007702231407166,
+      "isolated_seed42_politician_probability": 0.19920669496059418
+    },
+    {
+      "node_id": 5395,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9864509105682373,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.984772264957428,
+      "unanimous": true,
+      "accepted": true,
+      "true_class": "politician",
+      "mlp_prediction": "tvshow",
+      "mlp_confidence": 0.6857255101203918,
+      "nonself_degree": 6,
+      "training_neighbour_counts": {
+        "tvshow": 1,
+        "government": 0,
+        "company": 0,
+        "politician": 1
+      },
+      "nearest_three_training_feature_classes": [
+        "tvshow",
+        "politician",
+        "politician"
+      ],
+      "isolated_seed42_prediction": "politician",
+      "isolated_seed42_confidence": 0.6821813583374023,
+      "isolated_seed42_politician_probability": 0.6821813583374023
+    },
+    {
+      "node_id": 7042,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9443070292472839,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.9185174703598022,
+      "unanimous": true,
+      "accepted": true,
+      "true_class": "politician",
+      "mlp_prediction": "tvshow",
+      "mlp_confidence": 0.6811345219612122,
+      "nonself_degree": 7,
+      "training_neighbour_counts": {
+        "tvshow": 2,
+        "government": 0,
+        "company": 0,
+        "politician": 2
+      },
+      "nearest_three_training_feature_classes": [
+        "government",
+        "company",
+        "government"
+      ],
+      "isolated_seed42_prediction": "tvshow",
+      "isolated_seed42_confidence": 0.6925241947174072,
+      "isolated_seed42_politician_probability": 0.00322141801007092
+    }
+  ],
+  "baseline_checkpoint_sha256": "08c6044ec04680490cf27bbce135de0f78975d659ee55ba72ed3f04968934aa3",
+  "audit_source_sha256": "99f20fc35aa36dda6a5aebaae74befe54758cf6fae20eaa176ad4d1fc7b588b4",
+  "intervention": "Remove each selected node's incident nonself edges, renormalise graph, keep unweighted seed42 weights fixed; no labels enter forward",
+  "limitations": [
+    "Selected-error graph sensitivity, not retraining ablation or proof of the data-generation cause",
+    "No original page-content/annotation audit",
+    "Nearest features and training neighbours are associations, not causal explanations",
+    "No autopsy labels or case IDs are used by prediction routing"
+  ]
+}

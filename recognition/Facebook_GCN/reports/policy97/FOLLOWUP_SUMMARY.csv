@@ -1,0 +1,4 @@
+﻿seed,threshold,calibration_accepted_accuracy,posthoc_original_test_total,posthoc_accepted,posthoc_reviewed,posthoc_coverage,posthoc_accepted_accuracy,target_97_met_on_reused_test,referred_original_errors,remaining_accepted_errors,whole_test_model_accuracy_unchanged
+42,0.73,0.9701857282502444,4496,4056,440,0.902135231316726,0.9701676528599605,True,160,121,0.9375
+43,0.76,0.9702823179791976,4496,3959,537,0.8805604982206405,0.9719626168224299,True,178,111,0.935720640569395
+44,0.74,0.9700980392156863,4496,4024,472,0.895017793594306,0.9699304174950298,False,140,121,0.9419483985765125

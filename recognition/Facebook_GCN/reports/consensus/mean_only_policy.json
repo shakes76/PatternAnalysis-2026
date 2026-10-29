@@ -1,0 +1,103 @@
+{
+  "id": "six-gcn-mean_only-v1",
+  "name": "mean_only",
+  "require_unanimity": false,
+  "temperature": 0.971649706363678,
+  "thresholds": [
+    0.859538197517395,
+    0.8711923360824585,
+    0.8954914212226868,
+    0.9998544454574585
+  ],
+  "fitting": [
+    {
+      "predicted_class": "tvshow",
+      "policy_cases": 643,
+      "minimum_accepted": 50,
+      "accepted": 520,
+      "threshold": 0.859538197517395,
+      "accepted_accuracy": 0.9807692307692307,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "government",
+      "policy_cases": 680,
+      "minimum_accepted": 50,
+      "accepted": 550,
+      "threshold": 0.8711923360824585,
+      "accepted_accuracy": 0.98,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "company",
+      "policy_cases": 595,
+      "minimum_accepted": 50,
+      "accepted": 493,
+      "threshold": 0.8954914212226868,
+      "accepted_accuracy": 0.9817444219066938,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "politician",
+      "policy_cases": 327,
+      "minimum_accepted": 50,
+      "accepted": 61,
+      "threshold": 0.9998544454574585,
+      "accepted_accuracy": 0.9836065573770492,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    }
+  ],
+  "dataset_sha256": "7a1b8a0687515e9859d1ca649dc276825f5db44568894dfbb6b55ebc1cf6a9c1",
+  "split_sha256": "c6a41ea66f97a11a3a63c7779134ecdc9ddda79470b50b86deb88e1b410230be",
+  "protocol_sha256": "8e5fa3b99a3dc87e1a61a3364fc877b0ab9a8872ed8688bb53f932f678f22d38",
+  "members_manifest_sha256": "faddea7b6ef8d920df42c683f0955b84cab00eb50a96722ff100d5a8e4de6759",
+  "member_identities": [
+    {
+      "run": "unweighted_exact_seed42",
+      "policy_sha256": "059b8c779c5882e3bd1b85a060fb9f72f4239b9d25dd0612aaaae53720105584",
+      "checkpoint_sha256": "11adcc8f72a453fe6bcb47721e07143cdf88b41a87a8769a48046a1f73c223d7",
+      "temperature": 0.9831295609474182,
+      "parameters": 8516
+    },
+    {
+      "run": "unweighted_exact_seed43",
+      "policy_sha256": "509c78e7a84ff61fa1cf437f985324d020002e1f11b41d80814d9915a2589a7a",
+      "checkpoint_sha256": "b78a98f4434970018ab9d9ccfb4414fd234bafdbdcc6580cfb89e8c600a6f03d",
+      "temperature": 0.9885333776473999,
+      "parameters": 8516
+    },
+    {
+      "run": "unweighted_exact_seed44",
+      "policy_sha256": "c54b4ca1c8962c3ae0d7aaa8b30601cfa3d87cc1828b678cb17aa1a9a765d597",
+      "checkpoint_sha256": "5431fb4d2dcec26063048bb003f580655f62ad23c61231aeb3bcf28087f72df6",
+      "temperature": 1.000360369682312,
+      "parameters": 8516
+    },
+    {
+      "run": "weighted_exact_seed42",
+      "policy_sha256": "61d82e41b0f932bbacfdfb06b23ffab97854b83e03d7dd26617391aeea90e3d7",
+      "checkpoint_sha256": "0884762d003035709c150f17eb129d66be59679f09ab0fa172d46d6e0e4b9fdf",
+      "temperature": 1.0,
+      "parameters": 8516
+    },
+    {
+      "run": "weighted_exact_seed43",
+      "policy_sha256": "13bfc9032a61b5bc01d3878bcc7199e92e2299b7ce77f8947f597495366cae20",
+      "checkpoint_sha256": "3a561c25259b04e6753b377fcb6624b39240e91054dbe5bd3451e46e60c43e81",
+      "temperature": 1.0042307376861572,
+      "parameters": 8516
+    },
+    {
+      "run": "weighted_exact_seed44",
+      "policy_sha256": "bac495631c230cb2887e464269e014937c7ac67a7aa67fd7a3d1c7a289964747",
+      "checkpoint_sha256": "f623fad76e2e199e9c9a1b9b52ce2c402f8abad915696da883fe24cf86c403e4",
+      "temperature": 1.0088952779769897,
+      "parameters": 8516
+    }
+  ],
+  "status": "Post-hoc on previously inspected graph and final cases; not independent confirmation"
+}

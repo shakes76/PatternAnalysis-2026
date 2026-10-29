@@ -1,0 +1,13 @@
+# Datasets and model files must stay out of the course repository.
+data/
+checkpoints/
+runs/
+outputs/
+*.npz
+*.npy
+*.pt
+*.pth
+*.ckpt
+__pycache__/
+.venv/
+.env

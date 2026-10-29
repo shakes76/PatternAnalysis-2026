@@ -1,0 +1,7 @@
+# Install a PyTorch build suitable for the target CPU/GPU first.
+# Exact versions from actual runs are recorded in summary.json.
+torch>=2.5,<3
+torch-geometric>=2.6,<3
+numpy>=1.26,<3
+scikit-learn>=1.4,<2
+matplotlib>=3.8,<4

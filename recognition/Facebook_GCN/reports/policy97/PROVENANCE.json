@@ -1,0 +1,26 @@
+{
+  "experiment": "normal-policy97-followup-v1",
+  "date_brisbane": "2026-10-26",
+  "original_commit": "1912f283c95a94dda7f295ab17e993423f251f1e",
+  "original_model_and_evaluation_sources_unchanged": true,
+  "original_three_gcn_checkpoints_and_temperatures_unchanged": true,
+  "policies_fitted_on_original_calibration_only": true,
+  "policies_frozen_before_this_followup_test_metrics": true,
+  "original_test_previously_inspected": true,
+  "evaluation_status": "Post-hoc original-test reuse; not independent confirmation",
+  "independent_validation_completed": false,
+  "seed44_below_97_percent_reported_without_retuning": true,
+  "three_thresholds": [
+    0.73,
+    0.76,
+    0.74
+  ],
+  "original_followup_archive_sha256": "7a1e8928aa5daafb54a4c7bc47aca56e0222c3f4b68cfcfbb0d4a8e9ce6540c9",
+  "portable_script_adjustments": "Only script-relative default input/output locations changed for repository placement.",
+  "private_artifacts_excluded": [
+    "dataset",
+    "checkpoint weights",
+    "per-node labelled evidence exports"
+  ],
+  "validation_scope": "Exact result accounting, frozen hashes, label-free replay, negative binding guards and plot inspection; no safety guarantee."
+}

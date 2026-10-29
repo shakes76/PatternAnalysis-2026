@@ -1,0 +1,22 @@
+{
+  "date_brisbane": "2026-10-26",
+  "id": "five-role-class-aware-v1",
+  "split_seed": 20261026,
+  "initialization_seeds": [
+    42,
+    43,
+    44
+  ],
+  "roles": "60% train, 10% selection, 10% temperature, 10% policy, remainder final; stratified flooring",
+  "architecture": "Matched 128-64-4 MLP/GCN, 8516 parameters, original Adam/dropout/early-stopping settings",
+  "policy_control": "Global 97% empirical accepted policy accuracy, maximum coverage",
+  "policy_candidate": "Per predicted class: 98% empirical accepted policy accuracy; min max(50, ceil(5% of predicted class)); maximum coverage, lower-threshold tie; infeasible class refers all",
+  "buffer_reason": "One percentage point above the desired 97%, chosen before this final-role evaluation; not a guarantee",
+  "all_six_policies_saved_before_final_role_evaluation": true,
+  "previously_studied_graph": true,
+  "external_independent_validation": false,
+  "no_split_or_threshold_search_after_final_results": true,
+  "new_cpu_training": true,
+  "original_gpu_runs_and_colab_preserved": true,
+  "human_correction_accuracy_assumed": false
+}

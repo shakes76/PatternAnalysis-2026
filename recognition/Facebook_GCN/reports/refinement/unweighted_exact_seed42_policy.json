@@ -1,0 +1,59 @@
+{
+  "id": "unweighted_exact-seed42",
+  "variant": "unweighted_exact",
+  "seed": 42,
+  "temperature": 0.9831295609474182,
+  "thresholds": [
+    0.869318962097168,
+    0.8462600708007812,
+    0.8885417580604553,
+    0.9996114373207092
+  ],
+  "fitting": [
+    {
+      "predicted_class": "tvshow",
+      "policy_cases": 654,
+      "minimum_accepted": 50,
+      "accepted": 520,
+      "threshold": 0.869318962097168,
+      "accepted_accuracy": 0.9807692307692307,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "government",
+      "policy_cases": 692,
+      "minimum_accepted": 50,
+      "accepted": 565,
+      "threshold": 0.8462600708007812,
+      "accepted_accuracy": 0.9805309734513274,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "company",
+      "policy_cases": 592,
+      "minimum_accepted": 50,
+      "accepted": 491,
+      "threshold": 0.8885417580604553,
+      "accepted_accuracy": 0.9816700610997964,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    },
+    {
+      "predicted_class": "politician",
+      "policy_cases": 307,
+      "minimum_accepted": 50,
+      "accepted": 65,
+      "threshold": 0.9996114373207092,
+      "accepted_accuracy": 0.9846153846153847,
+      "feasible_on_fitting_data": true,
+      "search": "distinct score boundaries, complete ties"
+    }
+  ],
+  "checkpoint_sha256": "11adcc8f72a453fe6bcb47721e07143cdf88b41a87a8769a48046a1f73c223d7",
+  "dataset_sha256": "7a1b8a0687515e9859d1ca649dc276825f5db44568894dfbb6b55ebc1cf6a9c1",
+  "split_sha256": "c6a41ea66f97a11a3a63c7779134ecdc9ddda79470b50b86deb88e1b410230be",
+  "protocol_sha256": "b2c1d2ad17dceca53fe4632f925a26bbb7a0a2422694cb4fd5dfa76f57c22af3",
+  "evaluation_status": "Post-hoc controlled refinement; graph and final-role outcomes were previously inspected"
+}

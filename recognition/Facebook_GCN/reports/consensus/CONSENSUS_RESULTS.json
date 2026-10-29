@@ -1,0 +1,2680 @@
+{
+  "protocol": {
+    "id": "six-gcn-consensus-v1",
+    "date_brisbane": "2026-10-26",
+    "status": "Post-hoc on previously inspected graph and final cases; not independent confirmation",
+    "members": [
+      {
+        "run": "unweighted_exact_seed42",
+        "policy_sha256": "059b8c779c5882e3bd1b85a060fb9f72f4239b9d25dd0612aaaae53720105584",
+        "checkpoint_sha256": "11adcc8f72a453fe6bcb47721e07143cdf88b41a87a8769a48046a1f73c223d7",
+        "temperature": 0.9831295609474182,
+        "parameters": 8516
+      },
+      {
+        "run": "unweighted_exact_seed43",
+        "policy_sha256": "509c78e7a84ff61fa1cf437f985324d020002e1f11b41d80814d9915a2589a7a",
+        "checkpoint_sha256": "b78a98f4434970018ab9d9ccfb4414fd234bafdbdcc6580cfb89e8c600a6f03d",
+        "temperature": 0.9885333776473999,
+        "parameters": 8516
+      },
+      {
+        "run": "unweighted_exact_seed44",
+        "policy_sha256": "c54b4ca1c8962c3ae0d7aaa8b30601cfa3d87cc1828b678cb17aa1a9a765d597",
+        "checkpoint_sha256": "5431fb4d2dcec26063048bb003f580655f62ad23c61231aeb3bcf28087f72df6",
+        "temperature": 1.000360369682312,
+        "parameters": 8516
+      },
+      {
+        "run": "weighted_exact_seed42",
+        "policy_sha256": "61d82e41b0f932bbacfdfb06b23ffab97854b83e03d7dd26617391aeea90e3d7",
+        "checkpoint_sha256": "0884762d003035709c150f17eb129d66be59679f09ab0fa172d46d6e0e4b9fdf",
+        "temperature": 1.0,
+        "parameters": 8516
+      },
+      {
+        "run": "weighted_exact_seed43",
+        "policy_sha256": "13bfc9032a61b5bc01d3878bcc7199e92e2299b7ce77f8947f597495366cae20",
+        "checkpoint_sha256": "3a561c25259b04e6753b377fcb6624b39240e91054dbe5bd3451e46e60c43e81",
+        "temperature": 1.0042307376861572,
+        "parameters": 8516
+      },
+      {
+        "run": "weighted_exact_seed44",
+        "policy_sha256": "bac495631c230cb2887e464269e014937c7ac67a7aa67fd7a3d1c7a289964747",
+        "checkpoint_sha256": "f623fad76e2e199e9c9a1b9b52ce2c402f8abad915696da883fe24cf86c403e4",
+        "temperature": 1.0088952779769897,
+        "parameters": 8516
+      }
+    ],
+    "member_selection": "All six existing GCNs, fixed without final-score selection",
+    "averaging": "Equal arithmetic mean of six member-temperature-scaled probability vectors",
+    "ensemble_temperature": "Positive scalar fit to NLL on temperature role only",
+    "rules": [
+      "mean_only",
+      "unanimous"
+    ],
+    "unanimity": "All six argmax predictions must agree; no reference labels or known-error IDs",
+    "thresholds": "Exact boundaries; >=98% empirical fitting accuracy; at least max(50,ceil(5% eligible class)); maximum coverage",
+    "fit_unanimity_thresholds": "Policy-role eligible cases only; independent threshold-only comparator also saved",
+    "external_validation": false,
+    "no_retraining": true,
+    "no_final_result_tuning": true,
+    "no_human_correction_assumed": true,
+    "resource_scope": "CPU inference, prepared graph/input, no GPU profiling of ensemble"
+  },
+  "temperature": 0.971649706363678,
+  "final_cases": 2254,
+  "comparisons": {
+    "unweighted_exact_seed42": {
+      "classification": {
+        "accuracy": 0.9365572315882875,
+        "macro_f1": 0.931383888510948,
+        "macro_ovr_auroc": 0.989229273074633,
+        "negative_log_likelihood": 0.2310025542974472,
+        "ece_10_bins": 0.025065556261109984,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 16,
+            "accuracy": 0.5625,
+            "confidence": 0.3545534014701843
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 42,
+            "accuracy": 0.5476190476190477,
+            "confidence": 0.45392540097236633
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 80,
+            "accuracy": 0.675,
+            "confidence": 0.5510742664337158
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 97,
+            "accuracy": 0.7628865979381443,
+            "confidence": 0.6521890163421631
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 113,
+            "accuracy": 0.8407079646017699,
+            "confidence": 0.7560160756111145
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 199,
+            "accuracy": 0.914572864321608,
+            "confidence": 0.8533428907394409
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1707,
+            "accuracy": 0.9806678383128296,
+            "confidence": 0.9846683144569397
+          }
+        ],
+        "confusion_matrix": [
+          [
+            619,
+            9,
+            6,
+            17
+          ],
+          [
+            17,
+            650,
+            19,
+            2
+          ],
+          [
+            3,
+            20,
+            552,
+            5
+          ],
+          [
+            33,
+            6,
+            6,
+            290
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9211309523809523,
+            "recall": 0.9508448540706606,
+            "f1": 0.9357520786092215,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.948905109489051,
+            "recall": 0.9447674418604651,
+            "f1": 0.9468317552804079,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9468267581475128,
+            "recall": 0.9517241379310345,
+            "f1": 0.9492691315563199,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.9235668789808917,
+            "recall": 0.8656716417910447,
+            "f1": 0.8936825885978429,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2111,
+            "accuracy": 0.9365572315882875,
+            "mean_confidence": 0.9175510087051324,
+            "errors_confidence_ge_099": 13
+          },
+          "predicted_politician": {
+            "count": 314,
+            "correct": 290,
+            "accuracy": 0.9235668789808917,
+            "mean_confidence": 0.8931504789811031,
+            "errors_confidence_ge_099": 2
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 290,
+            "accuracy": 0.8656716417910447,
+            "mean_confidence": 0.876915911151402,
+            "errors_confidence_ge_099": 1
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.01190771524214583,
+        "politician_one_vs_rest_brier": 0.024176726675454372,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1791,
+            "observed_politician_frequency": 0.006141820212171971,
+            "mean_politician_probability": 0.00910442409126252
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 81,
+            "observed_politician_frequency": 0.12345679012345678,
+            "mean_politician_probability": 0.14244322101643056
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 30,
+            "observed_politician_frequency": 0.16666666666666666,
+            "mean_politician_probability": 0.24186070561408995
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 30,
+            "observed_politician_frequency": 0.36666666666666664,
+            "mean_politician_probability": 0.34355383515357973
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 21,
+            "observed_politician_frequency": 0.8095238095238095,
+            "mean_politician_probability": 0.44797077775001526
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 15,
+            "observed_politician_frequency": 0.8,
+            "mean_politician_probability": 0.5486948211987813
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 23,
+            "observed_politician_frequency": 0.6956521739130435,
+            "mean_politician_probability": 0.6470061281453008
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 20,
+            "observed_politician_frequency": 0.8,
+            "mean_politician_probability": 0.7533895939588546
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 28,
+            "observed_politician_frequency": 0.9285714285714286,
+            "mean_politician_probability": 0.8522321241242545
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 215,
+            "observed_politician_frequency": 0.9813953488372092,
+            "mean_politician_probability": 0.988353956022928
+          }
+        ],
+        "missed_true_politicians": 45,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1630,
+        "referred": 624,
+        "coverage": 0.7231588287488908,
+        "accepted_accuracy": 0.9803680981595092,
+        "accepted_errors": 32,
+        "referred_errors": 111,
+        "whole_population_accuracy": 0.9365572315882875,
+        "predicted_class": {
+          "tvshow": {
+            "total": 672,
+            "accepted": 538,
+            "accepted_accuracy": 0.9721189591078067,
+            "accepted_errors": 15
+          },
+          "government": {
+            "total": 685,
+            "accepted": 562,
+            "accepted_accuracy": 0.9822064056939501,
+            "accepted_errors": 10
+          },
+          "company": {
+            "total": 583,
+            "accepted": 458,
+            "accepted_accuracy": 0.9847161572052402,
+            "accepted_errors": 7
+          },
+          "politician": {
+            "total": 314,
+            "accepted": 72,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 529,
+            "accepted_accuracy": 0.9886578449905482,
+            "accepted_errors": 6
+          },
+          "government": {
+            "total": 688,
+            "accepted": 565,
+            "accepted_accuracy": 0.9769911504424779,
+            "accepted_errors": 13
+          },
+          "company": {
+            "total": 580,
+            "accepted": 457,
+            "accepted_accuracy": 0.986870897155361,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 79,
+            "accepted_accuracy": 0.9113924050632911,
+            "accepted_errors": 7
+          }
+        }
+      },
+      "accepted_errors_ge_099": 11
+    },
+    "unweighted_exact_seed43": {
+      "classification": {
+        "accuracy": 0.9356699201419698,
+        "macro_f1": 0.9306319235665305,
+        "macro_ovr_auroc": 0.9898268687065528,
+        "negative_log_likelihood": 0.22345001995563507,
+        "ece_10_bins": 0.021120308943839903,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 13,
+            "accuracy": 0.5384615384615384,
+            "confidence": 0.37263986468315125
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 39,
+            "accuracy": 0.5384615384615384,
+            "confidence": 0.46377843618392944
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 80,
+            "accuracy": 0.5625,
+            "confidence": 0.553984522819519
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 85,
+            "accuracy": 0.7764705882352941,
+            "confidence": 0.6517984867095947
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 122,
+            "accuracy": 0.8442622950819673,
+            "confidence": 0.7538462281227112
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 177,
+            "accuracy": 0.9265536723163842,
+            "confidence": 0.8564320206642151
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1738,
+            "accuracy": 0.979861910241657,
+            "confidence": 0.9843591451644897
+          }
+        ],
+        "confusion_matrix": [
+          [
+            614,
+            11,
+            5,
+            21
+          ],
+          [
+            14,
+            650,
+            21,
+            3
+          ],
+          [
+            3,
+            20,
+            549,
+            8
+          ],
+          [
+            30,
+            6,
+            3,
+            296
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9288956127080181,
+            "recall": 0.9431643625192012,
+            "f1": 0.9359756097560976,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9461426491994177,
+            "recall": 0.9447674418604651,
+            "f1": 0.9454545454545454,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9498269896193772,
+            "recall": 0.946551724137931,
+            "f1": 0.9481865284974094,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.9024390243902439,
+            "recall": 0.8835820895522388,
+            "f1": 0.8929110105580694,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2109,
+            "accuracy": 0.9356699201419698,
+            "mean_confidence": 0.9214849862755138,
+            "errors_confidence_ge_099": 10
+          },
+          "predicted_politician": {
+            "count": 328,
+            "correct": 296,
+            "accuracy": 0.9024390243902439,
+            "mean_confidence": 0.8877661530746193,
+            "errors_confidence_ge_099": 2
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 296,
+            "accuracy": 0.8835820895522388,
+            "mean_confidence": 0.8830922691679712,
+            "errors_confidence_ge_099": 1
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.01612892358943025,
+        "politician_one_vs_rest_brier": 0.023194151519021804,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1799,
+            "observed_politician_frequency": 0.006114508060033352,
+            "mean_politician_probability": 0.008919303549277129
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 72,
+            "observed_politician_frequency": 0.06944444444444445,
+            "mean_politician_probability": 0.1426023512871729
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 25,
+            "observed_politician_frequency": 0.36,
+            "mean_politician_probability": 0.2437706446647644
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 24,
+            "observed_politician_frequency": 0.25,
+            "mean_politician_probability": 0.34156546617547673
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 21,
+            "observed_politician_frequency": 0.7619047619047619,
+            "mean_politician_probability": 0.4469663458211081
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 22,
+            "observed_politician_frequency": 0.8181818181818182,
+            "mean_politician_probability": 0.5626451129263098
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 18,
+            "observed_politician_frequency": 0.5,
+            "mean_politician_probability": 0.6574599842230479
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 25,
+            "observed_politician_frequency": 0.68,
+            "mean_politician_probability": 0.7475390577316284
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 23,
+            "observed_politician_frequency": 1.0,
+            "mean_politician_probability": 0.8593908107799032
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 225,
+            "observed_politician_frequency": 0.9822222222222222,
+            "mean_politician_probability": 0.9864258246951633
+          }
+        ],
+        "missed_true_politicians": 39,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1652,
+        "referred": 602,
+        "coverage": 0.7329192546583851,
+        "accepted_accuracy": 0.9800242130750605,
+        "accepted_errors": 33,
+        "referred_errors": 112,
+        "whole_population_accuracy": 0.9356699201419698,
+        "predicted_class": {
+          "tvshow": {
+            "total": 661,
+            "accepted": 539,
+            "accepted_accuracy": 0.9758812615955473,
+            "accepted_errors": 13
+          },
+          "government": {
+            "total": 687,
+            "accepted": 581,
+            "accepted_accuracy": 0.9793459552495697,
+            "accepted_errors": 12
+          },
+          "company": {
+            "total": 578,
+            "accepted": 459,
+            "accepted_accuracy": 0.9825708061002179,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 328,
+            "accepted": 73,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 533,
+            "accepted_accuracy": 0.9868667917448405,
+            "accepted_errors": 7
+          },
+          "government": {
+            "total": 688,
+            "accepted": 582,
+            "accepted_accuracy": 0.9776632302405498,
+            "accepted_errors": 13
+          },
+          "company": {
+            "total": 580,
+            "accepted": 459,
+            "accepted_accuracy": 0.9825708061002179,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 78,
+            "accepted_accuracy": 0.9358974358974359,
+            "accepted_errors": 5
+          }
+        }
+      },
+      "accepted_errors_ge_099": 8
+    },
+    "unweighted_exact_seed44": {
+      "classification": {
+        "accuracy": 0.9334516415261757,
+        "macro_f1": 0.9280518851073801,
+        "macro_ovr_auroc": 0.9894275844263187,
+        "negative_log_likelihood": 0.2285330891609192,
+        "ece_10_bins": 0.018754203986465753,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 1,
+            "accuracy": 1.0,
+            "confidence": 0.26444438099861145
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 12,
+            "accuracy": 0.3333333333333333,
+            "confidence": 0.367855042219162
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 42,
+            "accuracy": 0.4523809523809524,
+            "confidence": 0.4628906846046448
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 71,
+            "accuracy": 0.6619718309859155,
+            "confidence": 0.5493603348731995
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 94,
+            "accuracy": 0.7659574468085106,
+            "confidence": 0.6495018005371094
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 122,
+            "accuracy": 0.8114754098360656,
+            "confidence": 0.7511269450187683
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 186,
+            "accuracy": 0.9032258064516129,
+            "confidence": 0.8566750288009644
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1726,
+            "accuracy": 0.981460023174971,
+            "confidence": 0.9847726225852966
+          }
+        ],
+        "confusion_matrix": [
+          [
+            616,
+            12,
+            5,
+            18
+          ],
+          [
+            16,
+            651,
+            19,
+            2
+          ],
+          [
+            3,
+            22,
+            546,
+            9
+          ],
+          [
+            33,
+            6,
+            5,
+            291
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9221556886227545,
+            "recall": 0.946236559139785,
+            "f1": 0.934040940106141,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9421128798842258,
+            "recall": 0.9462209302325582,
+            "f1": 0.9441624365482234,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9495652173913044,
+            "recall": 0.9413793103448276,
+            "f1": 0.9454545454545454,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.909375,
+            "recall": 0.8686567164179104,
+            "f1": 0.8885496183206106,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2104,
+            "accuracy": 0.9334516415261757,
+            "mean_confidence": 0.9205299354329401,
+            "errors_confidence_ge_099": 10
+          },
+          "predicted_politician": {
+            "count": 320,
+            "correct": 291,
+            "accuracy": 0.909375,
+            "mean_confidence": 0.8944482522085309,
+            "errors_confidence_ge_099": 1
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 291,
+            "accuracy": 0.8686567164179104,
+            "mean_confidence": 0.882100611836163,
+            "errors_confidence_ge_099": 2
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.013094489434134262,
+        "politician_one_vs_rest_brier": 0.024562087251957132,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1795,
+            "observed_politician_frequency": 0.006128133704735376,
+            "mean_politician_probability": 0.008930665118100197
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 70,
+            "observed_politician_frequency": 0.08571428571428572,
+            "mean_politician_probability": 0.14687607107417924
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 41,
+            "observed_politician_frequency": 0.3170731707317073,
+            "mean_politician_probability": 0.24877569624563542
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 17,
+            "observed_politician_frequency": 0.29411764705882354,
+            "mean_politician_probability": 0.3458053574842565
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 21,
+            "observed_politician_frequency": 0.6666666666666666,
+            "mean_politician_probability": 0.4477963277271816
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 16,
+            "observed_politician_frequency": 0.8125,
+            "mean_politician_probability": 0.5528440214693546
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 30,
+            "observed_politician_frequency": 0.7333333333333333,
+            "mean_politician_probability": 0.6496314962704977
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 18,
+            "observed_politician_frequency": 0.6111111111111112,
+            "mean_politician_probability": 0.7576189537843069
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 23,
+            "observed_politician_frequency": 0.9130434782608695,
+            "mean_politician_probability": 0.8532633600027665
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 223,
+            "observed_politician_frequency": 0.9820627802690582,
+            "mean_politician_probability": 0.9876695561302082
+          }
+        ],
+        "missed_true_politicians": 44,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1606,
+        "referred": 648,
+        "coverage": 0.712511091393079,
+        "accepted_accuracy": 0.9819427148194272,
+        "accepted_errors": 29,
+        "referred_errors": 121,
+        "whole_population_accuracy": 0.9334516415261757,
+        "predicted_class": {
+          "tvshow": {
+            "total": 668,
+            "accepted": 528,
+            "accepted_accuracy": 0.9772727272727273,
+            "accepted_errors": 12
+          },
+          "government": {
+            "total": 691,
+            "accepted": 546,
+            "accepted_accuracy": 0.9835164835164835,
+            "accepted_errors": 9
+          },
+          "company": {
+            "total": 575,
+            "accepted": 461,
+            "accepted_accuracy": 0.982646420824295,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 320,
+            "accepted": 71,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 522,
+            "accepted_accuracy": 0.9885057471264368,
+            "accepted_errors": 6
+          },
+          "government": {
+            "total": 688,
+            "accepted": 549,
+            "accepted_accuracy": 0.9781420765027322,
+            "accepted_errors": 12
+          },
+          "company": {
+            "total": 580,
+            "accepted": 459,
+            "accepted_accuracy": 0.9869281045751634,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 76,
+            "accepted_accuracy": 0.9342105263157895,
+            "accepted_errors": 5
+          }
+        }
+      },
+      "accepted_errors_ge_099": 9
+    },
+    "weighted_exact_seed42": {
+      "classification": {
+        "accuracy": 0.9370008873114463,
+        "macro_f1": 0.9325966248447249,
+        "macro_ovr_auroc": 0.9897322118625264,
+        "negative_log_likelihood": 0.22756460309028625,
+        "ece_10_bins": 0.025891907612306392,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 1,
+            "accuracy": 0.0,
+            "confidence": 0.2920115292072296
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 11,
+            "accuracy": 0.36363636363636365,
+            "confidence": 0.36043015122413635
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 31,
+            "accuracy": 0.5161290322580645,
+            "confidence": 0.450296550989151
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 89,
+            "accuracy": 0.6741573033707865,
+            "confidence": 0.5533573031425476
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 88,
+            "accuracy": 0.8181818181818182,
+            "confidence": 0.648073673248291
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 123,
+            "accuracy": 0.8373983739837398,
+            "confidence": 0.7523457407951355
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 198,
+            "accuracy": 0.9090909090909091,
+            "confidence": 0.8557947874069214
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1713,
+            "accuracy": 0.978984238178634,
+            "confidence": 0.9843884706497192
+          }
+        ],
+        "confusion_matrix": [
+          [
+            608,
+            10,
+            5,
+            28
+          ],
+          [
+            14,
+            646,
+            21,
+            7
+          ],
+          [
+            5,
+            17,
+            549,
+            9
+          ],
+          [
+            19,
+            3,
+            4,
+            309
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9411764705882353,
+            "recall": 0.9339477726574501,
+            "f1": 0.9375481881264457,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9556213017751479,
+            "recall": 0.938953488372093,
+            "f1": 0.9472140762463344,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9481865284974094,
+            "recall": 0.946551724137931,
+            "f1": 0.9473684210526315,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.8753541076487252,
+            "recall": 0.9223880597014925,
+            "f1": 0.8982558139534884,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2112,
+            "accuracy": 0.9370008873114463,
+            "mean_confidence": 0.919582332182798,
+            "errors_confidence_ge_099": 9
+          },
+          "predicted_politician": {
+            "count": 353,
+            "correct": 309,
+            "accuracy": 0.8753541076487252,
+            "mean_confidence": 0.8984072726779214,
+            "errors_confidence_ge_099": 2
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 309,
+            "accuracy": 0.9223880597014925,
+            "mean_confidence": 0.9084509814853099,
+            "errors_confidence_ge_099": 1
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.01659134684025979,
+        "politician_one_vs_rest_brier": 0.02362488480887953,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1757,
+            "observed_politician_frequency": 0.004553215708594195,
+            "mean_politician_probability": 0.009631510968433597
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 75,
+            "observed_politician_frequency": 0.06666666666666667,
+            "mean_politician_probability": 0.14270345946153004
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 41,
+            "observed_politician_frequency": 0.12195121951219512,
+            "mean_politician_probability": 0.2436903707864808
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 23,
+            "observed_politician_frequency": 0.21739130434782608,
+            "mean_politician_probability": 0.3578512305798738
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 18,
+            "observed_politician_frequency": 0.3888888888888889,
+            "mean_politician_probability": 0.4398735529846615
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 17,
+            "observed_politician_frequency": 0.6470588235294118,
+            "mean_politician_probability": 0.540847098126131
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 22,
+            "observed_politician_frequency": 0.7272727272727273,
+            "mean_politician_probability": 0.650144333189184
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 24,
+            "observed_politician_frequency": 0.6666666666666666,
+            "mean_politician_probability": 0.7519991596539816
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 26,
+            "observed_politician_frequency": 0.7307692307692307,
+            "mean_politician_probability": 0.8563822507858276
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 251,
+            "observed_politician_frequency": 0.9681274900398407,
+            "mean_politician_probability": 0.9873132339986672
+          }
+        ],
+        "missed_true_politicians": 26,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1624,
+        "referred": 630,
+        "coverage": 0.7204968944099379,
+        "accepted_accuracy": 0.9809113300492611,
+        "accepted_errors": 31,
+        "referred_errors": 111,
+        "whole_population_accuracy": 0.9370008873114463,
+        "predicted_class": {
+          "tvshow": {
+            "total": 646,
+            "accepted": 535,
+            "accepted_accuracy": 0.9775700934579439,
+            "accepted_errors": 12
+          },
+          "government": {
+            "total": 676,
+            "accepted": 563,
+            "accepted_accuracy": 0.9822380106571936,
+            "accepted_errors": 10
+          },
+          "company": {
+            "total": 579,
+            "accepted": 458,
+            "accepted_accuracy": 0.980349344978166,
+            "accepted_errors": 9
+          },
+          "politician": {
+            "total": 353,
+            "accepted": 68,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 530,
+            "accepted_accuracy": 0.9867924528301887,
+            "accepted_errors": 7
+          },
+          "government": {
+            "total": 688,
+            "accepted": 566,
+            "accepted_accuracy": 0.9770318021201413,
+            "accepted_errors": 13
+          },
+          "company": {
+            "total": 580,
+            "accepted": 455,
+            "accepted_accuracy": 0.9868131868131869,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 73,
+            "accepted_accuracy": 0.9315068493150684,
+            "accepted_errors": 5
+          }
+        }
+      },
+      "accepted_errors_ge_099": 7
+    },
+    "weighted_exact_seed43": {
+      "classification": {
+        "accuracy": 0.9392191659272404,
+        "macro_f1": 0.9354516033403004,
+        "macro_ovr_auroc": 0.9899155096393086,
+        "negative_log_likelihood": 0.2251303791999817,
+        "ece_10_bins": 0.023284596805035196,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 1,
+            "accuracy": 1.0,
+            "confidence": 0.2997962236404419
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 10,
+            "accuracy": 0.5,
+            "confidence": 0.369045615196228
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 43,
+            "accuracy": 0.5348837209302325,
+            "confidence": 0.45645269751548767
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 79,
+            "accuracy": 0.7341772151898734,
+            "confidence": 0.5491266846656799
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 83,
+            "accuracy": 0.7710843373493976,
+            "confidence": 0.6510554552078247
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 111,
+            "accuracy": 0.8198198198198198,
+            "confidence": 0.7524558305740356
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 211,
+            "accuracy": 0.9052132701421801,
+            "confidence": 0.8542243242263794
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1716,
+            "accuracy": 0.9813519813519813,
+            "confidence": 0.9838483333587646
+          }
+        ],
+        "confusion_matrix": [
+          [
+            608,
+            13,
+            5,
+            25
+          ],
+          [
+            15,
+            646,
+            21,
+            6
+          ],
+          [
+            3,
+            15,
+            552,
+            10
+          ],
+          [
+            18,
+            3,
+            3,
+            311
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9440993788819876,
+            "recall": 0.9339477726574501,
+            "f1": 0.938996138996139,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9542097488921714,
+            "recall": 0.938953488372093,
+            "f1": 0.9465201465201465,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9500860585197934,
+            "recall": 0.9517241379310345,
+            "f1": 0.9509043927648578,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.8835227272727273,
+            "recall": 0.9283582089552239,
+            "f1": 0.9053857350800583,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2117,
+            "accuracy": 0.9392191659272404,
+            "mean_confidence": 0.9197355658609252,
+            "errors_confidence_ge_099": 10
+          },
+          "predicted_politician": {
+            "count": 352,
+            "correct": 311,
+            "accuracy": 0.8835227272727273,
+            "mean_confidence": 0.8945172346959059,
+            "errors_confidence_ge_099": 2
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 311,
+            "accuracy": 0.9283582089552239,
+            "mean_confidence": 0.9060628781567759,
+            "errors_confidence_ge_099": 1
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.016327848434120818,
+        "politician_one_vs_rest_brier": 0.02326102475674556,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1761,
+            "observed_politician_frequency": 0.003975014196479273,
+            "mean_politician_probability": 0.009772341424589538
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 76,
+            "observed_politician_frequency": 0.10526315789473684,
+            "mean_politician_probability": 0.14171361923217773
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 33,
+            "observed_politician_frequency": 0.09090909090909091,
+            "mean_politician_probability": 0.25522529220942297
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 24,
+            "observed_politician_frequency": 0.16666666666666666,
+            "mean_politician_probability": 0.34403909742832184
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 26,
+            "observed_politician_frequency": 0.38461538461538464,
+            "mean_politician_probability": 0.44331126602796406
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 12,
+            "observed_politician_frequency": 0.75,
+            "mean_politician_probability": 0.5452262312173843
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 22,
+            "observed_politician_frequency": 0.7272727272727273,
+            "mean_politician_probability": 0.6489447978409854
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 25,
+            "observed_politician_frequency": 0.6,
+            "mean_politician_probability": 0.7557154178619385
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 27,
+            "observed_politician_frequency": 0.7407407407407407,
+            "mean_politician_probability": 0.84586826077214
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 248,
+            "observed_politician_frequency": 0.9798387096774194,
+            "mean_politician_probability": 0.9867191451691812
+          }
+        ],
+        "missed_true_politicians": 24,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1645,
+        "referred": 609,
+        "coverage": 0.7298136645962733,
+        "accepted_accuracy": 0.9793313069908814,
+        "accepted_errors": 34,
+        "referred_errors": 103,
+        "whole_population_accuracy": 0.9392191659272404,
+        "predicted_class": {
+          "tvshow": {
+            "total": 644,
+            "accepted": 536,
+            "accepted_accuracy": 0.9757462686567164,
+            "accepted_errors": 13
+          },
+          "government": {
+            "total": 677,
+            "accepted": 575,
+            "accepted_accuracy": 0.9808695652173913,
+            "accepted_errors": 11
+          },
+          "company": {
+            "total": 581,
+            "accepted": 470,
+            "accepted_accuracy": 0.9787234042553191,
+            "accepted_errors": 10
+          },
+          "politician": {
+            "total": 352,
+            "accepted": 64,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 530,
+            "accepted_accuracy": 0.9867924528301887,
+            "accepted_errors": 7
+          },
+          "government": {
+            "total": 688,
+            "accepted": 578,
+            "accepted_accuracy": 0.9757785467128027,
+            "accepted_errors": 14
+          },
+          "company": {
+            "total": 580,
+            "accepted": 467,
+            "accepted_accuracy": 0.9850107066381156,
+            "accepted_errors": 7
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 70,
+            "accepted_accuracy": 0.9142857142857143,
+            "accepted_errors": 6
+          }
+        }
+      },
+      "accepted_errors_ge_099": 8
+    },
+    "weighted_exact_seed44": {
+      "classification": {
+        "accuracy": 0.9401064773735581,
+        "macro_f1": 0.9359406503260144,
+        "macro_ovr_auroc": 0.9897250134512842,
+        "negative_log_likelihood": 0.22770340740680695,
+        "ece_10_bins": 0.026255709731483647,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 12,
+            "accuracy": 0.5833333333333334,
+            "confidence": 0.3611884117126465
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 42,
+            "accuracy": 0.6190476190476191,
+            "confidence": 0.4611082077026367
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 68,
+            "accuracy": 0.6617647058823529,
+            "confidence": 0.5544940829277039
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 95,
+            "accuracy": 0.7789473684210526,
+            "confidence": 0.648831307888031
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 115,
+            "accuracy": 0.8347826086956521,
+            "confidence": 0.7552403807640076
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 203,
+            "accuracy": 0.9211822660098522,
+            "confidence": 0.8549394011497498
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1719,
+            "accuracy": 0.9796393251890634,
+            "confidence": 0.984078586101532
+          }
+        ],
+        "confusion_matrix": [
+          [
+            615,
+            9,
+            4,
+            23
+          ],
+          [
+            17,
+            648,
+            17,
+            6
+          ],
+          [
+            3,
+            19,
+            548,
+            10
+          ],
+          [
+            21,
+            3,
+            3,
+            308
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9375,
+            "recall": 0.9447004608294931,
+            "f1": 0.9410864575363428,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9543446244477173,
+            "recall": 0.9418604651162791,
+            "f1": 0.9480614484272128,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.958041958041958,
+            "recall": 0.9448275862068966,
+            "f1": 0.9513888888888888,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.8876080691642652,
+            "recall": 0.9194029850746268,
+            "f1": 0.9032258064516129,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2119,
+            "accuracy": 0.9401064773735581,
+            "mean_confidence": 0.9206219504470834,
+            "errors_confidence_ge_099": 10
+          },
+          "predicted_politician": {
+            "count": 347,
+            "correct": 308,
+            "accuracy": 0.8876080691642652,
+            "mean_confidence": 0.9075326762384915,
+            "errors_confidence_ge_099": 2
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 308,
+            "accuracy": 0.9194029850746268,
+            "mean_confidence": 0.9099527459536025,
+            "errors_confidence_ge_099": 1
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.016896302093023677,
+        "politician_one_vs_rest_brier": 0.0229704254098609,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1759,
+            "observed_politician_frequency": 0.003979533826037522,
+            "mean_politician_probability": 0.0098287850830168
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 72,
+            "observed_politician_frequency": 0.05555555555555555,
+            "mean_politician_probability": 0.14008320164349344
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 38,
+            "observed_politician_frequency": 0.10526315789473684,
+            "mean_politician_probability": 0.23838535382559425
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 29,
+            "observed_politician_frequency": 0.3103448275862069,
+            "mean_politician_probability": 0.3474180092071665
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 22,
+            "observed_politician_frequency": 0.36363636363636365,
+            "mean_politician_probability": 0.4585700820792805
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 9,
+            "observed_politician_frequency": 0.5555555555555556,
+            "mean_politician_probability": 0.5679199496905009
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 22,
+            "observed_politician_frequency": 0.8181818181818182,
+            "mean_politician_probability": 0.6528128277171742
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 20,
+            "observed_politician_frequency": 0.55,
+            "mean_politician_probability": 0.747965183854103
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 34,
+            "observed_politician_frequency": 0.8235294117647058,
+            "mean_politician_probability": 0.8447709872442133
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 249,
+            "observed_politician_frequency": 0.9678714859437751,
+            "mean_politician_probability": 0.9881775877083162
+          }
+        ],
+        "missed_true_politicians": 27,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1625,
+        "referred": 629,
+        "coverage": 0.7209405501330968,
+        "accepted_accuracy": 0.9803076923076923,
+        "accepted_errors": 32,
+        "referred_errors": 103,
+        "whole_population_accuracy": 0.9401064773735581,
+        "predicted_class": {
+          "tvshow": {
+            "total": 656,
+            "accepted": 534,
+            "accepted_accuracy": 0.9775280898876404,
+            "accepted_errors": 12
+          },
+          "government": {
+            "total": 679,
+            "accepted": 553,
+            "accepted_accuracy": 0.9801084990958409,
+            "accepted_errors": 11
+          },
+          "company": {
+            "total": 572,
+            "accepted": 467,
+            "accepted_accuracy": 0.9807280513918629,
+            "accepted_errors": 9
+          },
+          "politician": {
+            "total": 347,
+            "accepted": 71,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 529,
+            "accepted_accuracy": 0.9867674858223062,
+            "accepted_errors": 7
+          },
+          "government": {
+            "total": 688,
+            "accepted": 555,
+            "accepted_accuracy": 0.9765765765765766,
+            "accepted_errors": 13
+          },
+          "company": {
+            "total": 580,
+            "accepted": 465,
+            "accepted_accuracy": 0.9849462365591398,
+            "accepted_errors": 7
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 76,
+            "accepted_accuracy": 0.9342105263157895,
+            "accepted_errors": 5
+          }
+        }
+      },
+      "accepted_errors_ge_099": 8
+    },
+    "mean_only": {
+      "classification": {
+        "accuracy": 0.9374445430346051,
+        "macro_f1": 0.9327445044568441,
+        "macro_ovr_auroc": 0.9900552044991143,
+        "negative_log_likelihood": 0.22217245399951935,
+        "ece_10_bins": 0.023335424850974947,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 16,
+            "accuracy": 0.5,
+            "confidence": 0.36324575543403625
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 30,
+            "accuracy": 0.4,
+            "confidence": 0.45612451434135437
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 79,
+            "accuracy": 0.6708860759493671,
+            "confidence": 0.5496899485588074
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 88,
+            "accuracy": 0.7954545454545454,
+            "confidence": 0.6493857502937317
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 127,
+            "accuracy": 0.8267716535433071,
+            "confidence": 0.751807689666748
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 192,
+            "accuracy": 0.9114583333333334,
+            "confidence": 0.8575780987739563
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1722,
+            "accuracy": 0.9814169570267132,
+            "confidence": 0.9851523041725159
+          }
+        ],
+        "confusion_matrix": [
+          [
+            615,
+            11,
+            5,
+            20
+          ],
+          [
+            14,
+            649,
+            20,
+            5
+          ],
+          [
+            3,
+            19,
+            548,
+            10
+          ],
+          [
+            26,
+            5,
+            3,
+            301
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9346504559270516,
+            "recall": 0.9447004608294931,
+            "f1": 0.9396485867074102,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9488304093567251,
+            "recall": 0.9433139534883721,
+            "f1": 0.9460641399416909,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9513888888888888,
+            "recall": 0.9448275862068966,
+            "f1": 0.9480968858131488,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.8958333333333334,
+            "recall": 0.8985074626865671,
+            "f1": 0.8971684053651267,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2113,
+            "accuracy": 0.9374445430346051,
+            "mean_confidence": 0.9213105257147693,
+            "errors_confidence_ge_099": 10
+          },
+          "predicted_politician": {
+            "count": 336,
+            "correct": 301,
+            "accuracy": 0.8958333333333334,
+            "mean_confidence": 0.8950524758547544,
+            "errors_confidence_ge_099": 2
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 301,
+            "accuracy": 0.8985074626865671,
+            "mean_confidence": 0.8929978860847986,
+            "errors_confidence_ge_099": 1
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.012983873726172376,
+        "politician_one_vs_rest_brier": 0.022750326793908097,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1780,
+            "observed_politician_frequency": 0.0050561797752808986,
+            "mean_politician_probability": 0.009070593434696116
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 68,
+            "observed_politician_frequency": 0.058823529411764705,
+            "mean_politician_probability": 0.14017673395574093
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 36,
+            "observed_politician_frequency": 0.25,
+            "mean_politician_probability": 0.24530062451958656
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 27,
+            "observed_politician_frequency": 0.18518518518518517,
+            "mean_politician_probability": 0.34093523687786526
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 18,
+            "observed_politician_frequency": 0.5555555555555556,
+            "mean_politician_probability": 0.4487035936779446
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 19,
+            "observed_politician_frequency": 0.8421052631578947,
+            "mean_politician_probability": 0.5522393427397075
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 19,
+            "observed_politician_frequency": 0.6842105263157895,
+            "mean_politician_probability": 0.6515850958071256
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 31,
+            "observed_politician_frequency": 0.7096774193548387,
+            "mean_politician_probability": 0.7542596382479514
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 23,
+            "observed_politician_frequency": 0.782608695652174,
+            "mean_politician_probability": 0.8539758791094241
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 233,
+            "observed_politician_frequency": 0.9828326180257511,
+            "mean_politician_probability": 0.9877226749203236
+          }
+        ],
+        "missed_true_politicians": 34,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1617,
+        "referred": 637,
+        "coverage": 0.717391304347826,
+        "accepted_accuracy": 0.9820655534941249,
+        "accepted_errors": 29,
+        "referred_errors": 112,
+        "whole_population_accuracy": 0.9374445430346051,
+        "predicted_class": {
+          "tvshow": {
+            "total": 658,
+            "accepted": 540,
+            "accepted_accuracy": 0.9777777777777777,
+            "accepted_errors": 12
+          },
+          "government": {
+            "total": 684,
+            "accepted": 547,
+            "accepted_accuracy": 0.9835466179159049,
+            "accepted_errors": 9
+          },
+          "company": {
+            "total": 576,
+            "accepted": 461,
+            "accepted_accuracy": 0.982646420824295,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 336,
+            "accepted": 69,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 534,
+            "accepted_accuracy": 0.9887640449438202,
+            "accepted_errors": 6
+          },
+          "government": {
+            "total": 688,
+            "accepted": 550,
+            "accepted_accuracy": 0.9781818181818182,
+            "accepted_errors": 12
+          },
+          "company": {
+            "total": 580,
+            "accepted": 459,
+            "accepted_accuracy": 0.9869281045751634,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 74,
+            "accepted_accuracy": 0.9324324324324325,
+            "accepted_errors": 5
+          }
+        }
+      },
+      "accepted_errors_ge_099": 8,
+      "disagreement_cases": 94,
+      "disagreement_true_politicians": 32
+    },
+    "unanimous": {
+      "classification": {
+        "accuracy": 0.9374445430346051,
+        "macro_f1": 0.9327445044568441,
+        "macro_ovr_auroc": 0.9900552044991143,
+        "negative_log_likelihood": 0.22217245399951935,
+        "ece_10_bins": 0.023335424850974947,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 0,
+            "accuracy": null,
+            "confidence": null
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 16,
+            "accuracy": 0.5,
+            "confidence": 0.36324575543403625
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 30,
+            "accuracy": 0.4,
+            "confidence": 0.45612451434135437
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 79,
+            "accuracy": 0.6708860759493671,
+            "confidence": 0.5496899485588074
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 88,
+            "accuracy": 0.7954545454545454,
+            "confidence": 0.6493857502937317
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 127,
+            "accuracy": 0.8267716535433071,
+            "confidence": 0.751807689666748
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 192,
+            "accuracy": 0.9114583333333334,
+            "confidence": 0.8575780987739563
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 1722,
+            "accuracy": 0.9814169570267132,
+            "confidence": 0.9851523041725159
+          }
+        ],
+        "confusion_matrix": [
+          [
+            615,
+            11,
+            5,
+            20
+          ],
+          [
+            14,
+            649,
+            20,
+            5
+          ],
+          [
+            3,
+            19,
+            548,
+            10
+          ],
+          [
+            26,
+            5,
+            3,
+            301
+          ]
+        ],
+        "per_class": {
+          "tvshow": {
+            "precision": 0.9346504559270516,
+            "recall": 0.9447004608294931,
+            "f1": 0.9396485867074102,
+            "support": 651
+          },
+          "government": {
+            "precision": 0.9488304093567251,
+            "recall": 0.9433139534883721,
+            "f1": 0.9460641399416909,
+            "support": 688
+          },
+          "company": {
+            "precision": 0.9513888888888888,
+            "recall": 0.9448275862068966,
+            "f1": 0.9480968858131488,
+            "support": 580
+          },
+          "politician": {
+            "precision": 0.8958333333333334,
+            "recall": 0.8985074626865671,
+            "f1": 0.8971684053651267,
+            "support": 335
+          }
+        }
+      },
+      "confidence": {
+        "groups": {
+          "all": {
+            "count": 2254,
+            "correct": 2113,
+            "accuracy": 0.9374445430346051,
+            "mean_confidence": 0.9213105257147693,
+            "errors_confidence_ge_099": 10
+          },
+          "predicted_politician": {
+            "count": 336,
+            "correct": 301,
+            "accuracy": 0.8958333333333334,
+            "mean_confidence": 0.8950524758547544,
+            "errors_confidence_ge_099": 2
+          },
+          "true_politician": {
+            "count": 335,
+            "correct": 301,
+            "accuracy": 0.8985074626865671,
+            "mean_confidence": 0.8929978860847986,
+            "errors_confidence_ge_099": 1
+          }
+        },
+        "politician_one_vs_rest_ece_10bins": 0.012983873726172376,
+        "politician_one_vs_rest_brier": 0.022750326793908097,
+        "politician_probability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 1780,
+            "observed_politician_frequency": 0.0050561797752808986,
+            "mean_politician_probability": 0.009070593434696116
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 68,
+            "observed_politician_frequency": 0.058823529411764705,
+            "mean_politician_probability": 0.14017673395574093
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 36,
+            "observed_politician_frequency": 0.25,
+            "mean_politician_probability": 0.24530062451958656
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 27,
+            "observed_politician_frequency": 0.18518518518518517,
+            "mean_politician_probability": 0.34093523687786526
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 18,
+            "observed_politician_frequency": 0.5555555555555556,
+            "mean_politician_probability": 0.4487035936779446
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 19,
+            "observed_politician_frequency": 0.8421052631578947,
+            "mean_politician_probability": 0.5522393427397075
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 19,
+            "observed_politician_frequency": 0.6842105263157895,
+            "mean_politician_probability": 0.6515850958071256
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 31,
+            "observed_politician_frequency": 0.7096774193548387,
+            "mean_politician_probability": 0.7542596382479514
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 23,
+            "observed_politician_frequency": 0.782608695652174,
+            "mean_politician_probability": 0.8539758791094241
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 233,
+            "observed_politician_frequency": 0.9828326180257511,
+            "mean_politician_probability": 0.9877226749203236
+          }
+        ],
+        "missed_true_politicians": 34,
+        "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+      },
+      "policy": {
+        "total": 2254,
+        "accepted": 1617,
+        "referred": 637,
+        "coverage": 0.717391304347826,
+        "accepted_accuracy": 0.9820655534941249,
+        "accepted_errors": 29,
+        "referred_errors": 112,
+        "whole_population_accuracy": 0.9374445430346051,
+        "predicted_class": {
+          "tvshow": {
+            "total": 658,
+            "accepted": 540,
+            "accepted_accuracy": 0.9777777777777777,
+            "accepted_errors": 12
+          },
+          "government": {
+            "total": 684,
+            "accepted": 547,
+            "accepted_accuracy": 0.9835466179159049,
+            "accepted_errors": 9
+          },
+          "company": {
+            "total": 576,
+            "accepted": 461,
+            "accepted_accuracy": 0.982646420824295,
+            "accepted_errors": 8
+          },
+          "politician": {
+            "total": 336,
+            "accepted": 69,
+            "accepted_accuracy": 1.0,
+            "accepted_errors": 0
+          }
+        },
+        "true_class": {
+          "tvshow": {
+            "total": 651,
+            "accepted": 534,
+            "accepted_accuracy": 0.9887640449438202,
+            "accepted_errors": 6
+          },
+          "government": {
+            "total": 688,
+            "accepted": 550,
+            "accepted_accuracy": 0.9781818181818182,
+            "accepted_errors": 12
+          },
+          "company": {
+            "total": 580,
+            "accepted": 459,
+            "accepted_accuracy": 0.9869281045751634,
+            "accepted_errors": 6
+          },
+          "politician": {
+            "total": 335,
+            "accepted": 74,
+            "accepted_accuracy": 0.9324324324324325,
+            "accepted_errors": 5
+          }
+        }
+      },
+      "accepted_errors_ge_099": 8,
+      "disagreement_cases": 94,
+      "disagreement_true_politicians": 32
+    }
+  },
+  "uncalibrated_mean_confidence": {
+    "groups": {
+      "all": {
+        "count": 2254,
+        "correct": 2113,
+        "accuracy": 0.9374445430346051,
+        "mean_confidence": 0.9183210167693373,
+        "errors_confidence_ge_099": 10
+      },
+      "predicted_politician": {
+        "count": 336,
+        "correct": 301,
+        "accuracy": 0.8958333333333334,
+        "mean_confidence": 0.8920545773137183,
+        "errors_confidence_ge_099": 2
+      },
+      "true_politician": {
+        "count": 335,
+        "correct": 301,
+        "accuracy": 0.8985074626865671,
+        "mean_confidence": 0.8900535186724876,
+        "errors_confidence_ge_099": 1
+      }
+    },
+    "politician_one_vs_rest_ece_10bins": 0.013175124477895496,
+    "politician_one_vs_rest_brier": 0.022828996671159906,
+    "politician_probability_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 1775,
+        "observed_politician_frequency": 0.0050704225352112674,
+        "mean_politician_probability": 0.009609408632801785
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 70,
+        "observed_politician_frequency": 0.05714285714285714,
+        "mean_politician_probability": 0.13946375697851182
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 37,
+        "observed_politician_frequency": 0.24324324324324326,
+        "mean_politician_probability": 0.24154451892182632
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 29,
+        "observed_politician_frequency": 0.1724137931034483,
+        "mean_politician_probability": 0.3391257442277053
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 18,
+        "observed_politician_frequency": 0.5555555555555556,
+        "mean_politician_probability": 0.4472164528237449
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 19,
+        "observed_politician_frequency": 0.8421052631578947,
+        "mean_politician_probability": 0.5467482083722165
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 21,
+        "observed_politician_frequency": 0.6666666666666666,
+        "mean_politician_probability": 0.6490292378834316
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 29,
+        "observed_politician_frequency": 0.7241379310344828,
+        "mean_politician_probability": 0.7495742111370481
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 26,
+        "observed_politician_frequency": 0.8076923076923077,
+        "mean_politician_probability": 0.8519292038220626
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 230,
+        "observed_politician_frequency": 0.9826086956521739,
+        "mean_politician_probability": 0.9876520980959353
+      }
+    ],
+    "missed_true_politicians": 34,
+    "scope": "Descriptive on reused final cases; small bins and correlated graph nodes limit interpretation"
+  },
+  "baseline_politician_error_tracking": {
+    "baseline_accepted_missed_politicians": 7,
+    "new_rule_refers": 2,
+    "new_rule_still_automatically_wrong": 5,
+    "classification_changed_to_correct": 0,
+    "warning": "Referring or changing a prediction does not prove human correction"
+  },
+  "case_tracking": [
+    {
+      "node_id": 909,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9990038275718689,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.9944816827774048,
+      "unanimous": true,
+      "accepted": true
+    },
+    {
+      "node_id": 1958,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9083572030067444,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.8578720092773438,
+      "unanimous": true,
+      "accepted": false
+    },
+    {
+      "node_id": 5152,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.8967845439910889,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.7102023959159851,
+      "unanimous": true,
+      "accepted": false
+    },
+    {
+      "node_id": 5395,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9864509105682373,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.984772264957428,
+      "unanimous": true,
+      "accepted": true
+    },
+    {
+      "node_id": 7042,
+      "true_label": 3,
+      "baseline_prediction": 0,
+      "baseline_confidence": 0.9443070292472839,
+      "six_votes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_prediction": 0,
+      "mean_confidence": 0.9185174703598022,
+      "unanimous": true,
+      "accepted": true
+    }
+  ],
+  "cpu_profile": {
+    "single_gcn": {
+      "median_ms": 78.10839999001473,
+      "p95_ms": 81.24804000835866,
+      "repeats": 10,
+      "three_warmups": true
+    },
+    "six_member_average_and_agreement": {
+      "median_ms": 486.3646999874618,
+      "p95_ms": 491.37533998291474,
+      "repeats": 10,
+      "three_warmups": true
+    },
+    "latency_ratio": 6.226791229235754,
+    "threads": 4,
+    "nodes_per_forward": 22470,
+    "single_parameters": 8516,
+    "six_member_parameters": 51096,
+    "scope": "CPU full-graph inference with prepared input/adjacency and probability calculations; no file IO, GPU, training or human review"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.22621-SP0",
+    "device": "cpu",
+    "packages": {
+      "torch": "2.14.1+cpu",
+      "numpy": "2.3.5",
+      "scikit-learn": "1.9.1"
+    }
+  }
+}
