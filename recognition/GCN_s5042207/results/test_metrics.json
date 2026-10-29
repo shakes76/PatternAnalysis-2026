@@ -1,0 +1,724 @@
+{
+  "classification": {
+    "mlp": {
+      "accuracy": {
+        "mean": 0.8154576420783997,
+        "std": 0.001562908229802534
+      },
+      "macro_f1": {
+        "mean": 0.797500190720091,
+        "std": 0.0013243912918601572
+      },
+      "macro_auroc": {
+        "mean": 0.9525164194648391,
+        "std": 0.0009107761295628251
+      },
+      "company_precision": {
+        "mean": 0.8381969920549822,
+        "std": 0.006795610336628673
+      },
+      "company_recall": {
+        "mean": 0.8611752630228381,
+        "std": 0.004377398539705414
+      },
+      "company_f1": {
+        "mean": 0.8495186405132473,
+        "std": 0.00422188488567516
+      },
+      "company_auroc": {
+        "mean": 0.9617951773022304,
+        "std": 0.000648133775625971
+      },
+      "government_precision": {
+        "mean": 0.8143205312254685,
+        "std": 0.004199290217252017
+      },
+      "government_recall": {
+        "mean": 0.8614341085271318,
+        "std": 0.005874203320243296
+      },
+      "government_f1": {
+        "mean": 0.8371960970238985,
+        "std": 0.0012850911882860308
+      },
+      "government_auroc": {
+        "mean": 0.9567205734644052,
+        "std": 0.0009865921823245113
+      },
+      "politician_precision": {
+        "mean": 0.8230279809853015,
+        "std": 0.0070066353388673185
+      },
+      "politician_recall": {
+        "mean": 0.8172882335935241,
+        "std": 0.0032835549845622054
+      },
+      "politician_f1": {
+        "mean": 0.8201410397888632,
+        "std": 0.004583861078241646
+      },
+      "politician_auroc": {
+        "mean": 0.9598728215650405,
+        "std": 0.0003446458722201337
+      },
+      "tvshow_precision": {
+        "mean": 0.7491699974059517,
+        "std": 0.01349301625559026
+      },
+      "tvshow_recall": {
+        "mean": 0.6281281281281281,
+        "std": 0.014270848277660899
+      },
+      "tvshow_f1": {
+        "mean": 0.6831449855543549,
+        "std": 0.0032584631621866856
+      },
+      "tvshow_auroc": {
+        "mean": 0.9316771055276802,
+        "std": 0.0018556490323953353
+      }
+    },
+    "gcn": {
+      "accuracy": {
+        "mean": 0.9440735777219137,
+        "std": 0.0025790549120269365
+      },
+      "macro_f1": {
+        "mean": 0.9408381286536753,
+        "std": 0.002912931638554441
+      },
+      "macro_auroc": {
+        "mean": 0.9899055162616772,
+        "std": 0.0002707407008162563
+      },
+      "company_precision": {
+        "mean": 0.949757146605953,
+        "std": 0.0019603040360018
+      },
+      "company_recall": {
+        "mean": 0.9458557865024377,
+        "std": 0.003950424510736663
+      },
+      "company_f1": {
+        "mean": 0.9477994059376019,
+        "std": 0.0023308812551401867
+      },
+      "company_auroc": {
+        "mean": 0.9879020939424933,
+        "std": 0.000588784684585761
+      },
+      "government_precision": {
+        "mean": 0.950507308166025,
+        "std": 0.003635780776746974
+      },
+      "government_recall": {
+        "mean": 0.9440406976744186,
+        "std": 0.0059486575376980055
+      },
+      "government_f1": {
+        "mean": 0.9472492668621701,
+        "std": 0.0022353044214769857
+      },
+      "government_auroc": {
+        "mean": 0.9894841576915235,
+        "std": 0.0002456384398893431
+      },
+      "politician_precision": {
+        "mean": 0.9448081438322582,
+        "std": 0.005964514537496228
+      },
+      "politician_recall": {
+        "mean": 0.9595258745302111,
+        "std": 0.003045866942137221
+      },
+      "politician_f1": {
+        "mean": 0.9520989490810668,
+        "std": 0.002598896916484097
+      },
+      "politician_auroc": {
+        "mean": 0.9932789882489701,
+        "std": 0.00027278111661678913
+      },
+      "tvshow_precision": {
+        "mean": 0.918511828728547,
+        "std": 0.00519851361537308
+      },
+      "tvshow_recall": {
+        "mean": 0.9139139139139139,
+        "std": 0.006068246072563612
+      },
+      "tvshow_f1": {
+        "mean": 0.9162048927338622,
+        "std": 0.005375789009560049
+      },
+      "tvshow_auroc": {
+        "mean": 0.9889568251637217,
+        "std": 0.0004542601727186776
+      }
+    },
+    "lp": {
+      "accuracy": {
+        "mean": 0.9348019361495972,
+        "std": 0.0
+      },
+      "macro_f1": {
+        "mean": 0.9323897415396192,
+        "std": 0.0
+      },
+      "macro_auroc": {
+        "mean": 0.9897769904884121,
+        "std": 0.0
+      },
+      "company_precision": {
+        "mean": 0.9550827423167849,
+        "std": 0.0
+      },
+      "company_recall": {
+        "mean": 0.9330254041570438,
+        "std": 0.0
+      },
+      "company_f1": {
+        "mean": 0.9439252336448598,
+        "std": 0.0
+      },
+      "company_auroc": {
+        "mean": 0.9903744423602604,
+        "std": 0.0
+      },
+      "government_precision": {
+        "mean": 0.914804469273743,
+        "std": 0.0
+      },
+      "government_recall": {
+        "mean": 0.9520348837209303,
+        "std": 0.0
+      },
+      "government_f1": {
+        "mean": 0.9330484330484331,
+        "std": 0.0
+      },
+      "government_auroc": {
+        "mean": 0.9897768676253412,
+        "std": 0.0
+      },
+      "politician_precision": {
+        "mean": 0.9376623376623376,
+        "std": 0.0
+      },
+      "politician_recall": {
+        "mean": 0.9392888117953165,
+        "std": 0.0
+      },
+      "politician_f1": {
+        "mean": 0.938474870017331,
+        "std": 0.0
+      },
+      "politician_auroc": {
+        "mean": 0.9932103257044789,
+        "std": 0.0
+      },
+      "tvshow_precision": {
+        "mean": 0.9341692789968652,
+        "std": 0.0
+      },
+      "tvshow_recall": {
+        "mean": 0.8948948948948949,
+        "std": 0.0
+      },
+      "tvshow_f1": {
+        "mean": 0.9141104294478528,
+        "std": 0.0
+      },
+      "tvshow_auroc": {
+        "mean": 0.9857463262635677,
+        "std": 0.0
+      }
+    }
+  },
+  "calibration": {
+    "mlp": {
+      "temperature": {
+        "mean": 1.1156453688939412,
+        "std": 0.010534546285635804
+      },
+      "ece_before": {
+        "mean": 0.031151440313206713,
+        "std": 0.0031435478973371317
+      },
+      "ece_after": {
+        "mean": 0.04083969415922315,
+        "std": 0.0016701899939855708
+      },
+      "nll_before": {
+        "mean": 0.5136410991350809,
+        "std": 0.0028583158438196935
+      },
+      "nll_after": {
+        "mean": 0.5131965080897013,
+        "std": 0.003078434024373775
+      },
+      "mean_confidence_after": {
+        "mean": 0.787840723991394,
+        "std": 0.0024406573801731713
+      }
+    },
+    "gcn": {
+      "temperature": {
+        "mean": 1.05986487865448,
+        "std": 0.019770119045129503
+      },
+      "ece_before": {
+        "mean": 0.01362307545749947,
+        "std": 0.0007236546214962893
+      },
+      "ece_after": {
+        "mean": 0.015723110861328653,
+        "std": 0.0013984287488786502
+      },
+      "nll_before": {
+        "mean": 0.20549680292606354,
+        "std": 0.0036013419047234265
+      },
+      "nll_after": {
+        "mean": 0.2037061552206675,
+        "std": 0.004268310720518269
+      },
+      "mean_confidence_after": {
+        "mean": 0.9412511587142944,
+        "std": 0.002529743685104901
+      }
+    },
+    "lp": {
+      "temperature": {
+        "mean": 0.5327972769737244,
+        "std": 0.0
+      },
+      "ece_before": {
+        "mean": 0.11438605846982473,
+        "std": 0.0
+      },
+      "ece_after": {
+        "mean": 0.009710881437412118,
+        "std": 0.0
+      },
+      "nll_before": {
+        "mean": 0.279110312461853,
+        "std": 0.0
+      },
+      "nll_after": {
+        "mean": 0.2023170292377472,
+        "std": 0.0
+      },
+      "mean_confidence_after": {
+        "mean": 0.929470419883728,
+        "std": 0.0
+      }
+    }
+  },
+  "triage": {
+    "mlp": {
+      "threshold": {
+        "mean": 0.920662502447764,
+        "std": 0.004600439124624165
+      },
+      "coverage": {
+        "mean": 0.4179646869500478,
+        "std": 0.004080855716655155
+      },
+      "automated_accuracy": {
+        "mean": 0.9694775144259135,
+        "std": 0.0014807645329668912
+      },
+      "automated_errors": {
+        "mean": 57.333333333333336,
+        "std": 2.8867513459481287
+      },
+      "human_review_accuracy": {
+        "mean": 0.7048594951629639,
+        "std": 0.0009987822948039013
+      },
+      "company_coverage": {
+        "mean": 0.4580446481704712,
+        "std": 0.007812858164843832
+      },
+      "government_coverage": {
+        "mean": 0.36894379059473675,
+        "std": 0.013757046723313649
+      },
+      "politician_coverage": {
+        "mean": 0.4859786033630371,
+        "std": 0.0013248206036496548
+      },
+      "tvshow_coverage": {
+        "mean": 0.3233233292897542,
+        "std": 0.009997500120224516
+      }
+    },
+    "gcn": {
+      "threshold": {
+        "mean": 0.7618624766667684,
+        "std": 0.0079641039817428
+      },
+      "coverage": {
+        "mean": 0.9208574493726095,
+        "std": 0.002461171518859507
+      },
+      "automated_accuracy": {
+        "mean": 0.9694711168607076,
+        "std": 0.001062009933334434
+      },
+      "automated_errors": {
+        "mean": 126.33333333333333,
+        "std": 4.163331998932265
+      },
+      "human_review_accuracy": {
+        "mean": 0.6488451759020487,
+        "std": 0.017392727937732697
+      },
+      "company_coverage": {
+        "mean": 0.937387744585673,
+        "std": 0.009119505909207406
+      },
+      "government_coverage": {
+        "mean": 0.908187985420227,
+        "std": 0.0037293487705090857
+      },
+      "politician_coverage": {
+        "mean": 0.9320612947146097,
+        "std": 0.0027880025351684984
+      },
+      "tvshow_coverage": {
+        "mean": 0.8953953981399536,
+        "std": 0.008668917793724454
+      }
+    },
+    "lp": {
+      "threshold": {
+        "mean": 0.7782585620880127,
+        "std": 0.0
+      },
+      "coverage": {
+        "mean": 0.8905206918716431,
+        "std": 0.0
+      },
+      "automated_accuracy": {
+        "mean": 0.9695152640342712,
+        "std": 0.0
+      },
+      "automated_errors": {
+        "mean": 122,
+        "std": 0.0
+      },
+      "human_review_accuracy": {
+        "mean": 0.6524389982223511,
+        "std": 0.0
+      },
+      "company_coverage": {
+        "mean": 0.9045419692993164,
+        "std": 0.0
+      },
+      "government_coverage": {
+        "mean": 0.9033430218696594,
+        "std": 0.0
+      },
+      "politician_coverage": {
+        "mean": 0.8855160474777222,
+        "std": 0.0
+      },
+      "tvshow_coverage": {
+        "mean": 0.8453453183174133,
+        "std": 0.0
+      }
+    }
+  },
+  "neighbourhood": [
+    {
+      "bin": "0%\u201325%",
+      "pages": 142,
+      "mlp_accuracy": 0.5164319276809692,
+      "mlp_confidence": 0.7698506712913513,
+      "mlp_automated_errors": 13,
+      "gcn_accuracy": 0.33568075299263,
+      "gcn_confidence": 0.8424056172370911,
+      "gcn_automated_errors": 70.33333333333333,
+      "lp_accuracy": 0.2042253464460373,
+      "lp_confidence": 0.8042179346084595,
+      "lp_automated_errors": 76
+    },
+    {
+      "bin": "25%\u201350%",
+      "pages": 288,
+      "mlp_accuracy": 0.5868055621782938,
+      "mlp_confidence": 0.7613222797711691,
+      "mlp_automated_errors": 15.666666666666666,
+      "gcn_accuracy": 0.6655092636744181,
+      "gcn_confidence": 0.7813596328099569,
+      "gcn_automated_errors": 35.333333333333336,
+      "lp_accuracy": 0.5381944179534912,
+      "lp_confidence": 0.6729703545570374,
+      "lp_automated_errors": 30
+    },
+    {
+      "bin": "50%\u201375%",
+      "pages": 362,
+      "mlp_accuracy": 0.7826887567838033,
+      "mlp_confidence": 0.8010194897651672,
+      "mlp_automated_errors": 3.6666666666666665,
+      "gcn_accuracy": 0.930018405119578,
+      "gcn_confidence": 0.8921469648679098,
+      "gcn_automated_errors": 8,
+      "lp_accuracy": 0.9530386924743652,
+      "lp_confidence": 0.7897188067436218,
+      "lp_automated_errors": 1
+    },
+    {
+      "bin": "75%\u2013100%",
+      "pages": 3565,
+      "mlp_accuracy": 0.8495558698972067,
+      "mlp_confidence": 0.7902942299842834,
+      "mlp_automated_errors": 23.333333333333332,
+      "gcn_accuracy": 0.9927068750063578,
+      "gcn_confidence": 0.9644668300946554,
+      "gcn_automated_errors": 7.666666666666667,
+      "lp_accuracy": 0.9960729479789734,
+      "lp_confidence": 0.9694398045539856,
+      "lp_automated_errors": 6
+    },
+    {
+      "bin": "no labelled\nneighbour",
+      "pages": 137,
+      "mlp_accuracy": 0.805352787176768,
+      "mlp_confidence": 0.7635666131973267,
+      "mlp_automated_errors": 1.6666666666666667,
+      "gcn_accuracy": 0.9318734804789225,
+      "gcn_confidence": 0.9054601391156515,
+      "gcn_automated_errors": 5,
+      "lp_accuracy": 0.8832116723060608,
+      "lp_confidence": 0.927699089050293,
+      "lp_automated_errors": 9
+    }
+  ],
+  "failure_cases": {
+    "confident_mistakes_seed0": 131,
+    "cases": [
+      {
+        "page": 16052,
+        "name": "Senate of Canada - S\u00e9nat du Canada",
+        "true_type": "government",
+        "gcn_prediction": "politician",
+        "gcn_confidence": 1.0,
+        "gcn_predictions_all_seeds": [
+          "politician",
+          "politician",
+          "politician"
+        ],
+        "mlp_prediction": "politician",
+        "mlp_confidence": 0.9359235763549805,
+        "local_homophily": 0.004566209856420755,
+        "links": 266,
+        "labelled_neighbour_types": {
+          "company": 0,
+          "government": 1,
+          "politician": 218,
+          "tvshow": 0
+        },
+        "test_neighbours": 47
+      },
+      {
+        "page": 11612,
+        "name": "Republican Party of Texas",
+        "true_type": "government",
+        "gcn_prediction": "politician",
+        "gcn_confidence": 0.9999551773071289,
+        "gcn_predictions_all_seeds": [
+          "politician",
+          "politician",
+          "politician"
+        ],
+        "mlp_prediction": "politician",
+        "mlp_confidence": 0.9871317148208618,
+        "local_homophily": 0.05882352963089943,
+        "links": 19,
+        "labelled_neighbour_types": {
+          "company": 0,
+          "government": 1,
+          "politician": 16,
+          "tvshow": 0
+        },
+        "test_neighbours": 2
+      },
+      {
+        "page": 20083,
+        "name": "DIRECTV Puerto Rico",
+        "true_type": "company",
+        "gcn_prediction": "tvshow",
+        "gcn_confidence": 0.9999492168426514,
+        "gcn_predictions_all_seeds": [
+          "tvshow",
+          "tvshow",
+          "tvshow"
+        ],
+        "mlp_prediction": "company",
+        "mlp_confidence": 0.8040876984596252,
+        "local_homophily": 0.1551724076271057,
+        "links": 69,
+        "labelled_neighbour_types": {
+          "company": 9,
+          "government": 0,
+          "politician": 1,
+          "tvshow": 48
+        },
+        "test_neighbours": 11
+      },
+      {
+        "page": 9254,
+        "name": "Comedy Central UK",
+        "true_type": "company",
+        "gcn_prediction": "tvshow",
+        "gcn_confidence": 0.9999277591705322,
+        "gcn_predictions_all_seeds": [
+          "tvshow",
+          "tvshow",
+          "tvshow"
+        ],
+        "mlp_prediction": "tvshow",
+        "mlp_confidence": 0.9925898313522339,
+        "local_homophily": 0.07692307978868484,
+        "links": 16,
+        "labelled_neighbour_types": {
+          "company": 1,
+          "government": 0,
+          "politician": 0,
+          "tvshow": 12
+        },
+        "test_neighbours": 3
+      },
+      {
+        "page": 15612,
+        "name": "Laurent Fabius",
+        "true_type": "politician",
+        "gcn_prediction": "government",
+        "gcn_confidence": 0.9998989105224609,
+        "gcn_predictions_all_seeds": [
+          "government",
+          "government",
+          "government"
+        ],
+        "mlp_prediction": "politician",
+        "mlp_confidence": 0.9999418258666992,
+        "local_homophily": 0.14084507524967194,
+        "links": 100,
+        "labelled_neighbour_types": {
+          "company": 0,
+          "government": 61,
+          "politician": 10,
+          "tvshow": 0
+        },
+        "test_neighbours": 29,
+        "politician_rule": {
+          "gcn_only": "cleared as not political",
+          "gcn_mlp": "sent to a human"
+        }
+      }
+    ]
+  },
+  "resources": {
+    "peak_memory_inference_mb": 710.09765625,
+    "mlp": {
+      "parameters": 12676,
+      "inference_s": 0.012166849977802485,
+      "train_epoch_s": 0.14886365999700502,
+      "epochs_run_mean": 170,
+      "estimated_train_time_s": 25.306822199490853
+    },
+    "gcn": {
+      "parameters": 16836,
+      "inference_s": 0.290011550008785,
+      "train_epoch_s": 1.306859879998956,
+      "epochs_run_mean": 355.6666666666667,
+      "estimated_train_time_s": 464.8064973196287
+    },
+    "peak_memory_whole_run_mb": 730.67578125
+  },
+  "politician_safety": {
+    "current_triage": {
+      "threshold": {
+        "mean": 0.7618624766667684,
+        "std": 0.0079641039817428
+      },
+      "missed_politicians": {
+        "mean": 0.017056952876553916,
+        "std": 0.0021826639014948684
+      },
+      "missed_count": {
+        "mean": 19.666666666666668,
+        "std": 2.516611478423583
+      },
+      "human_review": {
+        "mean": 0.079142560561498,
+        "std": 0.0024611584953865644
+      },
+      "auto_political": {
+        "mean": 0.24106215933958688,
+        "std": 0.0017847821136504401
+      },
+      "false_political": {
+        "mean": 0.00848049486181782,
+        "std": 0.0009621521262090149
+      }
+    },
+    "gcn_only": {
+      "threshold": {
+        "mean": 0.035858478397130966,
+        "std": 0.015950325675906922
+      },
+      "missed_politicians": {
+        "mean": 0.007516623301532235,
+        "std": 0.0005007374407542289
+      },
+      "missed_count": {
+        "mean": 8.666666666666666,
+        "std": 0.5773502691896257
+      },
+      "human_review": {
+        "mean": 0.08337041859825452,
+        "std": 0.02151578672906284
+      },
+      "auto_political": {
+        "mean": 0.25871533155441284,
+        "std": 0.002782234796976703
+      },
+      "false_political": {
+        "mean": 0.018058465529282648,
+        "std": 0.0024193067251286325
+      }
+    },
+    "gcn_mlp": {
+      "threshold": {
+        "mean": 0.374041606982549,
+        "std": 0.05903698117380175
+      },
+      "missed_politicians": {
+        "mean": 0.01850245735761781,
+        "std": 0.0040987125986579435
+      },
+      "missed_count": {
+        "mean": 21.333333333333332,
+        "std": 4.725815626252609
+      },
+      "human_review": {
+        "mean": 0.051476042717695236,
+        "std": 0.01615268806465545
+      },
+      "auto_political": {
+        "mean": 0.25871533155441284,
+        "std": 0.002782234796976703
+      },
+      "false_political": {
+        "mean": 0.018058465529282648,
+        "std": 0.0024193067251286325
+      }
+    },
+    "rescued_by_second_opinion": 4.666666666666667
+  }
+}

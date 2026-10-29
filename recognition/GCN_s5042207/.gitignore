@@ -1,0 +1,6 @@
+# Dataset and trained weights must never be committed
+data/
+*.pt
+
+# Python's automatic cache files
+__pycache__/
