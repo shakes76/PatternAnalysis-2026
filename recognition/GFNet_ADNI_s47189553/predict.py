@@ -1,17 +1,20 @@
 """
-predict.py — use a trained checkpoint to make predictions (Version 1: Metrics & Confusion Matrix only).
+predict.py — use a trained checkpoint to make predictions (metrics, confusion matrix, learning curve).
 
 Usage:
     # Test-set evaluation (defaults to runs/gfnet/best.pt)
     python predict.py --root /path/to/dataset
     python predict.py --ckpt runs/gfnet/best.pt --root /path/to/dataset
 
-    python predict.py --ckpt "/Users/ryanhuang/Documents/UQ/Sem 2 2026/COMP3710/PatternAnalysis/runs/gfnet_cropflip/cv_best.pt" 
+    python predict.py --ckpt "runs/gfnet_cropflip/cv_best.pt" 
 """
 
 import argparse
+import json
+import os
 from collections import defaultdict
 
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 
@@ -43,7 +46,7 @@ METRICS = {                           # key -> printed name
 # Loading
 # --------------------------------------------------------------------------- #
 def load_model(ckpt_path: str, device):
-    """Rebuild the model and load trained weights."""
+    """Rebuild the model and load trained weights. Returns (model, ckpt)."""
     ckpt = torch.load(ckpt_path, map_location=device)
     # Pick the architecture from the saved weights (SimpleCNN has conv "features.*" keys)
     is_cnn = any(k.startswith("features.") for k in ckpt["model"])
@@ -52,7 +55,18 @@ def load_model(ckpt_path: str, device):
     model.load_state_dict(ckpt["model"])
     model.eval()
     print(f"Loaded {ckpt_path} (epoch {ckpt.get('epoch')}, val acc {ckpt.get('val_acc', 0):.4f})")
-    return model
+    return model, ckpt
+
+
+def load_history(ckpt, ckpt_path: str):
+    """Training history: stored inside cv_best.pt, otherwise history.json next to the checkpoint."""
+    if "history" in ckpt:
+        return ckpt["history"]
+    path = os.path.join(os.path.dirname(ckpt_path), "history.json")
+    if os.path.exists(path):
+        with open(path) as f:
+            return json.load(f)
+    return None
 
 
 # --------------------------------------------------------------------------- #
@@ -122,6 +136,28 @@ def print_confusion(name, m):
 
 
 # --------------------------------------------------------------------------- #
+# Learning curve
+# --------------------------------------------------------------------------- #
+def plot_learning_curve(history, name, out_path):
+    """Train vs val loss (left) and accuracy (right) per epoch."""
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    for ax, metric, title in zip(axes, ["loss", "acc"], ["Loss", "Accuracy"]):
+        for split in ["train", "val"]:
+            values = history.get(f"{split}_{metric}")
+            if isinstance(values, list):                   # fold history.json has val_acc as one number
+                ax.plot(range(1, len(values) + 1), values, label=split)
+        ax.set_title(title)
+        ax.set_xlabel("Epoch")
+        ax.grid(True)
+        ax.legend()
+    fig.suptitle(f"{name} learning curve")
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=150)
+    plt.close(fig)
+    print(f"Saved learning curve to {out_path}")
+
+
+# --------------------------------------------------------------------------- #
 # Test-set evaluation
 # --------------------------------------------------------------------------- #
 def evaluate_test_set(model, args, device):
@@ -157,7 +193,16 @@ def main():
 
     device = get_device()
     print(f"Device: {device}")
-    model = load_model(args.ckpt, device)
+    model, ckpt = load_model(args.ckpt, device)
+
+    history = load_history(ckpt, args.ckpt)
+    if history:
+        name = type(model).__name__
+        out_path = os.path.join(os.path.dirname(args.ckpt), f"learning_curve_{name}.png")
+        plot_learning_curve(history, name, out_path)
+    else:
+        print("No training history found, skipping learning curve")
+
     evaluate_test_set(model, args, device)
 
 
