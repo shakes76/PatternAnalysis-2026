@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import torch
+import time
 
 from modules import ISICDetector, compute_box_iou_tensor
 
