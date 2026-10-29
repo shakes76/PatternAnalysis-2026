@@ -1,0 +1,13 @@
+# Never commit data, caches or model weights (data licence: CC BY-NC-ND; PRs with large files are rejected)
+*.nii
+*.nii.gz
+*.npy
+*.pt
+*.pth
+*.zip
+data/
+cache/
+runs/
+checkpoints/
+__pycache__/
+.ipynb_checkpoints/
