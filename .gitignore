@@ -1,0 +1,14 @@
+data/neurite-oasis.2d.v1.0
+oasis_dataset.tar.gz
+OASIS/*
+.vscode
+__pycache__
+*.pth
+visualisations/oasis_segmentation_visualization.py
+visualisations/visualise_single.py
+visualisations/architecture_visualisation.drawio
+visualisations/autopsy.drawio
+visualisations/.$autopsy.drawio.bkp
+visualisations/.$autopsy.drawio.dtmp
+Task Sheet.pdf
+README.pdf
