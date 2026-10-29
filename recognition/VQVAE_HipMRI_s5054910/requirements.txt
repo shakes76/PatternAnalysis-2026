@@ -1,0 +1,19 @@
+# Exact versions used for every result in the README.
+# Environment: Python 3.11.15, Rangpur (UQ EAIT) with one NVIDIA A100.
+#
+# PyTorch is the CUDA 13.0 build (2.13.0+cu130). Install it first from
+# https://pytorch.org for your CUDA version, then the rest:
+#     pip install -r requirements.txt
+#     pip install --no-deps pytorch-fid==0.3.0
+# (--no-deps stops pip from replacing the CUDA build of PyTorch.)
+torch==2.13.0
+torchvision==0.28.0
+numpy==2.4.6
+nibabel==5.4.2
+matplotlib==3.11.2
+tqdm==4.70.1
+pillow==12.3.0
+# Only for cross-checking the SSIM implementation against a reference.
+scikit-image==0.26.0
+scipy==1.17.1
+# pytorch-fid==0.3.0  (FID Inception-v3 weights; install with --no-deps, see above)
