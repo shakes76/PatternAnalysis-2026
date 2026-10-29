@@ -5,8 +5,7 @@ Usage:
     # Learning curve (defaults to runs/gfnet/best.pt)
     python predict.py --ckpt runs/gfnet/best.pt
 
-    # Test-set metrics + confusion matrix
-    python predict.py --ckpt runs/gfnet/best.pt --root /path/to/dataset --test
+    python predict.py --ckpt runs/simplecnn_lr1e-3/best.pt  --test
 
 """
 
