@@ -1,0 +1,2879 @@
+{
+  "date": "2026-10-29",
+  "scope": "Post-hoc image-based anatomical interpretation; not model tuning or an official label dictionary",
+  "inferred_prostate_id": 5,
+  "inference_not_tutor_confirmed_mapping": true,
+  "selection_rule": "Each test patient, week 0, largest reference ID-5 area; tie lowest filename slice index. Neighbor views at +/-4 and +/-8. No Dice-based example selection.",
+  "orientation": "2D image/mask affine matches but is identity; empty description; no trustworthy patient-space orientation/spacing restored. Display uses np.rot90 only.",
+  "anatomical_rationale": "Compact midline region near the apparent bladder outlet and anterior to the rectum-like region; consistent across patients and neighboring slices. Size and Dice alone are not identification criteria.",
+  "references": [
+    {
+      "title": "PI-RADS v2, ACR/ESUR/AdMeTech, Figure 1 and prostate anatomy",
+      "url": "https://cs.acr.org/-/media/ACR/Files/RADS/PI-RADS/PIRADS-V2.pdf"
+    },
+    {
+      "title": "Anatomic Imaging of the Prostate, anatomy section",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4160650/"
+    }
+  ],
+  "selected_examples": [
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 27,
+      "image": "case_040_week_0_slice_27.nii.gz",
+      "mask": "seg_040_week_0_slice_27.nii.gz",
+      "counts": [
+        2867,
+        19300,
+        7958,
+        2129,
+        0,
+        514
+      ],
+      "image_sha256": "267e12b6b46be3b1ffcf5525f641a98004cbce52655fe4b29a2cab89abbc2ccc",
+      "mask_sha256": "a20460914c6b97813d69f68c6e7c6310264ca26df30f5c3405fa105ef0062352",
+      "predictions": {
+        "UNet2D": {
+          "tp": 455,
+          "fp": 43,
+          "fn": 59,
+          "dice": 0.8992094861660079
+        },
+        "ImprovedUNet2D": {
+          "tp": 486,
+          "fp": 33,
+          "fn": 28,
+          "dice": 0.9409486931268151
+        }
+      }
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 31,
+      "image": "case_041_week_0_slice_31.nii.gz",
+      "mask": "seg_041_week_0_slice_31.nii.gz",
+      "counts": [
+        4692,
+        19647,
+        6678,
+        1272,
+        0,
+        479
+      ],
+      "image_sha256": "29634f750e5d22a18a5940464224b5949e417e804c8be76c8387e665957df62b",
+      "mask_sha256": "9cfeb837065b678491d3fc446e1e84f185877913064dc5d39c4b764e39dc3f46",
+      "predictions": {
+        "UNet2D": {
+          "tp": 444,
+          "fp": 32,
+          "fn": 35,
+          "dice": 0.9298429319371728
+        },
+        "ImprovedUNet2D": {
+          "tp": 426,
+          "fp": 33,
+          "fn": 53,
+          "dice": 0.908315565031983
+        }
+      }
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 27,
+      "image": "case_042_week_0_slice_27.nii.gz",
+      "mask": "seg_042_week_0_slice_27.nii.gz",
+      "counts": [
+        4846,
+        20542,
+        6382,
+        234,
+        0,
+        764
+      ],
+      "image_sha256": "dbbacffbeb8ce920748a3897a8ae4cea7f336532cf9cf087d2320ca667b26e0d",
+      "mask_sha256": "8192aa8608a6838b2467e3582f818afe800ead771f22ed6e44a081b37054ab02",
+      "predictions": {
+        "UNet2D": {
+          "tp": 642,
+          "fp": 12,
+          "fn": 122,
+          "dice": 0.9055007052186178
+        },
+        "ImprovedUNet2D": {
+          "tp": 683,
+          "fp": 16,
+          "fn": 81,
+          "dice": 0.9336978810663021
+        }
+      }
+    }
+  ],
+  "reference_profiles": [
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 0,
+      "image": "case_040_week_0_slice_0.nii.gz",
+      "mask": "seg_040_week_0_slice_0.nii.gz",
+      "counts": [
+        4818,
+        24487,
+        967,
+        2496,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 1,
+      "image": "case_040_week_0_slice_1.nii.gz",
+      "mask": "seg_040_week_0_slice_1.nii.gz",
+      "counts": [
+        4671,
+        24511,
+        1066,
+        2520,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 2,
+      "image": "case_040_week_0_slice_2.nii.gz",
+      "mask": "seg_040_week_0_slice_2.nii.gz",
+      "counts": [
+        4523,
+        24523,
+        1181,
+        2541,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 3,
+      "image": "case_040_week_0_slice_3.nii.gz",
+      "mask": "seg_040_week_0_slice_3.nii.gz",
+      "counts": [
+        4380,
+        24495,
+        1319,
+        2574,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 4,
+      "image": "case_040_week_0_slice_4.nii.gz",
+      "mask": "seg_040_week_0_slice_4.nii.gz",
+      "counts": [
+        4256,
+        24455,
+        1479,
+        2578,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 5,
+      "image": "case_040_week_0_slice_5.nii.gz",
+      "mask": "seg_040_week_0_slice_5.nii.gz",
+      "counts": [
+        4130,
+        24289,
+        1753,
+        2596,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 6,
+      "image": "case_040_week_0_slice_6.nii.gz",
+      "mask": "seg_040_week_0_slice_6.nii.gz",
+      "counts": [
+        4008,
+        24149,
+        2003,
+        2608,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 7,
+      "image": "case_040_week_0_slice_7.nii.gz",
+      "mask": "seg_040_week_0_slice_7.nii.gz",
+      "counts": [
+        3898,
+        24029,
+        2219,
+        2622,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 8,
+      "image": "case_040_week_0_slice_8.nii.gz",
+      "mask": "seg_040_week_0_slice_8.nii.gz",
+      "counts": [
+        3797,
+        23961,
+        2389,
+        2621,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 9,
+      "image": "case_040_week_0_slice_9.nii.gz",
+      "mask": "seg_040_week_0_slice_9.nii.gz",
+      "counts": [
+        3688,
+        23904,
+        2553,
+        2623,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 10,
+      "image": "case_040_week_0_slice_10.nii.gz",
+      "mask": "seg_040_week_0_slice_10.nii.gz",
+      "counts": [
+        3602,
+        23844,
+        2701,
+        2621,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 11,
+      "image": "case_040_week_0_slice_11.nii.gz",
+      "mask": "seg_040_week_0_slice_11.nii.gz",
+      "counts": [
+        3515,
+        23724,
+        2921,
+        2608,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 12,
+      "image": "case_040_week_0_slice_12.nii.gz",
+      "mask": "seg_040_week_0_slice_12.nii.gz",
+      "counts": [
+        3433,
+        23528,
+        3217,
+        2590,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 13,
+      "image": "case_040_week_0_slice_13.nii.gz",
+      "mask": "seg_040_week_0_slice_13.nii.gz",
+      "counts": [
+        3359,
+        23416,
+        3421,
+        2572,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 14,
+      "image": "case_040_week_0_slice_14.nii.gz",
+      "mask": "seg_040_week_0_slice_14.nii.gz",
+      "counts": [
+        3288,
+        23323,
+        3601,
+        2556,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 15,
+      "image": "case_040_week_0_slice_15.nii.gz",
+      "mask": "seg_040_week_0_slice_15.nii.gz",
+      "counts": [
+        3223,
+        23204,
+        3812,
+        2529,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 16,
+      "image": "case_040_week_0_slice_16.nii.gz",
+      "mask": "seg_040_week_0_slice_16.nii.gz",
+      "counts": [
+        3162,
+        23020,
+        4066,
+        2504,
+        0,
+        16
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 17,
+      "image": "case_040_week_0_slice_17.nii.gz",
+      "mask": "seg_040_week_0_slice_17.nii.gz",
+      "counts": [
+        3104,
+        22777,
+        4339,
+        2476,
+        0,
+        72
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 18,
+      "image": "case_040_week_0_slice_18.nii.gz",
+      "mask": "seg_040_week_0_slice_18.nii.gz",
+      "counts": [
+        3060,
+        22415,
+        4675,
+        2448,
+        0,
+        170
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 19,
+      "image": "case_040_week_0_slice_19.nii.gz",
+      "mask": "seg_040_week_0_slice_19.nii.gz",
+      "counts": [
+        3014,
+        21887,
+        5195,
+        2426,
+        0,
+        246
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 20,
+      "image": "case_040_week_0_slice_20.nii.gz",
+      "mask": "seg_040_week_0_slice_20.nii.gz",
+      "counts": [
+        2970,
+        21215,
+        5845,
+        2398,
+        0,
+        340
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 21,
+      "image": "case_040_week_0_slice_21.nii.gz",
+      "mask": "seg_040_week_0_slice_21.nii.gz",
+      "counts": [
+        2938,
+        20581,
+        6510,
+        2362,
+        0,
+        377
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 22,
+      "image": "case_040_week_0_slice_22.nii.gz",
+      "mask": "seg_040_week_0_slice_22.nii.gz",
+      "counts": [
+        2904,
+        20214,
+        6895,
+        2329,
+        0,
+        426
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 23,
+      "image": "case_040_week_0_slice_23.nii.gz",
+      "mask": "seg_040_week_0_slice_23.nii.gz",
+      "counts": [
+        2890,
+        19954,
+        7175,
+        2292,
+        0,
+        457
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 24,
+      "image": "case_040_week_0_slice_24.nii.gz",
+      "mask": "seg_040_week_0_slice_24.nii.gz",
+      "counts": [
+        2873,
+        19742,
+        7421,
+        2251,
+        0,
+        481
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 25,
+      "image": "case_040_week_0_slice_25.nii.gz",
+      "mask": "seg_040_week_0_slice_25.nii.gz",
+      "counts": [
+        2858,
+        19551,
+        7646,
+        2218,
+        0,
+        495
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 26,
+      "image": "case_040_week_0_slice_26.nii.gz",
+      "mask": "seg_040_week_0_slice_26.nii.gz",
+      "counts": [
+        2863,
+        19408,
+        7811,
+        2174,
+        0,
+        512
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 27,
+      "image": "case_040_week_0_slice_27.nii.gz",
+      "mask": "seg_040_week_0_slice_27.nii.gz",
+      "counts": [
+        2867,
+        19300,
+        7958,
+        2129,
+        0,
+        514
+      ],
+      "image_sha256": "267e12b6b46be3b1ffcf5525f641a98004cbce52655fe4b29a2cab89abbc2ccc",
+      "mask_sha256": "a20460914c6b97813d69f68c6e7c6310264ca26df30f5c3405fa105ef0062352",
+      "predictions": {
+        "UNet2D": {
+          "tp": 455,
+          "fp": 43,
+          "fn": 59,
+          "dice": 0.8992094861660079
+        },
+        "ImprovedUNet2D": {
+          "tp": 486,
+          "fp": 33,
+          "fn": 28,
+          "dice": 0.9409486931268151
+        }
+      }
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 28,
+      "image": "case_040_week_0_slice_28.nii.gz",
+      "mask": "seg_040_week_0_slice_28.nii.gz",
+      "counts": [
+        2876,
+        19230,
+        8082,
+        2070,
+        0,
+        510
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 29,
+      "image": "case_040_week_0_slice_29.nii.gz",
+      "mask": "seg_040_week_0_slice_29.nii.gz",
+      "counts": [
+        2886,
+        19209,
+        8160,
+        2005,
+        0,
+        508
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 30,
+      "image": "case_040_week_0_slice_30.nii.gz",
+      "mask": "seg_040_week_0_slice_30.nii.gz",
+      "counts": [
+        2901,
+        19283,
+        8157,
+        1938,
+        0,
+        489
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 31,
+      "image": "case_040_week_0_slice_31.nii.gz",
+      "mask": "seg_040_week_0_slice_31.nii.gz",
+      "counts": [
+        2923,
+        19379,
+        8128,
+        1873,
+        0,
+        465
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 32,
+      "image": "case_040_week_0_slice_32.nii.gz",
+      "mask": "seg_040_week_0_slice_32.nii.gz",
+      "counts": [
+        2949,
+        19531,
+        8029,
+        1818,
+        0,
+        441
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 33,
+      "image": "case_040_week_0_slice_33.nii.gz",
+      "mask": "seg_040_week_0_slice_33.nii.gz",
+      "counts": [
+        2982,
+        19732,
+        7881,
+        1743,
+        23,
+        407
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 34,
+      "image": "case_040_week_0_slice_34.nii.gz",
+      "mask": "seg_040_week_0_slice_34.nii.gz",
+      "counts": [
+        3021,
+        19941,
+        7680,
+        1677,
+        74,
+        375
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 35,
+      "image": "case_040_week_0_slice_35.nii.gz",
+      "mask": "seg_040_week_0_slice_35.nii.gz",
+      "counts": [
+        3056,
+        20132,
+        7504,
+        1619,
+        130,
+        327
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 36,
+      "image": "case_040_week_0_slice_36.nii.gz",
+      "mask": "seg_040_week_0_slice_36.nii.gz",
+      "counts": [
+        3096,
+        20416,
+        7268,
+        1541,
+        183,
+        264
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 37,
+      "image": "case_040_week_0_slice_37.nii.gz",
+      "mask": "seg_040_week_0_slice_37.nii.gz",
+      "counts": [
+        3147,
+        20784,
+        6934,
+        1462,
+        237,
+        204
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 38,
+      "image": "case_040_week_0_slice_38.nii.gz",
+      "mask": "seg_040_week_0_slice_38.nii.gz",
+      "counts": [
+        3198,
+        21137,
+        6654,
+        1363,
+        351,
+        65
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 39,
+      "image": "case_040_week_0_slice_39.nii.gz",
+      "mask": "seg_040_week_0_slice_39.nii.gz",
+      "counts": [
+        3250,
+        21441,
+        6341,
+        1268,
+        468,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 40,
+      "image": "case_040_week_0_slice_40.nii.gz",
+      "mask": "seg_040_week_0_slice_40.nii.gz",
+      "counts": [
+        3312,
+        21715,
+        6006,
+        1188,
+        547,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 41,
+      "image": "case_040_week_0_slice_41.nii.gz",
+      "mask": "seg_040_week_0_slice_41.nii.gz",
+      "counts": [
+        3381,
+        21855,
+        5780,
+        1107,
+        645,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 42,
+      "image": "case_040_week_0_slice_42.nii.gz",
+      "mask": "seg_040_week_0_slice_42.nii.gz",
+      "counts": [
+        3448,
+        22124,
+        5509,
+        994,
+        693,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 43,
+      "image": "case_040_week_0_slice_43.nii.gz",
+      "mask": "seg_040_week_0_slice_43.nii.gz",
+      "counts": [
+        3539,
+        22284,
+        5326,
+        904,
+        715,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 44,
+      "image": "case_040_week_0_slice_44.nii.gz",
+      "mask": "seg_040_week_0_slice_44.nii.gz",
+      "counts": [
+        3599,
+        22512,
+        5101,
+        820,
+        736,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 45,
+      "image": "case_040_week_0_slice_45.nii.gz",
+      "mask": "seg_040_week_0_slice_45.nii.gz",
+      "counts": [
+        3679,
+        22764,
+        4861,
+        710,
+        754,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 46,
+      "image": "case_040_week_0_slice_46.nii.gz",
+      "mask": "seg_040_week_0_slice_46.nii.gz",
+      "counts": [
+        3774,
+        23009,
+        4601,
+        622,
+        762,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 47,
+      "image": "case_040_week_0_slice_47.nii.gz",
+      "mask": "seg_040_week_0_slice_47.nii.gz",
+      "counts": [
+        3851,
+        23270,
+        4329,
+        559,
+        759,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 48,
+      "image": "case_040_week_0_slice_48.nii.gz",
+      "mask": "seg_040_week_0_slice_48.nii.gz",
+      "counts": [
+        3948,
+        23542,
+        4069,
+        473,
+        736,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 49,
+      "image": "case_040_week_0_slice_49.nii.gz",
+      "mask": "seg_040_week_0_slice_49.nii.gz",
+      "counts": [
+        4042,
+        23799,
+        3762,
+        421,
+        744,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 50,
+      "image": "case_040_week_0_slice_50.nii.gz",
+      "mask": "seg_040_week_0_slice_50.nii.gz",
+      "counts": [
+        4141,
+        24069,
+        3434,
+        345,
+        779,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 51,
+      "image": "case_040_week_0_slice_51.nii.gz",
+      "mask": "seg_040_week_0_slice_51.nii.gz",
+      "counts": [
+        4233,
+        24372,
+        3100,
+        245,
+        818,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 52,
+      "image": "case_040_week_0_slice_52.nii.gz",
+      "mask": "seg_040_week_0_slice_52.nii.gz",
+      "counts": [
+        4338,
+        24620,
+        2771,
+        180,
+        859,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 53,
+      "image": "case_040_week_0_slice_53.nii.gz",
+      "mask": "seg_040_week_0_slice_53.nii.gz",
+      "counts": [
+        4450,
+        24931,
+        2474,
+        0,
+        913,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 54,
+      "image": "case_040_week_0_slice_54.nii.gz",
+      "mask": "seg_040_week_0_slice_54.nii.gz",
+      "counts": [
+        4540,
+        24988,
+        2276,
+        0,
+        964,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 55,
+      "image": "case_040_week_0_slice_55.nii.gz",
+      "mask": "seg_040_week_0_slice_55.nii.gz",
+      "counts": [
+        4652,
+        24976,
+        2110,
+        0,
+        1030,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 56,
+      "image": "case_040_week_0_slice_56.nii.gz",
+      "mask": "seg_040_week_0_slice_56.nii.gz",
+      "counts": [
+        4742,
+        24995,
+        1976,
+        0,
+        1055,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 57,
+      "image": "case_040_week_0_slice_57.nii.gz",
+      "mask": "seg_040_week_0_slice_57.nii.gz",
+      "counts": [
+        4824,
+        25038,
+        1853,
+        0,
+        1053,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 58,
+      "image": "case_040_week_0_slice_58.nii.gz",
+      "mask": "seg_040_week_0_slice_58.nii.gz",
+      "counts": [
+        4918,
+        25061,
+        1733,
+        0,
+        1056,
+        0
+      ]
+    },
+    {
+      "patient": 40,
+      "week": 0,
+      "slice": 59,
+      "image": "case_040_week_0_slice_59.nii.gz",
+      "mask": "seg_040_week_0_slice_59.nii.gz",
+      "counts": [
+        5017,
+        25088,
+        1620,
+        0,
+        1043,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 0,
+      "image": "case_041_week_0_slice_0.nii.gz",
+      "mask": "seg_041_week_0_slice_0.nii.gz",
+      "counts": [
+        6278,
+        25228,
+        657,
+        605,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 1,
+      "image": "case_041_week_0_slice_1.nii.gz",
+      "mask": "seg_041_week_0_slice_1.nii.gz",
+      "counts": [
+        6144,
+        25251,
+        718,
+        655,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 2,
+      "image": "case_041_week_0_slice_2.nii.gz",
+      "mask": "seg_041_week_0_slice_2.nii.gz",
+      "counts": [
+        6023,
+        25210,
+        824,
+        711,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 3,
+      "image": "case_041_week_0_slice_3.nii.gz",
+      "mask": "seg_041_week_0_slice_3.nii.gz",
+      "counts": [
+        5897,
+        25162,
+        951,
+        758,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 4,
+      "image": "case_041_week_0_slice_4.nii.gz",
+      "mask": "seg_041_week_0_slice_4.nii.gz",
+      "counts": [
+        5797,
+        25050,
+        1094,
+        827,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 5,
+      "image": "case_041_week_0_slice_5.nii.gz",
+      "mask": "seg_041_week_0_slice_5.nii.gz",
+      "counts": [
+        5710,
+        24938,
+        1267,
+        853,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 6,
+      "image": "case_041_week_0_slice_6.nii.gz",
+      "mask": "seg_041_week_0_slice_6.nii.gz",
+      "counts": [
+        5627,
+        24767,
+        1467,
+        907,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 7,
+      "image": "case_041_week_0_slice_7.nii.gz",
+      "mask": "seg_041_week_0_slice_7.nii.gz",
+      "counts": [
+        5553,
+        24507,
+        1760,
+        948,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 8,
+      "image": "case_041_week_0_slice_8.nii.gz",
+      "mask": "seg_041_week_0_slice_8.nii.gz",
+      "counts": [
+        5475,
+        24243,
+        2054,
+        996,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 9,
+      "image": "case_041_week_0_slice_9.nii.gz",
+      "mask": "seg_041_week_0_slice_9.nii.gz",
+      "counts": [
+        5410,
+        23976,
+        2344,
+        1038,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 10,
+      "image": "case_041_week_0_slice_10.nii.gz",
+      "mask": "seg_041_week_0_slice_10.nii.gz",
+      "counts": [
+        5345,
+        23717,
+        2620,
+        1086,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 11,
+      "image": "case_041_week_0_slice_11.nii.gz",
+      "mask": "seg_041_week_0_slice_11.nii.gz",
+      "counts": [
+        5288,
+        23433,
+        2917,
+        1130,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 12,
+      "image": "case_041_week_0_slice_12.nii.gz",
+      "mask": "seg_041_week_0_slice_12.nii.gz",
+      "counts": [
+        5237,
+        23167,
+        3192,
+        1172,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 13,
+      "image": "case_041_week_0_slice_13.nii.gz",
+      "mask": "seg_041_week_0_slice_13.nii.gz",
+      "counts": [
+        5187,
+        22912,
+        3452,
+        1217,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 14,
+      "image": "case_041_week_0_slice_14.nii.gz",
+      "mask": "seg_041_week_0_slice_14.nii.gz",
+      "counts": [
+        5133,
+        22659,
+        3737,
+        1239,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 15,
+      "image": "case_041_week_0_slice_15.nii.gz",
+      "mask": "seg_041_week_0_slice_15.nii.gz",
+      "counts": [
+        5091,
+        22416,
+        4000,
+        1261,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 16,
+      "image": "case_041_week_0_slice_16.nii.gz",
+      "mask": "seg_041_week_0_slice_16.nii.gz",
+      "counts": [
+        5051,
+        22076,
+        4352,
+        1289,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 17,
+      "image": "case_041_week_0_slice_17.nii.gz",
+      "mask": "seg_041_week_0_slice_17.nii.gz",
+      "counts": [
+        5003,
+        21586,
+        4873,
+        1306,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 18,
+      "image": "case_041_week_0_slice_18.nii.gz",
+      "mask": "seg_041_week_0_slice_18.nii.gz",
+      "counts": [
+        4943,
+        21342,
+        5167,
+        1316,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 19,
+      "image": "case_041_week_0_slice_19.nii.gz",
+      "mask": "seg_041_week_0_slice_19.nii.gz",
+      "counts": [
+        4919,
+        21125,
+        5406,
+        1315,
+        0,
+        3
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 20,
+      "image": "case_041_week_0_slice_20.nii.gz",
+      "mask": "seg_041_week_0_slice_20.nii.gz",
+      "counts": [
+        4890,
+        20908,
+        5595,
+        1308,
+        0,
+        67
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 21,
+      "image": "case_041_week_0_slice_21.nii.gz",
+      "mask": "seg_041_week_0_slice_21.nii.gz",
+      "counts": [
+        4856,
+        20722,
+        5767,
+        1319,
+        0,
+        104
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 22,
+      "image": "case_041_week_0_slice_22.nii.gz",
+      "mask": "seg_041_week_0_slice_22.nii.gz",
+      "counts": [
+        4822,
+        20521,
+        5930,
+        1311,
+        0,
+        184
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 23,
+      "image": "case_041_week_0_slice_23.nii.gz",
+      "mask": "seg_041_week_0_slice_23.nii.gz",
+      "counts": [
+        4780,
+        20361,
+        6080,
+        1318,
+        0,
+        229
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 24,
+      "image": "case_041_week_0_slice_24.nii.gz",
+      "mask": "seg_041_week_0_slice_24.nii.gz",
+      "counts": [
+        4748,
+        20204,
+        6201,
+        1314,
+        0,
+        301
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 25,
+      "image": "case_041_week_0_slice_25.nii.gz",
+      "mask": "seg_041_week_0_slice_25.nii.gz",
+      "counts": [
+        4719,
+        19964,
+        6432,
+        1310,
+        0,
+        343
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 26,
+      "image": "case_041_week_0_slice_26.nii.gz",
+      "mask": "seg_041_week_0_slice_26.nii.gz",
+      "counts": [
+        4691,
+        19849,
+        6531,
+        1310,
+        0,
+        387
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 27,
+      "image": "case_041_week_0_slice_27.nii.gz",
+      "mask": "seg_041_week_0_slice_27.nii.gz",
+      "counts": [
+        4684,
+        19755,
+        6613,
+        1301,
+        0,
+        415
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 28,
+      "image": "case_041_week_0_slice_28.nii.gz",
+      "mask": "seg_041_week_0_slice_28.nii.gz",
+      "counts": [
+        4679,
+        19683,
+        6667,
+        1294,
+        0,
+        445
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 29,
+      "image": "case_041_week_0_slice_29.nii.gz",
+      "mask": "seg_041_week_0_slice_29.nii.gz",
+      "counts": [
+        4684,
+        19637,
+        6703,
+        1281,
+        0,
+        463
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 30,
+      "image": "case_041_week_0_slice_30.nii.gz",
+      "mask": "seg_041_week_0_slice_30.nii.gz",
+      "counts": [
+        4697,
+        19638,
+        6689,
+        1270,
+        0,
+        474
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 31,
+      "image": "case_041_week_0_slice_31.nii.gz",
+      "mask": "seg_041_week_0_slice_31.nii.gz",
+      "counts": [
+        4692,
+        19647,
+        6678,
+        1272,
+        0,
+        479
+      ],
+      "image_sha256": "29634f750e5d22a18a5940464224b5949e417e804c8be76c8387e665957df62b",
+      "mask_sha256": "9cfeb837065b678491d3fc446e1e84f185877913064dc5d39c4b764e39dc3f46",
+      "predictions": {
+        "UNet2D": {
+          "tp": 444,
+          "fp": 32,
+          "fn": 35,
+          "dice": 0.9298429319371728
+        },
+        "ImprovedUNet2D": {
+          "tp": 426,
+          "fp": 33,
+          "fn": 53,
+          "dice": 0.908315565031983
+        }
+      }
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 32,
+      "image": "case_041_week_0_slice_32.nii.gz",
+      "mask": "seg_041_week_0_slice_32.nii.gz",
+      "counts": [
+        4699,
+        19655,
+        6672,
+        1265,
+        0,
+        477
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 33,
+      "image": "case_041_week_0_slice_33.nii.gz",
+      "mask": "seg_041_week_0_slice_33.nii.gz",
+      "counts": [
+        4737,
+        19681,
+        6617,
+        1263,
+        0,
+        470
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 34,
+      "image": "case_041_week_0_slice_34.nii.gz",
+      "mask": "seg_041_week_0_slice_34.nii.gz",
+      "counts": [
+        4794,
+        19737,
+        6535,
+        1253,
+        0,
+        449
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 35,
+      "image": "case_041_week_0_slice_35.nii.gz",
+      "mask": "seg_041_week_0_slice_35.nii.gz",
+      "counts": [
+        4833,
+        19810,
+        6460,
+        1237,
+        0,
+        428
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 36,
+      "image": "case_041_week_0_slice_36.nii.gz",
+      "mask": "seg_041_week_0_slice_36.nii.gz",
+      "counts": [
+        4868,
+        19926,
+        6361,
+        1234,
+        0,
+        379
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 37,
+      "image": "case_041_week_0_slice_37.nii.gz",
+      "mask": "seg_041_week_0_slice_37.nii.gz",
+      "counts": [
+        4928,
+        20067,
+        6234,
+        1221,
+        0,
+        318
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 38,
+      "image": "case_041_week_0_slice_38.nii.gz",
+      "mask": "seg_041_week_0_slice_38.nii.gz",
+      "counts": [
+        4992,
+        20291,
+        6085,
+        1212,
+        0,
+        188
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 39,
+      "image": "case_041_week_0_slice_39.nii.gz",
+      "mask": "seg_041_week_0_slice_39.nii.gz",
+      "counts": [
+        5062,
+        20478,
+        5896,
+        1202,
+        33,
+        97
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 40,
+      "image": "case_041_week_0_slice_40.nii.gz",
+      "mask": "seg_041_week_0_slice_40.nii.gz",
+      "counts": [
+        5133,
+        20608,
+        5674,
+        1193,
+        124,
+        36
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 41,
+      "image": "case_041_week_0_slice_41.nii.gz",
+      "mask": "seg_041_week_0_slice_41.nii.gz",
+      "counts": [
+        5205,
+        20696,
+        5430,
+        1174,
+        263,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 42,
+      "image": "case_041_week_0_slice_42.nii.gz",
+      "mask": "seg_041_week_0_slice_42.nii.gz",
+      "counts": [
+        5299,
+        20704,
+        5199,
+        1155,
+        411,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 43,
+      "image": "case_041_week_0_slice_43.nii.gz",
+      "mask": "seg_041_week_0_slice_43.nii.gz",
+      "counts": [
+        5396,
+        20756,
+        4959,
+        1135,
+        522,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 44,
+      "image": "case_041_week_0_slice_44.nii.gz",
+      "mask": "seg_041_week_0_slice_44.nii.gz",
+      "counts": [
+        5487,
+        20842,
+        4721,
+        1116,
+        602,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 45,
+      "image": "case_041_week_0_slice_45.nii.gz",
+      "mask": "seg_041_week_0_slice_45.nii.gz",
+      "counts": [
+        5582,
+        20989,
+        4444,
+        1090,
+        663,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 46,
+      "image": "case_041_week_0_slice_46.nii.gz",
+      "mask": "seg_041_week_0_slice_46.nii.gz",
+      "counts": [
+        5682,
+        21170,
+        4154,
+        1037,
+        725,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 47,
+      "image": "case_041_week_0_slice_47.nii.gz",
+      "mask": "seg_041_week_0_slice_47.nii.gz",
+      "counts": [
+        5797,
+        21360,
+        3828,
+        1015,
+        768,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 48,
+      "image": "case_041_week_0_slice_48.nii.gz",
+      "mask": "seg_041_week_0_slice_48.nii.gz",
+      "counts": [
+        5888,
+        21556,
+        3515,
+        999,
+        810,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 49,
+      "image": "case_041_week_0_slice_49.nii.gz",
+      "mask": "seg_041_week_0_slice_49.nii.gz",
+      "counts": [
+        6005,
+        21760,
+        3184,
+        980,
+        839,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 50,
+      "image": "case_041_week_0_slice_50.nii.gz",
+      "mask": "seg_041_week_0_slice_50.nii.gz",
+      "counts": [
+        6129,
+        21861,
+        2941,
+        967,
+        870,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 51,
+      "image": "case_041_week_0_slice_51.nii.gz",
+      "mask": "seg_041_week_0_slice_51.nii.gz",
+      "counts": [
+        6251,
+        22045,
+        2665,
+        929,
+        878,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 52,
+      "image": "case_041_week_0_slice_52.nii.gz",
+      "mask": "seg_041_week_0_slice_52.nii.gz",
+      "counts": [
+        6360,
+        22260,
+        2360,
+        905,
+        883,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 53,
+      "image": "case_041_week_0_slice_53.nii.gz",
+      "mask": "seg_041_week_0_slice_53.nii.gz",
+      "counts": [
+        6470,
+        22479,
+        2059,
+        878,
+        882,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 54,
+      "image": "case_041_week_0_slice_54.nii.gz",
+      "mask": "seg_041_week_0_slice_54.nii.gz",
+      "counts": [
+        6570,
+        22734,
+        1742,
+        853,
+        869,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 55,
+      "image": "case_041_week_0_slice_55.nii.gz",
+      "mask": "seg_041_week_0_slice_55.nii.gz",
+      "counts": [
+        6664,
+        23043,
+        1387,
+        825,
+        849,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 56,
+      "image": "case_041_week_0_slice_56.nii.gz",
+      "mask": "seg_041_week_0_slice_56.nii.gz",
+      "counts": [
+        6758,
+        23314,
+        1088,
+        796,
+        812,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 57,
+      "image": "case_041_week_0_slice_57.nii.gz",
+      "mask": "seg_041_week_0_slice_57.nii.gz",
+      "counts": [
+        6867,
+        23554,
+        804,
+        767,
+        776,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 58,
+      "image": "case_041_week_0_slice_58.nii.gz",
+      "mask": "seg_041_week_0_slice_58.nii.gz",
+      "counts": [
+        6948,
+        23815,
+        546,
+        741,
+        718,
+        0
+      ]
+    },
+    {
+      "patient": 41,
+      "week": 0,
+      "slice": 59,
+      "image": "case_041_week_0_slice_59.nii.gz",
+      "mask": "seg_041_week_0_slice_59.nii.gz",
+      "counts": [
+        7022,
+        24023,
+        338,
+        709,
+        676,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 0,
+      "image": "case_042_week_0_slice_0.nii.gz",
+      "mask": "seg_042_week_0_slice_0.nii.gz",
+      "counts": [
+        5434,
+        25578,
+        704,
+        1052,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 1,
+      "image": "case_042_week_0_slice_1.nii.gz",
+      "mask": "seg_042_week_0_slice_1.nii.gz",
+      "counts": [
+        5322,
+        25589,
+        797,
+        1060,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 2,
+      "image": "case_042_week_0_slice_2.nii.gz",
+      "mask": "seg_042_week_0_slice_2.nii.gz",
+      "counts": [
+        5249,
+        25572,
+        883,
+        1064,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 3,
+      "image": "case_042_week_0_slice_3.nii.gz",
+      "mask": "seg_042_week_0_slice_3.nii.gz",
+      "counts": [
+        5178,
+        25575,
+        949,
+        1066,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 4,
+      "image": "case_042_week_0_slice_4.nii.gz",
+      "mask": "seg_042_week_0_slice_4.nii.gz",
+      "counts": [
+        5090,
+        25552,
+        1057,
+        1069,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 5,
+      "image": "case_042_week_0_slice_5.nii.gz",
+      "mask": "seg_042_week_0_slice_5.nii.gz",
+      "counts": [
+        5034,
+        25405,
+        1265,
+        1064,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 6,
+      "image": "case_042_week_0_slice_6.nii.gz",
+      "mask": "seg_042_week_0_slice_6.nii.gz",
+      "counts": [
+        4975,
+        25241,
+        1494,
+        1058,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 7,
+      "image": "case_042_week_0_slice_7.nii.gz",
+      "mask": "seg_042_week_0_slice_7.nii.gz",
+      "counts": [
+        4916,
+        25097,
+        1709,
+        1046,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 8,
+      "image": "case_042_week_0_slice_8.nii.gz",
+      "mask": "seg_042_week_0_slice_8.nii.gz",
+      "counts": [
+        4869,
+        25006,
+        1865,
+        1028,
+        0,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 9,
+      "image": "case_042_week_0_slice_9.nii.gz",
+      "mask": "seg_042_week_0_slice_9.nii.gz",
+      "counts": [
+        4829,
+        24930,
+        1990,
+        1011,
+        0,
+        8
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 10,
+      "image": "case_042_week_0_slice_10.nii.gz",
+      "mask": "seg_042_week_0_slice_10.nii.gz",
+      "counts": [
+        4802,
+        24810,
+        2107,
+        994,
+        0,
+        55
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 11,
+      "image": "case_042_week_0_slice_11.nii.gz",
+      "mask": "seg_042_week_0_slice_11.nii.gz",
+      "counts": [
+        4753,
+        24730,
+        2213,
+        967,
+        0,
+        105
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 12,
+      "image": "case_042_week_0_slice_12.nii.gz",
+      "mask": "seg_042_week_0_slice_12.nii.gz",
+      "counts": [
+        4728,
+        24567,
+        2352,
+        939,
+        0,
+        182
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 13,
+      "image": "case_042_week_0_slice_13.nii.gz",
+      "mask": "seg_042_week_0_slice_13.nii.gz",
+      "counts": [
+        4705,
+        24461,
+        2470,
+        908,
+        0,
+        224
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 14,
+      "image": "case_042_week_0_slice_14.nii.gz",
+      "mask": "seg_042_week_0_slice_14.nii.gz",
+      "counts": [
+        4695,
+        24279,
+        2636,
+        863,
+        0,
+        295
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 15,
+      "image": "case_042_week_0_slice_15.nii.gz",
+      "mask": "seg_042_week_0_slice_15.nii.gz",
+      "counts": [
+        4685,
+        24066,
+        2826,
+        821,
+        0,
+        370
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 16,
+      "image": "case_042_week_0_slice_16.nii.gz",
+      "mask": "seg_042_week_0_slice_16.nii.gz",
+      "counts": [
+        4673,
+        23883,
+        2982,
+        773,
+        0,
+        457
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 17,
+      "image": "case_042_week_0_slice_17.nii.gz",
+      "mask": "seg_042_week_0_slice_17.nii.gz",
+      "counts": [
+        4658,
+        23659,
+        3211,
+        734,
+        0,
+        506
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 18,
+      "image": "case_042_week_0_slice_18.nii.gz",
+      "mask": "seg_042_week_0_slice_18.nii.gz",
+      "counts": [
+        4658,
+        23362,
+        3467,
+        696,
+        0,
+        585
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 19,
+      "image": "case_042_week_0_slice_19.nii.gz",
+      "mask": "seg_042_week_0_slice_19.nii.gz",
+      "counts": [
+        4670,
+        23057,
+        3746,
+        663,
+        0,
+        632
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 20,
+      "image": "case_042_week_0_slice_20.nii.gz",
+      "mask": "seg_042_week_0_slice_20.nii.gz",
+      "counts": [
+        4677,
+        22706,
+        4110,
+        611,
+        0,
+        664
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 21,
+      "image": "case_042_week_0_slice_21.nii.gz",
+      "mask": "seg_042_week_0_slice_21.nii.gz",
+      "counts": [
+        4700,
+        22267,
+        4539,
+        571,
+        0,
+        691
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 22,
+      "image": "case_042_week_0_slice_22.nii.gz",
+      "mask": "seg_042_week_0_slice_22.nii.gz",
+      "counts": [
+        4702,
+        21892,
+        4943,
+        513,
+        0,
+        718
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 23,
+      "image": "case_042_week_0_slice_23.nii.gz",
+      "mask": "seg_042_week_0_slice_23.nii.gz",
+      "counts": [
+        4718,
+        21543,
+        5315,
+        455,
+        0,
+        737
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 24,
+      "image": "case_042_week_0_slice_24.nii.gz",
+      "mask": "seg_042_week_0_slice_24.nii.gz",
+      "counts": [
+        4733,
+        21212,
+        5676,
+        401,
+        0,
+        746
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 25,
+      "image": "case_042_week_0_slice_25.nii.gz",
+      "mask": "seg_042_week_0_slice_25.nii.gz",
+      "counts": [
+        4769,
+        20907,
+        5991,
+        345,
+        0,
+        756
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 26,
+      "image": "case_042_week_0_slice_26.nii.gz",
+      "mask": "seg_042_week_0_slice_26.nii.gz",
+      "counts": [
+        4807,
+        20680,
+        6221,
+        297,
+        0,
+        763
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 27,
+      "image": "case_042_week_0_slice_27.nii.gz",
+      "mask": "seg_042_week_0_slice_27.nii.gz",
+      "counts": [
+        4846,
+        20542,
+        6382,
+        234,
+        0,
+        764
+      ],
+      "image_sha256": "dbbacffbeb8ce920748a3897a8ae4cea7f336532cf9cf087d2320ca667b26e0d",
+      "mask_sha256": "8192aa8608a6838b2467e3582f818afe800ead771f22ed6e44a081b37054ab02",
+      "predictions": {
+        "UNet2D": {
+          "tp": 642,
+          "fp": 12,
+          "fn": 122,
+          "dice": 0.9055007052186178
+        },
+        "ImprovedUNet2D": {
+          "tp": 683,
+          "fp": 16,
+          "fn": 81,
+          "dice": 0.9336978810663021
+        }
+      }
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 28,
+      "image": "case_042_week_0_slice_28.nii.gz",
+      "mask": "seg_042_week_0_slice_28.nii.gz",
+      "counts": [
+        4882,
+        20433,
+        6511,
+        182,
+        0,
+        760
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 29,
+      "image": "case_042_week_0_slice_29.nii.gz",
+      "mask": "seg_042_week_0_slice_29.nii.gz",
+      "counts": [
+        4905,
+        20376,
+        6615,
+        125,
+        0,
+        747
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 30,
+      "image": "case_042_week_0_slice_30.nii.gz",
+      "mask": "seg_042_week_0_slice_30.nii.gz",
+      "counts": [
+        4951,
+        20358,
+        6668,
+        71,
+        0,
+        720
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 31,
+      "image": "case_042_week_0_slice_31.nii.gz",
+      "mask": "seg_042_week_0_slice_31.nii.gz",
+      "counts": [
+        4983,
+        20425,
+        6686,
+        0,
+        0,
+        674
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 32,
+      "image": "case_042_week_0_slice_32.nii.gz",
+      "mask": "seg_042_week_0_slice_32.nii.gz",
+      "counts": [
+        5034,
+        20472,
+        6652,
+        0,
+        0,
+        610
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 33,
+      "image": "case_042_week_0_slice_33.nii.gz",
+      "mask": "seg_042_week_0_slice_33.nii.gz",
+      "counts": [
+        5088,
+        20504,
+        6608,
+        0,
+        0,
+        568
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 34,
+      "image": "case_042_week_0_slice_34.nii.gz",
+      "mask": "seg_042_week_0_slice_34.nii.gz",
+      "counts": [
+        5131,
+        20609,
+        6530,
+        0,
+        0,
+        498
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 35,
+      "image": "case_042_week_0_slice_35.nii.gz",
+      "mask": "seg_042_week_0_slice_35.nii.gz",
+      "counts": [
+        5192,
+        20669,
+        6455,
+        0,
+        25,
+        427
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 36,
+      "image": "case_042_week_0_slice_36.nii.gz",
+      "mask": "seg_042_week_0_slice_36.nii.gz",
+      "counts": [
+        5258,
+        20700,
+        6364,
+        0,
+        83,
+        363
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 37,
+      "image": "case_042_week_0_slice_37.nii.gz",
+      "mask": "seg_042_week_0_slice_37.nii.gz",
+      "counts": [
+        5310,
+        20783,
+        6258,
+        0,
+        136,
+        281
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 38,
+      "image": "case_042_week_0_slice_38.nii.gz",
+      "mask": "seg_042_week_0_slice_38.nii.gz",
+      "counts": [
+        5371,
+        20891,
+        6104,
+        0,
+        204,
+        198
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 39,
+      "image": "case_042_week_0_slice_39.nii.gz",
+      "mask": "seg_042_week_0_slice_39.nii.gz",
+      "counts": [
+        5445,
+        20962,
+        5966,
+        0,
+        247,
+        148
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 40,
+      "image": "case_042_week_0_slice_40.nii.gz",
+      "mask": "seg_042_week_0_slice_40.nii.gz",
+      "counts": [
+        5515,
+        21087,
+        5811,
+        0,
+        286,
+        69
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 41,
+      "image": "case_042_week_0_slice_41.nii.gz",
+      "mask": "seg_042_week_0_slice_41.nii.gz",
+      "counts": [
+        5586,
+        21201,
+        5678,
+        0,
+        303,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 42,
+      "image": "case_042_week_0_slice_42.nii.gz",
+      "mask": "seg_042_week_0_slice_42.nii.gz",
+      "counts": [
+        5663,
+        21185,
+        5589,
+        0,
+        331,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 43,
+      "image": "case_042_week_0_slice_43.nii.gz",
+      "mask": "seg_042_week_0_slice_43.nii.gz",
+      "counts": [
+        5745,
+        21240,
+        5440,
+        0,
+        343,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 44,
+      "image": "case_042_week_0_slice_44.nii.gz",
+      "mask": "seg_042_week_0_slice_44.nii.gz",
+      "counts": [
+        5814,
+        21383,
+        5235,
+        0,
+        336,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 45,
+      "image": "case_042_week_0_slice_45.nii.gz",
+      "mask": "seg_042_week_0_slice_45.nii.gz",
+      "counts": [
+        5894,
+        21524,
+        5035,
+        0,
+        315,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 46,
+      "image": "case_042_week_0_slice_46.nii.gz",
+      "mask": "seg_042_week_0_slice_46.nii.gz",
+      "counts": [
+        5989,
+        21718,
+        4779,
+        0,
+        282,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 47,
+      "image": "case_042_week_0_slice_47.nii.gz",
+      "mask": "seg_042_week_0_slice_47.nii.gz",
+      "counts": [
+        6071,
+        21920,
+        4517,
+        0,
+        260,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 48,
+      "image": "case_042_week_0_slice_48.nii.gz",
+      "mask": "seg_042_week_0_slice_48.nii.gz",
+      "counts": [
+        6145,
+        22192,
+        4171,
+        0,
+        260,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 49,
+      "image": "case_042_week_0_slice_49.nii.gz",
+      "mask": "seg_042_week_0_slice_49.nii.gz",
+      "counts": [
+        6239,
+        22421,
+        3831,
+        0,
+        277,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 50,
+      "image": "case_042_week_0_slice_50.nii.gz",
+      "mask": "seg_042_week_0_slice_50.nii.gz",
+      "counts": [
+        6315,
+        22567,
+        3579,
+        0,
+        307,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 51,
+      "image": "case_042_week_0_slice_51.nii.gz",
+      "mask": "seg_042_week_0_slice_51.nii.gz",
+      "counts": [
+        6404,
+        22725,
+        3307,
+        0,
+        332,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 52,
+      "image": "case_042_week_0_slice_52.nii.gz",
+      "mask": "seg_042_week_0_slice_52.nii.gz",
+      "counts": [
+        6486,
+        22914,
+        3008,
+        0,
+        360,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 53,
+      "image": "case_042_week_0_slice_53.nii.gz",
+      "mask": "seg_042_week_0_slice_53.nii.gz",
+      "counts": [
+        6562,
+        23000,
+        2819,
+        0,
+        387,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 54,
+      "image": "case_042_week_0_slice_54.nii.gz",
+      "mask": "seg_042_week_0_slice_54.nii.gz",
+      "counts": [
+        6642,
+        22995,
+        2739,
+        0,
+        392,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 55,
+      "image": "case_042_week_0_slice_55.nii.gz",
+      "mask": "seg_042_week_0_slice_55.nii.gz",
+      "counts": [
+        6712,
+        22991,
+        2663,
+        0,
+        402,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 56,
+      "image": "case_042_week_0_slice_56.nii.gz",
+      "mask": "seg_042_week_0_slice_56.nii.gz",
+      "counts": [
+        6779,
+        23025,
+        2563,
+        0,
+        401,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 57,
+      "image": "case_042_week_0_slice_57.nii.gz",
+      "mask": "seg_042_week_0_slice_57.nii.gz",
+      "counts": [
+        6843,
+        23059,
+        2472,
+        0,
+        394,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 58,
+      "image": "case_042_week_0_slice_58.nii.gz",
+      "mask": "seg_042_week_0_slice_58.nii.gz",
+      "counts": [
+        6919,
+        23143,
+        2324,
+        0,
+        382,
+        0
+      ]
+    },
+    {
+      "patient": 42,
+      "week": 0,
+      "slice": 59,
+      "image": "case_042_week_0_slice_59.nii.gz",
+      "mask": "seg_042_week_0_slice_59.nii.gz",
+      "counts": [
+        6982,
+        23235,
+        2183,
+        0,
+        368,
+        0
+      ]
+    }
+  ],
+  "fixed_checkpoints": {
+    "UNet2D": {
+      "path": "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_0_UNet2D\\training\\best.pt",
+      "sha256": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5",
+      "epoch": 9
+    },
+    "ImprovedUNet2D": {
+      "path": "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_1_ImprovedUNet2D\\training\\best.pt",
+      "sha256": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b",
+      "epoch": 20
+    }
+  },
+  "analysis_script_sha256": "a591b54059ece71cdc2cd44c8af7caee46b08066aa420802fb1d56fb88519685",
+  "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "new_inference_scope": "Three illustrative test slices per model using original predictor/normalization on CUDA; not a new full test run or replacement of stored full-cohort metrics."
+}

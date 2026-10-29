@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "scope": "Validation comparison only; not final held-out results",
+  "label_semantics": "Numerical IDs 0-5; anatomical mapping unverified",
+  "protocol": {
+    "schema_version": 1,
+    "protocol_id": "hipmri-2d-comparison-v1",
+    "frozen_date": "2026-10-27",
+    "architectures": [
+      "UNet2D",
+      "ImprovedUNet2D"
+    ],
+    "training": {
+      "epochs": 20,
+      "batch_size": 2,
+      "base_channels": 16,
+      "lr": 0.001,
+      "seed": 3710,
+      "device": "cuda",
+      "augment": true,
+      "max_train_batches": 0,
+      "max_val_batches": 0
+    },
+    "evaluation": {
+      "split": "validate",
+      "max_samples": 0,
+      "warmup_steps": 3,
+      "repeats": 3
+    },
+    "data": {
+      "root": "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data",
+      "train_slices": 11460,
+      "validation_slices": 660,
+      "train_patients": 31,
+      "validation_patients": 4
+    },
+    "selection": "minimum_validation_loss_earliest_tie",
+    "resource_budget": {
+      "array_tasks": 2,
+      "gpus_per_task": 1,
+      "gpu_type": "a100",
+      "time_per_task": "04:00:00"
+    },
+    "limitations": [
+      "Tutor feasibility check-off remains pending.",
+      "Anatomical label mapping is unverified; all labels remain numerical IDs.",
+      "One training seed; repeated validation timing is not independent training replication.",
+      "The runner does not read the held-out test split. Final test evaluation is a later step.",
+      "Seeded execution does not establish bitwise deterministic CUDA training."
+    ]
+  },
+  "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "reporter_code_commit": "6b63092",
+  "reporter_sha256": "db3a24349d8900408e7c355ac3d303037c19d4320547a631347a1e100647f0b5",
+  "runtime_source_sha256": {
+    "train.py": "f4bfc83a9697f8e3dcc120617186b83f8186c6b9da9d5b84b33be42e82848abd",
+    "training_io.py": "b460377ab5fa07c8a064826d9807208168ca6a2078cd65d00ac89d90f8a3da6c",
+    "plot_history.py": "04cc095479ee400513d4e38b183f5324cfb72d6b81941e273bd218b5462300ae",
+    "gpu_profile.py": "6b1690818f5380e86b16c05c33953ea7d71065060800f747f5337658c945b3e2",
+    "modules.py": "38b40328a978416dd38a5ad0133366db112e4c649c54f973d2bb432aae6d42ab",
+    "dataset.py": "d68e27e03ea8b4982677d3380aa184d217c41e540051ac347453c12795fe45d7",
+    "losses.py": "00b82e20a660f9b9771032c427c2e540fa1ff7b19e67f7e3369f61bd268e0291",
+    "metrics.py": "6a96a137c50cc98ebb70f7eabd9ca6b02dd3b4a92855a9dbba6f7729fb2e0441",
+    "check_splits.py": "00a509019c54f64adc032ed8b9b159f13111adb2344b2b4a30a67a7998da55a9",
+    "shape_batching.py": "6c4ee1d4324d38988aba894493ce3407e3642b7b909d7492dd899dc38026d17d",
+    "model_factory.py": "4d649a26018fc73d4492d73e76be3568ea760878e13171adc59a94eea4b52c67",
+    "predict.py": "4b026163ae765dee075bdd19b20d052d68f20e9f07ba40406b43c2d54a8b0bfc",
+    "evaluate.py": "45ecca30d33421760cdc4c5905979f06823ed9788dcb29572582029fe84e8b59",
+    "check_checkpoint.py": "173a1e7c3f9121188722761777ce4acc20c6fa8d7f6857c47080d7bbe8bfb7f7",
+    "run_comparison.py": "51ba32f07afe658c158b24312d343634454796f5f013c054e70ecf88975436ac",
+    "comparison_protocol.json": "3187085ad688e2af4f37855392a2242354a965d6c1cc1400bbe1c10802a5d9bf",
+    "comparison_train.sbatch": "88942228fa3b2ba363823964f7b11afd4d7ffe18a7671fffe805cd797c873373"
+  },
+  "filename_size_manifest_sha256": "7852688699e45885a059ffa7971f337c725c83b89a3fe3b9ff1a9ac39723ec0a",
+  "checkpoint_sha256": {
+    "UNet2D": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5",
+    "ImprovedUNet2D": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b"
+  },
+  "model_summary": [
+    {
+      "architecture": "UNet2D",
+      "split": "validate",
+      "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+      "completed_epochs": 20,
+      "best_epoch": 9,
+      "best_validation_loss": 0.39460833217158464,
+      "gpu_name": "NVIDIA A100-PCIE-40GB",
+      "node": "a100-8",
+      "peak_allocated_gib": 0.11995220184326172,
+      "peak_reserved_gib": 0.16796875,
+      "training_wall_seconds_including_io_plot": 2904.2857391396537,
+      "median_of_forward_trial_medians_ms": 2.1343016996979713,
+      "forward_trial_medians_ms_json": "[2.1507516503334045, 2.1343016996979713, 2.117505297064781]"
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "split": "validate",
+      "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+      "completed_epochs": 20,
+      "best_epoch": 20,
+      "best_validation_loss": 0.24222571628563333,
+      "gpu_name": "NVIDIA A100-PCIE-40GB",
+      "node": "a100-1",
+      "peak_allocated_gib": 0.3015174865722656,
+      "peak_reserved_gib": 0.353515625,
+      "training_wall_seconds_including_io_plot": 3718.4561105379835,
+      "median_of_forward_trial_medians_ms": 5.968241021037102,
+      "forward_trial_medians_ms_json": "[5.886407103389502, 5.979868117719889, 5.968241021037102]"
+    }
+  ],
+  "pooled_label_metrics": [
+    {
+      "split": "validate",
+      "label_id": 0,
+      "target_pixels": 2975661,
+      "baseline_dice": 0.9930297944991427,
+      "improved_dice": 0.99440703719428,
+      "dice_delta_improved_minus_baseline": 0.0013772426951372818,
+      "baseline_iou": 0.986156083938173,
+      "improved_iou": 0.988876288891054,
+      "iou_delta_improved_minus_baseline": 0.0027202049528809447
+    },
+    {
+      "split": "validate",
+      "label_id": 1,
+      "target_pixels": 15210536,
+      "baseline_dice": 0.9803628058901411,
+      "improved_dice": 0.9817909652429164,
+      "dice_delta_improved_minus_baseline": 0.0014281593527752934,
+      "baseline_iou": 0.961481997276488,
+      "improved_iou": 0.9642332092222542,
+      "iou_delta_improved_minus_baseline": 0.0027512119457662187
+    },
+    {
+      "split": "validate",
+      "label_id": 2,
+      "target_pixels": 2834195,
+      "baseline_dice": 0.9241948001723895,
+      "improved_dice": 0.9342209727752357,
+      "dice_delta_improved_minus_baseline": 0.010026172602846217,
+      "baseline_iou": 0.8590726279446174,
+      "improved_iou": 0.876561603213286,
+      "iou_delta_improved_minus_baseline": 0.01748897526866866
+    },
+    {
+      "split": "validate",
+      "label_id": 3,
+      "target_pixels": 377940,
+      "baseline_dice": 0.8973042096661509,
+      "improved_dice": 0.8610160653435175,
+      "dice_delta_improved_minus_baseline": -0.03628814432263339,
+      "baseline_iou": 0.813736859732171,
+      "improved_iou": 0.7559510183988678,
+      "iou_delta_improved_minus_baseline": -0.05778584133330322
+    },
+    {
+      "split": "validate",
+      "label_id": 4,
+      "target_pixels": 121329,
+      "baseline_dice": 0.8751683431042269,
+      "improved_dice": 0.8806106580243835,
+      "dice_delta_improved_minus_baseline": 0.005442314920156677,
+      "baseline_iou": 0.7780438412619463,
+      "improved_iou": 0.7866884425308079,
+      "iou_delta_improved_minus_baseline": 0.008644601268861685
+    },
+    {
+      "split": "validate",
+      "label_id": 5,
+      "target_pixels": 107219,
+      "baseline_dice": 0.804000863225649,
+      "improved_dice": 0.8190906948498088,
+      "dice_delta_improved_minus_baseline": 0.015089831624159777,
+      "baseline_iou": 0.6722420096339417,
+      "improved_iou": 0.6936101623364164,
+      "iou_delta_improved_minus_baseline": 0.02136815270247472
+    }
+  ],
+  "equal_patient_macro_dice": {
+    "baseline": [
+      0.9930502706401948,
+      0.9725986061677693,
+      0.9221239085519383,
+      0.9010696852367132,
+      0.8663870146579981,
+      0.7650952993857539
+    ],
+    "improved": [
+      0.9943206948688877,
+      0.9724999817125546,
+      0.9281160273557749,
+      0.8555493761914421,
+      0.863875515861107,
+      0.7923609625880275
+    ]
+  },
+  "unweighted_mean_of_six_pooled_label_dice": {
+    "baseline": 0.9123434694262833,
+    "improved": 0.9118560655716903
+  },
+  "patient_slice_counts": {
+    "36": 60,
+    "37": 60,
+    "38": 60,
+    "39": 480
+  },
+  "validation_slices": 660,
+  "validation_patients": 4,
+  "validation_cases": 11,
+  "slurm_accounting_from_user_screenshots": {
+    "704715_0": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:49:05",
+      "node": "a100-8"
+    },
+    "704715_1": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "01:02:42",
+      "node": "a100-1"
+    }
+  },
+  "timing_and_memory_scope": "Batch-1 synchronized CUDA model forward only; training PyTorch allocator peaks, not whole-device memory.",
+  "checks": [
+    "Both downloaded completed-run saved-record audits passed.",
+    "Downloaded comparison JSON matched recomputation for all fields except relocated local input paths.",
+    "All four CSV exports matched JSON values, rows and provenance/scope fields.",
+    "Both 20-epoch histories have full train/validation counts.",
+    "Best epochs minimize recorded validation loss; repeated validation checkpoint hashes/confusion matrices match.",
+    "All three original report PNGs visually inspected for labels, legends, layout and consistency with numeric records."
+  ],
+  "limitations": [
+    "Tutor feasibility check-off remains pending.",
+    "Anatomical label mapping is unverified; all labels remain numerical IDs.",
+    "One training seed; repeated validation timing is not independent training replication.",
+    "The runner does not read the held-out test split. Final test evaluation is a later step.",
+    "Seeded execution does not establish bitwise deterministic CUDA training.",
+    "Single training seed; no confidence interval from independent model fits.",
+    "Three timing passes reuse the same weights, and hardware nodes may differ.",
+    "Training allocator peaks are not whole-device memory; training wall time is not inference latency.",
+    "Filename/size manifests do not establish byte-identical input contents.",
+    "Anatomical mapping and tutor feasibility check-off remain unconfirmed.",
+    "Checkpoint weights/raw images were not downloaded or independently reloaded locally.",
+    "Qualitative real-slice failure overlays and final held-out evaluation remain pending."
+  ],
+  "artifact_sha256": {
+    "case_times.csv": "2c6dedd1f55e9a9ad5c7991e0045adacee6993ab1fb886d82a31722595ccc95d",
+    "model_summary.csv": "73968191e70812bcac7dece6a64757405df8a02e84712be2ff613ad450dbccbb",
+    "patient_metrics_comparison.csv": "cc009127c052e373ee69eca7116af754a19410b20cebd8e166446423684d9c73",
+    "per_class_comparison.csv": "c1927a4aef0be4b1ad0330abc1c172145d4146da225f0c15c8fa6c27bd4886a7",
+    "resource_comparison.png": "40b0192a02ad3b7920fd697da5c465d76ba6ff3eeea4b11bfef59c19d97de712",
+    "training_loss_comparison.png": "e43a215ca1615f9f40be016a62c15f503bd2979eba40c29cee6162500745a765",
+    "validation_metrics_comparison.png": "aab9f2257578406182e1eac11866111f2eb1e0651115cec8796b2ff2290292f6"
+  },
+  "original_export_artifact_sha256": {
+    "case_times.csv": "9f5f4a75350f6803cd48dee2cb7937f238bbb424a19b0635e630070b30b185c8",
+    "model_summary.csv": "84a077f8879fc19bac2ba5450f14f4b6acfa882ff71a08f195c378c72f6f5974",
+    "patient_metrics_comparison.csv": "4579962687a80067ab530dacd51471c68dd390efc51bdeaa9ae353303e69781b",
+    "per_class_comparison.csv": "df6621cbc5607c0df4b58046bcad55b2f8531f8f1f5526c1142576e05694eebe",
+    "resource_comparison.png": "40b0192a02ad3b7920fd697da5c465d76ba6ff3eeea4b11bfef59c19d97de712",
+    "training_loss_comparison.png": "e43a215ca1615f9f40be016a62c15f503bd2979eba40c29cee6162500745a765",
+    "validation_metrics_comparison.png": "aab9f2257578406182e1eac11866111f2eb1e0651115cec8796b2ff2290292f6"
+  },
+  "csv_line_ending_note": "Committed CSV copies use LF for Git whitespace checks; original export hashes are retained separately. Parsed cells are identical."
+}

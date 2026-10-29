@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "protocol_id": "hipmri-2d-comparison-v1",
+  "frozen_date": "2026-10-27",
+  "architectures": ["UNet2D", "ImprovedUNet2D"],
+  "training": {
+    "epochs": 20,
+    "batch_size": 2,
+    "base_channels": 16,
+    "lr": 0.001,
+    "seed": 3710,
+    "device": "cuda",
+    "augment": true,
+    "max_train_batches": 0,
+    "max_val_batches": 0
+  },
+  "evaluation": {
+    "split": "validate",
+    "max_samples": 0,
+    "warmup_steps": 3,
+    "repeats": 3
+  },
+  "data": {
+    "root": "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data",
+    "train_slices": 11460,
+    "validation_slices": 660,
+    "train_patients": 31,
+    "validation_patients": 4
+  },
+  "selection": "minimum_validation_loss_earliest_tie",
+  "resource_budget": {
+    "array_tasks": 2,
+    "gpus_per_task": 1,
+    "gpu_type": "a100",
+    "time_per_task": "04:00:00"
+  },
+  "limitations": [
+    "Tutor feasibility check-off remains pending.",
+    "Anatomical label mapping is unverified; all labels remain numerical IDs.",
+    "One training seed; repeated validation timing is not independent training replication.",
+    "The runner does not read the held-out test split. Final test evaluation is a later step.",
+    "Seeded execution does not establish bitwise deterministic CUDA training."
+  ]
+}

@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+/runs/
+*.pt
+*.pth
+*.ckpt
+*.nii
+*.nii.gz
+unet-gpu-smoke-*.log
+improved-gpu-smoke-*.log
+comparison-train-*.log
+heldout-evaluate-*.log

@@ -1,0 +1,1096 @@
+{
+  "scope": "Held-out test comparison of fixed checkpoints; numerical IDs only",
+  "per_class": [
+    {
+      "label_id": 0,
+      "target_pixels": 2860839,
+      "baseline_dice": 0.9956556203061482,
+      "improved_dice": 0.9959199391391793,
+      "dice_delta_improved_minus_baseline": 0.0002643188330311297,
+      "baseline_iou": 0.991348824603019,
+      "improved_iou": 0.9918730367828982,
+      "iou_delta_improved_minus_baseline": 0.000524212179879191
+    },
+    {
+      "label_id": 1,
+      "target_pixels": 12083597,
+      "baseline_dice": 0.9820347147782171,
+      "improved_dice": 0.9842541922776062,
+      "dice_delta_improved_minus_baseline": 0.002219477499389111,
+      "baseline_iou": 0.9647035405183414,
+      "improved_iou": 0.9689965587794045,
+      "iou_delta_improved_minus_baseline": 0.004293018261063097
+    },
+    {
+      "label_id": 2,
+      "target_pixels": 2167899,
+      "baseline_dice": 0.9254265590329349,
+      "improved_dice": 0.9386404423472778,
+      "dice_delta_improved_minus_baseline": 0.013213883314342922,
+      "baseline_iou": 0.8612036402091745,
+      "improved_iou": 0.8843755498119346,
+      "iou_delta_improved_minus_baseline": 0.023171909602760055
+    },
+    {
+      "label_id": 3,
+      "target_pixels": 419651,
+      "baseline_dice": 0.9621835355626158,
+      "improved_dice": 0.9561427819194634,
+      "dice_delta_improved_minus_baseline": -0.0060407536431523745,
+      "baseline_iou": 0.9271230208168165,
+      "improved_iou": 0.9159708486546043,
+      "iou_delta_improved_minus_baseline": -0.011152172162212204
+    },
+    {
+      "label_id": 4,
+      "target_pixels": 102699,
+      "baseline_dice": 0.838243735863683,
+      "improved_dice": 0.8279112360901699,
+      "dice_delta_improved_minus_baseline": -0.010332499773513026,
+      "baseline_iou": 0.7215314965285403,
+      "improved_iou": 0.7063554071864321,
+      "iou_delta_improved_minus_baseline": -0.015176089342108234
+    },
+    {
+      "label_id": 5,
+      "target_pixels": 60035,
+      "baseline_dice": 0.8036553365472631,
+      "improved_dice": 0.8430496732933725,
+      "dice_delta_improved_minus_baseline": 0.03939433674610948,
+      "baseline_iou": 0.6717590349154531,
+      "improved_iou": 0.7286826874349879,
+      "iou_delta_improved_minus_baseline": 0.056923652519534795
+    }
+  ],
+  "per_patient": [
+    {
+      "patient_id": 40,
+      "label_id": 0,
+      "samples": 420,
+      "target_pixels": 2211630,
+      "baseline_dice": 0.9965004849134277,
+      "improved_dice": 0.9961608247227469,
+      "baseline_iou": 0.9930253776230865,
+      "improved_iou": 0.9923510152386855
+    },
+    {
+      "patient_id": 40,
+      "label_id": 1,
+      "samples": 420,
+      "target_pixels": 9411854,
+      "baseline_dice": 0.9825583540354665,
+      "improved_dice": 0.9842568349212666,
+      "baseline_iou": 0.9657147001330012,
+      "improved_iou": 0.9690016814880302
+    },
+    {
+      "patient_id": 40,
+      "label_id": 2,
+      "samples": 420,
+      "target_pixels": 1688203,
+      "baseline_dice": 0.9270470401842059,
+      "improved_dice": 0.9383260493472576,
+      "baseline_iou": 0.8640146165805466,
+      "improved_iou": 0.8838175305802243
+    },
+    {
+      "patient_id": 40,
+      "label_id": 3,
+      "samples": 420,
+      "target_pixels": 331582,
+      "baseline_dice": 0.9650859885308657,
+      "improved_dice": 0.960699679956189,
+      "baseline_iou": 0.9325277055248843,
+      "improved_iou": 0.92437158098411
+    },
+    {
+      "patient_id": 40,
+      "label_id": 4,
+      "samples": 420,
+      "target_pixels": 81313,
+      "baseline_dice": 0.829432095127596,
+      "improved_dice": 0.8099634050958833,
+      "baseline_iou": 0.7085723875352682,
+      "improved_iou": 0.6806205864292294
+    },
+    {
+      "patient_id": 40,
+      "label_id": 5,
+      "samples": 420,
+      "target_pixels": 37978,
+      "baseline_dice": 0.8057321533651017,
+      "improved_dice": 0.8432354197314098,
+      "baseline_iou": 0.6746662029254342,
+      "improved_iou": 0.7289602691116445
+    },
+    {
+      "patient_id": 41,
+      "label_id": 0,
+      "samples": 60,
+      "target_pixels": 326479,
+      "baseline_dice": 0.9891609919213034,
+      "improved_dice": 0.9923663419921717,
+      "baseline_iou": 0.9785544325217556,
+      "improved_iou": 0.9848483465252228
+    },
+    {
+      "patient_id": 41,
+      "label_id": 1,
+      "samples": 60,
+      "target_pixels": 1312868,
+      "baseline_dice": 0.9764396517501887,
+      "improved_dice": 0.9817837191656068,
+      "baseline_iou": 0.9539639293567843,
+      "improved_iou": 0.9642192308701536
+    },
+    {
+      "patient_id": 41,
+      "label_id": 2,
+      "samples": 60,
+      "target_pixels": 240636,
+      "baseline_dice": 0.9076999034023827,
+      "improved_dice": 0.9385696783177016,
+      "baseline_iou": 0.8309986479262963,
+      "improved_iou": 0.8842499212102112
+    },
+    {
+      "patient_id": 41,
+      "label_id": 3,
+      "samples": 60,
+      "target_pixels": 65388,
+      "baseline_dice": 0.9495397776626107,
+      "improved_dice": 0.9339533552725712,
+      "baseline_iou": 0.9039274000778253,
+      "improved_iou": 0.8760905162000375
+    },
+    {
+      "patient_id": 41,
+      "label_id": 4,
+      "samples": 60,
+      "target_pixels": 13973,
+      "baseline_dice": 0.8808175137783221,
+      "improved_dice": 0.9204217161295164,
+      "baseline_iou": 0.7870186717734765,
+      "improved_iou": 0.8525752415374991
+    },
+    {
+      "patient_id": 41,
+      "label_id": 5,
+      "samples": 60,
+      "target_pixels": 6736,
+      "baseline_dice": 0.8182874854707478,
+      "improved_dice": 0.8207857049008015,
+      "baseline_iou": 0.6924590163934427,
+      "improved_iou": 0.6960445682451254
+    },
+    {
+      "patient_id": 42,
+      "label_id": 0,
+      "samples": 60,
+      "target_pixels": 322730,
+      "baseline_dice": 0.9963839242794985,
+      "improved_dice": 0.9978555469130101,
+      "baseline_iou": 0.992793906339323,
+      "improved_iou": 0.9957202715030072
+    },
+    {
+      "patient_id": 42,
+      "label_id": 1,
+      "samples": 60,
+      "target_pixels": 1358875,
+      "baseline_dice": 0.9838497775528459,
+      "improved_dice": 0.9866128758025206,
+      "baseline_iou": 0.9682129234627137,
+      "improved_iou": 0.9735794468316716
+    },
+    {
+      "patient_id": 42,
+      "label_id": 2,
+      "samples": 60,
+      "target_pixels": 239060,
+      "baseline_dice": 0.9311702953191116,
+      "improved_dice": 0.9409816345893196,
+      "baseline_iou": 0.8712054794520548,
+      "improved_iou": 0.8885413750349958
+    },
+    {
+      "patient_id": 42,
+      "label_id": 3,
+      "samples": 60,
+      "target_pixels": 22681,
+      "baseline_dice": 0.957798480230112,
+      "improved_dice": 0.9562753036437247,
+      "baseline_iou": 0.9190146646894052,
+      "improved_iou": 0.9162141194724592
+    },
+    {
+      "patient_id": 42,
+      "label_id": 4,
+      "samples": 60,
+      "target_pixels": 7413,
+      "baseline_dice": 0.8600784101662836,
+      "improved_dice": 0.875,
+      "baseline_iou": 0.7545066413662239,
+      "improved_iou": 0.7777777777777778
+    },
+    {
+      "patient_id": 42,
+      "label_id": 5,
+      "samples": 60,
+      "target_pixels": 15321,
+      "baseline_dice": 0.789606440689679,
+      "improved_dice": 0.8537840799654635,
+      "baseline_iou": 0.6523551241792749,
+      "improved_iou": 0.7448719434465175
+    }
+  ],
+  "equal_patient_mean_dice": [
+    {
+      "label_id": 0,
+      "baseline_equal_patient_mean_dice": 0.9940151337047431,
+      "baseline_defined_patients": 3,
+      "improved_equal_patient_mean_dice": 0.9954609045426429,
+      "improved_defined_patients": 3
+    },
+    {
+      "label_id": 1,
+      "baseline_equal_patient_mean_dice": 0.9809492611128336,
+      "baseline_defined_patients": 3,
+      "improved_equal_patient_mean_dice": 0.9842178099631314,
+      "improved_defined_patients": 3
+    },
+    {
+      "label_id": 2,
+      "baseline_equal_patient_mean_dice": 0.9219724129685667,
+      "baseline_defined_patients": 3,
+      "improved_equal_patient_mean_dice": 0.9392924540847596,
+      "improved_defined_patients": 3
+    },
+    {
+      "label_id": 3,
+      "baseline_equal_patient_mean_dice": 0.9574747488078628,
+      "baseline_defined_patients": 3,
+      "improved_equal_patient_mean_dice": 0.9503094462908283,
+      "improved_defined_patients": 3
+    },
+    {
+      "label_id": 4,
+      "baseline_equal_patient_mean_dice": 0.8567760063574006,
+      "baseline_defined_patients": 3,
+      "improved_equal_patient_mean_dice": 0.8684617070751333,
+      "improved_defined_patients": 3
+    },
+    {
+      "label_id": 5,
+      "baseline_equal_patient_mean_dice": 0.8045420265085095,
+      "baseline_defined_patients": 3,
+      "improved_equal_patient_mean_dice": 0.8392684015325582,
+      "improved_defined_patients": 3
+    }
+  ],
+  "model_summary": [
+    {
+      "architecture": "UNet2D",
+      "selected_epoch": 9,
+      "checkpoint_sha256": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5",
+      "processed_samples": 540,
+      "patients": 3,
+      "cases": 9,
+      "device_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+      "torch_version": "2.14.0+cu130",
+      "torch_cuda_build": "13.0",
+      "median_of_forward_trial_medians_ms": 1.6051000002335059,
+      "forward_trial_medians_ms_json": "[1.5687499999330612, 1.6051000002335059, 1.6173999993043253]"
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "selected_epoch": 20,
+      "checkpoint_sha256": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b",
+      "processed_samples": 540,
+      "patients": 3,
+      "cases": 9,
+      "device_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+      "torch_version": "2.14.0+cu130",
+      "torch_cuda_build": "13.0",
+      "median_of_forward_trial_medians_ms": 4.674549998526345,
+      "forward_trial_medians_ms_json": "[4.674549998526345, 4.640200000721961, 4.9476500007585855]"
+    }
+  ],
+  "case_times": [
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3764845999976387
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 1,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.33290889999989304
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 2,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.33021829999779584
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 3,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3299924999992072
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 4,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3378152000004775
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 5,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3351838999988104
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 7,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3312722999980906
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 41,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3335000000006403
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 1,
+      "patient_id": 42,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.32744820000152686
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3808858999982476
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 1,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3456540999977733
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 2,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.35882520000086515
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 3,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3348084999997809
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 4,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3452778999999282
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 5,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.345622299999377
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 7,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.34394240000256104
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 41,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.33576199999879464
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 2,
+      "patient_id": 42,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.33356889999777195
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.39233539999986533
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 1,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3662236000018311
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 2,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3350795000005746
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 3,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.34497449999980745
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 4,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.34205740000106744
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 5,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.33194510000248556
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 7,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.33572709999862127
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 41,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.33487500000046566
+    },
+    {
+      "architecture": "UNet2D",
+      "trial": 3,
+      "patient_id": 42,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.3650755999988178
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5655255000019679
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 1,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5393202999985078
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 2,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5351303999996162
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 3,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5334050999990723
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 4,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.540938099999039
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 5,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5479580999999598
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 40,
+      "week": 7,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5488227000023471
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 41,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5388199000008171
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 1,
+      "patient_id": 42,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.549567100002605
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5734966000018176
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 1,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5318922000005841
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 2,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.539856499999587
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 3,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5332247999976971
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 4,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5508666999994603
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 5,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5380301000004692
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 40,
+      "week": 7,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5182774999993853
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 41,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5252046000023256
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 2,
+      "patient_id": 42,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5265976000009687
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.6006602999987081
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 1,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5454104999989795
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 2,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5425054000006639
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 3,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5543690000013157
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 4,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5834013999992749
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 5,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5676485000003595
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 40,
+      "week": 7,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5934520000009798
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 41,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5912300999989384
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "trial": 3,
+      "patient_id": 42,
+      "week": 0,
+      "samples": 60,
+      "pixels": 1966080,
+      "processing_seconds": 0.5883895000006305
+    }
+  ],
+  "limitations": [
+    "Anatomical mapping remains unverified; no label is designated prostate or background.",
+    "Tutor feasibility check-off remains pending.",
+    "One training seed and three test patients; repeated timing is not independent training replication.",
+    "Test metrics are descriptive; later anatomical attribution requires an independent documented source.",
+    "Do not tune models or choose checkpoints from these test results; any future tuning needs a separate evaluation design.",
+    "Model-forward timing excludes loading and transfers; case processing times have a separate scope.",
+    "Filename/size manifests do not establish immutable input contents.",
+    "Local GPU/Python/OS differ from Rangpur; local latency must not be combined with A100 latency as a same-device comparison.",
+    "Local wrapper is identified by SHA256 rather than a claimed committed Git revision.",
+    "Cancelled/previous remote job state is recorded separately when supplied; no unobserved cancellation is claimed."
+  ],
+  "timing_scope": "One forward per selected slice after per-shape warmup; excludes I/O, transfer, argmax and metrics; CUDA synchronized",
+  "case_time_scope": "Per patient/week slice case; includes I/O, preprocessing, transfers, forward, argmax and confusion counts; excludes warmup and export",
+  "status": "completed",
+  "protocol_id": "hipmri-heldout-numeric-local-v1",
+  "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "parent_runner_commit": "bc601d92de5fb3da982b43d96de34afcd544a94c",
+  "runner_commit": "uncommitted-local-wrapper",
+  "runner_source_sha256": {
+    "run_local_heldout.py": "b2dc1d218587f22e43cee995228f4d2826f4c5aa9b666ce453355f660fccaf60",
+    "run_heldout.py": "28e291ae73aca3ff161137cc224c1315ae6354ed62c3fcb9bf43014c7ef9c3a7",
+    "compare_results.py": "db3a24349d8900408e7c355ac3d303037c19d4320547a631347a1e100647f0b5",
+    "run_comparison.py": "51ba32f07afe658c158b24312d343634454796f5f013c054e70ecf88975436ac",
+    "heldout_protocol.json": "8555d9ce2024b30e62ff78816254844248a4e415babe0216def349a5f21df2e6"
+  },
+  "runtime_source_sha256": {
+    "train.py": "f4bfc83a9697f8e3dcc120617186b83f8186c6b9da9d5b84b33be42e82848abd",
+    "training_io.py": "b460377ab5fa07c8a064826d9807208168ca6a2078cd65d00ac89d90f8a3da6c",
+    "plot_history.py": "04cc095479ee400513d4e38b183f5324cfb72d6b81941e273bd218b5462300ae",
+    "gpu_profile.py": "6b1690818f5380e86b16c05c33953ea7d71065060800f747f5337658c945b3e2",
+    "modules.py": "38b40328a978416dd38a5ad0133366db112e4c649c54f973d2bb432aae6d42ab",
+    "dataset.py": "d68e27e03ea8b4982677d3380aa184d217c41e540051ac347453c12795fe45d7",
+    "losses.py": "00b82e20a660f9b9771032c427c2e540fa1ff7b19e67f7e3369f61bd268e0291",
+    "metrics.py": "6a96a137c50cc98ebb70f7eabd9ca6b02dd3b4a92855a9dbba6f7729fb2e0441",
+    "check_splits.py": "00a509019c54f64adc032ed8b9b159f13111adb2344b2b4a30a67a7998da55a9",
+    "shape_batching.py": "6c4ee1d4324d38988aba894493ce3407e3642b7b909d7492dd899dc38026d17d",
+    "model_factory.py": "4d649a26018fc73d4492d73e76be3568ea760878e13171adc59a94eea4b52c67",
+    "predict.py": "4b026163ae765dee075bdd19b20d052d68f20e9f07ba40406b43c2d54a8b0bfc",
+    "evaluate.py": "45ecca30d33421760cdc4c5905979f06823ed9788dcb29572582029fe84e8b59",
+    "check_checkpoint.py": "173a1e7c3f9121188722761777ce4acc20c6fa8d7f6857c47080d7bbe8bfb7f7",
+    "run_comparison.py": "51ba32f07afe658c158b24312d343634454796f5f013c054e70ecf88975436ac",
+    "comparison_protocol.json": "3187085ad688e2af4f37855392a2242354a965d6c1cc1400bbe1c10802a5d9bf",
+    "comparison_train.sbatch": "88942228fa3b2ba363823964f7b11afd4d7ffe18a7671fffe805cd797c873373"
+  },
+  "checkpoint_sha256": {
+    "UNet2D": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5",
+    "ImprovedUNet2D": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b"
+  },
+  "test_filename_size_manifest_sha256": "4a6a65b5395775e3da01c60c79c2b2105bfbdb83f524b8fc080928afe6bec79a",
+  "test_content_manifest_sha256": "d3d9afcc677f527107ed26c9957a1bb1b1d4f1e13467f1d898e84fb704338c9f",
+  "started_utc": "2026-10-27T13:13:52.833165+00:00",
+  "node": "LAPTOP-AOF6HPPG",
+  "execution": "local GPU; no Slurm; no training; no uploads",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch_version": "2.14.0+cu130",
+    "torch_cuda_build": "13.0",
+    "packages": {
+      "torch": "2.14.0+cu130",
+      "numpy": "2.4.6",
+      "nibabel": "5.4.2",
+      "matplotlib": "3.11.2"
+    },
+    "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "gpu_total_bytes": 8585216000,
+    "nvidia_smi": "NVIDIA GeForce RTX 4070 Laptop GPU, 8188 MiB, 617.42"
+  },
+  "commands": [
+    [
+      "UNet2D_test_1",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_0_UNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\UNet2D\\test_1",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "ImprovedUNet2D_test_1",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_1_ImprovedUNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\ImprovedUNet2D\\test_1",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "UNet2D_test_2",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_0_UNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\UNet2D\\test_2",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "ImprovedUNet2D_test_2",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_1_ImprovedUNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\ImprovedUNet2D\\test_2",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "UNet2D_test_3",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_0_UNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\UNet2D\\test_3",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "ImprovedUNet2D_test_3",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_1_ImprovedUNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\ImprovedUNet2D\\test_3",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ]
+  ],
+  "remote_job_accounting_before_local": "705243|hipmri-heldout-v1|comp3710|comp3710|1|COMPLETED|0:0\n",
+  "remote_job_accounting_after_local": "705243|hipmri-heldout-v1|comp3710|comp3710|1|COMPLETED|0:0\n",
+  "schema_version": 1,
+  "protocol": {
+    "schema_version": 1,
+    "protocol_id": "hipmri-heldout-numeric-local-v1",
+    "frozen_date": "2026-10-27",
+    "scope": "Full held-out test evaluation of both fixed models; numeric labels 0-5",
+    "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+    "runtime_relative": "hipmri_comparisons/bc8a6a4688f50770f71de24a56dff8aad43204c7",
+    "data_root": "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+    "test_samples": 540,
+    "test_patients": [
+      40,
+      41,
+      42
+    ],
+    "evaluation": {
+      "device": "cuda",
+      "batch_size": 1,
+      "max_samples": 0,
+      "warmup_steps": 3,
+      "repeats": 3,
+      "order": [
+        "UNet2D",
+        "ImprovedUNet2D"
+      ]
+    },
+    "models": [
+      {
+        "architecture": "UNet2D",
+        "run_relative": "hipmri_runs/comparison_v1_704715_0_UNet2D",
+        "checkpoint_epoch": 9,
+        "checkpoint_sha256": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5"
+      },
+      {
+        "architecture": "ImprovedUNet2D",
+        "run_relative": "hipmri_runs/comparison_v1_704715_1_ImprovedUNet2D",
+        "checkpoint_epoch": 20,
+        "checkpoint_sha256": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b"
+      }
+    ],
+    "reporting": {
+      "label_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "metrics": [
+        "dice",
+        "iou",
+        "tp",
+        "fp",
+        "fn"
+      ],
+      "aggregation": [
+        "pooled_original_pixel_counts",
+        "equal_patient_mean"
+      ],
+      "model_selection": "Frozen minimum-validation-loss checkpoints; test results never select weights or hyperparameters"
+    },
+    "resource_budget": {
+      "execution": "local Windows GPU",
+      "gpus": 1,
+      "training": false
+    },
+    "limitations": [
+      "Anatomical mapping remains unverified; no label is designated prostate or background.",
+      "Tutor feasibility check-off remains pending.",
+      "One training seed and three test patients; repeated timing is not independent training replication.",
+      "Test metrics are descriptive; later anatomical attribution requires an independent documented source.",
+      "Do not tune models or choose checkpoints from these test results; any future tuning needs a separate evaluation design.",
+      "Model-forward timing excludes loading and transfers; case processing times have a separate scope.",
+      "Filename/size manifests do not establish immutable input contents.",
+      "Local GPU/Python/OS differ from Rangpur; local latency must not be combined with A100 latency as a same-device comparison.",
+      "Local wrapper is identified by SHA256 rather than a claimed committed Git revision.",
+      "Cancelled/previous remote job state is recorded separately when supplied; no unobserved cancellation is claimed."
+    ],
+    "derived_from": "hipmri-heldout-numeric-v1",
+    "execution_change": "User requested local evaluation instead of waiting for Slurm job 705243; same code, fixed weights, complete split and evaluation order."
+  },
+  "wall_seconds_including_evaluation_and_exports": 59.612545600000885
+}

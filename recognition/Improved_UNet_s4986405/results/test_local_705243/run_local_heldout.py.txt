@@ -1,0 +1,212 @@
+"""Evaluate the existing fixed HipMRI models locally; never train or upload."""
+import argparse
+from collections import Counter
+from copy import deepcopy
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import platform
+import re
+import subprocess
+import sys
+import time
+
+import run_heldout as frozen
+from compare_results import inspect_run, require
+from run_comparison import ARCHITECTURES, check_sources, write_json
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE_COMMIT = 'bc8a6a4688f50770f71de24a56dff8aad43204c7'
+PARENT_RUNNER_COMMIT = 'bc601d92de5fb3da982b43d96de34afcd544a94c'
+FIXED = {
+    'UNet2D': (9, 'c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5'),
+    'ImprovedUNet2D': (20, '64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b'),
+}
+EVIDENCE = {
+    'UNet2D': ROOT / 'outputs/baseline_evidence_704715',
+    'ImprovedUNet2D': ROOT / 'outputs/comparison_evidence_704715/comparison_v1_704715_1_ImprovedUNet2D',
+}
+
+
+def local_protocol(inputs):
+    original = frozen.validate_test_protocol(json.loads((Path(__file__).parent / 'heldout_protocol.json').read_text(encoding='utf-8')))
+    require(original['source_commit'] == SOURCE_COMMIT, 'Frozen training source changed')
+    for model in original['models']:
+        require((model['checkpoint_epoch'], model['checkpoint_sha256']) == FIXED[model['architecture']],
+                'Frozen checkpoint choice changed')
+    protocol = deepcopy(original)
+    protocol.update({
+        'protocol_id': 'hipmri-heldout-numeric-local-v1',
+        'derived_from': original['protocol_id'],
+        'data_root': str(Path(inputs).resolve()),
+        'resource_budget': {'execution': 'local Windows GPU', 'gpus': 1, 'training': False},
+        'execution_change': 'User requested local evaluation instead of waiting for Slurm job 705243; same code, fixed weights, complete split and evaluation order.',
+    })
+    protocol['limitations'] += [
+        'Local GPU/Python/OS differ from Rangpur; local latency must not be combined with A100 latency as a same-device comparison.',
+        'Local wrapper is identified by SHA256 rather than a claimed committed Git revision.',
+        'Cancelled/previous remote job state is recorded separately when supplied; no unobserved cancellation is claimed.',
+    ]
+    return original, protocol
+
+
+def source_hashes():
+    folder = Path(__file__).parent
+    return {name: frozen.sha256_file(folder / name) for name in
+            ('run_local_heldout.py', 'run_heldout.py', 'compare_results.py', 'run_comparison.py', 'heldout_protocol.json')}
+
+
+def build_plan(protocol, inputs, output, executable):
+    inputs, output = Path(inputs), Path(output)
+    runtime = inputs / 'hipmri_comparisons' / SOURCE_COMMIT
+    result = []
+    for trial in range(1, 4):
+        for model in protocol['models']:
+            architecture = model['architecture']
+            checkpoint = inputs / model['run_relative'] / 'training/best.pt'
+            command = [str(executable), '-u', str(runtime / 'evaluate.py'),
+                       '--checkpoint', str(checkpoint), '--data-root', str(inputs), '--split', 'test',
+                       '--output-dir', str(output / architecture / f'test_{trial}'),
+                       '--device', 'cuda', '--max-samples', '0', '--warmup-steps', '3']
+            result.append((f'{architecture}_test_{trial}', command))
+    return runtime, result
+
+
+def inspect_models(protocol, inputs):
+    runs = {name: inspect_run(EVIDENCE[name], name) for name in ARCHITECTURES}
+    for model in protocol['models']:
+        name = model['architecture']
+        require(runs[name]['provenance']['source_commit'] == SOURCE_COMMIT, 'Training evidence source differs')
+        require((runs[name]['validation']['best_epoch'], runs[name]['validation']['checkpoint_sha256']) == FIXED[name],
+                'Training evidence checkpoint choice differs')
+        require(frozen.sha256_file(Path(inputs) / model['run_relative'] / 'training/best.pt') == FIXED[name][1],
+                'Downloaded checkpoint bytes differ from fixed model')
+    require(runs['UNet2D']['protocol'] == runs['ImprovedUNet2D']['protocol'] and
+            runs['UNet2D']['data'] == runs['ImprovedUNet2D']['data'], 'Training cohorts/protocols differ')
+    require(runs['UNet2D']['provenance']['source_sha256'] == runs['ImprovedUNet2D']['provenance']['source_sha256'],
+            'Original runtime hashes differ between models')
+    return runs
+
+
+def content_hashes(inputs, data):
+    root = Path(inputs)
+    result = {}
+    for row in data['manifest']:
+        for folder, field in (('keras_slices_test', 'image'), ('keras_slices_seg_test', 'mask')):
+            relative = folder + '/' + row[field]
+            result[relative] = frozen.sha256_file(root / relative)
+    return result
+
+
+def verify(protocol, inputs, runtime, runs, runner_hashes, data, contents):
+    require(source_hashes() == runner_hashes, 'Local runner changed during evaluation')
+    check_sources(runtime, runs['UNet2D']['provenance']['source_sha256'])
+    for model in protocol['models']:
+        require(frozen.sha256_file(Path(inputs) / model['run_relative'] / 'training/best.pt') == FIXED[model['architecture']][1],
+                'Fixed checkpoint changed during evaluation')
+    require(frozen.audit_test_files(protocol, runs) == data, 'Test filenames or sizes changed')
+    require(content_hashes(inputs, data) == contents, 'Test file bytes changed during local evaluation')
+
+
+def environment_record():
+    import torch
+    import importlib.metadata as metadata
+    require(torch.cuda.is_available(), 'Local CUDA GPU is unavailable; do not silently run on CPU')
+    torch.set_num_threads(1)
+    record = {
+        'python': sys.version, 'executable': sys.executable, 'platform': platform.platform(),
+        'torch_version': str(torch.__version__), 'torch_cuda_build': torch.version.cuda,
+        'packages': {name: metadata.version(name) for name in ('torch', 'numpy', 'nibabel', 'matplotlib')},
+        'gpu': torch.cuda.get_device_name(0), 'gpu_total_bytes': torch.cuda.get_device_properties(0).total_memory,
+    }
+    try:
+        record['nvidia_smi'] = subprocess.check_output(
+            ['nvidia-smi', '--query-gpu=name,memory.total,driver_version', '--format=csv,noheader'], text=True).strip()
+    except (OSError, subprocess.CalledProcessError):
+        record['nvidia_smi'] = None
+    # Exercise CUDA without reading an MRI or changing model/checkpoint parameters.
+    layer = torch.nn.Conv2d(1, 2, 3, padding=1).cuda().eval()
+    with torch.inference_mode():
+        value = layer(torch.zeros(1, 1, 32, 32, device='cuda'))
+        require(torch.isfinite(value).all().item(), 'Local CUDA convolution failed')
+    torch.cuda.synchronize()
+    return record
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--inputs', type=Path, required=True)
+    parser.add_argument('--output-dir', type=Path, required=True)
+    parser.add_argument('--dry-run', action='store_true')
+    args = parser.parse_args(argv)
+    inputs, output = args.inputs.expanduser().resolve(), args.output_dir.expanduser().resolve()
+    require(not output.exists(), f'Output already exists: {output}')
+    original, protocol = local_protocol(inputs)
+    runtime, plan = build_plan(protocol, inputs, output, sys.executable)
+    if args.dry_run:
+        print(json.dumps({'protocol': protocol, 'commands': plan}, indent=2))
+        return plan
+    initial_runner_hashes = source_hashes()
+    environment = environment_record()
+    runs = inspect_models(protocol, inputs)
+    check_sources(runtime, runs['UNet2D']['provenance']['source_sha256'])
+    data = frozen.audit_test_files(protocol, runs)
+    contents = content_hashes(inputs, data)
+    verify(protocol, inputs, runtime, runs, initial_runner_hashes, data, contents)
+    output.mkdir(parents=True, exist_ok=False)
+    write_json(output / 'parent_heldout_protocol.json', original)
+    write_json(output / 'protocol.json', protocol)
+    write_json(output / 'local_environment.json', environment)
+    write_json(output / 'test_data_manifest.json', data)
+    write_json(output / 'test_content_sha256.json', contents)
+    provenance = {
+        'status': 'prepared', 'protocol_id': protocol['protocol_id'], 'source_commit': SOURCE_COMMIT,
+        'parent_runner_commit': PARENT_RUNNER_COMMIT, 'runner_commit': 'uncommitted-local-wrapper',
+        'runner_source_sha256': initial_runner_hashes,
+        'runtime_source_sha256': runs['UNet2D']['provenance']['source_sha256'],
+        'checkpoint_sha256': {name: value[1] for name, value in FIXED.items()},
+        'test_filename_size_manifest_sha256': data['filename_size_manifest_sha256'],
+        'test_content_manifest_sha256': frozen.sha256_file(output / 'test_content_sha256.json'),
+        'started_utc': datetime.now(timezone.utc).isoformat(), 'node': platform.node(),
+        'execution': 'local GPU; no Slurm; no training; no uploads', 'environment': environment, 'commands': plan,
+    }
+    accounting = inputs / 'hipmri_job_705243_before_local.txt'
+    if accounting.is_file():
+        provenance['remote_job_accounting_before_local'] = accounting.read_text(encoding='utf-8')
+    after_accounting = inputs / 'hipmri_job_705243_after_local.txt'
+    if after_accounting.is_file():
+        provenance['remote_job_accounting_after_local'] = after_accounting.read_text(encoding='utf-8')
+    write_json(output / 'test_provenance.json', provenance)
+    started = time.perf_counter()
+    try:
+        for stage, command in plan:
+            verify(protocol, inputs, runtime, runs, initial_runner_hashes, data, contents)
+            provenance['status'] = 'running_' + stage
+            write_json(output / 'test_provenance.json', provenance)
+            print('Local held-out stage:', stage, flush=True)
+            with (output / (stage + '.log')).open('x', encoding='utf-8') as log:
+                subprocess.run(command, cwd=runtime, stdout=log, stderr=subprocess.STDOUT, check=True)
+            verify(protocol, inputs, runtime, runs, initial_runner_hashes, data, contents)
+            print('Completed:', stage, flush=True)
+        summary = frozen.summarize_test_reports(output, protocol, runs, data)
+        summary.update({**provenance, 'status': 'exporting', 'schema_version': 1, 'protocol': protocol})
+        frozen.export_test_results(output, summary)
+        verify(protocol, inputs, runtime, runs, initial_runner_hashes, data, contents)
+        summary['status'] = 'completed'
+        summary['wall_seconds_including_evaluation_and_exports'] = time.perf_counter() - started
+        write_json(output / 'test_comparison.json', summary)
+        provenance['status'] = 'completed'
+        write_json(output / 'test_provenance.json', provenance)
+    except Exception as error:
+        provenance.update({'status': 'failed', 'error': f'{type(error).__name__}: {error}'})
+        write_json(output / 'test_provenance.json', provenance)
+        raise
+    print('Output:', output, flush=True)
+    print('Local fixed-model full held-out test comparison: PASS', flush=True)
+    return summary
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,66 @@
+"""Safely unpack the downloaded inputs without overwriting existing files."""
+import argparse
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+import re
+import shutil
+import tarfile
+
+
+def digest(path):
+    value = hashlib.sha256()
+    with path.open('rb') as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b''):
+            value.update(block)
+    return value.hexdigest()
+
+
+def unpack(archive, destination, expected=None):
+    archive, destination = Path(archive).resolve(), Path(destination).resolve()
+    if destination.exists():
+        raise FileExistsError(f'Destination exists: {destination}')
+    actual = digest(archive)
+    if expected is not None and (re.fullmatch(r'[0-9a-f]{64}', expected) is None or actual != expected):
+        raise ValueError('Downloaded archive SHA256 differs from the remote value')
+    with tarfile.open(archive, 'r:gz') as tar:
+        members = tar.getmembers()
+        names = set()
+        if sum(member.size for member in members) > 2 * 1024**3 or len(members) > 5000:
+            raise ValueError('Unexpectedly large test-only archive')
+        for member in members:
+            name = PurePosixPath(member.name)
+            if name.is_absolute() or '..' in name.parts or '\\' in member.name or ':' in member.name:
+                raise ValueError(f'Unsafe archive path: {member.name}')
+            if not member.isdir() and not member.isfile():
+                raise ValueError(f'Non-regular archive member: {member.name}')
+            normalized = '/'.join(name.parts).casefold()
+            if normalized in names:
+                raise ValueError(f'Duplicate archive member: {member.name}')
+            names.add(normalized)
+            if name.parts[0] not in ('keras_slices_test', 'keras_slices_seg_test', 'hipmri_comparisons',
+                                     'hipmri_runs', 'hipmri_job_705243_before_local.txt', 'hipmri_job_705243_after_local.txt'):
+                raise ValueError(f'Unexpected top-level input: {member.name}')
+        destination.mkdir(parents=True, exist_ok=False)
+        for member in members:
+            target = destination.joinpath(*PurePosixPath(member.name).parts)
+            if member.isdir():
+                target.mkdir(parents=True, exist_ok=True)
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with tar.extractfile(member) as source, target.open('xb') as output:
+                shutil.copyfileobj(source, output)
+    record = {'archive': str(archive), 'archive_sha256': actual,
+              'remote_hash_verified': expected is not None, 'members': len(members)}
+    (destination / 'download_record.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps(record, indent=2))
+    return record
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--archive', type=Path, required=True)
+    parser.add_argument('--destination', type=Path, required=True)
+    parser.add_argument('--sha256')
+    args = parser.parse_args()
+    unpack(args.archive, args.destination, args.sha256)

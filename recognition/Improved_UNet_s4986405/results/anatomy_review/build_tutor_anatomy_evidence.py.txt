@@ -1,0 +1,100 @@
+"""Post-evaluation anatomy inspection; no training or model/label selection by Dice."""
+from pathlib import Path
+import csv, hashlib, json, os, sys
+ROOT=Path(__file__).resolve().parents[1]
+os.environ['MPLCONFIGDIR']=str(ROOT/'work/local_mpl_config')
+import numpy as np
+import nibabel as nib
+import torch
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+DATA=ROOT/'outputs/local_inputs_705243'
+RUNTIME=DATA/'hipmri_comparisons/bc8a6a4688f50770f71de24a56dff8aad43204c7'
+sys.path.insert(0,str(RUNTIME))
+from dataset import HipMRI2DDataset
+from predict import load_predictor, infer_mask
+OUT=ROOT/'outputs/tutor_revision_2026-10-29/results/anatomy_review'
+OUT.mkdir(parents=True,exist_ok=True)
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+palette={2:'#00baff',3:'#ffd400',4:'#ff3da5',5:'#00ef86'}
+profiles=[];selected=[]
+for patient in (40,41,42):
+    group=[]
+    for sl in range(60):
+        stem=f'{patient:03d}_week_0_slice_{sl}.nii.gz'
+        image_path=DATA/'keras_slices_test'/('case_'+stem)
+        mask_path=DATA/'keras_slices_seg_test'/('seg_'+stem)
+        nii=nib.load(image_path);seg=nib.load(mask_path)
+        mask=seg.get_fdata().astype(np.int64)
+        assert np.allclose(nii.affine,seg.affine)
+        rec={'patient':patient,'week':0,'slice':sl,'image':image_path.name,'mask':mask_path.name,
+             'counts':np.bincount(mask.ravel(),minlength=6).tolist()}
+        group.append(rec);profiles.append(rec)
+    # Anatomy display rule fixed from reference-mask size, never model Dice.
+    selected.append(min(group,key=lambda r:(-r['counts'][5],r['slice'])))
+dataset=HipMRI2DDataset(DATA/'keras_slices_test',DATA/'keras_slices_seg_test',normalize=True)
+# Use filenames from the dataset's documented sorted convention.
+names=sorted(p.name for p in (DATA/'keras_slices_test').glob('case_*.nii.gz'))
+models={};checks={}
+for arch,task,expected in [('UNet2D',0,'c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5'),('ImprovedUNet2D',1,'64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b')]:
+    checkpoint=DATA/f'hipmri_runs/comparison_v1_704715_{task}_{arch}/training/best.pt'
+    assert sha(checkpoint)==expected
+    models[arch],saved=load_predictor(checkpoint,'cuda')
+    checks[arch]={'path':str(checkpoint),'sha256':expected,'epoch':saved['epoch']}
+fig,axes=plt.subplots(3,4,figsize=(15,7.4),layout='constrained')
+for row,rec in enumerate(selected):
+    nii=nib.load(DATA/'keras_slices_test'/rec['image']);image=nii.get_fdata()
+    mask=nib.load(DATA/'keras_slices_seg_test'/rec['mask']).get_fdata().astype(int)
+    tensor,target=dataset[names.index(rec['image'])]
+    assert np.array_equal(target.numpy(),mask)
+    lo,hi=np.percentile(image,[1,99]);rec['image_sha256']=sha(DATA/'keras_slices_test'/rec['image'])
+    rec['mask_sha256']=sha(DATA/'keras_slices_seg_test'/rec['mask']);rec['predictions']={}
+    for col in range(4):
+        ax=axes[row,col];ax.imshow(np.rot90(image),cmap='gray',vmin=lo,vmax=hi);ax.axis('off')
+        title=f'Patient {rec["patient"]}, slice {rec["slice"]}: MRI' if col==0 else 'Reference IDs: 2 / 3 / 4 / 5'
+        if col==1:
+            for lab in (2,3,4,5):
+                region=np.rot90(mask==lab)
+                if region.any():
+                    ax.contour(region,levels=[.5],colors=[palette[lab]],linewidths=.9)
+                    if lab != 2:
+                        yy,xx=np.where(region);ax.text(xx.mean(),yy.mean(),str(lab),color=palette[lab],fontsize=11,fontweight='bold')
+        if col>=2:
+            arch=['UNet2D','ImprovedUNet2D'][col-2]
+            pred=infer_mask(models[arch],tensor,'cuda').numpy()
+            gt=mask==5;pd=pred==5;tp=int((gt&pd).sum());fp=int((~gt&pd).sum());fn=int((gt&~pd).sum())
+            dice=2*tp/(2*tp+fp+fn)
+            rec['predictions'][arch]={'tp':tp,'fp':fp,'fn':fn,'dice':dice}
+            ax.contour(np.rot90(gt),levels=[.5],colors=['#ffd400'],linewidths=1.1)
+            if pd.any():ax.contour(np.rot90(pd),levels=[.5],colors=['#00ef86'],linewidths=.9)
+            title=f'{arch}: ID-5 slice Dice {dice:.3f}'
+        ax.set_title(title,fontsize=10)
+fig.suptitle('Image-based inference: ID 5 is consistent with the prostate\nIDs: bone-like 2 (cyan), bladder-like 3 (yellow), rectum-like 4 (magenta), prostate candidate 5 (green)\nPrediction panels: reference yellow / prediction green. Display rotated 90 degrees; no restored physical orientation.',fontsize=11)
+fig.savefig(OUT/'anatomy_and_fixed_predictions.png',dpi=160);plt.close(fig)
+fig,axes=plt.subplots(3,5,figsize=(15,5.5),layout='constrained')
+for row,rec in enumerate(selected):
+    for col,offset in enumerate([-8,-4,0,4,8]):
+        sl=min(59,max(0,rec['slice']+offset));stem=f'{rec["patient"]:03d}_week_0_slice_{sl}.nii.gz'
+        image=nib.load(DATA/'keras_slices_test'/('case_'+stem)).get_fdata()
+        mask=nib.load(DATA/'keras_slices_seg_test'/('seg_'+stem)).get_fdata().astype(int)
+        lo,hi=np.percentile(image,[1,99]);ax=axes[row,col]
+        ax.imshow(np.rot90(image),cmap='gray',vmin=lo,vmax=hi)
+        for lab in (3,4,5):
+            if (mask==lab).any():ax.contour(np.rot90(mask==lab),levels=[.5],colors=[palette[lab]],linewidths=.9)
+        ax.set_title(f'Patient {rec["patient"]} / slice {sl}',fontsize=9);ax.axis('off')
+fig.suptitle('Neighboring filename-index slices: bladder-like ID 3 / rectum-like ID 4 / prostate candidate ID 5\nSame patient/week; 4-index increments. Not physical spacing or a base/apex assignment.',fontsize=11)
+fig.savefig(OUT/'neighboring_reference_slices.png',dpi=160);plt.close(fig)
+for arch,entry in checks.items():assert sha(Path(entry['path']))==entry['sha256']
+record={'date':'2026-10-29','scope':'Post-hoc image-based anatomical interpretation; not model tuning or an official label dictionary',
+        'inferred_prostate_id':5,'inference_not_tutor_confirmed_mapping':True,
+        'selection_rule':'Each test patient, week 0, largest reference ID-5 area; tie lowest filename slice index. Neighbor views at +/-4 and +/-8. No Dice-based example selection.',
+        'orientation':'2D image/mask affine matches but is identity; empty description; no trustworthy patient-space orientation/spacing restored. Display uses np.rot90 only.',
+        'anatomical_rationale':'Compact midline region near the apparent bladder outlet and anterior to the rectum-like region; consistent across patients and neighboring slices. Size and Dice alone are not identification criteria.',
+        'references':[{'title':'PI-RADS v2, ACR/ESUR/AdMeTech, Figure 1 and prostate anatomy','url':'https://cs.acr.org/-/media/ACR/Files/RADS/PI-RADS/PIRADS-V2.pdf'},
+                      {'title':'Anatomic Imaging of the Prostate, anatomy section','url':'https://pmc.ncbi.nlm.nih.gov/articles/PMC4160650/'}],
+        'selected_examples':selected,'reference_profiles':profiles,'fixed_checkpoints':checks,
+        'analysis_script_sha256':sha(Path(__file__)),'source_commit':'bc8a6a4688f50770f71de24a56dff8aad43204c7',
+        'new_inference_scope':'Three illustrative test slices per model using original predictor/normalization on CUDA; not a new full test run or replacement of stored full-cohort metrics.'}
+(OUT/'anatomy_evidence.json').write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'selected':[{k:r[k] for k in ('patient','slice','counts','predictions')} for r in selected]},indent=2))

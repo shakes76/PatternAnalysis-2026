@@ -1,0 +1,194 @@
+{
+  "status": "completed",
+  "protocol_id": "hipmri-heldout-numeric-local-v1",
+  "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "parent_runner_commit": "bc601d92de5fb3da982b43d96de34afcd544a94c",
+  "runner_commit": "uncommitted-local-wrapper",
+  "runner_source_sha256": {
+    "run_local_heldout.py": "b2dc1d218587f22e43cee995228f4d2826f4c5aa9b666ce453355f660fccaf60",
+    "run_heldout.py": "28e291ae73aca3ff161137cc224c1315ae6354ed62c3fcb9bf43014c7ef9c3a7",
+    "compare_results.py": "db3a24349d8900408e7c355ac3d303037c19d4320547a631347a1e100647f0b5",
+    "run_comparison.py": "51ba32f07afe658c158b24312d343634454796f5f013c054e70ecf88975436ac",
+    "heldout_protocol.json": "8555d9ce2024b30e62ff78816254844248a4e415babe0216def349a5f21df2e6"
+  },
+  "runtime_source_sha256": {
+    "train.py": "f4bfc83a9697f8e3dcc120617186b83f8186c6b9da9d5b84b33be42e82848abd",
+    "training_io.py": "b460377ab5fa07c8a064826d9807208168ca6a2078cd65d00ac89d90f8a3da6c",
+    "plot_history.py": "04cc095479ee400513d4e38b183f5324cfb72d6b81941e273bd218b5462300ae",
+    "gpu_profile.py": "6b1690818f5380e86b16c05c33953ea7d71065060800f747f5337658c945b3e2",
+    "modules.py": "38b40328a978416dd38a5ad0133366db112e4c649c54f973d2bb432aae6d42ab",
+    "dataset.py": "d68e27e03ea8b4982677d3380aa184d217c41e540051ac347453c12795fe45d7",
+    "losses.py": "00b82e20a660f9b9771032c427c2e540fa1ff7b19e67f7e3369f61bd268e0291",
+    "metrics.py": "6a96a137c50cc98ebb70f7eabd9ca6b02dd3b4a92855a9dbba6f7729fb2e0441",
+    "check_splits.py": "00a509019c54f64adc032ed8b9b159f13111adb2344b2b4a30a67a7998da55a9",
+    "shape_batching.py": "6c4ee1d4324d38988aba894493ce3407e3642b7b909d7492dd899dc38026d17d",
+    "model_factory.py": "4d649a26018fc73d4492d73e76be3568ea760878e13171adc59a94eea4b52c67",
+    "predict.py": "4b026163ae765dee075bdd19b20d052d68f20e9f07ba40406b43c2d54a8b0bfc",
+    "evaluate.py": "45ecca30d33421760cdc4c5905979f06823ed9788dcb29572582029fe84e8b59",
+    "check_checkpoint.py": "173a1e7c3f9121188722761777ce4acc20c6fa8d7f6857c47080d7bbe8bfb7f7",
+    "run_comparison.py": "51ba32f07afe658c158b24312d343634454796f5f013c054e70ecf88975436ac",
+    "comparison_protocol.json": "3187085ad688e2af4f37855392a2242354a965d6c1cc1400bbe1c10802a5d9bf",
+    "comparison_train.sbatch": "88942228fa3b2ba363823964f7b11afd4d7ffe18a7671fffe805cd797c873373"
+  },
+  "checkpoint_sha256": {
+    "UNet2D": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5",
+    "ImprovedUNet2D": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b"
+  },
+  "test_filename_size_manifest_sha256": "4a6a65b5395775e3da01c60c79c2b2105bfbdb83f524b8fc080928afe6bec79a",
+  "test_content_manifest_sha256": "d3d9afcc677f527107ed26c9957a1bb1b1d4f1e13467f1d898e84fb704338c9f",
+  "started_utc": "2026-10-27T13:13:52.833165+00:00",
+  "node": "LAPTOP-AOF6HPPG",
+  "execution": "local GPU; no Slurm; no training; no uploads",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch_version": "2.14.0+cu130",
+    "torch_cuda_build": "13.0",
+    "packages": {
+      "torch": "2.14.0+cu130",
+      "numpy": "2.4.6",
+      "nibabel": "5.4.2",
+      "matplotlib": "3.11.2"
+    },
+    "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "gpu_total_bytes": 8585216000,
+    "nvidia_smi": "NVIDIA GeForce RTX 4070 Laptop GPU, 8188 MiB, 617.42"
+  },
+  "commands": [
+    [
+      "UNet2D_test_1",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_0_UNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\UNet2D\\test_1",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "ImprovedUNet2D_test_1",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_1_ImprovedUNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\ImprovedUNet2D\\test_1",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "UNet2D_test_2",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_0_UNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\UNet2D\\test_2",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "ImprovedUNet2D_test_2",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_1_ImprovedUNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\ImprovedUNet2D\\test_2",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "UNet2D_test_3",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_0_UNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\UNet2D\\test_3",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ],
+    [
+      "ImprovedUNet2D_test_3",
+      [
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+        "-u",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_comparisons\\bc8a6a4688f50770f71de24a56dff8aad43204c7\\evaluate.py",
+        "--checkpoint",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243\\hipmri_runs\\comparison_v1_704715_1_ImprovedUNet2D\\training\\best.pt",
+        "--data-root",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+        "--split",
+        "test",
+        "--output-dir",
+        "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_heldout_705243\\ImprovedUNet2D\\test_3",
+        "--device",
+        "cuda",
+        "--max-samples",
+        "0",
+        "--warmup-steps",
+        "3"
+      ]
+    ]
+  ],
+  "remote_job_accounting_before_local": "705243|hipmri-heldout-v1|comp3710|comp3710|1|COMPLETED|0:0\n",
+  "remote_job_accounting_after_local": "705243|hipmri-heldout-v1|comp3710|comp3710|1|COMPLETED|0:0\n"
+}

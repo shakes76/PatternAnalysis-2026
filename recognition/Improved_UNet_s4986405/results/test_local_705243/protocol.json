@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "protocol_id": "hipmri-heldout-numeric-local-v1",
+  "frozen_date": "2026-10-27",
+  "scope": "Full held-out test evaluation of both fixed models; numeric labels 0-5",
+  "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "runtime_relative": "hipmri_comparisons/bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "data_root": "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\outputs\\local_inputs_705243",
+  "test_samples": 540,
+  "test_patients": [
+    40,
+    41,
+    42
+  ],
+  "evaluation": {
+    "device": "cuda",
+    "batch_size": 1,
+    "max_samples": 0,
+    "warmup_steps": 3,
+    "repeats": 3,
+    "order": [
+      "UNet2D",
+      "ImprovedUNet2D"
+    ]
+  },
+  "models": [
+    {
+      "architecture": "UNet2D",
+      "run_relative": "hipmri_runs/comparison_v1_704715_0_UNet2D",
+      "checkpoint_epoch": 9,
+      "checkpoint_sha256": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5"
+    },
+    {
+      "architecture": "ImprovedUNet2D",
+      "run_relative": "hipmri_runs/comparison_v1_704715_1_ImprovedUNet2D",
+      "checkpoint_epoch": 20,
+      "checkpoint_sha256": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b"
+    }
+  ],
+  "reporting": {
+    "label_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "metrics": [
+      "dice",
+      "iou",
+      "tp",
+      "fp",
+      "fn"
+    ],
+    "aggregation": [
+      "pooled_original_pixel_counts",
+      "equal_patient_mean"
+    ],
+    "model_selection": "Frozen minimum-validation-loss checkpoints; test results never select weights or hyperparameters"
+  },
+  "resource_budget": {
+    "execution": "local Windows GPU",
+    "gpus": 1,
+    "training": false
+  },
+  "limitations": [
+    "Anatomical mapping remains unverified; no label is designated prostate or background.",
+    "Tutor feasibility check-off remains pending.",
+    "One training seed and three test patients; repeated timing is not independent training replication.",
+    "Test metrics are descriptive; later anatomical attribution requires an independent documented source.",
+    "Do not tune models or choose checkpoints from these test results; any future tuning needs a separate evaluation design.",
+    "Model-forward timing excludes loading and transfers; case processing times have a separate scope.",
+    "Filename/size manifests do not establish immutable input contents.",
+    "Local GPU/Python/OS differ from Rangpur; local latency must not be combined with A100 latency as a same-device comparison.",
+    "Local wrapper is identified by SHA256 rather than a claimed committed Git revision.",
+    "Cancelled/previous remote job state is recorded separately when supplied; no unobserved cancellation is claimed."
+  ],
+  "derived_from": "hipmri-heldout-numeric-v1",
+  "execution_change": "User requested local evaluation instead of waiting for Slurm job 705243; same code, fixed weights, complete split and evaluation order."
+}

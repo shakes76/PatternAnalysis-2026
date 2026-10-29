@@ -1,0 +1,16 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\\u5415\u6c9b\u6770\\Documents\\Codex\\2026-10-26\\referenced-chatgpt-conversation-this-is-an\\.venv-hipmri\\Scripts\\python.exe",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "torch_version": "2.14.0+cu130",
+  "torch_cuda_build": "13.0",
+  "packages": {
+    "torch": "2.14.0+cu130",
+    "numpy": "2.4.6",
+    "nibabel": "5.4.2",
+    "matplotlib": "3.11.2"
+  },
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "gpu_total_bytes": 8585216000,
+  "nvidia_smi": "NVIDIA GeForce RTX 4070 Laptop GPU, 8188 MiB, 617.42"
+}

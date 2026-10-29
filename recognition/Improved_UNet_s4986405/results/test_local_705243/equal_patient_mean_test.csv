@@ -1,0 +1,7 @@
+protocol_id,source_commit,runner_commit,scope,label_id,baseline_equal_patient_mean_dice,baseline_defined_patients,improved_equal_patient_mean_dice,improved_defined_patients
+hipmri-heldout-numeric-local-v1,bc8a6a4688f50770f71de24a56dff8aad43204c7,uncommitted-local-wrapper,full_heldout_test_numeric_labels,0,0.9940151337047431,3,0.9954609045426429,3
+hipmri-heldout-numeric-local-v1,bc8a6a4688f50770f71de24a56dff8aad43204c7,uncommitted-local-wrapper,full_heldout_test_numeric_labels,1,0.9809492611128336,3,0.9842178099631314,3
+hipmri-heldout-numeric-local-v1,bc8a6a4688f50770f71de24a56dff8aad43204c7,uncommitted-local-wrapper,full_heldout_test_numeric_labels,2,0.9219724129685667,3,0.9392924540847596,3
+hipmri-heldout-numeric-local-v1,bc8a6a4688f50770f71de24a56dff8aad43204c7,uncommitted-local-wrapper,full_heldout_test_numeric_labels,3,0.9574747488078628,3,0.9503094462908283,3
+hipmri-heldout-numeric-local-v1,bc8a6a4688f50770f71de24a56dff8aad43204c7,uncommitted-local-wrapper,full_heldout_test_numeric_labels,4,0.8567760063574006,3,0.8684617070751333,3
+hipmri-heldout-numeric-local-v1,bc8a6a4688f50770f71de24a56dff8aad43204c7,uncommitted-local-wrapper,full_heldout_test_numeric_labels,5,0.8045420265085095,3,0.8392684015325582,3

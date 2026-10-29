@@ -1,0 +1,131 @@
+import io
+import json
+from pathlib import Path
+import sys
+import tarfile
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'outputs'))
+import run_local_heldout as local
+import extract_local_inputs as extraction
+
+
+class LocalMigrationTests(unittest.TestCase):
+    def temporary(self):
+        return tempfile.TemporaryDirectory(dir=ROOT / 'work')
+
+    def test_plan_keeps_fixed_models_full_scope_and_interleaved_order(self):
+        original, protocol = local.local_protocol(Path('not-downloaded'))
+        runtime, plan = local.build_plan(protocol, Path('inputs'), Path('results'), 'python')
+        self.assertEqual(original['protocol_id'], 'hipmri-heldout-numeric-v1')
+        self.assertEqual(protocol['protocol_id'], 'hipmri-heldout-numeric-local-v1')
+        self.assertEqual([name for name, _ in plan], [f'{arch}_test_{n}' for n in range(1, 4) for arch in ('UNet2D', 'ImprovedUNet2D')])
+        for name, command in plan:
+            for flag, expected in (('--split', 'test'), ('--max-samples', '0'), ('--device', 'cuda'), ('--warmup-steps', '3')):
+                self.assertEqual(command[command.index(flag) + 1], expected)
+            self.assertNotIn('--allow-partial', command)
+            self.assertFalse(any('train.py' in value for value in command))
+        self.assertEqual({model['architecture']: (model['checkpoint_epoch'], model['checkpoint_sha256']) for model in protocol['models']}, local.FIXED)
+
+    def test_dry_run_needs_no_gpu_weights_data_or_outputs(self):
+        with self.temporary() as folder:
+            inputs, output = Path(folder) / 'missing_inputs', Path(folder) / 'result'
+            with patch.object(local, 'environment_record', side_effect=AssertionError('GPU accessed')), patch.object(local, 'inspect_models', side_effect=AssertionError('weights accessed')), patch('sys.stdout', new_callable=io.StringIO):
+                local.main(['--inputs', str(inputs), '--output-dir', str(output), '--dry-run'])
+            self.assertFalse(output.exists())
+
+    def test_existing_output_preserved_before_gpu_or_data(self):
+        with self.temporary() as folder:
+            output = Path(folder) / 'result'
+            output.mkdir()
+            sentinel = output / 'keep.txt'
+            sentinel.write_text('original')
+            with self.assertRaises(ValueError):
+                local.main(['--inputs', str(Path(folder) / 'missing'), '--output-dir', str(output)])
+            self.assertEqual(sentinel.read_text(), 'original')
+
+    def test_changed_input_bytes_are_rejected_even_with_same_size(self):
+        with self.temporary() as folder:
+            root = Path(folder)
+            data = {'manifest': [{'image': 'case.nii.gz', 'mask': 'seg.nii.gz'}]}
+            for sub, name in (('keras_slices_test', 'case.nii.gz'), ('keras_slices_seg_test', 'seg.nii.gz')):
+                (root / sub).mkdir()
+                (root / sub / name).write_bytes(b'abc')
+            before = local.content_hashes(root, data)
+            (root / 'keras_slices_test/case.nii.gz').write_bytes(b'xyz')
+            self.assertNotEqual(before, local.content_hashes(root, data))
+
+    def archive(self, folder, entries):
+        archive = Path(folder) / 'download.tar.gz'
+        with tarfile.open(archive, 'w:gz') as tar:
+            for name, content, kind in entries:
+                info = tarfile.TarInfo(name)
+                if kind == 'symlink':
+                    info.type = tarfile.SYMTYPE
+                    info.linkname = '/outside'
+                    tar.addfile(info)
+                else:
+                    info.size = len(content)
+                    tar.addfile(info, io.BytesIO(content))
+        return archive
+
+    def test_extract_checks_remote_digest_and_preserves_existing_output(self):
+        with self.temporary() as folder:
+            archive = self.archive(folder, [('keras_slices_test/case.nii.gz', b'abc', 'file')])
+            output = Path(folder) / 'extracted'
+            with self.assertRaises(ValueError):
+                extraction.unpack(archive, output, '0' * 64)
+            self.assertFalse(output.exists())
+            with patch('sys.stdout', new_callable=io.StringIO):
+                record = extraction.unpack(archive, output, extraction.digest(archive))
+            self.assertTrue(record['remote_hash_verified'])
+            self.assertEqual((output / 'keras_slices_test/case.nii.gz').read_bytes(), b'abc')
+            with self.assertRaises(FileExistsError):
+                extraction.unpack(archive, output)
+
+    def test_extract_rejects_traversal_symlinks_and_case_collisions(self):
+        for entries in ([('../escape', b'x', 'file')], [('keras_slices_test/link', b'', 'symlink')],
+                        [('keras_slices_test/A', b'a', 'file'), ('keras_slices_test/a', b'b', 'file')]):
+            with self.subTest(entries=entries), self.temporary() as folder:
+                archive = self.archive(folder, entries)
+                output = Path(folder) / 'bad'
+                with self.assertRaises(ValueError):
+                    extraction.unpack(archive, output)
+                self.assertFalse(output.exists())
+
+
+    def test_changed_runner_rejected_before_inputs(self):
+        with patch.object(local, 'source_hashes', return_value={'runner': 'changed'}):
+            with self.assertRaisesRegex(ValueError, 'runner changed'):
+                local.verify({}, None, None, None, {'runner': 'expected'}, None, None)
+
+    def test_bad_downloaded_checkpoint_rejected_before_inference(self):
+        with self.temporary() as folder:
+            root = Path(folder)
+            _, protocol = local.local_protocol(root)
+            for model in protocol['models']:
+                checkpoint = root / model['run_relative'] / 'training/best.pt'
+                checkpoint.parent.mkdir(parents=True)
+                checkpoint.write_bytes(b'not the fixed checkpoint')
+            with self.assertRaisesRegex(ValueError, 'checkpoint bytes differ'):
+                local.inspect_models(protocol, root)
+
+    def test_failed_evaluator_marks_run_failed_without_summary(self):
+        with self.temporary() as folder:
+            root = Path(folder)
+            output = root / 'result'
+            runs = {name: {'provenance': {'source_sha256': {}}} for name in ('UNet2D', 'ImprovedUNet2D')}
+            data = {'manifest': [], 'filename_size_manifest_sha256': 'a' * 64}
+            with patch.object(local, 'environment_record', return_value={'gpu': 'synthetic'}), patch.object(local, 'inspect_models', return_value=runs), patch.object(local, 'check_sources'), patch.object(local.frozen, 'audit_test_files', return_value=data), patch.object(local, 'content_hashes', return_value={}), patch.object(local, 'verify'), patch.object(local.subprocess, 'run', side_effect=local.subprocess.CalledProcessError(1, ['mock-evaluator'])), patch.object(local.frozen, 'summarize_test_reports') as summarize, patch('sys.stdout', new_callable=io.StringIO):
+                with self.assertRaises(local.subprocess.CalledProcessError):
+                    local.main(['--inputs', str(root / 'inputs'), '--output-dir', str(output)])
+                summarize.assert_not_called()
+            self.assertEqual(json.loads((output / 'test_provenance.json').read_text())['status'], 'failed')
+            self.assertFalse((output / 'test_comparison.json').exists())
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

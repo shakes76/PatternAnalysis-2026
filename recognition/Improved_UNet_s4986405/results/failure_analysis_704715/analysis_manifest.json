@@ -1,0 +1,934 @@
+{
+  "schema_version": 1,
+  "scope": "Exploratory selected validation examples; not test results or a representative sample",
+  "label_semantics": "Numeric IDs 0-5; anatomical mapping unverified",
+  "source_commit": "bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "runtime_directory": "/home/Student/s4986405/hipmri_comparisons/bc8a6a4688f50770f71de24a56dff8aad43204c7",
+  "checkpoint_sha256": {
+    "UNet2D": "c27975f00f0357fac9a35bea3d765a56bb45621a92c36df71342890bfd92b1a5",
+    "ImprovedUNet2D": "64eef4f620355a38c0624ff21833e27c0e03728321f020146731ca0ab7513c0b"
+  },
+  "checkpoint_epochs": {
+    "UNet2D": 9,
+    "ImprovedUNet2D": 20
+  },
+  "analysis_source_sha256": "4fd4c941d81c01a0339005456b8cc7dc5de9b7955b6cb139ded8d9c2177b119e",
+  "normalization": "per-slice all-pixel z-score",
+  "display": "MRI 1st-99th percentile window for display only; native array orientation; no anatomical plane assignment. Yellow full-slice rectangle marks common detail-view crop.",
+  "selection_scope": "Four error examples and one improvement example chosen post hoc from validation pass 1 using declared thresholds/rules, ties by dataset index.",
+  "numerical_scope": "Figures/counts use fresh inference on the requested device. Small CPU/CUDA differences from the recorded reference are retained explicitly; this is not a latency benchmark.",
+  "status": "completed",
+  "execution_device": "cpu",
+  "examples": [
+    {
+      "example_id": "01_patient038_label3",
+      "index": 120,
+      "image": "case_038_week_0_slice_0.nii.gz",
+      "mask": "seg_038_week_0_slice_0.nii.gz",
+      "patient_id": 38,
+      "week": 0,
+      "slice_id": 0,
+      "shape": [
+        256,
+        128
+      ],
+      "label_id": 3,
+      "minimum_target_pixels": 64,
+      "selection_rule": "dice_regression",
+      "selection_description": "Largest baseline-minus-Improved Dice; GT >=64 pixels",
+      "eligible_candidates": 54,
+      "tie_break": "Lowest dataset index",
+      "reference_metrics": {
+        "UNet2D": {
+          "label_id": 3,
+          "target_pixels": 4661,
+          "predicted_pixels": 2634,
+          "tp": 2554,
+          "fp": 80,
+          "fn": 2107,
+          "dice": 0.7002056202878684,
+          "iou": 0.5387049145749842
+        },
+        "ImprovedUNet2D": {
+          "label_id": 3,
+          "target_pixels": 4661,
+          "predicted_pixels": 715,
+          "tp": 660,
+          "fp": 55,
+          "fn": 4001,
+          "dice": 0.24553571428571427,
+          "iou": 0.13994910941475827
+        }
+      },
+      "reference_confusion": {
+        "UNet2D": [
+          [
+            7408,
+            86,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            52,
+            19123,
+            499,
+            80,
+            0,
+            0
+          ],
+          [
+            0,
+            221,
+            638,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2095,
+            2,
+            2554,
+            0,
+            10
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "ImprovedUNet2D": [
+          [
+            7488,
+            6,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            387,
+            19288,
+            36,
+            43,
+            0,
+            0
+          ],
+          [
+            0,
+            258,
+            589,
+            12,
+            0,
+            0
+          ],
+          [
+            0,
+            4001,
+            0,
+            660,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "input_sha256": {
+        "image": "74dade8153dda70992c12e2e869b42a5eac0cd788c6f408f717fcdd823629f99",
+        "mask": "13a9cd2ac1841a5ddefa34c62dd8c01bdadba87333c1356916fe1f42b9d4c7fa"
+      },
+      "execution_device": "cpu",
+      "rendered_metrics": {
+        "UNet2D": {
+          "label_id": 3,
+          "tp": 2554,
+          "fp": 80,
+          "fn": 2107,
+          "target_pixels": 4661,
+          "predicted_pixels": 2634,
+          "dice": 0.7002056202878684,
+          "iou": 0.5387049145749842
+        },
+        "ImprovedUNet2D": {
+          "label_id": 3,
+          "tp": 660,
+          "fp": 55,
+          "fn": 4001,
+          "target_pixels": 4661,
+          "predicted_pixels": 715,
+          "dice": 0.24553571428571427,
+          "iou": 0.13994910941475827
+        }
+      },
+      "confusion_changed_from_cuda_reference": {
+        "UNet2D": false,
+        "ImprovedUNet2D": false
+      },
+      "crop_box_yx_exclusive": [
+        65,
+        185,
+        40,
+        122
+      ],
+      "figure": "01_patient038_label3.png",
+      "figure_sha256": "e8cfb5cad89a6cea253e7aead69431abc4323ae8e0923decef6b40ef3b4ac1f5"
+    },
+    {
+      "example_id": "02_patient037_label4",
+      "index": 101,
+      "image": "case_037_week_0_slice_46.nii.gz",
+      "mask": "seg_037_week_0_slice_46.nii.gz",
+      "patient_id": 37,
+      "week": 0,
+      "slice_id": 46,
+      "shape": [
+        256,
+        128
+      ],
+      "label_id": 4,
+      "minimum_target_pixels": 32,
+      "selection_rule": "fp_increase",
+      "selection_description": "Largest Improved-minus-baseline FP count; GT >=32 pixels",
+      "eligible_candidates": 15,
+      "tie_break": "Lowest dataset index",
+      "reference_metrics": {
+        "UNet2D": {
+          "label_id": 4,
+          "target_pixels": 78,
+          "predicted_pixels": 135,
+          "tp": 76,
+          "fp": 59,
+          "fn": 2,
+          "dice": 0.7136150234741784,
+          "iou": 0.5547445255474452
+        },
+        "ImprovedUNet2D": {
+          "label_id": 4,
+          "target_pixels": 78,
+          "predicted_pixels": 486,
+          "tp": 78,
+          "fp": 408,
+          "fn": 0,
+          "dice": 0.2765957446808511,
+          "iou": 0.16049382716049382
+        }
+      },
+      "reference_confusion": {
+        "UNet2D": [
+          [
+            3722,
+            12,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            6,
+            22241,
+            190,
+            19,
+            59,
+            59
+          ],
+          [
+            0,
+            491,
+            5264,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            6,
+            0,
+            12,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            0,
+            76,
+            0
+          ],
+          [
+            0,
+            391,
+            0,
+            0,
+            0,
+            218
+          ]
+        ],
+        "ImprovedUNet2D": [
+          [
+            3729,
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            11,
+            22026,
+            335,
+            32,
+            170,
+            0
+          ],
+          [
+            0,
+            417,
+            5338,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            18,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            78,
+            0
+          ],
+          [
+            0,
+            371,
+            0,
+            0,
+            238,
+            0
+          ]
+        ]
+      },
+      "input_sha256": {
+        "image": "edb902a56d745a32d5277f3d0e8abbd29d5ac9e17e116a3c951630dc3b5f5fe9",
+        "mask": "e537c21940bb381a1268ecac8bbebd7f6bdde4e2cf15720d530cfb48ee72084d"
+      },
+      "execution_device": "cpu",
+      "rendered_metrics": {
+        "UNet2D": {
+          "label_id": 4,
+          "tp": 76,
+          "fp": 59,
+          "fn": 2,
+          "target_pixels": 78,
+          "predicted_pixels": 135,
+          "dice": 0.7136150234741784,
+          "iou": 0.5547445255474452
+        },
+        "ImprovedUNet2D": {
+          "label_id": 4,
+          "tp": 78,
+          "fp": 408,
+          "fn": 0,
+          "target_pixels": 78,
+          "predicted_pixels": 486,
+          "dice": 0.2765957446808511,
+          "iou": 0.16049382716049382
+        }
+      },
+      "confusion_changed_from_cuda_reference": {
+        "UNet2D": false,
+        "ImprovedUNet2D": false
+      },
+      "crop_box_yx_exclusive": [
+        105,
+        146,
+        27,
+        75
+      ],
+      "figure": "02_patient037_label4.png",
+      "figure_sha256": "187b82d192791abc74348fe5d3750b9f6ba362b30f21b4e3c8eb5e11f62da65f"
+    },
+    {
+      "example_id": "03_patient038_label5",
+      "index": 138,
+      "image": "case_038_week_0_slice_25.nii.gz",
+      "mask": "seg_038_week_0_slice_25.nii.gz",
+      "patient_id": 38,
+      "week": 0,
+      "slice_id": 25,
+      "shape": [
+        256,
+        128
+      ],
+      "label_id": 5,
+      "minimum_target_pixels": 16,
+      "selection_rule": "lowest_improved_dice",
+      "selection_description": "Lowest Improved Dice; GT >=16 pixels",
+      "eligible_candidates": 20,
+      "tie_break": "Lowest dataset index",
+      "reference_metrics": {
+        "UNet2D": {
+          "label_id": 5,
+          "target_pixels": 35,
+          "predicted_pixels": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 35,
+          "dice": 0.0,
+          "iou": 0.0
+        },
+        "ImprovedUNet2D": {
+          "label_id": 5,
+          "target_pixels": 35,
+          "predicted_pixels": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 35,
+          "dice": 0.0,
+          "iou": 0.0
+        }
+      },
+      "reference_confusion": {
+        "UNet2D": [
+          [
+            4676,
+            23,
+            23,
+            0,
+            0,
+            0
+          ],
+          [
+            75,
+            18804,
+            733,
+            90,
+            0,
+            0
+          ],
+          [
+            12,
+            873,
+            5288,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            582,
+            0,
+            1554,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            35,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "ImprovedUNet2D": [
+          [
+            4708,
+            14,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            22,
+            19218,
+            396,
+            66,
+            0,
+            0
+          ],
+          [
+            39,
+            781,
+            5353,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            942,
+            0,
+            1194,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            35,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "input_sha256": {
+        "image": "09849c4af7bddae38990668e7a4b21204c9ac0f49a4b9074dcfe22434b78397f",
+        "mask": "710152000f350be7a4f9e4cb266f8593abed77509aa54badb0cece50df85bbca"
+      },
+      "execution_device": "cpu",
+      "rendered_metrics": {
+        "UNet2D": {
+          "label_id": 5,
+          "tp": 0,
+          "fp": 0,
+          "fn": 35,
+          "target_pixels": 35,
+          "predicted_pixels": 0,
+          "dice": 0.0,
+          "iou": 0.0
+        },
+        "ImprovedUNet2D": {
+          "label_id": 5,
+          "tp": 0,
+          "fp": 0,
+          "fn": 35,
+          "target_pixels": 35,
+          "predicted_pixels": 0,
+          "dice": 0.0,
+          "iou": 0.0
+        }
+      },
+      "confusion_changed_from_cuda_reference": {
+        "UNet2D": true,
+        "ImprovedUNet2D": false
+      },
+      "crop_box_yx_exclusive": [
+        113,
+        137,
+        25,
+        46
+      ],
+      "figure": "03_patient038_label5.png",
+      "figure_sha256": "102cd2030b40375d5537836da4abaacf36b24273228d23b8e88fca537ca89019"
+    },
+    {
+      "example_id": "04_patient039_label5",
+      "index": 515,
+      "image": "case_039_week_5_slice_40.nii.gz",
+      "mask": "seg_039_week_5_slice_40.nii.gz",
+      "patient_id": 39,
+      "week": 5,
+      "slice_id": 40,
+      "shape": [
+        256,
+        128
+      ],
+      "label_id": 5,
+      "minimum_target_pixels": 32,
+      "selection_rule": "lowest_improved_dice",
+      "selection_description": "Lowest Improved Dice; GT >=32 pixels",
+      "eligible_candidates": 154,
+      "tie_break": "Lowest dataset index",
+      "reference_metrics": {
+        "UNet2D": {
+          "label_id": 5,
+          "target_pixels": 79,
+          "predicted_pixels": 330,
+          "tp": 79,
+          "fp": 251,
+          "fn": 0,
+          "dice": 0.3863080684596577,
+          "iou": 0.23939393939393938
+        },
+        "ImprovedUNet2D": {
+          "label_id": 5,
+          "target_pixels": 79,
+          "predicted_pixels": 559,
+          "tp": 79,
+          "fp": 480,
+          "fn": 0,
+          "dice": 0.2476489028213166,
+          "iou": 0.1413237924865832
+        }
+      },
+      "reference_confusion": {
+        "UNet2D": [
+          [
+            4178,
+            66,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            21366,
+            397,
+            101,
+            0,
+            251
+          ],
+          [
+            0,
+            401,
+            5918,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            11,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            79
+          ]
+        ],
+        "ImprovedUNet2D": [
+          [
+            4211,
+            33,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            21206,
+            400,
+            28,
+            0,
+            480
+          ],
+          [
+            0,
+            241,
+            6078,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            11,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            79
+          ]
+        ]
+      },
+      "input_sha256": {
+        "image": "d92e49e13d398c53bd1f1d30eec5aa23b26cf0a2bf2e7dc328aef2a20495f203",
+        "mask": "4bee68e5e17b4241bc65ce2a1b5e3d9adb0c16835ec503eaae52f11f69b34e27"
+      },
+      "execution_device": "cpu",
+      "rendered_metrics": {
+        "UNet2D": {
+          "label_id": 5,
+          "tp": 79,
+          "fp": 251,
+          "fn": 0,
+          "target_pixels": 79,
+          "predicted_pixels": 330,
+          "dice": 0.3863080684596577,
+          "iou": 0.23939393939393938
+        },
+        "ImprovedUNet2D": {
+          "label_id": 5,
+          "tp": 79,
+          "fp": 480,
+          "fn": 0,
+          "target_pixels": 79,
+          "predicted_pixels": 559,
+          "dice": 0.2476489028213166,
+          "iou": 0.1413237924865832
+        }
+      },
+      "confusion_changed_from_cuda_reference": {
+        "UNet2D": false,
+        "ImprovedUNet2D": true
+      },
+      "crop_box_yx_exclusive": [
+        110,
+        151,
+        43,
+        98
+      ],
+      "figure": "04_patient039_label5.png",
+      "figure_sha256": "ed6068b3bcb2d55d5c92a7ddae457cf2640dbf7effb20f34567b151e30160e50"
+    },
+    {
+      "example_id": "05_patient036_label5",
+      "index": 10,
+      "image": "case_036_week_0_slice_18.nii.gz",
+      "mask": "seg_036_week_0_slice_18.nii.gz",
+      "patient_id": 36,
+      "week": 0,
+      "slice_id": 18,
+      "shape": [
+        256,
+        128
+      ],
+      "label_id": 5,
+      "minimum_target_pixels": 32,
+      "selection_rule": "dice_gain",
+      "selection_description": "Largest Improved-minus-baseline Dice; GT >=32 pixels; improvement example",
+      "eligible_candidates": 28,
+      "tie_break": "Lowest dataset index",
+      "reference_metrics": {
+        "UNet2D": {
+          "label_id": 5,
+          "target_pixels": 152,
+          "predicted_pixels": 136,
+          "tp": 55,
+          "fp": 81,
+          "fn": 97,
+          "dice": 0.3819444444444444,
+          "iou": 0.23605150214592274
+        },
+        "ImprovedUNet2D": {
+          "label_id": 5,
+          "target_pixels": 152,
+          "predicted_pixels": 183,
+          "tp": 115,
+          "fp": 68,
+          "fn": 37,
+          "dice": 0.6865671641791045,
+          "iou": 0.5227272727272727
+        }
+      },
+      "reference_confusion": {
+        "UNet2D": [
+          [
+            4058,
+            19,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            22431,
+            349,
+            45,
+            0,
+            81
+          ],
+          [
+            0,
+            622,
+            4246,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            21,
+            0,
+            740,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            72,
+            0,
+            25,
+            0,
+            55
+          ]
+        ],
+        "ImprovedUNet2D": [
+          [
+            4066,
+            11,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            22532,
+            249,
+            60,
+            0,
+            68
+          ],
+          [
+            0,
+            304,
+            4564,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            0,
+            758,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            12,
+            0,
+            25,
+            0,
+            115
+          ]
+        ]
+      },
+      "input_sha256": {
+        "image": "b1de5eb9ed6681879b8c7241006505e8939675f039f6e45d477d8f88af4084f5",
+        "mask": "076bcc5cb27fe77e313a309362fc5f4f1c4d851fdca5dab4c76267c42d3579dd"
+      },
+      "execution_device": "cpu",
+      "rendered_metrics": {
+        "UNet2D": {
+          "label_id": 5,
+          "tp": 55,
+          "fp": 81,
+          "fn": 97,
+          "target_pixels": 152,
+          "predicted_pixels": 136,
+          "dice": 0.3819444444444444,
+          "iou": 0.23605150214592274
+        },
+        "ImprovedUNet2D": {
+          "label_id": 5,
+          "tp": 115,
+          "fp": 68,
+          "fn": 37,
+          "target_pixels": 152,
+          "predicted_pixels": 183,
+          "dice": 0.6865671641791045,
+          "iou": 0.5227272727272727
+        }
+      },
+      "confusion_changed_from_cuda_reference": {
+        "UNet2D": false,
+        "ImprovedUNet2D": true
+      },
+      "crop_box_yx_exclusive": [
+        109,
+        146,
+        39,
+        75
+      ],
+      "figure": "05_patient036_label5.png",
+      "figure_sha256": "a92388980424fac441c4bd7a630691570bf2d9ca6245d0d08a887d594f025c91"
+    }
+  ]
+}
