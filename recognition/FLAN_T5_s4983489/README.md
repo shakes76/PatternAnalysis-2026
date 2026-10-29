@@ -1,6 +1,6 @@
 # FLAN-T5 for Layperson Radiology Report Generation
 
-COMP3710 — Junrong Tang (s4983489) — Hard difficulty
+COMP3710 (Hard difficulty), Junrong Tang (s4983489)
 
 ## Problem and Approach
 
@@ -19,7 +19,7 @@ The official [BioLaySumm LaymanRRG dataset](https://huggingface.co/datasets/BioL
 | Split | Reports | Use |
 | --- | ---: | --- |
 | Training | 150,454 | Full and LoRA fine-tuning |
-| Validation | 10,000 | ROUGE and validation loss; all references are non-empty |
+| Validation | 10,000 | ROUGE and validation loss (all references are non-empty) |
 | Test | 10,537 | Generation, timing and source-grounded error analysis |
 
 The split sizes were checked after loading. Only the training split is used for parameter updates. ROUGE is computed on the official validation split, as required by the assessment. Test references are not public, so test reports are used for generation and comparison with the source text, not reference-based scoring.
@@ -63,12 +63,12 @@ All methods used the same checkpoint, prompt, validation reports and greedy deco
 | Batch / gradient accumulation | 2 / 8 (effective batch 16) | Same |
 | Optimizer / learning rate | AdamW / `5e-5` | AdamW / `3e-4` |
 | Schedule / warm-up / weight decay | Linear decay / 0 / 0 | Same |
-| Precision | FP32; no mixed precision | Same |
+| Precision | FP32 (no mixed precision) | Same |
 | Input / target limits | 512 / 512 tokens | Same |
 | Seed | 42 | Same |
-| Generation | Greedy; at most 512 new tokens | Same |
+| Generation | Greedy, at most 512 new tokens | Same |
 | Model selection | Final epoch | Final epoch |
-| Adaptation | All weights | `q`, `v`; rank 8, alpha 16, dropout 0.05 |
+| Adaptation | All weights | `q`, `v` (rank 8, alpha 16, dropout 0.05) |
 
 LoRA fine-tuning used no trainable biases. No hyperparameter search was conducted. Both adapted models were evaluated after each epoch, and the final epoch was used for comparison. The learning rates differ, so this comparison does not isolate the effect of adaptation method alone. Saved identifiers and references were checked to confirm that all methods used the same validation examples.
 
@@ -78,7 +78,7 @@ The full fine-tuning and LoRA fine-tuning jobs completed in **8:11:11** and **9:
 
 ### Validation Quality
 
-Scores are mean per-example ROUGE F1 on a **0–100 scale**, with Porter stemming and NLTK sentence splitting for ROUGE-Lsum, evaluated on all 10,000 validation reports.
+Scores are mean per-example ROUGE F1 on a **0 to 100 scale**, with Porter stemming and NLTK sentence splitting for ROUGE-Lsum, evaluated on all 10,000 validation reports.
 
 | Condition | ROUGE-1 | ROUGE-2 | ROUGE-L | ROUGE-Lsum | Validation loss |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -86,7 +86,7 @@ Scores are mean per-example ROUGE F1 on a **0–100 scale**, with Porter stemmin
 | Full fine-tuning, 2 epochs | **74.47** | **56.83** | **69.71** | **71.63** | **0.5123** |
 | LoRA fine-tuning, 2 epochs | 71.25 | 52.10 | 65.97 | 68.19 | 0.7206 |
 
-![Baseline, full fine-tuning and LoRA fine-tuning compared on four validation ROUGE metrics, using a shared 0–100 scale](figures/rouge_comparison.png)
+![Baseline, full fine-tuning and LoRA fine-tuning compared on four validation ROUGE metrics, using a shared 0 to 100 scale](figures/rouge_comparison.png)
 
 *Scores come from saved validation outputs. Each method was evaluated in one run.*
 
@@ -116,7 +116,7 @@ Timing includes only CUDA-synchronized `generate()` calls. It excludes loading, 
 
 ## Clinical Safety Autopsy: Four Test Cases
 
-I inspected the first 30 predictions from the 100-report test sample and selected four cases to examine different errors. Cases 1–4 correspond to reports 14, 15, 19 and 20 in the seed-42 sample. I compared each output with its source report because test references are not publicly available.
+I inspected the first 30 predictions from the 100-report test sample and selected four cases to examine different errors. Cases 1 to 4 correspond to reports 14, 15, 19 and 20 in the seed-42 sample. I compared each output with its source report because test references are not publicly available.
 
 The source reports and model outputs below are reproduced unchanged. All four inputs and their generated outputs were below the 512-token limits, so truncation does not explain the errors discussed here.
 
@@ -212,7 +212,7 @@ Source: **BIMCV-COVID19**. Identifier: `ses-E28411`.
 
 Fine-tuning improves coverage compared with the zero-shot baseline, but the longer, more fluent summaries introduce their own errors. The audited outputs contain unsupported fluid or infection interpretations, inaccurate anatomical wording and changes to severity or examination scope. Some of these errors occur in the full fine-tuned model even though it has the highest validation ROUGE scores.
 
-ROUGE measures textual overlap rather than clinical correctness. These four cases were selected from the first 30 sampled predictions to examine different failure modes, not to estimate their prevalence. Without a representative safety evaluation, the cases cannot establish which fine-tuning method is clinically safer.
+ROUGE measures textual overlap rather than clinical correctness. These cases illustrate possible failures but do not establish their frequency or which fine-tuning method is clinically safer.
 
 ## Recommendation and Limitations
 
@@ -232,7 +232,7 @@ The feasibility criteria can now be checked against the completed experiments:
 
 **Limitations.** The experiments used one checkpoint, one seed and one prompt. Full fine-tuning and LoRA used different learning rates, with no hyperparameter or rank search. Inference timings were measured once without warm-up. Longer reports may be affected by the 512-token input limit, although the four audited examples were not truncated.
 
-The selected cases were not independently assessed by a clinician and do not give an error rate. I did not measure reading grade, patient comprehension or clinical outcomes. Patient-level independence between official dataset splits and possible pretraining contamination were not verified. A representative test sample with clinician-labelled factual errors and a measured readability score would be needed before judging clinical reliability or testing a confidence-based review rule.
+The selected cases were not independently assessed by a clinician. I did not measure reading grade, patient comprehension or clinical outcomes. Patient-level independence between official dataset splits and possible pretraining contamination were not verified. A representative test sample with clinician-labelled factual errors and a measured readability score would be needed before judging clinical reliability or testing a confidence-based review rule.
 
 ## Implementation and Reproduction
 
@@ -255,7 +255,7 @@ Formal runs used the following environment on Rangpur:
 | Transformers / PEFT | 4.57.6 / 0.19.1 |
 | Datasets / Accelerate | 5.0.0 / 1.14.0 |
 | SentencePiece / rouge-score | 0.2.2 / 0.1.2 |
-| NLTK | 3.10.0; `punkt_tab` installed |
+| NLTK | 3.10.0 (`punkt_tab` installed) |
 | NumPy / Matplotlib | 2.4.6 / 3.11.1 |
 
 To install the direct dependencies into an environment with compatible Python and PyTorch:
@@ -269,7 +269,7 @@ python -m nltk.downloader punkt_tab
 
 ### Training and Prediction
 
-Run these commands from the **repository root**, using new output directories. Formal experiments require an allocated CUDA GPU; the default prediction device is CPU.
+Run these commands from the **repository root**, using new output directories. Formal experiments require an allocated CUDA GPU. The default prediction device is CPU.
 
 ```bash
 python recognition/FLAN_T5_s4983489/train.py \
@@ -290,13 +290,13 @@ python recognition/FLAN_T5_s4983489/predict.py \
     --output ../runs/full/inference-test100.json
 ```
 
-Training defaults match the experiment table and use complete official splits. Each run saves its configuration, metrics and validation predictions. Fine-tuning also saves `model/`, the latest epoch checkpoint, `trainer_state.json` and `training_curves.png` with loss and four ROUGE curves. Checkpoints are written after epoch validation; the CLI does not expose resume support.
+Training defaults match the experiment table and use complete official splits. Each run saves its configuration, metrics and validation predictions. Fine-tuning also saves `model/`, the latest epoch checkpoint, `trainer_state.json` and `training_curves.png` with loss and four ROUGE curves. Checkpoints are written after epoch validation. The CLI does not support resuming a run.
 
 Prediction requires the run configuration and, for adapted models, its saved `model/`. The custom input above corresponds to Case 3. Use `--split validation` to generate and score validation reports. Test and custom text have no reference-based ROUGE. Sampling uses the saved seed. `--output` needs a new file in an existing directory. Without it, the result is printed. `--help` lists the remaining options.
 
 ### Experiment Records
 
-Records are kept outside Git. Local paths below are relative to the repository root; remote paths are in my Rangpur account.
+Records are kept outside Git. Local paths are relative to the repository root. Remote paths refer to my Rangpur account.
 
 | Records | Location |
 | --- | --- |
