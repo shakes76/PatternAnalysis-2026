@@ -1,0 +1,6 @@
+# General runtime dependencies; observed GPU versions are recorded in requirements-gpu.txt.
+torch
+numpy
+nibabel
+scipy
+matplotlib
