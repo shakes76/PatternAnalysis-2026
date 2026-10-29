@@ -1,0 +1,104 @@
+{
+ "arch": "convnext",
+ "tag": "convnext_flip",
+ "best_epoch": 2,
+ "best_val_acc": 0.8287096774193549,
+ "params": 27818594,
+ "train_time_s": 1649.8480296134949,
+ "train_peak_vram_mb": 4262.20166015625,
+ "temperature": 1.5860470533370972,
+ "args": {
+  "arch": "convnext",
+  "variant": "tiny",
+  "no_pretrained": false,
+  "root": "D:\\ADNI\\AD_NC",
+  "epochs": 30,
+  "batch_size": 64,
+  "lr": 0.0001,
+  "weight_decay": 0.05,
+  "warmup_epochs": 1.0,
+  "drop_path": 0.2,
+  "label_smoothing": 0.0,
+  "val_frac": 0.1,
+  "test_frac": 0.2,
+  "no_balance": false,
+  "seed": 42,
+  "tag": "convnext_flip",
+  "hflip": 0.5
+ },
+ "test_slice": {
+  "accuracy": 0.8605610561056105,
+  "macro_f1": 0.8598912516209146,
+  "auroc": 0.9362416345901496,
+  "sensitivity": 0.8443661971830986,
+  "specificity": 0.8748447204968944,
+  "ece": 0.048586719345926316,
+  "nll": 0.34360556966089295,
+  "confusion": [
+   [
+    2817,
+    403
+   ],
+   [
+    442,
+    2398
+   ]
+  ],
+  "precision_NC": 0.8643755753298558,
+  "recall_NC": 0.8748447204968944,
+  "f1_NC": 0.8695786386788085,
+  "precision_AD": 0.8561228132809711,
+  "recall_AD": 0.8443661971830986,
+  "f1_AD": 0.8502038645630208
+ },
+ "test_slice_temp_scaled": {
+  "accuracy": 0.8605610561056105,
+  "macro_f1": 0.8598912516209146,
+  "auroc": 0.936241853293675,
+  "sensitivity": 0.8443661971830986,
+  "specificity": 0.8748447204968944,
+  "ece": 0.015921328055550486,
+  "nll": 0.32311586290474087,
+  "confusion": [
+   [
+    2817,
+    403
+   ],
+   [
+    442,
+    2398
+   ]
+  ],
+  "precision_NC": 0.8643755753298558,
+  "recall_NC": 0.8748447204968944,
+  "f1_NC": 0.8695786386788085,
+  "precision_AD": 0.8561228132809711,
+  "recall_AD": 0.8443661971830986,
+  "f1_AD": 0.8502038645630208
+ },
+ "test_scan": {
+  "accuracy": 0.8976897689768977,
+  "macro_f1": 0.8974036896660951,
+  "auroc": 0.9651386580351675,
+  "sensitivity": 0.9014084507042254,
+  "specificity": 0.8944099378881988,
+  "ece": 0.06137551201008665,
+  "nll": 0.24767327023004576,
+  "confusion": [
+   [
+    144,
+    17
+   ],
+   [
+    14,
+    128
+   ]
+  ],
+  "precision_NC": 0.9113924050632911,
+  "recall_NC": 0.8944099378881988,
+  "f1_NC": 0.9028213166144201,
+  "precision_AD": 0.8827586206896552,
+  "recall_AD": 0.9014084507042254,
+  "f1_AD": 0.89198606271777
+ }
+}
