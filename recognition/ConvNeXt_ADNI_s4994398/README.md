@@ -17,6 +17,7 @@
 8. [Recommendation to the project manager](#8-recommendation-to-the-project-manager)
 9. [Usage and reproducibility](#9-usage-and-reproducibility)
 10. [References](#10-references)
+11. [Artificial Intelligence Usage Disclosure](#11-artificial-intelligence-usage-disclosure)
 
 ---
 
@@ -469,3 +470,17 @@ python evaluate.py --tags convnext_flip baseline_flip --out-dir results/flip
 4. Y. Geifman, R. El-Yaniv. *Selective Classification for Deep Neural Networks.* NeurIPS 2017. (risk-coverage)
 5. Alzheimer's Disease Neuroimaging Initiative (ADNI). https://adni.loni.usc.edu
 6. torchvision ConvNeXt implementation and ImageNet-1k weights (used only as a weight source; architecture re-implemented). https://pytorch.org/vision/stable/models/convnext.html
+
+---
+
+## 11. Artificial Intelligence Usage Disclosure
+
+I used Claude Code (Anthropic, Claude Opus 5.5) helped me implement the model and helped me load the data. It also, generated the figures, and drafted this README apart from the feasibility review. Earlier, I used OpenAI ChatGPT/Codex for project planning, drafting the feasibility review, the metadata audit and the synthetic GPU benchmark. Claude Code also helped me identifies some issues that I have rechecked myself
+
+The reported measurements are the outputs of the training and evaluation scripts on the ADNI data. I reviewed all of the code and its outputs, including the training logs, metric files and figures. I also checked these things:
+* the ConvNeXt implementation reproduces torchvision's features exactly;
+* no patient appears in more than one split;
+* `predict.py` reproduces the reported test metrics from the saved checkpoint;
+* every number in this README matches `results/summary.json`.
+
+I chose to make the no-flip runs the main result, and I remain responsible for the implementation, the reported results, and the interpretation of every claim in this report.
