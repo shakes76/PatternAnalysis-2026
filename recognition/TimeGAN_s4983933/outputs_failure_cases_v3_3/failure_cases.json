@@ -1,0 +1,77 @@
+{
+  "pairing_note": "UNPAIRED independent generations; comparisons are illustrative.",
+  "selection": "Deterministic extrema and median-depth sample; same index for display only.",
+  "shared_volume_vmax": 1000.000220875481,
+  "cases": [
+    {
+      "case": "ask_ladder_violation",
+      "index": 0,
+      "selection_rule": "Maximum number of time steps with inverted ask ladder",
+      "figure": "ask_ladder_violation.png",
+      "real_spread_mean": 0.1699999898671994,
+      "generated_spread_mean": 0.14173502699781385,
+      "real_spread_std": 2.7755575615628914e-17,
+      "generated_spread_std": 0.017107039452879676,
+      "generated_ask_violation_steps": 1,
+      "generated_bid_violation_steps": 0,
+      "real_depth_temporal_std": 17.47931969893996,
+      "generated_depth_temporal_std": 6.884844694934759
+    },
+    {
+      "case": "wide_spread",
+      "index": 460,
+      "selection_rule": "Largest generated mean spread among remaining sequences",
+      "figure": "wide_spread.png",
+      "real_spread_mean": 0.15875001013277876,
+      "generated_spread_mean": 0.14205382881064144,
+      "real_spread_std": 0.003307191504316703,
+      "generated_spread_std": 0.01860334121278662,
+      "generated_ask_violation_steps": 1,
+      "generated_bid_violation_steps": 1,
+      "real_depth_temporal_std": 59.736489059178936,
+      "generated_depth_temporal_std": 7.527763784276409
+    },
+    {
+      "case": "flat_depth",
+      "index": 589,
+      "selection_rule": "Smallest generated temporal depth variability",
+      "figure": "flat_depth.png",
+      "real_spread_mean": 0.12833332949627382,
+      "generated_spread_mean": 0.14039861772208342,
+      "real_spread_std": 0.045795434155247824,
+      "generated_spread_std": 0.010808862173781767,
+      "generated_ask_violation_steps": 0,
+      "generated_bid_violation_steps": 0,
+      "real_depth_temporal_std": 139.48571228947392,
+      "generated_depth_temporal_std": 4.23675626001682
+    },
+    {
+      "case": "flat_spread",
+      "index": 1337,
+      "selection_rule": "Smallest generated spread variability",
+      "figure": "flat_spread.png",
+      "real_spread_mean": 0.09916666815677262,
+      "generated_spread_mean": 0.1404749092087043,
+      "real_spread_std": 0.018008485564506224,
+      "generated_spread_std": 0.01116942763401013,
+      "generated_ask_violation_steps": 0,
+      "generated_bid_violation_steps": 0,
+      "real_depth_temporal_std": 125.82207958944039,
+      "generated_depth_temporal_std": 4.3854644268454575
+    },
+    {
+      "case": "typical_generated_depth",
+      "index": 825,
+      "selection_rule": "Generated sample closest to median generated mean depth",
+      "figure": "typical_generated_depth.png",
+      "real_spread_mean": 0.10958333543190324,
+      "generated_spread_mean": 0.14148649867622978,
+      "real_spread_std": 0.009780570576576497,
+      "generated_spread_std": 0.015938786301735817,
+      "generated_ask_violation_steps": 1,
+      "generated_bid_violation_steps": 0,
+      "real_depth_temporal_std": 88.96998802410091,
+      "generated_depth_temporal_std": 6.386540411053281
+    }
+  ]
+}
