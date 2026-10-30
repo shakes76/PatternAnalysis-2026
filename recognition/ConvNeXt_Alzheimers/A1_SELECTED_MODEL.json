@@ -1,0 +1,351 @@
+{
+  "format_version": 1,
+  "status": "DEVELOPMENT_SELECTION_NO_NEW_TEST_EVALUATION",
+  "decision": "Retain A1 after S1/S2 did not satisfy the prespecified promotion screen.",
+  "models": {
+    "cnn": {
+      "name": "Regularized CNN (epoch 14)",
+      "architecture": "BaselineCNN-v1",
+      "selected_epoch": 14,
+      "configuration": {
+        "model": "baseline",
+        "batch_size": 8,
+        "accumulation_steps": 4,
+        "epochs": 30,
+        "min_epochs": 12,
+        "patience": 8,
+        "learning_rate": 0.0003,
+        "min_learning_rate": 1e-06,
+        "warmup_epochs": 3,
+        "weight_decay": 0.05,
+        "gradient_clip_norm": 5.0,
+        "seed": 42,
+        "num_workers": 0,
+        "device": "cuda",
+        "budget_seconds": 10800.0
+      },
+      "input_hashes": {
+        "run_summary_sha256": "88869665cc1db9f4f4fcc14328e04e1ff7602fc6fde213d998c38863f4106af4",
+        "checkpoint_sha256": "26bf59f96b1c9da87df0db93b87f266e5e2b3cb02652b527b42bb1d8e9877e36",
+        "validation_predictions_sha256": "2cad897abc15944744895163600b21d1b76e2b731a88fa9c4f4d76ef6eeda3a0"
+      },
+      "validation_metrics": {
+        "slice": {
+          "n": 4660,
+          "threshold": 0.5,
+          "accuracy": 0.6832618025751073,
+          "balanced_accuracy": 0.6711874533233757,
+          "macro_f1": 0.6724139113497795,
+          "auroc": 0.7440199775952203,
+          "log_loss": 2.023848526521663,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              2016,
+              584
+            ],
+            [
+              892,
+              1168
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.6932599724896836,
+              "recall": 0.7753846153846153,
+              "f1": 0.7320261437908496,
+              "support": 2600
+            },
+            "AD": {
+              "precision": 0.6666666666666666,
+              "recall": 0.566990291262136,
+              "f1": 0.6128016789087093,
+              "support": 2060
+            }
+          }
+        },
+        "scan": {
+          "n": 233,
+          "threshold": 0.5,
+          "accuracy": 0.7381974248927039,
+          "balanced_accuracy": 0.7250560119492158,
+          "macro_f1": 0.7275793993061546,
+          "auroc": 0.8069454817027633,
+          "log_loss": 0.5929434948885945,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              109,
+              21
+            ],
+            [
+              40,
+              63
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7315436241610739,
+              "recall": 0.8384615384615385,
+              "f1": 0.7813620071684588,
+              "support": 130
+            },
+            "AD": {
+              "precision": 0.75,
+              "recall": 0.6116504854368932,
+              "f1": 0.6737967914438503,
+              "support": 103
+            }
+          }
+        },
+        "patient": {
+          "n": 102,
+          "threshold": 0.5,
+          "accuracy": 0.7843137254901961,
+          "balanced_accuracy": 0.7457180500658762,
+          "macro_f1": 0.7495535714285715,
+          "auroc": 0.8036890645586298,
+          "log_loss": 0.5205427504900525,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              59,
+              10
+            ],
+            [
+              12,
+              21
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.8309859154929577,
+              "recall": 0.855072463768116,
+              "f1": 0.8428571428571429,
+              "support": 69
+            },
+            "AD": {
+              "precision": 0.6774193548387096,
+              "recall": 0.6363636363636364,
+              "f1": 0.65625,
+              "support": 33
+            }
+          }
+        }
+      },
+      "parameters": 359922
+    },
+    "a1": {
+      "name": "ConvNeXt A1 (seed 42, epoch 13)",
+      "architecture": "ConvNeXtTiny",
+      "selected_epoch": 13,
+      "configuration": {
+        "recipe": "scratch_augmented",
+        "seed": 42,
+        "epochs": 30,
+        "min_epochs": 12,
+        "patience": 8,
+        "batch_size": 8,
+        "accumulation_steps": 4,
+        "rotation_degrees": 5.0,
+        "learning_rate": 0.0003,
+        "min_lr": 1e-06,
+        "weight_decay": 0.05,
+        "warmup_epochs": 3,
+        "head_only_epochs": 2,
+        "transfer_backbone_lr": 1e-05,
+        "gradient_clip": 5.0,
+        "device": "cuda",
+        "workers": 0
+      },
+      "input_hashes": {
+        "run_summary_sha256": "f215d620aefa313ca2b02d8687487c4fbfaaa0fd3d112d1641e7df634b9f29f2",
+        "checkpoint_sha256": "efde4d21993085119d3ef1bc0efb88f837954c187c95b036373cd00e59d4d5ef",
+        "validation_predictions_sha256": "165cdc9de729698928fa22057e05bd6f578704c9ab81537fc5ae80c69924a9f2"
+      },
+      "validation_metrics": {
+        "slice": {
+          "n": 4660,
+          "threshold": 0.5,
+          "accuracy": 0.7218884120171674,
+          "balanced_accuracy": 0.7110959671396564,
+          "macro_f1": 0.7130464976654525,
+          "auroc": 0.7881167849141151,
+          "log_loss": 1.5592194773010404,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              2091,
+              509
+            ],
+            [
+              787,
+              1273
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7265462126476719,
+              "recall": 0.8042307692307692,
+              "f1": 0.7634173055859803,
+              "support": 2600
+            },
+            "AD": {
+              "precision": 0.7143658810325477,
+              "recall": 0.6179611650485437,
+              "f1": 0.6626756897449245,
+              "support": 2060
+            }
+          }
+        },
+        "scan": {
+          "n": 233,
+          "threshold": 0.5,
+          "accuracy": 0.7725321888412017,
+          "balanced_accuracy": 0.7598581030619866,
+          "macro_f1": 0.7633066912004294,
+          "auroc": 0.8260642270351007,
+          "log_loss": 0.6783220386735797,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              113,
+              17
+            ],
+            [
+              36,
+              67
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7583892617449665,
+              "recall": 0.8692307692307693,
+              "f1": 0.8100358422939068,
+              "support": 130
+            },
+            "AD": {
+              "precision": 0.7976190476190477,
+              "recall": 0.6504854368932039,
+              "f1": 0.7165775401069518,
+              "support": 103
+            }
+          }
+        },
+        "patient": {
+          "n": 102,
+          "threshold": 0.5,
+          "accuracy": 0.8333333333333334,
+          "balanced_accuracy": 0.7898550724637681,
+          "macro_f1": 0.8012151782643586,
+          "auroc": 0.8331137461572244,
+          "log_loss": 0.5141397796455792,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              63,
+              6
+            ],
+            [
+              11,
+              22
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.8513513513513513,
+              "recall": 0.9130434782608695,
+              "f1": 0.8811188811188811,
+              "support": 69
+            },
+            "AD": {
+              "precision": 0.7857142857142857,
+              "recall": 0.6666666666666666,
+              "f1": 0.7213114754098361,
+              "support": 33
+            }
+          }
+        }
+      },
+      "parameters": 27818594
+    }
+  },
+  "manifest_sha256": {
+    "train.csv": "90e42891babac142ba0693afc4d23e142c018c3a8dc274032552268f3e580be9",
+    "validation.csv": "7b0755f4a7a561e501f8142a92f64356e4ebcd20c874404e66cd4e74b80eee99",
+    "test.csv": "55f5dd35078a67af0c33d36c587047856aad5f0ba1720579d3f8b049a0337db7"
+  },
+  "preprocessing": {
+    "source": {
+      "mode": "L",
+      "width": 256,
+      "height": 240
+    },
+    "input_channels": 1,
+    "output_height": 224,
+    "output_width": 224,
+    "resize": "Pillow bilinear, preserve aspect ratio; 256x240 -> 224x210",
+    "padding": "7 black pixels at the top and bottom, before normalization",
+    "scale": "float32: (pixel / 255.0 - 0.5) / 0.5; nominal range [-1,1]",
+    "fitted_dataset_statistics": false,
+    "training_rotation_degrees": 0.0,
+    "validation_test_rotation_degrees": 0.0,
+    "horizontal_vertical_flips": false,
+    "cropping": false
+  },
+  "model_label_map": {
+    "NC": 0,
+    "AD": 1
+  },
+  "diagnostic_threshold": 0.5,
+  "patient_aggregation": "mean of scan means of slice P(AD)",
+  "verification": {
+    "batch_size": 8,
+    "workers": 0,
+    "absolute_probability_tolerance": 2e-05,
+    "require_identical_class_decisions_at_all_three_levels": true
+  },
+  "calibration": {
+    "temperature_bounds": [
+      0.5,
+      10.0
+    ],
+    "n_folds": 5,
+    "fold_seed": 42,
+    "reliability_bins": 5,
+    "confidence_grid": [
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9,
+      0.95,
+      0.975,
+      0.99
+    ],
+    "minimum_accepted": 20,
+    "minimum_coverage": 0.25,
+    "maximum_empirical_error": 0.1,
+    "maximum_ad_auto_cleared_fraction": 0.1
+  },
+  "source_code_sha256": {
+    "dataset.py": "5e6bc17a8cc3d9013b3934719b92d083e1c39abfae5820dfc4a05d8f19e8a8ff",
+    "modules.py": "f9e87782438a22829b962d97fc39b651b4fd0f25dcd2468188b9ec0a238a1cbf",
+    "training_utils.py": "df49b42613853aebf6415926f5b9f5c9621ef3311c2addb9b136ca8fa0286409",
+    "train.py": "126752de5179adb2f65221c1281332429aa15a425ccfb8419bbcc7fca1cf761c",
+    "train_experiment.py": "0ed63f650ab2cbf85155036b5d9dacb6c0a465856071d80d61eb0ef1e7dea953",
+    "check_experiment.py": "921b1b5c7fbb546834b590fd6639327c631bc96eebe0ee793ea99af4f764fe1b",
+    "modules_v2.py": "eaac754ae1665fc712ea8d1b4e747038647b47deeeeec3aff2536f37b38403e9",
+    "train_convnext_v2.py": "df83692702e41bbbd9d994862b13d89ac31c77a4eb6c2befabcb83e0a6f6175f",
+    "V2_EXPERIMENT_PLAN.md": "8e980f02e32da1fad603286888cc124af3853650bca20499caecc03434bb2625",
+    "confidence_analysis.py": "71d23dd631828c5ff82f1b5571bf716f1c8f835a58459dee0a22f61d3ce979c6",
+    "analyse_confidence.py": "075ea6af0868bf1c4977ac607030a64064f0e910bd8455caaf7f290db03b43b5",
+    "CONFIDENCE_METHOD.md": "0b9308d4963e45e6943ebf2c68a26a51fed82a03e4e5aa209e04a0ba4989b180",
+    "tests_confidence/test_confidence.py": "aacd51caa0b11103c8cf769dc3f846a333cf6e120d7590885b367853cdecb888",
+    "selected_a1.py": "184133e0ecafca66b151d9cb1485cfba54b89a79b5935ae41c821cd1598e0c2d",
+    "A1_CONFIDENCE_METHOD.md": "f3038f0d8999e6aad0207d181f06661864c43af4a043a6bd0eaf3dbc4a75f69b",
+    "tests_selected_a1/test_selected_a1.py": "e89cd79233a76a9f4719254282814715f1692012a3cab678cd585662949e6f6d"
+  },
+  "pipeline_report_sha256": "5c8d68ea48073a9ebe5c33177ab74d6bc3bac1c407b3bcac7a283abc4cd403d2",
+  "test_previously_exposed_in_v1": true,
+  "test_evaluation_authorised_by_this_plan": false,
+  "caution": "Selected development results only. Model/recipe/checkpoint selection repeatedly used these validation patients. Cross-fitting separates temperature/referral fitting from their fold diagnostics, not from prior model selection. Version 1 already exposed the existing test cohort; this step performs no new test evaluation. Referral constraints are empirical project choices, not clinical safety guarantees."
+}

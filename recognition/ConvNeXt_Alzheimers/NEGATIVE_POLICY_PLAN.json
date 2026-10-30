@@ -1,0 +1,47 @@
+{
+  "format_version": 1,
+  "status": "FIXED_SECONDARY_VALIDATION_POLICY_COMPARISON",
+  "primary_classification_cutoff": 0.5,
+  "primary_model_selection_changes": false,
+  "strict_CN_maximum_calibrated_p_AD": 0.05,
+  "policy_ids": [
+    "reference",
+    "strict_cn",
+    "no_auto_cn"
+  ],
+  "no_threshold_search": true,
+  "no_policy_winner_selected_from_validation": true,
+  "primary_reference_policy_preserved": true,
+  "setting_rationale": "A fixed stricter negative-side confidence illustration (0.95), chosen before this comparison; not an empirical clinical risk bound or a course-imposed value.",
+  "input_hashes": {
+    "confidence_summary_sha256": "06096f42a9698c5e2b4552d9691437583f9d0a881e37333d3c720d963b789efc",
+    "operating_rules_sha256": "f252f6c5eec90d4df5c52767595d62c2e7982f48619ec33562b2566e8d8be78b",
+    "selection_sha256": "df1ec7cd2b0dd307ca9e65fb7155061f5aa12d456440604d9024fbc3ad9579d0",
+    "private_diagnostics_sha256": "853c012d0e6c37ce2184df6cb33af5859b7782ada3235696e59c80219527c8df",
+    "validation_manifest_sha256": "7b0755f4a7a561e501f8142a92f64356e4ebcd20c874404e66cd4e74b80eee99"
+  },
+  "source_hashes": {
+    "negative_policy.py": "2935f8825e4e42308616e503d446471cfd530f035a2e343b54cdc2d4bc4b5727",
+    "NEGATIVE_POLICY_METHOD.md": "ed95ea6fc90d2f1a304cf082c620f9322a0ce3f4d4656bdb9ad44627e2003ef9",
+    "tests_negative_policy/test_negative_policy.py": "58e8ad990f1d2bcd07877c6c15ecf91cc4298cabd2e441689eb201b84e461bec"
+  },
+  "models": {
+    "cnn": {
+      "name": "Regularized CNN (epoch 14)",
+      "selected_epoch": 14,
+      "checkpoint_sha256": "26bf59f96b1c9da87df0db93b87f266e5e2b3cb02652b527b42bb1d8e9877e36",
+      "temperature": 1.613427788322983,
+      "original_confidence_threshold": 0.85
+    },
+    "a1": {
+      "name": "ConvNeXt A1 (seed 42, epoch 13)",
+      "selected_epoch": 13,
+      "checkpoint_sha256": "efde4d21993085119d3ef1bc0efb88f837954c187c95b036373cd00e59d4d5ef",
+      "temperature": 1.855359764280054,
+      "original_confidence_threshold": 0.75
+    }
+  },
+  "test_evaluation_authorized_by_this_plan": false,
+  "next_evaluation_intent": "Preserve the primary reference analysis and report BOTH predefined secondary variants alongside it; no best-on-test policy selection.",
+  "caution": "Research-only secondary analysis. No model, primary classification cutoff or existing operating rule is changed. The 0.05 cap is a fixed experimental choice, not proof of 95% correctness. These validation patients have already been used repeatedly for model and policy development; cross-fitting does not undo that reuse. Referrals are not diagnoses. A no-auto-CN policy has zero automated negative errors by construction, not demonstrated clinical safety or 100% diagnostic sensitivity. Version 1 has already exposed the test cohort. This extension performs no new test evaluation."
+}

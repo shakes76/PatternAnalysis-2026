@@ -1,0 +1,4 @@
+# Byte identities are checkpoint provenance. Never translate frozen line endings.
+historical_runtime/* -text
+preparation_helpers/*.py -text
+FEASIBILITY_ORIGINAL.md -text

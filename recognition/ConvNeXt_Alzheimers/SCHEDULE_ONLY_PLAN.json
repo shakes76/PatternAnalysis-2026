@@ -1,0 +1,535 @@
+{
+  "format_version": 1,
+  "namespace": "schedule-only-end12",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "only_scientific_change": "cosine endpoint 30 -> 12; hard labels, peak 3e-4 unchanged",
+  "configurations": {
+    "42": {
+      "recipe": "scratch_augmented",
+      "seed": 42,
+      "epochs": 30,
+      "min_epochs": 12,
+      "patience": 8,
+      "batch_size": 8,
+      "accumulation_steps": 4,
+      "rotation_degrees": 5.0,
+      "learning_rate": 0.0003,
+      "min_lr": 1e-06,
+      "weight_decay": 0.05,
+      "warmup_epochs": 3,
+      "head_only_epochs": 2,
+      "transfer_backbone_lr": 1e-05,
+      "gradient_clip": 5.0,
+      "device": "cuda",
+      "workers": 0,
+      "decay_end_epoch": 12
+    },
+    "43": {
+      "recipe": "scratch_augmented",
+      "seed": 43,
+      "epochs": 30,
+      "min_epochs": 12,
+      "patience": 8,
+      "batch_size": 8,
+      "accumulation_steps": 4,
+      "rotation_degrees": 5.0,
+      "learning_rate": 0.0003,
+      "min_lr": 1e-06,
+      "weight_decay": 0.05,
+      "warmup_epochs": 3,
+      "head_only_epochs": 2,
+      "transfer_backbone_lr": 1e-05,
+      "gradient_clip": 5.0,
+      "device": "cuda",
+      "workers": 0,
+      "decay_end_epoch": 12
+    },
+    "44": {
+      "recipe": "scratch_augmented",
+      "seed": 44,
+      "epochs": 30,
+      "min_epochs": 12,
+      "patience": 8,
+      "batch_size": 8,
+      "accumulation_steps": 4,
+      "rotation_degrees": 5.0,
+      "learning_rate": 0.0003,
+      "min_lr": 1e-06,
+      "weight_decay": 0.05,
+      "warmup_epochs": 3,
+      "head_only_epochs": 2,
+      "transfer_backbone_lr": 1e-05,
+      "gradient_clip": 5.0,
+      "device": "cuda",
+      "workers": 0,
+      "decay_end_epoch": 12
+    }
+  },
+  "sources": {
+    "dataset.py": "5e6bc17a8cc3d9013b3934719b92d083e1c39abfae5820dfc4a05d8f19e8a8ff",
+    "modules.py": "f9e87782438a22829b962d97fc39b651b4fd0f25dcd2468188b9ec0a238a1cbf",
+    "training_utils.py": "df49b42613853aebf6415926f5b9f5c9621ef3311c2addb9b136ca8fa0286409",
+    "modules_v2.py": "eaac754ae1665fc712ea8d1b4e747038647b47deeeeec3aff2536f37b38403e9",
+    "train_convnext_v2.py": "df83692702e41bbbd9d994862b13d89ac31c77a4eb6c2befabcb83e0a6f6175f",
+    "V2_EXPERIMENT_PLAN.md": "8e980f02e32da1fad603286888cc124af3853650bca20499caecc03434bb2625",
+    "train_schedule_only.py": "08b1e5c13d093e063c784b2261d70b94f7c3415f155b4c412c3af57fb400e64d",
+    "test_schedule_only.py": "1b80ad756a349838e9cab50c535f6c88309fc0c625946ab7b59b8985ba623b4b",
+    "SCHEDULE_ONLY_PLAN.md": "f76e331ae2c618a8cfbc509776dd8d24931534e77a10455176500627d2bbd7b6"
+  },
+  "manifest_sha256": {
+    "train.csv": "90e42891babac142ba0693afc4d23e142c018c3a8dc274032552268f3e580be9",
+    "validation.csv": "7b0755f4a7a561e501f8142a92f64356e4ebcd20c874404e66cd4e74b80eee99",
+    "test.csv": "55f5dd35078a67af0c33d36c587047856aad5f0ba1720579d3f8b049a0337db7"
+  },
+  "controls": {
+    "42": {
+      "folder": "v2-scratch_augmented-20261024-161044-951159",
+      "configuration": {
+        "recipe": "scratch_augmented",
+        "seed": 42,
+        "epochs": 30,
+        "min_epochs": 12,
+        "patience": 8,
+        "batch_size": 8,
+        "accumulation_steps": 4,
+        "rotation_degrees": 5.0,
+        "learning_rate": 0.0003,
+        "min_lr": 1e-06,
+        "weight_decay": 0.05,
+        "warmup_epochs": 3,
+        "head_only_epochs": 2,
+        "transfer_backbone_lr": 1e-05,
+        "gradient_clip": 5.0,
+        "device": "cuda",
+        "workers": 0
+      },
+      "environment": {
+        "python": "3.11.9",
+        "torch": "2.7.1+cu126",
+        "numpy": "2.2.6",
+        "pillow": "11.2.1",
+        "sklearn": "1.6.1",
+        "platform": "Windows",
+        "device": "cuda",
+        "cuda_build": "12.6",
+        "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU"
+      },
+      "selected_epoch": 13,
+      "metrics": {
+        "slice": {
+          "n": 4660,
+          "threshold": 0.5,
+          "accuracy": 0.7218884120171674,
+          "balanced_accuracy": 0.7110959671396564,
+          "macro_f1": 0.7130464976654525,
+          "auroc": 0.7881167849141151,
+          "log_loss": 1.5592194773010404,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              2091,
+              509
+            ],
+            [
+              787,
+              1273
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7265462126476719,
+              "recall": 0.8042307692307692,
+              "f1": 0.7634173055859803,
+              "support": 2600
+            },
+            "AD": {
+              "precision": 0.7143658810325477,
+              "recall": 0.6179611650485437,
+              "f1": 0.6626756897449245,
+              "support": 2060
+            }
+          }
+        },
+        "scan": {
+          "n": 233,
+          "threshold": 0.5,
+          "accuracy": 0.7725321888412017,
+          "balanced_accuracy": 0.7598581030619866,
+          "macro_f1": 0.7633066912004294,
+          "auroc": 0.8260642270351007,
+          "log_loss": 0.6783220386735797,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              113,
+              17
+            ],
+            [
+              36,
+              67
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7583892617449665,
+              "recall": 0.8692307692307693,
+              "f1": 0.8100358422939068,
+              "support": 130
+            },
+            "AD": {
+              "precision": 0.7976190476190477,
+              "recall": 0.6504854368932039,
+              "f1": 0.7165775401069518,
+              "support": 103
+            }
+          }
+        },
+        "patient": {
+          "n": 102,
+          "threshold": 0.5,
+          "accuracy": 0.8333333333333334,
+          "balanced_accuracy": 0.7898550724637681,
+          "macro_f1": 0.8012151782643586,
+          "auroc": 0.8331137461572244,
+          "log_loss": 0.5141397796455792,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              63,
+              6
+            ],
+            [
+              11,
+              22
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.8513513513513513,
+              "recall": 0.9130434782608695,
+              "f1": 0.8811188811188811,
+              "support": 69
+            },
+            "AD": {
+              "precision": 0.7857142857142857,
+              "recall": 0.6666666666666666,
+              "f1": 0.7213114754098361,
+              "support": 33
+            }
+          }
+        }
+      },
+      "history_sha256": "9ecefea80120fea28aa42f6e9614a7d4202f05503dfbc5ae1704156d5d1edb80",
+      "summary_sha256": "f215d620aefa313ca2b02d8687487c4fbfaaa0fd3d112d1641e7df634b9f29f2",
+      "checkpoint_sha256": "efde4d21993085119d3ef1bc0efb88f837954c187c95b036373cd00e59d4d5ef",
+      "predictions_sha256": "165cdc9de729698928fa22057e05bd6f578704c9ab81537fc5ae80c69924a9f2"
+    },
+    "43": {
+      "folder": "a1-stability/seed-43",
+      "configuration": {
+        "recipe": "scratch_augmented",
+        "seed": 43,
+        "epochs": 30,
+        "min_epochs": 12,
+        "patience": 8,
+        "batch_size": 8,
+        "accumulation_steps": 4,
+        "rotation_degrees": 5.0,
+        "learning_rate": 0.0003,
+        "min_lr": 1e-06,
+        "weight_decay": 0.05,
+        "warmup_epochs": 3,
+        "head_only_epochs": 2,
+        "transfer_backbone_lr": 1e-05,
+        "gradient_clip": 5.0,
+        "device": "cuda",
+        "workers": 0
+      },
+      "environment": {
+        "python": "3.11.9",
+        "torch": "2.7.1+cu126",
+        "numpy": "2.2.6",
+        "pillow": "11.2.1",
+        "sklearn": "1.6.1",
+        "platform": "Windows",
+        "device": "cuda",
+        "cuda_build": "12.6",
+        "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU"
+      },
+      "selected_epoch": 8,
+      "metrics": {
+        "slice": {
+          "n": 4660,
+          "threshold": 0.5,
+          "accuracy": 0.6935622317596567,
+          "balanced_accuracy": 0.6835941000746826,
+          "macro_f1": 0.6849607294522007,
+          "auroc": 0.7574382935026139,
+          "log_loss": 1.283005020625276,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              2001,
+              599
+            ],
+            [
+              829,
+              1231
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7070671378091873,
+              "recall": 0.7696153846153846,
+              "f1": 0.7370165745856354,
+              "support": 2600
+            },
+            "AD": {
+              "precision": 0.6726775956284153,
+              "recall": 0.5975728155339806,
+              "f1": 0.632904884318766,
+              "support": 2060
+            }
+          }
+        },
+        "scan": {
+          "n": 233,
+          "threshold": 0.5,
+          "accuracy": 0.7467811158798283,
+          "balanced_accuracy": 0.7367811799850634,
+          "macro_f1": 0.7390916510087495,
+          "auroc": 0.7878267363704257,
+          "log_loss": 0.6844585306146023,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              107,
+              23
+            ],
+            [
+              36,
+              67
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7482517482517482,
+              "recall": 0.823076923076923,
+              "f1": 0.7838827838827839,
+              "support": 130
+            },
+            "AD": {
+              "precision": 0.7444444444444445,
+              "recall": 0.6504854368932039,
+              "f1": 0.694300518134715,
+              "support": 103
+            }
+          }
+        },
+        "patient": {
+          "n": 102,
+          "threshold": 0.5,
+          "accuracy": 0.7843137254901961,
+          "balanced_accuracy": 0.7457180500658762,
+          "macro_f1": 0.7495535714285715,
+          "auroc": 0.797979797979798,
+          "log_loss": 0.5872292888326061,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              59,
+              10
+            ],
+            [
+              12,
+              21
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.8309859154929577,
+              "recall": 0.855072463768116,
+              "f1": 0.8428571428571429,
+              "support": 69
+            },
+            "AD": {
+              "precision": 0.6774193548387096,
+              "recall": 0.6363636363636364,
+              "f1": 0.65625,
+              "support": 33
+            }
+          }
+        }
+      },
+      "history_sha256": "aba01bb9cc45919fea647f6a91fcced5020d19ebb5c9c76a654164214a054bfb",
+      "summary_sha256": "5a96ef68ac2df4afd035d194cad0703c4f7503426177bcb7eaf5ec0b709e6168",
+      "checkpoint_sha256": "fcdd2b42e40b2dc914f7071911b929fee9f39e2fe6b40af94022e5288cc5d24a",
+      "predictions_sha256": "2d2685ecd8141f06b1f4baaa8846b98f5f45893e446186604569186ebc870109"
+    },
+    "44": {
+      "folder": "a1-stability/seed-44",
+      "configuration": {
+        "recipe": "scratch_augmented",
+        "seed": 44,
+        "epochs": 30,
+        "min_epochs": 12,
+        "patience": 8,
+        "batch_size": 8,
+        "accumulation_steps": 4,
+        "rotation_degrees": 5.0,
+        "learning_rate": 0.0003,
+        "min_lr": 1e-06,
+        "weight_decay": 0.05,
+        "warmup_epochs": 3,
+        "head_only_epochs": 2,
+        "transfer_backbone_lr": 1e-05,
+        "gradient_clip": 5.0,
+        "device": "cuda",
+        "workers": 0
+      },
+      "environment": {
+        "python": "3.11.9",
+        "torch": "2.7.1+cu126",
+        "numpy": "2.2.6",
+        "pillow": "11.2.1",
+        "sklearn": "1.6.1",
+        "platform": "Windows",
+        "device": "cuda",
+        "cuda_build": "12.6",
+        "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU"
+      },
+      "selected_epoch": 7,
+      "metrics": {
+        "slice": {
+          "n": 4660,
+          "threshold": 0.5,
+          "accuracy": 0.7032188841201716,
+          "balanced_accuracy": 0.6962808065720687,
+          "macro_f1": 0.6972373432550798,
+          "auroc": 0.7730522778192681,
+          "log_loss": 0.9829481922802644,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              1966,
+              634
+            ],
+            [
+              749,
+              1311
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7241252302025782,
+              "recall": 0.7561538461538462,
+              "f1": 0.7397930385700847,
+              "support": 2600
+            },
+            "AD": {
+              "precision": 0.6740359897172237,
+              "recall": 0.6364077669902912,
+              "f1": 0.6546816479400749,
+              "support": 2060
+            }
+          }
+        },
+        "scan": {
+          "n": 233,
+          "threshold": 0.5,
+          "accuracy": 0.7553648068669528,
+          "balanced_accuracy": 0.7495145631067961,
+          "macro_f1": 0.7506617854125599,
+          "auroc": 0.8207617625093353,
+          "log_loss": 0.5510703235599818,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              104,
+              26
+            ],
+            [
+              31,
+              72
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.7703703703703704,
+              "recall": 0.8,
+              "f1": 0.7849056603773585,
+              "support": 130
+            },
+            "AD": {
+              "precision": 0.7346938775510204,
+              "recall": 0.6990291262135923,
+              "f1": 0.7164179104477612,
+              "support": 103
+            }
+          }
+        },
+        "patient": {
+          "n": 102,
+          "threshold": 0.5,
+          "accuracy": 0.7843137254901961,
+          "balanced_accuracy": 0.761528326745718,
+          "macro_f1": 0.7573529411764706,
+          "auroc": 0.8168642951251647,
+          "log_loss": 0.5252574105950137,
+          "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+            [
+              57,
+              12
+            ],
+            [
+              10,
+              23
+            ]
+          ],
+          "per_class": {
+            "NC": {
+              "precision": 0.8507462686567164,
+              "recall": 0.8260869565217391,
+              "f1": 0.8382352941176471,
+              "support": 69
+            },
+            "AD": {
+              "precision": 0.6571428571428571,
+              "recall": 0.696969696969697,
+              "f1": 0.6764705882352942,
+              "support": 33
+            }
+          }
+        }
+      },
+      "history_sha256": "f6ed303be4514900aa4750bf93a182b39c98aecc0c53cfe57d9de5cea463586e",
+      "summary_sha256": "11bfb947a4daa1011f167dddab49f15ba8e4c2e056ad3f7553a1502dfb283208",
+      "checkpoint_sha256": "ad81728ca0eb2fcee13aa8c90fd4051465289459cde50e2fb89f4439ed2d51a5",
+      "predictions_sha256": "6dd0c1e932aec18fd1f10c0472ad763daff8c58157bbdbc70529a2c6bb81cd8c"
+    }
+  },
+  "comparability": {
+    "loss_absolute_tolerance": 1e-06,
+    "score_absolute_tolerance": 1e-12,
+    "optimizer_updates_exact": true,
+    "epochs": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "stop_on_failure": true
+  },
+  "per_seed_active_wall_seconds": 10800.0,
+  "total_active_wall_seconds": 32400.0,
+  "crash_reservation_seconds": 5.0,
+  "minimum_free_disk_gib": 12,
+  "control_mean_patient_log_loss": 0.542208826357733,
+  "acceptance": {
+    "minimum_summed_correct": 251,
+    "minimum_improved_seeds": 2,
+    "maximum_correct_loss_per_seed": 1,
+    "minimum_mean_ad_recall": 0.6666666666666666,
+    "seed42_min_correct": 85,
+    "seed42_min_AD": 22,
+    "replay_absolute_tolerance": 2e-05
+  },
+  "no_test_inference": true,
+  "no_automatic_promotion": true
+}

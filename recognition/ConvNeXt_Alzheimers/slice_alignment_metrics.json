@@ -1,0 +1,2392 @@
+{
+  "date": "2026-10-29",
+  "disposition": "NO_SUPPORTED_QUICK_GAIN_PROCEED_TO_CLOSEOUT",
+  "assessment_unit": "individual 2D test slice",
+  "historical_selection_unchanged": true,
+  "substantial_screen": {
+    "correct_at_least": 3597,
+    "slice_macro_f1_at_least": 0.7130464976654525,
+    "ad_slice_recall_at_least": 0.6179611650485437,
+    "same_validation_slices": 4660,
+    "course_rule": false
+  },
+  "historically_selected_validation": [
+    {
+      "run": "Initial CNN",
+      "seed": 42,
+      "selected_epoch": 7,
+      "completed_epoch": 12,
+      "stop_reason": "patience",
+      "selection": "highest validation patient macro-F1; then lower patient log loss; then earliest",
+      "metrics": {
+        "n": 4660,
+        "correct": 3220,
+        "accuracy": 0.6909871244635193,
+        "cn_precision": 0.6868556701030928,
+        "cn_recall": 0.82,
+        "ad_precision": 0.699228791773779,
+        "ad_recall": 0.5281553398058253,
+        "macro_f1": 0.6746577467760553,
+        "auroc": 0.7789865571321882,
+        "log_loss": 1.0818504165296834,
+        "brier": 0.25325112430786106,
+        "tn": 2132,
+        "fp": 468,
+        "fn": 972,
+        "tp": 1088
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_baseline.pt",
+          "sha256": "6ce309cf579b0331348a1de37fa0fb551bd33a8367dbb912c37d31566432f1d2",
+          "bytes": 1452203,
+          "epoch": 7,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "model_label_map",
+            "model_state",
+            "manifest_sha256",
+            "config",
+            "preprocessing"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_last_baseline.pt",
+          "sha256": "318c245068c81dfaecc946f271e40713659a7930b572a33e15cdbd7b1f2380f4",
+          "bytes": 4345915,
+          "epoch": 12,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "model_label_map",
+            "model_state",
+            "manifest_sha256",
+            "config",
+            "preprocessing",
+            "optimizer_state"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "baseline_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "train_slice_loss",
+        "train_slice_accuracy",
+        "validation_slice_loss",
+        "validation_patient_accuracy",
+        "validation_patient_macro_f1",
+        "validation_patient_auroc",
+        "validation_patient_log_loss",
+        "train_seconds",
+        "validation_seconds",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "CNN",
+      "seed": 42,
+      "selected_epoch": 14,
+      "completed_epoch": 22,
+      "stop_reason": "patience_after_minimum_epochs",
+      "selection": "validation patient macro-F1; lower patient log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3184,
+        "accuracy": 0.6832618025751073,
+        "cn_precision": 0.6932599724896836,
+        "cn_recall": 0.7753846153846153,
+        "ad_precision": 0.6666666666666666,
+        "ad_recall": 0.566990291262136,
+        "macro_f1": 0.6724139113497795,
+        "auroc": 0.7440199775952203,
+        "log_loss": 2.023848526521663,
+        "brier": 0.2876487854830621,
+        "tn": 2016,
+        "fp": 584,
+        "fn": 892,
+        "tp": 1168
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "26bf59f96b1c9da87df0db93b87f266e5e2b3cb02652b527b42bb1d8e9877e36",
+          "bytes": 1452933,
+          "epoch": 14,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "model_name",
+            "model_label_map",
+            "configuration",
+            "epoch",
+            "manifest_sha256",
+            "preprocessing",
+            "source_code_sha256",
+            "model_state"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_last_model.pt",
+          "sha256": "29c82ff57dee2cab0c7f7edcffadb78904e9e4116ec46d1eb5bd8c41b51c117a",
+          "bytes": 1452933,
+          "epoch": 22,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "model_name",
+            "model_label_map",
+            "configuration",
+            "epoch",
+            "manifest_sha256",
+            "preprocessing",
+            "source_code_sha256",
+            "model_state"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "experiment_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "train_slice_loss",
+        "train_slice_accuracy",
+        "validation_slice_loss",
+        "validation_patient_accuracy",
+        "validation_patient_macro_f1",
+        "validation_patient_auroc",
+        "validation_patient_log_loss",
+        "validation_ad_recall",
+        "validation_nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "V1 ConvNeXt",
+      "seed": 42,
+      "selected_epoch": 11,
+      "completed_epoch": 19,
+      "stop_reason": "patience_after_minimum_epochs",
+      "selection": "validation patient macro-F1; lower patient log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3076,
+        "accuracy": 0.6600858369098712,
+        "cn_precision": 0.6801418439716312,
+        "cn_recall": 0.7376923076923076,
+        "ad_precision": 0.6293478260869565,
+        "ad_recall": 0.5621359223300971,
+        "macro_f1": 0.6507976156684643,
+        "auroc": 0.7205066280806571,
+        "log_loss": 2.24549941840149,
+        "brier": 0.3105349988489452,
+        "tn": 1918,
+        "fp": 682,
+        "fn": 902,
+        "tp": 1158
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "9e3c455a6a1f17505b13fe2d61bee5dbcf0131603f7ebaf405780daf2c96de97",
+          "bytes": 111333543,
+          "epoch": 11,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "model_name",
+            "model_label_map",
+            "configuration",
+            "epoch",
+            "manifest_sha256",
+            "preprocessing",
+            "source_code_sha256",
+            "model_state"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_last_model.pt",
+          "sha256": "9d143ca62d2837b68af5dd7ca9a6e9e1b293a62109e3bcbd55acf856ab101309",
+          "bytes": 111333543,
+          "epoch": 19,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "model_name",
+            "model_label_map",
+            "configuration",
+            "epoch",
+            "manifest_sha256",
+            "preprocessing",
+            "source_code_sha256",
+            "model_state"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "experiment_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "train_slice_loss",
+        "train_slice_accuracy",
+        "validation_slice_loss",
+        "validation_patient_accuracy",
+        "validation_patient_macro_f1",
+        "validation_patient_auroc",
+        "validation_patient_log_loss",
+        "validation_ad_recall",
+        "validation_nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "A1",
+      "seed": 42,
+      "selected_epoch": 13,
+      "completed_epoch": 21,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy; then macro-F1; then lower log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3364,
+        "accuracy": 0.7218884120171674,
+        "cn_precision": 0.7265462126476719,
+        "cn_recall": 0.8042307692307692,
+        "ad_precision": 0.7143658810325477,
+        "ad_recall": 0.6179611650485437,
+        "macro_f1": 0.7130464976654525,
+        "auroc": 0.7881167849141151,
+        "log_loss": 1.5592194773010404,
+        "brier": 0.24801664771502813,
+        "tn": 2091,
+        "fp": 509,
+        "fn": 787,
+        "tp": 1273
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "efde4d21993085119d3ef1bc0efb88f837954c187c95b036373cd00e59d4d5ef",
+          "bytes": 111330323,
+          "epoch": 13,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "manifest_sha256",
+            "source_code_sha256",
+            "pretrained",
+            "model_label_map"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "beb0ded73a8165ff17bc1146c2dcd297160f8f5a43e95f2c7f2203ddde1b1b41",
+          "bytes": 445960413,
+          "epoch": 20,
+          "best_epoch": 13,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "31fd51c00f63daaee786d3a21b06eb4f1ca1712588cb8596896d94778274c117",
+          "bytes": 445960541,
+          "epoch": 21,
+          "best_epoch": 13,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "v2_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "train_loss",
+        "train_slice_accuracy",
+        "validation_log_loss",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": true,
+        "ad_recall_preserved": true
+      }
+    },
+    {
+      "run": "A2",
+      "seed": 42,
+      "selected_epoch": 12,
+      "completed_epoch": 20,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy; then macro-F1; then lower log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3125,
+        "accuracy": 0.6706008583690987,
+        "cn_precision": 0.6818026630249232,
+        "cn_recall": 0.7680769230769231,
+        "ad_precision": 0.6516464471403813,
+        "ad_recall": 0.5475728155339806,
+        "macro_f1": 0.6587332927521222,
+        "auroc": 0.7275286594473489,
+        "log_loss": 1.5552325995527414,
+        "brier": 0.28495171924576007,
+        "tn": 1997,
+        "fp": 603,
+        "fn": 932,
+        "tp": 1128
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "f2b599511250215763ea3e3511fe7e56f712e65a9e4b5369d2fa34b7b8a8ced0",
+          "bytes": 111330323,
+          "epoch": 12,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "manifest_sha256",
+            "source_code_sha256",
+            "pretrained",
+            "model_label_map"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "14e43e0b05e6bf12609eb2e3925bb2f4df8913c1fbaefb169097771baf5021e4",
+          "bytes": 445960285,
+          "epoch": 19,
+          "best_epoch": 12,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "82b8833d4bc28f0c6a5d74ce70b5479c4dc34b7c9a2a01e8af4fcb08add0531b",
+          "bytes": 445960413,
+          "epoch": 20,
+          "best_epoch": 12,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "v2_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "train_loss",
+        "train_slice_accuracy",
+        "validation_log_loss",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "A1 seed 43",
+      "seed": 43,
+      "selected_epoch": 8,
+      "completed_epoch": 16,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy; then macro-F1; then lower log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3232,
+        "accuracy": 0.6935622317596567,
+        "cn_precision": 0.7070671378091873,
+        "cn_recall": 0.7696153846153846,
+        "ad_precision": 0.6726775956284153,
+        "ad_recall": 0.5975728155339806,
+        "macro_f1": 0.6849607294522007,
+        "auroc": 0.7574382935026139,
+        "log_loss": 1.283005020625276,
+        "brier": 0.26268314108405294,
+        "tn": 2001,
+        "fp": 599,
+        "fn": 829,
+        "tp": 1231
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "fcdd2b42e40b2dc914f7071911b929fee9f39e2fe6b40af94022e5288cc5d24a",
+          "bytes": 111330323,
+          "epoch": 8,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "manifest_sha256",
+            "source_code_sha256",
+            "pretrained",
+            "model_label_map"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "4111584a156454038eb18626b4d0629a4cf816ec4297e2468e271b7bb4777206",
+          "bytes": 445959581,
+          "epoch": 15,
+          "best_epoch": 8,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "eb1b856e2dcac7fc72a282a02a4a5ca1b32c138e35748d667eb789b0104ac1ea",
+          "bytes": 445959773,
+          "epoch": 16,
+          "best_epoch": 8,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "v2_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "train_loss",
+        "train_slice_accuracy",
+        "validation_log_loss",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "A1 seed 44",
+      "seed": 44,
+      "selected_epoch": 7,
+      "completed_epoch": 15,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy; then macro-F1; then lower log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3277,
+        "accuracy": 0.7032188841201716,
+        "cn_precision": 0.7241252302025782,
+        "cn_recall": 0.7561538461538462,
+        "ad_precision": 0.6740359897172237,
+        "ad_recall": 0.6364077669902912,
+        "macro_f1": 0.6972373432550798,
+        "auroc": 0.7730522778192681,
+        "log_loss": 0.9829481922802644,
+        "brier": 0.23814091621165293,
+        "tn": 1966,
+        "fp": 634,
+        "fn": 749,
+        "tp": 1311
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "ad81728ca0eb2fcee13aa8c90fd4051465289459cde50e2fb89f4439ed2d51a5",
+          "bytes": 111330323,
+          "epoch": 7,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "manifest_sha256",
+            "source_code_sha256",
+            "pretrained",
+            "model_label_map"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "d3c70db0a72c394cdd7ac9534f74213b2b4c93ada89512d6102c5f5c840541a2",
+          "bytes": 445959837,
+          "epoch": 14,
+          "best_epoch": 7,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "bd7d2a15ec8b01f8a4dc23a4c7261052af23be26e70cdb7d29c577e37fd12b24",
+          "bytes": 445960029,
+          "epoch": 15,
+          "best_epoch": 7,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "v2_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "train_loss",
+        "train_slice_accuracy",
+        "validation_log_loss",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": true
+      }
+    },
+    {
+      "run": "S1",
+      "seed": 42,
+      "selected_epoch": 9,
+      "completed_epoch": 17,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy, then macro-F1, then lower ordinary log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3195,
+        "accuracy": 0.6856223175965666,
+        "cn_precision": 0.694017094017094,
+        "cn_recall": 0.7807692307692308,
+        "ad_precision": 0.6714697406340058,
+        "ad_recall": 0.5655339805825242,
+        "macro_f1": 0.6744036866799015,
+        "auroc": 0.7377024831964153,
+        "log_loss": 0.7703662236470709,
+        "brier": 0.24700595958237678,
+        "tn": 2030,
+        "fp": 570,
+        "fn": 895,
+        "tp": 1165
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "77cfc9be53ae5b63acb0ad4ab58032dcfa58dedc92c68fc6aa1b778dfc4d00c6",
+          "bytes": 111331475,
+          "epoch": 9,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "model_label_map",
+            "manifest_sha256",
+            "source_code_sha256",
+            "preprocessing",
+            "pretrained"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "241f13ea23a943d4910cdcfb32f30aae5d3c6754f93a0c7276f48f60a372a345",
+          "bytes": 445960925,
+          "epoch": 16,
+          "best_epoch": 9,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "d34787e31237122f7dec3058157aa50bf3cf98f69921ee12b4da870ca8129530",
+          "bytes": 445961117,
+          "epoch": 17,
+          "best_epoch": 9,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "LOGGED_SLICE_MAXIMUM",
+        "field": "validation_slice_accuracy",
+        "best_epoch": 14,
+        "correct": 3275,
+        "accuracy": 0.7027896995708155,
+        "tied_epochs": [
+          14
+        ],
+        "exact_current_epoch_weights": [],
+        "selected": false,
+        "other_slice_metrics_at_epoch": "precision/recall/F1/AUROC/Brier unavailable; NLL is recorded",
+        "slice_log_loss_at_logged_maximum": 0.7895511129374724,
+        "slice_log_loss_field": "validation_hard_log_loss"
+      },
+      "summary_name": "smoothing_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "train_smoothed_loss",
+        "train_hard_log_loss",
+        "train_slice_accuracy",
+        "validation_hard_log_loss",
+        "validation_slice_accuracy",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "S2",
+      "seed": 42,
+      "selected_epoch": 9,
+      "completed_epoch": 17,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy, then macro-F1, then lower ordinary log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3310,
+        "accuracy": 0.7103004291845494,
+        "cn_precision": 0.7296105804555474,
+        "cn_recall": 0.7638461538461538,
+        "ad_precision": 0.6831785345717234,
+        "ad_recall": 0.6427184466019418,
+        "macro_f1": 0.7043335647530642,
+        "auroc": 0.7582412247946229,
+        "log_loss": 0.7225013682886405,
+        "brier": 0.226722483339859,
+        "tn": 1986,
+        "fp": 614,
+        "fn": 736,
+        "tp": 1324
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "5c598532a02cd23ec4ea815776fa058322ac4a37db986bafa5176808b5bc106d",
+          "bytes": 111331475,
+          "epoch": 9,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "model_label_map",
+            "manifest_sha256",
+            "source_code_sha256",
+            "preprocessing",
+            "pretrained"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "7ad92c690e3ccdbaee3f08d430a0fb50e4cb872a9bb8d143c831e15355cc5b55",
+          "bytes": 445960925,
+          "epoch": 16,
+          "best_epoch": 9,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "7bff11a160a4fb4e37687063abbd89f8a81fc26bf28ef5c4991a3e638fa06d78",
+          "bytes": 445961117,
+          "epoch": 17,
+          "best_epoch": 9,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "LOGGED_SLICE_MAXIMUM",
+        "field": "validation_slice_accuracy",
+        "best_epoch": 13,
+        "correct": 3348,
+        "accuracy": 0.7184549356223175,
+        "tied_epochs": [
+          13
+        ],
+        "exact_current_epoch_weights": [],
+        "selected": false,
+        "other_slice_metrics_at_epoch": "precision/recall/F1/AUROC/Brier unavailable; NLL is recorded",
+        "slice_log_loss_at_logged_maximum": 0.7309767309114706,
+        "slice_log_loss_field": "validation_hard_log_loss"
+      },
+      "summary_name": "smoothing_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "train_smoothed_loss",
+        "train_hard_log_loss",
+        "train_slice_accuracy",
+        "validation_hard_log_loss",
+        "validation_slice_accuracy",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": true
+      }
+    },
+    {
+      "run": "Schedule seed 42",
+      "seed": 42,
+      "selected_epoch": 7,
+      "completed_epoch": 15,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy; then macro-F1; then lower log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3343,
+        "accuracy": 0.717381974248927,
+        "cn_precision": 0.7126284388465363,
+        "cn_recall": 0.8269230769230769,
+        "ad_precision": 0.7261107729762629,
+        "ad_recall": 0.579126213592233,
+        "macro_f1": 0.7049378139190223,
+        "auroc": 0.7845786034353996,
+        "log_loss": 1.1590637994748256,
+        "brier": 0.24036144564479858,
+        "tn": 2150,
+        "fp": 450,
+        "fn": 867,
+        "tp": 1193
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "4415d50153a0450adbfd3eaa777a09b6cb37921a986685ed2513bc4c5d91e0b4",
+          "bytes": 111330643,
+          "epoch": 7,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "manifest_sha256",
+            "source_code_sha256",
+            "pretrained",
+            "model_label_map"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "64b7496c35811b56e946132da2603f6a9cc771af7c0aadc6d33f43b327c4fbb3",
+          "bytes": 445962141,
+          "epoch": 14,
+          "best_epoch": 7,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "study_sha256",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "comparability",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "233b5133bb45ddd8159c2184fe949c55623a207436fee1d819ceb7646bd8381a",
+          "bytes": 445962333,
+          "epoch": 15,
+          "best_epoch": 7,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "study_sha256",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "comparability",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "v2_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "train_loss",
+        "train_slice_accuracy",
+        "validation_log_loss",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "Schedule seed 43",
+      "seed": 43,
+      "selected_epoch": 5,
+      "completed_epoch": 13,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy; then macro-F1; then lower log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3237,
+        "accuracy": 0.6946351931330472,
+        "cn_precision": 0.7078770752384317,
+        "cn_recall": 0.7707692307692308,
+        "ad_precision": 0.6741388737014762,
+        "ad_recall": 0.5985436893203884,
+        "macro_f1": 0.6860409033424728,
+        "auroc": 0.765954070201643,
+        "log_loss": 0.7489048542544041,
+        "brier": 0.22415073350700843,
+        "tn": 2004,
+        "fp": 596,
+        "fn": 827,
+        "tp": 1233
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "f07758dd3bd2d4ffa32992cb2fb8570f955b60520bc84ba6a594bb4889484819",
+          "bytes": 111330643,
+          "epoch": 5,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "manifest_sha256",
+            "source_code_sha256",
+            "pretrained",
+            "model_label_map"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "653505f96babd35bc9d73a2b36e0bbd71c848c92d06863ef8dcf643cdf109fdc",
+          "bytes": 445962525,
+          "epoch": 12,
+          "best_epoch": 5,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "study_sha256",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "comparability",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "1c6238d84b0143d4a1f55d21939865f94e01e2dfe98f2e50325150d78e94377f",
+          "bytes": 445962717,
+          "epoch": 13,
+          "best_epoch": 5,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "study_sha256",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "comparability",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "v2_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "train_loss",
+        "train_slice_accuracy",
+        "validation_log_loss",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "Schedule seed 44",
+      "seed": 44,
+      "selected_epoch": 9,
+      "completed_epoch": 17,
+      "stop_reason": "patience",
+      "selection": "validation patient accuracy; then macro-F1; then lower log loss; earliest exact tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3330,
+        "accuracy": 0.7145922746781116,
+        "cn_precision": 0.7494108405341713,
+        "cn_recall": 0.7338461538461538,
+        "ad_precision": 0.6726584673604541,
+        "ad_recall": 0.6902912621359223,
+        "macro_f1": 0.7114538187372423,
+        "auroc": 0.7947589619118747,
+        "log_loss": 1.366919159307867,
+        "brier": 0.24501274704651413,
+        "tn": 1908,
+        "fp": 692,
+        "fn": 638,
+        "tp": 1422
+      },
+      "native": "standalone two-logit slice model",
+      "weights": [
+        {
+          "name": "PRIVATE_best_model.pt",
+          "sha256": "50be8089b5557b2a7c6e72c933f4fc630c46005b9d068e01c78e937741bafb7b",
+          "bytes": 111330643,
+          "epoch": 9,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "architecture",
+            "epoch",
+            "configuration",
+            "model_state",
+            "manifest_sha256",
+            "source_code_sha256",
+            "pretrained",
+            "model_label_map"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "27a7e01e197bf801dd145d931145804502c3ed8f18db0196134e7385a5997333",
+          "bytes": 445962397,
+          "epoch": 16,
+          "best_epoch": 9,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "study_sha256",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "comparability",
+            "schedule_state",
+            "loader_state",
+            "memory"
+          ],
+          "validation_manifest_matches": true
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "c4b865e5c2b6cda6edee08c872303bd482c5fabdb498cb941064f4f9ab6d8144",
+          "bytes": 445962589,
+          "epoch": 17,
+          "best_epoch": 9,
+          "keys": [
+            "format_version",
+            "configuration",
+            "source_hashes",
+            "manifest_hashes",
+            "study_sha256",
+            "environment",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "pretrained",
+            "parameters",
+            "resume_count",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "comparability",
+            "schedule_state",
+            "loader_state",
+            "memory",
+            "stop_reason"
+          ],
+          "validation_manifest_matches": true
+        }
+      ],
+      "retrospective": {
+        "status": "UNRECORDED_PER_EPOCH_SLICE_VALIDATION_ACCURACY",
+        "best_epoch": null
+      },
+      "summary_name": "v2_summary.json",
+      "prediction_name": "PRIVATE_validation_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "train_loss",
+        "train_slice_accuracy",
+        "validation_log_loss",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "ad_recall",
+        "nc_recall",
+        "train_seconds",
+        "validation_seconds",
+        "optimizer_updates",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": true
+      }
+    },
+    {
+      "run": "G0",
+      "seed": 42,
+      "selected_epoch": 16,
+      "completed_epoch": 24,
+      "stop_reason": "PATIENCE_AFTER_MINIMUM_12",
+      "selection": "patient accuracy, macro-F1, lower NLL; earliest tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3231,
+        "accuracy": 0.6933476394849786,
+        "cn_precision": 0.7188785046728972,
+        "cn_recall": 0.7396153846153846,
+        "ad_precision": 0.6589420654911838,
+        "ad_recall": 0.6349514563106796,
+        "macro_f1": 0.6879119385585153,
+        "auroc": 0.7468151605675877,
+        "log_loss": 0.7084828399580767,
+        "brier": 0.22640828196125107,
+        "tn": 1923,
+        "fp": 677,
+        "fn": 752,
+        "tp": 1308
+      },
+      "native": "slice CE, complete scan batching; raw slice head valid; scan mean probabilities",
+      "weights": [
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "e6bdd09d110ebf63b03958150679987525f986ffd340b3a46f8915388a735c35",
+          "bytes": 446319963,
+          "epoch": 23,
+          "best_epoch": 16,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G0"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "d8be6ec58cc18e02aa4b63143ededd593262e42e4a2f2761719dcd92b20b9049",
+          "bytes": 446320347,
+          "epoch": 24,
+          "best_epoch": 16,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G0"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_selected.pt",
+          "sha256": "5c755fa6dd8983e3eddc9c39aff57c80c6fc36816a02544544963fa49209a8ac",
+          "bytes": 111331859,
+          "epoch": 16,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "identity",
+            "epoch",
+            "initial_tensor_sha256",
+            "model_state"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G0"
+            },
+            "manifest_sha256": {}
+          }
+        }
+      ],
+      "retrospective": {
+        "status": "LOGGED_SLICE_MAXIMUM",
+        "field": "slice_accuracy_diagnostic",
+        "best_epoch": 14,
+        "correct": 3273,
+        "accuracy": 0.7023605150214592,
+        "tied_epochs": [
+          14
+        ],
+        "exact_current_epoch_weights": [],
+        "selected": false,
+        "other_slice_metrics_at_epoch": "precision/recall/F1/AUROC/Brier unavailable; NLL is recorded",
+        "slice_log_loss_at_logged_maximum": 0.6682744292732724,
+        "slice_log_loss_field": "slice_log_loss_diagnostic"
+      },
+      "summary_name": "training_summary.json",
+      "prediction_name": "PRIVATE_selected_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "training_objective",
+        "optimizer_updates",
+        "training_scans",
+        "max_preclip_gradient_norm",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "patient_brier",
+        "ad_recall",
+        "nc_recall",
+        "scan_accuracy",
+        "scan_log_loss",
+        "slice_accuracy_diagnostic",
+        "slice_log_loss_diagnostic",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": true
+      }
+    },
+    {
+      "run": "G1",
+      "seed": 42,
+      "selected_epoch": 7,
+      "completed_epoch": 15,
+      "stop_reason": "PATIENCE_AFTER_MINIMUM_12",
+      "selection": "patient accuracy, macro-F1, lower NLL; earliest tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 2600,
+        "accuracy": 0.5579399141630901,
+        "cn_precision": 0.5579399141630901,
+        "cn_recall": 1.0,
+        "ad_precision": 0,
+        "ad_recall": 0.0,
+        "macro_f1": 0.3581267217630854,
+        "auroc": 0.5710281926811053,
+        "log_loss": 0.6841364128552438,
+        "brier": 0.24552510061758878,
+        "tn": 2600,
+        "fp": 0,
+        "fn": 2060,
+        "tp": 0
+      },
+      "native": "scan-supervised raw slice-head diagnostic; native mean probabilities",
+      "weights": [
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "99b57e81e35c37cf7aaa6980e576461b92f684c7461d15de52d12ec51e8bcaa1",
+          "bytes": 446316763,
+          "epoch": 14,
+          "best_epoch": 7,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G1"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "76f95f423e532292e4966cc9e8d7f5f0f96aa78a6d7cc17ef6e47e8b887a97b9",
+          "bytes": 446317147,
+          "epoch": 15,
+          "best_epoch": 7,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G1"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_selected.pt",
+          "sha256": "33a5d0285a023c61cfb4dcb63b435358f207e6c6ed57f068d058e62b0c730832",
+          "bytes": 111331923,
+          "epoch": 7,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "identity",
+            "epoch",
+            "initial_tensor_sha256",
+            "model_state"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G1"
+            },
+            "manifest_sha256": {}
+          }
+        }
+      ],
+      "retrospective": {
+        "status": "LOGGED_SLICE_MAXIMUM",
+        "field": "slice_accuracy_diagnostic",
+        "best_epoch": 14,
+        "correct": 2633,
+        "accuracy": 0.5650214592274678,
+        "tied_epochs": [
+          14
+        ],
+        "exact_current_epoch_weights": [
+          "PRIVATE_previous.pt"
+        ],
+        "selected": false,
+        "other_slice_metrics_at_epoch": "precision/recall/F1/AUROC/Brier unavailable; NLL is recorded",
+        "slice_log_loss_at_logged_maximum": 0.9749214925659202,
+        "slice_log_loss_field": "slice_log_loss_diagnostic"
+      },
+      "summary_name": "training_summary.json",
+      "prediction_name": "PRIVATE_selected_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "training_objective",
+        "optimizer_updates",
+        "training_scans",
+        "max_preclip_gradient_norm",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "patient_brier",
+        "ad_recall",
+        "nc_recall",
+        "scan_accuracy",
+        "scan_log_loss",
+        "slice_accuracy_diagnostic",
+        "slice_log_loss_diagnostic",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": false
+      }
+    },
+    {
+      "run": "G2",
+      "seed": 42,
+      "selected_epoch": 20,
+      "completed_epoch": 28,
+      "stop_reason": "PATIENCE_AFTER_MINIMUM_12",
+      "selection": "patient accuracy, macro-F1, lower NLL; earliest tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 3076,
+        "accuracy": 0.6600858369098712,
+        "cn_precision": 0.7512363996043522,
+        "cn_recall": 0.5842307692307692,
+        "ad_precision": 0.5902198635329795,
+        "ad_recall": 0.7558252427184466,
+        "macro_f1": 0.660063232482994,
+        "auroc": 0.6971756908140403,
+        "log_loss": 1.618216887856097,
+        "brier": 0.3273431601359808,
+        "tn": 1519,
+        "fp": 1081,
+        "fn": 503,
+        "tp": 1557
+      },
+      "native": "scan-supervised raw slice-head diagnostic; native softmax mean logits",
+      "weights": [
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "e516ff1312b053e2f263e87aad7f001acffbfef78fc5e1efccb4bee5fd888254",
+          "bytes": 446322075,
+          "epoch": 27,
+          "best_epoch": 20,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G2"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "56f216c5d799694b6dcd05f230ac667e30a6f3b9487ecb6e643e1d283f6f7afb",
+          "bytes": 446322523,
+          "epoch": 28,
+          "best_epoch": 20,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G2"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_selected.pt",
+          "sha256": "dd686b50ac499c35c48168cf3117dd0ddf585cec33190401d5913879f032d23c",
+          "bytes": 111331859,
+          "epoch": 20,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "identity",
+            "epoch",
+            "initial_tensor_sha256",
+            "model_state"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G2"
+            },
+            "manifest_sha256": {}
+          }
+        }
+      ],
+      "retrospective": {
+        "status": "LOGGED_SLICE_MAXIMUM",
+        "field": "slice_accuracy_diagnostic",
+        "best_epoch": 20,
+        "correct": 3076,
+        "accuracy": 0.6600858369098712,
+        "tied_epochs": [
+          20
+        ],
+        "exact_current_epoch_weights": [
+          "PRIVATE_selected.pt"
+        ],
+        "selected": true,
+        "other_slice_metrics_at_epoch": "complete cached selected metrics",
+        "slice_log_loss_at_logged_maximum": 1.618216887856097,
+        "slice_log_loss_field": "slice_log_loss_diagnostic"
+      },
+      "summary_name": "training_summary.json",
+      "prediction_name": "PRIVATE_selected_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "training_objective",
+        "optimizer_updates",
+        "training_scans",
+        "max_preclip_gradient_norm",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "patient_brier",
+        "ad_recall",
+        "nc_recall",
+        "scan_accuracy",
+        "scan_log_loss",
+        "slice_accuracy_diagnostic",
+        "slice_log_loss_diagnostic",
+        "selected_as_best"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": true
+      }
+    },
+    {
+      "run": "G3",
+      "seed": 42,
+      "selected_epoch": 14,
+      "completed_epoch": 22,
+      "stop_reason": "PATIENCE_AFTER_MINIMUM_12",
+      "selection": "patient accuracy, macro-F1, lower NLL; earliest tie",
+      "metrics": {
+        "n": 4660,
+        "correct": 2771,
+        "accuracy": 0.5946351931330472,
+        "cn_precision": 0.8194070080862533,
+        "cn_recall": 0.3507692307692308,
+        "ad_precision": 0.5241048773611503,
+        "ad_recall": 0.9024271844660194,
+        "macro_f1": 0.5771733334562992,
+        "auroc": 0.6428047983569829,
+        "log_loss": 1.0795698554684117,
+        "brier": 0.339879908905092,
+        "tn": 912,
+        "fp": 1688,
+        "fn": 201,
+        "tp": 1859
+      },
+      "native": "attention scan-bag output; slice head projection diagnostic only",
+      "weights": [
+        {
+          "name": "PRIVATE_previous.pt",
+          "sha256": "de9a55d6d6c5cc7bcd3001311115977460494bd39e9bbc6f2b3fbdc6317242f9",
+          "bytes": 449801961,
+          "epoch": 21,
+          "best_epoch": 14,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G3"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_resume.pt",
+          "sha256": "1a1ddda0f82e24a072da9b9d3065fa4865e346ecc2505f15e6306ae4d8615bd2",
+          "bytes": 449812713,
+          "epoch": 22,
+          "best_epoch": 14,
+          "keys": [
+            "format_version",
+            "identity",
+            "environment",
+            "initial_tensor_sha256",
+            "epoch",
+            "history",
+            "best",
+            "bad_epochs",
+            "completed",
+            "stop_reason",
+            "model_state",
+            "optimizer_state",
+            "rng",
+            "custom_rng",
+            "schedule_position",
+            "budget_snapshot",
+            "epoch_loop_seconds",
+            "order_augmentation_digests"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G3"
+            },
+            "manifest_sha256": {}
+          }
+        },
+        {
+          "name": "PRIVATE_selected.pt",
+          "sha256": "fc86b87694053695441d1d5489ecd3141b9404c7f381e7dff1cc8f23dfb70f96",
+          "bytes": 112122825,
+          "epoch": 14,
+          "best_epoch": null,
+          "keys": [
+            "format_version",
+            "identity",
+            "epoch",
+            "initial_tensor_sha256",
+            "model_state"
+          ],
+          "identity": {
+            "configuration": {
+              "seed": 42,
+              "variant": "G3"
+            },
+            "manifest_sha256": {}
+          }
+        }
+      ],
+      "retrospective": {
+        "status": "LOGGED_SLICE_MAXIMUM",
+        "field": "slice_accuracy_diagnostic",
+        "best_epoch": 16,
+        "correct": 2825,
+        "accuracy": 0.6062231759656652,
+        "tied_epochs": [
+          16
+        ],
+        "exact_current_epoch_weights": [],
+        "selected": false,
+        "other_slice_metrics_at_epoch": "precision/recall/F1/AUROC/Brier unavailable; NLL is recorded",
+        "slice_log_loss_at_logged_maximum": 1.0890404194932324,
+        "slice_log_loss_field": "slice_log_loss_diagnostic"
+      },
+      "summary_name": "training_summary.json",
+      "prediction_name": "PRIVATE_selected_predictions.json",
+      "history_fields": [
+        "epoch",
+        "learning_rate",
+        "training_objective",
+        "optimizer_updates",
+        "training_scans",
+        "max_preclip_gradient_norm",
+        "mean_preclip_gradient_norm",
+        "preclip_gradient_norms_json",
+        "clipped_update_fraction",
+        "maximum_attention_normalization_error",
+        "training_attention_maximum_weight_mean",
+        "training_attention_normalised_entropy_mean",
+        "training_attention_effective_slices_mean",
+        "patient_accuracy",
+        "patient_macro_f1",
+        "patient_auroc",
+        "patient_log_loss",
+        "patient_brier",
+        "ad_recall",
+        "nc_recall",
+        "scan_accuracy",
+        "scan_log_loss",
+        "slice_accuracy_diagnostic",
+        "slice_log_loss_diagnostic",
+        "selected_as_best",
+        "validation_attention_maximum_weight_mean",
+        "validation_attention_normalised_entropy_mean",
+        "validation_attention_effective_slices_mean",
+        "native_scan_CE"
+      ],
+      "screen": {
+        "correct_3597": false,
+        "macro_f1_preserved": false,
+        "ad_recall_preserved": true
+      }
+    }
+  ],
+  "recorded_test_aggregates": {
+    "cnn": {
+      "slice": {
+        "n": 4640,
+        "threshold": 0.5,
+        "accuracy": 0.688146551724138,
+        "balanced_accuracy": 0.6944599835906615,
+        "macro_f1": 0.6869151149510054,
+        "auroc": 0.7761397963750281,
+        "log_loss": 2.019383739753711,
+        "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+          [
+            1742,
+            438
+          ],
+          [
+            1009,
+            1451
+          ]
+        ],
+        "per_class": {
+          "NC": {
+            "precision": 0.6332242820792439,
+            "recall": 0.7990825688073394,
+            "f1": 0.7065503954573109,
+            "support": 2180
+          },
+          "AD": {
+            "precision": 0.7681312863949179,
+            "recall": 0.5898373983739837,
+            "f1": 0.6672798344447,
+            "support": 2460
+          }
+        }
+      },
+      "scan": {
+        "n": 232,
+        "threshold": 0.5,
+        "accuracy": 0.7241379310344828,
+        "balanced_accuracy": 0.7314835533676438,
+        "macro_f1": 0.7224672897196261,
+        "auroc": 0.821884090400537,
+        "log_loss": 0.699586261260402,
+        "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+          [
+            93,
+            16
+          ],
+          [
+            48,
+            75
+          ]
+        ],
+        "per_class": {
+          "NC": {
+            "precision": 0.6595744680851063,
+            "recall": 0.8532110091743119,
+            "f1": 0.744,
+            "support": 109
+          },
+          "AD": {
+            "precision": 0.8241758241758241,
+            "recall": 0.6097560975609756,
+            "f1": 0.7009345794392523,
+            "support": 123
+          }
+        }
+      },
+      "patient": {
+        "n": 102,
+        "threshold": 0.5,
+        "accuracy": 0.7745098039215687,
+        "balanced_accuracy": 0.714756258234519,
+        "macro_f1": 0.7257744009351257,
+        "auroc": 0.8177426438296004,
+        "log_loss": 0.513812774514128,
+        "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+          [
+            61,
+            8
+          ],
+          [
+            15,
+            18
+          ]
+        ],
+        "per_class": {
+          "NC": {
+            "precision": 0.8026315789473685,
+            "recall": 0.8840579710144928,
+            "f1": 0.8413793103448276,
+            "support": 69
+          },
+          "AD": {
+            "precision": 0.6923076923076923,
+            "recall": 0.5454545454545454,
+            "f1": 0.6101694915254238,
+            "support": 33
+          }
+        }
+      }
+    },
+    "a1": {
+      "slice": {
+        "n": 4640,
+        "threshold": 0.5,
+        "accuracy": 0.6803879310344828,
+        "balanced_accuracy": 0.6891269486089356,
+        "macro_f1": 0.6769451345410145,
+        "auroc": 0.7798126911314984,
+        "log_loss": 1.9284130036220977,
+        "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+          [
+            1818,
+            362
+          ],
+          [
+            1121,
+            1339
+          ]
+        ],
+        "per_class": {
+          "NC": {
+            "precision": 0.6185777475331745,
+            "recall": 0.8339449541284404,
+            "f1": 0.7102949794881813,
+            "support": 2180
+          },
+          "AD": {
+            "precision": 0.7871840094062317,
+            "recall": 0.5443089430894309,
+            "f1": 0.6435952895938476,
+            "support": 2460
+          }
+        }
+      },
+      "scan": {
+        "n": 232,
+        "threshold": 0.5,
+        "accuracy": 0.6810344827586207,
+        "balanced_accuracy": 0.6903110315506825,
+        "macro_f1": 0.6769774968013849,
+        "auroc": 0.815842470351309,
+        "log_loss": 0.8677367243403412,
+        "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+          [
+            92,
+            17
+          ],
+          [
+            57,
+            66
+          ]
+        ],
+        "per_class": {
+          "NC": {
+            "precision": 0.6174496644295302,
+            "recall": 0.8440366972477065,
+            "f1": 0.7131782945736435,
+            "support": 109
+          },
+          "AD": {
+            "precision": 0.7951807228915663,
+            "recall": 0.5365853658536586,
+            "f1": 0.6407766990291263,
+            "support": 123
+          }
+        }
+      },
+      "patient": {
+        "n": 102,
+        "threshold": 0.5,
+        "accuracy": 0.7450980392156863,
+        "balanced_accuracy": 0.7009222661396575,
+        "macro_f1": 0.7040178571428571,
+        "auroc": 0.8142292490118577,
+        "log_loss": 0.6039776602583967,
+        "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+          [
+            57,
+            12
+          ],
+          [
+            14,
+            19
+          ]
+        ],
+        "per_class": {
+          "NC": {
+            "precision": 0.8028169014084507,
+            "recall": 0.8260869565217391,
+            "f1": 0.8142857142857143,
+            "support": 69
+          },
+          "AD": {
+            "precision": 0.6129032258064516,
+            "recall": 0.5757575757575758,
+            "f1": 0.59375,
+            "support": 33
+          }
+        }
+      }
+    }
+  },
+  "test_slice_brier": "unavailable in published aggregate summary; no individual test predictions read",
+  "no_new_model_execution": true,
+  "test_summary_sha256": "306e8d6fac4594c6847b81145ce170ac54396137593cc26515b91a5161fa9471"
+}

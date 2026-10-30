@@ -1,0 +1,345 @@
+{
+  "format_version": 1,
+  "study": "G012_Seed42",
+  "baseline_revision": "585152470540e98fca97d0b96e876a9cad8014cb",
+  "seed": 42,
+  "variants": [
+    "G0",
+    "G1",
+    "G2"
+  ],
+  "configurations": {
+    "G0": {
+      "recipe": "scratch_augmented",
+      "seed": 42,
+      "epochs": 30,
+      "min_epochs": 12,
+      "patience": 8,
+      "batch_size": 20,
+      "accumulation_steps": 2,
+      "rotation_degrees": 5.0,
+      "learning_rate": 0.0003,
+      "min_lr": 1e-06,
+      "weight_decay": 0.05,
+      "warmup_epochs": 3,
+      "head_only_epochs": 2,
+      "transfer_backbone_lr": 1e-05,
+      "gradient_clip": 5.0,
+      "device": "cuda",
+      "workers": 0,
+      "variant": "G0",
+      "loss": "mean_slice_hard_CE",
+      "scan_aggregation": "mean_slice_probabilities",
+      "patient_aggregation": "mean_scan_AD_probabilities",
+      "precision": "float32",
+      "decision_threshold": 0.5
+    },
+    "G1": {
+      "recipe": "scratch_augmented",
+      "seed": 42,
+      "epochs": 30,
+      "min_epochs": 12,
+      "patience": 8,
+      "batch_size": 20,
+      "accumulation_steps": 2,
+      "rotation_degrees": 5.0,
+      "learning_rate": 0.0003,
+      "min_lr": 1e-06,
+      "weight_decay": 0.05,
+      "warmup_epochs": 3,
+      "head_only_epochs": 2,
+      "transfer_backbone_lr": 1e-05,
+      "gradient_clip": 5.0,
+      "device": "cuda",
+      "workers": 0,
+      "variant": "G1",
+      "loss": "negative_log_mean_true_class_probability",
+      "scan_aggregation": "mean_slice_probabilities",
+      "patient_aggregation": "mean_scan_AD_probabilities",
+      "precision": "float32",
+      "decision_threshold": 0.5
+    },
+    "G2": {
+      "recipe": "scratch_augmented",
+      "seed": 42,
+      "epochs": 30,
+      "min_epochs": 12,
+      "patience": 8,
+      "batch_size": 20,
+      "accumulation_steps": 2,
+      "rotation_degrees": 5.0,
+      "learning_rate": 0.0003,
+      "min_lr": 1e-06,
+      "weight_decay": 0.05,
+      "warmup_epochs": 3,
+      "head_only_epochs": 2,
+      "transfer_backbone_lr": 1e-05,
+      "gradient_clip": 5.0,
+      "device": "cuda",
+      "workers": 0,
+      "variant": "G2",
+      "loss": "hard_CE_mean_logits",
+      "scan_aggregation": "softmax_mean_slice_logits",
+      "patient_aggregation": "mean_scan_AD_probabilities",
+      "precision": "float32",
+      "decision_threshold": 0.5
+    }
+  },
+  "sources": {
+    "analyse_confidence.py": "11f2dc1598f554df083e7e01d134d93100bfaf317a520fa9dd005db4a73787fc",
+    "compare_step8.py": "1d9017553d19118f194f84ab6ff210bdb7330236ac7f8fe5a3abc87f90a17473",
+    "confidence_analysis.py": "3b94cafa7eac07d9965bc37911ce54ce240e0506732d545d36222637eca9b975",
+    "dataset.py": "de69b8719ae6c13b6acb949513b3665e168081895b3c898e9a8bc1fc411ff309",
+    "g012/__init__.py": "d23ff2042a7061d0347777250ac0de029f00013d181ff5e8c60eba7ba1e52a7e",
+    "g012/core.py": "9294b9676394a4d80ac8d854523b61e4246a4d8de167dc91a88f87aa98e3e184",
+    "g012/engine.py": "555fb228f6f66953ab096a8a9caaef19893573d0ff1585236711756499d6c742",
+    "g012/results.py": "457a45e7096c6e5e90d69939aa779c1cb70324f30b15bff63d34635660202737",
+    "g012/run.py": "568ef499f43d95f8276475c2e7d2b5b8a3f26eecd2353bd38176f9d92f200a1f",
+    "g012/storage.py": "84e2f14ad3c6497f84c82991967827fc66caeb86e471d1c70b65d88a3b0ac484",
+    "modules.py": "ce4bd9b489b11769d26bb068d9f142261fe22a3531ff227eacca168b4f64c396",
+    "modules_v2.py": "e26f671e01badd494137f916d5d891749dd795200ed99353ac6466c197254469",
+    "selected_a1.py": "b490558b88843ff914c037fb1511f0be9639546894aed5f9a7637214a566563c",
+    "submission_prepare.py": "6cd1b5da8165d309de3d0338e5f97f93ef8894b2f3a7792d050c1a6089635414",
+    "train_convnext_v2.py": "b1ad56b937627aa14829745735daa74badf54cf971ecb3230b7607635188bc82",
+    "train_schedule_only.py": "b2ef351de3df5f990328aaa4565e96414efb94ee24a7b28b0584fe68ebd9bc0f",
+    "training_utils.py": "545d02b6e45cc03fe0df5ba270e2765ad53cb0a378d5515cd3d64a5889f6cd2e"
+  },
+  "approved_protocol_sha256": "806a4cc7fbf7d99411dbd03e87204ad475d242444833c7fe7c76c0ee0005ca1c",
+  "manifest_sha256": {
+    "train.csv": "90e42891babac142ba0693afc4d23e142c018c3a8dc274032552268f3e580be9",
+    "validation.csv": "7b0755f4a7a561e501f8142a92f64356e4ebcd20c874404e66cd4e74b80eee99",
+    "test.csv": "55f5dd35078a67af0c33d36c587047856aad5f0ba1720579d3f8b049a0337db7"
+  },
+  "counts": {
+    "train": {
+      "candidate_subjects": 476,
+      "scans": 1061,
+      "images": 21220,
+      "by_class": {
+        "NC": {
+          "candidate_subjects": 321,
+          "scans": 544,
+          "images": 10880
+        },
+        "AD": {
+          "candidate_subjects": 155,
+          "scans": 517,
+          "images": 10340
+        }
+      }
+    },
+    "validation": {
+      "candidate_subjects": 102,
+      "scans": 233,
+      "images": 4660,
+      "by_class": {
+        "NC": {
+          "candidate_subjects": 69,
+          "scans": 130,
+          "images": 2600
+        },
+        "AD": {
+          "candidate_subjects": 33,
+          "scans": 103,
+          "images": 2060
+        }
+      }
+    },
+    "test": {
+      "candidate_subjects": 102,
+      "scans": 232,
+      "images": 4640,
+      "by_class": {
+        "NC": {
+          "candidate_subjects": 69,
+          "scans": 109,
+          "images": 2180
+        },
+        "AD": {
+          "candidate_subjects": 33,
+          "scans": 123,
+          "images": 2460
+        }
+      }
+    }
+  },
+  "initialisation_rule": "identical seed-42 random custom ConvNeXt-Tiny tensors; private CPU initial tensor digest; no trained weights",
+  "rng_rule": "separate SHA256-derived seed42 epoch generators for scan order, independent per-slice angles and model stochastic depth; validation RNG saved/restored",
+  "a1_configuration": {
+    "recipe": "scratch_augmented",
+    "seed": 42,
+    "epochs": 30,
+    "min_epochs": 12,
+    "patience": 8,
+    "batch_size": 8,
+    "accumulation_steps": 4,
+    "rotation_degrees": 5.0,
+    "learning_rate": 0.0003,
+    "min_lr": 1e-06,
+    "weight_decay": 0.05,
+    "warmup_epochs": 3,
+    "head_only_epochs": 2,
+    "transfer_backbone_lr": 1e-05,
+    "gradient_clip": 5.0,
+    "device": "cuda",
+    "workers": 0
+  },
+  "a1_metrics": {
+    "slice": {
+      "n": 4660,
+      "threshold": 0.5,
+      "accuracy": 0.7218884120171674,
+      "balanced_accuracy": 0.7110959671396564,
+      "macro_f1": 0.7130464976654525,
+      "auroc": 0.7881167849141151,
+      "log_loss": 1.5592194773010404,
+      "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+        [
+          2091,
+          509
+        ],
+        [
+          787,
+          1273
+        ]
+      ],
+      "per_class": {
+        "NC": {
+          "precision": 0.7265462126476719,
+          "recall": 0.8042307692307692,
+          "f1": 0.7634173055859803,
+          "support": 2600
+        },
+        "AD": {
+          "precision": 0.7143658810325477,
+          "recall": 0.6179611650485437,
+          "f1": 0.6626756897449245,
+          "support": 2060
+        }
+      }
+    },
+    "scan": {
+      "n": 233,
+      "threshold": 0.5,
+      "accuracy": 0.7725321888412017,
+      "balanced_accuracy": 0.7598581030619866,
+      "macro_f1": 0.7633066912004294,
+      "auroc": 0.8260642270351007,
+      "log_loss": 0.6783220386735797,
+      "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+        [
+          113,
+          17
+        ],
+        [
+          36,
+          67
+        ]
+      ],
+      "per_class": {
+        "NC": {
+          "precision": 0.7583892617449665,
+          "recall": 0.8692307692307693,
+          "f1": 0.8100358422939068,
+          "support": 130
+        },
+        "AD": {
+          "precision": 0.7976190476190477,
+          "recall": 0.6504854368932039,
+          "f1": 0.7165775401069518,
+          "support": 103
+        }
+      }
+    },
+    "patient": {
+      "n": 102,
+      "threshold": 0.5,
+      "accuracy": 0.8333333333333334,
+      "balanced_accuracy": 0.7898550724637681,
+      "macro_f1": 0.8012151782643586,
+      "auroc": 0.8331137461572244,
+      "log_loss": 0.5141397796455792,
+      "confusion_matrix_rows_true_columns_predicted_NC_AD": [
+        [
+          63,
+          6
+        ],
+        [
+          11,
+          22
+        ]
+      ],
+      "per_class": {
+        "NC": {
+          "precision": 0.8513513513513513,
+          "recall": 0.9130434782608695,
+          "f1": 0.8811188811188811,
+          "support": 69
+        },
+        "AD": {
+          "precision": 0.7857142857142857,
+          "recall": 0.6666666666666666,
+          "f1": 0.7213114754098361,
+          "support": 33
+        }
+      }
+    }
+  },
+  "a1_source_sha256": {
+    "dataset.py": "5e6bc17a8cc3d9013b3934719b92d083e1c39abfae5820dfc4a05d8f19e8a8ff",
+    "modules.py": "f9e87782438a22829b962d97fc39b651b4fd0f25dcd2468188b9ec0a238a1cbf",
+    "training_utils.py": "df49b42613853aebf6415926f5b9f5c9621ef3311c2addb9b136ca8fa0286409",
+    "modules_v2.py": "eaac754ae1665fc712ea8d1b4e747038647b47deeeeec3aff2536f37b38403e9",
+    "train_convnext_v2.py": "df83692702e41bbbd9d994862b13d89ac31c77a4eb6c2befabcb83e0a6f6175f",
+    "V2_EXPERIMENT_PLAN.md": "8e980f02e32da1fad603286888cc124af3853650bca20499caecc03434bb2625"
+  },
+  "a1_checkpoint_sha256": "efde4d21993085119d3ef1bc0efb88f837954c187c95b036373cd00e59d4d5ef",
+  "expected_environment": {
+    "python": "3.11.9",
+    "torch": "2.7.1+cu126",
+    "numpy": "2.2.6",
+    "pillow": "11.2.1",
+    "sklearn": "1.6.1",
+    "platform": "Windows",
+    "device": "cuda",
+    "cuda_build": "12.6",
+    "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU"
+  },
+  "caps": {
+    "per_variant_active_seconds": 10800.0,
+    "total_active_seconds": 32400.0,
+    "free_disk_gib": 12,
+    "lease_seconds": 5.0
+  },
+  "active_execution_scope": "supervised training and selected-checkpoint replay, incl setup/validation/I/O/repeated work; exclude preparation, non-candidate smoke and downtime",
+  "headroom": {
+    "warning_allocated_gib": 4.5,
+    "minimum_free_device_gib": 1.0,
+    "minimum_free_device_fraction": 0.1,
+    "OOM_is_blocker": true
+  },
+  "selection": [
+    "patient_accuracy",
+    "macro_f1",
+    "negative_ordinary_patient_log_loss",
+    "earliest_exact_tie"
+  ],
+  "screen": {
+    "minimum_correct": 86,
+    "patients": 102,
+    "minimum_AD_detections": 22,
+    "AD_patients": 33,
+    "minimum_macro_f1": 0.8012151782643586,
+    "integrity_and_replay_required": true,
+    "G0_is_eligible": true,
+    "two_patient_margin_over_G0_required": false,
+    "automatic_adoption": false
+  },
+  "NLL_review_warning_increase": 0.02,
+  "NLL_Brier_are_diagnostics_not_extra_gates": true,
+  "replay_probability_absolute_tolerance": 2e-05,
+  "replay_class_decisions_must_match": true,
+  "no_test_inference": true,
+  "historical_A1_regression": "reuse explicitly bound prior clean-validation receipt plus cached validation probability comparison",
+  "implementation_phase_real_runs_authorized_for_Codex": false
+}
