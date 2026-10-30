@@ -1,0 +1,6 @@
+*.pth
+*.pt
+*.ckpt
+*.json
+logs/
+__pycache__/
