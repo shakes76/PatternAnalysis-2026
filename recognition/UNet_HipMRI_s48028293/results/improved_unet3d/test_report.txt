@@ -1,0 +1,19 @@
+Model: improved_unet3d (base 16, 9,462,242 parameters)
+Prostate Dice weight: 3.0
+Best epoch: 16 of 100
+Training time: 22.6 min
+Peak VRAM, training:  4260 MiB (batch size 2)
+Peak VRAM, inference: 1729 MiB (batch size 2)
+Inference time per case: 0.018 s (model forward only)
+Test loss: 0.1434
+
+Test results (per volume)
+Volumes evaluated: 9
+class         DSC mean  DSC std  DSC min  IoU mean  IoU std
+background      0.9962   0.0009   0.9948    0.9925   0.0019
+body            0.9806   0.0021   0.9772    0.9620   0.0040
+bone            0.8846   0.0075   0.8731    0.7932   0.0121
+bladder         0.9513   0.0160   0.9260    0.9076   0.0290
+rectum          0.7638   0.0794   0.6311    0.6245   0.1041
+prostate        0.8725   0.0270   0.8218    0.7748   0.0419
+mean            0.9082                      0.8424
