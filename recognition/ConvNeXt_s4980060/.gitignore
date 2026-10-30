@@ -1,0 +1,54 @@
+# --- Model weights / checkpoints (never commit) ---
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+checkpoints/
+
+# --- Datasets (never commit) ---
+data/
+*.nii
+*.nii.gz
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# --- Training outputs and logs ---
+# Figures used in the README go in assets/, which is NOT ignored.
+outputs/*
+# The data audit is evidence for the README's headline finding, not a build
+# artefact, so it is tracked while the checkpoints and logs beside it are not.
+!outputs/split_audit.json
+runs/
+logs/
+wandb/
+lightning_logs/
+mlruns/
+*.log
+slurm-*.out
+slurm-*.err
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Environments ---
+.venv/
+venv/
+env/
+.env
+
+# --- Editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+outputs_e20/
+eval_e20/
+assets_e20/
