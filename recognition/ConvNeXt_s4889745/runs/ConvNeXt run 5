@@ -1,0 +1,25 @@
+Architecture: ConvNeXt-T
+Depths: (3, 3, 9, 3)
+Channels: (96, 192, 384, 768)
+
+Optimizer: AdamW
+LR: 3e-4
+Weight decay: 1e-2
+Scheduler: CosineAnnealingLR
+Epochs: 30
+
+Best ConvNeXt validation accuracy: 0.8433 at epoch 22
+
+Best convnext Test Results
+Loss:      0.7570
+Accuracy:  0.7127
+Precision: 0.7291
+Recall:    0.7114
+Macro F1:  0.7066
+AUROC:     0.7872
+AD Precision: 0.7883
+NC Precision: 0.6699
+AD Recall: 0.5744
+NC Recall: 0.8485
+
+Observation:
