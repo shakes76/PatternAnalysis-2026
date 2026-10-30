@@ -1,0 +1,62 @@
+{
+  "model": "unet2d",
+  "checkpoint_epoch": 18,
+  "params": 31036806,
+  "test_dice": {
+    "background": 0.9970414042472839,
+    "body": 0.9840239882469177,
+    "bone": 0.9325980544090271,
+    "bladder": 0.9664284586906433,
+    "rectum": 0.8507827520370483,
+    "prostate": 0.8627333045005798
+  },
+  "test_iou": {
+    "background": 0.9941002726554871,
+    "body": 0.9685505032539368,
+    "bone": 0.8737084269523621,
+    "bladder": 0.9350377917289734,
+    "rectum": 0.7403150200843811,
+    "prostate": 0.7586024403572083
+  },
+  "prostate_dice_downsampled": null,
+  "prostate_dice_per_scan": {
+    "040_w0": 0.8746393915552059,
+    "040_w1": 0.8786094757499299,
+    "040_w2": 0.8918001885014137,
+    "040_w3": 0.866293034427542,
+    "040_w4": 0.8398083001937392,
+    "040_w5": 0.883696001715082,
+    "040_w7": 0.8643992932862191,
+    "041_w0": 0.8582067757009346,
+    "042_w0": 0.8403555684035556
+  },
+  "prostate_dice_per_scan_mean": 0.8664231143926248,
+  "prostate_dice_per_scan_std": 0.01705497458618417,
+  "prostate_dice_boundary_slices": 0.7072643548538671,
+  "prostate_dice_middle_slices": 0.8982757529071608,
+  "inference_ms_per_scan": 739.5938100008708,
+  "device": "mps",
+  "peak_inference_vram_gb": null,
+  "worst_slices": [
+    {
+      "scan": "040_w0",
+      "slice": 16,
+      "dice": 0.0
+    },
+    {
+      "scan": "040_w1",
+      "slice": 20,
+      "dice": 0.0
+    },
+    {
+      "scan": "040_w2",
+      "slice": 18,
+      "dice": 0.0
+    },
+    {
+      "scan": "040_w3",
+      "slice": 13,
+      "dice": 0.0
+    }
+  ]
+}

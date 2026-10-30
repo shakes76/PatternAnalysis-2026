@@ -1,0 +1,125 @@
+Thu Oct 29 19:39:04 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          Off |   00000000:0B:00.0 Off |                    0 |
+| N/A   36C    P0             34W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+GPU: NVIDIA A100-PCIE-40GB
+=== Inference VRAM and timing (trained checkpoints, full test set) ===
+Loaded outputs/best_unet2d.pt (epoch 18) on cuda
+
+Test set, full native resolution (9 scans)
+class           Dice     IoU
+background    0.9970  0.9941
+body          0.9840  0.9686
+bone          0.9326  0.8737
+bladder       0.9664  0.9350
+rectum        0.8508  0.7403
+prostate      0.8627  0.7586
+
+Prostate Dice per scan:
+  040_w0: 0.8746
+  040_w1: 0.8786
+  040_w2: 0.8918
+  040_w3: 0.8663
+  040_w4: 0.8398
+  040_w5: 0.8837
+  040_w7: 0.8644
+  041_w0: 0.8582
+  042_w0: 0.8403
+  mean 0.8664 +/- 0.0171 (std)
+
+Prostate Dice on boundary slices: 0.7072 | middle slices: 0.8983
+Inference time per scan (model only): 94.9 ms
+Peak GPU memory (inference): 3.61 GB
+Saved outputs/unet2d_worst_cases.png
+Saved outputs/unet2d_example_cases.png
+Saved outputs/unet2d_eval.json
+Loaded outputs/best_improved3d.pt (epoch 46) on cuda
+
+Test set, full native resolution (9 scans)
+class           Dice     IoU
+background    0.9941  0.9883
+body          0.9772  0.9555
+bone          0.8960  0.8116
+bladder       0.9451  0.8959
+rectum        0.8175  0.6914
+prostate      0.8593  0.7533
+(prostate Dice at 128x128x64, as train.py reported: 0.8739)
+
+Prostate Dice per scan:
+  040_w0: 0.8768
+  040_w1: 0.8537
+  040_w2: 0.8882
+  040_w3: 0.8378
+  040_w4: 0.8044
+  040_w5: 0.8832
+  040_w7: 0.8808
+  041_w0: 0.9047
+  042_w0: 0.8328
+  mean 0.8625 +/- 0.0305 (std)
+
+Prostate Dice on boundary slices: 0.7779 | middle slices: 0.9026
+Inference time per scan (model only): 22.7 ms
+Peak GPU memory (inference): 0.52 GB
+Saved outputs/improved3d_worst_cases.png
+Saved outputs/improved3d_example_cases.png
+Saved outputs/improved3d_eval.json
+=== Training VRAM (1-epoch runs, separate output folder) ===
+Device: cuda
+Model: unet2d | trainable parameters: 31,036,806
+Epoch   1/1 | train loss 0.4115 | val loss 0.4288 | val prostate Dice 0.7810 | 34s
+  -> new best, saved to outputs_vram/best_unet2d.pt
+Saved outputs_vram/unet2d_training_curves.png
+
+Test results (best epoch 1, 540 slices):
+class           Dice     IoU
+background    0.9864  0.9732
+body          0.9796  0.9599
+bone          0.9141  0.8418
+bladder       0.9600  0.9231
+rectum        0.6682  0.5018
+prostate      0.7969  0.6624
+
+Parameters: 31,036,806
+Training time: 0.6 min
+Peak GPU memory (training): 1.95 GB
+Test time per slice (incl. data loading): 1.4 ms
+Device: cuda
+Loading 191 train volumes (31 patients) into RAM...
+Loading 11 validate volumes (4 patients) into RAM...
+Loading 9 test volumes (3 patients) into RAM...
+Model: improved3d | trainable parameters: 9,464,674
+Epoch   1/1 | train loss 0.9443 | val loss 0.9176 | val prostate Dice 0.0000 | 9s
+  -> new best, saved to outputs_vram/best_improved3d.pt
+Saved outputs_vram/improved3d_training_curves.png
+
+Test results (best epoch 1, 9 slices):
+class           Dice     IoU
+background    0.9904  0.9811
+body          0.9295  0.8682
+bone          0.3803  0.2348
+bladder       0.7171  0.5589
+rectum        0.0000  0.0000
+prostate      0.0000  0.0000
+
+Parameters: 9,464,674
+Training time: 0.2 min
+Peak GPU memory (training): 1.99 GB
+Test time per slice (incl. data loading): 17.1 ms
+=== Summary ===
+grep: input file ‘logs/vram_713422.out’ is also the output

@@ -1,0 +1,36 @@
+{
+  "model": "improved3d",
+  "best_epoch": 46,
+  "params": 9464674,
+  "train_time_min": 724.2600478013356,
+  "peak_vram_gb": null,
+  "test_dice": {
+    "background": 0.9972609877586365,
+    "body": 0.9828082323074341,
+    "bone": 0.8974428772926331,
+    "bladder": 0.9460384845733643,
+    "rectum": 0.8179270029067993,
+    "prostate": 0.8737393617630005
+  },
+  "test_iou": {
+    "background": 0.9945369958877563,
+    "body": 0.9661976099014282,
+    "bone": 0.8139650225639343,
+    "bladder": 0.8976024985313416,
+    "rectum": 0.6919429302215576,
+    "prostate": 0.775787889957428
+  },
+  "args": {
+    "model": "improved3d",
+    "epochs": 100,
+    "batch_size": 2,
+    "lr": 0.001,
+    "base": 16,
+    "num_workers": 4,
+    "preload": false,
+    "data_root": "/Users/hafizhmustafa/Datasets/HipMRI",
+    "out_dir": "outputs",
+    "seed": 42,
+    "smoke": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "model": "unet2d",
+  "best_epoch": 18,
+  "params": 31036806,
+  "train_time_min": 247.36321618159613,
+  "peak_vram_gb": null,
+  "test_dice": {
+    "background": 0.9970414042472839,
+    "body": 0.9840239882469177,
+    "bone": 0.9325980544090271,
+    "bladder": 0.9664284586906433,
+    "rectum": 0.8507827520370483,
+    "prostate": 0.8627333045005798
+  },
+  "test_iou": {
+    "background": 0.9941002726554871,
+    "body": 0.9685505032539368,
+    "bone": 0.8737084269523621,
+    "bladder": 0.9350377917289734,
+    "rectum": 0.7403150200843811,
+    "prostate": 0.7586024403572083
+  },
+  "args": {
+    "model": "unet2d",
+    "epochs": 30,
+    "batch_size": 16,
+    "lr": 0.001,
+    "base": 64,
+    "num_workers": 0,
+    "preload": true,
+    "data_root": "/Users/hafizhmustafa/Datasets/HipMRI/keras_slices_data",
+    "out_dir": "outputs",
+    "seed": 42,
+    "smoke": false
+  }
+}

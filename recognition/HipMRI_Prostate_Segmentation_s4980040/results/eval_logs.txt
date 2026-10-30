@@ -1,0 +1,57 @@
+(comp3710) hafizhmustafa@s4797416 HipMRI_Prostate_Segmentation_s4980040 % python predict.py --model unet2d --data-root ~/Datasets/HipMRI/keras_slices_data
+Loaded outputs/best_unet2d.pt (epoch 18) on mps
+
+Test set, full native resolution (9 scans)
+class           Dice     IoU
+background    0.9970  0.9941
+body          0.9840  0.9686
+bone          0.9326  0.8737
+bladder       0.9664  0.9350
+rectum        0.8508  0.7403
+prostate      0.8627  0.7586
+
+Prostate Dice per scan:
+  040_w0: 0.8746
+  040_w1: 0.8786
+  040_w2: 0.8918
+  040_w3: 0.8663
+  040_w4: 0.8398
+  040_w5: 0.8837
+  040_w7: 0.8644
+  041_w0: 0.8582
+  042_w0: 0.8404
+  mean 0.8664 +/- 0.0171 (std)
+
+Prostate Dice on boundary slices: 0.7073 | middle slices: 0.8983
+Inference time per scan (model only): 739.6 ms
+Saved outputs/unet2d_worst_cases.png
+Saved outputs/unet2d_eval.json
+(comp3710) hafizhmustafa@s4797416 HipMRI_Prostate_Segmentation_s4980040 % PYTORCH_ENABLE_MPS_FALLBACK=1 python predict.py --model improved3d --data-root ~/Datasets/HipMRI
+Loaded outputs/best_improved3d.pt (epoch 46) on mps
+
+Test set, full native resolution (9 scans)
+class           Dice     IoU
+background    0.9941  0.9883
+body          0.9772  0.9555
+bone          0.8960  0.8116
+bladder       0.9451  0.8959
+rectum        0.8175  0.6913
+prostate      0.8593  0.7533
+(prostate Dice at 128x128x64, as train.py reported: 0.8737)
+
+Prostate Dice per scan:
+  040_w0: 0.8767
+  040_w1: 0.8537
+  040_w2: 0.8882
+  040_w3: 0.8377
+  040_w4: 0.8044
+  040_w5: 0.8832
+  040_w7: 0.8806
+  041_w0: 0.9048
+  042_w0: 0.8329
+  mean 0.8625 +/- 0.0304 (std)
+
+Prostate Dice on boundary slices: 0.7779 | middle slices: 0.9026
+Inference time per scan (model only): 840.1 ms
+Saved outputs/improved3d_worst_cases.png
+Saved outputs/improved3d_eval.json
