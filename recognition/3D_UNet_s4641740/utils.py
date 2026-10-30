@@ -1,0 +1,319 @@
+"""Utilities for evaluating and visualising 3D U-Net predictions."""
+from pathlib import Path
+
+import nibabel as nib
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
+
+INFERENCE_DIR = Path("C:/Users/User/SEMESTER 2/COMP3710/project/PatternAnalysis-2026/recognition/3D_UNet_s4641740/inference")
+DATASET_DIR = Path("C:/Users/User/SEMESTER 2/COMP3710/project/HipMRI_Study_open")
+
+MRI_DIR = DATASET_DIR / "semantic_MRs"
+GT_DIR = DATASET_DIR / "semantic_labels_only"
+
+NUM_CLASSES = 6  # Background = 0, foreground classes = 1 to 5
+    
+TEST_PATIENT_IDS = {"B040", "W041", "K042"}
+
+
+def find_matching_file(folder, key, suffix):
+    """Find exactly one file matching the selected case and suffix."""
+    matches = list(folder.glob(f"*{key}{suffix}"))
+
+    # Report missing or ambiguous matches
+    if len(matches) == 0:
+        raise FileNotFoundError(
+            f"No matching file found in:\n{folder}\n"
+            f"Search key: {key}\nExpected suffix: {suffix}"
+        )
+
+    if len(matches) > 1:
+        raise RuntimeError(
+            f"Multiple files matched '{key}' in {folder}:\n"
+            + "\n".join(str(p) for p in matches)
+            + "\nUse a more specific search key."
+        )
+
+    return matches[0]
+
+def load_volume(path):
+    """Load a NIfTI volume and its spatial metadata."""
+    nii = nib.load(str(path))
+    volume = np.asarray(nii.dataobj)
+
+    if volume.ndim != 3:
+        raise ValueError(
+            f"Expected a 3D volume, got shape {volume.shape} for {path}"
+        )
+
+    return volume, nii.affine
+
+def dice_score(prediction_mask, ground_truth_mask):
+    """Calculate binary Dice for two masks."""
+    pred_count = np.count_nonzero(prediction_mask)
+    gt_count = np.count_nonzero(ground_truth_mask)
+
+    denominator = pred_count + gt_count
+
+    # Return None if both masks are empty.
+    if denominator == 0:
+        return None
+
+    intersection = np.count_nonzero(
+        prediction_mask & ground_truth_mask
+    )
+
+    return 2.0 * intersection / denominator
+
+def calculate_dice(prediction, ground_truth):
+    """Calculate per-class Dice and overall foreground Dice."""
+    results = {}
+
+    # Calculate Dice separately for each foreground class
+    for class_id in range(1, NUM_CLASSES):
+        results[class_id] = dice_score(
+            prediction == class_id,
+            ground_truth == class_id,
+        )
+
+    # Calculate Dice across all foreground voxels, regardless of class
+    results["foreground"] = dice_score(
+        prediction > 0,
+        ground_truth > 0,
+    )
+
+    # Calculate macro Dice across classes present in either mask
+    # Classes absent from both masks are excluded
+    present_scores = [
+        score
+        for class_id, score in results.items()
+        if isinstance(class_id, int) and score is not None
+    ]
+
+    results["macro_foreground"] = (
+        float(np.mean(present_scores)) if present_scores else None
+    )
+
+    return results
+
+def print_dice(results):
+    """Print the calculated Dice metrics."""
+    print("\n" + "=" * 48)
+    print("DICE RESULTS")
+    print("=" * 48)
+
+    for class_id in range(1, NUM_CLASSES):
+        score = results[class_id]
+
+        if score is None:
+            print(f"Class {class_id}: N/A (empty in both masks)")
+        else:
+            print(f"Class {class_id}: {score:.4f}")
+
+    print("-" * 48)
+
+    # Display overall foreground and macro foreground Dice
+    for name, label in [
+        ("foreground", "Overall foreground Dice"),
+        ("macro_foreground", "Mean foreground class Dice"),
+    ]:
+        score = results[name]
+        print(f"{label}: {score:.4f}" if score is not None
+              else f"{label}: N/A")
+
+    print("=" * 48)
+
+def display_case(mri, ground_truth, prediction, slice_index, key):
+    """Compare MRI, masks, exact-label errors and foreground errors."""
+
+    # Extract the selected axial slice and transpose for display
+    image_slice = mri[:, :, slice_index].T
+    gt_slice = ground_truth[:, :, slice_index].T
+    pred_slice = prediction[:, :, slice_index].T
+
+    # Compare predicted and ground-truth labels at each voxel
+    exact_errors = pred_slice != gt_slice
+
+    # Identify disagreements specifically between foreground and background
+    foreground_errors = (pred_slice > 0) != (gt_slice > 0)
+
+    # Create a six-panel figure for visual comparison
+    fig, axes = plt.subplots(2, 3, figsize=(15, 10))
+    axes = axes.ravel()
+
+    axes[0].imshow(image_slice, cmap="gray", origin="lower")
+    axes[0].set_title("Original MRI")
+
+    # Use a consistent colour for each segmentation class
+    label_cmap = ListedColormap([
+        "black", "red", "lime", "blue", "yellow", "magenta"
+    ])
+
+    axes[1].imshow(
+        gt_slice, cmap=label_cmap,
+        vmin=0, vmax=NUM_CLASSES - 1,
+        interpolation="nearest", origin="lower"
+    )
+    axes[1].set_title("Ground Truth")
+
+    axes[2].imshow(
+        pred_slice, cmap=label_cmap,
+        vmin=0, vmax=NUM_CLASSES - 1,
+        interpolation="nearest", origin="lower"
+    )
+    axes[2].set_title("Prediction")
+
+    # Display every voxel where the predicted class differs from the ground truth
+    axes[3].imshow(
+        exact_errors, cmap="gray",
+        vmin=0, vmax=1, interpolation="nearest", origin="lower"
+    )
+    axes[3].set_title(
+        f"Exact-label errors: {exact_errors.sum()} voxels"
+    )
+
+    # Display only disagreements between foreground and background
+    axes[4].imshow(
+        foreground_errors, cmap="gray",
+        vmin=0, vmax=1, interpolation="nearest", origin="lower"
+    )
+    axes[4].set_title(
+        f"Foreground errors: {foreground_errors.sum()} voxels"
+    )
+
+    # Overlay exact-label errors on the original MRI in white
+    axes[5].imshow(image_slice, cmap="gray", origin="lower")
+    error_overlay = np.ma.masked_where(
+        ~exact_errors, exact_errors.astype(float)
+    )
+    axes[5].imshow(
+        error_overlay, cmap="gray",
+        vmin=0, vmax=1, alpha=0.9,
+        interpolation="nearest", origin="lower"
+    )
+    axes[5].set_title("MRI + errors in white")
+
+    # Remove axis markings and add the case and slice information
+    for ax in axes:
+        ax.set_axis_off()
+
+    fig.suptitle(
+        f"{key} | Slice {slice_index}/{mri.shape[2] - 1}",
+        fontsize=14
+    )
+    plt.tight_layout()
+    plt.show()
+
+def main():
+    # Ask the user for a substring identifying the volume to evaluate
+    print("HipMRI 3D U-Net evaluation")
+    print("Enter a substring from the filenames, e.g. 006_Week0")
+    key = input("Case key: ").strip()
+
+    if not key:
+        print("No case key entered.")
+        return
+
+    # Locate the MRI, ground-truth segmentation and predicted segmentation
+    mri_path = find_matching_file(
+        MRI_DIR, key, "_LFOV.nii.gz"
+    )
+    gt_path = find_matching_file(
+        GT_DIR, key, "_SEMANTIC.nii.gz"
+    )
+    pred_path = find_matching_file(
+        INFERENCE_DIR, key, "_LFOV_segmentation_3d.nii.gz"
+    )
+
+    print("\nMatched files:")
+    print(f"MRI:        {mri_path}")
+    print(f"Ground truth: {gt_path}")
+    print(f"Prediction: {pred_path}")
+
+    # Warn if the selected case is not part of the held-out test partition
+    patient_id = mri_path.name.split("_")[0]
+
+    if patient_id in TEST_PATIENT_IDS:
+        print(f"\n{patient_id}: listed as a held-out test patient.")
+    else:
+        print(
+            f"\nWARNING: {patient_id} is not in the configured test "
+            "patient list."
+        )
+
+    # Load all three volumes and their spatial metadata
+    mri, mri_affine = load_volume(mri_path)
+    gt, gt_affine = load_volume(gt_path)
+    pred, pred_affine = load_volume(pred_path)
+
+    # Ensure all volumes have matching dimensions
+    if mri.shape != gt.shape or gt.shape != pred.shape:
+        raise ValueError(
+            "Volume shape mismatch:\n"
+            f"MRI: {mri.shape}\n"
+            f"Ground truth: {gt.shape}\n"
+            f"Prediction: {pred.shape}"
+        )
+
+    # Check that the volumes share the same spatial coordinate system
+    if not (
+        np.allclose(mri_affine, gt_affine)
+        and np.allclose(gt_affine, pred_affine)
+    ):
+        raise ValueError(
+            "The NIfTI affine matrices differ. Check that the volumes "
+            "are spatially aligned before calculating Dice."
+        )
+
+    # Validate segmentation values before calculating metrics
+    for name, volume in [
+        ("Ground truth", gt),
+        ("Prediction", pred),
+    ]:
+        if not np.all(np.isfinite(volume)):
+            raise ValueError(f"{name} contains non-finite values.")
+
+        if not np.allclose(volume, np.round(volume)):
+            raise ValueError(
+                f"{name} contains non-integer labels. "
+                "Check how the segmentation was saved."
+            )
+
+        labels = set(np.unique(volume).astype(int))
+        if not labels.issubset(set(range(NUM_CLASSES))):
+            raise ValueError(
+                f"{name} contains unexpected labels: {sorted(labels)}"
+            )
+
+    # Convert validated segmentation volumes to integer label arrays
+    gt = np.round(gt).astype(np.int16)
+    pred = np.round(pred).astype(np.int16)
+
+    print(f"\nVolume shape: {mri.shape}")
+    print(f"Ground-truth labels: {np.unique(gt)}")
+    print(f"Prediction labels:   {np.unique(pred)}")
+
+    # Calculate and display segmentation metrics
+    results = calculate_dice(pred, gt)
+    print_dice(results)
+
+    # Ask which slice to visualise, defaulting to the middle slice
+    slice_text = input(
+        f"\nSlice index (0-{mri.shape[2] - 1}, "
+        "press Enter for middle slice): "
+    ).strip()
+
+    if slice_text:
+        slice_index = int(slice_text)
+        if not 0 <= slice_index < mri.shape[2]:
+            raise ValueError("Slice index is outside the volume.")
+    else:
+        slice_index = mri.shape[2] // 2
+
+    display_case(mri, gt, pred, slice_index, key)
+
+
+if __name__ == "__main__":
+    main()
