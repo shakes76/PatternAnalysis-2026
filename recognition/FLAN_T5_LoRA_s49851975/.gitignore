@@ -1,0 +1,21 @@
+# Python cache files
+__pycache__/
+*.pyc
+
+# Local virtual environment
+.venv/
+
+# Datasets are downloaded from Hugging Face and must not be committed
+data/
+
+# Model weights are saved to Google Drive, not to git
+checkpoints/
+*.pt
+*.bin
+*.safetensors
+
+# Generated outputs (predictions, logs, run summaries)
+outputs/
+
+# macOS files
+.DS_Store

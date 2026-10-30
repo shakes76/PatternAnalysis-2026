@@ -1,0 +1,8 @@
+# Exact versions used for the Colab runs (Python 3.13.16, torch built for CUDA 13.0, NVIDIA RTX PRO 6000).
+torch==2.11.0
+transformers==5.20.2
+datasets==4.8.5
+textstat==0.7.13
+matplotlib==3.10.0
+rouge-score==0.1.2
+nltk==3.9.1
