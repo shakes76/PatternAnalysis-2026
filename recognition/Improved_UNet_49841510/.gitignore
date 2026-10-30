@@ -1,0 +1,8 @@
+# Ignore trained model checkpoints
+checkpoints/
+*.pth
+*.pt
+
+# Ignore Python cache
+__pycache__/
+*.pyc
