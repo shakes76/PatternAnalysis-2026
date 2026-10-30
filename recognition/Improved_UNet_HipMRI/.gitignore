@@ -1,0 +1,25 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Trained models and experiment checkpoints
+runs/
+*.pth
+*.pt
+
+# Slurm output and error logs
+*.out
+*.err
+
+# Temporary files
+train_backup.py
+__pycache__/
+*.pyc
+runs/
+train_*.out
+train_*.err
+improved_*.out
+improved_*.err
+eval_*.out
+eval_*.err
+
