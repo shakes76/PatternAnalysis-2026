@@ -1,20 +1,8 @@
-# Pattern Analysis
-Pattern Analysis of various datasets by COMP3710 students in 2025 at the University of Queensland.
+To whoever is marking this. 
 
-We create pattern recognition and image processing library for Tensorflow (TF), PyTorch or JAX.
+I originally had all my files in this folder here and then realised I needed to move them into my own folder within recognition.
 
-This library is created and maintained by The University of Queensland [COMP3710](https://my.uq.edu.au/programs-courses/course.html?course_code=comp3710) students.
+I thought git would recognise those mv commands in linux as a file rename, turns out it just copies over the data and treats them as 2 separate files. 
+I have left these files here as proof of my commit messages, so that is why they're here. 
 
-The library includes the following implemented in Tensorflow:
-* fractals 
-* recognition problems
-
-In the recognition folder, you will find many recognition problems solved including:
-* segmentation
-* classification
-* graph neural networks
-* StyleGAN
-* Stable diffusion
-* transformers
-etc.
-
+I apologise for the mess I have created with my commits :///
