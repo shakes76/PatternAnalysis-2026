@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Project specific
+data/
+*.csv
+*.pth
+*.pt
+*.ckpt
+# Run outputs are ignored except each run's config.json (small, needed to reproduce it)
+runs/**
+!runs/**/
+!runs/**/config.json
