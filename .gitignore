@@ -1,0 +1,15 @@
+# We arent supposed to commit full dataset and training
+dataset/
+models/
+
+MambaIR/
+
+experiments/
+samples/
+checkpoints/
+
+#Just external files such as task sheet and starter code
+reference/
+
+.vscode/
+__pycache__/

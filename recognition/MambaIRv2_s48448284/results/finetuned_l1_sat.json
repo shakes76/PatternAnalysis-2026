@@ -1,0 +1,16 @@
+{
+  "run": "finetuned_l1_sat",
+  "frozen": false,
+  "loss": "l1_sat",
+  "epochs": 50,
+  "lr": 0.0001,
+  "batch_size": 1,
+  "best_val_loss": 0.07697760390738646,
+  "final_val_loss": 0.07755682190259297,
+  "final_val_psnr": 23.782972986158082,
+  "final_val_ssim": 0.9419625653316633,
+  "best_val_psnr": 23.85347500213214,
+  "best_val_ssim": 0.9436553021351625,
+  "total_train_time_s": 28877.6374835968,
+  "mean_epoch_time_s": 577.552749671936
+}

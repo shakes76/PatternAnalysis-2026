@@ -1,0 +1,16 @@
+{
+  "run": "finetuned_lpips",
+  "frozen": false,
+  "loss": "lpips",
+  "epochs": 50,
+  "lr": 0.0001,
+  "batch_size": 1,
+  "best_val_loss": 0.2534711630145709,
+  "final_val_loss": 0.25428882042566936,
+  "final_val_psnr": 23.782693947169378,
+  "final_val_ssim": 0.9353707511062773,
+  "best_val_psnr": 23.79159047028863,
+  "best_val_ssim": 0.937331269192691,
+  "total_train_time_s": 27561.46529197693,
+  "mean_epoch_time_s": 551.2293058395386
+}

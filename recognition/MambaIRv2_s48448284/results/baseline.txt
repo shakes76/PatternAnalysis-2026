@@ -1,0 +1,59 @@
+base 2:
+HYPERPARAMETERS:
+num_epochs = 100
+lr = 1e - 4
+batch_size = 16
+criterion = MSE
+---
+kernel_size = 3
+stride=2
+padding=1
+output_padding=1
+channel sizes: 1-> 64 -> 128 -> 256
+            256 → 128 → 64 → 2       
+
+RESULTS:
+Test PSNR: 22.6826
+Test SSIM: 0.9131
+Test LPIPS: 0.2035  (lower is better)
+Colorfulness — Predicted: 20.46  Ground Truth: 40.58
+
+base 3:
+HYPERPARAMETERS
+same as above EXCEPT
+MSE -> L1
+
+RESULTS
+Test PSNR: 22.6877
+Test SSIM: 0.9157
+Test LPIPS: 0.2038
+Colorfulness — Predicted: 17.59  Ground Truth: 40.58
+--
+Test PSNR: 22.6617
+Test SSIM: 0.9112
+Test LPIPS: 0.2086
+Colorfulness — Predicted: 20.58  Ground Truth: 40.58
+--
+Test PSNR: 22.7903
+Test SSIM: 0.9167
+Test LPIPS: 0.2008
+Colorfulness — Predicted: 18.97  Ground Truth: 40.58
+
+lpips:
+HYPERPARAMETERS
+SAME but
+L1 -> LPIPS
+Test PSNR: 21.8546
+Test SSIM: 0.8065
+Test LPIPS: 0.2113
+Colorfulness — Predicted: 22.42  Ground Truth: 40.58
+
+
+l1_sat:
+same but
+lpips -> l1+sat
+
+Test PSNR: 22.6210
+Test SSIM: 0.9096
+Test LPIPS: 0.2065
+Colorfulness — Predicted: 22.25  Ground Truth: 40.58

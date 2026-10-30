@@ -1,0 +1,7 @@
+{
+  "test_psnr": 23.595671621577374,
+  "test_ssim": 0.9202076684094933,
+  "test_lpips": 0.17826099670306836,
+  "test_colorfulness_pred": 20.45241847833099,
+  "test_colorfulness_true": 41.08291737952675
+}
