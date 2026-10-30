@@ -1,0 +1,5 @@
+Device: NVIDIA GeForce RTX 3080
+G params: 4,393,856 | D params: 2,771,712
+Peak VRAM: 930 MB
+Mean epoch time: 26.7 s (total 111.3 min for 250 epochs)
+Generate 64 images: 2.2 ms
