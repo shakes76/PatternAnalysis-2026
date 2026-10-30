@@ -1,0 +1,22 @@
+# Secrets
+secrets.txt
+.env
+.env.*
+
+# Python environment
+.venv/
+__pycache__/
+*.pyc
+
+# Datasets and trained models
+data/
+*.pt
+*.pth
+*.ckpt
+
+# Local documents
+*.docx
+~$*
+
+.DS_Store
+recognition/GCN_s4808310/outputs/
