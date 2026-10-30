@@ -1,0 +1,5 @@
+Best Epoch: 14
+Best Validation Dice: 0.9077
+Training Time: 78.03 minutes
+Parameters: 796026
+Peak VRAM: 0.225 GB

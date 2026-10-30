@@ -1,0 +1,3 @@
+filename,index,selection_reason,figure,baseline_dice,baseline_iou,baseline_hd95_pixels,baseline_fp,baseline_fn,improved_dice,improved_iou,improved_hd95_pixels,improved_fp,improved_fn
+case_040_week_0_slice_36.nii.gz,30,Possible boundary failure,results\selected_failures\case_040_week_0_slice_36.png,0.4673913043478261,0.3049645390070922,7.1200799705373505,18,178,0.09386281588447654,0.04924242424242424,14.01605098142819,0,251
+case_040_week_4_slice_17.nii.gz,249,Possible disconnected prediction,results\selected_failures\case_040_week_4_slice_17.png,0.5696969696969697,0.3983050847457627,3.605551275463989,3,68,0.0,0.0,inf,0,115

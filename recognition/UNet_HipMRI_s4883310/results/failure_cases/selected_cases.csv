@@ -1,0 +1,6 @@
+index,filename,reason,region,figure
+28,case_040_week_0_slice_34.nii.gz,Poor apex segmentation,Apex,results\failure_cases\failure_0028.png
+30,case_040_week_0_slice_36.nii.gz,Poor base segmentation,Base,results\failure_cases\failure_0030.png
+511,case_042_week_0_slice_37.nii.gz,Improved U-Net disconnected components,,results\failure_cases\failure_0511.png
+489,case_042_week_0_slice_17.nii.gz,Predicted area deficit,,results\failure_cases\failure_0489.png
+484,case_042_week_0_slice_12.nii.gz,Largest regional Dice difference,,results\failure_cases\failure_0484.png
