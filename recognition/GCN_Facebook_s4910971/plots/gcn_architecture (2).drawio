@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="Electron">
+  <diagram id="gcn-model" name="GCN architecture">
+    <mxGraphModel dx="1530" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1480" pageHeight="840" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="heading-main" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=24;spacing=8;fontStyle=1;" value="&lt;span style=&quot;font-size: 29px;&quot;&gt;Four-layer GCN&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="1400" x="30" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="input" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=21;spacing=8;" value="Input features&lt;br&gt;128 per node" vertex="1">
+          <mxGeometry height="150" width="170" x="30" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="stage-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=21;spacing=8;" value="Dropout (p = 0.2)&lt;br&gt;↓&lt;br&gt;&lt;b&gt;GCN 1: 128 → 64&lt;/b&gt;&lt;br&gt;↓&lt;br&gt;ReLU" vertex="1">
+          <mxGeometry height="200" width="230" x="250" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="stage-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=21;spacing=8;" value="Dropout (p = 0.2)&lt;br&gt;↓&lt;br&gt;&lt;b&gt;GCN 2: 64 → 64&lt;/b&gt;&lt;br&gt;↓&lt;br&gt;ReLU" vertex="1">
+          <mxGeometry height="200" width="230" x="520" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="stage-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=21;spacing=8;" value="Dropout (p = 0.2)&lt;br&gt;↓&lt;br&gt;&lt;b&gt;GCN 3: 64 → 64&lt;/b&gt;&lt;br&gt;↓&lt;br&gt;ReLU" vertex="1">
+          <mxGeometry height="200" width="230" x="790" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="stage-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=21;spacing=8;" value="Dropout (p = 0.2)&lt;br&gt;↓&lt;br&gt;&lt;b&gt;GCN 4: 64 → 4&lt;/b&gt;&lt;br&gt;↓&lt;br&gt;4 class scores" vertex="1">
+          <mxGeometry height="200" width="230" x="1060" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="input-first" edge="1" parent="1" source="input" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="stage-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="between-1" edge="1" parent="1" source="stage-1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="stage-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="between-2" edge="1" parent="1" source="stage-2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="stage-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="between-3" edge="1" parent="1" source="stage-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="stage-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="heading-layer" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=24;spacing=8;fontStyle=1;" value="Inside one GCN layer" vertex="1">
+          <mxGeometry height="40" width="1400" x="30" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="features" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=20;spacing=8;" value="Node features&lt;br&gt;d_in features per node" vertex="1">
+          <mxGeometry height="100" width="200" x="30" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="linear" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=20;spacing=8;" value="Feature transformation&lt;br&gt;Linear (no bias)&lt;br&gt;d_out features per node" vertex="1">
+          <mxGeometry height="140" width="250" x="280" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="aggregate" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=20;spacing=8;" value="Neighbour aggregation&lt;br&gt;Self + direct neighbours&lt;br&gt;Degree-weighted sum" vertex="1">
+          <mxGeometry height="140" width="290" x="600" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="bias" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=20;spacing=8;" value="Add bias b&lt;br&gt;Shared by all nodes" vertex="1">
+          <mxGeometry height="100" width="180" x="960" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="output" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=20;spacing=8;" value="Layer output&lt;br&gt;d_out features per node" vertex="1">
+          <mxGeometry height="100" width="230" x="1200" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="graph" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=18;spacing=8;" value="Graph connections → self-loops and degree normalisation" vertex="1">
+          <mxGeometry height="40" width="550" x="470" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="feat-linear" edge="1" parent="1" source="features" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="linear">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="linear-aggregate" edge="1" parent="1" source="linear" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="aggregate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aggregate-bias" edge="1" parent="1" source="aggregate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="bias">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bias-output" edge="1" parent="1" source="bias" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="output">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="graph-aggregate" edge="1" parent="1" source="graph" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;dashed=1;" target="aggregate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layer-notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=1.5;fontFamily=Arial;fontColor=#000000;fontSize=18;spacing=8;" value="Learn W and b during training; compute aggregation coefficients from node degrees.&lt;br&gt;Share W and b across nodes within each layer; use separate parameters for each GCN layer.&lt;br&gt;Whole-graph computation preserves all 22,470 nodes." vertex="1">
+          <mxGeometry height="90" width="1400" x="30" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="edOS569nghhe4N1BVeT5-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontFamily=Arial;fontColor=#000000;fontSize=17;" value="Dropout is enabled only during training." vertex="1">
+          <mxGeometry height="40" width="460" x="510" y="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
