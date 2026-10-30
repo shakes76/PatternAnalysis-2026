@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.log
+*.out
+*.err
+*.pt
+*.pth
+results/
+_local/
+*.sbatch.bak*
+
+# Small original logs retained with the public resource measurement record.
+!support/saved_results/resource_results/resource_717015.out
+!support/saved_results/resource_results/resource_717015.err

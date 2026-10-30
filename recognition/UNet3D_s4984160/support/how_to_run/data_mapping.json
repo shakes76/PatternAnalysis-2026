@@ -1,0 +1,140 @@
+{
+  "verified_date": "2026-10-30",
+  "root": "/home/groups/comp3710/HipMRI_Study_open",
+  "scan_count": 211,
+  "patient_count": 38,
+  "slice_pair_count": 12660,
+  "slices_per_scan": 60,
+  "slice_indices": [
+    0,
+    59
+  ],
+  "three_d_axis": 1,
+  "original_axis_indices": [
+    98,
+    157
+  ],
+  "flip_in_plane_axis": 0,
+  "anatomical_plane": "coronal (inferred from original 3D LPS orientation and matched axis)",
+  "formula": "slice_2d[i] = volume_3d[::-1, 98+i, :]",
+  "inverse": "volume_3d[:, 98+i, :] = slice_2d[i][::-1, :]",
+  "index_base": 0,
+  "patient_mapping": {
+    "004": "M004",
+    "005": "J005",
+    "006": "B006",
+    "007": "H007",
+    "008": "K008",
+    "009": "T009",
+    "010": "N010",
+    "011": "L011",
+    "012": "W012",
+    "013": "M013",
+    "014": "T014",
+    "015": "M015",
+    "016": "R016",
+    "017": "H017",
+    "018": "K018",
+    "019": "K019",
+    "020": "M020",
+    "021": "G021",
+    "022": "S022",
+    "023": "M023",
+    "024": "R024",
+    "025": "O025",
+    "026": "J026",
+    "027": "V027",
+    "028": "S028",
+    "029": "W029",
+    "030": "M030",
+    "031": "D031",
+    "032": "C032",
+    "033": "S033",
+    "035": "S035",
+    "036": "M036",
+    "037": "B037",
+    "038": "B038",
+    "039": "R039",
+    "040": "B040",
+    "041": "W041",
+    "042": "K042"
+  },
+  "original_folders": {
+    "train": {
+      "patients": 31,
+      "slices": 11460
+    },
+    "validate": {
+      "patients": 4,
+      "slices": 660
+    },
+    "test": {
+      "patients": 3,
+      "slices": 540
+    }
+  },
+  "our_patient_split": {
+    "train": {
+      "patients": 26,
+      "scans": 145,
+      "slices": 8700
+    },
+    "validation": {
+      "patients": 6,
+      "scans": 39,
+      "slices": 2340
+    },
+    "test": {
+      "patients": 6,
+      "scans": 27,
+      "slices": 1620
+    }
+  },
+  "original_3d_headers": {
+    "orientation_counts": {
+      "LPS": 211
+    },
+    "shape_counts": {
+      "256,256,128": 210,
+      "256,256,144": 1
+    },
+    "special_scan": "K019_Week1_LFOV.nii.gz"
+  },
+  "content_verification": {
+    "unique_slice_pairs": 69,
+    "checks": [
+      {
+        "scan": "M004_Week0_LFOV.nii.gz",
+        "indices": "all 0..59"
+      },
+      {
+        "scan": "M036_Week0_LFOV.nii.gz",
+        "indices": [
+          0,
+          30,
+          59
+        ]
+      },
+      {
+        "scan": "B040_Week0_LFOV.nii.gz",
+        "indices": [
+          0,
+          30,
+          59
+        ]
+      },
+      {
+        "scan": "K019_Week1_LFOV.nii.gz",
+        "indices": [
+          0,
+          30,
+          59
+        ]
+      }
+    ],
+    "mri_max_absolute_error": 0,
+    "mask_exact_agreement": 1,
+    "scope": "All filename/scan/patient correspondences and 3D header orientations checked; pixel equality sampled across four scans, not all 12660 pairs."
+  },
+  "warning": "Sampled 2D headers use identity affine and nominal 1 mm spacing; derive physical geometry from the mapped original 3D volume. Retain original voxel-grid mapping and sampled coverage when comparing to downsampled 3D predictions. Numeric label equality does not independently verify anatomical label names."
+}

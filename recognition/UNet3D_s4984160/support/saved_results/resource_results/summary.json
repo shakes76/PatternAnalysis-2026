@@ -1,0 +1,58 @@
+{
+  "profiles": [
+    {
+      "model": "standard_2d_unet",
+      "precision": "fp32",
+      "scans": 27,
+      "parameters": 1942374,
+      "forward_case_ms_mean": 18.63229365295006,
+      "forward_case_ms_median": 18.63192510791123,
+      "prediction_case_ms_mean": 21.760169494276244,
+      "prediction_case_ms_median": 21.754221059381962,
+      "peak_allocated_gib": 0.27098512649536133,
+      "peak_reserved_gib": 0.341796875,
+      "non_model_allocated_bytes_before_load": 0,
+      "batch_size": 16
+    },
+    {
+      "model": "standard_3d_unet",
+      "precision": "fp32",
+      "scans": 27,
+      "parameters": 351206,
+      "forward_case_ms_mean": 17.047133969349993,
+      "forward_case_ms_median": 17.04700500704348,
+      "prediction_case_ms_mean": 18.245753590707427,
+      "prediction_case_ms_median": 18.24306300841272,
+      "peak_allocated_gib": 0.1815047264099121,
+      "peak_reserved_gib": 0.240234375,
+      "non_model_allocated_bytes_before_load": 0,
+      "batch_size": 1
+    },
+    {
+      "model": "standard_3d_unet",
+      "precision": "bf16",
+      "scans": 27,
+      "parameters": 351206,
+      "forward_case_ms_mean": 9.64160110042603,
+      "forward_case_ms_median": 9.74538386799395,
+      "prediction_case_ms_mean": 10.826847541870343,
+      "prediction_case_ms_median": 10.910562938079238,
+      "peak_allocated_gib": 0.12463188171386719,
+      "peak_reserved_gib": 0.158203125,
+      "non_model_allocated_bytes_before_load": 0,
+      "batch_size": 1
+    }
+  ],
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "torch_version": "2.13.0+cu130",
+  "gpu_uuid": "6545a1d9-5586-6c8e-a9dd-d8b42dbe884a",
+  "checkpoint_2d_sha256": "3a666e057827897d294d9df9604ac325617fa874bf541402011537847024174b",
+  "checkpoint_3d_sha256": "77ecc9f051d5d1213c2e62474d582050fe5b425a08182e3d2becc73540737156",
+  "warmups": 3,
+  "repeats": 3,
+  "threads": 1,
+  "tf32": false,
+  "no_training": true,
+  "models_measured_separately": true,
+  "note": "27 complete cases each; CPU loading/preprocessing excluded; prediction includes transfers and argmax. PyTorch allocated/reserved peak includes resident model but excludes driver/context. 2D covers 60 native slices; 3D covers the resized full volume. These are different pipelines."
+}

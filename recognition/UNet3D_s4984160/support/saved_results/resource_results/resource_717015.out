@@ -1,0 +1,14 @@
+Job: 717015
+Start: Fri Oct 30 05:50:07 AEST 2026
+{"model": "standard_2d_unet", "precision": "fp32", "scans": 27, "parameters": 1942374, "forward_case_ms_mean": 18.63229365295006, "forward_case_ms_median": 18.63192510791123, "prediction_case_ms_mean": 21.760169494276244, "prediction_case_ms_median": 21.754221059381962, "peak_allocated_gib": 0.27098512649536133, "peak_reserved_gib": 0.341796875, "non_model_allocated_bytes_before_load": 0, "batch_size": 16}
+{"model": "standard_3d_unet", "precision": "fp32", "scans": 27, "parameters": 351206, "forward_case_ms_mean": 17.047133969349993, "forward_case_ms_median": 17.04700500704348, "prediction_case_ms_mean": 18.245753590707427, "prediction_case_ms_median": 18.24306300841272, "peak_allocated_gib": 0.1815047264099121, "peak_reserved_gib": 0.240234375, "non_model_allocated_bytes_before_load": 0, "batch_size": 1}
+{"model": "standard_3d_unet", "precision": "bf16", "scans": 27, "parameters": 351206, "forward_case_ms_mean": 9.64160110042603, "forward_case_ms_median": 9.74538386799395, "prediction_case_ms_mean": 10.826847541870343, "prediction_case_ms_median": 10.910562938079238, "peak_allocated_gib": 0.12463188171386719, "peak_reserved_gib": 0.158203125, "non_model_allocated_bytes_before_load": 0, "batch_size": 1}
+{
+  "case": "B037_Week0_LFOV.nii.gz",
+  "checkpoint_sha256": "77ecc9f051d5d1213c2e62474d582050fe5b425a08182e3d2becc73540737156",
+  "prostate_dice": 0.6413043478260869,
+  "hd95_mm": 14.647950395241805,
+  "precision": "bf16",
+  "output_dir": "results/predict_demo_717015"
+}
+Finish: Fri Oct 30 05:52:22 AEST 2026

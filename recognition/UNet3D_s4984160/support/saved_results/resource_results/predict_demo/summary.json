@@ -1,0 +1,183 @@
+{
+  "case": "B037_Week0_LFOV.nii.gz",
+  "split": "single-case inference",
+  "selection_reason": "Explicit user-specified case; no model selection",
+  "checkpoint": "../UNet3D_s4984160/results/refine_v2/best_model.pt",
+  "checkpoint_sha256": "77ecc9f051d5d1213c2e62474d582050fe5b425a08182e3d2becc73540737156",
+  "epoch": 11,
+  "model_config": {
+    "base_channels": 8,
+    "normalization": "instance"
+  },
+  "device": "cuda",
+  "precision": "bf16",
+  "target_shape": [
+    64,
+    128,
+    128
+  ],
+  "original_shape": [
+    256,
+    256,
+    128
+  ],
+  "original_affine": [
+    [
+      -1.5625,
+      0.0,
+      0.0,
+      193.20156860351562
+    ],
+    [
+      0.0,
+      -1.5625,
+      0.0,
+      199.5683135986328
+    ],
+    [
+      0.0,
+      0.0,
+      1.55999755859375,
+      -131.2115020751953
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "original_axcodes": [
+    "L",
+    "P",
+    "S"
+  ],
+  "spacing_dhw_mm": [
+    3.1199951171875,
+    3.125,
+    3.125
+  ],
+  "shared_target_w_indices": [
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78
+  ],
+  "geometry_note": "Shape-ratio spacing in resized space; approximate original-space mm",
+  "prostate_dice": 0.6413043478260869,
+  "prostate_hd95_mm": 14.647950395241805,
+  "hd95_status": "ok",
+  "class_metrics": [
+    {
+      "class_id": 0,
+      "class_name": "Background",
+      "gt_voxels": 597407,
+      "pred_voxels": 591405,
+      "tp": 590407,
+      "fp": 998,
+      "fn": 7000,
+      "dice": 0.9932722751789181,
+      "iou": 0.9866344699659929,
+      "precision": 0.9983124931307649,
+      "recall": 0.9882826950470952,
+      "volume_ratio": 0.9899532479532379
+    },
+    {
+      "class_id": 1,
+      "class_name": "Body",
+      "gt_voxels": 388153,
+      "pred_voxels": 392335,
+      "tp": 379457,
+      "fp": 12878,
+      "fn": 8696,
+      "dice": 0.9723583194104202,
+      "iou": 0.9462036600661794,
+      "precision": 0.9671760102973225,
+      "recall": 0.9775964632503162,
+      "volume_ratio": 1.0107741019649468
+    },
+    {
+      "class_id": 2,
+      "class_name": "Bones",
+      "gt_voxels": 48142,
+      "pred_voxels": 49126,
+      "tp": 43152,
+      "fp": 5974,
+      "fn": 4990,
+      "dice": 0.8872805033515647,
+      "iou": 0.7973981816837904,
+      "precision": 0.8783943329397875,
+      "recall": 0.8963483029371443,
+      "volume_ratio": 1.0204395330480662
+    },
+    {
+      "class_id": 3,
+      "class_name": "Bladder",
+      "gt_voxels": 9895,
+      "pred_voxels": 11531,
+      "tp": 9805,
+      "fp": 1726,
+      "fn": 90,
+      "dice": 0.9152431625128349,
+      "iou": 0.8437311763187333,
+      "precision": 0.8503165380279247,
+      "recall": 0.9909044972208186,
+      "volume_ratio": 1.1653360282971197
+    },
+    {
+      "class_id": 4,
+      "class_name": "Rectum",
+      "gt_voxels": 1646,
+      "pred_voxels": 2176,
+      "tp": 1579,
+      "fp": 597,
+      "fn": 67,
+      "dice": 0.826268969126112,
+      "iou": 0.7039679001337494,
+      "precision": 0.7256433823529411,
+      "recall": 0.9592952612393681,
+      "volume_ratio": 1.321992709599028
+    },
+    {
+      "class_id": 5,
+      "class_name": "Prostate",
+      "gt_voxels": 3333,
+      "pred_voxels": 2003,
+      "tp": 1711,
+      "fp": 292,
+      "fn": 1622,
+      "dice": 0.6413043478260869,
+      "iou": 0.472,
+      "precision": 0.854218671992012,
+      "recall": 0.5133513351335134,
+      "volume_ratio": 0.600960096009601
+    }
+  ],
+  "note": "Resized D,H,W labels; single-case result, not a new aggregate test estimate"
+}

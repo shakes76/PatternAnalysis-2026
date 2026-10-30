@@ -1,0 +1,150 @@
+{
+  "original_git_commit": "d2bbf89a97ad7117a157469fe99b4cde92cdaa6e",
+  "normalization": "UTF-8 text with LF newlines",
+  "note": "Exact submitted copies are recoverable with git show COMMIT:original_git_path. Duplicate current code now has one canonical location. Remote cluster snapshots were not changed.",
+  "files": [
+    {
+      "original_path": "baseline_scratch_v1/baseline_model.py",
+      "canonical_path": "support/baseline_model.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "843c62130222e0521ce9afcb125621729c962c717619533f76ca809520a2ad42",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_scratch_v1/baseline_model.py"
+    },
+    {
+      "original_path": "baseline_scratch_v1/dataset.py",
+      "canonical_path": "dataset.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "2113b5c64c4897a50a1cfcf62523cf5d74cf57d401b23de4867099a3ed33ff9f",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_scratch_v1/dataset.py"
+    },
+    {
+      "original_path": "baseline_scratch_v1/modules.py",
+      "canonical_path": "modules.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "c6faa7bce7d8c52ec9a2a1830ca4e372ff26a521330d44dc8df8fd2f99b40c33",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_scratch_v1/modules.py"
+    },
+    {
+      "original_path": "baseline_scratch_v1/train_fast.py",
+      "canonical_path": "support/train_phase1/scratch.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "bbf2c3d36357d2dc19648e721fe129b06c42c5c6a02a2c1daf17d8f852461fa2",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_scratch_v1/train_fast.py"
+    },
+    {
+      "original_path": "baseline_refine_v2/baseline_model.py",
+      "canonical_path": "support/baseline_model.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "843c62130222e0521ce9afcb125621729c962c717619533f76ca809520a2ad42",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_refine_v2/baseline_model.py"
+    },
+    {
+      "original_path": "baseline_refine_v2/dataset.py",
+      "canonical_path": "dataset.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "2113b5c64c4897a50a1cfcf62523cf5d74cf57d401b23de4867099a3ed33ff9f",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_refine_v2/dataset.py"
+    },
+    {
+      "original_path": "baseline_refine_v2/modules.py",
+      "canonical_path": "modules.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "c6faa7bce7d8c52ec9a2a1830ca4e372ff26a521330d44dc8df8fd2f99b40c33",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_refine_v2/modules.py"
+    },
+    {
+      "original_path": "baseline_refine_v2/train_refine.py",
+      "canonical_path": "train.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "9c07eef10ca7ca26c7230a10a9259071a387081f031f05ea88a9d1afff779e53",
+      "original_git_path": "recognition/UNet3D_s4984160/baseline_refine_v2/train_refine.py"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/baseline_model.py",
+      "canonical_path": "support/baseline_model.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "843c62130222e0521ce9afcb125621729c962c717619533f76ca809520a2ad42",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/baseline_model.py"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/dataset.py",
+      "canonical_path": "dataset.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "2113b5c64c4897a50a1cfcf62523cf5d74cf57d401b23de4867099a3ed33ff9f",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/dataset.py"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/evaluate.py",
+      "canonical_path": "evaluate.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "32424c7729058c8cf00097f0ec5c21b8d989e57b5d1034842bfa129d4f77f4aa",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/evaluate.py"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/EVALUATION_USAGE.md",
+      "canonical_path": "support/docs/evaluation.md",
+      "identical_to_canonical_before_cleanup": false,
+      "original_normalized_sha256": "cddbac184bac1e37cf4f51c58ad02517b13e61df1e02427a385c6ebb685873d0",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/EVALUATION_USAGE.md"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/evaluation_utils.py",
+      "canonical_path": "support/evaluation_utils.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "a7138f0ffe9ee2b1d9aded38e6a7fd0ad5e45682ed54657dcc9c339649d8e183",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/evaluation_utils.py"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/modules.py",
+      "canonical_path": "modules.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "c6faa7bce7d8c52ec9a2a1830ca4e372ff26a521330d44dc8df8fd2f99b40c33",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/modules.py"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/predict.py",
+      "canonical_path": "predict.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "5b72acc34d5660d4b95bf10a5270e423df54c2ef7d40e3bd7b99e87af32ca067",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/predict.py"
+    },
+    {
+      "original_path": "evaluation_refine_v2_final/test_evaluation.py",
+      "canonical_path": "support/tests/test_evaluation.py",
+      "identical_to_canonical_before_cleanup": true,
+      "original_normalized_sha256": "fe088da17a013108775ed20f4fb7bc4e28c6d0771ec613f8d98787d26c258acd",
+      "original_git_path": "recognition/UNet3D_s4984160/evaluation_refine_v2_final/test_evaluation.py"
+    }
+  ],
+  "slurm_resource_directives_before_cleanup": {
+    "support/scripts/train_scratch.sbatch": [
+      "#SBATCH --job-name=unet3d_scratch_fast",
+      "#SBATCH --partition=comp3710",
+      "#SBATCH --account=comp3710",
+      "#SBATCH --gres=gpu",
+      "#SBATCH --time=01:30:00",
+      "#SBATCH --output=scratch_fast_%j.out",
+      "#SBATCH --error=scratch_fast_%j.err"
+    ],
+    "support/scripts/train_refine.sbatch": [
+      "#SBATCH --job-name=unet3d_refine",
+      "#SBATCH --partition=comp3710",
+      "#SBATCH --account=comp3710",
+      "#SBATCH --gres=gpu",
+      "#SBATCH --time=01:30:00",
+      "#SBATCH --output=refine_%j.out",
+      "#SBATCH --error=refine_%j.err"
+    ],
+    "support/scripts/evaluate.sbatch": [
+      "#SBATCH --job-name=unet3d_final_eval",
+      "#SBATCH --partition=comp3710",
+      "#SBATCH --account=comp3710",
+      "#SBATCH --gres=gpu",
+      "#SBATCH --time=01:30:00",
+      "#SBATCH --output=final_eval_%j.out",
+      "#SBATCH --error=final_eval_%j.err"
+    ]
+  },
+  "cleanup_summary": "15 duplicate Python copies removed; unique early scripts/notes archived; current loops/architecture/weights unchanged.",
+  "current_layout_note": "Auxiliary files are under support/. Import paths changed; architecture, training math, metrics and original experiment records did not. Original hashes below identify historical submitted sources."
+}
