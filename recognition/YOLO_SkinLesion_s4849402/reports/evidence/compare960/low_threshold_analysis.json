@@ -1,0 +1,301 @@
+{
+  "policy": {
+    "target_class": "melanoma",
+    "min_recall": 0.9,
+    "thresholds": [
+      0.001,
+      0.005,
+      0.01,
+      0.02,
+      0.03,
+      0.05,
+      0.1,
+      0.15
+    ]
+  },
+  "status": "unmet",
+  "selected": null,
+  "curve": [
+    {
+      "threshold": 0.001,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 17,
+          "fp": 81,
+          "fn": 13,
+          "precision": 0.17346938775510204,
+          "recall": 0.5666666666666667
+        },
+        "seborrheic_keratosis": {
+          "tp": 39,
+          "fp": 221,
+          "fn": 3,
+          "precision": 0.15,
+          "recall": 0.9285714285714286
+        },
+        "nevus": {
+          "tp": 71,
+          "fp": 252,
+          "fn": 7,
+          "precision": 0.21981424148606812,
+          "recall": 0.9102564102564102
+        }
+      },
+      "overall": {
+        "tp": 127,
+        "fp": 554,
+        "fn": 23,
+        "precision": 0.18649045521292218,
+        "recall": 0.8466666666666667
+      },
+      "false_positives_per_image": 3.6933333333333334
+    },
+    {
+      "threshold": 0.005,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 17,
+          "fp": 34,
+          "fn": 13,
+          "precision": 0.3333333333333333,
+          "recall": 0.5666666666666667
+        },
+        "seborrheic_keratosis": {
+          "tp": 38,
+          "fp": 118,
+          "fn": 4,
+          "precision": 0.24358974358974358,
+          "recall": 0.9047619047619048
+        },
+        "nevus": {
+          "tp": 70,
+          "fp": 104,
+          "fn": 8,
+          "precision": 0.40229885057471265,
+          "recall": 0.8974358974358975
+        }
+      },
+      "overall": {
+        "tp": 125,
+        "fp": 256,
+        "fn": 25,
+        "precision": 0.32808398950131235,
+        "recall": 0.8333333333333334
+      },
+      "false_positives_per_image": 1.7066666666666668
+    },
+    {
+      "threshold": 0.01,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 17,
+          "fp": 26,
+          "fn": 13,
+          "precision": 0.3953488372093023,
+          "recall": 0.5666666666666667
+        },
+        "seborrheic_keratosis": {
+          "tp": 38,
+          "fp": 90,
+          "fn": 4,
+          "precision": 0.296875,
+          "recall": 0.9047619047619048
+        },
+        "nevus": {
+          "tp": 69,
+          "fp": 80,
+          "fn": 9,
+          "precision": 0.46308724832214765,
+          "recall": 0.8846153846153846
+        }
+      },
+      "overall": {
+        "tp": 124,
+        "fp": 196,
+        "fn": 26,
+        "precision": 0.3875,
+        "recall": 0.8266666666666667
+      },
+      "false_positives_per_image": 1.3066666666666666
+    },
+    {
+      "threshold": 0.02,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 16,
+          "fp": 19,
+          "fn": 14,
+          "precision": 0.45714285714285713,
+          "recall": 0.5333333333333333
+        },
+        "seborrheic_keratosis": {
+          "tp": 38,
+          "fp": 78,
+          "fn": 4,
+          "precision": 0.3275862068965517,
+          "recall": 0.9047619047619048
+        },
+        "nevus": {
+          "tp": 69,
+          "fp": 60,
+          "fn": 9,
+          "precision": 0.5348837209302325,
+          "recall": 0.8846153846153846
+        }
+      },
+      "overall": {
+        "tp": 123,
+        "fp": 157,
+        "fn": 27,
+        "precision": 0.4392857142857143,
+        "recall": 0.82
+      },
+      "false_positives_per_image": 1.0466666666666666
+    },
+    {
+      "threshold": 0.03,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 16,
+          "fp": 18,
+          "fn": 14,
+          "precision": 0.47058823529411764,
+          "recall": 0.5333333333333333
+        },
+        "seborrheic_keratosis": {
+          "tp": 37,
+          "fp": 71,
+          "fn": 5,
+          "precision": 0.3425925925925926,
+          "recall": 0.8809523809523809
+        },
+        "nevus": {
+          "tp": 69,
+          "fp": 48,
+          "fn": 9,
+          "precision": 0.5897435897435898,
+          "recall": 0.8846153846153846
+        }
+      },
+      "overall": {
+        "tp": 122,
+        "fp": 137,
+        "fn": 28,
+        "precision": 0.47104247104247104,
+        "recall": 0.8133333333333334
+      },
+      "false_positives_per_image": 0.9133333333333333
+    },
+    {
+      "threshold": 0.05,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 16,
+          "fp": 14,
+          "fn": 14,
+          "precision": 0.5333333333333333,
+          "recall": 0.5333333333333333
+        },
+        "seborrheic_keratosis": {
+          "tp": 36,
+          "fp": 65,
+          "fn": 6,
+          "precision": 0.3564356435643564,
+          "recall": 0.8571428571428571
+        },
+        "nevus": {
+          "tp": 69,
+          "fp": 38,
+          "fn": 9,
+          "precision": 0.6448598130841121,
+          "recall": 0.8846153846153846
+        }
+      },
+      "overall": {
+        "tp": 121,
+        "fp": 117,
+        "fn": 29,
+        "precision": 0.5084033613445378,
+        "recall": 0.8066666666666666
+      },
+      "false_positives_per_image": 0.78
+    },
+    {
+      "threshold": 0.1,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 16,
+          "fp": 11,
+          "fn": 14,
+          "precision": 0.5925925925925926,
+          "recall": 0.5333333333333333
+        },
+        "seborrheic_keratosis": {
+          "tp": 36,
+          "fp": 45,
+          "fn": 6,
+          "precision": 0.4444444444444444,
+          "recall": 0.8571428571428571
+        },
+        "nevus": {
+          "tp": 69,
+          "fp": 29,
+          "fn": 9,
+          "precision": 0.7040816326530612,
+          "recall": 0.8846153846153846
+        }
+      },
+      "overall": {
+        "tp": 121,
+        "fp": 85,
+        "fn": 29,
+        "precision": 0.587378640776699,
+        "recall": 0.8066666666666666
+      },
+      "false_positives_per_image": 0.5666666666666667
+    },
+    {
+      "threshold": 0.15,
+      "iou_threshold": 0.5,
+      "per_class": {
+        "melanoma": {
+          "tp": 16,
+          "fp": 10,
+          "fn": 14,
+          "precision": 0.6153846153846154,
+          "recall": 0.5333333333333333
+        },
+        "seborrheic_keratosis": {
+          "tp": 36,
+          "fp": 33,
+          "fn": 6,
+          "precision": 0.5217391304347826,
+          "recall": 0.8571428571428571
+        },
+        "nevus": {
+          "tp": 69,
+          "fp": 25,
+          "fn": 9,
+          "precision": 0.7340425531914894,
+          "recall": 0.8846153846153846
+        }
+      },
+      "overall": {
+        "tp": 121,
+        "fp": 68,
+        "fn": 29,
+        "precision": 0.6402116402116402,
+        "recall": 0.8066666666666666
+      },
+      "false_positives_per_image": 0.4533333333333333
+    }
+  ],
+  "iou08_at_selected": null
+}

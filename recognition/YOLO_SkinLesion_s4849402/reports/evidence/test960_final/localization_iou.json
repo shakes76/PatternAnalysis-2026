@@ -1,0 +1,39 @@
+{
+  "confidence": 0.15,
+  "source_predictions_sha256": "e8e05361dc62c064bfd588e635085b8f94dad31370d0598f590335c53c0c2fab",
+  "source_test_csv_sha256": "06ec5a85a29fb6b99d691a7d8c3f53fb2fe69d39d4d0c25f54503c8c279066ec",
+  "source_mask_zip_sha256": "027abe293f3344bff7e346f95986d449a4776d5b7d2bc0ee809bc44cc175faaa",
+  "ground_truth_source": "Official test masks and diagnosis CSV, restricted to original 595-image audit inventory",
+  "verification": "Reconstructed original 10-decimal YOLO labels using mask dimensions; all per-class TP/FP/FN at IoU 0.5 and 0.8 exactly match school records",
+  "matching": "class-aware confidence-ordered; IoU >= 0.5; one annotated lesion per image",
+  "per_class": {
+    "melanoma": {
+      "ground_truth": 117,
+      "matched": 61,
+      "iou_sum": 46.95240673084459,
+      "mean_iou_matched": 0.7697115857515506,
+      "mean_iou_all_gt_zero_for_misses": 0.4013026216311503
+    },
+    "seborrheic_keratosis": {
+      "ground_truth": 90,
+      "matched": 58,
+      "iou_sum": 46.91812060078559,
+      "mean_iou_matched": 0.8089331138066481,
+      "mean_iou_all_gt_zero_for_misses": 0.5213124511198399
+    },
+    "nevus": {
+      "ground_truth": 388,
+      "matched": 290,
+      "iou_sum": 235.78136916749173,
+      "mean_iou_matched": 0.8130392040258335,
+      "mean_iou_all_gt_zero_for_misses": 0.6076839411533292
+    }
+  },
+  "overall": {
+    "ground_truth": 595,
+    "matched": 409,
+    "iou_sum": 329.6518964991219,
+    "mean_iou_matched": 0.8059948569660682,
+    "mean_iou_all_gt_zero_for_misses": 0.5540368008388603
+  }
+}

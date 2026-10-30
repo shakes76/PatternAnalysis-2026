@@ -1,0 +1,5 @@
+# Install a suitable PyTorch/torchvision build for the machine first.
+ultralytics==8.4.191
+numpy>=1.23
+Pillow>=9
+PyYAML>=6

@@ -1,0 +1,262 @@
+{
+  "split": "val",
+  "confidence": 0.15,
+  "predictions_sha256": "49b51d8682d92ab5db1b245fc0e30de4acfcd8d756f0256339d12cf448ac9fd1",
+  "data_yaml_sha256": "46b03ddb8e58875295c7aa7d9f7a823b6bdfcb63c6add08f00c95416d25fbd0b",
+  "operating_iou05": {
+    "threshold": 0.15,
+    "iou_threshold": 0.5,
+    "per_class": {
+      "melanoma": {
+        "tp": 11,
+        "fp": 7,
+        "fn": 19,
+        "precision": 0.6111111111111112,
+        "recall": 0.36666666666666664
+      },
+      "seborrheic_keratosis": {
+        "tp": 33,
+        "fp": 20,
+        "fn": 9,
+        "precision": 0.6226415094339622,
+        "recall": 0.7857142857142857
+      },
+      "nevus": {
+        "tp": 71,
+        "fp": 38,
+        "fn": 7,
+        "precision": 0.6513761467889908,
+        "recall": 0.9102564102564102
+      }
+    },
+    "overall": {
+      "tp": 115,
+      "fp": 65,
+      "fn": 35,
+      "precision": 0.6388888888888888,
+      "recall": 0.7666666666666667
+    },
+    "false_positives_per_image": 0.43333333333333335
+  },
+  "operating_iou08": {
+    "threshold": 0.15,
+    "iou_threshold": 0.8,
+    "per_class": {
+      "melanoma": {
+        "tp": 8,
+        "fp": 10,
+        "fn": 22,
+        "precision": 0.4444444444444444,
+        "recall": 0.26666666666666666
+      },
+      "seborrheic_keratosis": {
+        "tp": 16,
+        "fp": 37,
+        "fn": 26,
+        "precision": 0.3018867924528302,
+        "recall": 0.38095238095238093
+      },
+      "nevus": {
+        "tp": 59,
+        "fp": 50,
+        "fn": 19,
+        "precision": 0.5412844036697247,
+        "recall": 0.7564102564102564
+      }
+    },
+    "overall": {
+      "tp": 83,
+      "fp": 97,
+      "fn": 67,
+      "precision": 0.46111111111111114,
+      "recall": 0.5533333333333333
+    },
+    "false_positives_per_image": 0.6466666666666666
+  },
+  "case_counts": {
+    "correct": 75,
+    "imprecise_localization": 32,
+    "classification_error": 22,
+    "localization_error": 7,
+    "missed_with_false_positives": 4,
+    "correct_with_false_positives": 8,
+    "no_detection": 2
+  },
+  "candidate_selection": "one per available error category, then fill; melanoma first, sorted image IDs",
+  "notes": [
+    "Exploratory validation analysis, not a test benchmark.",
+    "Categories are geometric symptoms, not verified causal explanations.",
+    "At most six highest-confidence boxes are drawn; JSON retains all."
+  ],
+  "selected_cases": [
+    {
+      "status": "classification_error",
+      "matched_iou": null,
+      "target": {
+        "class_id": 0,
+        "xyxy": [
+          1292.9999999872,
+          781.9999999999999,
+          1668.9999999871998,
+          1093.9999999999998
+        ]
+      },
+      "detections": [
+        {
+          "class_id": 2,
+          "confidence": 0.8392062783241272,
+          "xyxy": [
+            1288.4132080078125,
+            784.5567016601562,
+            1676.7186279296875,
+            1081.897216796875
+          ]
+        }
+      ],
+      "false_positives_at_iou05": 1,
+      "false_negative_at_iou05": true,
+      "image_id": "ISIC_0012099"
+    },
+    {
+      "status": "imprecise_localization",
+      "matched_iou": 0.743664934068907,
+      "target": {
+        "class_id": 0,
+        "xyxy": [
+          1620.00000016,
+          974.9999999488001,
+          2621.0000002496,
+          2094.000000032
+        ]
+      },
+      "detections": [
+        {
+          "class_id": 0,
+          "confidence": 0.5116703510284424,
+          "xyxy": [
+            1687.4605712890625,
+            995.4654541015625,
+            2512.915771484375,
+            2004.597412109375
+          ]
+        }
+      ],
+      "false_positives_at_iou05": 0,
+      "false_negative_at_iou05": false,
+      "image_id": "ISIC_0013501"
+    },
+    {
+      "status": "correct_with_false_positives",
+      "matched_iou": 0.858791906415277,
+      "target": {
+        "class_id": 0,
+        "xyxy": [
+          1196.9999999872,
+          6.000000076799891,
+          3047.0000001408002,
+          2774.0000001920002
+        ]
+      },
+      "detections": [
+        {
+          "class_id": 2,
+          "confidence": 0.2966870963573456,
+          "xyxy": [
+            1117.1373291015625,
+            106.71778869628906,
+            3221.7265625,
+            2808.038818359375
+          ]
+        },
+        {
+          "class_id": 0,
+          "confidence": 0.28475552797317505,
+          "xyxy": [
+            1134.369140625,
+            75.12299346923828,
+            3216.2001953125,
+            2806.37890625
+          ]
+        },
+        {
+          "class_id": 1,
+          "confidence": 0.2172359973192215,
+          "xyxy": [
+            1123.9842529296875,
+            75.89213562011719,
+            3177.87451171875,
+            2821.859130859375
+          ]
+        }
+      ],
+      "false_positives_at_iou05": 2,
+      "false_negative_at_iou05": false,
+      "image_id": "ISIC_0014037"
+    },
+    {
+      "status": "no_detection",
+      "matched_iou": null,
+      "target": {
+        "class_id": 0,
+        "xyxy": [
+          52.00000017479996,
+          2.1990001819460758e-07,
+          6647.000000194799,
+          4397.0000001321
+        ]
+      },
+      "detections": [],
+      "false_positives_at_iou05": 0,
+      "false_negative_at_iou05": true,
+      "image_id": "ISIC_0014688"
+    },
+    {
+      "status": "localization_error",
+      "matched_iou": null,
+      "target": {
+        "class_id": 0,
+        "xyxy": [
+          2073.9999998294998,
+          5.999999940999903,
+          6633.0000000009,
+          4273.999999815
+        ]
+      },
+      "detections": [
+        {
+          "class_id": 2,
+          "confidence": 0.20426484942436218,
+          "xyxy": [
+            2083.851318359375,
+            715.225830078125,
+            3652.5078125,
+            2401.803955078125
+          ]
+        },
+        {
+          "class_id": 0,
+          "confidence": 0.17513802647590637,
+          "xyxy": [
+            2100.768310546875,
+            744.8555297851562,
+            3588.050537109375,
+            2367.620849609375
+          ]
+        },
+        {
+          "class_id": 2,
+          "confidence": 0.172783762216568,
+          "xyxy": [
+            2442.3994140625,
+            869.9296875,
+            3585.473388671875,
+            2316.41943359375
+          ]
+        }
+      ],
+      "false_positives_at_iou05": 3,
+      "false_negative_at_iou05": true,
+      "image_id": "ISIC_0014979"
+    }
+  ]
+}

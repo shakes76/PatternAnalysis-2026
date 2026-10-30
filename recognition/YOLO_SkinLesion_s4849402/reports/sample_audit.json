@@ -1,0 +1,129 @@
+{
+  "selection": "first training CSV entry for each class, not performance sampling",
+  "mask_archive_url": "https://isic-archive.s3.amazonaws.com/challenges/2017/ISIC-2017_Training_Part1_GroundTruth.zip",
+  "mask_archive_sha256": "a602bf91be39e32741f4e833c7a8a36ad966cdac976811424b264587540c4f99",
+  "patient_independence_verified": false,
+  "notes": [
+    "Current archive JPEGs, matched to 2017 masks by image ID and dimensions.",
+    "Matching dimensions does not prove pixel identity; inspect overlays.",
+    "No patient mapping established; samples are for development inspection only."
+  ],
+  "examples": [
+    {
+      "image_id": "ISIC_0000002",
+      "class_name": "melanoma",
+      "class_id": 0,
+      "image_size": [
+        1022,
+        767
+      ],
+      "yolo_box": [
+        0.5440313111545988,
+        0.5671447196870926,
+        0.6046966731898239,
+        0.7796610169491526
+      ],
+      "pixel_box_xyxy_exclusive": [
+        247,
+        136,
+        865,
+        734
+      ],
+      "api_url": "https://api.isic-archive.com/api/v2/images/ISIC_0000002/",
+      "image_url": "https://isic-archive.s3.amazonaws.com/images/ISIC_0000002.jpg",
+      "license": "CC-0",
+      "attribution": "Anonymous",
+      "api_clinical_fields": [
+        "age_approx",
+        "anatom_site_1",
+        "concomitant_biopsy",
+        "diagnosis_1",
+        "diagnosis_2",
+        "diagnosis_3",
+        "diagnosis_confirm_type",
+        "melanocytic",
+        "sex"
+      ],
+      "image_sha256": "3ec774807849fcb5fa1a0f03bc8cdc639041d5735b2edfe167f8a75e3b6c30a8",
+      "mask_sha256": "f24855049135ea3fff1ccd2c79df4d99d8e0ffbcdfbe45d3d5681c785d78d826"
+    },
+    {
+      "image_id": "ISIC_0012090",
+      "class_name": "seborrheic_keratosis",
+      "class_id": 1,
+      "image_size": [
+        4288,
+        2848
+      ],
+      "yolo_box": [
+        0.5803404850746269,
+        0.4027387640449438,
+        0.4139458955223881,
+        0.6797752808988764
+      ],
+      "pixel_box_xyxy_exclusive": [
+        1601,
+        179,
+        3376,
+        2115
+      ],
+      "api_url": "https://api.isic-archive.com/api/v2/images/ISIC_0012090/",
+      "image_url": "https://isic-archive.s3.amazonaws.com/images/ISIC_0012090.jpg",
+      "license": "CC-0",
+      "attribution": "Anonymous",
+      "api_clinical_fields": [
+        "age_approx",
+        "concomitant_biopsy",
+        "diagnosis_1",
+        "diagnosis_2",
+        "diagnosis_3",
+        "diagnosis_confirm_type",
+        "melanocytic",
+        "sex"
+      ],
+      "image_sha256": "00b0cadf572ae546e078428ad8fd332186cb2aef57a5f92634b0e656f7ca349c",
+      "mask_sha256": "d4a95dd6c2850fadbb26d5c58fd480eb55d29919d0afb2669a95bedeff962c22"
+    },
+    {
+      "image_id": "ISIC_0000000",
+      "class_name": "nevus",
+      "class_id": 2,
+      "image_size": [
+        1022,
+        767
+      ],
+      "yolo_box": [
+        0.46477495107632094,
+        0.4445893089960887,
+        0.8297455968688845,
+        0.7666232073011734
+      ],
+      "pixel_box_xyxy_exclusive": [
+        51,
+        47,
+        899,
+        635
+      ],
+      "api_url": "https://api.isic-archive.com/api/v2/images/ISIC_0000000/",
+      "image_url": "https://isic-archive.s3.amazonaws.com/images/ISIC_0000000.jpg",
+      "license": "CC-0",
+      "attribution": "Anonymous",
+      "api_clinical_fields": [
+        "age_approx",
+        "anatom_site_1",
+        "anatom_site_2",
+        "anatom_site_3",
+        "concomitant_biopsy",
+        "diagnosis_1",
+        "diagnosis_2",
+        "diagnosis_3",
+        "diagnosis_4",
+        "diagnosis_5",
+        "melanocytic",
+        "sex"
+      ],
+      "image_sha256": "fc5880144d267ae257a8e2bf25315ea5291c958a452de98c920c71904c71326e",
+      "mask_sha256": "6e4063daa38390cb98dbf56d8352db43dff1d074cf7bc9672f08a31ba1013235"
+    }
+  ]
+}

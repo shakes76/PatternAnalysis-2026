@@ -1,0 +1,53 @@
+{
+  "audited_at_utc": "2026-10-28T01:04:45.374462+00:00",
+  "source_page": "https://challenge.isic-archive.com/data/#2017",
+  "class_order": [
+    "melanoma",
+    "seborrheic_keratosis",
+    "nevus"
+  ],
+  "splits": {
+    "train": {
+      "columns": [
+        "image_id",
+        "melanoma",
+        "seborrheic_keratosis"
+      ],
+      "images": 2000,
+      "class_counts": {
+        "melanoma": 374,
+        "seborrheic_keratosis": 254,
+        "nevus": 1372
+      },
+      "patient_columns": [],
+      "url": "https://isic-archive.s3.amazonaws.com/challenges/2017/ISIC-2017_Training_Part3_GroundTruth.csv",
+      "bytes": 44040,
+      "sha256": "b3ae90972e0a072083d3aa4a972b19aedcfa2b0216875bfe5e5691fd15fe9db3"
+    },
+    "val": {
+      "columns": [
+        "image_id",
+        "melanoma",
+        "seborrheic_keratosis"
+      ],
+      "images": 150,
+      "class_counts": {
+        "melanoma": 30,
+        "seborrheic_keratosis": 42,
+        "nevus": 78
+      },
+      "patient_columns": [],
+      "url": "https://isic-archive.s3.amazonaws.com/challenges/2017/ISIC-2017_Validation_Part3_GroundTruth.csv",
+      "bytes": 3340,
+      "sha256": "161117bf8d8ca600163df88e9b06981313ddc08273d5109486ac9fc81869f413"
+    }
+  },
+  "train_val_image_id_overlap": [],
+  "patient_independence_verified": false,
+  "limitations": [
+    "Image ID disjointness does not demonstrate patient independence.",
+    "Images and masks have not yet been checked against diagnosis IDs.",
+    "No test labels were downloaded or used for experiment selection.",
+    "Absent patient identifiers require verified metadata or tutor guidance before final splitting."
+  ]
+}

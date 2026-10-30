@@ -1,0 +1,25 @@
+{
+  "seconds": 3636.6867051669997,
+  "peak_gpu_allocated_bytes": 1785397760,
+  "best_checkpoint": "/home/s4849402/comp3710/PatternAnalysis-2026/recognition/YOLO_SkinLesion_s4849402/runs/baseline640/weights/best.pt",
+  "best_sha256": "6498adb6039e8b8c6e807b0958453f624ca7a3505c6ca25d5851eba2cc40defe",
+  "final_model": {
+    "classes": {
+      "0": "melanoma",
+      "1": "seborrheic_keratosis",
+      "2": "nevus"
+    },
+    "parameters": 3138489,
+    "trainable_parameters": 0,
+    "head_classes": 3,
+    "strides": [
+      8.0,
+      16.0,
+      32.0
+    ],
+    "torch": "2.14.0+cu130",
+    "ultralytics": "8.4.191"
+  },
+  "test_evaluated": false,
+  "best_selection": "Ultralytics validator fitness; inspect installed version and results.csv"
+}

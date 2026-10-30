@@ -1,0 +1,36 @@
+{
+  "scope": "software integration only; synthetic images, not model performance",
+  "model": {
+    "classes": {
+      "0": "melanoma",
+      "1": "seborrheic_keratosis",
+      "2": "nevus"
+    },
+    "parameters": 3138489,
+    "trainable_parameters": 0,
+    "head_classes": 3,
+    "strides": [
+      8.0,
+      16.0,
+      32.0
+    ],
+    "torch": "2.15.0+cpu",
+    "ultralytics": "8.4.191"
+  },
+  "forward_shape": [
+    1,
+    7,
+    84
+  ],
+  "checks": [
+    "three-class head",
+    "forward",
+    "one-epoch CPU training",
+    "checkpoint reload",
+    "empty prediction JSON and overlay",
+    "validation AP API",
+    "threshold sweep",
+    "forward profiler"
+  ],
+  "profiling_exercised": true
+}

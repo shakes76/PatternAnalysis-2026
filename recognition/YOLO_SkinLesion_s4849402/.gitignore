@@ -1,0 +1,12 @@
+__pycache__/
+.venv/
+data/
+datasets/
+runs/
+weights/
+*.pt
+*.pth
+*.ckpt
+*.zip
+manifest*.csv
+environment.local.json
