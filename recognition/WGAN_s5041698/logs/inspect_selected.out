@@ -1,0 +1,30 @@
+[*] Loading generator weights from: ./checkpoints/wgan_gp_epoch_49.pth
+Using device: cpu
+[+] Loaded latent vectors from ./plots/latent_vectors.pt: shape torch.Size([64, 128])
+[*] Generating images for indices: [8, 10, 14, 17, 18]
+[+] Saved overview grid to ./plots/selected_inspection/selected_grid.png
+[+] Saved selected latent vectors
+
+[*] Running mode collapse check...
+[*] Checking mode collapse for index 8...
+[+] Saved ./plots/selected_inspection/mode_collapse_check/mode_collapse_index_008.png
+[*] Checking mode collapse for index 10...
+[+] Saved ./plots/selected_inspection/mode_collapse_check/mode_collapse_index_010.png
+[*] Checking mode collapse for index 14...
+[+] Saved ./plots/selected_inspection/mode_collapse_check/mode_collapse_index_014.png
+[*] Checking mode collapse for index 17...
+[+] Saved ./plots/selected_inspection/mode_collapse_check/mode_collapse_index_017.png
+[*] Checking mode collapse for index 18...
+[+] Saved ./plots/selected_inspection/mode_collapse_check/mode_collapse_index_018.png
+[+] Saved summary to ./plots/selected_inspection/mode_collapse_check/mode_collapse_summary.png
+[+] Mode collapse check complete!
+[+] Loaded latent vectors from ./plots/latent_vectors.pt: shape torch.Size([64, 128])
+[*] Critic outputs for bad looking generated images:
+[[-376.4327 ]
+ [-359.07697]
+ [-375.6944 ]
+ [-367.19208]
+ [-349.97186]]
+[*] Generated: mean=-353.9752, std=24.1412 (n=64)
+[*] Real: mean=-309.4271, std=13.7768 (n=64)
+[*] Wasserstein estimate (real - fake): 44,5481

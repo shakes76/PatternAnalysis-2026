@@ -1,0 +1,199 @@
+
+--- Starting VAE Training ---
+Epoch 01/100 | Loss: 2033086.82 | BCE: 2023611.81 | KLD: 9475.01 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 01 with train loss: 2033086.82 -> ./checkpoints/oasis_vae.pth
+Epoch 02/100 | Loss: 1685602.12 | BCE: 1674335.10 | KLD: 11267.03 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 02 with train loss: 1685602.12 -> ./checkpoints/oasis_vae.pth
+Epoch 03/100 | Loss: 1626105.78 | BCE: 1613511.89 | KLD: 12593.89 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 03 with train loss: 1626105.78 -> ./checkpoints/oasis_vae.pth
+Epoch 04/100 | Loss: 1603452.86 | BCE: 1590130.21 | KLD: 13322.65 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 04 with train loss: 1603452.86 -> ./checkpoints/oasis_vae.pth
+Epoch 05/100 | Loss: 1590890.00 | BCE: 1577195.61 | KLD: 13694.40 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 05 with train loss: 1590890.00 -> ./checkpoints/oasis_vae.pth
+Epoch 06/100 | Loss: 1582465.09 | BCE: 1568543.66 | KLD: 13921.43 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 06 with train loss: 1582465.09 -> ./checkpoints/oasis_vae.pth
+Epoch 07/100 | Loss: 1576273.38 | BCE: 1562193.76 | KLD: 14079.63 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 07 with train loss: 1576273.38 -> ./checkpoints/oasis_vae.pth
+Epoch 08/100 | Loss: 1571817.62 | BCE: 1557609.07 | KLD: 14208.55 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 08 with train loss: 1571817.62 -> ./checkpoints/oasis_vae.pth
+Epoch 09/100 | Loss: 1567770.39 | BCE: 1553484.60 | KLD: 14285.78 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 09 with train loss: 1567770.39 -> ./checkpoints/oasis_vae.pth
+Epoch 10/100 | Loss: 1564606.11 | BCE: 1550236.00 | KLD: 14370.11 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 10 with train loss: 1564606.11 -> ./checkpoints/oasis_vae.pth
+Epoch 11/100 | Loss: 1562379.26 | BCE: 1547906.57 | KLD: 14472.69 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 11 with train loss: 1562379.26 -> ./checkpoints/oasis_vae.pth
+Epoch 12/100 | Loss: 1559567.75 | BCE: 1545057.67 | KLD: 14510.08 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 12 with train loss: 1559567.75 -> ./checkpoints/oasis_vae.pth
+Epoch 13/100 | Loss: 1557877.83 | BCE: 1543325.39 | KLD: 14552.44 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 13 with train loss: 1557877.83 -> ./checkpoints/oasis_vae.pth
+Epoch 14/100 | Loss: 1555951.57 | BCE: 1541302.96 | KLD: 14648.62 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 14 with train loss: 1555951.57 -> ./checkpoints/oasis_vae.pth
+Epoch 15/100 | Loss: 1554196.97 | BCE: 1539524.52 | KLD: 14672.45 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 15 with train loss: 1554196.97 -> ./checkpoints/oasis_vae.pth
+Epoch 16/100 | Loss: 1553092.57 | BCE: 1538368.65 | KLD: 14723.92 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 16 with train loss: 1553092.57 -> ./checkpoints/oasis_vae.pth
+Epoch 17/100 | Loss: 1551877.97 | BCE: 1537130.86 | KLD: 14747.10 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 17 with train loss: 1551877.97 -> ./checkpoints/oasis_vae.pth
+Epoch 18/100 | Loss: 1550396.22 | BCE: 1535598.72 | KLD: 14797.49 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 18 with train loss: 1550396.22 -> ./checkpoints/oasis_vae.pth
+Epoch 19/100 | Loss: 1549283.43 | BCE: 1534480.56 | KLD: 14802.86 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 19 with train loss: 1549283.43 -> ./checkpoints/oasis_vae.pth
+Epoch 20/100 | Loss: 1548428.48 | BCE: 1533585.89 | KLD: 14842.59 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 20 with train loss: 1548428.48 -> ./checkpoints/oasis_vae.pth
+Epoch 21/100 | Loss: 1547507.43 | BCE: 1532614.71 | KLD: 14892.72 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 21 with train loss: 1547507.43 -> ./checkpoints/oasis_vae.pth
+Epoch 22/100 | Loss: 1546552.14 | BCE: 1531664.42 | KLD: 14887.72 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 22 with train loss: 1546552.14 -> ./checkpoints/oasis_vae.pth
+Epoch 23/100 | Loss: 1545771.86 | BCE: 1530851.77 | KLD: 14920.10 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 23 with train loss: 1545771.86 -> ./checkpoints/oasis_vae.pth
+Epoch 24/100 | Loss: 1544941.86 | BCE: 1530002.67 | KLD: 14939.19 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 24 with train loss: 1544941.86 -> ./checkpoints/oasis_vae.pth
+Epoch 25/100 | Loss: 1544128.26 | BCE: 1529132.70 | KLD: 14995.57 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 25 with train loss: 1544128.26 -> ./checkpoints/oasis_vae.pth
+Epoch 26/100 | Loss: 1543529.63 | BCE: 1528522.15 | KLD: 15007.48 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 26 with train loss: 1543529.63 -> ./checkpoints/oasis_vae.pth
+Epoch 27/100 | Loss: 1542684.88 | BCE: 1527663.92 | KLD: 15020.96 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 27 with train loss: 1542684.88 -> ./checkpoints/oasis_vae.pth
+Epoch 28/100 | Loss: 1542131.15 | BCE: 1527109.08 | KLD: 15022.07 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 28 with train loss: 1542131.15 -> ./checkpoints/oasis_vae.pth
+Epoch 29/100 | Loss: 1541729.18 | BCE: 1526665.17 | KLD: 15064.01 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 29 with train loss: 1541729.18 -> ./checkpoints/oasis_vae.pth
+Epoch 30/100 | Loss: 1541017.35 | BCE: 1525964.11 | KLD: 15053.24 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 30 with train loss: 1541017.35 -> ./checkpoints/oasis_vae.pth
+Epoch 31/100 | Loss: 1540647.78 | BCE: 1525568.01 | KLD: 15079.77 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 31 with train loss: 1540647.78 -> ./checkpoints/oasis_vae.pth
+Epoch 32/100 | Loss: 1540139.45 | BCE: 1525048.21 | KLD: 15091.25 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 32 with train loss: 1540139.45 -> ./checkpoints/oasis_vae.pth
+Epoch 33/100 | Loss: 1539908.86 | BCE: 1524806.62 | KLD: 15102.24 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 33 with train loss: 1539908.86 -> ./checkpoints/oasis_vae.pth
+Epoch 34/100 | Loss: 1539207.92 | BCE: 1524086.31 | KLD: 15121.60 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 34 with train loss: 1539207.92 -> ./checkpoints/oasis_vae.pth
+Epoch 35/100 | Loss: 1538665.83 | BCE: 1523519.45 | KLD: 15146.37 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 35 with train loss: 1538665.83 -> ./checkpoints/oasis_vae.pth
+Epoch 36/100 | Loss: 1538123.20 | BCE: 1522982.08 | KLD: 15141.12 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 36 with train loss: 1538123.20 -> ./checkpoints/oasis_vae.pth
+Epoch 37/100 | Loss: 1537980.56 | BCE: 1522826.41 | KLD: 15154.15 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 37 with train loss: 1537980.56 -> ./checkpoints/oasis_vae.pth
+Epoch 38/100 | Loss: 1537353.56 | BCE: 1522204.36 | KLD: 15149.20 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 38 with train loss: 1537353.56 -> ./checkpoints/oasis_vae.pth
+Epoch 39/100 | Loss: 1536620.55 | BCE: 1521429.66 | KLD: 15190.89 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 39 with train loss: 1536620.55 -> ./checkpoints/oasis_vae.pth
+Epoch 40/100 | Loss: 1536674.64 | BCE: 1521492.41 | KLD: 15182.22 | Peak VRAM: 1.52 GB
+Epoch 41/100 | Loss: 1536107.85 | BCE: 1520892.79 | KLD: 15215.06 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 41 with train loss: 1536107.85 -> ./checkpoints/oasis_vae.pth
+Epoch 42/100 | Loss: 1536038.09 | BCE: 1520828.51 | KLD: 15209.57 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 42 with train loss: 1536038.09 -> ./checkpoints/oasis_vae.pth
+Epoch 43/100 | Loss: 1535731.76 | BCE: 1520523.90 | KLD: 15207.87 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 43 with train loss: 1535731.76 -> ./checkpoints/oasis_vae.pth
+Epoch 44/100 | Loss: 1535376.70 | BCE: 1520163.69 | KLD: 15213.01 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 44 with train loss: 1535376.70 -> ./checkpoints/oasis_vae.pth
+Epoch 45/100 | Loss: 1534708.73 | BCE: 1519475.52 | KLD: 15233.20 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 45 with train loss: 1534708.73 -> ./checkpoints/oasis_vae.pth
+Epoch 46/100 | Loss: 1534572.85 | BCE: 1519327.65 | KLD: 15245.20 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 46 with train loss: 1534572.85 -> ./checkpoints/oasis_vae.pth
+Epoch 47/100 | Loss: 1534456.74 | BCE: 1519209.78 | KLD: 15246.96 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 47 with train loss: 1534456.74 -> ./checkpoints/oasis_vae.pth
+Epoch 48/100 | Loss: 1534094.35 | BCE: 1518849.08 | KLD: 15245.28 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 48 with train loss: 1534094.35 -> ./checkpoints/oasis_vae.pth
+Epoch 49/100 | Loss: 1533865.73 | BCE: 1518611.12 | KLD: 15254.61 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 49 with train loss: 1533865.73 -> ./checkpoints/oasis_vae.pth
+Epoch 50/100 | Loss: 1533317.85 | BCE: 1518049.91 | KLD: 15267.94 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 50 with train loss: 1533317.85 -> ./checkpoints/oasis_vae.pth
+Epoch 51/100 | Loss: 1533090.32 | BCE: 1517820.34 | KLD: 15269.98 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 51 with train loss: 1533090.32 -> ./checkpoints/oasis_vae.pth
+Epoch 52/100 | Loss: 1532670.70 | BCE: 1517378.58 | KLD: 15292.12 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 52 with train loss: 1532670.70 -> ./checkpoints/oasis_vae.pth
+Epoch 53/100 | Loss: 1532725.24 | BCE: 1517436.93 | KLD: 15288.31 | Peak VRAM: 1.52 GB
+Epoch 54/100 | Loss: 1532457.90 | BCE: 1517154.69 | KLD: 15303.22 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 54 with train loss: 1532457.90 -> ./checkpoints/oasis_vae.pth
+Epoch 55/100 | Loss: 1532042.13 | BCE: 1516735.00 | KLD: 15307.13 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 55 with train loss: 1532042.13 -> ./checkpoints/oasis_vae.pth
+Epoch 56/100 | Loss: 1531803.31 | BCE: 1516505.18 | KLD: 15298.13 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 56 with train loss: 1531803.31 -> ./checkpoints/oasis_vae.pth
+Epoch 57/100 | Loss: 1531604.45 | BCE: 1516287.68 | KLD: 15316.76 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 57 with train loss: 1531604.45 -> ./checkpoints/oasis_vae.pth
+Epoch 58/100 | Loss: 1531217.65 | BCE: 1515900.80 | KLD: 15316.85 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 58 with train loss: 1531217.65 -> ./checkpoints/oasis_vae.pth
+Epoch 59/100 | Loss: 1531217.04 | BCE: 1515884.06 | KLD: 15332.98 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 59 with train loss: 1531217.04 -> ./checkpoints/oasis_vae.pth
+Epoch 60/100 | Loss: 1530956.25 | BCE: 1515626.19 | KLD: 15330.07 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 60 with train loss: 1530956.25 -> ./checkpoints/oasis_vae.pth
+Epoch 61/100 | Loss: 1530473.48 | BCE: 1515138.16 | KLD: 15335.32 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 61 with train loss: 1530473.48 -> ./checkpoints/oasis_vae.pth
+Epoch 62/100 | Loss: 1530466.75 | BCE: 1515128.37 | KLD: 15338.38 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 62 with train loss: 1530466.75 -> ./checkpoints/oasis_vae.pth
+Epoch 63/100 | Loss: 1530146.70 | BCE: 1514792.69 | KLD: 15354.01 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 63 with train loss: 1530146.70 -> ./checkpoints/oasis_vae.pth
+Epoch 64/100 | Loss: 1530254.04 | BCE: 1514891.33 | KLD: 15362.71 | Peak VRAM: 1.52 GB
+Epoch 65/100 | Loss: 1530016.28 | BCE: 1514656.19 | KLD: 15360.09 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 65 with train loss: 1530016.28 -> ./checkpoints/oasis_vae.pth
+Epoch 66/100 | Loss: 1529770.13 | BCE: 1514411.78 | KLD: 15358.34 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 66 with train loss: 1529770.13 -> ./checkpoints/oasis_vae.pth
+Epoch 67/100 | Loss: 1529478.65 | BCE: 1514123.80 | KLD: 15354.85 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 67 with train loss: 1529478.65 -> ./checkpoints/oasis_vae.pth
+Epoch 68/100 | Loss: 1529365.82 | BCE: 1513977.02 | KLD: 15388.80 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 68 with train loss: 1529365.82 -> ./checkpoints/oasis_vae.pth
+Epoch 69/100 | Loss: 1529214.13 | BCE: 1513854.73 | KLD: 15359.40 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 69 with train loss: 1529214.13 -> ./checkpoints/oasis_vae.pth
+Epoch 70/100 | Loss: 1529020.07 | BCE: 1513648.40 | KLD: 15371.66 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 70 with train loss: 1529020.07 -> ./checkpoints/oasis_vae.pth
+Epoch 71/100 | Loss: 1528916.83 | BCE: 1513530.70 | KLD: 15386.13 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 71 with train loss: 1528916.83 -> ./checkpoints/oasis_vae.pth
+Epoch 72/100 | Loss: 1528626.69 | BCE: 1513239.30 | KLD: 15387.40 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 72 with train loss: 1528626.69 -> ./checkpoints/oasis_vae.pth
+Epoch 73/100 | Loss: 1528353.70 | BCE: 1512950.04 | KLD: 15403.66 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 73 with train loss: 1528353.70 -> ./checkpoints/oasis_vae.pth
+Epoch 74/100 | Loss: 1528170.17 | BCE: 1512773.17 | KLD: 15397.01 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 74 with train loss: 1528170.17 -> ./checkpoints/oasis_vae.pth
+Epoch 75/100 | Loss: 1528381.95 | BCE: 1512975.35 | KLD: 15406.60 | Peak VRAM: 1.52 GB
+Epoch 76/100 | Loss: 1527901.39 | BCE: 1512507.76 | KLD: 15393.63 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 76 with train loss: 1527901.39 -> ./checkpoints/oasis_vae.pth
+Epoch 77/100 | Loss: 1527885.02 | BCE: 1512485.83 | KLD: 15399.19 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 77 with train loss: 1527885.02 -> ./checkpoints/oasis_vae.pth
+Epoch 78/100 | Loss: 1527552.93 | BCE: 1512158.15 | KLD: 15394.79 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 78 with train loss: 1527552.93 -> ./checkpoints/oasis_vae.pth
+Epoch 79/100 | Loss: 1527485.67 | BCE: 1512084.88 | KLD: 15400.78 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 79 with train loss: 1527485.67 -> ./checkpoints/oasis_vae.pth
+Epoch 80/100 | Loss: 1527245.84 | BCE: 1511841.62 | KLD: 15404.22 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 80 with train loss: 1527245.84 -> ./checkpoints/oasis_vae.pth
+Epoch 81/100 | Loss: 1527164.16 | BCE: 1511753.12 | KLD: 15411.04 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 81 with train loss: 1527164.16 -> ./checkpoints/oasis_vae.pth
+Epoch 82/100 | Loss: 1526969.38 | BCE: 1511556.86 | KLD: 15412.52 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 82 with train loss: 1526969.38 -> ./checkpoints/oasis_vae.pth
+Epoch 83/100 | Loss: 1526941.62 | BCE: 1511523.10 | KLD: 15418.52 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 83 with train loss: 1526941.62 -> ./checkpoints/oasis_vae.pth
+Epoch 84/100 | Loss: 1526848.91 | BCE: 1511423.57 | KLD: 15425.34 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 84 with train loss: 1526848.91 -> ./checkpoints/oasis_vae.pth
+Epoch 85/100 | Loss: 1526693.41 | BCE: 1511273.22 | KLD: 15420.20 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 85 with train loss: 1526693.41 -> ./checkpoints/oasis_vae.pth
+Epoch 86/100 | Loss: 1526301.48 | BCE: 1510876.60 | KLD: 15424.88 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 86 with train loss: 1526301.48 -> ./checkpoints/oasis_vae.pth
+Epoch 87/100 | Loss: 1526473.30 | BCE: 1511058.86 | KLD: 15414.43 | Peak VRAM: 1.52 GB
+Epoch 88/100 | Loss: 1526222.04 | BCE: 1510777.92 | KLD: 15444.12 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 88 with train loss: 1526222.04 -> ./checkpoints/oasis_vae.pth
+Epoch 89/100 | Loss: 1526034.14 | BCE: 1510599.81 | KLD: 15434.33 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 89 with train loss: 1526034.14 -> ./checkpoints/oasis_vae.pth
+Epoch 90/100 | Loss: 1525847.54 | BCE: 1510415.23 | KLD: 15432.31 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 90 with train loss: 1525847.54 -> ./checkpoints/oasis_vae.pth
+Epoch 91/100 | Loss: 1525741.04 | BCE: 1510280.41 | KLD: 15460.63 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 91 with train loss: 1525741.04 -> ./checkpoints/oasis_vae.pth
+Epoch 92/100 | Loss: 1525691.70 | BCE: 1510240.24 | KLD: 15451.46 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 92 with train loss: 1525691.70 -> ./checkpoints/oasis_vae.pth
+Epoch 93/100 | Loss: 1525565.50 | BCE: 1510116.21 | KLD: 15449.30 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 93 with train loss: 1525565.50 -> ./checkpoints/oasis_vae.pth
+Epoch 94/100 | Loss: 1525559.58 | BCE: 1510110.68 | KLD: 15448.90 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 94 with train loss: 1525559.58 -> ./checkpoints/oasis_vae.pth
+Epoch 95/100 | Loss: 1525313.73 | BCE: 1509851.42 | KLD: 15462.31 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 95 with train loss: 1525313.73 -> ./checkpoints/oasis_vae.pth
+Epoch 96/100 | Loss: 1525244.91 | BCE: 1509791.12 | KLD: 15453.79 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 96 with train loss: 1525244.91 -> ./checkpoints/oasis_vae.pth
+Epoch 97/100 | Loss: 1525143.06 | BCE: 1509686.10 | KLD: 15456.96 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 97 with train loss: 1525143.06 -> ./checkpoints/oasis_vae.pth
+Epoch 98/100 | Loss: 1525016.55 | BCE: 1509550.00 | KLD: 15466.56 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 98 with train loss: 1525016.55 -> ./checkpoints/oasis_vae.pth
+Epoch 99/100 | Loss: 1524954.33 | BCE: 1509480.43 | KLD: 15473.90 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 99 with train loss: 1524954.33 -> ./checkpoints/oasis_vae.pth
+Epoch 100/100 | Loss: 1524880.15 | BCE: 1509401.56 | KLD: 15478.59 | Peak VRAM: 1.52 GB
+[*] Best model saved at epoch 100 with train loss: 1524880.15 -> ./checkpoints/oasis_vae.pth
+
+[+] Training complete in 62.12 minutes. Best model saved from epoch 100 (train loss: 1524880.15) to ./checkpoints/oasis_vae.pth
