@@ -1,0 +1,20 @@
+# Data (never commit the dataset)
+*.nii
+*.nii.gz
+data/
+
+# Training outputs and model weights
+outputs/
+runs/
+*.pt
+*.pth
+*.ckpt
+
+# Python and Slurm
+__pycache__/
+*.pyc
+slurm-*.out
+*.err
+
+# Local scratch files
+.ipynb_checkpoints/
