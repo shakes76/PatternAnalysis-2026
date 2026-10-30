@@ -1,0 +1,12 @@
+# Never commit data, model weights or run outputs (brief section 4.1)
+*.nii
+*.nii.gz
+*.pt
+*.pth
+*.ckpt
+cache/
+checkpoints/
+runs/
+slurm-*.out
+logs/
+__pycache__/
