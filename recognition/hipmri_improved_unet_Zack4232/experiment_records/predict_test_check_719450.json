@@ -1,0 +1,50 @@
+{
+  "split": "test",
+  "model_name": "ImprovedUNet2D",
+  "checkpoint": "/home/Student/s4984234/PatternAnalysis-2026/recognition/hipmri_improved_unet_Zack4232/runs/improved_712829/results/best.pt",
+  "checkpoint_epoch": 3,
+  "saved_validation_prostate_dice": 0.7688584856592425,
+  "overall": {
+    "dice_sum": 156.56245362014548,
+    "iou_sum": 136.4334354909755,
+    "eligible_slices": 195,
+    "excluded_slices": 345,
+    "negative_slices_with_fp": 48,
+    "negative_slice_fp_pixels": 1744,
+    "mean_dice": 0.8028843775392076,
+    "mean_iou": 0.6996586435434642
+  },
+  "per_case": {
+    "40": {
+      "dice_sum": 114.92833835778428,
+      "iou_sum": 100.34378829873913,
+      "eligible_slices": 141,
+      "excluded_slices": 279,
+      "negative_slices_with_fp": 41,
+      "negative_slice_fp_pixels": 1407,
+      "mean_dice": 0.815094598282158,
+      "mean_iou": 0.711658073040703
+    },
+    "41": {
+      "dice_sum": 17.72411854179365,
+      "iou_sum": 15.675520283359809,
+      "eligible_slices": 22,
+      "excluded_slices": 38,
+      "negative_slices_with_fp": 6,
+      "negative_slice_fp_pixels": 334,
+      "mean_dice": 0.8056417518997114,
+      "mean_iou": 0.7125236492436277
+    },
+    "42": {
+      "dice_sum": 23.90999672056751,
+      "iou_sum": 20.414126908876597,
+      "eligible_slices": 32,
+      "excluded_slices": 28,
+      "negative_slices_with_fp": 1,
+      "negative_slice_fp_pixels": 3,
+      "mean_dice": 0.7471873975177347,
+      "mean_iou": 0.6379414659023936
+    }
+  },
+  "figure_selection": "Three lowest-Dice ground-truth-positive slices"
+}

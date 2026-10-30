@@ -1,0 +1,126 @@
+{
+  "split": "test",
+  "source_results": "/home/Student/s4984234/PatternAnalysis-2026/recognition/hipmri_improved_unet_Zack4232/runs/eval_test_713255/results",
+  "checkpoint_sha256": {
+    "standard": "8ce68715d0ea528c7558fac340c43498da436fff268350e1ead81b9751c49b79",
+    "improved": "d0bd66d6b90e18782a0948a425b373357c7127ffdb670006bcedb0d6651248cd"
+  },
+  "selection_protocol": "Five descriptive error patterns chosen after test evaluation; no model tuning",
+  "examples": [
+    {
+      "case_id": 42,
+      "week": 0,
+      "slice_id": 40,
+      "selection_reason": "Empty prediction on a positive slice",
+      "figure": "test_case_042_week_0_slice_40.png",
+      "metrics": {
+        "Standard U-Net": {
+          "gt_pixels": 69,
+          "predicted_pixels": 0,
+          "fp_pixels": 0,
+          "fn_pixels": 69,
+          "dice": 0.0
+        },
+        "Improved U-Net": {
+          "gt_pixels": 69,
+          "predicted_pixels": 0,
+          "fp_pixels": 0,
+          "fn_pixels": 69,
+          "dice": 0.0
+        }
+      }
+    },
+    {
+      "case_id": 42,
+      "week": 0,
+      "slice_id": 9,
+      "selection_reason": "Prediction with no target overlap",
+      "figure": "test_case_042_week_0_slice_9.png",
+      "metrics": {
+        "Standard U-Net": {
+          "gt_pixels": 8,
+          "predicted_pixels": 19,
+          "fp_pixels": 19,
+          "fn_pixels": 8,
+          "dice": 0.0
+        },
+        "Improved U-Net": {
+          "gt_pixels": 8,
+          "predicted_pixels": 40,
+          "fp_pixels": 40,
+          "fn_pixels": 8,
+          "dice": 0.0
+        }
+      }
+    },
+    {
+      "case_id": 42,
+      "week": 0,
+      "slice_id": 16,
+      "selection_reason": "Under-segmentation",
+      "figure": "test_case_042_week_0_slice_16.png",
+      "metrics": {
+        "Standard U-Net": {
+          "gt_pixels": 457,
+          "predicted_pixels": 299,
+          "fp_pixels": 13,
+          "fn_pixels": 171,
+          "dice": 0.7566137566137566
+        },
+        "Improved U-Net": {
+          "gt_pixels": 457,
+          "predicted_pixels": 258,
+          "fp_pixels": 9,
+          "fn_pixels": 208,
+          "dice": 0.6965034965034965
+        }
+      }
+    },
+    {
+      "case_id": 41,
+      "week": 0,
+      "slice_id": 39,
+      "selection_reason": "Over-segmentation",
+      "figure": "test_case_041_week_0_slice_39.png",
+      "metrics": {
+        "Standard U-Net": {
+          "gt_pixels": 97,
+          "predicted_pixels": 340,
+          "fp_pixels": 243,
+          "fn_pixels": 0,
+          "dice": 0.4439359267734554
+        },
+        "Improved U-Net": {
+          "gt_pixels": 97,
+          "predicted_pixels": 324,
+          "fp_pixels": 227,
+          "fn_pixels": 0,
+          "dice": 0.46080760095011875
+        }
+      }
+    },
+    {
+      "case_id": 40,
+      "week": 3,
+      "slice_id": 33,
+      "selection_reason": "False positive on a negative slice",
+      "figure": "test_case_040_week_3_slice_33.png",
+      "metrics": {
+        "Standard U-Net": {
+          "gt_pixels": 0,
+          "predicted_pixels": 1,
+          "fp_pixels": 1,
+          "fn_pixels": 0,
+          "dice": null
+        },
+        "Improved U-Net": {
+          "gt_pixels": 0,
+          "predicted_pixels": 227,
+          "fp_pixels": 227,
+          "fn_pixels": 0,
+          "dice": null
+        }
+      }
+    }
+  ]
+}

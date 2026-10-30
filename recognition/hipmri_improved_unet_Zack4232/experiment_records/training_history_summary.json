@@ -1,0 +1,16 @@
+{
+  "standard": {
+    "epochs": 20,
+    "best_epoch": 10,
+    "best_validation_dice": 0.7620794936007133,
+    "training_seconds": 1871.0508023358416,
+    "validation_seconds": 91.08142759464681
+  },
+  "improved": {
+    "epochs": 20,
+    "best_epoch": 3,
+    "best_validation_dice": 0.7688584856592425,
+    "training_seconds": 1948.7788174347952,
+    "validation_seconds": 90.34583999682218
+  }
+}

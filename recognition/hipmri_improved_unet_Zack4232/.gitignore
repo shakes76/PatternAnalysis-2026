@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+data/
+checkpoints/
+runs/
+logs/
+*.nii
+*.nii.gz
+*.pt
+*.pth
+*.ckpt
+*.out
+*.err

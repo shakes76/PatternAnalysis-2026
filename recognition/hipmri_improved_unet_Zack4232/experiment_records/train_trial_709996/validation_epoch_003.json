@@ -1,0 +1,62 @@
+{
+  "Background": {
+    "dice_sum": 656.3780777866713,
+    "iou_sum": 652.837528023897,
+    "eligible_slices": 660,
+    "excluded_slices": 0,
+    "negative_slices_with_fp": 0,
+    "negative_slice_fp_pixels": 0,
+    "mean_dice": 0.9945122390707141,
+    "mean_iou": 0.9891477697331773
+  },
+  "Body": {
+    "dice_sum": 647.3249964627921,
+    "iou_sum": 635.3427252493932,
+    "eligible_slices": 660,
+    "excluded_slices": 0,
+    "negative_slices_with_fp": 0,
+    "negative_slice_fp_pixels": 0,
+    "mean_dice": 0.9807954491860487,
+    "mean_iou": 0.962640492802111
+  },
+  "Bones": {
+    "dice_sum": 605.1343271315717,
+    "iou_sum": 560.4221259867496,
+    "eligible_slices": 660,
+    "excluded_slices": 0,
+    "negative_slices_with_fp": 0,
+    "negative_slice_fp_pixels": 0,
+    "mean_dice": 0.9168701926235935,
+    "mean_iou": 0.849124433313257
+  },
+  "Bladder": {
+    "dice_sum": 382.67289765280697,
+    "iou_sum": 351.23763993888537,
+    "eligible_slices": 463,
+    "excluded_slices": 197,
+    "negative_slices_with_fp": 15,
+    "negative_slice_fp_pixels": 301,
+    "mean_dice": 0.8265073383429956,
+    "mean_iou": 0.7586126132589317
+  },
+  "Rectum": {
+    "dice_sum": 209.66029885058902,
+    "iou_sum": 186.85841606785945,
+    "eligible_slices": 255,
+    "excluded_slices": 405,
+    "negative_slices_with_fp": 3,
+    "negative_slice_fp_pixels": 8,
+    "mean_dice": 0.8221972503944667,
+    "mean_iou": 0.7327781022268998
+  },
+  "Prostate": {
+    "dice_sum": 178.97447997452983,
+    "iou_sum": 155.50631053036224,
+    "eligible_slices": 254,
+    "excluded_slices": 406,
+    "negative_slices_with_fp": 7,
+    "negative_slice_fp_pixels": 967,
+    "mean_dice": 0.7046239369075977,
+    "mean_iou": 0.6122295690171742
+  }
+}
