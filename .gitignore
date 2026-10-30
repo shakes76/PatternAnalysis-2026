@@ -1,0 +1,9 @@
+.idea/
+__pycache__/
+*.pyc
+*.pth
+*.pt
+*.nii
+*.nii.gz
+*.out
+*.err
