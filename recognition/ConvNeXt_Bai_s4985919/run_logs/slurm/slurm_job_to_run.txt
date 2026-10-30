@@ -1,0 +1,4 @@
+Job 667320 on a100-7, started Sat Oct 17 03:13:06 AEST 2026; input=single seed=42 run=official_cosine_ema_single_s42
+Job 667321 on a100-7, started Sat Oct 17 04:05:42 AEST 2026; input=context3 seed=42 run=official_cosine_ema_context3_s42
+Job 668726 on a100-0, started Sat Oct 17 14:37:07 AEST 2026; input=context3 seed=43 run=official_cosine_ema_context3_s43
+Job 668727 on a100-0, started Sat Oct 17 15:30:32 AEST 2026; input=context3 seed=44 run=official_cosine_ema_context3_s44

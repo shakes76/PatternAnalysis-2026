@@ -1,0 +1,27 @@
+{
+  "model": "convnext",
+  "checkpoint_format": "raw_state_dict_v1",
+  "best_epoch": 16,
+  "selection_level": "slice",
+  "selection_threshold": 0.5,
+  "selection_macro_f1": 0.7620262562222614,
+  "selection_recall_ad": 0.6801075268817204,
+  "selection_accuracy": 0.7678743961352656,
+  "split_mode": "official",
+  "input_mode": "context3",
+  "weights": "ema",
+  "scheduler": "cosine",
+  "label_smoothing": 0.1,
+  "split_fingerprint": {
+    "train": "a93480f9543a6d442b346fd83e0cc096989caf3f44b3a77fa03974bac5ef5919",
+    "validation": "2af5905e12e119c32fc638a8bbc92a397fc8524279dd9d747acaedb6709731fc",
+    "test": "00b8bc70520eb4e723fb756b5a564323c7c95c34c210884675dcb63f0934e798"
+  },
+  "patient_mapping_fingerprint": "ce21c9eaf1d5c4cd4c76db8d852567db8df95baebc6bbf965489ca98544db1a7",
+  "preprocessing_repr": "Compose(\n    Resize(size=(224, 224), interpolation=bilinear, max_size=None, antialias=warn)\n    ToTensor()\n    Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])\n)",
+  "class_to_idx": {
+    "AD": 0,
+    "NC": 1
+  },
+  "smoke_test": false
+}

@@ -1,0 +1,8 @@
+JobID                     JobName  Partition      State    Elapsed               Start                 End 
+------------ -------------------- ---------- ---------- ---------- ------------------- ------------------- 
+667240          convnext_official   comp3710  COMPLETED   00:22:48 2026-10-17T02:39:06 2026-10-17T03:01:54 
+667320            convnext_recipe   comp3710  COMPLETED   00:52:37 2026-10-17T03:13:04 2026-10-17T04:05:41 
+667321            convnext_recipe   comp3710  COMPLETED   00:55:29 2026-10-17T04:05:41 2026-10-17T05:01:10 
+668726            convnext_recipe   comp3710  COMPLETED   00:53:26 2026-10-17T14:37:05 2026-10-17T15:30:31 
+668727            convnext_recipe   comp3710  COMPLETED   00:53:26 2026-10-17T15:30:31 2026-10-17T16:23:57 
+669196                       wrap   comp3710  COMPLETED   00:20:52 2026-10-17T17:54:52 2026-10-17T18:15:44 

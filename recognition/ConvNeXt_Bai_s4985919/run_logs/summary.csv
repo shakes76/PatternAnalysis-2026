@@ -1,0 +1,14 @@
+run,split,input,optimizer,learning_rate,augmentation,intensity_augmentation,scheduler,epochs,best_val_accuracy,best_val_epoch,saved_epoch
+cnn/cnn_run01,strict,single,adam,0.001,False,False,none,3,0.7091603053435115,2,
+convnext/convnext_aug_adamw_run01,strict,single,adamw,0.0003,True,False,none,8,0.7774809160305344,7,
+convnext/convnext_cosine_run01,strict,single,adamw,0.0003,True,False,cosine,12,0.7790076335877862,9,
+convnext/convnext_intensity_adamw_run01,strict,single,adamw,0.0003,True,True,none,8,0.7770992366412214,7,7
+convnext/convnext_lr3e4_run01,strict,single,adam,0.0003,False,False,none,5,0.6366412213740458,3,
+convnext/convnext_patient_balanced_run01,strict,single,adamw,0.0003,True,False,none,8,0.7637404580152671,6,
+convnext/convnext_run01,strict,single,adam,0.001,False,False,none,3,0.6637404580152672,2,
+cnn/cnn_official_cosine_ema_s42,official,single,adamw,0.0003,True,False,cosine,30,0.6891304347826087,4,4
+convnext/convnext_official_aug_adamw_run01,official,single,adamw,0.0003,True,False,none,8,0.7304347826086957,8,6
+convnext/official_cosine_ema_context3_s42,official,context3,adamw,0.0003,True,False,cosine,30,0.7659420289855072,24,21
+convnext/official_cosine_ema_context3_s43,official,context3,adamw,0.0003,True,False,cosine,30,0.7666666666666667,20,20
+convnext/official_cosine_ema_context3_s44,official,context3,adamw,0.0003,True,False,cosine,30,0.7678743961352656,16,16
+convnext/official_cosine_ema_single_s42,official,single,adamw,0.0003,True,False,cosine,30,0.7555555555555555,28,28

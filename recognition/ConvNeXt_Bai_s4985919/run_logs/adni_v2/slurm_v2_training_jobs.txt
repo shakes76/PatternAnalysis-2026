@@ -1,0 +1,6 @@
+JobID                     JobName  Partition      State    Elapsed               Start                 End 
+------------ -------------------- ---------- ---------- ---------- ------------------- ------------------- 
+686006            convnext_recipe   comp3710  COMPLETED   00:52:42 2026-10-22T22:08:46 2026-10-22T23:01:28 
+686007            convnext_recipe   comp3710  COMPLETED   00:52:02 2026-10-22T23:01:46 2026-10-22T23:53:48 
+Job 686006 on a100-8, started Thu Oct 22 22:08:47 AEST 2026; input=context3 seed=42 run=adni_v2_context3_s42
+Job 686007 on a100-8, started Thu Oct 22 23:01:48 AEST 2026; input=context3 seed=43 run=adni_v2_context3_s43

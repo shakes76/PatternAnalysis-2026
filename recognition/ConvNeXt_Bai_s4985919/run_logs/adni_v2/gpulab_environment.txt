@@ -1,0 +1,5 @@
+host: gpulab-21303991.labs.eait.uq.edu.au
+Thu Oct 22 13:54:29 UTC 2026
+name, driver_version, memory.total [MiB]
+NVIDIA L4, 595.71.05, 23034 MiB
+python 3.10.21 torch 2.0.1+cu118 torchvision 0.15.2+cu118 numpy 1.26.4

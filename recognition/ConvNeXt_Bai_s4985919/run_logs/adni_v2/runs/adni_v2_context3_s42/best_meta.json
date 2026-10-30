@@ -1,0 +1,28 @@
+{
+  "model": "convnext",
+  "checkpoint_format": "raw_state_dict_v1",
+  "best_epoch": 14,
+  "selection_level": "slice",
+  "selection_threshold": 0.5,
+  "selection_macro_f1": 0.7801045678536018,
+  "selection_recall_ad": 0.7785087719298246,
+  "selection_accuracy": 0.7804147465437788,
+  "split_mode": "official",
+  "input_mode": "context3",
+  "intensity_augmentation": null,
+  "weights": "ema",
+  "scheduler": "cosine",
+  "label_smoothing": 0.1,
+  "split_fingerprint": {
+    "train": "c1c52ea7805ce05e73cda079e24531d090a9ea598d4db8e16846b2430abbaf1d",
+    "validation": "3b9e8e139db4adf4db8bc916233ebb622f9eaa5bfdcb0dddc63ac160cc06bbea",
+    "test": "a06f2b642f85c35e1b93cf8b3963869b7e0a0928033cd9a064911f6baa22bb1c"
+  },
+  "patient_mapping_fingerprint": "ce21c9eaf1d5c4cd4c76db8d852567db8df95baebc6bbf965489ca98544db1a7",
+  "preprocessing_repr": "Compose(\n    Resize(size=(224, 224), interpolation=bilinear, max_size=None, antialias=warn)\n    ToTensor()\n    Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])\n)",
+  "class_to_idx": {
+    "AD": 0,
+    "NC": 1
+  },
+  "smoke_test": false
+}

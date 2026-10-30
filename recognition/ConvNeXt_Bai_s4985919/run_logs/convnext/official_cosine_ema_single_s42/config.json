@@ -1,0 +1,35 @@
+{
+  "model": "convnext",
+  "batch_size": 8,
+  "learning_rate": 0.0003,
+  "seed": 42,
+  "optimizer_name": "adamw",
+  "weight_decay": 0.03,
+  "training_augmentation": true,
+  "target_epochs": 30,
+  "train_images": 17380,
+  "val_images": 4140,
+  "test_images": 9000,
+  "class_to_idx": {
+    "AD": 0,
+    "NC": 1
+  },
+  "metric_positive_class": "AD (class 0)",
+  "selection_metric": "macro_f1 (tie: recall_ad, then lower val_loss)",
+  "selection_level": "slice",
+  "selection_threshold": 0.5,
+  "preprocessing_repr": "Compose(\n    Resize(size=(224, 224), interpolation=bilinear, max_size=None, antialias=warn)\n    Grayscale(num_output_channels=3)\n    ToTensor()\n    Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])\n)",
+  "split_mode": "official",
+  "input_mode": "single",
+  "scheduler": "cosine",
+  "warmup_epochs": 1.0,
+  "ema_decay": 0.999,
+  "label_smoothing": 0.1,
+  "num_workers": 4,
+  "split_fingerprint": {
+    "train": "a93480f9543a6d442b346fd83e0cc096989caf3f44b3a77fa03974bac5ef5919",
+    "validation": "2af5905e12e119c32fc638a8bbc92a397fc8524279dd9d747acaedb6709731fc",
+    "test": "00b8bc70520eb4e723fb756b5a564323c7c95c34c210884675dcb63f0934e798"
+  },
+  "smoke_test": false
+}

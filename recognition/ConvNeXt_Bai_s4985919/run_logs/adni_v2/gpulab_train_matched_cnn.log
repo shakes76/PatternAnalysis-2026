@@ -1,0 +1,374 @@
+Using device: cuda
+Split mode: official
+Excluded overlapping patients: 0
+Excluded training images: 0
+Train subjects also in official test: 0
+Validation subjects also in official test: 0
+Training patients: 382
+Validation patients: 96
+Testing patients: 202
+Train class counts: {0: 8120, 1: 9060}
+Val class counts: {0: 2280, 1: 2060}
+Train/validation subject separation verified.
+Verified class mapping: AD=0, NC=1
+Training images: 17180
+Validation images: 4340
+Testing images: 9000
+Optimizer: adamw weight decay: 0.03
+Train-only augmentation: True
+Train-only intensity protocol: None
+Selected model: cnn_matched
+Input mode: context3; scheduler: cosine (warmup 1.0 epochs); EMA decay: 0.999; label smoothing: 0.1
+Trainable parameters: 1834122
+Outputs: checkpoints/cnn_matched/adni_v2_cnn_matched_s42
+Split mode: official
+Best model: slice macro-F1 at AD threshold 0.50 (tie: AD recall, then validation loss)
+Checkpoint every 50 training batches
+Best model updated using validation slice macro-F1 at 0.50.
+Matplotlib is building the font cache; this may take a moment.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 1/30 completed: loss=0.6065, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.7632887284959973, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 2/30 completed: loss=0.5596, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.7560287855561233, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 3/30 completed: loss=0.5262, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.7968133622892182, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 4/30 completed: loss=0.4914, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8462805527167433, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 5/30 completed: loss=0.4565, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8518146397547266, selection_slice_macro_F1=0.3219
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 6/30 completed: loss=0.4199, val_acc=0.8101, macro_F1=0.8100, AD_recall=0.7421, AUROC_AD=0.8952418668029296, selection_slice_macro_F1=0.8100
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 7/30 completed: loss=0.3922, val_acc=0.5283, macro_F1=0.4369, AD_recall=0.1193, AUROC_AD=0.870915091125873, selection_slice_macro_F1=0.4369
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 8/30 completed: loss=0.3653, val_acc=0.7247, macro_F1=0.7171, AD_recall=0.5338, AUROC_AD=0.8902729517969682, selection_slice_macro_F1=0.7171
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 9/30 completed: loss=0.3412, val_acc=0.6406, macro_F1=0.5688, AD_recall=0.9978, AUROC_AD=0.879084908874127, selection_slice_macro_F1=0.5688
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 10/30 completed: loss=0.3213, val_acc=0.7765, macro_F1=0.7677, AD_recall=0.9246, AUROC_AD=0.8811219340827797, selection_slice_macro_F1=0.7677
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 11/30 completed: loss=0.3020, val_acc=0.6710, macro_F1=0.6487, AD_recall=0.3991, AUROC_AD=0.8990098577755067, selection_slice_macro_F1=0.6487
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 12/30 completed: loss=0.2903, val_acc=0.7903, macro_F1=0.7900, AD_recall=0.7145, AUROC_AD=0.886954948049736, selection_slice_macro_F1=0.7900
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 13/30 completed: loss=0.2778, val_acc=0.7993, macro_F1=0.7983, AD_recall=0.8281, AUROC_AD=0.885962570260603, selection_slice_macro_F1=0.7983
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 14/30 completed: loss=0.2694, val_acc=0.7484, macro_F1=0.7297, AD_recall=0.9623, AUROC_AD=0.8749059998296712, selection_slice_macro_F1=0.7297
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 15/30 completed: loss=0.2559, val_acc=0.8025, macro_F1=0.8025, AD_recall=0.7504, AUROC_AD=0.8929407256004088, selection_slice_macro_F1=0.8025
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 16/30 completed: loss=0.2492, val_acc=0.7823, macro_F1=0.7749, AD_recall=0.9162, AUROC_AD=0.88039974024868, selection_slice_macro_F1=0.7749
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 17/30 completed: loss=0.2430, val_acc=0.6394, macro_F1=0.5674, AD_recall=0.9969, AUROC_AD=0.8817146780786919, selection_slice_macro_F1=0.5674
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 18/30 completed: loss=0.2381, val_acc=0.4756, macro_F1=0.3238, AD_recall=0.0018, AUROC_AD=0.8613062084823709, selection_slice_macro_F1=0.3238
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 19/30 completed: loss=0.2343, val_acc=0.8025, macro_F1=0.8020, AD_recall=0.7132, AUROC_AD=0.8997687787429739, selection_slice_macro_F1=0.8020
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 20/30 completed: loss=0.2286, val_acc=0.7569, macro_F1=0.7533, AD_recall=0.6053, AUROC_AD=0.8922742079713848, selection_slice_macro_F1=0.7533
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 21/30 completed: loss=0.2239, val_acc=0.5864, macro_F1=0.5314, AD_recall=0.2320, AUROC_AD=0.884872679270993, selection_slice_macro_F1=0.5314
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 22/30 completed: loss=0.2211, val_acc=0.6459, macro_F1=0.6167, AD_recall=0.3522, AUROC_AD=0.8876982200647249, selection_slice_macro_F1=0.6167
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 23/30 completed: loss=0.2187, val_acc=0.7963, macro_F1=0.7963, AD_recall=0.7496, AUROC_AD=0.8874516692215977, selection_slice_macro_F1=0.7963
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 24/30 completed: loss=0.2167, val_acc=0.7829, macro_F1=0.7817, AD_recall=0.6746, AUROC_AD=0.8932334781127577, selection_slice_macro_F1=0.7817
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 25/30 completed: loss=0.2149, val_acc=0.7816, macro_F1=0.7804, AD_recall=0.6754, AUROC_AD=0.8902186595128598, selection_slice_macro_F1=0.7804
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 26/30 completed: loss=0.2142, val_acc=0.7797, macro_F1=0.7784, AD_recall=0.6697, AUROC_AD=0.8920503321410322, selection_slice_macro_F1=0.7784
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 27/30 completed: loss=0.2129, val_acc=0.7581, macro_F1=0.7545, AD_recall=0.6066, AUROC_AD=0.8916885964912281, selection_slice_macro_F1=0.7545
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 28/30 completed: loss=0.2124, val_acc=0.7516, macro_F1=0.7475, AD_recall=0.5939, AUROC_AD=0.8900468404019758, selection_slice_macro_F1=0.7475
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 29/30 completed: loss=0.2120, val_acc=0.7419, macro_F1=0.7363, AD_recall=0.5675, AUROC_AD=0.8913302674161131, selection_slice_macro_F1=0.7363
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s42/training_curves.png
+
+Epoch 30/30 completed: loss=0.2121, val_acc=0.7495, macro_F1=0.7452, AD_recall=0.5886, AUROC_AD=0.8915071963890309, selection_slice_macro_F1=0.7452
+
+Training finished. Results saved to: checkpoints/cnn_matched/adni_v2_cnn_matched_s42
+Using device: cuda
+Split mode: official
+Excluded overlapping patients: 0
+Excluded training images: 0
+Train subjects also in official test: 0
+Validation subjects also in official test: 0
+Training patients: 382
+Validation patients: 96
+Testing patients: 202
+Train class counts: {0: 8120, 1: 9060}
+Val class counts: {0: 2280, 1: 2060}
+Train/validation subject separation verified.
+Verified class mapping: AD=0, NC=1
+Training images: 17180
+Validation images: 4340
+Testing images: 9000
+Optimizer: adamw weight decay: 0.03
+Train-only augmentation: True
+Train-only intensity protocol: None
+Selected model: cnn_matched
+Input mode: context3; scheduler: cosine (warmup 1.0 epochs); EMA decay: 0.999; label smoothing: 0.1
+Trainable parameters: 1834122
+Outputs: checkpoints/cnn_matched/adni_v2_cnn_matched_s43
+Split mode: official
+Best model: slice macro-F1 at AD threshold 0.50 (tie: AD recall, then validation loss)
+Checkpoint every 50 training batches
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 1/30 completed: loss=0.6020, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.7977427184466019, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 2/30 completed: loss=0.5606, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8042850451371146, selection_slice_macro_F1=0.3219
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 3/30 completed: loss=0.5228, val_acc=0.5279, macro_F1=0.4289, AD_recall=0.1061, AUROC_AD=0.8790638306932379, selection_slice_macro_F1=0.4289
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 4/30 completed: loss=0.4894, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8533901805484585, selection_slice_macro_F1=0.3219
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 5/30 completed: loss=0.4509, val_acc=0.5343, macro_F1=0.4405, AD_recall=0.1189, AUROC_AD=0.8843529637199795, selection_slice_macro_F1=0.4405
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 6/30 completed: loss=0.4145, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8751653253278828, selection_slice_macro_F1=0.3219
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 7/30 completed: loss=0.3826, val_acc=0.5862, macro_F1=0.5262, AD_recall=0.2193, AUROC_AD=0.8893536024527338, selection_slice_macro_F1=0.5262
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 8/30 completed: loss=0.3572, val_acc=0.6687, macro_F1=0.6168, AD_recall=0.9864, AUROC_AD=0.8870832268778743, selection_slice_macro_F1=0.6168
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 9/30 completed: loss=0.3350, val_acc=0.4756, macro_F1=0.3253, AD_recall=0.0035, AUROC_AD=0.8688409129620167, selection_slice_macro_F1=0.3253
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 10/30 completed: loss=0.3109, val_acc=0.6968, macro_F1=0.6838, AD_recall=0.4706, AUROC_AD=0.8770009368080395, selection_slice_macro_F1=0.6838
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 11/30 completed: loss=0.2972, val_acc=0.4765, macro_F1=0.3258, AD_recall=0.0035, AUROC_AD=0.8829772398228581, selection_slice_macro_F1=0.3258
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 12/30 completed: loss=0.2837, val_acc=0.7753, macro_F1=0.7751, AD_recall=0.7066, AUROC_AD=0.8589905893374212, selection_slice_macro_F1=0.7751
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 13/30 completed: loss=0.2746, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.7820016819962528, selection_slice_macro_F1=0.3219
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 14/30 completed: loss=0.2616, val_acc=0.7864, macro_F1=0.7858, AD_recall=0.7978, AUROC_AD=0.8605965763924374, selection_slice_macro_F1=0.7858
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 15/30 completed: loss=0.2543, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8321484840742633, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 16/30 completed: loss=0.2447, val_acc=0.5323, macro_F1=0.3603, AD_recall=1.0000, AUROC_AD=0.874319004428547, selection_slice_macro_F1=0.3603
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 17/30 completed: loss=0.2392, val_acc=0.7995, macro_F1=0.7989, AD_recall=0.8145, AUROC_AD=0.8766061999659343, selection_slice_macro_F1=0.7989
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 18/30 completed: loss=0.2355, val_acc=0.5290, macro_F1=0.3530, AD_recall=1.0000, AUROC_AD=0.873077627320729, selection_slice_macro_F1=0.3530
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 19/30 completed: loss=0.2292, val_acc=0.7906, macro_F1=0.7901, AD_recall=0.7061, AUROC_AD=0.8836542965423267, selection_slice_macro_F1=0.7901
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 20/30 completed: loss=0.2253, val_acc=0.5811, macro_F1=0.4635, AD_recall=0.9987, AUROC_AD=0.8711142692897291, selection_slice_macro_F1=0.4635
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 21/30 completed: loss=0.2212, val_acc=0.7378, macro_F1=0.7181, AD_recall=0.9535, AUROC_AD=0.8741326009197752, selection_slice_macro_F1=0.7181
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 22/30 completed: loss=0.2197, val_acc=0.7422, macro_F1=0.7375, AD_recall=0.5798, AUROC_AD=0.8730143927780617, selection_slice_macro_F1=0.7375
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 23/30 completed: loss=0.2172, val_acc=0.7940, macro_F1=0.7939, AD_recall=0.7390, AUROC_AD=0.8793120848237097, selection_slice_macro_F1=0.7939
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 24/30 completed: loss=0.2148, val_acc=0.7742, macro_F1=0.7732, AD_recall=0.6746, AUROC_AD=0.8739184125361948, selection_slice_macro_F1=0.7732
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 25/30 completed: loss=0.2140, val_acc=0.7712, macro_F1=0.7701, AD_recall=0.6671, AUROC_AD=0.8722098024186681, selection_slice_macro_F1=0.7701
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 26/30 completed: loss=0.2129, val_acc=0.7740, macro_F1=0.7726, AD_recall=0.6632, AUROC_AD=0.8807456140350877, selection_slice_macro_F1=0.7726
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 27/30 completed: loss=0.2114, val_acc=0.7772, macro_F1=0.7766, AD_recall=0.6908, AUROC_AD=0.8729047436552546, selection_slice_macro_F1=0.7766
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 28/30 completed: loss=0.2112, val_acc=0.7629, macro_F1=0.7607, AD_recall=0.6338, AUROC_AD=0.8767639669562255, selection_slice_macro_F1=0.7607
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 29/30 completed: loss=0.2107, val_acc=0.7677, macro_F1=0.7661, AD_recall=0.6509, AUROC_AD=0.8758188553909044, selection_slice_macro_F1=0.7661
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s43/training_curves.png
+
+Epoch 30/30 completed: loss=0.2105, val_acc=0.7588, macro_F1=0.7560, AD_recall=0.6215, AUROC_AD=0.8773179611650486, selection_slice_macro_F1=0.7560
+
+Training finished. Results saved to: checkpoints/cnn_matched/adni_v2_cnn_matched_s43
+Using device: cuda
+Split mode: official
+Excluded overlapping patients: 0
+Excluded training images: 0
+Train subjects also in official test: 0
+Validation subjects also in official test: 0
+Training patients: 382
+Validation patients: 96
+Testing patients: 202
+Train class counts: {0: 8120, 1: 9060}
+Val class counts: {0: 2280, 1: 2060}
+Train/validation subject separation verified.
+Verified class mapping: AD=0, NC=1
+Training images: 17180
+Validation images: 4340
+Testing images: 9000
+Optimizer: adamw weight decay: 0.03
+Train-only augmentation: True
+Train-only intensity protocol: None
+Selected model: cnn_matched
+Input mode: context3; scheduler: cosine (warmup 1.0 epochs); EMA decay: 0.999; label smoothing: 0.1
+Trainable parameters: 1834122
+Outputs: checkpoints/cnn_matched/adni_v2_cnn_matched_s44
+Split mode: official
+Best model: slice macro-F1 at AD threshold 0.50 (tie: AD recall, then validation loss)
+Checkpoint every 50 training batches
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 1/30 completed: loss=0.6076, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.7339773888605008, selection_slice_macro_F1=0.3219
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 2/30 completed: loss=0.5580, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8035392181911089, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 3/30 completed: loss=0.5258, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.7685311275762221, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 4/30 completed: loss=0.4920, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8379262476579799, selection_slice_macro_F1=0.3219
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 5/30 completed: loss=0.4558, val_acc=0.5399, macro_F1=0.4504, AD_recall=0.1298, AUROC_AD=0.8634393629705331, selection_slice_macro_F1=0.4504
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 6/30 completed: loss=0.4228, val_acc=0.5166, macro_F1=0.4123, AD_recall=0.0908, AUROC_AD=0.8684638477261114, selection_slice_macro_F1=0.4123
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 7/30 completed: loss=0.3944, val_acc=0.4758, macro_F1=0.3243, AD_recall=0.0022, AUROC_AD=0.8707707375234202, selection_slice_macro_F1=0.3243
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 8/30 completed: loss=0.3658, val_acc=0.6797, macro_F1=0.6340, AD_recall=0.9833, AUROC_AD=0.8666677312212571, selection_slice_macro_F1=0.6340
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 9/30 completed: loss=0.3395, val_acc=0.4747, macro_F1=0.3219, AD_recall=0.0000, AUROC_AD=0.8704990631919605, selection_slice_macro_F1=0.3219
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 10/30 completed: loss=0.3224, val_acc=0.4751, macro_F1=0.3229, AD_recall=0.0009, AUROC_AD=0.875518438085505, selection_slice_macro_F1=0.3229
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 11/30 completed: loss=0.3070, val_acc=0.7378, macro_F1=0.7196, AD_recall=0.9443, AUROC_AD=0.8761241696474196, selection_slice_macro_F1=0.7196
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 12/30 completed: loss=0.2947, val_acc=0.8196, macro_F1=0.8195, AD_recall=0.7978, AUROC_AD=0.8958465338102538, selection_slice_macro_F1=0.8195
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 13/30 completed: loss=0.2767, val_acc=0.8018, macro_F1=0.8016, AD_recall=0.7333, AUROC_AD=0.88798586271504, selection_slice_macro_F1=0.8016
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 14/30 completed: loss=0.2658, val_acc=0.7853, macro_F1=0.7841, AD_recall=0.6785, AUROC_AD=0.8769741100323625, selection_slice_macro_F1=0.7841
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 15/30 completed: loss=0.2572, val_acc=0.7850, macro_F1=0.7766, AD_recall=0.9316, AUROC_AD=0.8914045733265202, selection_slice_macro_F1=0.7766
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 16/30 completed: loss=0.2496, val_acc=0.7797, macro_F1=0.7698, AD_recall=0.9399, AUROC_AD=0.9053238375063873, selection_slice_macro_F1=0.7698
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 17/30 completed: loss=0.2445, val_acc=0.8164, macro_F1=0.8151, AD_recall=0.8553, AUROC_AD=0.8943385922330097, selection_slice_macro_F1=0.8151
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 18/30 completed: loss=0.2360, val_acc=0.7661, macro_F1=0.7521, AD_recall=0.9557, AUROC_AD=0.898243378470448, selection_slice_macro_F1=0.7521
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 19/30 completed: loss=0.2313, val_acc=0.7735, macro_F1=0.7708, AD_recall=0.6325, AUROC_AD=0.8972632430591041, selection_slice_macro_F1=0.7708
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 20/30 completed: loss=0.2269, val_acc=0.7316, macro_F1=0.7103, AD_recall=0.9544, AUROC_AD=0.8932999063191961, selection_slice_macro_F1=0.7103
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 21/30 completed: loss=0.2242, val_acc=0.5258, macro_F1=0.3455, AD_recall=1.0000, AUROC_AD=0.9028577967978197, selection_slice_macro_F1=0.3455
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 22/30 completed: loss=0.2207, val_acc=0.8244, macro_F1=0.8226, AD_recall=0.8811, AUROC_AD=0.8980643203883495, selection_slice_macro_F1=0.8226
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 23/30 completed: loss=0.2188, val_acc=0.8028, macro_F1=0.7983, AD_recall=0.9061, AUROC_AD=0.8968532830863567, selection_slice_macro_F1=0.7983
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 24/30 completed: loss=0.2168, val_acc=0.8205, macro_F1=0.8205, AD_recall=0.7925, AUROC_AD=0.8987893885198432, selection_slice_macro_F1=0.8205
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 25/30 completed: loss=0.2153, val_acc=0.7924, macro_F1=0.7910, AD_recall=0.6776, AUROC_AD=0.9024388945665134, selection_slice_macro_F1=0.7910
+Best model updated using validation slice macro-F1 at 0.50.
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 26/30 completed: loss=0.2137, val_acc=0.8293, macro_F1=0.8284, AD_recall=0.8570, AUROC_AD=0.9017137199795605, selection_slice_macro_F1=0.8284
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 27/30 completed: loss=0.2127, val_acc=0.8090, macro_F1=0.8085, AD_recall=0.7219, AUROC_AD=0.904197325838869, selection_slice_macro_F1=0.8085
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 28/30 completed: loss=0.2122, val_acc=0.7993, macro_F1=0.7985, AD_recall=0.7013, AUROC_AD=0.9019632515755408, selection_slice_macro_F1=0.7985
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 29/30 completed: loss=0.2117, val_acc=0.7929, macro_F1=0.7915, AD_recall=0.6785, AUROC_AD=0.9026262561744166, selection_slice_macro_F1=0.7915
+Saved training curves: checkpoints/cnn_matched/adni_v2_cnn_matched_s44/training_curves.png
+
+Epoch 30/30 completed: loss=0.2114, val_acc=0.7970, macro_F1=0.7960, AD_recall=0.6921, AUROC_AD=0.9022072474876511, selection_slice_macro_F1=0.7960
+
+Training finished. Results saved to: checkpoints/cnn_matched/adni_v2_cnn_matched_s44

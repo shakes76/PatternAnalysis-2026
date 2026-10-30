@@ -1,0 +1,683 @@
+{
+  "all": {
+    "1.0": {
+      "n": 280,
+      "patients": 70,
+      "scans": 122,
+      "accuracy": 0.775,
+      "recall_ad": 0.7638888888888888,
+      "recall_nc": 0.7788461538461539,
+      "auroc_ad": 0.8508947649572649,
+      "tp_ad": 55.0,
+      "fn_ad": 17.0,
+      "fp_ad": 46.0,
+      "tn_ad": 162.0,
+      "errors": 63.0,
+      "error_rate": 0.225,
+      "mean_delta": 0.0,
+      "median_delta": 0.0,
+      "mean_absolute_delta": 0.0,
+      "flip_fraction": 0.0,
+      "nc_to_ad_fraction": 0.0,
+      "ad_to_nc_fraction": 0.0,
+      "delta_accuracy": 0.0,
+      "delta_recall_ad": 0.0,
+      "delta_recall_nc": 0.0,
+      "delta_auroc_ad": 0.0,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        }
+      }
+    },
+    "0.9": {
+      "n": 280,
+      "patients": 70,
+      "scans": 122,
+      "accuracy": 0.7785714285714286,
+      "recall_ad": 0.7222222222222222,
+      "recall_nc": 0.7980769230769231,
+      "auroc_ad": 0.8483573717948718,
+      "tp_ad": 52.0,
+      "fn_ad": 20.0,
+      "fp_ad": 42.0,
+      "tn_ad": 166.0,
+      "errors": 62.0,
+      "error_rate": 0.22142857142857142,
+      "mean_delta": -0.003607000794727355,
+      "median_delta": -0.003937900066375732,
+      "mean_absolute_delta": 0.05950355958359848,
+      "flip_fraction": 0.08928571428571429,
+      "nc_to_ad_fraction": 0.03214285714285714,
+      "ad_to_nc_fraction": 0.05714285714285714,
+      "delta_accuracy": 0.0035714285714285587,
+      "delta_recall_ad": -0.04166666666666663,
+      "delta_recall_nc": 0.019230769230769273,
+      "delta_auroc_ad": -0.002537393162393098,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": -0.01716463615756116,
+          "high": 0.00905343428279074,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": -0.012581095565110445,
+          "high": 0.0007405466865748171,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.05001811836621657,
+          "high": 0.0698717410709027,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.05714285714285714,
+          "high": 0.12857142857142856,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": -0.03928571428571426,
+          "high": 0.04660714285714295,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": -0.1501562499999999,
+          "high": 0.04999999999999993,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": -0.03261894995898269,
+          "high": 0.07979255319148934,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": -0.025400982481060604,
+          "high": 0.022187500000000027,
+          "valid": 200,
+          "requested": 200
+        }
+      }
+    },
+    "1.1": {
+      "n": 280,
+      "patients": 70,
+      "scans": 122,
+      "accuracy": 0.7357142857142858,
+      "recall_ad": 0.75,
+      "recall_nc": 0.7307692307692307,
+      "auroc_ad": 0.8404780982905983,
+      "tp_ad": 54.0,
+      "fn_ad": 18.0,
+      "fp_ad": 56.0,
+      "tn_ad": 152.0,
+      "errors": 74.0,
+      "error_rate": 0.2642857142857143,
+      "mean_delta": 0.0013210372275872422,
+      "median_delta": 0.004387900233268738,
+      "mean_absolute_delta": 0.046725047126113035,
+      "flip_fraction": 0.060714285714285714,
+      "nc_to_ad_fraction": 0.04642857142857143,
+      "ad_to_nc_fraction": 0.014285714285714285,
+      "delta_accuracy": -0.03928571428571426,
+      "delta_recall_ad": -0.01388888888888884,
+      "delta_recall_nc": -0.04807692307692313,
+      "delta_auroc_ad": -0.01041666666666663,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": -0.009259717394743346,
+          "high": 0.011960641240875702,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": 0.0005522485356777908,
+          "high": 0.007899483852088452,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.03905781374840964,
+          "high": 0.055101702023031454,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.03214285714285714,
+          "high": 0.09285714285714286,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": -0.0714285714285714,
+          "high": -0.0071428571428571175,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": -0.07156593406593414,
+          "high": 0.047678571428571494,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": -0.0864545454545454,
+          "high": -0.012857758620689691,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": -0.029236154465717156,
+          "high": 0.006542133740288529,
+          "valid": 200,
+          "requested": 200
+        }
+      }
+    }
+  },
+  "AD": {
+    "1.0": {
+      "n": 72,
+      "patients": 18,
+      "scans": 50,
+      "accuracy": 0.7638888888888888,
+      "recall_ad": 0.7638888888888888,
+      "recall_nc": null,
+      "auroc_ad": null,
+      "tp_ad": 55.0,
+      "fn_ad": 17.0,
+      "fp_ad": 0.0,
+      "tn_ad": 0.0,
+      "errors": 17.0,
+      "error_rate": 0.2361111111111111,
+      "mean_delta": 0.0,
+      "median_delta": 0.0,
+      "mean_absolute_delta": 0.0,
+      "flip_fraction": 0.0,
+      "nc_to_ad_fraction": 0.0,
+      "ad_to_nc_fraction": 0.0,
+      "delta_accuracy": 0.0,
+      "delta_recall_ad": 0.0,
+      "delta_recall_nc": null,
+      "delta_auroc_ad": null,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        }
+      }
+    },
+    "0.9": {
+      "n": 72,
+      "patients": 18,
+      "scans": 50,
+      "accuracy": 0.7222222222222222,
+      "recall_ad": 0.7222222222222222,
+      "recall_nc": null,
+      "auroc_ad": null,
+      "tp_ad": 52.0,
+      "fn_ad": 20.0,
+      "fp_ad": 0.0,
+      "tn_ad": 0.0,
+      "errors": 20.0,
+      "error_rate": 0.2777777777777778,
+      "mean_delta": -0.018618984354866877,
+      "median_delta": -0.02002108097076416,
+      "mean_absolute_delta": 0.05893373075458738,
+      "flip_fraction": 0.125,
+      "nc_to_ad_fraction": 0.041666666666666664,
+      "ad_to_nc_fraction": 0.08333333333333333,
+      "delta_accuracy": -0.04166666666666663,
+      "delta_recall_ad": -0.04166666666666663,
+      "delta_recall_nc": null,
+      "delta_auroc_ad": null,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": -0.04257375725234548,
+          "high": 0.005160510488268407,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": -0.03698894381523132,
+          "high": -0.011769473552703857,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.04413528774554531,
+          "high": 0.0765483774865667,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.05555555555555555,
+          "high": 0.19444444444444445,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": -0.12534722222222222,
+          "high": 0.05555555555555547,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": -0.12534722222222222,
+          "high": 0.05555555555555547,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        }
+      }
+    },
+    "1.1": {
+      "n": 72,
+      "patients": 18,
+      "scans": 50,
+      "accuracy": 0.75,
+      "recall_ad": 0.75,
+      "recall_nc": null,
+      "auroc_ad": null,
+      "tp_ad": 54.0,
+      "fn_ad": 18.0,
+      "fp_ad": 0.0,
+      "tn_ad": 0.0,
+      "errors": 18.0,
+      "error_rate": 0.25,
+      "mean_delta": 0.0013428059303098256,
+      "median_delta": 0.007391542196273804,
+      "mean_absolute_delta": 0.04069803344706694,
+      "flip_fraction": 0.06944444444444445,
+      "nc_to_ad_fraction": 0.027777777777777776,
+      "ad_to_nc_fraction": 0.041666666666666664,
+      "delta_accuracy": -0.01388888888888884,
+      "delta_recall_ad": -0.01388888888888884,
+      "delta_recall_nc": null,
+      "delta_auroc_ad": null,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": -0.014716555788699123,
+          "high": 0.01505985611325337,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": 0.0043616190552711485,
+          "high": 0.015651490539312366,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.030379728936693735,
+          "high": 0.0532880551647395,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.027777777777777776,
+          "high": 0.125,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": -0.06944444444444453,
+          "high": 0.04201388888888904,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": -0.06944444444444453,
+          "high": 0.04201388888888904,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        }
+      }
+    }
+  },
+  "NC": {
+    "1.0": {
+      "n": 208,
+      "patients": 52,
+      "scans": 72,
+      "accuracy": 0.7788461538461539,
+      "recall_ad": null,
+      "recall_nc": 0.7788461538461539,
+      "auroc_ad": null,
+      "tp_ad": 0.0,
+      "fn_ad": 0.0,
+      "fp_ad": 46.0,
+      "tn_ad": 162.0,
+      "errors": 46.0,
+      "error_rate": 0.22115384615384615,
+      "mean_delta": 0.0,
+      "median_delta": 0.0,
+      "mean_absolute_delta": 0.0,
+      "flip_fraction": 0.0,
+      "nc_to_ad_fraction": 0.0,
+      "ad_to_nc_fraction": 0.0,
+      "delta_accuracy": 0.0,
+      "delta_recall_ad": null,
+      "delta_recall_nc": 0.0,
+      "delta_auroc_ad": null,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": 0.0,
+          "high": 0.0,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        }
+      }
+    },
+    "0.9": {
+      "n": 208,
+      "patients": 52,
+      "scans": 72,
+      "accuracy": 0.7980769230769231,
+      "recall_ad": null,
+      "recall_nc": 0.7980769230769231,
+      "auroc_ad": null,
+      "tp_ad": 0.0,
+      "fn_ad": 0.0,
+      "fp_ad": 42.0,
+      "tn_ad": 166.0,
+      "errors": 42.0,
+      "error_rate": 0.20192307692307693,
+      "mean_delta": 0.001589455053013248,
+      "median_delta": 0.0001956685446202755,
+      "mean_absolute_delta": 0.05970080802441002,
+      "flip_fraction": 0.07692307692307693,
+      "nc_to_ad_fraction": 0.028846153846153848,
+      "ad_to_nc_fraction": 0.04807692307692308,
+      "delta_accuracy": 0.019230769230769273,
+      "delta_recall_ad": null,
+      "delta_recall_nc": 0.019230769230769273,
+      "delta_auroc_ad": null,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": -0.014341129722463217,
+          "high": 0.014461457621823347,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": -0.006591232493519783,
+          "high": 0.003877832379657775,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.04549043601644091,
+          "high": 0.07158194273540106,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.038461538461538464,
+          "high": 0.11550480769230773,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": -0.019230769230769273,
+          "high": 0.07211538461538458,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": -0.019230769230769273,
+          "high": 0.07211538461538458,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        }
+      }
+    },
+    "1.1": {
+      "n": 208,
+      "patients": 52,
+      "scans": 72,
+      "accuracy": 0.7307692307692307,
+      "recall_ad": null,
+      "recall_nc": 0.7307692307692307,
+      "auroc_ad": null,
+      "tp_ad": 0.0,
+      "fn_ad": 0.0,
+      "fp_ad": 56.0,
+      "tn_ad": 152.0,
+      "errors": 56.0,
+      "error_rate": 0.2692307692307692,
+      "mean_delta": 0.0013135019074140403,
+      "median_delta": 0.003589145839214325,
+      "mean_absolute_delta": 0.048811321091936685,
+      "flip_fraction": 0.057692307692307696,
+      "nc_to_ad_fraction": 0.052884615384615384,
+      "ad_to_nc_fraction": 0.004807692307692308,
+      "delta_accuracy": -0.04807692307692313,
+      "delta_recall_ad": null,
+      "delta_recall_nc": -0.04807692307692313,
+      "delta_auroc_ad": null,
+      "patient_cluster_ci": {
+        "mean_delta": {
+          "low": -0.010319299872907532,
+          "high": 0.015388537928027711,
+          "valid": 200,
+          "requested": 200
+        },
+        "median_delta": {
+          "low": -3.788842004723841e-05,
+          "high": 0.008319944050163031,
+          "valid": 200,
+          "requested": 200
+        },
+        "mean_absolute_delta": {
+          "low": 0.03964968817610777,
+          "high": 0.058526206888396146,
+          "valid": 200,
+          "requested": 200
+        },
+        "flip_fraction": {
+          "low": 0.02403846153846154,
+          "high": 0.08665865384615387,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_accuracy": {
+          "low": -0.07692307692307698,
+          "high": -0.01430288461538454,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_recall_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        },
+        "delta_recall_nc": {
+          "low": -0.07692307692307698,
+          "high": -0.01430288461538454,
+          "valid": 200,
+          "requested": 200
+        },
+        "delta_auroc_ad": {
+          "low": null,
+          "high": null,
+          "valid": 0,
+          "requested": 200
+        }
+      }
+    }
+  }
+}

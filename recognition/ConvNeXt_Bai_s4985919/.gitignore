@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.env
+checkpoints/
+smoke_outputs/
+evaluation_results/
+evaluation_results_balanced/
+results/
+diagnostics/
+*.pth
+*.pt
+*.nii
+*.nii.gz
+*.jpeg
+*.jpg
+# Medical images are never committed; summary charts used by the README live in figures/.
+# Slurm logs and evaluation outputs (may contain data paths); keep out of git.
+*.out
+*.err
+eval_*/
+evaluation_*/
+evidence/
+*.tar.gz
+# Raw scan IDs and MRI montages from analyze.py stay local even if copied elsewhere.
+*LOCAL_ONLY*
+failure_cases_montage.png

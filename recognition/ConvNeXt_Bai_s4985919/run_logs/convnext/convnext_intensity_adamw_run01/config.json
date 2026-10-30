@@ -1,0 +1,44 @@
+{
+  "model": "convnext",
+  "batch_size": 8,
+  "learning_rate": 0.0003,
+  "seed": 42,
+  "optimizer_name": "adamw",
+  "weight_decay": 0.03,
+  "training_augmentation": true,
+  "intensity_augmentation": {
+    "version": 1,
+    "scale_range": [
+      0.9,
+      1.1
+    ],
+    "gamma_range": [
+      0.9,
+      1.1
+    ],
+    "probability": 1.0,
+    "formula": "clip(scale * x**gamma, 0, 1)",
+    "order": "intensity then original affine then original noise",
+    "rng": "python random (saved by train.py)",
+    "scope": "training only"
+  },
+  "target_epochs": 8,
+  "train_images": 10080,
+  "val_images": 2620,
+  "test_images": 9000,
+  "class_to_idx": {
+    "AD": 0,
+    "NC": 1
+  },
+  "metric_positive_class": "AD (class 0)",
+  "selection_metric": "macro_f1 (tie: recall_ad, then lower val_loss)",
+  "selection_level": "slice",
+  "selection_threshold": 0.5,
+  "preprocessing_repr": "Compose(\n    Resize(size=(224, 224), interpolation=bilinear, max_size=None, antialias=warn)\n    Grayscale(num_output_channels=3)\n    ToTensor()\n    Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])\n)",
+  "split_fingerprint": {
+    "train": "a76534fdfa7f925c8192ab34b4f540e4a5c227304394e2c948b0998a2394404f",
+    "validation": "836321b7a83a63039012befeb1e3280857e4991810bae3e62ec8e088a1694198",
+    "test": "00b8bc70520eb4e723fb756b5a564323c7c95c34c210884675dcb63f0934e798"
+  },
+  "smoke_test": false
+}

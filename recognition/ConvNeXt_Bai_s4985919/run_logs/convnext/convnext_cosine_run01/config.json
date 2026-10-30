@@ -1,0 +1,29 @@
+{
+  "model": "convnext",
+  "batch_size": 8,
+  "learning_rate": 0.0003,
+  "seed": 42,
+  "optimizer_name": "adamw",
+  "weight_decay": 0.03,
+  "training_augmentation": true,
+  "scheduler_name": "cosine",
+  "eta_min": 1e-05,
+  "early_stop_patience": 4,
+  "min_delta": 0.002,
+  "target_epochs": 12,
+  "train_images": 10080,
+  "val_images": 2620,
+  "test_images": 9000,
+  "class_to_idx": {
+    "AD": 0,
+    "NC": 1
+  },
+  "metric_positive_class": "AD (class 0)",
+  "selection_metric": "macro_f1 (tie: recall_ad, then lower val_loss)",
+  "split_fingerprint": {
+    "train": "a76534fdfa7f925c8192ab34b4f540e4a5c227304394e2c948b0998a2394404f",
+    "validation": "836321b7a83a63039012befeb1e3280857e4991810bae3e62ec8e088a1694198",
+    "test": "00b8bc70520eb4e723fb756b5a564323c7c95c34c210884675dcb63f0934e798"
+  },
+  "smoke_test": false
+}

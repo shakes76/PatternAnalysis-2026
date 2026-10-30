@@ -1,0 +1,8 @@
+# Versions used on Rangpur (conda env torch117, Python 3.10.21); see README Section 13.
+# Install torch/torchvision with the CUDA build that matches your GPU, e.g.
+#   pip install torch==2.0.1 torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cu117
+torch==2.0.1
+torchvision==0.15.2
+numpy==1.26.4
+matplotlib==3.10.9
+Pillow==12.3.0
