@@ -1,0 +1,53 @@
+# Local Python environments and generated caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# Local datasets (including PyG's processed cache)
+data/
+datasets/
+raw/
+processed/
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.nii
+*.nii.gz
+
+# Trained models and generated experiment artifacts
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.pkl
+*.pickle
+*.joblib
+checkpoints/
+weights/
+outputs/
+runs/
+logs/
+wandb/
+cache/
+.cache/
+*.log
+
+# Local secrets and operating-system files
+.env
+.env.*
+!.env.example
+Thumbs.db
+.DS_Store
+
+# Generated aggregate reports stay local; README and figures carry submission evidence
+/recognition/Facebook_GCN_Jonte/reports/

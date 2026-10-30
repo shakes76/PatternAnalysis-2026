@@ -1,0 +1,7 @@
+# Tested Windows CUDA environment. Install the CUDA build before this file.
+torch==2.8.0+cu126
+torch-geometric==2.6.1
+numpy==2.2.6
+scikit-learn==1.7.2
+matplotlib==3.10.7
+psutil==7.2.2
