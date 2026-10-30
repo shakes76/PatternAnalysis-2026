@@ -1,0 +1,12 @@
+.DS_Store
+__pycache__/
+.vscode/
+*.pt
+*.bin
+*.safetensors
+checkpoints/
+results/
+CONTEXT.md
+NOTES.md
+*.pdf
+
