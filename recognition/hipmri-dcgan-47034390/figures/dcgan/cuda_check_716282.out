@@ -1,0 +1,115 @@
+Job 716282 on a100-8, started Fri Oct 30 02:41:03 AEST 2026
+ERROR: Unable to locate a modulefile for 'Anaconda3'
+Running on:
+a100-8
+GPU:
+Fri Oct 30 02:41:04 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          Off |   00000000:0B:00.0 Off |                    0 |
+| N/A   33C    P0             57W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Python:
+/home/Student/s4703439/miniconda3/envs/torch/bin/python
+=== Environment ===
+/home/Student/s4703439/miniconda3/envs/torch/bin/python
+Python 3.11.15
+=== PyTorch ===
+PyTorch: 2.13.0+cu130
+CUDA: 13.0
+CUDA available: True
+GPU: NVIDIA A100-PCIE-40GB
+Starting dataset initialisation...
+NIfTI files found: 1260
+Dataset initialised. Loading first batch...
+First batch loaded.
+Number of 2D images: 1260
+Batch shape: torch.Size([16, 1, 256, 128])
+Image range: -1.0 1.0
+Device: cuda
+NVIDIA A100-PCIE-40GB
+Starting dataset initialisation...
+NIfTI files found: 60
+Dataset initialised. Loading first batch...
+First batch loaded.
+Number of 2D images: 60
+Batch shape: torch.Size([16, 1, 256, 128])
+Image range: -1.0 1.0
+Generator output: torch.Size([2, 1, 256, 128])
+Discriminator output: torch.Size([2, 1])
+Training started!
+Epoch [1/50] Loss D: 0.2349 Loss G: 5.1573 Grad G: 44.3546 Grad D: 18.3509 Epoch Time: 5.81 sPeak Allocated: 400.6 MB, Peak Reserved: 692.0 MB
+Epoch [2/50] Loss D: 0.4888 Loss G: 6.0527 Grad G: 57.1036 Grad D: 27.2633 Epoch Time: 4.57 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [3/50] Loss D: 0.6933 Loss G: 4.0626 Grad G: 36.6711 Grad D: 51.7278 Epoch Time: 4.63 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [4/50] Loss D: 0.6986 Loss G: 3.8553 Grad G: 34.8901 Grad D: 57.6276 Epoch Time: 4.50 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [5/50] Loss D: 0.7076 Loss G: 3.8780 Grad G: 38.0297 Grad D: 67.4811 Epoch Time: 4.55 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [6/50] Loss D: 0.6874 Loss G: 3.6687 Grad G: 35.2077 Grad D: 67.1184 Epoch Time: 4.58 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [7/50] Loss D: 0.6467 Loss G: 3.4127 Grad G: 33.9014 Grad D: 60.0546 Epoch Time: 4.58 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [8/50] Loss D: 0.6248 Loss G: 3.5254 Grad G: 33.3695 Grad D: 59.9703 Epoch Time: 4.58 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [9/50] Loss D: 0.6322 Loss G: 3.5050 Grad G: 33.9131 Grad D: 60.6096 Epoch Time: 4.54 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [10/50] Loss D: 1.7142 Loss G: 2.6202 
+Epoch [10/50] Loss D: 0.6289 Loss G: 3.3225 Grad G: 31.1376 Grad D: 56.2069 Epoch Time: 4.61 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [11/50] Loss D: 0.6072 Loss G: 3.1893 Grad G: 31.8569 Grad D: 50.5931 Epoch Time: 4.55 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [12/50] Loss D: 0.6753 Loss G: 3.4285 Grad G: 31.2865 Grad D: 65.0432 Epoch Time: 4.54 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [13/50] Loss D: 0.5657 Loss G: 3.2247 Grad G: 30.4623 Grad D: 48.1367 Epoch Time: 4.56 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [14/50] Loss D: 0.6021 Loss G: 3.3762 Grad G: 29.7177 Grad D: 58.5703 Epoch Time: 4.49 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [15/50] Loss D: 0.5782 Loss G: 3.2728 Grad G: 29.3027 Grad D: 51.6048 Epoch Time: 4.36 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [16/50] Loss D: 0.5291 Loss G: 3.4463 Grad G: 30.7903 Grad D: 49.0608 Epoch Time: 4.24 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [17/50] Loss D: 0.5162 Loss G: 3.4585 Grad G: 30.8578 Grad D: 52.5534 Epoch Time: 4.19 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [18/50] Loss D: 0.5299 Loss G: 3.5335 Grad G: 31.6743 Grad D: 52.1255 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [19/50] Loss D: 0.5076 Loss G: 3.4901 Grad G: 28.6777 Grad D: 49.8584 Epoch Time: 4.17 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [20/50] Loss D: 1.9160 Loss G: 1.7639 
+Epoch [20/50] Loss D: 0.4495 Loss G: 3.5233 Grad G: 29.9571 Grad D: 42.6901 Epoch Time: 4.15 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [21/50] Loss D: 0.4585 Loss G: 3.6645 Grad G: 29.6650 Grad D: 47.9523 Epoch Time: 4.25 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [22/50] Loss D: 0.4244 Loss G: 3.7647 Grad G: 30.4824 Grad D: 42.4057 Epoch Time: 4.24 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [23/50] Loss D: 0.4067 Loss G: 3.7345 Grad G: 30.1427 Grad D: 42.3222 Epoch Time: 4.23 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [24/50] Loss D: 0.3827 Loss G: 3.8512 Grad G: 29.2080 Grad D: 39.9994 Epoch Time: 4.23 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [25/50] Loss D: 0.3461 Loss G: 3.9482 Grad G: 31.4061 Grad D: 35.0235 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [26/50] Loss D: 0.3675 Loss G: 3.9982 Grad G: 29.4714 Grad D: 39.5093 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [27/50] Loss D: 0.3151 Loss G: 3.8473 Grad G: 29.8303 Grad D: 31.9731 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [28/50] Loss D: 0.3588 Loss G: 4.1696 Grad G: 29.5955 Grad D: 41.0737 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [29/50] Loss D: 0.2913 Loss G: 4.0474 Grad G: 30.2529 Grad D: 30.9667 Epoch Time: 4.18 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [30/50] Loss D: 6.4724 Loss G: 4.6759 
+Epoch [30/50] Loss D: 0.2928 Loss G: 4.1314 Grad G: 31.4867 Grad D: 32.2838 Epoch Time: 4.16 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [31/50] Loss D: 0.2953 Loss G: 4.2588 Grad G: 30.8568 Grad D: 34.3513 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [32/50] Loss D: 0.2805 Loss G: 4.3463 Grad G: 30.0635 Grad D: 33.3385 Epoch Time: 4.28 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [33/50] Loss D: 0.2683 Loss G: 4.5330 Grad G: 30.5817 Grad D: 31.6805 Epoch Time: 4.28 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [34/50] Loss D: 0.2345 Loss G: 4.4791 Grad G: 32.4397 Grad D: 26.4929 Epoch Time: 4.26 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [35/50] Loss D: 0.2511 Loss G: 4.8927 Grad G: 32.8066 Grad D: 31.4885 Epoch Time: 4.27 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [36/50] Loss D: 0.2951 Loss G: 4.7289 Grad G: 31.7760 Grad D: 34.2916 Epoch Time: 4.26 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [37/50] Loss D: 0.2490 Loss G: 4.7830 Grad G: 30.9155 Grad D: 29.9744 Epoch Time: 4.27 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [38/50] Loss D: 0.2142 Loss G: 4.6876 Grad G: 33.0758 Grad D: 26.7976 Epoch Time: 4.27 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [39/50] Loss D: 0.2038 Loss G: 4.8522 Grad G: 33.4641 Grad D: 25.5773 Epoch Time: 4.23 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [40/50] Loss D: 3.9714 Loss G: 3.6287 
+Epoch [40/50] Loss D: 0.1975 Loss G: 4.8291 Grad G: 30.7833 Grad D: 24.1826 Epoch Time: 4.24 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [41/50] Loss D: 0.2125 Loss G: 4.9072 Grad G: 33.9020 Grad D: 27.2161 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [42/50] Loss D: 0.1880 Loss G: 5.1849 Grad G: 33.8544 Grad D: 24.0246 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [43/50] Loss D: 0.1843 Loss G: 5.3443 Grad G: 34.4385 Grad D: 25.6590 Epoch Time: 4.25 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [44/50] Loss D: 0.1974 Loss G: 5.3628 Grad G: 33.3063 Grad D: 25.4968 Epoch Time: 4.25 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [45/50] Loss D: 0.2035 Loss G: 5.4225 Grad G: 33.5324 Grad D: 27.2149 Epoch Time: 4.30 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [46/50] Loss D: 0.3246 Loss G: 6.3162 Grad G: 35.0147 Grad D: 41.9544 Epoch Time: 4.23 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [47/50] Loss D: 0.1704 Loss G: 4.9779 Grad G: 32.1578 Grad D: 21.8118 Epoch Time: 4.19 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [48/50] Loss D: 0.1787 Loss G: 5.4905 Grad G: 31.6880 Grad D: 23.7551 Epoch Time: 4.13 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [49/50] Loss D: 0.1705 Loss G: 5.1964 Grad G: 32.6468 Grad D: 21.3020 Epoch Time: 4.16 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [50/50] Loss D: 3.7163 Loss G: 3.6520 
+Epoch [50/50] Loss D: 0.3293 Loss G: 6.6194 Grad G: 33.4139 Grad D: 39.4559 Epoch Time: 4.15 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Peak GPU memory: 0.39 GB
+Training time: 225.67 seconds
+Generated shape: torch.Size([64, 1, 256, 128])
+Generated pixel std: 0.4854734241962433
+Difference between first two images: 0.3895823061466217
+Average variation across images: 0.2426537573337555

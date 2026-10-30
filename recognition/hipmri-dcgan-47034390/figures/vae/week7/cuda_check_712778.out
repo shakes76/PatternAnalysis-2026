@@ -1,0 +1,204 @@
+Job 712778 on a100-8, started Thu Oct 29 16:54:37 AEST 2026
+ERROR: Unable to locate a modulefile for 'Anaconda3'
+Running on:
+a100-8
+GPU:
+Thu Oct 29 16:54:38 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          Off |   00000000:0B:00.0 Off |                    0 |
+| N/A   33C    P0             34W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Python:
+/home/Student/s4703439/miniconda3/envs/torch/bin/python
+=== Environment ===
+/home/Student/s4703439/miniconda3/envs/torch/bin/python
+Python 3.11.15
+=== PyTorch ===
+PyTorch: 2.13.0+cu130
+CUDA: 13.0
+CUDA available: True
+GPU: NVIDIA A100-PCIE-40GB
+Starting dataset initialisation...
+NIfTI files found: 1260
+Dataset initialised. Loading first batch...
+First batch loaded.
+Number of 2D images: 1260
+Batch shape: torch.Size([16, 1, 256, 128])
+Image range: -1.0 1.0
+Device: cuda
+NVIDIA A100-PCIE-40GB
+Starting dataset initialisation...
+NIfTI files found: 60
+Dataset initialised. Loading first batch...
+First batch loaded.
+Number of 2D images: 60
+Batch shape: torch.Size([16, 1, 256, 128])
+Image range: -1.0 1.0
+Generator output: torch.Size([2, 1, 256, 128])
+Discriminator output: torch.Size([2, 1])
+Training started!
+Epoch [1/50] Loss D: 0.2311 Loss G: 5.1342 Grad G: 44.1579 Grad D: 17.9223 Epoch Time: 6.03 sPeak Allocated: 400.6 MB, Peak Reserved: 692.0 MB
+Epoch [2/50] Loss D: 0.5300 Loss G: 5.9385 Grad G: 51.1678 Grad D: 37.3941 Epoch Time: 4.71 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [3/50] Loss D: 0.6759 Loss G: 3.9081 Grad G: 35.0627 Grad D: 50.4402 Epoch Time: 4.74 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [4/50] Loss D: 0.6847 Loss G: 4.0952 Grad G: 38.6233 Grad D: 61.0918 Epoch Time: 4.69 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [5/50] Loss D: 0.6993 Loss G: 3.8150 Grad G: 38.5744 Grad D: 65.5564 Epoch Time: 4.76 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [6/50] Loss D: 0.7165 Loss G: 3.7404 Grad G: 32.5832 Grad D: 74.6403 Epoch Time: 4.77 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [7/50] Loss D: 0.6527 Loss G: 3.4489 Grad G: 33.4980 Grad D: 69.8892 Epoch Time: 4.71 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [8/50] Loss D: 0.6436 Loss G: 3.5135 Grad G: 34.4024 Grad D: 62.7084 Epoch Time: 4.71 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [9/50] Loss D: 0.6467 Loss G: 3.4078 Grad G: 31.7062 Grad D: 61.7891 Epoch Time: 4.69 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [10/50] Loss D: 1.4262 Loss G: 0.4477 
+Epoch [10/50] Loss D: 0.6891 Loss G: 3.3557 Grad G: 31.8613 Grad D: 66.9003 Epoch Time: 4.66 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [11/50] Loss D: 0.6495 Loss G: 3.3376 Grad G: 32.0605 Grad D: 59.7684 Epoch Time: 4.57 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [12/50] Loss D: 0.6666 Loss G: 3.1977 Grad G: 30.5484 Grad D: 53.9197 Epoch Time: 4.53 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [13/50] Loss D: 0.6671 Loss G: 3.3399 Grad G: 30.5315 Grad D: 60.4610 Epoch Time: 4.60 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [14/50] Loss D: 0.6454 Loss G: 3.2046 Grad G: 29.9407 Grad D: 56.5454 Epoch Time: 4.70 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [15/50] Loss D: 0.5865 Loss G: 3.2312 Grad G: 30.1154 Grad D: 52.6488 Epoch Time: 4.57 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [16/50] Loss D: 0.5860 Loss G: 3.3978 Grad G: 29.5951 Grad D: 56.7866 Epoch Time: 4.58 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [17/50] Loss D: 0.5525 Loss G: 3.4528 Grad G: 30.5562 Grad D: 53.3546 Epoch Time: 4.74 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [18/50] Loss D: 0.4874 Loss G: 3.4564 Grad G: 30.4529 Grad D: 45.2977 Epoch Time: 4.53 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [19/50] Loss D: 0.5372 Loss G: 3.5963 Grad G: 30.0672 Grad D: 58.9707 Epoch Time: 4.58 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [20/50] Loss D: 1.7337 Loss G: 2.4608 
+Epoch [20/50] Loss D: 0.5009 Loss G: 3.7264 Grad G: 31.4828 Grad D: 49.6630 Epoch Time: 4.57 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [21/50] Loss D: 0.4481 Loss G: 3.6467 Grad G: 30.6377 Grad D: 45.0718 Epoch Time: 4.65 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [22/50] Loss D: 0.4262 Loss G: 3.7435 Grad G: 31.4787 Grad D: 43.2600 Epoch Time: 4.56 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [23/50] Loss D: 0.3762 Loss G: 3.8541 Grad G: 32.9459 Grad D: 38.7338 Epoch Time: 4.51 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [24/50] Loss D: 0.4063 Loss G: 3.8132 Grad G: 31.3686 Grad D: 43.8038 Epoch Time: 4.30 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [25/50] Loss D: 0.3569 Loss G: 3.9523 Grad G: 32.5156 Grad D: 37.8124 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [26/50] Loss D: 0.3951 Loss G: 4.2170 Grad G: 33.6459 Grad D: 48.4107 Epoch Time: 4.18 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [27/50] Loss D: 0.3598 Loss G: 4.2009 Grad G: 30.5443 Grad D: 43.1151 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [28/50] Loss D: 0.3485 Loss G: 4.2162 Grad G: 30.1301 Grad D: 40.2187 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [29/50] Loss D: 0.2766 Loss G: 3.9963 Grad G: 31.9881 Grad D: 31.2706 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [30/50] Loss D: 1.6839 Loss G: 2.1187 
+Epoch [30/50] Loss D: 0.3014 Loss G: 4.1297 Grad G: 29.7653 Grad D: 34.8308 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [31/50] Loss D: 0.3287 Loss G: 4.3707 Grad G: 30.0913 Grad D: 38.0203 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [32/50] Loss D: 0.3273 Loss G: 4.4717 Grad G: 30.7356 Grad D: 36.9271 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [33/50] Loss D: 0.2670 Loss G: 4.2453 Grad G: 31.1057 Grad D: 29.0398 Epoch Time: 4.19 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [34/50] Loss D: 0.2746 Loss G: 4.3691 Grad G: 30.6225 Grad D: 32.4290 Epoch Time: 4.19 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [35/50] Loss D: 0.3236 Loss G: 4.6251 Grad G: 29.3192 Grad D: 40.9830 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [36/50] Loss D: 0.2305 Loss G: 4.2863 Grad G: 29.5664 Grad D: 27.0450 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [37/50] Loss D: 0.2463 Loss G: 4.7063 Grad G: 32.3088 Grad D: 30.8664 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [38/50] Loss D: 0.2255 Loss G: 4.7811 Grad G: 31.0204 Grad D: 29.3154 Epoch Time: 4.20 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [39/50] Loss D: 0.2727 Loss G: 4.9152 Grad G: 31.2128 Grad D: 37.1946 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [40/50] Loss D: 3.2617 Loss G: 2.6556 
+Epoch [40/50] Loss D: 0.2166 Loss G: 4.4019 Grad G: 28.7383 Grad D: 26.0778 Epoch Time: 4.22 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [41/50] Loss D: 0.1984 Loss G: 4.3743 Grad G: 30.8852 Grad D: 23.0095 Epoch Time: 4.23 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [42/50] Loss D: 0.1975 Loss G: 4.5523 Grad G: 31.7185 Grad D: 23.8808 Epoch Time: 4.20 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [43/50] Loss D: 0.2429 Loss G: 4.8217 Grad G: 30.6944 Grad D: 31.0103 Epoch Time: 4.17 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [44/50] Loss D: 0.1790 Loss G: 4.6915 Grad G: 30.9791 Grad D: 20.6523 Epoch Time: 4.17 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [45/50] Loss D: 0.1755 Loss G: 4.7962 Grad G: 31.9333 Grad D: 23.5319 Epoch Time: 4.17 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [46/50] Loss D: 0.1754 Loss G: 5.1157 Grad G: 33.2953 Grad D: 23.9638 Epoch Time: 4.20 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [47/50] Loss D: 0.1535 Loss G: 4.9796 Grad G: 32.3033 Grad D: 18.8994 Epoch Time: 4.20 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [48/50] Loss D: 0.3036 Loss G: 6.0784 Grad G: 33.6039 Grad D: 39.9930 Epoch Time: 4.19 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Epoch [49/50] Loss D: 0.1727 Loss G: 4.9522 Grad G: 31.7247 Grad D: 21.9428 Epoch Time: 4.17 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Validation - Epoch [50/50] Loss D: 3.6717 Loss G: 2.7628 
+Epoch [50/50] Loss D: 0.1809 Loss G: 4.9746 Grad G: 31.4301 Grad D: 23.6468 Epoch Time: 4.21 sPeak Allocated: 402.6 MB, Peak Reserved: 692.0 MB
+Peak GPU memory: 0.39 GB
+Training time: 230.11 seconds
+Generated shape: torch.Size([64, 1, 256, 128])
+Generated pixel std: 0.5161184072494507
+Difference between first two images: 0.2606625556945801
+Average variation across images: 0.2935941517353058
+Device: cuda
+NVIDIA A100-PCIE-40GB
+Starting dataset initialisation...
+NIfTI files found: 1260
+Dataset initialised. Loading first batch...
+First batch loaded.
+Number of 2D images: 1260
+Batch shape: torch.Size([16, 1, 256, 128])
+Image range: -1.0 1.0
+Device: cuda
+NVIDIA A100-PCIE-40GB
+Starting dataset initialisation...
+NIfTI files found: 1260
+Dataset initialised. Loading first batch...
+First batch loaded.
+Number of 2D images: 1260
+Batch shape: torch.Size([16, 1, 256, 128])
+Image range: -1.0 1.0
+Decoder output: torch.Size([2, 1, 256, 128])
+Encoder mean: torch.Size([2, 100])
+Encoder logvar: torch.Size([2, 100])
+Training started!
+Epoch [1/50] Loss: 7973.9060 Reconstruction: 7571.1234 KL: 402.7826 Grad Encoder: 30962.4397 Grad Decoder: 8475.4444 Epoch Time: 3.64 sPeak Allocated: 342.3 MB, Peak Reserved: 520.0 MB
+Epoch [2/50] Loss: 5599.8155 Reconstruction: 5521.7822 KL: 78.0333 Grad Encoder: 5842.2397 Grad Decoder: 3419.2905 Epoch Time: 3.38 sPeak Allocated: 342.3 MB, Peak Reserved: 520.0 MB
+Epoch [3/50] Loss: 4419.7219 Reconstruction: 4312.9277 KL: 106.7942 Grad Encoder: 7778.3084 Grad Decoder: 4459.7106 Epoch Time: 3.38 sPeak Allocated: 342.3 MB, Peak Reserved: 520.0 MB
+Epoch [4/50] Loss: 3777.2196 Reconstruction: 3658.8422 KL: 118.3774 Grad Encoder: 8836.7985 Grad Decoder: 4594.9872 Epoch Time: 3.37 sPeak Allocated: 342.3 MB, Peak Reserved: 520.0 MB
+Epoch [5/50] Loss: 3448.4518 Reconstruction: 3324.4594 KL: 123.9924 Grad Encoder: 7912.6181 Grad Decoder: 3889.3804 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 520.0 MB
+Epoch [6/50] Loss: 3252.2356 Reconstruction: 3118.9821 KL: 133.2535 Grad Encoder: 7601.8320 Grad Decoder: 3805.3790 Epoch Time: 3.37 sPeak Allocated: 342.8 MB, Peak Reserved: 520.0 MB
+Epoch [7/50] Loss: 3065.5468 Reconstruction: 2926.3029 KL: 139.2439 Grad Encoder: 7478.1680 Grad Decoder: 3648.5175 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 520.0 MB
+Epoch [8/50] Loss: 2920.7577 Reconstruction: 2775.7982 KL: 144.9595 Grad Encoder: 6855.4302 Grad Decoder: 3332.4011 Epoch Time: 3.36 sPeak Allocated: 342.8 MB, Peak Reserved: 520.0 MB
+Epoch [9/50] Loss: 2828.6371 Reconstruction: 2678.8649 KL: 149.7722 Grad Encoder: 7932.1303 Grad Decoder: 4074.5911 Epoch Time: 3.34 sPeak Allocated: 342.8 MB, Peak Reserved: 520.0 MB
+Validation - Epoch [10/50] Loss: 2545.9293 Reconstruction: 2385.0033 KL: 160.9260
+Epoch [10/50] Loss: 2678.4896 Reconstruction: 2523.6847 KL: 154.8049 Grad Encoder: 6573.6931 Grad Decoder: 3408.4747 Epoch Time: 3.30 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [11/50] Loss: 2568.8447 Reconstruction: 2410.5428 KL: 158.3019 Grad Encoder: 6462.4123 Grad Decoder: 3518.2637 Epoch Time: 3.36 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [12/50] Loss: 2490.8148 Reconstruction: 2330.1549 KL: 160.6599 Grad Encoder: 7194.5124 Grad Decoder: 4006.8349 Epoch Time: 3.38 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [13/50] Loss: 2374.6781 Reconstruction: 2209.9615 KL: 164.7166 Grad Encoder: 5583.9083 Grad Decoder: 3363.2277 Epoch Time: 3.32 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [14/50] Loss: 2298.2971 Reconstruction: 2133.3250 KL: 164.9721 Grad Encoder: 6044.3148 Grad Decoder: 3495.0583 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [15/50] Loss: 2203.8703 Reconstruction: 2035.4029 KL: 168.4674 Grad Encoder: 5028.4305 Grad Decoder: 3100.6048 Epoch Time: 3.34 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [16/50] Loss: 2140.4674 Reconstruction: 1970.5724 KL: 169.8950 Grad Encoder: 5031.4264 Grad Decoder: 3254.6619 Epoch Time: 3.34 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [17/50] Loss: 2091.8028 Reconstruction: 1920.3224 KL: 171.4803 Grad Encoder: 5467.6478 Grad Decoder: 3463.6086 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [18/50] Loss: 2022.7290 Reconstruction: 1850.8815 KL: 171.8474 Grad Encoder: 5419.0816 Grad Decoder: 3633.2040 Epoch Time: 3.33 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [19/50] Loss: 1965.5323 Reconstruction: 1791.7977 KL: 173.7346 Grad Encoder: 4917.7164 Grad Decoder: 3315.6006 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Validation - Epoch [20/50] Loss: 1843.5251 Reconstruction: 1668.6493 KL: 174.8758
+Epoch [20/50] Loss: 1912.1637 Reconstruction: 1738.8538 KL: 173.3099 Grad Encoder: 4658.3496 Grad Decoder: 3126.2689 Epoch Time: 3.36 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [21/50] Loss: 1883.1728 Reconstruction: 1708.7477 KL: 174.4251 Grad Encoder: 5208.8174 Grad Decoder: 3515.2997 Epoch Time: 3.31 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [22/50] Loss: 1828.6539 Reconstruction: 1654.4422 KL: 174.2117 Grad Encoder: 4983.1926 Grad Decoder: 3477.1471 Epoch Time: 3.31 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [23/50] Loss: 1780.4258 Reconstruction: 1605.8269 KL: 174.5989 Grad Encoder: 4525.0882 Grad Decoder: 3262.0215 Epoch Time: 3.31 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [24/50] Loss: 1753.3338 Reconstruction: 1578.1018 KL: 175.2320 Grad Encoder: 4358.8982 Grad Decoder: 3136.4825 Epoch Time: 3.33 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [25/50] Loss: 1730.6065 Reconstruction: 1555.1727 KL: 175.4338 Grad Encoder: 4889.7819 Grad Decoder: 3477.8940 Epoch Time: 3.34 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [26/50] Loss: 1669.3216 Reconstruction: 1492.5288 KL: 176.7928 Grad Encoder: 3911.5095 Grad Decoder: 2856.0656 Epoch Time: 3.32 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [27/50] Loss: 1639.0016 Reconstruction: 1463.0872 KL: 175.9144 Grad Encoder: 3872.3140 Grad Decoder: 2969.8862 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [28/50] Loss: 1623.8569 Reconstruction: 1446.9707 KL: 176.8862 Grad Encoder: 4473.1018 Grad Decoder: 3304.9671 Epoch Time: 3.34 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [29/50] Loss: 1592.6182 Reconstruction: 1416.8728 KL: 175.7453 Grad Encoder: 3929.4347 Grad Decoder: 3050.3574 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Validation - Epoch [30/50] Loss: 1552.5351 Reconstruction: 1372.7468 KL: 179.7883
+Epoch [30/50] Loss: 1558.7562 Reconstruction: 1381.2261 KL: 177.5301 Grad Encoder: 3997.0703 Grad Decoder: 3040.6554 Epoch Time: 3.33 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [31/50] Loss: 1534.1091 Reconstruction: 1357.3211 KL: 176.7880 Grad Encoder: 3681.4834 Grad Decoder: 2850.8128 Epoch Time: 3.67 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [32/50] Loss: 1507.8728 Reconstruction: 1330.8488 KL: 177.0240 Grad Encoder: 3766.6355 Grad Decoder: 2941.8220 Epoch Time: 3.66 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [33/50] Loss: 1488.8327 Reconstruction: 1312.5131 KL: 176.3195 Grad Encoder: 3559.8012 Grad Decoder: 2705.6957 Epoch Time: 3.42 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [34/50] Loss: 1474.6808 Reconstruction: 1296.4589 KL: 178.2218 Grad Encoder: 4037.7695 Grad Decoder: 3118.4539 Epoch Time: 3.40 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [35/50] Loss: 1453.4052 Reconstruction: 1276.3887 KL: 177.0165 Grad Encoder: 3820.0578 Grad Decoder: 3115.4454 Epoch Time: 3.38 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [36/50] Loss: 1440.9270 Reconstruction: 1263.0715 KL: 177.8556 Grad Encoder: 3984.3383 Grad Decoder: 3081.8548 Epoch Time: 3.39 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [37/50] Loss: 1408.2150 Reconstruction: 1230.8186 KL: 177.3964 Grad Encoder: 3348.2385 Grad Decoder: 2867.1008 Epoch Time: 3.37 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [38/50] Loss: 1391.4034 Reconstruction: 1213.7271 KL: 177.6763 Grad Encoder: 3314.2863 Grad Decoder: 2715.4377 Epoch Time: 3.37 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [39/50] Loss: 1372.9958 Reconstruction: 1195.7694 KL: 177.2264 Grad Encoder: 3414.8316 Grad Decoder: 2860.6204 Epoch Time: 3.37 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Validation - Epoch [40/50] Loss: 1411.7391 Reconstruction: 1237.2896 KL: 174.4494
+Epoch [40/50] Loss: 1356.1290 Reconstruction: 1179.0661 KL: 177.0629 Grad Encoder: 3203.0231 Grad Decoder: 2643.6966 Epoch Time: 3.36 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [41/50] Loss: 1349.4489 Reconstruction: 1171.7649 KL: 177.6840 Grad Encoder: 3421.1326 Grad Decoder: 2889.7872 Epoch Time: 3.31 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [42/50] Loss: 1329.9608 Reconstruction: 1152.9631 KL: 176.9978 Grad Encoder: 3281.6706 Grad Decoder: 2634.0226 Epoch Time: 3.31 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [43/50] Loss: 1308.4737 Reconstruction: 1131.8833 KL: 176.5903 Grad Encoder: 3151.4024 Grad Decoder: 2583.7516 Epoch Time: 3.35 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [44/50] Loss: 1313.8849 Reconstruction: 1136.6953 KL: 177.1896 Grad Encoder: 3618.0799 Grad Decoder: 3106.3321 Epoch Time: 3.36 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [45/50] Loss: 1287.8163 Reconstruction: 1111.1257 KL: 176.6906 Grad Encoder: 3289.1778 Grad Decoder: 2693.9131 Epoch Time: 3.38 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [46/50] Loss: 1271.1931 Reconstruction: 1094.7031 KL: 176.4900 Grad Encoder: 2992.4418 Grad Decoder: 2646.7291 Epoch Time: 3.70 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [47/50] Loss: 1251.7742 Reconstruction: 1075.0243 KL: 176.7499 Grad Encoder: 2985.5787 Grad Decoder: 2643.7927 Epoch Time: 3.64 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [48/50] Loss: 1240.8199 Reconstruction: 1064.6631 KL: 176.1568 Grad Encoder: 2883.5116 Grad Decoder: 2655.3064 Epoch Time: 3.62 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Epoch [49/50] Loss: 1228.1546 Reconstruction: 1052.2296 KL: 175.9251 Grad Encoder: 3053.0947 Grad Decoder: 2597.5975 Epoch Time: 3.66 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Validation - Epoch [50/50] Loss: 1175.7617 Reconstruction: 1000.2135 KL: 175.5482
+Epoch [50/50] Loss: 1230.2218 Reconstruction: 1054.2303 KL: 175.9915 Grad Encoder: 3250.6087 Grad Decoder: 2843.1906 Epoch Time: 3.66 sPeak Allocated: 342.8 MB, Peak Reserved: 522.0 MB
+Training finished!
+Total Losses: [7973.905953322785, 5599.815454410601, 4419.72191764735, 3777.219575133505, 3448.4518424891216, 3252.2356080646755, 3065.546847186511, 2920.757661071005, 2828.637105048457, 2678.4896132070808, 2568.844663209553, 2490.8148147003562, 2374.678122218651, 2298.2970851463606, 2203.870251619363, 2140.467385593849, 2091.802776095233, 2022.7289652764043, 1965.5323455424248, 1912.1637333737144, 1883.1728268393988, 1828.6538626755341, 1780.4257858855815, 1753.3337726834454, 1730.6065179366099, 1669.3216398214993, 1639.0016085467762, 1623.8568686956091, 1592.6181501557555, 1558.7562472186512, 1534.1090705968156, 1507.872812005538, 1488.8326678698577, 1474.6807583193236, 1453.4051822710642, 1440.927029766614, 1408.2150121761274, 1391.4033620327334, 1372.9957568977452, 1356.129032955894, 1349.4489297987539, 1329.960847878758, 1308.4736621711827, 1313.8848938760877, 1287.816251730617, 1271.1931198699565, 1251.7741869190072, 1240.8199277467365, 1228.1546275464793, 1230.2218187549447]
+Reconstruction Losses: [7571.123392998417, 5521.782164754747, 4312.927749826938, 3658.8421646311313, 3324.459389215783, 3118.9820881131327, 2926.3029259790346, 2775.7982038666933, 2678.8649006131327, 2523.6846939280063, 2410.5428111402293, 2330.1549489467957, 2209.9615107669106, 2133.32497744017, 2035.4028552091575, 1970.5724031472507, 1920.3224402319026, 1850.8815361698971, 1791.797724856606, 1738.85380612144, 1708.747713113133, 1654.4421556690072, 1605.8269104776502, 1578.1017989146558, 1555.1727016786986, 1492.5288317716575, 1463.0872447339793, 1446.970684582674, 1416.8728367286392, 1381.2261406620846, 1357.3211005488529, 1330.8488367780853, 1312.5131418735166, 1296.4589411095728, 1276.3886965981012, 1263.0714574886274, 1230.8186236031447, 1213.7271033178401, 1195.7694076344937, 1179.0661149809632, 1171.7649420243276, 1152.9630621415151, 1131.883328594739, 1136.695321771163, 1111.1256597977651, 1094.7031319533721, 1075.0242943099781, 1064.6631330659118, 1052.229556313044, 1054.2303289099584]
+KL Losses: [402.7825610832417, 78.03329969961432, 106.7941550725623, 118.37740470789656, 123.99243357211729, 133.2535002503214, 139.24392574648314, 144.9594543070733, 149.77220636681665, 154.8049148366421, 158.30185535286046, 160.65986807135087, 164.7166216886496, 164.97209090220778, 168.46739331981803, 169.89498553698576, 171.48033528388302, 171.84743779822242, 173.73461720913272, 173.30991720851463, 174.42510522769976, 174.21170855172073, 174.59887869146806, 175.23197106470036, 175.4338149058668, 176.79281114022942, 175.9143661305874, 176.88618585127819, 175.7453153586086, 177.5301069428649, 176.7879746835443, 177.02397715894483, 176.31952889357942, 178.22180929063242, 177.01648663870895, 177.85557536837422, 177.39639127707179, 177.67625659025168, 177.22635447828077, 177.06291295305084, 177.68398854702335, 176.99778361260135, 176.5903326106977, 177.18956418580646, 176.69059540953816, 176.48999120012115, 176.7498900980889, 176.1568002821524, 175.9250696882417, 175.99148733404618]
+Grad Encoder Losses: [30962.439741849146, 5842.2397348910945, 7778.308394419996, 8836.798478911194, 7912.618083712421, 7601.831975623022, 7478.168012015427, 6855.430160329312, 7932.130281472508, 6573.693130686313, 6462.41229479826, 7194.51239245451, 5583.908288110661, 6044.31479615803, 5028.430457006527, 5031.426439502571, 5467.647819422468, 5419.081610957279, 4917.716367311115, 4658.3496001038375, 5208.817351908623, 4983.1926238627375, 4525.088235203224, 4358.8981902689875, 4889.781881984276, 3911.509549297864, 3872.3139942024327, 4473.101848360859, 3929.4346784760683, 3997.070340313489, 3681.4833551720726, 3766.6354686881923, 3559.801195361946, 4037.7695451567442, 3820.0578180626976, 3984.338323279272, 3348.2385315714005, 3314.2863197809534, 3414.8316202284414, 3203.0230712890625, 3421.1326023536394, 3281.6705770371836, 3151.4024333712423, 3618.0799483287183, 3289.177794637559, 2992.4417740061313, 2985.5787307159812, 2883.5115611402293, 3053.0946863874606, 3250.608726018592]
+Grad Decoder Losses: [8475.444427876533, 3419.2904562648337, 4459.710575152047, 4594.987151713311, 3889.3803741841375, 3805.378959559187, 3648.5174792325947, 3332.4010519679587, 4074.591064453125, 3408.4747175385683, 3518.263690417326, 4006.834909946104, 3363.2276518616495, 3495.0582553525514, 3100.6047502348692, 3254.661928587322, 3463.608588496341, 3633.2039872181567, 3315.6005921182755, 3126.268886904173, 3515.2996810719937, 3477.1470931813687, 3262.021510643295, 3136.4824605048457, 3477.8940306071995, 2856.0656336530856, 2969.886193384098, 3304.9671399080303, 3050.357431146163, 3040.655370784711, 2850.8128214003164, 2941.82199521608, 2705.6956617138053, 3118.453899142108, 3115.4453650365904, 3081.8547857743274, 2867.1008424396755, 2715.4376916040346, 2860.620403048358, 2643.6965548358385, 2889.787219083762, 2634.0226200924644, 2583.751556010186, 3106.332059063489, 2693.9130828471125, 2646.7291337025317, 2643.7927385161192, 2655.306396484375, 2597.5974522844144, 2843.190567209751]
+Peak GPU memory: 0.33 GB
+Training time: 210.33 seconds
+Generated shape: torch.Size([64, 1, 256, 128])
+Generated pixel std: 0.3434821367263794
+Difference between first two images: 0.29459065198898315
+Average variation across images: 0.2127741128206253

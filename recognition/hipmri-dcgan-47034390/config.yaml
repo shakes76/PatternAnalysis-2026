@@ -1,0 +1,72 @@
+# Configuration YAML. Handles both RANGPUR and CPU setups for the HipMRI project, 
+# as well as both the Baseline and DCGAN models. 
+
+defaults:
+  betas: [0.5, 0.999] # Betas for the Adam Optimizer.
+  seed: 42 # Random seed for reproducibility.
+  norm_image: true # If the image is to be normalized.
+  sample_interval: 5 # Interval (in epochs) at which to save generated samples.
+  rangpur: false # Whether RANGPUR is being used.
+  validate: true # Whether to perform validation during training.
+  validate_every: 10 # Interval (in epochs) at which to perform validation.
+  max_validate_images: 200 # Maximum number of validation images to use.
+  week: 7 # Week of the loaded dataset. Set to None to train for all weeks.
+
+# RANGPUR VERSION
+hipmri_dcgan:
+  data_dir: "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data/keras_slices_train/"
+  test_dir: "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data/keras_slices_test/"
+  validate_dir: "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data/keras_slices_validate/"
+  results_dir: "./results"
+  num_epochs: 50 # Number of training epochs. Longer can improve results.
+  latent_dim: 100 # Dimensionality of the latent space.
+  max_train_images: 11460 # Maximum number of training images to use.
+  batch_size: 16 # Batch size for training the DCGAN.
+  size_reference_dataset: 64 # Size of the reference dataset.
+  size_generated_dataset: 32 # Size of the generated dataset.
+  learning_rate_G: 0.0002 # Learning rate for the generator.
+  learning_rate_D: 0.00005 # Learning rate for the discriminator; this should be lower than G to have stable learning.
+
+hipmri_vae:
+  data_dir: "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data/keras_slices_train/"
+  test_dir: "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data/keras_slices_test/"
+  validate_dir: "/home/groups/comp3710/HipMRI_Study_open/keras_slices_data/keras_slices_validate/"
+  results_dir: "./baseline_results"
+  num_epochs: 50 # Number of training epochs. Longer can improve results.
+  latent_dim: 100 # Dimensionality of the latent space.
+  max_train_images: 11460 # Maximum number of training images to use.
+  batch_size: 64 # Batch size for training the VAE.
+  size_reference_dataset: 64 # Size of the reference dataset.
+  size_generated_dataset: 32 # Size of the generated dataset.
+  learning_rate: 0.0002 # Learning rate for the VAE optimizer.
+  beta: 1.0 # Weight for the KL divergence term in the VAE loss.  
+
+
+# CPU TESTING VERSION
+hipmri_dcgan_cpu:
+  data_dir: "./data/keras_slices_train"
+  test_dir: "./data/keras_slices_test"
+  validate_dir: "./data/keras_slices_validate"
+  results_dir: "./results_week4"
+  num_epochs: 20 # Number of training epochs. Longer can improve results.
+  latent_dim: 100 # Dimensionality of the latent space.
+  max_train_images: 200 # Maximum number of training images to use.
+  batch_size: 8 # Batch size for training the DCGAN.
+  size_reference_dataset: 64 # Size of the reference dataset.
+  size_generated_dataset: 32 # Size of the generated dataset.
+  learning_rate_G: 0.0002 # Learning rate for the generator.
+  learning_rate_D: 0.00005 # Learning rate for the discriminator; this should be lower than G to have stable learning.
+
+hipmri_vae_cpu:
+  data_dir: "./data/keras_slices_train"
+  test_dir: "./data/keras_slices_test"
+  validate_dir: "./data/keras_slices_validate"
+  results_dir: "./baseline_results"
+  num_epochs: 20 # Number of training epochs. Longer can improve results.
+  latent_dim: 100 # Dimensionality of the latent space.
+  max_train_images: 200 # Maximum number of training images to use.
+  batch_size: 8 # Batch size for training the VAE.
+  size_reference_dataset: 64 # Size of the reference dataset.
+  size_generated_dataset: 32 # Size of the generated dataset.
+  learning_rate: 0.0002 # Learning rate for the VAE optimizer.
+  beta: 0.1 # Weight for the KL divergence term in the VAE loss.
