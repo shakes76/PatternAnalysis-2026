@@ -1,0 +1,43 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Hugging Face cache
+.cache/
+huggingface/
+.huggingface/
+
+# Downloaded datasets and processed data
+data/
+datasets/
+processed_data/
+
+# Model checkpoints and weights
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Training outputs and experiment logs
+inference/
+outputs/
+runs/
+wandb/
+lightning_logs/
+*.log
+
+# Local environment variables
+.env
+.env.*
+
+# Temporary and system files
+*.tmp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,12 @@
+torch
+transformers
+datasets
+peft
+accelerate
+evaluate
+rouge-score
+sentencepiece
+numpy
+pandas
+matplotlib
+tqdm
