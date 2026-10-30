@@ -1,0 +1,9 @@
+# Ignore folders containing the training data and virtual environments
+data/
+environments/
+model.pt
+*.pt
+errors.log
+
+__pycache__/
+outputs/
