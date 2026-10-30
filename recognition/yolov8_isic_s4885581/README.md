@@ -143,7 +143,9 @@ To resolve the clinical trade-off between biopsy overload and missed melanomas, 
 
 ---
 ## 6. AI usage report
-
+I used Google Gemini ARGON to assist me in this report. It assisted me in modeling the code and helped with the final
+implementation of modules.py. I tested that everything worked appropriately through small epoch smoke tests run on my cpu.
+I also used it to help me format the README document.
 
 ## 7. Reproducibility & Usage Instructions
 
