@@ -1,0 +1,783 @@
+"""TimeGAN and a baseline recurrent GAN for order book sequences.
+
+TimeGAN follows Yoon, Jarrett and van der Schaar, "Time-series Generative
+Adversarial Networks", NeurIPS 2019. Shapes use B batch, T sequence length,
+F features, H latent size and Z noise size.
+
+    real       x (B, T, F) -> embedder -> h (B, T, H) -> recovery -> x_tilde
+    synthetic  z (B, T, Z) -> generator -> e_hat -> supervisor -> h_hat -> recovery -> x_hat
+    the discriminator scores latent sequences (B, T, H) with one logit per step
+
+PyTorch only, as the spec requires for this file.
+"""
+from __future__ import annotations
+
+from contextlib import contextmanager
+from dataclasses import dataclass
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+RNN_TYPES = {"gru": nn.GRU, "lstm": nn.LSTM}
+ACTIVATIONS = ("sigmoid", "identity")
+
+
+# ---------------------------------------------------------------------------
+# Networks
+# ---------------------------------------------------------------------------
+
+class RecurrentBlock(nn.Module):
+    """Stacked GRU or LSTM with a linear head at every step: (B, T, in) -> (B, T, out).
+
+    With a unidirectional RNN, output step t only sees inputs 1..t, which is
+    what lets the supervisor's output at t act as a prediction of t + 1.
+
+    num_labels > 0 conditions the block on a label such as the ticker. The
+    label's learned embedding (label_dim) is appended to the input at every
+    step, as in RCGAN (Esteban et al., 2017) and TimeGAN's static features,
+    and also sets the initial hidden state, as the static context of the
+    Temporal Fusion Transformer does (Lim et al., 2021). Conditioning needs a
+    unidirectional GRU.
+    """
+
+    def __init__(
+        self,
+        in_dim: int,
+        hidden_dim: int,
+        out_dim: int,
+        num_layers: int = 3,
+        rnn_type: str = "gru",
+        activation: str = "sigmoid",
+        bidirectional: bool = False,
+        num_labels: int = 0,
+        label_dim: int = 8,
+    ):
+        super().__init__()
+        if rnn_type not in RNN_TYPES:
+            raise ValueError(f"rnn_type must be one of {tuple(RNN_TYPES)}")
+        if activation not in ACTIVATIONS:
+            raise ValueError(f"activation must be one of {ACTIVATIONS}")
+        if num_layers < 1:
+            raise ValueError("num_layers must be at least 1")
+        if num_labels > 0 and (rnn_type != "gru" or bidirectional):
+            raise ValueError("label conditioning needs a unidirectional GRU")
+        self.num_labels, self.num_layers, self.hidden_dim = num_labels, num_layers, hidden_dim
+        self.rnn = RNN_TYPES[rnn_type](in_dim + (label_dim if num_labels else 0), hidden_dim, num_layers=num_layers,
+                                       batch_first=True, bidirectional=bidirectional)
+        directions = 2 if bidirectional else 1
+        self.head = nn.Linear(hidden_dim * directions, out_dim)
+        self.activation = activation
+        if num_labels:
+            self.label_embedding = nn.Embedding(num_labels, label_dim)
+            self.initial_state = nn.Linear(label_dim, num_layers * hidden_dim)
+        self.reset_parameters()
+
+    def reset_parameters(self) -> None:
+        """Xavier input and head weights, orthogonal recurrent weights, zero biases.
+
+        PyTorch stacks the gate matrices of a layer along dim 0, so each gate is
+        made orthogonal on its own. Orthogonal recurrent weights help gradients
+        survive 64 steps of backpropagation (Saxe et al., 2014).
+        """
+        for name, p in self.rnn.named_parameters():
+            if name.startswith("weight_hh"):
+                for gate in p.data.chunk(p.shape[0] // p.shape[1], dim=0):
+                    nn.init.orthogonal_(gate)
+            elif name.startswith("weight_ih"):
+                nn.init.xavier_uniform_(p)
+            else:
+                nn.init.zeros_(p)
+        nn.init.xavier_uniform_(self.head.weight)
+        nn.init.zeros_(self.head.bias)
+
+    def features(self, x: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        """The RNN's output at every step, before the head; label (B,) is ignored without conditioning."""
+        h0 = None
+        if self.num_labels:
+            c = self.label_embedding(label)                                          # (B, label_dim)
+            x = torch.cat([x, c[:, None, :].expand(-1, x.shape[1], -1)], dim=-1)
+            h0 = torch.tanh(self.initial_state(c)).view(-1, self.num_layers, self.hidden_dim)
+            h0 = h0.transpose(0, 1).contiguous()                                     # (layers, B, H)
+        out, _ = self.rnn(x, h0)
+        return out
+
+    def forward(self, x: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        y = self.head(self.features(x, label))
+        return torch.sigmoid(y) if self.activation == "sigmoid" else y
+
+
+class Embedder(RecurrentBlock):
+    """Features x (B, T, F) -> latent codes h (B, T, H) in (0, 1)."""
+
+    def __init__(self, feature_dim: int, hidden_dim: int, num_layers: int = 3, rnn_type: str = "gru",
+                 num_labels: int = 0, label_dim: int = 8):
+        super().__init__(feature_dim, hidden_dim, hidden_dim, num_layers, rnn_type, "sigmoid",
+                         num_labels=num_labels, label_dim=label_dim)
+
+
+class Recovery(RecurrentBlock):
+    """Latent codes h (B, T, H) -> features (B, T, F).
+
+    Sigmoid output for min-max scaled data, identity for standard scaling.
+    """
+
+    def __init__(self, feature_dim: int, hidden_dim: int, num_layers: int = 3, rnn_type: str = "gru",
+                 activation: str = "sigmoid"):
+        super().__init__(hidden_dim, hidden_dim, feature_dim, num_layers, rnn_type, activation)
+
+
+class Generator(RecurrentBlock):
+    """Noise z (B, T, Z) -> synthetic latent sequence e_hat (B, T, H) in (0, 1)."""
+
+    def __init__(self, z_dim: int, hidden_dim: int, num_layers: int = 3, rnn_type: str = "gru",
+                 num_labels: int = 0, label_dim: int = 8):
+        super().__init__(z_dim, hidden_dim, hidden_dim, num_layers, rnn_type, "sigmoid",
+                         num_labels=num_labels, label_dim=label_dim)
+
+
+class Supervisor(RecurrentBlock):
+    """Latent sequence (B, T, H) -> prediction of the next latent step (B, T, H).
+
+    One layer fewer than the other networks, as in the authors' code.
+    """
+
+    def __init__(self, hidden_dim: int, num_layers: int = 3, rnn_type: str = "gru",
+                 num_labels: int = 0, label_dim: int = 8):
+        super().__init__(hidden_dim, hidden_dim, hidden_dim, max(1, num_layers - 1), rnn_type, "sigmoid",
+                         num_labels=num_labels, label_dim=label_dim)
+
+
+class Discriminator(RecurrentBlock):
+    """Latent sequence (B, T, H) -> real/fake logits (B, T, 1).
+
+    Outputs logits, not probabilities, because the losses use BCE with logits.
+    Unidirectional by default like the authors' code (the paper says bidirectional).
+
+    num_labels > 0 makes it a projection discriminator (Miyato and Koyama,
+    2018): the logit gains the inner product of a learned label vector with
+    the RNN's features, logit_t = head(phi_t) + <v_label, phi_t>. The label
+    vectors start at zero, so training begins from the unconditional
+    discriminator.
+    """
+
+    def __init__(self, hidden_dim: int, num_layers: int = 3, rnn_type: str = "gru", bidirectional: bool = False,
+                 num_labels: int = 0):
+        super().__init__(hidden_dim, hidden_dim, 1, num_layers, rnn_type, "identity", bidirectional)
+        self.projection = None
+        if num_labels:
+            self.projection = nn.Embedding(num_labels, hidden_dim * (2 if bidirectional else 1))
+            nn.init.zeros_(self.projection.weight)
+
+    def forward(self, h: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        phi = self.features(h)
+        logits = self.head(phi)
+        if self.projection is not None:
+            logits = logits + (self.projection(label)[:, None, :] * phi).sum(dim=-1, keepdim=True)
+        return logits
+
+
+class LadderTicks(nn.Module):
+    """Scaled structured features (B, T, F) -> ladder and VWAP distances in ticks (B, T, 2L).
+
+    Undoes the min-max scaling, turns the log gaps into each level's distance
+    from the best quote of its side (levels 2 to L) and adds the size-weighted
+    mean distance (the side's VWAP minus its best quote). No rounding, so it
+    stays differentiable. Its tensors are not saved in checkpoints; the
+    decoder is only needed for training.
+    """
+
+    def __init__(self, shift: torch.Tensor, scale: torch.Tensor, ask_gaps: list[int], bid_gaps: list[int],
+                 ask_sizes: list[int], bid_sizes: list[int]):
+        super().__init__()
+        self.register_buffer("shift", shift.float(), persistent=False)
+        self.register_buffer("scale", scale.float(), persistent=False)
+        self.columns = {"ask_gaps": ask_gaps, "bid_gaps": bid_gaps, "ask_sizes": ask_sizes, "bid_sizes": bid_sizes}
+
+    def _side(self, f: torch.Tensor, gaps: list[int], sizes: list[int]) -> tuple[torch.Tensor, torch.Tensor]:
+        distance = torch.cumsum(torch.exp(f[..., gaps]), dim=-1)                 # levels 2..L
+        size = torch.expm1(f[..., sizes]).clamp_min(0)
+        level_distance = torch.cat([torch.zeros_like(distance[..., :1]), distance], dim=-1)
+        vwap = (level_distance * size).sum(dim=-1, keepdim=True) / size.sum(dim=-1, keepdim=True).clamp_min(1)
+        return distance, vwap
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        f = x * self.scale + self.shift
+        c = self.columns
+        ask, ask_vwap = self._side(f, c["ask_gaps"], c["ask_sizes"])
+        bid, bid_vwap = self._side(f, c["bid_gaps"], c["bid_sizes"])
+        return torch.cat([ask, bid, ask_vwap, bid_vwap], dim=-1)
+
+
+class RawBookPenalty(nn.Module):
+    """L_book: hinge penalties on books decoded from scaled raw features (B, T, F).
+
+    The raw encoding stores each level's distance from the mid in ticks, ask
+    levels above it and bid levels below, and nothing keeps them in order. A
+    valid book has a spread of at least one tick and at least one tick between
+    neighbouring levels, so with margin m = 1 tick:
+        L_spread = mean over batch and steps of relu(m - (ask_1 + bid_1))^2
+        L_ladder = mean of (sum over k of relu(m - (ask_k+1 - ask_k)) + relu(m - (bid_k+1 - bid_k)))^2
+    Both are zero on every real book and grow with the size of a violation.
+    The margin is a whole tick, not zero, so neighbouring levels stay apart
+    after rounding to the tick grid. There is no volume term: with min-max
+    scaling and a sigmoid recovery, a decoded size can never fall below the
+    training minimum, which is positive. Like LadderTicks, it is only needed
+    for training and is not saved in checkpoints.
+    """
+
+    def __init__(self, shift: torch.Tensor, scale: torch.Tensor, ask_offsets: list[int], bid_offsets: list[int],
+                 margin: float = 1.0):
+        super().__init__()
+        self.register_buffer("shift", shift.float(), persistent=False)
+        self.register_buffer("scale", scale.float(), persistent=False)
+        self.ask_offsets, self.bid_offsets = ask_offsets, bid_offsets
+        self.margin = margin
+
+    def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """(L_spread, L_ladder) of a batch."""
+        f = x * self.scale + self.shift
+        ask, bid = f[..., self.ask_offsets], f[..., self.bid_offsets]
+        spread = F.relu(self.margin - (ask[..., 0] + bid[..., 0])).pow(2).mean()
+        gaps = torch.cat([ask.diff(dim=-1), bid.diff(dim=-1)], dim=-1)
+        ladder = F.relu(self.margin - gaps).sum(dim=-1).pow(2).mean()
+        return spread, ladder
+
+
+def count_parameters(module: nn.Module | None) -> int:
+    return 0 if module is None else sum(p.numel() for p in module.parameters())
+
+
+# ---------------------------------------------------------------------------
+# Loss helpers
+# ---------------------------------------------------------------------------
+
+@contextmanager
+def frozen(*modules: nn.Module | None):
+    """Stop the given modules' weights from receiving gradients inside the block.
+
+    Gradients still flow through them to their inputs. Autograd records this
+    during the forward pass, so the flags can be restored before backward().
+    """
+    params = [p for m in modules if m is not None for p in m.parameters()]
+    flags = [p.requires_grad for p in params]
+    for p in params:
+        p.requires_grad_(False)
+    try:
+        yield
+    finally:
+        for p, flag in zip(params, flags):
+            p.requires_grad_(flag)
+
+
+def adversarial_bce(logits: torch.Tensor, real: bool) -> torch.Tensor:
+    """BCE of per-step logits against an all-real or all-fake target."""
+    target = torch.ones_like(logits) if real else torch.zeros_like(logits)
+    return F.binary_cross_entropy_with_logits(logits, target)
+
+
+def moment_loss(x_hat: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
+    """L_V: mean absolute gap in batch mean and batch std, per (step, feature).
+
+    The 1e-6 keeps the square root's gradient finite for a constant feature.
+    """
+    std_hat = torch.sqrt(x_hat.var(dim=0, correction=0) + 1e-6)
+    std_real = torch.sqrt(x.var(dim=0, correction=0) + 1e-6)
+    std_term = (std_hat - std_real).abs().mean()
+    mean_term = (x_hat.mean(dim=0) - x.mean(dim=0)).abs().mean()
+    return std_term + mean_term
+
+
+def rate_loss(x_hat: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
+    """L_M: gap in the mean and std of one feature, pooled over every window and step.
+
+    For the binary move flag the mean is the share of steps that move and the
+    std is sqrt(p (1 - p)). Output smeared at the right share matches the
+    mean but not the std, so both terms are needed to get real 0/1 moves.
+    Pooling over steps keeps a 4% rate measurable in a batch of 13 windows.
+    """
+    std_hat = torch.sqrt(x_hat.var(correction=0) + 1e-6)
+    std_real = torch.sqrt(x.var(correction=0) + 1e-6)
+    return (std_hat - std_real).abs() + (x_hat.mean() - x.mean()).abs()
+
+
+def difference_loss(x_hat: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
+    """L_D: gap in the std and the mean absolute value of step changes, per feature.
+
+    Changes are x[t] - x[t-1], pooled over the batch and every step. Real
+    books leave most levels alone and then jump, so their changes are
+    sparse; matching the mean absolute change as well as the std rules out
+    the alternative of small noise at every step.
+    """
+    d_hat, d = x_hat.diff(dim=1), x.diff(dim=1)
+    std_hat = torch.sqrt(d_hat.var(dim=(0, 1), correction=0) + 1e-6)
+    std_real = torch.sqrt(d.var(dim=(0, 1), correction=0) + 1e-6)
+    std_term = (std_hat - std_real).abs().mean()
+    abs_term = (d_hat.abs().mean(dim=(0, 1)) - d.abs().mean(dim=(0, 1))).abs().mean()
+    return std_term + abs_term
+
+
+def change_correlation(x: torch.Tensor) -> torch.Tensor:
+    """(F, F) correlation matrix of the step changes x[t] - x[t-1], pooled over batch and steps."""
+    d = x.diff(dim=1).flatten(0, 1)
+    d = d - d.mean(dim=0)
+    d = d / torch.sqrt(d.pow(2).mean(dim=0) + 1e-6)
+    return d.T @ d / d.shape[0]
+
+
+def change_correlation_loss(x_hat: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
+    """L_C: mean absolute gap between the correlation matrices of step changes.
+
+    Real levels move together: when the best quote moves, the queues shift
+    one level and neighbouring gaps change in opposite directions, so deep
+    prices barely move. L_D only matches each feature on its own and leaves
+    these changes independent.
+    """
+    return (change_correlation(x_hat) - change_correlation(x)).abs().mean()
+
+
+# ---------------------------------------------------------------------------
+# Shared interface
+# ---------------------------------------------------------------------------
+
+class SequenceGAN(nn.Module):
+    """What train.py and predict.py need from any model: noise, sampling, parameter counts.
+
+    Subclasses provide networks(), generate(z, label), generator_loss,
+    discriminator_loss and should_update_discriminator, and keep z_dim in self.config.
+
+    A conditional model needs a ticker label for every window. Training passes
+    labels (B,) explicitly; validation, testing and predict.py instead fix one
+    ticker with conditioned_on(k), so the code that samples a single-ticker
+    model works unchanged. Unconditional models ignore labels.
+    """
+
+    fixed_label: int | None = None
+
+    @property
+    def conditional(self) -> bool:
+        return getattr(self.config, "num_tickers", 0) > 0
+
+    @contextmanager
+    def conditioned_on(self, label: int | None):
+        """Within the block, calls without a label use this ticker index."""
+        previous, self.fixed_label = self.fixed_label, label
+        try:
+            yield self
+        finally:
+            self.fixed_label = previous
+
+    def _labels(self, label: torch.Tensor | None, n: int, device: torch.device | str) -> torch.Tensor | None:
+        """label as given, the fixed ticker repeated n times, or None for an unconditional model."""
+        if not self.conditional:
+            return None
+        if label is not None:
+            return label
+        if self.fixed_label is None:
+            raise RuntimeError("A conditional model needs a ticker label; use conditioned_on(k)")
+        return torch.full((n,), self.fixed_label, dtype=torch.long, device=device)
+
+    def networks(self) -> dict[str, nn.Module]:
+        raise NotImplementedError
+
+    def generate(self, z: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        raise NotImplementedError
+
+    def parameter_counts(self) -> dict[str, int]:
+        counts = {name: count_parameters(net) for name, net in self.networks().items()}
+        counts["total"] = count_parameters(self)
+        return counts
+
+    def _device(self) -> torch.device:
+        return next(self.parameters()).device
+
+    def noise(self, n: int, seq_len: int, device: torch.device | str | None = None) -> torch.Tensor:
+        """Uniform noise of shape (n, seq_len, Z + S).
+
+        The first Z channels are new at every step. The last S channels
+        (static_noise_dim, TimeGAN only) are drawn once per sequence and
+        repeated, so a whole window can share one regime, such as a wide spread.
+        """
+        device = device or self._device()
+        z = torch.rand(n, seq_len, self.config.z_dim, device=device)
+        static_dim = getattr(self.config, "static_noise_dim", 0)     # the baseline config has none
+        if static_dim == 0:
+            return z
+        static = torch.rand(n, 1, static_dim, device=device).expand(n, seq_len, static_dim)
+        return torch.cat([z, static], dim=2)
+
+    @torch.no_grad()
+    def sample(self, n: int, seq_len: int, device: torch.device | str | None = None,
+               batch_size: int = 1024) -> torch.Tensor:
+        """n synthetic sequences (n, seq_len, F), still in the scaled feature space.
+
+        A conditional model samples the ticker fixed with conditioned_on.
+        """
+        device = device or self._device()
+        chunks = []
+        for i in range(0, n, batch_size):
+            m = min(batch_size, n - i)
+            chunks.append(self.generate(self.noise(m, seq_len, device), self._labels(None, m, device)))
+        return torch.cat(chunks, dim=0)
+
+
+# ---------------------------------------------------------------------------
+# TimeGAN
+# ---------------------------------------------------------------------------
+
+@dataclass
+class TimeGANConfig:
+    """Architecture and loss weights for TimeGAN.
+
+    hidden_dim is both the GRU width and the latent size. 64 keeps the latent
+    at least as wide as the 40 features; z_dim defaults to feature_dim.
+
+    The default weights follow the authors' code rather than the paper:
+        embedder   10 * sqrt(L_R) + 0.1 * L_S
+        generator  L_U + gamma * L_U_e + 100 * sqrt(L_S) + 100 * L_V
+    The paper's version is sqrt_losses=False, recon_weight=1,
+    embed_supervised_weight=1 and eta=10.
+
+    use_supervisor=False is the ablation: no supervisor (the identity takes
+    its place), no L_S terms and no phase 2, with everything else unchanged.
+    The discriminator is skipped when its loss is below d_threshold.
+    static_noise_dim adds noise channels held constant per window (0 = paper).
+    difference_weight > 0 adds L_D on step changes to the generator loss
+    and change_corr_weight > 0 adds L_C on their correlations (0 = paper).
+    tick_weight > 0 adds L_P, the L_D statistic on the ladder decoded into
+    ticks, which needs a LadderTicks decoder when training. book_weight > 0
+    adds L_book, the raw encoding's hinge penalties, which needs a
+    RawBookPenalty. move_rate_weight > 0 adds L_M on the move flag in column
+    move_column: L_V averages over every feature, so a stock that moves on 4%
+    of steps loses little by never moving.
+
+    num_tickers > 0 makes one model for several tickers (0 = one ticker).
+    The embedder, generator and supervisor see a ticker_dim embedding of the
+    ticker (see RecurrentBlock); the recovery does not, so the ticker has to
+    show in the latent codes the discriminator judges. With
+    projection_discriminator the discriminator is a projection discriminator.
+    With per_ticker_losses, L_V, L_D and L_C are computed within each ticker
+    of a batch and averaged: pooled, they only match the mixture of stocks,
+    and errors in different stocks can cancel. L_P and L_book are single-ticker
+    only, since their decoders hold one ticker's scaling.
+    """
+
+    feature_dim: int
+    hidden_dim: int = 64
+    num_layers: int = 3
+    rnn_type: str = "gru"
+    z_dim: int | None = None
+    static_noise_dim: int = 0
+    recovery_activation: str = "sigmoid"
+    bidirectional_discriminator: bool = False
+    use_supervisor: bool = True
+    gamma: float = 1.0
+    eta: float = 100.0
+    moment_weight: float = 100.0
+    difference_weight: float = 0.0
+    change_corr_weight: float = 0.0
+    tick_weight: float = 0.0
+    book_weight: float = 0.0
+    move_rate_weight: float = 0.0
+    move_column: int | None = None
+    recon_weight: float = 10.0
+    embed_supervised_weight: float = 0.1
+    sqrt_losses: bool = True
+    d_threshold: float = 0.15
+    num_tickers: int = 0
+    ticker_dim: int = 8
+    projection_discriminator: bool = True
+    per_ticker_losses: bool = True
+
+    def __post_init__(self):
+        if self.z_dim is None:
+            self.z_dim = self.feature_dim
+        if self.recovery_activation not in ACTIVATIONS:
+            raise ValueError(f"recovery_activation must be one of {ACTIVATIONS}")
+        if self.rnn_type not in RNN_TYPES:
+            raise ValueError(f"rnn_type must be one of {tuple(RNN_TYPES)}")
+        if self.num_tickers > 0 and (self.tick_weight > 0 or self.book_weight > 0):
+            raise ValueError("L_P and L_book need a single ticker")
+        if self.move_rate_weight > 0 and self.move_column is None:
+            raise ValueError("move_rate_weight > 0 needs the move flag's column")
+
+
+class TimeGAN(SequenceGAN):
+    """The five TimeGAN networks and one loss per training phase.
+
+        phase 1  autoencoder_loss(x)                       trains embedder, recovery
+        phase 2  supervisor_loss(x)                        trains supervisor
+        phase 3  generator_loss(x)                         trains generator, supervisor
+                 autoencoder_loss(x, with_supervised=True) trains embedder, recovery
+                 discriminator_loss(x)                     trains discriminator
+
+    Every loss returns (loss, logs) and only leaves gradients on the networks
+    it trains. logs holds detached values for the training history. ladder
+    is the LadderTicks decoder behind L_P and book the RawBookPenalty behind
+    L_book; sampling and loading need neither. Every method also takes the
+    ticker labels (B,) of a conditional model (see SequenceGAN).
+    """
+
+    def __init__(self, config: TimeGANConfig, ladder: LadderTicks | None = None,
+                 book: RawBookPenalty | None = None):
+        super().__init__()
+        self.config = c = config
+        self.ladder = ladder
+        self.book = book
+        k, d = c.num_tickers, c.ticker_dim
+        self.embedder = Embedder(c.feature_dim, c.hidden_dim, c.num_layers, c.rnn_type, k, d)
+        self.recovery = Recovery(c.feature_dim, c.hidden_dim, c.num_layers, c.rnn_type, c.recovery_activation)
+        self.generator = Generator(c.z_dim + c.static_noise_dim, c.hidden_dim, c.num_layers, c.rnn_type, k, d)
+        self.supervisor = Supervisor(c.hidden_dim, c.num_layers, c.rnn_type, k, d) if c.use_supervisor else None
+        self.discriminator = Discriminator(c.hidden_dim, c.num_layers, c.rnn_type, c.bidirectional_discriminator,
+                                           k if c.projection_discriminator else 0)
+
+    def networks(self) -> dict[str, nn.Module]:
+        nets = {"embedder": self.embedder, "recovery": self.recovery, "generator": self.generator,
+                "supervisor": self.supervisor, "discriminator": self.discriminator}
+        return {name: net for name, net in nets.items() if net is not None}
+
+    def autoencoder_parameters(self) -> list[nn.Parameter]:
+        return [*self.embedder.parameters(), *self.recovery.parameters()]
+
+    def supervisor_parameters(self) -> list[nn.Parameter]:
+        return [] if self.supervisor is None else list(self.supervisor.parameters())
+
+    def generator_parameters(self) -> list[nn.Parameter]:
+        """Generator and supervisor, which are trained together in phase 3."""
+        return [*self.generator.parameters(), *self.supervisor_parameters()]
+
+    def discriminator_parameters(self) -> list[nn.Parameter]:
+        return list(self.discriminator.parameters())
+
+    def supervise(self, e: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        """The supervisor's output, or e itself in the ablation."""
+        return e if self.supervisor is None else self.supervisor(e, label)
+
+    def generate(self, z: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        """x_hat = recovery(supervisor(generator(z)))."""
+        label = self._labels(label, z.shape[0], z.device)
+        return self.recovery(self.supervise(self.generator(z, label), label))
+
+    forward = generate
+
+    @torch.no_grad()
+    def reconstruct(self, x: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        return self.recovery(self.embedder(x, self._labels(label, x.shape[0], x.device)))
+
+    def _supervised_mse(self, h: torch.Tensor, label: torch.Tensor | None) -> torch.Tensor:
+        """L_S: the supervisor's output at step t against the real code at t + 1."""
+        return F.mse_loss(self.supervisor(h, label)[:, :-1], h[:, 1:])
+
+    def _root(self, loss: torch.Tensor) -> torch.Tensor:
+        """sqrt(loss) under the code's convention, loss under the paper's."""
+        return loss.sqrt() if self.config.sqrt_losses else loss
+
+    def _per_ticker(self, loss_fn, x_hat: torch.Tensor, x: torch.Tensor, label: torch.Tensor | None) -> torch.Tensor:
+        """loss_fn(x_hat, x) within each ticker of the batch, averaged; pooled for one ticker."""
+        if label is None or not self.config.per_ticker_losses:
+            return loss_fn(x_hat, x)
+        return torch.stack([loss_fn(x_hat[label == k], x[label == k]) for k in label.unique()]).mean()
+
+    def autoencoder_loss(self, x: torch.Tensor, with_supervised: bool = False, label: torch.Tensor | None = None):
+        """recon_weight * sqrt(L_R), plus embed_supervised_weight * L_S in phase 3.
+
+        The L_S term pushes the embedder towards codes the supervisor can
+        predict; the supervisor itself is frozen here.
+        """
+        label = self._labels(label, x.shape[0], x.device)
+        h = self.embedder(x, label)
+        recon = F.mse_loss(self.recovery(h), x)
+        loss = self.config.recon_weight * self._root(recon)
+        logs = {"recon_mse": recon.detach()}
+        if with_supervised and self.supervisor is not None:
+            with frozen(self.supervisor):
+                supervised = self._supervised_mse(h, label)
+            loss = loss + self.config.embed_supervised_weight * supervised
+            logs["supervised_mse"] = supervised.detach()
+        logs["total"] = loss.detach()
+        return loss, logs
+
+    def supervisor_loss(self, x: torch.Tensor, label: torch.Tensor | None = None):
+        """Phase 2: L_S on real latent codes, with the embedder fixed."""
+        if self.supervisor is None:
+            raise RuntimeError("The no-supervisor ablation has no phase 2")
+        label = self._labels(label, x.shape[0], x.device)
+        with torch.no_grad():
+            h = self.embedder(x, label)
+        loss = self._supervised_mse(h, label)
+        return loss, {"supervised_mse": loss.detach(), "total": loss.detach()}
+
+    def generator_loss(self, x: torch.Tensor, z: torch.Tensor | None = None, label: torch.Tensor | None = None):
+        """Phase 3 loss for the generator and supervisor.
+
+            L_U    adversarial loss on h_hat = supervisor(generator(z))
+            L_U_e  adversarial loss on e_hat = generator(z), weight gamma
+            L_S    supervised loss on real codes, weight eta
+            L_V    moment loss on decoded features, weight moment_weight
+            L_D    step-change loss on decoded features, weight difference_weight
+            L_C    step-change correlation loss, weight change_corr_weight
+            L_P    L_D on the ladder decoded into ticks, weight tick_weight
+            L_book spread and ladder hinges on raw books, weight book_weight
+            L_M    move-flag rate and spread, within each ticker, weight move_rate_weight
+
+        The recovery and discriminator are frozen, so gradients pass through
+        them without changing them. L_D and L_C are logged even at weight 0,
+        L_P and L_book whenever there is a decoder, and L_M whenever there is
+        a move flag.
+        """
+        c = self.config
+        label = self._labels(label, x.shape[0], x.device)
+        if z is None:
+            z = self.noise(x.shape[0], x.shape[1], x.device)
+        with torch.no_grad():
+            h = self.embedder(x, label)
+        with frozen(self.recovery, self.discriminator):
+            e_hat = self.generator(z, label)
+            h_hat = self.supervise(e_hat, label)
+            x_hat = self.recovery(h_hat)
+            adv = adversarial_bce(self.discriminator(h_hat, label), real=True)
+            adv_e = adversarial_bce(self.discriminator(e_hat, label), real=True)
+        moments = self._per_ticker(moment_loss, x_hat, x, label)
+        differences = self._per_ticker(difference_loss, x_hat, x, label)
+        correlations = self._per_ticker(change_correlation_loss, x_hat, x, label)
+        loss = adv + c.gamma * adv_e + c.moment_weight * moments
+        if c.difference_weight > 0:
+            loss = loss + c.difference_weight * differences
+        if c.change_corr_weight > 0:
+            loss = loss + c.change_corr_weight * correlations
+        logs = {"adv": adv.detach(), "adv_e": adv_e.detach(), "moment": moments.detach(),
+                "difference": differences.detach(), "change_corr": correlations.detach()}
+        if c.tick_weight > 0 and self.ladder is None:
+            raise RuntimeError("tick_weight > 0 needs a LadderTicks decoder")
+        if self.ladder is not None:
+            ticks = difference_loss(self.ladder(x_hat), self.ladder(x))
+            if c.tick_weight > 0:
+                loss = loss + c.tick_weight * ticks
+            logs["tick_difference"] = ticks.detach()
+        if c.book_weight > 0 and self.book is None:
+            raise RuntimeError("book_weight > 0 needs a RawBookPenalty")
+        if self.book is not None:
+            spread_hinge, ladder_hinge = self.book(x_hat)
+            if c.book_weight > 0:
+                loss = loss + c.book_weight * (spread_hinge + ladder_hinge)
+            logs["book_spread"], logs["book_ladder"] = spread_hinge.detach(), ladder_hinge.detach()
+        if c.move_column is not None:
+            col = c.move_column
+            rates = self._per_ticker(rate_loss, x_hat[..., col], x[..., col], label)
+            if c.move_rate_weight > 0:
+                loss = loss + c.move_rate_weight * rates
+            logs["move_rate"] = rates.detach()
+        if self.supervisor is not None:
+            supervised = self._supervised_mse(h, label)
+            loss = loss + c.eta * self._root(supervised)
+            logs["supervised_mse"] = supervised.detach()
+        logs["total"] = loss.detach()
+        return loss, logs
+
+    def discriminator_loss(self, x: torch.Tensor, z: torch.Tensor | None = None, label: torch.Tensor | None = None):
+        """BCE on real codes, on h_hat and (weight gamma) on e_hat.
+
+        Every input is computed without gradients, so only the discriminator
+        learns. In the ablation h_hat equals e_hat. Fake windows carry the same
+        ticker labels as the real batch.
+        """
+        label = self._labels(label, x.shape[0], x.device)
+        if z is None:
+            z = self.noise(x.shape[0], x.shape[1], x.device)
+        with torch.no_grad():
+            h = self.embedder(x, label)
+            e_hat = self.generator(z, label)
+            h_hat = self.supervise(e_hat, label)
+        real = adversarial_bce(self.discriminator(h, label), real=True)
+        fake = adversarial_bce(self.discriminator(h_hat, label), real=False)
+        fake_e = adversarial_bce(self.discriminator(e_hat, label), real=False)
+        loss = real + fake + self.config.gamma * fake_e
+        logs = {"real": real.detach(), "fake": fake.detach(), "fake_e": fake_e.detach(), "total": loss.detach()}
+        return loss, logs
+
+    def should_update_discriminator(self, d_loss: torch.Tensor | float) -> bool:
+        """Skip the discriminator step while its loss is below d_threshold."""
+        if isinstance(d_loss, torch.Tensor):
+            d_loss = d_loss.detach()
+        return float(d_loss) > self.config.d_threshold
+
+
+# ---------------------------------------------------------------------------
+# Baseline
+# ---------------------------------------------------------------------------
+
+@dataclass
+class RecurrentGANConfig:
+    """Settings for the baseline recurrent GAN.
+
+    A GRU generator writes features straight from noise and a GRU
+    discriminator judges them, in the style of C-RNN-GAN (Mogren, 2016) and
+    RCGAN (Esteban et al., 2017). There is no latent space and no supervisor.
+    moment_weight > 0 adds TimeGAN's moment loss; at 0 it is only logged.
+    """
+
+    feature_dim: int
+    hidden_dim: int = 64
+    num_layers: int = 3
+    rnn_type: str = "gru"
+    z_dim: int | None = None
+    output_activation: str = "sigmoid"
+    moment_weight: float = 0.0
+
+    def __post_init__(self):
+        if self.z_dim is None:
+            self.z_dim = self.feature_dim
+        if self.output_activation not in ACTIVATIONS:
+            raise ValueError(f"output_activation must be one of {ACTIVATIONS}")
+        if self.rnn_type not in RNN_TYPES:
+            raise ValueError(f"rnn_type must be one of {tuple(RNN_TYPES)}")
+
+
+class RecurrentGAN(SequenceGAN):
+    """Baseline: noise (B, T, Z) -> features (B, T, F), judged in feature space."""
+
+    def __init__(self, config: RecurrentGANConfig):
+        super().__init__()
+        self.config = c = config
+        self.generator = RecurrentBlock(c.z_dim, c.hidden_dim, c.feature_dim, c.num_layers, c.rnn_type,
+                                        c.output_activation)
+        self.discriminator = RecurrentBlock(c.feature_dim, c.hidden_dim, 1, c.num_layers, c.rnn_type, "identity")
+
+    def networks(self) -> dict[str, nn.Module]:
+        return {"generator": self.generator, "discriminator": self.discriminator}
+
+    def generator_parameters(self) -> list[nn.Parameter]:
+        return list(self.generator.parameters())
+
+    def discriminator_parameters(self) -> list[nn.Parameter]:
+        return list(self.discriminator.parameters())
+
+    def generate(self, z: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+        return self.generator(z)
+
+    forward = generate
+
+    def generator_loss(self, x: torch.Tensor, z: torch.Tensor | None = None, label: torch.Tensor | None = None):
+        """Adversarial loss with the discriminator frozen, plus the optional moment loss."""
+        if z is None:
+            z = self.noise(x.shape[0], x.shape[1], x.device)
+        with frozen(self.discriminator):
+            x_hat = self.generator(z)
+            adv = adversarial_bce(self.discriminator(x_hat), real=True)
+        moments = moment_loss(x_hat, x)
+        loss = adv + self.config.moment_weight * moments if self.config.moment_weight > 0 else adv
+        return loss, {"adv": adv.detach(), "moment": moments.detach(), "total": loss.detach()}
+
+    def discriminator_loss(self, x: torch.Tensor, z: torch.Tensor | None = None, label: torch.Tensor | None = None):
+        if z is None:
+            z = self.noise(x.shape[0], x.shape[1], x.device)
+        with torch.no_grad():
+            x_hat = self.generator(z)
+        real = adversarial_bce(self.discriminator(x), real=True)
+        fake = adversarial_bce(self.discriminator(x_hat), real=False)
+        loss = real + fake
+        return loss, {"real": real.detach(), "fake": fake.detach(), "total": loss.detach()}
+
+    def should_update_discriminator(self, d_loss: torch.Tensor | float) -> bool:
+        return True

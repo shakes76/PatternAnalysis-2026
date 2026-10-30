@@ -1,0 +1,518 @@
+"""Train TimeGAN, its no-supervisor ablation or the baseline on LOBSTER windows.
+
+TimeGAN trains in three phases (Yoon et al., 2019):
+  1. autoencoder  embedder and recovery learn a latent space
+  2. supervisor   the supervisor learns to predict the next latent step
+  3. joint        all five networks train together, two generator updates
+                  per discriminator update
+--no-supervisor skips phase 2 and every supervised loss term. The baseline
+(--model rgan) only has phase 3, with one update of each network per step.
+
+During phase 3 the samples are scored against the validation hour
+(14:00 to 15:00) and the best checkpoint is kept as best.pt. The test hour
+is only used once, after training, to score best.pt.
+
+--tickers trains one TimeGAN on several tickers. Every batch holds the same
+number of windows from each ticker, each ticker keeps its own scaling, and
+validation scores each ticker separately and averages the scores.
+--condition picks the ablation arm: full (ticker embedding, projection
+discriminator, per-ticker losses), concat (the embedding only, with pooled
+losses) or none (one unconditional model for the pooled windows).
+
+Examples (from the folder holding src/):
+  python src/train.py --data-dir ../../../../data/LOBSTER
+  python src/train.py --data-dir ../../../../data/LOBSTER --move-flag --static-noise-dim 8
+  python src/train.py --data-dir ../../../../data/LOBSTER --move-flag --static-noise-dim 8 --difference-weight 100
+  python src/train.py --data-dir ../../../../data/LOBSTER --move-flag --static-noise-dim 8 --difference-weight 100 \
+      --change-corr-weight 100
+  python src/train.py --data-dir ../../../../data/LOBSTER --representation raw --book-weight 10
+  python src/train.py --data-dir ../../../../data/LOBSTER --no-supervisor
+  python src/train.py --data-dir ../../../../data/LOBSTER --model rgan --baseline-moment-weight 100
+  python src/train.py --data-dir ../../../../data/LOBSTER --ticker INTC --clock-seconds 1 --seq-len 504 \
+      --eval-stride 24 --batch-size 64 --move-flag --static-noise-dim 8 --difference-weight 100 --tick-weight 2
+  python src/train.py --data-dir ../../../../data/LOBSTER --tickers AAPL AMZN GOOG INTC MSFT --condition full \
+      --clock-seconds 1 --seq-len 504 --eval-stride 24 --batch-size 65 --move-flag --static-noise-dim 8
+  python src/train.py --data-dir ../../../../data/LOBSTER --tickers AAPL AMZN GOOG INTC MSFT --condition full \
+      --clock-seconds 1 --seq-len 504 --eval-stride 24 --batch-size 65 --move-flag --static-noise-dim 8 \
+      --move-rate-weight 100 --lr-final 1e-4 --score-vwap --joint-steps 15000
+  python src/train.py --data-dir ../../../../data/LOBSTER --run-name structured_timegan_s0 --resume
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import time
+from collections.abc import Callable, Iterator
+from dataclasses import asdict
+from pathlib import Path
+
+import torch
+from torch.optim.swa_utils import AveragedModel, get_ema_multi_avg_fn
+from torch.utils.data import DataLoader
+
+from dataset import TICKERS, LOBSplits, LOBWindowDataset, build_datasets
+from helpers.checkpoints import (BEST_CHECKPOINT, LAST_CHECKPOINT, MODELS, PHASES, book_penalty, build_model,
+                                 default_run_name, ladder_decoder, load_checkpoint, restore_rng_state, resumed_args,
+                                 rng_state, run_state)
+from helpers.evaluation import Evaluator, evaluate_test
+from helpers.plotting import plot_history
+from modules import TimeGAN
+
+
+# ---------------------------------------------------------------------------
+# Setup
+# ---------------------------------------------------------------------------
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    data = p.add_argument_group("data")
+    data.add_argument("--data-dir", required=True, help="Folder holding the LOBSTER CSVs")
+    data.add_argument("--ticker", choices=TICKERS, default="AMZN")
+    data.add_argument("--tickers", nargs="+", choices=TICKERS, default=None,
+                      help="Train one model on several tickers (replaces --ticker)")
+    data.add_argument("--condition", choices=("full", "concat", "none"), default="full",
+                      help="With --tickers: ticker conditioning of the model (see above)")
+    data.add_argument("--representation", choices=("structured", "raw"), default="structured")
+    data.add_argument("--scaling", choices=("minmax", "standard"), default="minmax")
+    data.add_argument("--seq-len", type=int, default=64)
+    data.add_argument("--event-stride", type=int, default=10)
+    data.add_argument("--clock-seconds", type=float, default=0,
+                      help="Sample the book every this many seconds instead of every --event-stride events, "
+                           "e.g. 1 (0 = event clock)")
+    data.add_argument("--eval-stride", type=int, default=None,
+                      help="Step between validation and test windows, e.g. 24 (default: --seq-len, no overlap)")
+    data.add_argument("--move-flag", action="store_true", help="Add a binary mid-moved feature")
+    data.add_argument("--hold-flags", action="store_true",
+                      help="Add binary bid-unchanged and ask-unchanged features; a flagged side repeats when decoded")
+
+    model = p.add_argument_group("model")
+    model.add_argument("--model", choices=tuple(MODELS), default="timegan", help="timegan, or rgan for the baseline")
+    model.add_argument("--baseline-moment-weight", type=float, default=0.0,
+                       help="Moment loss weight for the baseline (0 = adversarial loss only)")
+    model.add_argument("--hidden-dim", type=int, default=64)
+    model.add_argument("--num-layers", type=int, default=3)
+    model.add_argument("--static-noise-dim", type=int, default=0,
+                       help="TimeGAN noise channels held constant over each window, e.g. 8")
+    model.add_argument("--difference-weight", type=float, default=0.0,
+                       help="TimeGAN weight of the step-change loss L_D, e.g. 100 (0 = off)")
+    model.add_argument("--change-corr-weight", type=float, default=0.0,
+                       help="TimeGAN weight of the step-change correlation loss L_C, e.g. 100 (0 = off)")
+    model.add_argument("--tick-weight", type=float, default=0.0,
+                       help="TimeGAN weight of L_P, the step-change loss on the ladder in ticks "
+                            "(structured encoding only; 0 = off)")
+    model.add_argument("--book-weight", type=float, default=0.0,
+                       help="TimeGAN weight of L_book, hinge penalties on spreads under one tick and "
+                            "out-of-order levels (raw encoding only; 0 = off), e.g. 1, 10 or 100")
+    model.add_argument("--move-rate-weight", type=float, default=0.0,
+                       help="TimeGAN weight of L_M, which matches each ticker's share of steps where the mid "
+                            "moves (needs --move-flag; 0 = off), e.g. 100")
+    model.add_argument("--no-supervisor", action="store_true", help="Ablation without the supervised loss")
+    model.add_argument("--paper-weights", action="store_true",
+                       help="Loss weights from the paper instead of the authors' code")
+
+    train = p.add_argument_group("training")
+    train.add_argument("--batch-size", type=int, default=128)
+    train.add_argument("--lr", type=float, default=1e-3)
+    train.add_argument("--lr-final", type=float, default=None,
+                       help="Cosine-decay every learning rate over the joint phase down to this, e.g. 1e-4 "
+                            "(default: constant --lr)")
+    train.add_argument("--ae-steps", type=int, default=10_000)
+    train.add_argument("--sup-steps", type=int, default=10_000)
+    train.add_argument("--joint-steps", type=int, default=10_000)
+    train.add_argument("--clip-grad", type=float, default=None, help="Max gradient norm (off by default)")
+    train.add_argument("--ema-decay", type=float, default=0.0,
+                       help="Keep a moving average of the weights in the joint phase, e.g. 0.999 (0 = off)")
+    train.add_argument("--seed", type=int, default=0)
+    train.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+
+    run = p.add_argument_group("logging and checkpoints")
+    run.add_argument("--out-dir", default="runs")
+    run.add_argument("--run-name", default=None, help="Defaults to a name built from the options and seed")
+    run.add_argument("--log-every", type=int, default=100)
+    run.add_argument("--eval-every", type=int, default=500)
+    run.add_argument("--eval-samples", type=int, default=512)
+    run.add_argument("--score-vwap", action="store_true",
+                     help="Add the validation VWAP-change KL to the score that picks best.pt")
+    run.add_argument("--resume", action="store_true", help="Continue from <run>/last.pt")
+
+    args = p.parse_args(argv)
+    if args.model == "rgan" and args.no_supervisor:
+        p.error("--no-supervisor only applies to --model timegan")
+    if args.tick_weight > 0 and args.representation != "structured":
+        p.error("--tick-weight needs the structured encoding")
+    if args.book_weight > 0 and args.representation != "raw":
+        p.error("--book-weight needs the raw encoding; the structured one is valid by construction")
+    if args.move_rate_weight > 0 and (not args.move_flag or args.model != "timegan"):
+        p.error("--move-rate-weight needs --move-flag and --model timegan")
+    if args.tickers is not None:
+        if len(set(args.tickers)) < 2:
+            p.error("--tickers needs at least two different tickers; use --ticker for one")
+        if args.model != "timegan" or args.tick_weight > 0 or args.book_weight > 0:
+            p.error("--tickers trains TimeGAN without --tick-weight or --book-weight")
+        if args.batch_size % len(args.tickers):
+            p.error("--batch-size must be a multiple of the number of tickers")
+    if args.run_name is None:
+        args.run_name = default_run_name(args)
+    return args
+
+
+def batches(dataset: LOBWindowDataset, batch_size: int, seed: int, device: str) -> Iterator[torch.Tensor]:
+    """Endless shuffled training batches. Shuffling never reorders steps inside a window."""
+    generator = torch.Generator().manual_seed(seed)
+    loader = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True, generator=generator)
+    while True:
+        for x in loader:
+            yield x.to(device, non_blocking=True)
+
+
+def labelled_batches(datasets: list[LOBWindowDataset], batch_size: int, seed: int,
+                     device: str) -> Iterator[tuple[torch.Tensor, torch.Tensor | None]]:
+    """Endless (windows, ticker labels) batches; labels are None for one ticker.
+
+    With several tickers every batch is stratified: batch_size / K windows
+    from each, so a stock with more windows cannot crowd out the others and
+    the per-ticker losses always have each stock to work with.
+    """
+    if len(datasets) == 1:
+        for x in batches(datasets[0], batch_size, seed, device):
+            yield x, None
+    per_ticker = batch_size // len(datasets)
+    streams = [batches(ds, per_ticker, seed + k, device) for k, ds in enumerate(datasets)]
+    labels = torch.arange(len(datasets), device=device).repeat_interleave(per_ticker)
+    while True:
+        yield torch.cat([next(s) for s in streams]), labels
+
+
+def grad_norm(params: list[torch.nn.Parameter], clip: float | None) -> float:
+    """Gradient norm before clipping; clips in place when clip is set."""
+    return float(torch.nn.utils.clip_grad_norm_(params, clip if clip is not None else float("inf")))
+
+
+def as_floats(logs: dict[str, torch.Tensor], prefix: str = "") -> dict[str, float]:
+    return {f"{prefix}{k}": float(v) for k, v in logs.items()}
+
+
+# ---------------------------------------------------------------------------
+# Training
+# ---------------------------------------------------------------------------
+
+class Trainer:
+    """Model, optimisers, history and checkpoints of one run.
+
+    splits holds one LOBSplits per ticker, in label order.
+    """
+
+    def __init__(self, args: argparse.Namespace, splits: list[LOBSplits], run_dir: Path):
+        self.args, self.splits, self.run_dir = args, splits, run_dir
+        self.device = args.device
+        single = splits[0] if len(splits) == 1 else None
+        names = splits[0].feature_names
+        move_column = names.index("mid_moved") if "mid_moved" in names else None
+        self.model = build_model(args, len(names), single and ladder_decoder(single), single and book_penalty(single),
+                                 num_tickers=len(splits), move_column=move_column).to(self.device)
+        self.is_timegan = isinstance(self.model, TimeGAN)
+        self.optimisers = self._build_optimisers()
+        self.evaluators = [Evaluator(s, self.device, args.eval_samples // len(splits), args.seed, args.score_vwap)
+                           for s in splits]
+        self.data = labelled_batches([s.train for s in splits], args.batch_size, args.seed, self.device)
+        self.history = {"train": [], "val": [], "phases": {}}
+        self.phase_index, self.step, self.best_score = 0, 0, float("inf")
+        self._mark = (time.time(), 0)            # wall clock and step where the current timing interval began
+        self.ema: AveragedModel | None = None    # created at the start of the joint phase
+
+    def _build_optimisers(self) -> dict[str, torch.optim.Optimizer]:
+        """One Adam optimiser per group of networks trained by the same loss."""
+        def adam(params: list[torch.nn.Parameter]) -> torch.optim.Optimizer:
+            return torch.optim.Adam(params, lr=self.args.lr)
+
+        optimisers = {
+            "generator": adam(self.model.generator_parameters()),
+            "discriminator": adam(self.model.discriminator_parameters()),
+        }
+        if self.is_timegan:
+            optimisers["autoencoder"] = adam(self.model.autoencoder_parameters())
+            if self.model.supervisor is not None:
+                optimisers["supervisor"] = adam(self.model.supervisor_parameters())
+        return optimisers
+
+    def _set_joint_lr(self, total: int) -> None:
+        """With --lr-final, a cosine from --lr at the start of the joint phase to --lr-final at its end.
+
+        It depends only on the step, so a resumed run picks up the same rate.
+        """
+        if self.args.lr_final is None:
+            return
+        start, end = self.args.lr, self.args.lr_final
+        lr = end + 0.5 * (start - end) * (1 + math.cos(math.pi * self.step / total))
+        for opt in self.optimisers.values():
+            for group in opt.param_groups:
+                group["lr"] = lr
+
+    # -- weight averaging ----------------------------------------------------
+
+    def _start_ema(self) -> None:
+        """Start an exponential moving average of the weights (Yazici et al., 2019)."""
+        if self.args.ema_decay > 0 and self.ema is None:
+            self.ema = AveragedModel(self.model, multi_avg_fn=get_ema_multi_avg_fn(self.args.ema_decay))
+
+    def _eval_model(self, phase: str) -> torch.nn.Module:
+        """The weights to validate and keep: the moving average in the joint phase, if enabled."""
+        if phase != "joint" or self.ema is None:
+            return self.model
+        # The averaged copy's GRU weights are not in the single block cuDNN expects.
+        for module in self.ema.module.modules():
+            if isinstance(module, torch.nn.RNNBase):
+                module.flatten_parameters()
+        return self.ema.module
+
+    # -- checkpoints ---------------------------------------------------------
+
+    def save(self) -> None:
+        """Write last.pt and history.json."""
+        state = run_state(self.model, self.splits, self.args)
+        state.update({
+            "optimisers": {k: o.state_dict() for k, o in self.optimisers.items()},
+            "phase_index": self.phase_index,
+            "step": self.step,
+            "best_score": self.best_score,
+            "history": self.history,
+            **rng_state(),
+        })
+        if self.ema is not None:
+            state["ema"] = {"model": self.ema.module.state_dict(), "n_averaged": int(self.ema.n_averaged)}
+        torch.save(state, self.run_dir / LAST_CHECKPOINT)
+        (self.run_dir / "history.json").write_text(json.dumps(self.history, indent=1))
+
+    def save_best(self, score: float, model: torch.nn.Module) -> None:
+        state = run_state(model, self.splits, self.args)
+        state.update({"phase_index": self.phase_index, "step": self.step, "score": score})
+        torch.save(state, self.run_dir / BEST_CHECKPOINT)
+
+    def load(self) -> None:
+        """Restore everything from last.pt."""
+        state = load_checkpoint(self.run_dir / LAST_CHECKPOINT, self.device)
+        self.model.load_state_dict(state["model"])
+        for k, o in self.optimisers.items():
+            o.load_state_dict(state["optimisers"][k])
+        self.phase_index, self.step, self.best_score = state["phase_index"], state["step"], state["best_score"]
+        self.history = state["history"]
+        if "ema" in state:
+            self._start_ema()
+            self.ema.module.load_state_dict(state["ema"]["model"])
+            self.ema.n_averaged.fill_(state["ema"]["n_averaged"])
+        restore_rng_state(state)
+        if self.phase_index >= len(PHASES):
+            print(f"Resumed {self.run_dir.name}: training already complete")
+        else:
+            print(f"Resumed {self.run_dir.name} at phase {PHASES[self.phase_index]}, step {self.step}")
+
+    # -- logging -------------------------------------------------------------
+
+    def _log_train(self, phase: str, window: list[dict]) -> None:
+        mean = {k: sum(d[k] for d in window) / len(window) for k in window[0]}
+        self.history["train"].append({"phase": phase, "step": self.step, **mean})
+
+    def _log_val(self, phase: str, metrics: dict) -> None:
+        self.history["val"].append({"phase": phase, "step": self.step, **metrics})
+        shown = {k: round(v, 4) for k, v in metrics.items() if not k.endswith("reverse")}
+        print(f"  [{phase} {self.step:6d}] {shown}", flush=True)
+
+    # -- optimisation steps --------------------------------------------------
+
+    def _update(self, name: str, loss: torch.Tensor) -> float:
+        """Backpropagate and step one optimiser; returns the gradient norm before clipping."""
+        opt = self.optimisers[name]
+        opt.zero_grad(set_to_none=True)
+        loss.backward()
+        norm = grad_norm([p for g in opt.param_groups for p in g["params"]], self.args.clip_grad)
+        opt.step()
+        return norm
+
+    def _autoencoder_step(self) -> dict:
+        x, label = next(self.data)
+        loss, logs = self.model.autoencoder_loss(x, label=label)
+        self._update("autoencoder", loss)
+        return as_floats(logs)
+
+    def _supervisor_step(self) -> dict:
+        x, label = next(self.data)
+        loss, logs = self.model.supervisor_loss(x, label=label)
+        self._update("supervisor", loss)
+        return as_floats(logs)
+
+    def _joint_step(self) -> dict:
+        return self._timegan_joint_step() if self.is_timegan else self._baseline_step()
+
+    def _timegan_joint_step(self) -> dict:
+        """Two generator and embedder updates, then one discriminator update unless its loss is already low."""
+        out: dict[str, float] = {}
+        for _ in range(2):
+            x, label = next(self.data)
+            g_loss, g_logs = self.model.generator_loss(x, label=label)
+            out["g_grad_norm"] = self._update("generator", g_loss)
+            e_loss, e_logs = self.model.autoencoder_loss(x, with_supervised=True, label=label)
+            self._update("autoencoder", e_loss)
+        x, label = next(self.data)
+        d_loss, d_logs = self.model.discriminator_loss(x, label=label)
+        update = self.model.should_update_discriminator(d_loss)
+        out["d_grad_norm"] = self._update("discriminator", d_loss) if update else 0.0
+        out["d_updated"] = float(update)
+        return {**out, **as_floats(g_logs, "g_"), **as_floats(e_logs, "e_"), **as_floats(d_logs, "d_")}
+
+    def _baseline_step(self) -> dict:
+        g_loss, g_logs = self.model.generator_loss(next(self.data)[0])
+        out = {"g_grad_norm": self._update("generator", g_loss)}
+        d_loss, d_logs = self.model.discriminator_loss(next(self.data)[0])
+        out["d_grad_norm"] = self._update("discriminator", d_loss)
+        out["d_updated"] = 1.0
+        return {**out, **as_floats(g_logs, "g_"), **as_floats(d_logs, "d_")}
+
+    # -- phases --------------------------------------------------------------
+
+    def run(self) -> None:
+        """Run the remaining phases in order, saving last.pt after each."""
+        steps = {"autoencoder": self.args.ae_steps, "supervisor": self.args.sup_steps,
+                 "joint": self.args.joint_steps}
+        step_fns = {"autoencoder": self._autoencoder_step, "supervisor": self._supervisor_step,
+                    "joint": self._joint_step}
+        while self.phase_index < len(PHASES):
+            phase = PHASES[self.phase_index]
+            reason = self._skip_reason(phase)
+            if reason:
+                print(f"Phase {phase}: skipped, {reason}")
+                self._next_phase()
+                continue
+            self._run_phase(phase, steps[phase], step_fns[phase])
+            self._next_phase()
+            self.save()
+
+    def _skip_reason(self, phase: str) -> str | None:
+        if not self.is_timegan and phase != "joint":
+            return "the baseline only has the adversarial phase"
+        if phase == "supervisor" and self.model.supervisor is None:
+            return "the ablation has no supervisor"
+        return None
+
+    def _next_phase(self) -> None:
+        self.phase_index, self.step = self.phase_index + 1, 0
+
+    def _run_phase(self, phase: str, total: int, step_fn: Callable[[], dict]) -> None:
+        print(f"Phase {phase}: steps {self.step} to {total}", flush=True)
+        if torch.cuda.is_available():
+            torch.cuda.reset_peak_memory_stats()
+        start, first, window = time.time(), self.step, []
+        self._mark = (time.time(), self.step)
+        if phase == "joint":
+            self._start_ema()
+        self.model.train()
+        while self.step < total:
+            if phase == "joint":
+                self._set_joint_lr(total)
+            window.append(step_fn())
+            if phase == "joint" and self.ema is not None:
+                self.ema.update_parameters(self.model)
+            self.step += 1
+            if self.step % self.args.log_every == 0 or self.step == total:
+                self._log_train(phase, window)
+                window = []
+            if self.step % self.args.eval_every == 0 or self.step == total:
+                self._account(phase)
+                self._evaluate(phase)
+        print(f"Phase {phase} finished: {self.step - first} steps in {time.time() - start:.0f} s", flush=True)
+
+    def _account(self, phase: str) -> None:
+        """Add the time and steps since the last mark to the phase record.
+
+        Runs before every evaluation, so an interrupted run keeps its timing.
+        Evaluation time is not counted.
+        """
+        then, step = self._mark
+        record = self.history["phases"].setdefault(phase, {"seconds": 0.0, "steps": 0})
+        record["seconds"] += time.time() - then
+        record["steps"] += self.step - step
+        record["steps_per_second"] = record["steps"] / max(record["seconds"], 1e-9)
+        record["sequences_per_second"] = record["steps_per_second"] * self.args.batch_size
+        if torch.cuda.is_available():
+            peak = torch.cuda.max_memory_allocated() / 2**20
+            record["peak_vram_mib"] = max(record.get("peak_vram_mib", 0.0), peak)
+
+    def _validate(self, model: torch.nn.Module, phase: str) -> dict:
+        """Validation metrics, averaged over tickers, plus each ticker's score.
+
+        An unconditional model trained on several tickers gives the same kind
+        of window for every ticker; each is decoded with that ticker's scaling.
+        """
+        per_ticker = []
+        for k, evaluator in enumerate(self.evaluators):
+            with model.conditioned_on(k if model.conditional else None):
+                metrics = evaluator.reconstruction(model)
+                if phase == "joint":
+                    metrics.update(evaluator.samples(model))
+            per_ticker.append(metrics)
+        if len(per_ticker) == 1:
+            return per_ticker[0]
+        out = {key: sum(m[key] for m in per_ticker) / len(per_ticker) for key in per_ticker[0]}
+        if phase == "joint":
+            out.update({f"score_{s.config['ticker']}": m["score"] for s, m in zip(self.splits, per_ticker)})
+        return out
+
+    def _evaluate(self, phase: str) -> None:
+        """Validate, keep best.pt in the joint phase, then save last.pt."""
+        model = self._eval_model(phase)
+        model.eval()
+        metrics = self._validate(model, phase)
+        if phase == "joint":
+            if metrics["score"] < self.best_score:
+                self.best_score = metrics["score"]
+                self.save_best(metrics["score"], model)
+                metrics["new_best"] = 1.0
+        self._log_val(phase, metrics)
+        self.model.train()
+        self.save()
+        self._mark = (time.time(), self.step)
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
+def main(argv: list[str] | None = None) -> Path:
+    args = parse_args(argv)
+    run_dir = Path(args.out_dir) / args.run_name
+    if args.resume:
+        args = resumed_args(run_dir, defaults=parse_args(["--data-dir", args.data_dir]), device=args.device)
+    elif (run_dir / LAST_CHECKPOINT).exists():
+        raise FileExistsError(f"{run_dir} already has a run; pass --resume or choose another --run-name")
+    run_dir.mkdir(parents=True, exist_ok=True)
+    torch.manual_seed(args.seed)
+
+    splits = [build_datasets(args.data_dir, ticker=ticker, seq_len=args.seq_len,
+                             representation=args.representation, event_stride=args.event_stride,
+                             clock_seconds=args.clock_seconds, scaling=args.scaling, eval_stride=args.eval_stride,
+                             move_flag=args.move_flag, hold_flags=args.hold_flags)
+              for ticker in (args.tickers or [args.ticker])]
+    trainer = Trainer(args, splits, run_dir)
+    if args.resume:
+        trainer.load()
+    print(f"Run {run_dir} on {args.device}: {sum(len(s.train) for s in splits)} training windows, "
+          f"parameters {trainer.model.parameter_counts()}", flush=True)
+    data = splits[0].config if len(splits) == 1 else [s.config for s in splits]
+    config = {"args": vars(args), "model": asdict(trainer.model.config), "data": data}
+    (run_dir / "config.json").write_text(json.dumps(config, indent=1))
+
+    trainer.run()
+    plot_history(trainer.history, run_dir / "training_curves.png")
+    print(f"Saved {run_dir / 'training_curves.png'}")
+    if len(splits) == 1:
+        evaluate_test(run_dir, splits[0], args.device, args.seed)
+    else:
+        for k, s in enumerate(splits):
+            ticker = s.config["ticker"]
+            print(f"\n{ticker}:")
+            evaluate_test(run_dir, s, args.device, args.seed, label=k, name=f"test_metrics_{ticker}.json")
+    return run_dir
+
+
+if __name__ == "__main__":
+    main()

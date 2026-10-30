@@ -1,0 +1,135 @@
+"""Sample trained models and audit their synthetic books against the test hour.
+
+For each --run, loads best.pt with the data pipeline it was trained on,
+decodes synthetic windows into order books and scores them (validity, KL,
+SSIM, volatility clustering, price paths, VWAP, diversity) against the test
+hour (15:00 to 15:50). Results go to <run>/predict/. Several runs also get
+comparison tables. --gif animates a typical synthetic window next to its
+closest real one. --export-assets copies the README figures into a folder.
+
+Examples (from the folder holding src/):
+  python src/predict.py --data-dir ../../../../data/LOBSTER --run runs/structured_timegan_s0
+  python src/predict.py --data-dir ../../../../data/LOBSTER --run runs/structured_timegan_s0 runs/structured_rgan_s0
+  python src/predict.py --data-dir ../../../../data/LOBSTER --run runs/structured_timegan_s0 --gif
+  python src/predict.py --export-assets assets
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import torch
+
+from helpers.animation import animate_grid, animate_pair
+from helpers.audit import (RunAudit, audit_run, comparison_table, print_example_book, print_summary, typical_pair,
+                           vwap_table)
+from helpers.checkpoints import load_run
+from helpers.realism import realism_table, ticker_report, ticker_tables
+from helpers.plotting import (export_readme_assets, plot_autopsy, plot_volatility_acf, plot_volatility_comparison,
+                              plot_vwap)
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--data-dir", default=None, help="Folder holding the LOBSTER CSVs (needed with --run)")
+    p.add_argument("--run", nargs="+", default=[], help="One or more run folders produced by train.py")
+    p.add_argument("--n-samples", type=int, default=1024)
+    p.add_argument("--ssim-pool", type=int, default=256,
+                   help="Synthetic and training windows used for nearest-match SSIM")
+    p.add_argument("--out-dir", default="runs/comparison", help="Where the multi-run comparison goes")
+    p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    p.add_argument("--gif", action="store_true",
+                   help="Also write book.gif per ticker, and books_grid.gif for a run on several tickers")
+    p.add_argument("--export-assets", default=None, metavar="DIR",
+                   help="Copy the README figures out of --runs-dir into DIR and draw the ladder-rate figure")
+    p.add_argument("--runs-dir", default="runs", help="Folder holding every run, read by --export-assets")
+    args = p.parse_args(argv)
+    if not args.run and args.export_assets is None:
+        p.error("give --run, --export-assets or both")
+    if args.run and args.data_dir is None:
+        p.error("--run needs --data-dir to rebuild the data pipeline")
+    return args
+
+
+def audit_and_save(run_dir: Path, args: argparse.Namespace) -> list[RunAudit]:
+    """Audit one run and write autopsy.png, volatility_acf.png, vwap.png and summary.json to <run>/predict/.
+
+    A run on several tickers is audited once per ticker, as <run>[<ticker>],
+    into <run>/predict/<ticker>/; a conditional model samples that ticker.
+    With --gif, book.gif goes next to them, plus books_grid.gif with every
+    ticker for a run on several.
+    """
+    model, splits, state = load_run(run_dir, args.data_dir, args.device)
+    audits = []
+    for k, ticker_splits in enumerate(splits):
+        name, out_dir = run_dir.name, run_dir / "predict"
+        if len(splits) > 1:
+            ticker = ticker_splits.config["ticker"]
+            name, out_dir = f"{run_dir.name}[{ticker}]", out_dir / ticker
+        print(f"\n=== {name}: {type(model).__name__}, {ticker_splits.representation} encoding, "
+              f"checkpoint step {state['step']} ===")
+        with model.conditioned_on(k if model.conditional else None):
+            audit = audit_run(model, ticker_splits, name, state["step"], n_samples=args.n_samples,
+                              ssim_pool=args.ssim_pool, seed=args.seed, device=args.device)
+        print_example_book(audit.fake_books[0])
+
+        out_dir.mkdir(parents=True, exist_ok=True)
+        plot_autopsy(audit.cases, audit.fake_books, audit.real_books, audit.nearest, audit.data_range,
+                     f"{name}: five rule-selected synthetic windows vs their closest real test window",
+                     out_dir / "autopsy.png")
+        plot_volatility_acf(audit.acf, name, out_dir / "volatility_acf.png")
+        plot_vwap(audit.vwap, name, out_dir / "vwap.png")
+        if args.gif:
+            animate_pair(*typical_pair(audit), f"{name}: typical synthetic window and its closest real test window",
+                         out_dir / "book.gif")
+        (out_dir / "summary.json").write_text(json.dumps(audit.summary, indent=1))
+        print_summary(audit.summary)
+        audits.append(audit)
+    if args.gif and len(audits) > 1:
+        animate_grid({a.summary["ticker"]: typical_pair(a) for a in audits},
+                     f"{run_dir.name}: a typical window of each ticker", run_dir / "predict" / "books_grid.gif")
+    return audits
+
+
+def write_comparison(audits: list[RunAudit], out_dir: Path) -> None:
+    """comparison.md (main and VWAP tables) and the combined volatility plot.
+
+    Real references come from the first run.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    table_path = out_dir / "comparison.md"
+    summaries = [a.summary for a in audits]
+    realism = [realism_table(s["realism"], f"{s['run']} ({s['ticker']}): realism checks") for s in summaries]
+    # The across-stock checks need exactly one run per ticker, e.g. the five per-stock models.
+    tickers = [s["ticker"] for s in summaries]
+    across = None
+    if len(set(tickers)) == len(tickers) > 1:
+        across = ticker_report({a.summary["ticker"]: a.realism_features for a in audits})
+        (out_dir / "tickers.json").write_text(json.dumps(across, indent=1))
+    per_stock = ticker_tables([(s["run"], s["ticker"], s["realism"]) for s in summaries], across)
+    # UTF-8 so the superscripts survive on Windows.
+    table_path.write_text("\n".join([comparison_table(summaries), vwap_table(summaries), per_stock, *realism]),
+                          encoding="utf-8")
+    reference = audits[0].acf
+    plot_volatility_comparison(reference["real_train"], reference["real_test"],
+                               {a.summary["run"]: a.acf["synthetic"] for a in audits},
+                               out_dir / "volatility_acf_comparison.png")
+    print(f"\nComparison written to {table_path}\n")
+    print(table_path.read_text(encoding="utf-8"))
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = parse_args(argv)
+    audits = [audit for r in args.run for audit in audit_and_save(Path(r), args)]
+    if len(audits) > 1:
+        write_comparison(audits, Path(args.out_dir))
+    if args.export_assets is not None:
+        # After the audit, so a combined call exports the figures it just redrew.
+        for path in export_readme_assets(Path(args.runs_dir), Path(args.export_assets)):
+            print(f"{path}  {path.stat().st_size / 1024:.0f} KB")
+
+
+if __name__ == "__main__":
+    main()
