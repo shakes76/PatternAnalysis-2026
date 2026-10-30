@@ -1,0 +1,4 @@
+# Figure-rendering environment used for report generation (separate from training).
+# Python 3.14.0; the original training snapshots are retained unchanged.
+matplotlib==3.10.8
+numpy==2.4.4
