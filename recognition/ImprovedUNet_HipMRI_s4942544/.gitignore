@@ -1,0 +1,29 @@
+# The specification forbids committing datasets or model files.
+# Committing multi-gigabyte files results in pull-request rejection.
+
+# Model weights / checkpoints
+*.pt
+*.pth
+*.ckpt
+
+# Medical image data
+*.nii
+*.nii.gz
+data/
+
+# Generated outputs (README figures are copied into images/ deliberately, which is NOT ignored)
+audit_out/
+outputs/
+mapping_out/
+runs/
+eval/
+logs/
+
+# Slurm logs
+*.out
+*.err
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
