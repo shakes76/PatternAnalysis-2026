@@ -1,0 +1,108 @@
+{
+  "mlp": {
+    "ece": 0.024764118846997377,
+    "error_auroc": 0.8216542062771701,
+    "mean_conf_correct": 0.860494077205658,
+    "mean_conf_wrong": 0.6307315230369568,
+    "rule": {
+      "threshold": 0.9994605183601379,
+      "test_coverage": 0.18470204565668544,
+      "test_accuracy": 0.9919743178170144,
+      "routed_to_human": 2750,
+      "errors_caught": 600,
+      "errors_total": 605
+    }
+  },
+  "gcn": {
+    "ece": 0.01860658451141674,
+    "error_auroc": 0.8320283846798702,
+    "mean_conf_correct": 0.9517471790313721,
+    "mean_conf_wrong": 0.7555093169212341,
+    "rule": {
+      "threshold": 0.9959630370140076,
+      "test_coverage": 0.43195967981025796,
+      "test_accuracy": 0.9890185312285518,
+      "routed_to_human": 1916,
+      "errors_caught": 176,
+      "errors_total": 192
+    },
+    "combined_rule": {
+      "test_coverage": 0.38986065816780313,
+      "test_accuracy": 0.9931558935361217,
+      "errors_automated": 9
+    }
+  },
+  "gcn_failures": [
+    {
+      "node": 16052,
+      "page_name": "Senate of Canada - Sénat du Canada",
+      "true": "government",
+      "gcn_pred": "politician",
+      "gcn_conf": 1.0,
+      "mlp_pred": "politician",
+      "mlp_conf": 0.965,
+      "degree": 266,
+      "neighbour_classes": {
+        "government": 0.0,
+        "politician": 1.0
+      }
+    },
+    {
+      "node": 9254,
+      "page_name": "Comedy Central UK",
+      "true": "company",
+      "gcn_pred": "tvshow",
+      "gcn_conf": 1.0,
+      "mlp_pred": "tvshow",
+      "mlp_conf": 1.0,
+      "degree": 16,
+      "neighbour_classes": {
+        "company": 0.06,
+        "tvshow": 0.94
+      }
+    },
+    {
+      "node": 20083,
+      "page_name": "DIRECTV Puerto Rico",
+      "true": "company",
+      "gcn_pred": "tvshow",
+      "gcn_conf": 1.0,
+      "mlp_pred": "company",
+      "mlp_conf": 0.817,
+      "degree": 69,
+      "neighbour_classes": {
+        "company": 0.16,
+        "government": 0.01,
+        "politician": 0.01,
+        "tvshow": 0.81
+      }
+    },
+    {
+      "node": 9708,
+      "page_name": "Fractal",
+      "true": "tvshow",
+      "gcn_pred": "company",
+      "gcn_conf": 1.0,
+      "mlp_pred": "company",
+      "mlp_conf": 0.997,
+      "degree": 1,
+      "neighbour_classes": {
+        "company": 1.0
+      }
+    },
+    {
+      "node": 15612,
+      "page_name": "Laurent Fabius",
+      "true": "politician",
+      "gcn_pred": "government",
+      "gcn_conf": 1.0,
+      "mlp_pred": "politician",
+      "mlp_conf": 1.0,
+      "degree": 100,
+      "neighbour_classes": {
+        "government": 0.86,
+        "politician": 0.14
+      }
+    }
+  ]
+}

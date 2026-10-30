@@ -1,0 +1,39 @@
+{
+  "accuracy": 0.9430773791876668,
+  "macro_f1": 0.9408105619700508,
+  "macro_auroc": 0.9898443489540929,
+  "per_class": {
+    "company": {
+      "precision": 0.9515962924819773,
+      "recall": 0.9476923076923077,
+      "f1-score": 0.9496402877697842,
+      "support": 975.0
+    },
+    "government": {
+      "precision": 0.9344106463878327,
+      "recall": 0.9525193798449613,
+      "f1-score": 0.9433781190019194,
+      "support": 1032.0
+    },
+    "politician": {
+      "precision": 0.947856315179606,
+      "recall": 0.9445727482678984,
+      "f1-score": 0.9462116830537883,
+      "support": 866.0
+    },
+    "tvshow": {
+      "precision": 0.9363449691991786,
+      "recall": 0.912,
+      "f1-score": 0.9240121580547113,
+      "support": 500.0
+    }
+  },
+  "model": "gcn",
+  "best_epoch": 110,
+  "best_val_acc": 0.950148344039917,
+  "parameters": 12676,
+  "train_seconds": 177.0711542880017,
+  "inference_ms_full_graph": 175.3767250047531,
+  "peak_gpu_mb": null,
+  "device": "cpu"
+}
