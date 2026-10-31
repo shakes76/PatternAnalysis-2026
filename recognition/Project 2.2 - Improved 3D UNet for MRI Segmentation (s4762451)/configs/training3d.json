@@ -1,0 +1,103 @@
+{
+  "run_id": "improved_3d_unet",
+  "pipeline": {
+    "train": true,
+    "predict": true,
+    "evaluate": true,
+    "test": true,
+    "plot": true
+  },
+  "amp": true,
+  "data": {
+    "root": "data",
+    "image_dir": "semantic_MRs",
+    "label_dir": "semantic_labels_only",
+    "image_suffix": "_LFOV.nii.gz",
+    "label_suffix": "_SEMANTIC.nii.gz",
+    "patient_separator": "_Week",
+    "channel_names": [
+      "LFOV MRI (sequence unverified)"
+    ],
+    "labels_file": "configs/labels.json",
+    "splits_file": "configs/splits.json"
+  },
+  "preprocessing": {
+    "target_spacing_mm": null,
+    "crop_margin": 4,
+    "foreground_threshold": 0.0,
+    "normalization_epsilon": 1e-08
+  },
+  "model": {
+    "channels": [
+      16,
+      32,
+      64,
+      128,
+      256
+    ],
+    "strides": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "kernel_size": 3,
+    "norm_epsilon": 1e-05,
+    "norm_affine": true,
+    "negative_slope": 0.01,
+    "dropout": 0.3,
+    "bias": true
+  },
+  "loss": {
+    "include_background": false,
+    "probability_floor": 1e-07,
+    "lambda_dice": 1.0,
+    "lambda_ce": 1.0
+  },
+  "training": {
+    "epochs": 250,
+    "steps_per_epoch": 100,
+    "validation_interval": 10,
+    "learning_rate": 0.0005,
+    "weight_decay": 1e-05,
+    "lr_decay": 0.999,
+    "batch_size": 1
+  },
+  "inference": {
+    "overlap": 0.5,
+    "batch_size": 2,
+    "sigma_scale": 0.125,
+    "checkpoint": "best",
+    "partition": "validation",
+    "prediction_id": "validation",
+    "weight_floor": 0.0001,
+    "patch_size": [
+      96,
+      96,
+      96
+    ]
+  },
+  "evaluation": {
+    "dice_target": 0.7
+  },
+  "testing": {
+    "prediction_id": "test",
+    "figure_id": "test_figures"
+  },
+  "graphs": {
+    "figure_id": "figures",
+    "overlay_cases": [],
+    "max_overlay_cases": 3,
+    "slice_fraction": 0.5,
+    "dpi": 140,
+    "alpha": 0.4,
+    "label_cmap": "tab10",
+    "image_cmap": "gray",
+    "figure_size": [
+      14,
+      10
+    ],
+    "point_size": 12,
+    "jitter": 0.08
+  }
+}
