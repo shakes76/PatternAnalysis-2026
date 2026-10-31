@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+
+# Visual Studio Code
+.vscode/
+
+# Temp/Log files
+*.log
+*.tmp
+*.env
+*.sh
+
+# model weights, datasets, and prediction results
+/models
+/datasets
+/prediction_results
+/output
