@@ -1,0 +1,28 @@
+100% 143/143 [00:38<00:00,  3.71it/s]
+100% 143/143 [00:18<00:00,  7.64it/s]
+100% 41/41 [00:10<00:00,  3.81it/s]
+100% 41/41 [00:05<00:00,  7.65it/s]
+Train volumes: 143 | validation volumes: 41
+Dataset setup time: 73.87661457061768
+Parameters: 9464674
+Epoch [1/10] Train Loss: 0.5640 | Val Loss: 0.4579 | Val DSC Background: 0.9849 Body: 0.9360 Bone: 0.6450 Bladder: 0.7840 Rectum: 0.0000 Prostate: 0.1004 | Peak VRAM: 21.46 GB | Elapsed: 44.0s
+Epoch [2/10] Train Loss: 0.4020 | Val Loss: 0.3742 | Val DSC Background: 0.9905 Body: 0.9573 Bone: 0.7077 Bladder: 0.7480 Rectum: 0.0000 Prostate: 0.4838 | Peak VRAM: 21.46 GB | Elapsed: 77.8s
+Epoch [3/10] Train Loss: 0.3114 | Val Loss: 0.2259 | Val DSC Background: 0.9928 Body: 0.9625 Bone: 0.7558 Bladder: 0.7966 Rectum: 0.6227 Prostate: 0.6007 | Peak VRAM: 21.46 GB | Elapsed: 111.7s
+Epoch [4/10] Train Loss: 0.2110 | Val Loss: 0.2232 | Val DSC Background: 0.9931 Body: 0.9676 Bone: 0.7880 Bladder: 0.8048 Rectum: 0.6075 Prostate: 0.5636 | Peak VRAM: 21.46 GB | Elapsed: 145.6s
+Epoch [5/10] Train Loss: 0.1764 | Val Loss: 0.1707 | Val DSC Background: 0.9933 Body: 0.9716 Bone: 0.8336 Bladder: 0.8761 Rectum: 0.7700 Prostate: 0.5751 | Peak VRAM: 21.46 GB | Elapsed: 179.5s
+Epoch [6/10] Train Loss: 0.1521 | Val Loss: 0.1853 | Val DSC Background: 0.9949 Body: 0.9742 Bone: 0.8219 Bladder: 0.9072 Rectum: 0.6231 Prostate: 0.5932 | Peak VRAM: 21.46 GB | Elapsed: 213.2s
+Epoch [7/10] Train Loss: 0.1357 | Val Loss: 0.1274 | Val DSC Background: 0.9956 Body: 0.9778 Bone: 0.8542 Bladder: 0.8997 Rectum: 0.8137 Prostate: 0.7219 | Peak VRAM: 21.46 GB | Elapsed: 247.0s
+Epoch [8/10] Train Loss: 0.1194 | Val Loss: 0.1211 | Val DSC Background: 0.9953 Body: 0.9777 Bone: 0.8627 Bladder: 0.9116 Rectum: 0.8194 Prostate: 0.7304 | Peak VRAM: 21.46 GB | Elapsed: 281.0s
+Epoch [9/10] Train Loss: 0.1067 | Val Loss: 0.1124 | Val DSC Background: 0.9974 Body: 0.9829 Bone: 0.8775 Bladder: 0.9099 Rectum: 0.8348 Prostate: 0.7429 | Peak VRAM: 21.46 GB | Elapsed: 314.9s
+Epoch [10/10] Train Loss: 0.1050 | Val Loss: 0.1130 | Val DSC Background: 0.9975 Body: 0.9835 Bone: 0.8840 Bladder: 0.9094 Rectum: 0.8410 Prostate: 0.7275 | Peak VRAM: 21.46 GB | Elapsed: 348.7s
+Training took 348.73324489593506 secs or 5.8122207482655845 mins in total
+best validation min class DSC: 0.7429273128509521 saved to ./unet3d_hipmri.pt
+Peak VRAM allocated: 21.46 GB | Peak VRAM reserved: 25.51 GB
+
+Plot data (also saved in unet3d_plot_data.json)
+Loss plot: x=epoch, lines = train_loss and val_loss (Diceloss)
+DSC plot: x=epoch, one line per class in val_dice, dashed horizontal line at the 0.9 target
+epoch=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+train_loss=[0.564, 0.402, 0.3114, 0.211, 0.1764, 0.1521, 0.1357, 0.1194, 0.1067, 0.105]
+val_loss=[0.4579, 0.3742, 0.2259, 0.2232, 0.1707, 0.1853, 0.1274, 0.1211, 0.1124, 0.113]
+val_dice={'Background': [0.9849, 0.9905, 0.9928, 0.9931, 0.9933, 0.9949, 0.9956, 0.9953, 0.9974, 0.9975], 'Body': [0.936, 0.9573, 0.9625, 0.9676, 0.9716, 0.9742, 0.9778, 0.9777, 0.9829, 0.9835], 'Bone': [0.645, 0.7077, 0.7558, 0.788, 0.8336, 0.8219, 0.8542, 0.8627, 0.8775, 0.884], 'Bladder': [0.784, 0.748, 0.7966, 0.8048, 0.8761, 0.9072, 0.8997, 0.9116, 0.9099, 0.9094], 'Rectum': [0.0, 0.0, 0.6227, 0.6075, 0.77, 0.6231, 0.8137, 0.8194, 0.8348, 0.841], 'Prostate': [0.1004, 0.4838, 0.6007, 0.5636, 0.5751, 0.5932, 0.7219, 0.7304, 0.7429, 0.7275]}
