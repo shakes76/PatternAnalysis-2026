@@ -275,6 +275,10 @@ produce a silhouette of the class.
 
 Likewise, a more intuitive visualisation can be seen below in.
 
+![sliding](images/3d_sliding.gif)
+
+*Figure 0DFDSF: sliding*
+
 ### 7.3 Test Set Performance
 *Table 6: Inference results with unseen test set*
 
