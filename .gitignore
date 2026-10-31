@@ -1,0 +1,14 @@
+# Python bytecode
+__pycache__/
+
+# PyTorch model weights
+*.pth
+*.pt
+
+# Data
+*.nii
+*.nii.gz
+
+# macOS junk
+.DS_Store
+
