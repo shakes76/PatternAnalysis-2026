@@ -111,12 +111,12 @@ skip connections that transfer information between the encoder and the decoder o
 connection is what mitigates the loss of information (preserves spatial detail) as it gets downsampled in the encoders 
 and passes through the (bottleneck) latent layer.
 </p>
-<p style="text-align: center;">
+<div align="center">
 
 ![Architecture diagram](images/unet.png)
 
 *Figure 2: Architecture of a U-Net*
-</p>
+</div>
 
 <p style="text-align: justify;">
 The role of the encoder is to extract abstract features of an input. In the middle, the bottleneck holds the most abstract, highest-
