@@ -308,6 +308,11 @@ on the training dataset that may reduce the volume shy of 30% of the original si
 dropout of 31%. The training parameters forced the network to learn from volumes where the foreground and 
 organ locations vary with every volume. Conversely, during validation we fed the network whole consistent volumes, which could 
 be why the training losses are consistently marginally higher.
+
+Although we ran 80 epochs, Figure 4 tells us that we may be able to reduce the epochs to up to 50 depending on where we 
+define as the plateau point of the training loss curves. This would make it comparable to training the 2D Improved U-Net, 
+where the only parameter now is the training time per epoch.
+
 </p>
 
 ### 7.2 Example Predictions
@@ -528,8 +533,8 @@ dimensionality of the model.
 
 | Model             | Parameters | Approx size in FP32 (MB) | Peak VRAM Allocated (GB) | Peak VRAM Reserved (GB) | Training time | Mean Inference time   |
 |-------------------|------------|--------------------------|--------------------------|-------------------------|---------------|-----------------------|
-| 2D Improved U-Net | 2,055,186  | 7.84                     | 1.67                     | 2.15                    | ~20 mins      | 40 ms / batch (of 42) |
-| 3D Improved U-Net | 5,944,914  | 22.68                    | 16.14                    | 22.82                   | ~76 mins      | 90 ms  / volume       |
+| 2D Improved U-Net | 2,055,186  | 7.84                     | 1.67                     | 2.15                    | ~29 s / epoch | 40 ms / batch (of 42) |
+| 3D Improved U-Net | 5,944,914  | 22.68                    | 16.14                    | 22.82                   | ~55 s / epoch | 90 ms  / volume       |
 
 
 
@@ -538,6 +543,9 @@ It is evident that training on 3D volumes take up significantly more resources. 
 the peak VRAM allocated went up to almost 10x the 2D resources. On top of that, feeding the full `256x256x128` volumes 
 from the training set into the network will eventually cause an OOM error on the A100s. As a result, patch-training had 
 to be implemented. 
+
+Despite having almost 3x the parameters, the training time per epoch for the 3D Improved U-Net was only about 2.2x longer 
+than the 2D U-Net version.
 
 
 ### 8.5 Recommendation to the Project Manager
@@ -556,8 +564,8 @@ The 3D network showed a considerable higher dice score (0.833 compared to 0.762 
 (0.7955 vs 0.8357) but most importantly, even with the full 3D context, the 3D Improved U-Net was not able to remove the 
 boundary failures that was present in the 2D counterpart. Similarly, both networks underpredicted (FNR higher) at the 
 superior end and overpredicted (FPR higher) at the inferior ends. On top of that, the 3D model required about 9.7× the 
-peak GPU memory (16.1 GB vs 1.7 GB) and about 3.8× the training time, so the extra context did not translate into 
-measurable clinical benefit for the cost.
+peak GPU memory (16.1 GB vs 1.7 GB) and about 2.2× the training time (assuming we reduce the epochs to 50 as suggested
+in section 7.1), so the extra context did not translate into any significant measurable clinical benefit for the cost.
 
 #### Where the 3D Improved U-Net Performs Better
 
