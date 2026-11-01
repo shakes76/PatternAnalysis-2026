@@ -1,0 +1,33 @@
+device: cuda | model: siamese | epochs: 30 | seed: 42
+epoch   1 | train loss 0.124310 | val loss 0.111200 | val pair_auroc 0.6969 pair_acc 0.6366 | 27.0s  (saved best)
+epoch   2 | train loss 0.116635 | val loss 0.105059 | val pair_auroc 0.7326 pair_acc 0.6726 | 26.7s  (saved best)
+epoch   3 | train loss 0.114422 | val loss 0.110439 | val pair_auroc 0.7118 pair_acc 0.6568 | 27.2s
+epoch   4 | train loss 0.114321 | val loss 0.104415 | val pair_auroc 0.7390 pair_acc 0.6815 | 26.5s  (saved best)
+epoch   5 | train loss 0.112996 | val loss 0.110544 | val pair_auroc 0.7098 pair_acc 0.6331 | 26.1s
+epoch   6 | train loss 0.112017 | val loss 0.106321 | val pair_auroc 0.7224 pair_acc 0.6509 | 25.8s
+epoch   7 | train loss 0.109955 | val loss 0.104543 | val pair_auroc 0.7378 pair_acc 0.6815 | 27.0s
+epoch   8 | train loss 0.108564 | val loss 0.097840 | val pair_auroc 0.7705 pair_acc 0.7022 | 25.9s  (saved best)
+epoch   9 | train loss 0.108934 | val loss 0.103765 | val pair_auroc 0.7398 pair_acc 0.6736 | 26.2s
+epoch  10 | train loss 0.107045 | val loss 0.098289 | val pair_auroc 0.7657 pair_acc 0.6933 | 26.3s
+epoch  11 | train loss 0.102956 | val loss 0.095146 | val pair_auroc 0.7838 pair_acc 0.7209 | 26.2s  (saved best)
+epoch  12 | train loss 0.102758 | val loss 0.096465 | val pair_auroc 0.7786 pair_acc 0.7046 | 27.2s
+epoch  13 | train loss 0.104202 | val loss 0.096344 | val pair_auroc 0.7767 pair_acc 0.7061 | 27.3s
+epoch  14 | train loss 0.103016 | val loss 0.092567 | val pair_auroc 0.7939 pair_acc 0.7189 | 26.5s  (saved best)
+epoch  15 | train loss 0.102745 | val loss 0.092629 | val pair_auroc 0.7940 pair_acc 0.7175 | 26.0s
+epoch  16 | train loss 0.102170 | val loss 0.098528 | val pair_auroc 0.7648 pair_acc 0.6889 | 26.7s
+epoch  17 | train loss 0.101584 | val loss 0.092550 | val pair_auroc 0.7960 pair_acc 0.7155 | 26.7s  (saved best)
+epoch  18 | train loss 0.101144 | val loss 0.097053 | val pair_auroc 0.7753 pair_acc 0.6933 | 26.0s
+epoch  19 | train loss 0.099833 | val loss 0.094785 | val pair_auroc 0.7855 pair_acc 0.7091 | 25.9s
+epoch  20 | train loss 0.100203 | val loss 0.094582 | val pair_auroc 0.7844 pair_acc 0.7086 | 26.8s
+epoch  21 | train loss 0.099995 | val loss 0.093941 | val pair_auroc 0.7884 pair_acc 0.7115 | 26.2s
+epoch  22 | train loss 0.100784 | val loss 0.097561 | val pair_auroc 0.7752 pair_acc 0.6938 | 26.5s
+epoch  23 | train loss 0.098862 | val loss 0.100292 | val pair_auroc 0.7574 pair_acc 0.6795 | 26.3s
+epoch  24 | train loss 0.098920 | val loss 0.090848 | val pair_auroc 0.8021 pair_acc 0.7219 | 26.3s  (saved best)
+epoch  25 | train loss 0.097809 | val loss 0.094596 | val pair_auroc 0.7858 pair_acc 0.7160 | 26.5s
+epoch  26 | train loss 0.098890 | val loss 0.097083 | val pair_auroc 0.7723 pair_acc 0.7017 | 26.6s
+epoch  27 | train loss 0.098071 | val loss 0.089790 | val pair_auroc 0.8062 pair_acc 0.7283 | 25.9s  (saved best)
+epoch  28 | train loss 0.099005 | val loss 0.095395 | val pair_auroc 0.7808 pair_acc 0.6992 | 26.3s
+epoch  29 | train loss 0.096591 | val loss 0.090361 | val pair_auroc 0.8039 pair_acc 0.7244 | 26.0s
+epoch  30 | train loss 0.096782 | val loss 0.091751 | val pair_auroc 0.8003 pair_acc 0.7258 | 26.7s
+test loss (best checkpoint, epoch 27): 0.107898
+parameters: 421792 | total training time: 793.5s | peak GPU memory: 2144.8 MB

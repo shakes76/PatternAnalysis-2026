@@ -1,0 +1,103 @@
+device: cuda | model: baseline | epochs: 100 | seed: 7
+epoch   1 | train loss 1.036832 | val loss 1.029052 | 10.0s  (saved best)
+epoch   2 | train loss 0.983707 | val loss 1.087657 | 9.6s
+epoch   3 | train loss 0.962655 | val loss 0.985123 | 9.6s  (saved best)
+epoch   4 | train loss 0.942712 | val loss 0.863833 | 9.7s  (saved best)
+epoch   5 | train loss 0.890287 | val loss 0.822808 | 9.6s  (saved best)
+epoch   6 | train loss 0.873056 | val loss 0.864286 | 9.8s
+epoch   7 | train loss 0.854029 | val loss 0.818579 | 10.0s  (saved best)
+epoch   8 | train loss 0.847976 | val loss 0.781008 | 10.0s  (saved best)
+epoch   9 | train loss 0.832415 | val loss 0.776157 | 9.6s  (saved best)
+epoch  10 | train loss 0.831223 | val loss 0.807305 | 9.6s
+epoch  11 | train loss 0.834329 | val loss 0.730838 | 9.7s  (saved best)
+epoch  12 | train loss 0.820696 | val loss 0.733315 | 9.4s
+epoch  13 | train loss 0.819354 | val loss 0.750102 | 9.6s
+epoch  14 | train loss 0.813174 | val loss 0.774537 | 9.6s
+epoch  15 | train loss 0.812163 | val loss 0.748974 | 9.6s
+epoch  16 | train loss 0.803668 | val loss 0.726368 | 10.0s  (saved best)
+epoch  17 | train loss 0.798070 | val loss 0.733007 | 10.1s
+epoch  18 | train loss 0.804046 | val loss 0.739591 | 9.5s
+epoch  19 | train loss 0.779735 | val loss 0.744554 | 9.6s
+epoch  20 | train loss 0.785848 | val loss 0.766478 | 9.5s
+epoch  21 | train loss 0.792818 | val loss 0.744554 | 9.8s
+epoch  22 | train loss 0.789362 | val loss 0.735165 | 9.6s
+epoch  23 | train loss 0.781079 | val loss 0.790113 | 9.7s
+epoch  24 | train loss 0.799159 | val loss 0.735864 | 9.5s
+epoch  25 | train loss 0.785757 | val loss 0.738492 | 9.7s
+epoch  26 | train loss 0.774282 | val loss 0.714808 | 9.9s  (saved best)
+epoch  27 | train loss 0.774822 | val loss 0.766599 | 9.5s
+epoch  28 | train loss 0.776157 | val loss 0.756029 | 9.6s
+epoch  29 | train loss 0.784193 | val loss 0.746760 | 9.5s
+epoch  30 | train loss 0.773773 | val loss 0.743860 | 9.6s
+epoch  31 | train loss 0.765818 | val loss 0.734910 | 9.6s
+epoch  32 | train loss 0.768552 | val loss 0.741266 | 9.4s
+epoch  33 | train loss 0.757324 | val loss 0.804820 | 9.5s
+epoch  34 | train loss 0.778508 | val loss 0.757854 | 9.7s
+epoch  35 | train loss 0.771599 | val loss 0.713455 | 9.7s  (saved best)
+epoch  36 | train loss 0.760589 | val loss 0.744886 | 9.7s
+epoch  37 | train loss 0.763428 | val loss 0.756817 | 9.7s
+epoch  38 | train loss 0.757215 | val loss 0.711898 | 9.5s  (saved best)
+epoch  39 | train loss 0.757685 | val loss 0.724931 | 9.4s
+epoch  40 | train loss 0.751468 | val loss 0.743053 | 9.3s
+epoch  41 | train loss 0.747111 | val loss 0.716625 | 9.6s
+epoch  42 | train loss 0.752754 | val loss 0.722477 | 9.6s
+epoch  43 | train loss 0.754927 | val loss 0.716331 | 9.6s
+epoch  44 | train loss 0.739479 | val loss 0.749844 | 9.6s
+epoch  45 | train loss 0.742515 | val loss 0.704482 | 9.6s  (saved best)
+epoch  46 | train loss 0.745896 | val loss 0.736011 | 9.4s
+epoch  47 | train loss 0.763173 | val loss 0.779116 | 9.6s
+epoch  48 | train loss 0.753208 | val loss 0.718786 | 9.4s
+epoch  49 | train loss 0.744434 | val loss 0.718863 | 9.5s
+epoch  50 | train loss 0.737862 | val loss 0.730947 | 9.5s
+epoch  51 | train loss 0.757843 | val loss 0.734251 | 9.4s
+epoch  52 | train loss 0.728767 | val loss 0.730050 | 9.5s
+epoch  53 | train loss 0.729354 | val loss 0.765413 | 9.8s
+epoch  54 | train loss 0.740888 | val loss 0.735090 | 9.6s
+epoch  55 | train loss 0.732845 | val loss 0.722859 | 9.9s
+epoch  56 | train loss 0.731088 | val loss 0.782006 | 9.5s
+epoch  57 | train loss 0.736618 | val loss 0.766691 | 9.5s
+epoch  58 | train loss 0.737780 | val loss 0.716825 | 9.6s
+epoch  59 | train loss 0.728837 | val loss 0.712697 | 9.4s
+epoch  60 | train loss 0.728517 | val loss 0.749662 | 9.4s
+epoch  61 | train loss 0.724794 | val loss 0.704022 | 9.6s  (saved best)
+epoch  62 | train loss 0.721629 | val loss 0.726475 | 9.6s
+epoch  63 | train loss 0.724673 | val loss 0.711194 | 9.8s
+epoch  64 | train loss 0.727339 | val loss 0.707912 | 9.7s
+epoch  65 | train loss 0.715983 | val loss 0.720713 | 9.5s
+epoch  66 | train loss 0.714157 | val loss 0.726201 | 9.6s
+epoch  67 | train loss 0.714503 | val loss 0.707955 | 9.6s
+epoch  68 | train loss 0.714290 | val loss 0.744026 | 9.8s
+epoch  69 | train loss 0.708042 | val loss 0.744837 | 9.5s
+epoch  70 | train loss 0.707873 | val loss 0.748668 | 9.5s
+epoch  71 | train loss 0.704958 | val loss 0.719340 | 9.4s
+epoch  72 | train loss 0.708107 | val loss 0.753917 | 9.5s
+epoch  73 | train loss 0.725674 | val loss 0.719019 | 9.4s
+epoch  74 | train loss 0.710933 | val loss 0.759200 | 9.8s
+epoch  75 | train loss 0.714858 | val loss 0.730832 | 9.6s
+epoch  76 | train loss 0.703676 | val loss 0.724388 | 10.0s
+epoch  77 | train loss 0.710267 | val loss 0.720742 | 9.5s
+epoch  78 | train loss 0.712441 | val loss 0.727313 | 9.4s
+epoch  79 | train loss 0.712242 | val loss 0.720458 | 9.7s
+epoch  80 | train loss 0.719360 | val loss 0.707052 | 9.5s
+epoch  81 | train loss 0.702301 | val loss 0.704845 | 9.5s
+epoch  82 | train loss 0.710403 | val loss 0.720985 | 9.5s
+epoch  83 | train loss 0.690728 | val loss 0.789697 | 9.5s
+epoch  84 | train loss 0.698454 | val loss 0.774671 | 9.5s
+epoch  85 | train loss 0.711809 | val loss 0.723259 | 9.3s
+epoch  86 | train loss 0.702219 | val loss 0.709225 | 9.4s
+epoch  87 | train loss 0.695294 | val loss 0.735052 | 9.7s
+epoch  88 | train loss 0.702075 | val loss 0.765327 | 9.3s
+epoch  89 | train loss 0.701857 | val loss 0.732556 | 9.5s
+epoch  90 | train loss 0.690839 | val loss 0.725418 | 9.6s
+epoch  91 | train loss 0.683702 | val loss 0.707978 | 9.5s
+epoch  92 | train loss 0.692022 | val loss 0.694801 | 9.7s  (saved best)
+epoch  93 | train loss 0.682567 | val loss 0.712300 | 9.8s
+epoch  94 | train loss 0.678026 | val loss 0.707613 | 9.6s
+epoch  95 | train loss 0.695362 | val loss 0.721811 | 9.4s
+epoch  96 | train loss 0.685887 | val loss 0.716836 | 9.6s
+epoch  97 | train loss 0.687744 | val loss 0.696965 | 9.7s
+epoch  98 | train loss 0.685261 | val loss 0.701166 | 9.6s
+epoch  99 | train loss 0.678299 | val loss 0.721605 | 9.6s
+epoch 100 | train loss 0.679618 | val loss 0.745251 | 9.7s
+test loss (best checkpoint, epoch 92): 0.819859
+parameters: 389153 | total training time: 959.8s | peak GPU memory: 1084.8 MB

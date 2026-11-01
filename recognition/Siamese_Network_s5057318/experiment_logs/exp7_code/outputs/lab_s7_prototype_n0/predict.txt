@@ -1,0 +1,248 @@
+device: cuda | seed: 7 | cudnn: True
+siamese scoring: --score prototype | --n_refs 0 (every training image)
+val: 2029 images | test: 2151 images (176 malignant)
+baseline checkpoint: seed 7, split_seed 42 | using: seed 7, split_seed 42
+siamese checkpoint: seed 7, split_seed 42 | using: seed 7, split_seed 42
+
+== Operating points (chosen on VAL only) ==
+baseline  t_low=-0.6597  t_high=1.2686
+siamese   t_low=-0.2378  t_high=0.4337
+
+== Test metrics (2151 images, 176 malignant) ==
+always-benign accuracy: 0.9182
+baseline  AUROC=0.8672  PR-AUC=0.4652
+   at t_low=-0.6597: recall=0.9261  precision=0.1622  F1=0.2760  balanced acc=0.7499
+   at t_high=1.2686: recall=0.4318  precision=0.4176  F1=0.4246  balanced acc=0.6891
+siamese   AUROC=0.8711  PR-AUC=0.4348
+   at t_low=-0.2378: recall=0.9034  precision=0.1797  F1=0.2997  balanced acc=0.7679
+   at t_high=0.4337: recall=0.5000  precision=0.4335  F1=0.4644  balanced acc=0.7209
+
+== Triage tiers on test (thresholds from val) ==
+baseline
+   auto-clear  1146 images ( 53.3%)  malignant in tier: 13 (malignant share of tier: 1.1%)
+   refer        823 images ( 38.3%)  malignant in tier: 87 (malignant share of tier: 10.6%)
+   flag         182 images (  8.5%)  malignant in tier: 76 (malignant share of tier: 41.8%)
+   malignant images in auto-clear: 13 of 176 (7.4%)
+siamese
+   auto-clear  1266 images ( 58.9%)  malignant in tier: 17 (malignant share of tier: 1.3%)
+   refer        682 images ( 31.7%)  malignant in tier: 71 (malignant share of tier: 10.4%)
+   flag         203 images (  9.4%)  malignant in tier: 88 (malignant share of tier: 43.3%)
+   malignant images in auto-clear: 17 of 176 (9.7%)
+
+== Bootstrap by real_id (1000 resamples, 716 test IDs, 0 skipped for one class only) ==
+AUROC   baseline [0.8367, 0.8939]  siamese [0.8400, 0.9004]  siamese-baseline [-0.0095, 0.0172]
+PR-AUC  baseline [0.3847, 0.5426]  siamese [0.3556, 0.5232]  siamese-baseline [-0.0745, 0.0277]
+
+== By source (same t_low / t_high as above, chosen on all val images) ==
+source IP: 1721 test images, 89 malignant, always-benign accuracy 0.9483
+   baseline  AUROC=0.8036  PR-AUC=0.2038
+      auto-clear   961 images ( 55.8%)  malignant in tier: 13 (malignant share of tier: 1.4%)
+      refer        698 images ( 40.6%)  malignant in tier: 63 (malignant share of tier: 9.0%)
+      flag          62 images (  3.6%)  malignant in tier: 13 (malignant share of tier: 21.0%)
+      malignant images in auto-clear: 13 of 89 (14.6%)
+   siamese   AUROC=0.8077  PR-AUC=0.1914
+      auto-clear  1064 images ( 61.8%)  malignant in tier: 17 (malignant share of tier: 1.6%)
+      refer        575 images ( 33.4%)  malignant in tier: 51 (malignant share of tier: 8.9%)
+      flag          82 images (  4.8%)  malignant in tier: 21 (malignant share of tier: 25.6%)
+      malignant images in auto-clear: 17 of 89 (19.1%)
+source HAM: 430 test images, 87 malignant, always-benign accuracy 0.7977
+   baseline  AUROC=0.8934  PR-AUC=0.6842
+      auto-clear   185 images ( 43.0%)  malignant in tier: 0 (malignant share of tier: 0.0%)
+      refer        125 images ( 29.1%)  malignant in tier: 24 (malignant share of tier: 19.2%)
+      flag         120 images ( 27.9%)  malignant in tier: 63 (malignant share of tier: 52.5%)
+      malignant images in auto-clear: 0 of 87 (0.0%)
+   siamese   AUROC=0.9014  PR-AUC=0.6489
+      auto-clear   202 images ( 47.0%)  malignant in tier: 0 (malignant share of tier: 0.0%)
+      refer        107 images ( 24.9%)  malignant in tier: 20 (malignant share of tier: 18.7%)
+      flag         121 images ( 28.1%)  malignant in tier: 67 (malignant share of tier: 55.4%)
+      malignant images in auto-clear: 0 of 87 (0.0%)
+
+== AUROC bootstrap by real_id within each source (1000 resamples) ==
+IP (286 IDs, 0 skipped): baseline [0.7582, 0.8492]  siamese [0.7589, 0.8565]  siamese-baseline [-0.0189, 0.0283]
+HAM (430 IDs, 0 skipped): baseline [0.8569, 0.9236]  siamese [0.8681, 0.9300]  siamese-baseline [-0.0136, 0.0280]
+
+== Confidence of mistakes ==
+baseline
+   malignant images in auto-clear: 13  (isic_id, real_id, source, score, t_low - score)
+      ISIC_3778192  IP_8972853  IP  score=-3.2586  t_low-score=2.5989
+      ISIC_6352565  IP_4130585  IP  score=-2.3588  t_low-score=1.6990
+      ISIC_6526489  IP_5550558  IP  score=-2.2455  t_low-score=1.5858
+      ISIC_6516710  IP_2465701  IP  score=-1.8247  t_low-score=1.1650
+      ISIC_1159891  IP_8702124  IP  score=-1.7657  t_low-score=1.1060
+      ISIC_7346228  IP_1039004  IP  score=-1.1154  t_low-score=0.4557
+      ISIC_8564474  IP_6649505  IP  score=-1.1107  t_low-score=0.4509
+      ISIC_3909039  IP_9623174  IP  score=-0.9135  t_low-score=0.2538
+      ISIC_0946787  IP_9738076  IP  score=-0.8709  t_low-score=0.2112
+      ISIC_3673080  IP_4251788  IP  score=-0.8547  t_low-score=0.1949
+      ISIC_7730937  IP_3281766  IP  score=-0.7559  t_low-score=0.0961
+      ISIC_7084553  IP_4745288  IP  score=-0.7409  t_low-score=0.0812
+      ISIC_8207974  IP_8702124  IP  score=-0.6930  t_low-score=0.0333
+   median (t_low - score) over 1133 benign images in auto-clear: 2.3224   [malignant mistakes: 0.4509]
+   benign images in flag: 106  (isic_id, real_id, source, score, score - t_high)
+      ISIC_0027920  HAM_0001390  HAM  score=4.7513  score-t_high=3.4827
+      ISIC_6712494  IP_6017204  IP  score=3.6405  score-t_high=2.3719
+      ISIC_0033088  HAM_0003927  HAM  score=3.6088  score-t_high=2.3402
+      ISIC_0031993  HAM_0006887  HAM  score=3.0595  score-t_high=1.7909
+      ISIC_0028581  HAM_0003758  HAM  score=3.0409  score-t_high=1.7723
+      ISIC_0030273  HAM_0004524  HAM  score=2.9581  score-t_high=1.6895
+      ISIC_4342416  IP_5686827  IP  score=2.8646  score-t_high=1.5960
+      ISIC_0033564  HAM_0003969  HAM  score=2.6999  score-t_high=1.4313
+      ISIC_0033772  HAM_0004204  HAM  score=2.6431  score-t_high=1.3746
+      ISIC_0033845  HAM_0001739  HAM  score=2.6424  score-t_high=1.3738
+      ISIC_0034131  HAM_0005106  HAM  score=2.5641  score-t_high=1.2955
+      ISIC_0034212  HAM_0003755  HAM  score=2.4738  score-t_high=1.2052
+      ISIC_3587744  IP_5917089  IP  score=2.4709  score-t_high=1.2023
+      ISIC_2460105  IP_6894159  IP  score=2.4148  score-t_high=1.1462
+      ISIC_0030551  HAM_0004445  HAM  score=2.3722  score-t_high=1.1036
+      ISIC_0024458  HAM_0005590  HAM  score=2.3563  score-t_high=1.0877
+      ISIC_2134753  IP_5111058  IP  score=2.2824  score-t_high=1.0139
+      ISIC_0026872  HAM_0006746  HAM  score=2.2725  score-t_high=1.0040
+      ISIC_8241457  IP_7610036  IP  score=2.2670  score-t_high=0.9984
+      ISIC_0030737  HAM_0003119  HAM  score=2.2586  score-t_high=0.9900
+      ISIC_8524333  IP_8490189  IP  score=2.2488  score-t_high=0.9802
+      ISIC_0028372  HAM_0006482  HAM  score=2.2367  score-t_high=0.9681
+      ISIC_8155787  IP_5972253  IP  score=2.2360  score-t_high=0.9674
+      ISIC_0028223  HAM_0006595  HAM  score=2.2069  score-t_high=0.9384
+      ISIC_0034260  HAM_0004705  HAM  score=2.1996  score-t_high=0.9311
+      ... and 81 more
+   median (score - t_high) over 76 malignant images in flag: 1.1505   [benign mistakes: 0.5496]
+siamese
+   malignant images in auto-clear: 17  (isic_id, real_id, source, score, t_low - score)
+      ISIC_6352565  IP_4130585  IP  score=-0.5466  t_low-score=0.3088
+      ISIC_6516710  IP_2465701  IP  score=-0.5449  t_low-score=0.3071
+      ISIC_3778192  IP_8972853  IP  score=-0.5432  t_low-score=0.3054
+      ISIC_1159891  IP_8702124  IP  score=-0.5426  t_low-score=0.3048
+      ISIC_6526489  IP_5550558  IP  score=-0.5292  t_low-score=0.2914
+      ISIC_8207974  IP_8702124  IP  score=-0.5227  t_low-score=0.2849
+      ISIC_0914168  IP_3659172  IP  score=-0.5210  t_low-score=0.2832
+      ISIC_2306349  IP_9092661  IP  score=-0.5196  t_low-score=0.2818
+      ISIC_3159924  IP_2584339  IP  score=-0.5054  t_low-score=0.2676
+      ISIC_6285925  IP_5399626  IP  score=-0.4592  t_low-score=0.2214
+      ISIC_4967586  IP_7517320  IP  score=-0.4284  t_low-score=0.1906
+      ISIC_4936662  IP_0777867  IP  score=-0.3902  t_low-score=0.1524
+      ISIC_1881133  IP_5399626  IP  score=-0.3307  t_low-score=0.0929
+      ISIC_9130157  IP_7702038  IP  score=-0.2951  t_low-score=0.0573
+      ISIC_3673080  IP_4251788  IP  score=-0.2901  t_low-score=0.0523
+      ISIC_1124434  IP_3391715  IP  score=-0.2535  t_low-score=0.0157
+      ISIC_8564474  IP_6649505  IP  score=-0.2388  t_low-score=0.0009
+   median (t_low - score) over 1249 benign images in auto-clear: 0.3064   [malignant mistakes: 0.2676]
+   benign images in flag: 115  (isic_id, real_id, source, score, score - t_high)
+      ISIC_0030273  HAM_0004524  HAM  score=0.5442  score-t_high=0.1105
+      ISIC_0028581  HAM_0003758  HAM  score=0.5429  score-t_high=0.1092
+      ISIC_5223280  IP_8785062  IP  score=0.5428  score-t_high=0.1091
+      ISIC_6712494  IP_6017204  IP  score=0.5422  score-t_high=0.1084
+      ISIC_0033088  HAM_0003927  HAM  score=0.5414  score-t_high=0.1077
+      ISIC_0028223  HAM_0006595  HAM  score=0.5384  score-t_high=0.1046
+      ISIC_2134753  IP_5111058  IP  score=0.5378  score-t_high=0.1041
+      ISIC_0027567  HAM_0004830  HAM  score=0.5341  score-t_high=0.1004
+      ISIC_0033564  HAM_0003969  HAM  score=0.5328  score-t_high=0.0991
+      ISIC_0032181  HAM_0003369  HAM  score=0.5326  score-t_high=0.0989
+      ISIC_0032423  HAM_0001014  HAM  score=0.5313  score-t_high=0.0976
+      ISIC_0034115  HAM_0000581  HAM  score=0.5313  score-t_high=0.0975
+      ISIC_0032443  HAM_0005484  HAM  score=0.5299  score-t_high=0.0962
+      ISIC_0030737  HAM_0003119  HAM  score=0.5278  score-t_high=0.0940
+      ISIC_0032849  HAM_0006231  HAM  score=0.5275  score-t_high=0.0937
+      ISIC_0034131  HAM_0005106  HAM  score=0.5255  score-t_high=0.0918
+      ISIC_0029693  HAM_0002305  HAM  score=0.5249  score-t_high=0.0912
+      ISIC_0551392  IP_9960131  IP  score=0.5244  score-t_high=0.0906
+      ISIC_0025637  HAM_0001460  HAM  score=0.5230  score-t_high=0.0893
+      ISIC_0034212  HAM_0003755  HAM  score=0.5223  score-t_high=0.0885
+      ISIC_0027920  HAM_0001390  HAM  score=0.5219  score-t_high=0.0881
+      ISIC_0031016  HAM_0001603  HAM  score=0.5212  score-t_high=0.0874
+      ISIC_4566200  IP_1197949  IP  score=0.5203  score-t_high=0.0865
+      ISIC_0028264  HAM_0003187  HAM  score=0.5203  score-t_high=0.0865
+      ISIC_3587744  IP_5917089  IP  score=0.5200  score-t_high=0.0863
+      ... and 90 more
+   median (score - t_high) over 88 malignant images in flag: 0.0889   [benign mistakes: 0.0534]
+
+== Malignant rate by test-score decile (10 equal-count bins, lowest scores first) ==
+baseline
+   bin  images  score range                malignant  rate
+     1     216  [  -5.5983,   -4.2619]          0    0.0%
+     2     215  [  -4.2614,   -3.5403]          0    0.0%
+     3     215  [  -3.5288,   -2.7180]          1    0.5%
+     4     215  [  -2.7164,   -1.7137]          4    1.9%
+     5     215  [  -1.7088,   -0.8532]          5    2.3%
+     6     215  [  -0.8474,   -0.3335]         10    4.7%
+     7     215  [  -0.3319,    0.0370]         11    5.1%
+     8     215  [   0.0391,    0.4215]         27   12.6%
+     9     215  [   0.4232,    1.1198]         31   14.4%
+    10     215  [   1.1243,    5.7002]         87   40.5%
+siamese
+   bin  images  score range                malignant  rate
+     1     216  [  -0.5499,   -0.5483]          0    0.0%
+     2     215  [  -0.5483,   -0.5472]          0    0.0%
+     3     215  [  -0.5472,   -0.5439]          2    0.9%
+     4     215  [  -0.5438,   -0.5243]          3    1.4%
+     5     215  [  -0.5242,   -0.4199]          6    2.8%
+     6     215  [  -0.4153,   -0.1989]          7    3.3%
+     7     215  [  -0.1968,    0.0476]         15    7.0%
+     8     215  [   0.0483,    0.2690]         19    8.8%
+     9     215  [   0.2690,    0.4241]         32   14.9%
+    10     215  [   0.4247,    0.5442]         92   42.8%
+
+== Auto-clear miss rate (malignant in auto-clear / all malignant), Wilson 95% ==
+baseline  13 of 176 = 7.4%  95% interval [4.37%, 12.23%]
+siamese   17 of 176 = 9.7%  95% interval [6.12%, 14.92%]
+
+saved /home/Student/s5057318/exp7_code/outputs/lab_s7_prototype_n0/score_hist.png and /home/Student/s5057318/exp7_code/outputs/lab_s7_prototype_n0/failures.png
+
+== Resources ==
+model      parameters   peak GPU mem (test inference)   ms/image
+baseline       389153                        840.9 MB       0.12
+siamese        421792                        840.9 MB       0.12
+siamese reference-set embedding (separate): 9881 images in 1.46s = 0.15 ms/image (one-off cost)
+
+== Alternative thresholds chosen on VAL only (predict malignant when score >= threshold) ==
+baseline (a) maximise balanced accuracy: threshold=0.0588
+   val (overall) n= 2029 malignant= 186  accuracy=0.8176  recall=0.8710  precision=0.3189  F1=0.4669  balanced acc=0.8416
+   test overall  n= 2151 malignant= 176  accuracy=0.7555  recall=0.8068  precision=0.2240  F1=0.3506  balanced acc=0.7789
+   test IP       n= 1721 malignant=  89  accuracy=0.7722  recall=0.6517  precision=0.1384  F1=0.2283  balanced acc=0.7152
+   test HAM      n=  430 malignant=  87  accuracy=0.6884  recall=0.9655  precision=0.3907  F1=0.5563  balanced acc=0.7918
+baseline (b) highest recall with val accuracy >= 0.80: threshold=-0.0100
+   val (overall) n= 2029 malignant= 186  accuracy=0.8048  recall=0.8817  precision=0.3048  F1=0.4530  balanced acc=0.8394
+   test overall  n= 2151 malignant= 176  accuracy=0.7397  recall=0.8239  precision=0.2151  F1=0.3412  balanced acc=0.7780
+   test IP       n= 1721 malignant=  89  accuracy=0.7554  recall=0.6854  precision=0.1344  F1=0.2247  balanced acc=0.7223
+   test HAM      n=  430 malignant=  87  accuracy=0.6767  recall=0.9655  precision=0.3818  F1=0.5472  balanced acc=0.7845
+siamese (a) maximise balanced accuracy: threshold=-0.1709
+   val (overall) n= 2029 malignant= 186  accuracy=0.7590  recall=0.9409  precision=0.2680  F1=0.4172  balanced acc=0.8408
+   test overall  n= 2151 malignant= 176  accuracy=0.6755  recall=0.8920  precision=0.1878  F1=0.3103  balanced acc=0.7741
+   test IP       n= 1721 malignant=  89  accuracy=0.6734  recall=0.7978  precision=0.1154  F1=0.2017  balanced acc=0.7322
+   test HAM      n=  430 malignant=  87  accuracy=0.6837  recall=0.9885  precision=0.3891  F1=0.5584  balanced acc=0.7975
+siamese (b) highest recall with val accuracy >= 0.80: threshold=0.0311
+   val (overall) n= 2029 malignant= 186  accuracy=0.8088  recall=0.8710  precision=0.3080  F1=0.4551  balanced acc=0.8367
+   test overall  n= 2151 malignant= 176  accuracy=0.7462  recall=0.8182  precision=0.2188  F1=0.3453  balanced acc=0.7790
+   test IP       n= 1721 malignant=  89  accuracy=0.7496  recall=0.6742  precision=0.1299  F1=0.2178  balanced acc=0.7139
+   test HAM      n=  430 malignant=  87  accuracy=0.7326  recall=0.9655  precision=0.4286  F1=0.5936  balanced acc=0.8195
+
+== IP-only validation thresholds ==
+PASS  IP val images: 1595 (expected 1595)
+PASS  IP val malignant: 86 (expected 86)
+PASS  IP test images: 1721 (expected 1721)
+PASS  IP test malignant: 89 (expected 89)
+
+baseline: thresholds from IP validation images only
+  t_low=-0.8666  IP test images=1721 malignant=89  accuracy=0.5630  recall=0.8989  precision=0.0972  F1=0.1754  balanced acc=0.7218
+  t_high=1.7876  IP test images=1721 malignant=89  accuracy=0.9413  recall=0.0899  precision=0.2857  F1=0.1368  balanced acc=0.5388
+  balanced-accuracy=-0.1826  IP test images=1721 malignant=89  accuracy=0.7141  recall=0.7416  precision=0.1234  F1=0.2115  balanced acc=0.7271
+  three-tier table on IP test images (t_low / t_high above):
+     auto-clear   898 images ( 52.2%)  malignant in tier: 9 (malignant share of tier: 1.0%)
+     refer        795 images ( 46.2%)  malignant in tier: 72 (malignant share of tier: 9.1%)
+     flag          28 images (  1.6%)  malignant in tier: 8 (malignant share of tier: 28.6%)
+     malignant images in auto-clear: 9 of 89 (10.1%)
+     auto-clear miss rate: 9 of 89 = 10.1%  (Wilson 95% interval 5.4% to 18.1%)
+
+siamese: thresholds from IP validation images only
+  t_low=-0.4562  IP test images=1721 malignant=89  accuracy=0.5415  recall=0.8876  precision=0.0921  F1=0.1668  balanced acc=0.7052
+  t_high: none
+  balanced-accuracy=-0.2470  IP test images=1721 malignant=89  accuracy=0.6473  recall=0.8202  precision=0.1099  F1=0.1939  balanced acc=0.7290
+  three-tier table on IP test images (t_low / t_high above):
+     auto-clear   863 images ( 50.1%)  malignant in tier: 10 (malignant share of tier: 1.2%)
+     refer        858 images ( 49.9%)  malignant in tier: 79 (malignant share of tier: 9.2%)
+     flag           0 images (  0.0%)  malignant in tier: 0 (malignant share of tier: n/a)
+     malignant images in auto-clear: 10 of 89 (11.2%)
+     auto-clear miss rate: 10 of 89 = 11.2%  (Wilson 95% interval 6.2% to 19.5%)
+
+== Validation metrics ==
+baseline  AUROC=0.9114  PR-AUC=0.5577
+siamese   AUROC=0.9096  PR-AUC=0.5277

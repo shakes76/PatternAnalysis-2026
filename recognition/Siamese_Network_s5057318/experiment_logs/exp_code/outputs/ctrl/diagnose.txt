@@ -1,0 +1,31 @@
+device: cuda | out_dir: /home/Student/s5057318/exp_code/outputs/ctrl | seed: 42 | split_seed: 42 | k: 5 | n_refs: 200
+images: train 9881 (833 malignant) | val 2029 (186 malignant) | test 2151 (176 malignant)
+
+== 1. Reference noise: Siamese kNN score, k=5, 200 refs per class ==
+ref seed   val AUROC  val PR-AUC  test AUROC  test PR-AUC
+       1       0.8810      0.3849      0.8540      0.3113
+       2       0.8929      0.4161      0.8383      0.3195
+       3       0.8852      0.4226      0.8616      0.3272
+       4       0.8861      0.3899      0.8519      0.3155
+       5       0.9001      0.4756      0.8594      0.3311
+       6       0.9052      0.5290      0.8603      0.4143
+       7       0.8932      0.4692      0.8491      0.3764
+       8       0.8942      0.4346      0.8678      0.3806
+       9       0.8972      0.4838      0.8503      0.3658
+      10       0.8862      0.3715      0.8471      0.2889
+mean           0.8921      0.4377      0.8540      0.3430
+std (n-1)      0.0075      0.0506      0.0085      0.0391
+
+== 2. Frozen features + one linear layer (weighted BCE, 500 full-batch Adam steps, lr 0.05, best step chosen on val loss) ==
+siamese embeddings (128-d): best step 360, val loss 0.7322
+   val   AUROC=0.9099  PR-AUC=0.5580
+   test  AUROC=0.8709  PR-AUC=0.4363
+baseline pooled features (256-d): best step 37, val loss 0.7184
+   val   AUROC=0.9082  PR-AUC=0.5573
+   test  AUROC=0.8693  PR-AUC=0.4795
+
+== 3. Siamese embedding distances on val (5000 random pairs per type) ==
+pair type            mean   median      p10      p90
+benign-benign         0.3757   0.3525   0.0476   0.7526
+malignant-malignant   0.3750   0.3508   0.1748   0.6059
+benign-malignant      0.6382   0.6548   0.3220   0.9233

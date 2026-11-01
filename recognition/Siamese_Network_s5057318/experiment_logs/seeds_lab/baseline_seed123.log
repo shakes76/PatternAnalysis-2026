@@ -1,0 +1,33 @@
+device: cuda | model: baseline | epochs: 30 | seed: 123
+epoch   1 | train loss 1.031417 | val loss 0.930490 | 36.1s  (saved best)
+epoch   2 | train loss 0.992715 | val loss 0.911743 | 35.9s  (saved best)
+epoch   3 | train loss 0.980719 | val loss 0.888828 | 36.0s  (saved best)
+epoch   4 | train loss 0.932227 | val loss 0.865717 | 36.0s  (saved best)
+epoch   5 | train loss 0.892105 | val loss 0.817994 | 36.1s  (saved best)
+epoch   6 | train loss 0.859395 | val loss 0.772968 | 36.0s  (saved best)
+epoch   7 | train loss 0.853604 | val loss 0.925253 | 36.0s
+epoch   8 | train loss 0.832828 | val loss 0.782287 | 36.1s
+epoch   9 | train loss 0.835297 | val loss 0.774205 | 36.1s
+epoch  10 | train loss 0.824695 | val loss 0.750526 | 36.2s  (saved best)
+epoch  11 | train loss 0.833368 | val loss 0.788588 | 36.1s
+epoch  12 | train loss 0.823680 | val loss 0.773383 | 36.1s
+epoch  13 | train loss 0.806275 | val loss 0.772103 | 36.1s
+epoch  14 | train loss 0.805382 | val loss 0.826524 | 36.1s
+epoch  15 | train loss 0.822316 | val loss 0.750716 | 36.1s
+epoch  16 | train loss 0.810014 | val loss 0.769280 | 36.1s
+epoch  17 | train loss 0.809191 | val loss 0.723219 | 36.2s  (saved best)
+epoch  18 | train loss 0.811065 | val loss 0.734011 | 36.1s
+epoch  19 | train loss 0.802444 | val loss 0.729992 | 36.1s
+epoch  20 | train loss 0.790818 | val loss 0.745457 | 36.1s
+epoch  21 | train loss 0.784819 | val loss 0.728075 | 36.1s
+epoch  22 | train loss 0.787782 | val loss 0.789633 | 36.1s
+epoch  23 | train loss 0.773589 | val loss 0.729114 | 36.1s
+epoch  24 | train loss 0.795227 | val loss 0.730793 | 36.1s
+epoch  25 | train loss 0.763494 | val loss 0.767419 | 36.1s
+epoch  26 | train loss 0.780073 | val loss 0.724222 | 36.1s
+epoch  27 | train loss 0.773154 | val loss 0.739476 | 36.1s
+epoch  28 | train loss 0.778982 | val loss 0.728939 | 36.1s
+epoch  29 | train loss 0.778356 | val loss 0.762494 | 36.0s
+epoch  30 | train loss 0.764189 | val loss 0.748837 | 36.1s
+test loss (best checkpoint, epoch 17): 0.851318
+parameters: 389153 | total training time: 1082.8s | peak GPU memory: 1084.8 MB

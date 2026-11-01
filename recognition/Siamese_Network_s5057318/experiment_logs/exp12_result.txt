@@ -1,0 +1,4 @@
+   baseline: old run repeats itself
+   baseline: new = old (identical losses)
+   siamese: old run repeats itself
+   siamese: new = old (identical losses)

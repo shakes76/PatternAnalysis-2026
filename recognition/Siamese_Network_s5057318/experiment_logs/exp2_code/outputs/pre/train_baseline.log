@@ -1,0 +1,33 @@
+device: cuda | model: baseline | epochs: 30 | seed: 42
+epoch   1 | train loss 1.093672 | val loss 1.220524 | 12.5s  (saved best)
+epoch   2 | train loss 1.074373 | val loss 1.112115 | 12.3s  (saved best)
+epoch   3 | train loss 1.060774 | val loss 1.074290 | 12.1s  (saved best)
+epoch   4 | train loss 1.049702 | val loss 1.014789 | 12.0s  (saved best)
+epoch   5 | train loss 1.018105 | val loss 0.986091 | 12.3s  (saved best)
+epoch   6 | train loss 1.012481 | val loss 1.106133 | 12.6s
+epoch   7 | train loss 0.985217 | val loss 1.017768 | 12.1s
+epoch   8 | train loss 0.988705 | val loss 1.102446 | 11.9s
+epoch   9 | train loss 0.962333 | val loss 1.026100 | 11.6s
+epoch  10 | train loss 0.952878 | val loss 0.938244 | 11.6s  (saved best)
+epoch  11 | train loss 0.944787 | val loss 0.930863 | 12.2s  (saved best)
+epoch  12 | train loss 0.930884 | val loss 0.905075 | 12.4s  (saved best)
+epoch  13 | train loss 0.912503 | val loss 1.025921 | 12.4s
+epoch  14 | train loss 0.910733 | val loss 0.963349 | 12.3s
+epoch  15 | train loss 0.894484 | val loss 0.852399 | 12.3s  (saved best)
+epoch  16 | train loss 0.881853 | val loss 0.874025 | 12.3s
+epoch  17 | train loss 0.886432 | val loss 0.843259 | 12.2s  (saved best)
+epoch  18 | train loss 0.870399 | val loss 0.999672 | 12.0s
+epoch  19 | train loss 0.861479 | val loss 0.829537 | 12.3s  (saved best)
+epoch  20 | train loss 0.856529 | val loss 0.889688 | 12.5s
+epoch  21 | train loss 0.872676 | val loss 0.861897 | 12.4s
+epoch  22 | train loss 0.837561 | val loss 0.872231 | 12.1s
+epoch  23 | train loss 0.844632 | val loss 0.796875 | 12.2s  (saved best)
+epoch  24 | train loss 0.841438 | val loss 0.803725 | 12.1s
+epoch  25 | train loss 0.831720 | val loss 0.843059 | 12.4s
+epoch  26 | train loss 0.841830 | val loss 0.858649 | 12.4s
+epoch  27 | train loss 0.838391 | val loss 0.837414 | 12.4s
+epoch  28 | train loss 0.822666 | val loss 0.817374 | 12.0s
+epoch  29 | train loss 0.827154 | val loss 0.836780 | 12.2s
+epoch  30 | train loss 0.829003 | val loss 0.798422 | 12.2s
+test loss (best checkpoint, epoch 23): 0.911789
+parameters: 389153 | total training time: 366.1s | peak GPU memory: 1084.8 MB

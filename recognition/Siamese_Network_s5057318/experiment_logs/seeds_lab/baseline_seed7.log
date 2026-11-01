@@ -1,0 +1,33 @@
+device: cuda | model: baseline | epochs: 30 | seed: 7
+epoch   1 | train loss 1.038006 | val loss 1.019553 | 36.3s  (saved best)
+epoch   2 | train loss 0.987411 | val loss 1.052833 | 35.8s
+epoch   3 | train loss 0.964669 | val loss 0.936596 | 35.9s  (saved best)
+epoch   4 | train loss 0.948299 | val loss 0.854612 | 35.9s  (saved best)
+epoch   5 | train loss 0.894791 | val loss 0.843615 | 35.9s  (saved best)
+epoch   6 | train loss 0.877924 | val loss 0.849070 | 36.0s
+epoch   7 | train loss 0.861039 | val loss 0.880323 | 36.0s
+epoch   8 | train loss 0.852368 | val loss 0.786616 | 36.0s  (saved best)
+epoch   9 | train loss 0.839903 | val loss 0.742508 | 36.1s  (saved best)
+epoch  10 | train loss 0.836099 | val loss 0.811168 | 36.0s
+epoch  11 | train loss 0.833625 | val loss 0.739695 | 36.0s  (saved best)
+epoch  12 | train loss 0.823740 | val loss 0.749625 | 36.1s
+epoch  13 | train loss 0.823385 | val loss 0.741874 | 36.0s
+epoch  14 | train loss 0.810556 | val loss 0.783806 | 36.0s
+epoch  15 | train loss 0.810897 | val loss 0.742945 | 36.1s
+epoch  16 | train loss 0.804674 | val loss 0.761076 | 36.1s
+epoch  17 | train loss 0.805519 | val loss 0.742005 | 36.1s
+epoch  18 | train loss 0.802795 | val loss 0.732274 | 36.0s  (saved best)
+epoch  19 | train loss 0.785385 | val loss 0.750974 | 36.0s
+epoch  20 | train loss 0.783967 | val loss 0.768664 | 36.0s
+epoch  21 | train loss 0.792549 | val loss 0.746118 | 36.0s
+epoch  22 | train loss 0.789384 | val loss 0.746625 | 36.0s
+epoch  23 | train loss 0.784013 | val loss 0.805442 | 36.0s
+epoch  24 | train loss 0.799463 | val loss 0.754929 | 36.1s
+epoch  25 | train loss 0.788528 | val loss 0.747167 | 36.0s
+epoch  26 | train loss 0.772185 | val loss 0.708894 | 36.0s  (saved best)
+epoch  27 | train loss 0.776436 | val loss 0.780802 | 36.1s
+epoch  28 | train loss 0.776819 | val loss 0.753766 | 36.0s
+epoch  29 | train loss 0.786053 | val loss 0.745466 | 36.0s
+epoch  30 | train loss 0.772126 | val loss 0.744561 | 35.9s
+test loss (best checkpoint, epoch 26): 0.805701
+parameters: 389153 | total training time: 1080.2s | peak GPU memory: 1084.8 MB
