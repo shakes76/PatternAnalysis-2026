@@ -1,0 +1,142 @@
+Job started at Sun Nov  1 19:38:35 AEST 2026
+Running on node: a100-8
+Starting Python training script...
+Train/Val/Test Splits:  11460 660 540
+No patient overlap between train, val and test.
+There are 4152 prostate images
+There are 7308 non-prostate images
+There are 254 prostate images
+There are 406 non-prostate images
+There are 195 prostate images
+There are 345 non-prostate images
+Training dataset size:  11460
+Labels:  [0, 1, 2, 3, 4, 5]
+Number of labels:  6
+Training Standard UNet
+Total number of parameters:  7762630
+Trainable parameters:  7762630
+
+Epoch:  1
+Training Loss:  1.7874748922656174
+Validation Loss:  1.4058842658996582
+
+Best model loss (val_loss): 1.4059
+train 105.3s | val 5.2s | total 114.0s
+
+Epoch:  2
+Training Loss:  1.074954959343403
+Validation Loss:  0.9181568196841648
+
+Best model loss (val_loss): 0.9182
+train 103.1s | val 5.1s | total 111.5s
+
+Epoch:  3
+Training Loss:  0.6841037896018174
+Validation Loss:  0.6483272455987477
+
+Best model loss (val_loss): 0.6483
+train 102.9s | val 5.4s | total 111.3s
+
+Epoch:  4
+Training Loss:  0.4478242374894347
+Validation Loss:  0.47639433826719013
+
+Best model loss (val_loss): 0.4764
+train 104.5s | val 4.9s | total 112.3s
+
+Epoch:  5
+Training Loss:  0.2850692841667983
+Validation Loss:  0.3715997352486565
+
+Best model loss (val_loss): 0.3716
+train 105.4s | val 4.3s | total 112.4s
+
+Epoch:  6
+Training Loss:  0.1840433228895857
+Validation Loss:  0.3365313070161002
+
+Best model loss (val_loss): 0.3365
+train 101.1s | val 5.2s | total 109.0s
+
+Epoch:  7
+Training Loss:  0.12865972956824104
+Validation Loss:  0.30138957713331493
+
+Best model loss (val_loss): 0.3014
+train 105.4s | val 5.3s | total 113.6s
+
+Epoch:  8
+Training Loss:  0.10129933646545437
+Validation Loss:  0.3761554722275053
+train 101.4s | val 5.3s | total 106.7s
+
+Epoch:  9
+Training Loss:  0.09021869777055835
+Validation Loss:  0.2756998212564559
+
+Best model loss (val_loss): 0.2757
+train 101.0s | val 5.4s | total 109.2s
+
+Epoch:  10
+Training Loss:  0.07281664886555964
+Validation Loss:  0.29136682124364943
+train 101.9s | val 5.0s | total 106.9s
+
+Epoch:  11
+Training Loss:  0.0646501657939555
+Validation Loss:  0.2829497910681225
+train 101.2s | val 5.2s | total 106.4s
+
+Epoch:  12
+Training Loss:  0.05949849275285819
+Validation Loss:  0.2790814482030414
+train 104.4s | val 5.3s | total 109.7s
+
+Epoch:  13
+Training Loss:  0.05079516044151152
+Validation Loss:  0.28827670216560364
+train 100.7s | val 4.9s | total 105.7s
+
+Epoch:  14
+Training Loss:  0.0473321037351421
+Validation Loss:  0.2910084135475613
+train 107.3s | val 4.6s | total 111.9s
+
+Epoch:  15
+Training Loss:  0.045373865333191196
+Validation Loss:  0.29156990420250667
+train 101.7s | val 5.1s | total 106.9s
+
+Epoch:  16
+Training Loss:  0.04406914947175714
+Validation Loss:  0.2927210848955881
+train 105.3s | val 5.4s | total 110.7s
+
+Epoch:  17
+Training Loss:  0.04341152058213866
+Validation Loss:  0.29220013533319744
+train 100.9s | val 4.7s | total 105.6s
+
+Epoch:  18
+Training Loss:  0.043154331780243714
+Validation Loss:  0.29248460559617906
+train 105.0s | val 3.8s | total 108.8s
+
+Epoch:  19
+Training Loss:  0.04319373781800602
+Validation Loss:  0.2918937419142042
+train 103.1s | val 5.3s | total 108.4s
+
+Epoch:  20
+Training Loss:  0.04295976753644957
+Validation Loss:  0.2936611601284572
+train 101.0s | val 5.4s | total 106.3s
+Dice per channel: 
+Label: 0, Dice score: 0.9966
+Label: 1, Dice score: 0.9830
+Label: 2, Dice score: 0.9285
+Label: 3, Dice score: 0.9598
+Label: 4, Dice score: 0.8440
+Label: 5, Dice score: 0.8507
+Mean dice: 0.9271
+Job finished at Sun Nov  1 20:16:02 AEST 2026
