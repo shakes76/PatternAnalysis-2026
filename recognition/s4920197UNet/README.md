@@ -15,11 +15,59 @@ The data has 6 unique regions, there are about 38 patients in the data that need
 ### 4. Risks, Budget & Fallback: 
 The key risks of the model are overfitting, which would cause the model to be highly inacurate with unseen data, making it dangerous to use in the real world. If the model does not generalise then it cannot be safe to use and shouldn`t be relied on. One point to note is the class imbalance of the dataset. The most important label in the dataset is the prostate tumor label. This label is around 2% of the total volume of the scan. This means that a specialised loss function must be used to account for this factor. Since otherwise, the model will just label everything as non-tumor and it will be 98% correct. This is not a correct way of assessing model performance, so a dice loss function must be used to balance out the loss function from the class imbalance. A 2D model also risks not being able to take in full spatial context that a 3D model is able to. If good results are not achievable with a 2D model, then a 3D model may be the only choice, even if it is more computationally intensive.
 
-## Dependancies
+## Dependencies
 - Torch: this is a standard library for any deep learning task
 - nibabel: since the dataset is comprised of Nifti files, nibabel is used to load them onto the disk 
 - numpy: used to encode the nifti files into a format that is supported by the model, i.e. a 3D tensor of shape [1, 256, 128], later inputted to the model as [batch_size, 1, 256, 128]
 - matplotlib: This module is used for plotting performance metrics such as loss over time, heat maps of the trained model, etc. 
 
+## Results
+### Benchmarks
+The model achieved a mean IoU of 0.504. a dice coefficient of 0.257 on the prostate label. The model was able to achieve fast computational speeds, taking 0.09 seconds to output an image on average. Take note that since A viable GPU was not available for the model to use (lower than expected computational resources), the inference time will likely be even faster. The simple unet has a parameter count of 7696518
+
+These results are objectively worse than the benchmark model, meaning that a simplified Unet is likely not good enough for this task under the current model architechture. The benchmark model achieved slightly better IoU of 0.53 and an inference time of 0.03. The model has fewer parameters than the simple unet, scoring at 2397670 parameters, around 4x less than the simple unet. This is due to the simple unet having a very large amount of filters, starting out with 64. The standout feature of the benchmark model is its` 0.69 dice coefficient for the prostate label, which is much higher than the baseline model. This is a promising result and can be improved with better model training, data augmentation via clipping, rotation, etc. which wasnt able to be done due to time constraints. The simple Unet is actually better than the baseline model at segmenting classes 5 and 6, achieving a dice score of 0.59 and 0.63. Whereas the model achieved 0.32 and 0.28. These classes are especially important, since they represent the bladder and rectum, both very sensitive areas around which no error can be afforded. 
+
+I believe that even though the improved Unet shows promising results, it is not safe enough for a clinic. The IoU score of 0.53 implies a high inaccuracy and that the model has failed to generalise well. Perhaps more spatial context needs to be given to the model, so that it can achieve a higher score. The model should be retrained and tested with random data augmentation in order to 
+train it to see patterns better, otherwise it is too unsafe. Below are some error maps, which show in grey background, in white, where the model and truth mask overlap. In red are false positives and in blue are false negatives
+
+<table>
+  <tr>
+    <td><img src="visuals/$image1-c1comp.png" alt="Left Image" width="100%"></td>
+    <td><img src="visuals/$image1comp2.png" alt="Right Image" width="100%"></td>
+    <td><img src="visuals/$image1-comp3.png" alt="Right Image" width="100%"></td>
+    <td><img src="visuals/$image1-comp4.png" alt="Right Image" width="100%"></td>    
+  </tr>
+</table>
+Figure 1: error map of a scan
+It is clear that there architechtural flaws in the simple unet, because it has overlayed its results for the prostate tumor with the bones class. Otherwise, its segmentation of tumor, marked down as bone is ok.
+<table>
+  <tr>
+    <td><img src="visuals/$image2-c1.png" alt="Right Image" width="100%"></td>    
+    <td><img src="visuals/$i2-c2.png" alt="Left Image" width="100%"></td>
+    <td><img src="visuals/$i2-c3.png" alt="Right Image" width="100%"></td>
+    <td><img src="visuals/$i2-c4.png" alt="Right Image" width="100%"></td>
+  </tr>
+</table>
+It can be seen that the two models are quite accurate in predicting body outline and background
+<table>
+  <tr>
+    <td><img src="visuals/$i3-c1.png" alt="Left Image" width="100%"></td>
+    <td><img src="visuals/$i3-c2.png" alt="Right Image" width="100%"></td>
+    <td><img src="visuals/$i3-c3.png" alt="Right Image" width="100%"></td>
+    <td><img src="visuals/$i3-c4.png" alt="Right Image" width="100%"></td>    
+  </tr>
+</table>
+
+
+
 ## Artificial Intelligence Usage Disclosure
 I used Google Gemini as an enchanced search function, to further explain documentation and concepts such as hyperparameter tuning, U net architechture and other concepts. No Gemini generated code was used in my scripts, nor Gemini generated answers in my README
+
+average inference time: 0.09196116791831123
+dice scores prer class: 
+[tensor(0.9965), tensor(0.9266), tensor(0.6097), tensor(0.2574), tensor(0.5926), tensor(0.6389)]
+average IoU score: 0.5040650367736816
+average inference time: 0.030183675554063587
+dice scores prer class: 
+[tensor(0.9950), tensor(0.9811), tensor(0.9057), tensor(0.6963), tensor(0.3256), tensor(0.2832)]
+average IoU score: 0.5358808636665344
