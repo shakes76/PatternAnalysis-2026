@@ -1,0 +1,21 @@
+{
+  "mode": "full",
+  "total_params": 247577856,
+  "trainable_params": 247577856,
+  "train_seconds": 8505.22089204099,
+  "peak_gpu_gb": 6.286107540130615,
+  "seed": 42,
+  "config": {
+    "mode": "full",
+    "epochs": 2,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "lr": null,
+    "train_limit": null,
+    "val_limit": null,
+    "source_len": 256,
+    "target_len": 128,
+    "seed": 42,
+    "output_dir": "outputs/full"
+  }
+}

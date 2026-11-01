@@ -1,0 +1,21 @@
+{
+  "mode": "lora",
+  "total_params": 248462592,
+  "trainable_params": 884736,
+  "train_seconds": 9500.075868442655,
+  "peak_gpu_gb": 3.1399827003479004,
+  "seed": 42,
+  "config": {
+    "mode": "lora",
+    "epochs": 2,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "lr": null,
+    "train_limit": null,
+    "val_limit": null,
+    "source_len": 256,
+    "target_len": 128,
+    "seed": 42,
+    "output_dir": "outputs/lora"
+  }
+}

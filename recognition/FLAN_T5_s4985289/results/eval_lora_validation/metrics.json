@@ -1,0 +1,13 @@
+{
+  "rouge1": 0.714034784899966,
+  "rouge2": 0.5245126413760934,
+  "rougeL": 0.6608902709985962,
+  "rougeLsum": 0.6610015675421612,
+  "total_params": 248462592,
+  "trainable_params": 0,
+  "samples": 10000,
+  "seconds": 2550.8194332392886,
+  "seconds_per_report": 0.25508194332392886,
+  "generated_tokens_per_second": 175.8019380582054,
+  "peak_gpu_gb": 1.1578683853149414
+}

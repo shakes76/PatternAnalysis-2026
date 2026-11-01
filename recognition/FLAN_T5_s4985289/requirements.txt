@@ -1,0 +1,14 @@
+# COMP3710 - FLAN-T5 Radiology Report Summarisation
+# Python 3.11
+# Rangpur PyTorch build: 2.13.0+cu130
+
+torch==2.13.0
+transformers==5.19.0
+datasets==5.1.0
+peft==0.21.2
+accelerate==1.15.0
+
+evaluate==0.4.6
+rouge-score==0.1.2
+sentencepiece==0.2.2
+matplotlib==3.11.1
