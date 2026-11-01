@@ -177,7 +177,7 @@ Both adapted models substantially exceed the zero-shot baseline on lexical-overl
 
 **Figure 2.** Loss curves for LoRA and full fine-tuning. **Interpretation caution:** The `train_loss` in `train.py` is the mean of batch losses collected **while parameters are updated throughout each epoch** in `model.train()` mode. In contrast, `validation_loss` is measured **after each epoch** using the updated model in `model.eval()` mode. They are not losses computed at the same fixed checkpoint or under the same dropout conditions; direct magnitude comparisons must therefore be treated cautiously.
 
-Both training and validation loss decrease over the two epochs. The higher online training loss is compatible with these measurement differences, but the cause of the gap has **not yet been experimentally isolated**. A stronger check would recompute both train and validation loss using the same saved checkpoint in evaluation mode. Dataset size alone does not explain a difference in mean loss.
+Both training and validation loss decrease over the two epochs. The higher online training loss is compatible with these measurement differences, but the cause of the gap has **not yet been experimentally isolated**. A stronger check would recompute both train and validation loss using the same saved checkpoint in evaluation mode. 
 
 ### 7.3 Computational Cost
 
@@ -550,3 +550,14 @@ Any additional AI products or uses beyond the ChatGPT activities documented here
 [7] E. J. Hu et al., “LoRA: Low-Rank Adaptation of Large Language Models,” *ICLR*, 2022. https://arxiv.org/abs/2106.09685
 
 [8] W. Zhang, S. Chandra, B. Koopman, J. Dowling, and A. Nicolson, “AEHRC at BioLaySumm 2025: Leveraging T5 for Lay Summarisation of Radiology Reports,” *Proceedings of the 24th Workshop on Biomedical Language Processing (Shared Tasks)*, pp. 171–178, 2025. https://doi.org/10.18653/v1/2025.bionlp-share.21
+
+## Appendix A. Dataset and Implementation Resources
+
+The following resources were used for dataset preparation, model implementation, and fine-tuning.
+
+### Dataset
+- [BioLaySumm2025-LaymanRRG-opensource-track — Hugging Face](https://huggingface.co/datasets/BioLaySumm/BioLaySumm2025-LaymanRRG-opensource-track)
+
+### Pretrained Model
+- [google/flan-t5-base — Hugging Face](https://huggingface.co/google/flan-t5-base)
+
