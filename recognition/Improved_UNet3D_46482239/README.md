@@ -30,13 +30,13 @@ Improved U-Net with the same kind of residual connections and deep supervision b
 volumetric context soothes boundary errors at the prostate base and apex.
 </p>
 
-<p style="text-align: center;">
+<div align="center">
 
 ![Headline figure](images/headline_figure.png)
 
 *Figure 1: Sample segmentation featuring the (a) input, (b) ground truth, and (c) prediction overlay; produced by the 2D improved U-Net*
 
-</p>
+</div>
 
 ---
 
@@ -73,7 +73,6 @@ performance to a 2D Improved U-Net with the same residual blocks and deep superv
 Initial data audit yields the following information shown. Data is compatible, consistent, and can be split at a patient
 level.
 </p>
-<p style="text-align: center;">
 
 *Table 1: Prelimnary data audit*
 
@@ -85,10 +84,8 @@ level.
 | Patient ID format            | All file names are in the format of `LNNN_WeekX_LFOV/SEMANTIC.nii.gz`<br/>Ex. `B010_Week3_SEMANTIC.nii.gz` |
 | 2D Improved U-Net VRAM usage | 1.67 GB                                                                                                    |
 
-</p>
 
 ### 2.4 Risks, Budget and Fallback
-<p style="text-align: center;">
 
 *Table 2: risks and constraints*
 
@@ -98,7 +95,6 @@ level.
 | Class imbalance        | Dice Loss + Cross Entropy Loss in training                                                                   |
 | Exorbant training time | 2D Improved U-Net is available and working                                                                   |
 
-</p>
 
 ---
 
@@ -146,12 +142,12 @@ accompanied by an illustration featured in Figure 3 below.
 | Instance normalisation | normalises each channel of each sample independently across its spatial dimensions.                                                           | Allows for smaller batch sizes to save on VRAM usage since its outputs don’t depend on the batch                                                                                                                                    |
 </p>
 
-<p style="text-align: center;">
+<div align="center">
 
 ![Architecture diagram](images/improved_unet.png)
 
 *Figure 3: Architecture of an improved U-Net [1]*
-</p>
+</div>
 
 ### 3.3 Loss Function
 <p style="text-align: justify;">
@@ -288,12 +284,12 @@ python predict.py --model <"3D" or "2D">
 ## 7. Results
 
 ### 7.1 Training Curves
-<p style="text-align: center;">
+<div align="center">
 
 ![Loss and Dice curves](images/training_curve.png)
 
 *Figure 4: Training and validation DiceCE loss and DiceCE scores per epoch*
-</p>
+</div>
 
 <p style="text-align: justify;">
 Throughout the whole training segment, Figure 4 shows that both the validation and training curves exhibited erratic 
@@ -310,19 +306,19 @@ be why the training losses are consistently marginally higher.
 </p>
 
 ### 7.2 Example Predictions
-<p style="text-align: justify;">
+<div align="justify">
 Figure 5 illustrates the predictions for volume 1 of the test set, where it produced a scatter of the points in the 3D 
 scan that was wrongly predicted. It is immediately clear (from Figure 5), that the majority of errors in predictions lie 
 on the boundaries of each class, for it is where the scan outlines from the raw files may be murky; the error points 
 produce a silhouette of the class.
-</p>
+</div>
 
-<p style="text-align: center;">
+<div align="center">
 
 ![Predictions](images/volume_scatter.png)
 
 *Figure 5: False positives and false negatives for each class for volume 1 (not to scale)*
-</p>
+</div>
 
 <p style="text-align: justify;">
 Likewise, a more intuitive visualisation can be seen below in Figure 6. The mask for a random volume was permuted and 
@@ -332,12 +328,12 @@ in the predicted mask. When all 256 slices was stitched together, it produced th
 the errors between the predicted and ground truth masks consistently lie around the boundaries of the organs.
 </p>
 
-<p style="text-align: center;">
+<div align="center">
 
 ![sliding slices](images/3d_sliding.gif)
 
 *Figure 6: Animated gif of the slices of a random volume*
-</p>
+</div>
 
 ### 7.3 Test Set Performance
 <p style="text-align: center;">
@@ -425,7 +421,7 @@ Slices across the superior and inferior ends of the prostate are taken from the 
 (Figure 7) and the 3D network (Figure 8). The red end on the colour scales denote false positives and the blue end 
 denotes false negatives.
 </p>
-<p style="text-align: center;">
+<div align="center">
 
 ![2D Sliced](images/2d_smi.png)
 
@@ -436,7 +432,8 @@ denotes false negatives.
 
 *Figure 8: Random sample taken at superior, middle, and inferior slice (3D network)*
 
-</p>
+</div>
+
 <p style="text-align: justify;">
 
 #### Case 1: Prostate Apex (superior) and Base (inferior) Slices
@@ -449,12 +446,13 @@ ground truth stops. Likewise, the annotators who produced the ground truth masks
 practices and on deciding where each organ ends/begins. It is akin to solving Captchas where a sliver of bicycle (for 
 example) bleeds into the corner of an adjacent tile; should that tile be selected or ignored? 
 </p>
-<p style="text-align: center;">
+<div align="center">
 
 ![Anatomy of the prostate](images/prostate.jpg)
 
 *Figure 9: Anatomy of the prostate [2]*
-</p>
+</div>
+
 <p style="text-align: justify;">
 Figure 9 helps illustrate this phenomenon. From the superior end (left side of prostate), the prostate can be seen to 
 taper off. When taking slices at this tapered end, it can be expected that other organs will hold a larger presence, 
@@ -467,7 +465,7 @@ hold a larger presence of the prostate. Combine this with unclear boundaries due
 towards predicting the prostate.
 </p>
 
-<<p style="text-align: center;">
+
 
 *Table 8: Worst dice score of slices at each location across the entire test batch*
 
@@ -477,7 +475,6 @@ towards predicting the prostate.
 | Middle   | 0.860            |
 | Inferior | 1.3e-10          |
 
-</p>
 
 <p style="text-align: justify;">
 
