@@ -1,0 +1,21 @@
+# From the module directory: python train.py --config configs/smoke.yaml
+# Checks the pipeline on the first 16 train and 8 validation rows.
+# Uses the same official dataset and pretrained model as a normal run.
+# Model/dataset downloads still occur if they are not cached.
+smoke: true
+model_name: google/flan-t5-base
+fine_tuning_mode: lora
+device: auto
+epochs: 1
+batch_size: 2
+learning_rate: 0.0002
+gradient_accumulation_steps: 1
+max_input_length: 128
+max_target_length: 64
+max_new_tokens: 32
+num_beams: 1
+seed: 42
+
+# Smoke mode appends /smoke: final destination is ../outputs/smoke.
+# YAML paths are relative to this file; CLI paths are relative to the caller.
+output_dir: ../outputs

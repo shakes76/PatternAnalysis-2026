@@ -1,0 +1,30 @@
+# Runtime pins for the five-module implementation, recorded on Python 3.13 / A100.
+# Install the PyTorch 2.11.0 build for your platform first (README, Section 6.2).
+# The experiments used torch 2.11.0+cu130; the base-version pin below accepts it.
+# Install: python -m pip install -r requirements.txt
+
+# Model training and inference
+torch==2.11.0
+transformers==4.56.2
+peft==0.17.1
+accelerate==1.10.1
+
+# Tokenisation and file handling
+tokenizers==0.22.2
+sentencepiece==0.2.1
+huggingface-hub==0.36.2
+safetensors==0.8.0
+
+# Data loading and analysis
+datasets==4.1.1
+pyarrow==23.0.1
+pandas==2.2.3
+numpy==2.1.3
+
+# Evaluation and plotting
+rouge-score==0.1.2
+matplotlib==3.10.0
+
+# Configuration and monitoring
+PyYAML==6.0.3
+psutil==5.9.5
