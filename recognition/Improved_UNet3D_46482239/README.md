@@ -16,31 +16,39 @@
 6. [Usage](#6-usage)
 7. [Results](#7-results)
 8. [Investigation of the Open Research Dilemma](#8-investigation-of-the-open-research-dilemma)
-9. [Artificial Intelligence Usage Disclosure](#9-generative-ai-disclosure)
+9. [GenAI Disclosure](#9-generative-ai-disclosure)
 10. [References](#10-references)
 
 ---
 
 ## 1. Overview
-
+<p align="justify">
 Prostate radiotherapy planning requires millimetre-level delineation of the prostate while sparing nearby organs at risk
 (bladder, rectum, femoral heads). This project implements a 3D Improved U-Net [1] that segments the background, body 
 outline, bone, bladder, rectum, prostate from pelvic MRI volumes in the HipMRI study. It is benchmarked against a 2D 
 Improved U-Net with the same kind of residual connections and deep supervision baseline to investigate whether 
 volumetric context soothes boundary errors at the prostate base and apex.
+</p>
+
+<p align="center">
 
 ![Headline figure](images/headline_figure.png)
+
 *Figure 1: Sample segmentation featuring the (a) input, (b) ground truth, and (c) prediction overlay; produced by the 2D improved U-Net*
+
+</p>
 
 ---
 
 ## 2. Feasibility Review
 
 ### 2.1 User Need, Scope and Acceptance Criteria
+<p align="justify">
 The model will primarily be targeted towards healthcare professionals, with the main goal being to investigate the 
 feasibility of using a 3D automated segmentation model in medical imaging. Specifically, to aid in the identification of 
 the prostate in MRI scans. The primary dilemma here is the accuracy trade-off for using 3D scans instead of 2D scans 
 since training a 3D segmentation model will up many times more the computation resources.
+</p>
 - **Acceptance criteria (3–5, testable):**
   1. Prostate Dice Score (present) ≥ 0.70 on unseen test set;
   2. Prostate IoU Score (present) ≥ 0.70 on unseen test set;
@@ -48,7 +56,9 @@ since training a 3D segmentation model will up many times more the computation r
   4. Inference time ≤ 1 s per volume on A100;
   5. No data leaks by ensuring patient-level splits. We can gauge this using ‘assert’ in code.
 
+
 ### 2.2 Model Choice and Course Concepts
+<p align="justify">
 The dataset will be split at the patient-level, and we will separate the data into a training set, validation set, and 
 test set with the following weights of 0.80, 0.08, 0.12 (or similar). As an initial model, we will take inspiration from
 Isensee [1] and use a 3D Improved U-Net with residual blocks and deep supervision and choose LeakyReLU and InstanceNorm 
@@ -56,10 +66,14 @@ units in the residual blocks. Four (encoder & decoder) layers will be implemente
 supervision. Dice-CE loss will be the basic loss function, and Tversky-CE loss can be considered if more suitable. We 
 can implement the base U-Net in accordance with the example shown in week 7/8 of COMP3710. We will compare the 
 performance to a 2D Improved U-Net with the same residual blocks and deep supervision.
+</p>
 
 ### 2.3 Preliminary Feasibility Evidence
+<p align="justify">
 Initial data audit yields the following information shown. Data is compatible, consistent, and can be split at a patient
 level.
+</p>
+<p align="center">
 
 *Table 1: Prelimnary data audit*
 
@@ -71,8 +85,11 @@ level.
 | Patient ID format            | All file names are in the format of `LNNN_WeekX_LFOV/SEMANTIC.nii.gz`<br/>Ex. `B010_Week3_SEMANTIC.nii.gz` |
 | 2D Improved U-Net VRAM usage | 1.67 GB                                                                                                    |
 
+</p>
 
 ### 2.4 Risks, Budget and Fallback
+<p align="center">
+
 *Table 2: risks and constraints*
 
 | Risk                   | Mitigation                                                                                                   |
@@ -81,20 +98,27 @@ level.
 | Class imbalance        | Dice Loss + Cross Entropy Loss in training                                                                   |
 | Exorbant training time | 2D Improved U-Net is available and working                                                                   |
 
+</p>
+
 ---
 
 ## 3. Network Architecture
 
 ### 3.1 U-Net Backbone
+<p align="justify">
 Simply put, a U-Net is an autoencoder-like network. But, unlike autoencoders, U-Nets are supervised and feature
 skip connections that transfer information between the encoder and the decoder of the same resolution. This skip 
 connection is what mitigates the loss of information (preserves spatial detail) as it gets downsampled in the encoders 
 and passes through the (bottleneck) latent layer.
+</p>
+<p align="center">
 
 ![Architecture diagram](images/unet.png)
 
 *Figure 2: Architecture of a U-Net*
+</p>
 
+<p align="justify">
 The role of the encoder is to extract abstract features of an input. In the middle, the bottleneck holds the most abstract, highest-
 channel representation while still retaining spatial structure. The decoder takes the data from this latent 
 layer and progressively upsamples it to the original input-resolution while also attempting to produce a per-pixel class 
@@ -103,10 +127,14 @@ map, which restores the fine spatial detail lost during downsampling. Unlike an 
 input, a U-Net outputs $K$ channels (one per class) via a final 1×1 convolution. Then, a softmax over these channels 
 gives us the per-pixel class probabilities, and taking the argmax yields the segmentation mask (akin to a silhouette) of
 the every object in the original input.
+</p>
 
 ### 3.2 Improvements over the Standard U-Net
+<p align="justify">
 Table 3 lists the main difference between a standard U-Net and an improved U-Net that implements residual blocks, 
 accompanied by an illustration featured in Figure 3 below.
+</p>
+<p align="center">
 
 *Table 3: Differences between a standard U-Net and Improved U-Net*
 
@@ -116,13 +144,17 @@ accompanied by an illustration featured in Figure 3 below.
 | Deep supervision       | Segmentation maps (1×1 conv) are taken from several decoder levels, upsampled to a common size and summed element-wise into the final output. | The loss gradient reaches the earlier decoder layers through a short path, so training converges faster and vanishing gradients are reduced. It also forces intermediate features to be useful for segmentation at multiple scales. |
 | leaky ReLU             | Introduces a small slope on the negative side.                                                                                                | Ensures a small gradient still flows back during backpropagation; doesn't kill neurons.                                                                                                                                             |
 | Instance normalisation | normalises each channel of each sample independently across its spatial dimensions.                                                           | Allows for smaller batch sizes to save on VRAM usage since its outputs don’t depend on the batch                                                                                                                                    |
+</p>
 
+<p align="center">
 
 ![Architecture diagram](images/improved_unet.png)
 
 *Figure 3: Architecture of an improved U-Net [1]*
+</p>
 
 ### 3.3 Loss Function
+<p align="justify">
 In an image segmentation task, we want the model to make accurate predictions on both at pixel-level and general-level.
 For other models where we have similar goals, Cross Entropy Loss is usually the standard loss function for its ability 
 to perform pixel classifications with the softmax function. However, for datasets with sever imbalance, CE by itself may 
@@ -139,6 +171,7 @@ $$\mathcal{L}_{DSC} = 1 - \frac{1}{C} \sum_{c=1}^{C} \text{DSC}_c$$
 $$\mathcal{L}_{CE} = - \sum_{i=1}^{N} \sum_{c=1}^{C} y_{i,c} \log(\hat{y}_{i,c})$$
 
 Implementation of these loss functions can be found in modules.py
+</p>
 
 ---
 
@@ -161,6 +194,7 @@ Implementation of these loss functions can be found in modules.py
 
 ### 4.3 Train / Validation / Test Split
 A total of 211 scans across 38 patients was provided.
+<p align="center">
 
 *Table 4: Split proportions of the 3D dataset*
 
@@ -169,6 +203,7 @@ A total of 211 scans across 38 patients was provided.
 | Train      | 32       | 191     | 0.9052     |
 | Validation | 4        | 11      | 0.0521     |
 | Test       | 2        | 9       | 0.0427     |
+</p>
 
 The data is split in accordance to the ratios defined by the 2D MRI scans below:
 - **Train:** $11,460 / 12,660 \approx 90.52\%$
@@ -180,6 +215,7 @@ The data is split in accordance to the ratios defined by the 2D MRI scans below:
 ## 5. Setup
 
 ### 5.1 Dependencies
+<p align="center">
 
 *Table 5: Version of python libraries used*
 
@@ -191,6 +227,8 @@ The data is split in accordance to the ratios defined by the 2D MRI scans below:
 | nibabel    | 5.4.2   |
 | numpy      | 2.5.2   |
 | matplotlib | 3.11.1  |
+
+</p>
 
 ### 5.2 Reproducibility
 - **Random seed:** Where relevant, a `seed` of `67` was set for all stochastic processes on import for reproducibility.
@@ -250,11 +288,14 @@ python predict.py --model <"3D" or "2D">
 ## 7. Results
 
 ### 7.1 Training Curves
+<p align="center">
 
 ![Loss and Dice curves](images/training_curve.png)
 
 *Figure 4: Training and validation DiceCE loss and DiceCE scores per epoch*
+</p>
 
+<p align="justify">
 Throughout the whole training segment, Figure 4 shows that both the validation and training curves exhibited erratic 
 behaviour, with both eventually soothing out near the end. Such behaviour is indicative of a learning rate higher than what is suitable. This 
 is supported by the shape of the curves at the end, where the `CosineAnnealingLRScheduler` has reduced the learning rate
@@ -266,29 +307,41 @@ on the training dataset that may reduce the volume shy of 30% of the original si
 dropout of 31%. The training parameters forced the network to learn from volumes where the foreground and 
 organ locations vary with every volume. Conversely, during validation we fed the network whole consistent volumes, which could 
 be why the training losses are consistently marginally higher.
+</p>
 
 ### 7.2 Example Predictions
+<p align="justify">
 Figure 5 illustrates the predictions for volume 1 of the test set, where it produced a scatter of the points in the 3D 
 scan that was wrongly predicted. It is immediately clear (from Figure 5), that the majority of errors in predictions lie 
 on the boundaries of each class, for it is where the scan outlines from the raw files may be murky; the error points 
 produce a silhouette of the class.
+</p>
 
+<p align="center">
 
 ![Predictions](images/volume_scatter.png)
 
 *Figure 5: False positives and false negatives for each class for volume 1 (not to scale)*
+</p>
 
+<p align="justify">
 Likewise, a more intuitive visualisation can be seen below in Figure 6. The mask for a random volume was permuted and 
 was split across the horizontal (W) axis, going from the superior end (apex) to the inferior (base) end. Each of the 2D
 slices along the axis was taken and shaded in accordance to its respective ground truth mask, predicted mask, and errors
 in the predicted mask. When all 256 slices was stitched together, it produced the `.gif` seen in Figure 5. As expected, 
 the errors between the predicted and ground truth masks consistently lie around the boundaries of the organs.
+</p>
+
+<p align="center">
 
 ![sliding slices](images/3d_sliding.gif)
 
 *Figure 6: Animated gif of the slices of a random volume*
+</p>
 
 ### 7.3 Test Set Performance
+<p align="center">
+
 *Table 6: Inference results with unseen test set*
 
 | Class        | Dice Score | Dice Score<br/>(Present) | Dice Score<br/>(Pooled) | IoU<br/>(Pooled) | FPR    | FNR    | Precision | Recall |
@@ -300,7 +353,9 @@ the errors between the predicted and ground truth masks consistently lie around 
 | Rectum       | 0.832      | 0.832                    | 0.836                   | 0.718            | 0.0003 | 0.1363 | 0.8092    | 0.8637 |
 | **Prostate** | 0.833      | 0.833                    | 0.833                   | 0.714            | 0.0002 | 0.1249 | 0.7955    | 0.8751 |
 
+</p>
 
+<p align="justify">
 The scores in Table 6 resolves the disparity introduced in section 7.1, where we saw in Figure 4 that the validation 
 loss curve consistently sat below the training curve. Underfitting was also a possible reason, but Table 6 confirm that our network
 is in fact learning to an adequate standard.
@@ -324,6 +379,7 @@ prostate.
 
 Overall, our network seems to have produced commendable results, and we have met the requirement of achieving dice scores
 greater than 0.7.
+</p>
 
 ---
 
@@ -333,6 +389,8 @@ greater than 0.7.
 The base model is a 2D improved U-Net with the same kind of residual connections and deep supervision.
 
 ### 8.2 Benchmark Against Base Model
+<p align="center">
+
 *Table 7: Inference results against baseline*
 
 | Model                 | Dice Score | Dice Score (present) | Dice Score<br/>(pooled) | IoU<br/>(pooled) | FPR    | FNR    | Precision | Recall |
@@ -340,6 +398,9 @@ The base model is a 2D improved U-Net with the same kind of residual connections
 | 2D Improved U-Net     | 0.905      | 0.762                | 0.867                   | 0.766            | 0.0006 | 0.0986 | 0.8357    | 0.9014 |
 | **3D Improved U-Net** | 0.833      | 0.833                | 0.833                   | 0.714            | 0.0002 | 0.1249 | 0.7955    | 0.8751 |
 
+</p>
+
+<p align="justify">
 Table 7 compares the dice scores from the 3D variant of the improved U-Net to the 2D version. In section 7.3, an 
 explanation to why the dice scores for the 3D test set was more or less similar was given. Conversely, for the 2D 
 network, the scans were separated into slices along the depth (apex to base), which meant that the prostate was absent 
@@ -355,12 +416,16 @@ believe that the 3D model can provide a better segmentation.
 
 In short, the dice scores suggest that the 3D predicted mask is more compact and closer to the ground truth than the 
 predicted masks from the 2D network for slices that contain the prostate.
+</p>
 
 ### 8.3 Slice-wise Analysis & Failure Case Autopsy
 
+<p align="justify">
 Slices across the superior and inferior ends of the prostate are taken from the inference results for the 2D network
 (Figure 7) and the 3D network (Figure 8). The red end on the colour scales denote false positives and the blue end 
 denotes false negatives.
+</p>
+<p align="center">
 
 ![2D Sliced](images/2d_smi.png)
 
@@ -371,6 +436,8 @@ denotes false negatives.
 
 *Figure 8: Random sample taken at superior, middle, and inferior slice (3D network)*
 
+</p>
+<p align="justify">
 
 #### Case 1: Prostate Apex (superior) and Base (inferior) Slices
 
@@ -381,10 +448,14 @@ bias. The cause is likely in the data: low contrast and partial-volume effects a
 ground truth stops. Likewise, the annotators who produced the ground truth masks may both share similar segmentation 
 practices and on deciding where each organ ends/begins. It is akin to solving Captchas where a sliver of bicycle (for 
 example) bleeds into the corner of an adjacent tile; should that tile be selected or ignored? 
+</p>
+<p align="center">
 
 ![Anatomy of the prostate](images/prostate.jpg)
-*Figure 9: Anatomy of the prostate [2]*
 
+*Figure 9: Anatomy of the prostate [2]*
+</p>
+<p align="justify">
 Figure 9 helps illustrate this phenomenon. From the superior end (left side of prostate), the prostate can be seen to 
 taper off. When taking slices at this tapered end, it can be expected that other organs will hold a larger presence, 
 which leads to both the 2D and 3D networks to be more inclined in predicting the other organs. Conversely, at the 
@@ -394,13 +465,21 @@ is abrupt, and the tissue contrast may be low. Likewise, on the 2D baseline, thi
 jump from with-prostate to no-prostate. However, this also means the slices with the inferior end of the prostate will 
 hold a larger presence of the prostate. Combine this with unclear boundaries due to contrast, we can expect some bias 
 towards predicting the prostate.
+</p>
+
+<p align="center">
 
 *Table 8: Worst dice score of slices at each location across the entire test batch*
+
 | Location | Worst Dice Score |
 |----------|------------------|
 | Superior | 3.3e-10          |
 | Middle   | 0.860            |
 | Inferior | 1.3e-10          |
+
+</p>
+
+<p align="justify">
 
 This behaviour is reflected in the corresponding dice scores for the 3D inference results, as seen in Table 8.
 At the superior and inferior, the 3D network fails to correctly segment the prostate.
@@ -425,13 +504,19 @@ the dataset for both the 2D and 3D scans are downsampled already. If the resolut
 would have to be blurred, which is also why all the errors, like in Figure 6, form a silhouette of the organs. Ideally, 
 if we had a sufficiently high resolution of the scans such that blending of the boundary pixel/voxels are kept to a 
 negligible amount, the network can be assumed to produced fewer artefacts around the boundaries.
+</p>
 
 ### 8.4 Resource Profiling
+
+<p align="justify">
 Table 9 details the computation resources for training the models along with the inference performance.
 
 For both the 2D and 3D architecture, we used four encoders and decoders, each with two `size=3`convolution blocks and a
 `size=1` shortcut. Combine this with the same in/out channels for each resolution layer, the only variable becomes the 
 dimensionality of the model.
+</p>
+
+<p align="center">
 
 *Table 9: Resource usage during training*
 
@@ -440,13 +525,18 @@ dimensionality of the model.
 | 2D Improved U-Net | 2,055,186  | 7.84                     | 1.67                     | 2.15                    | ~20 mins      | 40 ms / batch (of 42) |
 | 3D Improved U-Net | 5,944,914  | 22.68                    | 16.14                    | 22.82                   | ~76 mins      | 90 ms  / volume       |
 
+/p>
+
+<p align="justify">
 It is evident that training on 3D volumes take up significantly more resources. On the A100 GPUs on rangpur, we saw that 
 the peak VRAM allocated went up to almost 10x the 2D resources. On top of that, feeding the full `256x256x128` volumes 
 from the training set into the network will eventually cause an OOM error on the A100s. As a result, patch-training had 
 to be implemented. 
+</p>
 
 ### 8.5 Recommendation to the Project Manager
 
+<p align="justify">
 Current evidence suggest that the **2D Improved U-Net** serves as the better model.*
 
 #### Justification
@@ -483,10 +573,14 @@ The dataset we were provided featured scans from presumably whole bodies, meanin
 deformaties around the hip. Our dataset also did not feature any scans from people who have artificial devices planted
 in their hips, like hip implants for example. Hence, we should not use the network to attempt to segment MRI scans of 
 individuals who fit these descriptions since it is unknown how the model will perform.
+</p>
 
 ---
 
 ## 9. Generative AI Disclosure
+
+<p align="center">
+
 *Table 8: GenAI disclosure*
 
 | Tool              | Used for                                 | Verification Processes                                                                                   |
@@ -496,6 +590,7 @@ individuals who fit these descriptions since it is unknown how the model will pe
 | ...               | Debugging OOM                            | Check training graph and inference results to ascertain the plausibility of results                      |
 | ...               | Debugging stdout buffering               | `cat log.out` and `cat log.err` to ensure training is happening                                          |
 | ...               | Report template [4]                      | Cross-check with task sheet                                                                              |
+</p>
 
 ---
 
