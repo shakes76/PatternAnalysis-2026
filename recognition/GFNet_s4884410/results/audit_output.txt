@@ -1,0 +1,30 @@
+== Counts ==
+split  class   images  patients
+train  AD       10400       520
+train  NC       11120       556
+test   AD        4460       223
+test   NC        4540       227
+
+== Image properties (sample of 200) ==
+sizes: {(256, 240): 200}
+modes: {'L': 200}
+intensity range: 0..255
+
+== Leakage checks ==
+patients in both train and test: 0
+patients in both AD and NC (train): 0
+patients in both AD and NC (test): 0
+PASS: no patient-level leakage
+
+== Slices per patient ==
+train  AD    min=20 max=20 most common=[(20, 520)]
+train  NC    min=20 max=20 most common=[(20, 556)]
+test   AD    min=20 max=20 most common=[(20, 223)]
+test   NC    min=20 max=20 most common=[(20, 227)]
+
+== Validation split (patients) ==
+train AD=442 NC=473 total=915 AD share=0.48
+val   AD=78 NC=83 total=161 AD share=0.48
+test  AD=223 NC=227 total=450 AD share=0.50
+
+Saved patient lists to splits/val_split.json

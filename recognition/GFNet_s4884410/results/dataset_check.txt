@@ -1,0 +1,11 @@
+== Split sizes ==
+split  patients    AD    NC  slices
+train       915   442   473   18300
+val         161    78    83    3220
+test        450   223   227    9000
+PASS: no patient-level leakage between train, val and test
+
+Normalisation (training patients only): mean=0.1416 std=0.2421
+
+Slice sample: image (1, 224, 224), label 0, patient 1000359, slice pos 0
+Patient sample: images (20, 1, 224, 224), label 0, patient 1002374
