@@ -292,7 +292,7 @@ def split3D(image_names: list, mask_names: list, seed: int | str = SEED) -> tupl
 
 def subset_sum_pick(sizes, target):
     """
-    Courtesy of Claude Sonnet 5.5, 28 Oct 2026
+    Courtesy of Claude Sonnet 5.5, 28 Oct 2026 [3]
     Indices into `sizes` whose sum is closest to `target` (0/1 DP).
     :param sizes: List of numeric values representing item sizes.
     :param target: The target sum to approximate.

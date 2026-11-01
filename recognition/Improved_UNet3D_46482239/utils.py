@@ -102,7 +102,7 @@ def plot_2d_inference(results: list[tuple[Tensor, Tensor]], device: torch.device
     fig_cum_diff, axes_cum_diff = plt.subplots(fig_cum_rows, fig_cum_cols, figsize=(1540, 1540, "px"))
     four_colour_cmap = mpl.colormaps['jet'].resampled(len(LABELS))
 
-    err_cmap = plt.get_cmap("PuOr")
+    err_cmap = plt.get_cmap("Spectral_r")
     err_cmap = LinearSegmentedColormap.from_list(f"", err_cmap([0.15, 0.5, 0.85])).resampled(3)
     cum_cmap = plt.get_cmap("Reds").resampled(2)
 
@@ -193,9 +193,9 @@ def plot_3d_inference(results: list[tuple[Tensor, Tensor]], device: torch.device
     output_dir.mkdir(parents=True, exist_ok=True)
     batch_size = 1  # We use batch size of 1 for testing 3D volumes
 
-    p_sup_gt, p_sup_pd = torch.Tensor().to(device), torch.Tensor().to(device)
-    p_m_gt, p_m_pd = torch.Tensor().to(device), torch.Tensor().to(device)
-    p_inf_gt, p_inf_pd = torch.Tensor().to(device), torch.Tensor().to(device)
+    p_sup_gt, p_sup_pd = list(), list()
+    p_m_gt, p_m_pd = list(), list()
+    p_inf_gt, p_inf_pd = list(), list()
 
     for volume_no, (predicted, ground_truth) in enumerate(results):
         # Make both masks [K, D, H, W]
@@ -215,17 +215,17 @@ def plot_3d_inference(results: list[tuple[Tensor, Tensor]], device: torch.device
         # Also pool together superior, middle, and inferior slices for precessing later.
         superior_gt, superior_pd, middle_gt, middle_pd, inferior_gt, inferior_pd = sliding_plot(output_dir, device, volume_no, predicted, ground_truth)
         # All returned should be of shape [1, K, H, D]
-        torch.cat([p_sup_gt, superior_gt],    dim = 0)
-        torch.cat([p_sup_pd, superior_pd],    dim = 0)
-        torch.cat([p_m_gt, middle_gt],        dim = 0)
-        torch.cat([p_m_pd, middle_pd],        dim = 0)
-        torch.cat([p_inf_gt, inferior_gt],    dim = 0)
-        torch.cat([p_inf_pd, inferior_pd],    dim = 0)
+        p_sup_gt.append(superior_gt)
+        p_sup_pd.append(superior_pd)
+        p_m_gt.append(middle_gt)
+        p_m_pd.append(middle_pd)
+        p_inf_gt.append(inferior_gt)
+        p_inf_pd.append(inferior_pd)
 
-    p_sup = (p_sup_gt, p_sup_pd)
-    p_m = (p_m_gt, p_m_pd)
-    p_inf = (p_inf_gt, p_inf_pd)
-    plot_prostate(p_sup, p_m, p_inf)
+    p_sup = (torch.cat(p_sup_gt, dim=0), torch.cat(p_sup_pd, dim=0))
+    p_m = (torch.cat(p_m_gt, dim=0), torch.cat(p_m_pd, dim=0))
+    p_inf = (torch.cat(p_inf_gt, dim=0), torch.cat(p_inf_pd, dim=0))
+    plot_prostate(output_dir, p_sup, p_m, p_inf)
 
 
 def scatter_3d(output_dir: Path, fp: np.ndarray, fn: np.ndarray, K: int, volume_no: int) -> None:
@@ -269,7 +269,7 @@ def sliding_plot(output_dir: Path, device: torch.device, v_no: int, predicted: n
     """
     Takes a 3D predicted and ground truth mask of shape [K, D, H, W] and creates a .gif of the two 2D segmentation as it
     slides along a chosen dimension.
-    https://matplotlib.org/stable/gallery/animation/dynamic_image.html
+    Gif created following matplotlib documentation [5]
     :param output_dir: Path to the output directory
     :param device: CUDA or CPU
     :param v_no: Volume number
@@ -294,14 +294,13 @@ def sliding_plot(output_dir: Path, device: torch.device, v_no: int, predicted: n
 
     fig_gifs, ax_gifs = plt.subplots(1, 3)  # 1 row of 3 gifs, showing the GT, predictions, and diff
     imgs_gif = list()
-    cmap_whole = plt.get_cmap("grey")
-    cmap_delta = plt.get_cmap("PuOr")
-    LinearSegmentedColormap.from_list(f"", cmap_delta([0.15, 0.5, 0.85])).resampled(3)
+    cmap_whole = plt.get_cmap("nipy_spectral")
+    cmap_delta = plt.get_cmap("cool")
     print(f"Rendering frames for Volume {v_no + 1} gif...")
 
     gnd_truth = ground_truth.argmax(1).to(torch.uint8)  # Should give [W, H, D]
-    prdctd = predicted.argmax(1).to(torch.uint8)        # Should give [W, H, D]
-    delta = -1 * (gnd_truth - prdctd)                   # Result includes fp and fn
+    pred = predicted.argmax(1).to(torch.uint8)          # Should give [W, H, D]
+    delta = -1 * (gnd_truth - pred)                     # Result includes fp and fn
     for layer in range(W):
         if ground_truth[layer][channel].sum() > 0:
             # This slice actually contains the prostate!
@@ -309,15 +308,15 @@ def sliding_plot(output_dir: Path, device: torch.device, v_no: int, predicted: n
 
         # Create frame (image)
         gt = gnd_truth[layer].cpu().numpy()     # Should give [H, D]
-        pd = prdctd[layer].cpu().numpy()        # Should give [H, D]
+        pd = pred[layer].cpu().numpy()          # Should give [H, D]
         dm = delta[layer].cpu().numpy()         # Should give [H, D]
 
-        img_gt = ax_gifs[0].imshow(gt, cmap = cmap_whole, animated=True)
-        img_pd = ax_gifs[1].imshow(pd, cmap = cmap_whole, animated=True)
+        img_gt = ax_gifs[0].imshow(gt, cmap = cmap_whole, animated=True, vmin=0, vmax=6)
+        img_pd = ax_gifs[1].imshow(pd, cmap = cmap_whole, animated=True, vmin=0, vmax=6)
         img_dm = ax_gifs[2].imshow(dm, cmap = cmap_delta, animated=True)
         if layer == 0:
-            img_gt = ax_gifs[0].imshow(gt, cmap = cmap_whole, animated=True)
-            img_pd = ax_gifs[1].imshow(pd, cmap = cmap_whole, animated=True)
+            img_gt = ax_gifs[0].imshow(gt, cmap = cmap_whole, animated=True, vmin=0, vmax=6)
+            img_pd = ax_gifs[1].imshow(pd, cmap = cmap_whole, animated=True, vmin=0, vmax=6)
             img_dm = ax_gifs[2].imshow(dm, cmap = cmap_delta, animated=True)
         imgs_gif.append((img_gt, img_pd, img_dm),)
 
@@ -328,10 +327,10 @@ def sliding_plot(output_dir: Path, device: torch.device, v_no: int, predicted: n
     ax_gifs[1].set_title("Predicted", fontsize=12)
     ax_gifs[2].set_title("Errors", fontsize=12)
 
-    gif_duration = 12000 # ms
+    gif_duration = 15000 # ms
     intvl = int(gif_duration / W)
     fps = int(1000 / intvl)
-    anim_gif = animation.ArtistAnimation(fig_gifs, imgs_gif, interval=intvl, repeat_delay=500, repeat=True)
+    anim_gif = animation.ArtistAnimation(fig_gifs, imgs_gif, interval=intvl, repeat_delay=0, repeat=True)
 
     # plt.show()
     gif_writer = animation.PillowWriter(fps = fps, metadata=dict(artist='Me'), bitrate=1800)
@@ -359,13 +358,14 @@ def sliding_plot(output_dir: Path, device: torch.device, v_no: int, predicted: n
     return superior_gt, superior_pd, middle_gt, middle_pd, inferior_gt, inferior_pd
 
 
-def plot_prostate(sup: tuple[Tensor, Tensor], mid: tuple[Tensor, Tensor], inf: tuple[Tensor, Tensor]) -> None:
+def plot_prostate(out_dir: Path, sup: tuple[Tensor, Tensor], mid: tuple[Tensor, Tensor], inf: tuple[Tensor, Tensor]) -> None:
     """
     Plots a subset of the slices where the prostate is present.
     1 at superior, 1 at inferior, 1 in the middle. For all three, we show the GT, PD, and Error (FP & FN).
     3 positions, each with 3 plots.
     Bladder and prostate are in contact when going through the slices top-down.
     Inputs should be tuples with 2 tensors each of [B, K, H, D]
+    :param out_dir: The output directory to save the plots
     :param sup: Superior slices where the prostate is present; pooled together across the whole set
     :param mid: Middle slices where the prostate is present; pooled together across the whole set
     :param inf: Inferior slices where the prostate is present; pooled together across the whole set
@@ -397,9 +397,9 @@ def plot_prostate(sup: tuple[Tensor, Tensor], mid: tuple[Tensor, Tensor], inf: t
 
     fig_rows = 3    # GT, PD, Error
     fig_cols = 3    # As per the docstring
-    fig, axes = plt.subplots(fig_rows, fig_cols)
-    cmap_whole = plt.get_cmap("Greys_r")
-    cmap_delta = plt.get_cmap("Spectral_r")
+    fig, axes = plt.subplots(fig_rows, fig_cols, figsize=(800, 1000, "px"))
+    cmap_whole = plt.get_cmap("nipy_spectral")
+    cmap_delta = plt.get_cmap("Spectral_r").resampled(3)
 
     plot_data = (
         (superior_gt, superior_pd, superior_delta),
@@ -409,17 +409,23 @@ def plot_prostate(sup: tuple[Tensor, Tensor], mid: tuple[Tensor, Tensor], inf: t
     for row, scan_positon in enumerate(plot_data):
         for col, scan in enumerate(scan_positon):
             img_data = scan[channel].cpu().numpy()
-            cmap = cmap_whole if row < len(plot_data) - 1 else cmap_delta
-            img = axes[row, col].imshow(img_data, cmap=cmap, vmin=-1.0, vmax=1.0, interpolation="nearest")
-            axes[row, col].axis("off")
-            if row == len(plot_data) - 1:
+            cmap = cmap_whole if col < len(scan_positon) - 1 else cmap_delta
+            if col == len(scan_positon) - 1:
+                img = axes[row, col].imshow(img_data, cmap=cmap, vmin=-1.0, vmax=1.0, interpolation="nearest")
                 fig.colorbar(img, orientation="vertical", ticks = [-1, 0, 1])
+            else:
+                img = axes[row, col].imshow(img_data, cmap=cmap, vmin=0.0, vmax=1.0, interpolation="nearest")
+            axes[row, col].axis("off")
     fig.supylabel(
         'Inferior        |        Middle        |        Superior',
         ha='left',
         va='center',
-        fontsize=18
+        fontsize=20
     )
+    fig.supxlabel("Ground Truth    |    Predicted    |    Error", fontsize=20)
+    plt.tight_layout()
+    plt.savefig(out_dir / "smi_slice.png", dpi=200)
+    plt.close()
 
     dice_output = (
         f"Superior worst DSC:\t{sup_dsc[sup_worst][channel]}\n"
