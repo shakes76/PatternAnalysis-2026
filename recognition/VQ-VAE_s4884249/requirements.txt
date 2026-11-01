@@ -1,0 +1,7 @@
+numpy
+torch
+torchvision
+nibabel
+scikit-image
+scikit-learn
+matplotlib

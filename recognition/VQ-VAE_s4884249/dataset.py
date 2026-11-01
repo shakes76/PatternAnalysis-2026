@@ -1,0 +1,352 @@
+"""HipMRI NIfTI manifest creation, split loading and image preprocessing.
+
+`audit` scans the dataset once and writes manifest.csv (one row per NIfTI file with
+its split, kind, case ID and intensity statistics). The manifest is assumed to be
+pre-reviewed, so folder and file names alone decide each row's meaning:
+
+    keras_slices_{train,validate,test}      -> kind=image, split=train/val/test
+    keras_slices_seg_{train,validate,test}  -> kind=mask (excluded from training)
+    case_040_week_5_slice_18.nii.gz         -> group_id=case_040
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import re
+import sys
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+from typing import Dict, List, Sequence
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+from torch.utils.data import Dataset
+
+MASK_TOKENS = ("mask", "label", "seg", "annotation", "groundtruth", "ground_truth", "segmentation")
+# Images are case_XXX_week_W_slice_S and masks seg_XXX_week_W_slice_S.
+# (?i) = case-insensitive. Matches image names (case_040_week_5_slice_18) and mask names (seg_040_...); the
+# named groups give case / week / slice, and `[_-]?` tolerates a missing separator after 'case' or 'seg'.
+FILENAME_PATTERN = re.compile(r"(?i)^(?:case|seg)[_-]?(?P<case>\d+)_week_(?P<week>\d+)_slice_(?P<slice>\d+)$")
+# Used with fullmatch on the top-level folder name, so only exact keras_slices[_seg]_{train,validate,test}
+# folders match; the capture group is the split word.
+SPLIT_PATTERN = re.compile(r"keras_slices_(?:seg_)?(train|validate|test)")
+MANIFEST_FIELDS = ["path", "split", "kind", "group_id", "shape", "min", "max", "mean", "std", "nonzero_frac", "error"]
+
+# Only the 256x128 slices are used (the larger group). The 256x144 slices are dropped
+# rather than padded or stretched, so every training image has the same native
+# 2:1 aspect ratio and no artificial borders.
+SOURCE_SHAPE = (256, 128)
+SOURCE_SHAPE_TEXT = "x".join(map(str, SOURCE_SHAPE))
+
+
+def nifti_stem(path: Path) -> str:
+    """File name without its NIfTI extension (.nii.gz or .nii, case-insensitive); falls back to Path.stem.
+    """
+    name = path.name
+    for extension in (".nii.gz", ".nii"):
+        if name.lower().endswith(extension):
+            return name[: -len(extension)]
+    return path.stem
+
+
+def infer_kind(relative: Path) -> str:
+    """Masks live in keras_slices_seg_* folders; anything mask-like is excluded, the rest is an image."""
+    # Normalise so tokens such as 'ground-truth' and 'ground_truth' are both detected.
+    text = relative.as_posix().lower().replace("-", "_")
+    return "mask" if any(token in text for token in MASK_TOKENS) else "image"
+
+
+def infer_split(relative: Path) -> str:
+    """Use the supplied top-level folder (train/validate/test) as the split; validate -> val."""
+    match = SPLIT_PATTERN.fullmatch(relative.parts[0].lower().replace("-", "_"))
+    if not match:
+        return ""
+    return "val" if match.group(1) == "validate" else match.group(1)
+
+
+def infer_group_id(stem: str) -> str:
+    """Case ID from the filename. Grouping by case (not case+week) means a patient's
+    follow-up scans can never straddle two splits."""
+    match = FILENAME_PATTERN.match(stem)
+    if match:
+        return f"case_{match['case']}"
+    # Fallback for unexpected names: drop a trailing slice index.
+    return re.sub(r"(?i)[_-](?:slice|sl|z)?[_-]?\d+$", "", stem) or stem
+
+
+def load_array(path: Path) -> np.ndarray:
+    """Load a NIfTI as a finite 2D float32 array, keeping its in-plane geometry."""
+    try:
+        import nibabel as nib
+    except ImportError as exc:
+        raise RuntimeError("NIfTI I/O requires nibabel (pip install nibabel).") from exc
+    # get_fdata applies the NIfTI scaling slope/intercept; squeeze removes singleton dimensions (e.g.
+    # 256x128x1 becomes 256x128).
+    array = np.squeeze(np.asarray(nib.load(str(path)).get_fdata(dtype=np.float32), dtype=np.float32))
+    if array.ndim != 2:
+        raise ValueError(f"Expected a 2D image (or singleton extra dimensions), got shape={array.shape}")
+    if not np.isfinite(array).all():
+        raise ValueError("Image contains NaN or infinite voxel values")
+    return array
+
+
+def audit_directory(data_root: Path, output_csv: Path) -> Dict[str, int]:
+    """Read every NIfTI under data_root and write one manifest row per file.
+
+    Unreadable files are kept in the manifest with an `error` message instead of
+    aborting, so one corrupt slice cannot stop the audit; training skips them.
+    """
+    data_root = data_root.expanduser().resolve()
+    if not data_root.is_dir():
+        raise FileNotFoundError(f"Dataset directory does not exist: {data_root}")
+    # Sorted so the manifest rows come out in a deterministic order.
+    paths = sorted(p for p in data_root.rglob("*") if p.is_file() and p.name.lower().endswith((".nii", ".nii.gz")))
+    if not paths:
+        raise FileNotFoundError(f"No .nii or .nii.gz files found under {data_root}")
+
+    counts = {"files_seen": len(paths), "read_ok": 0, "read_error": 0}
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
+    with output_csv.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=MANIFEST_FIELDS)
+        writer.writeheader()
+        for path in paths:
+            relative = path.relative_to(data_root)
+            row = dict.fromkeys(MANIFEST_FIELDS, "")
+            row.update(
+                path=relative.as_posix(),
+                split=infer_split(relative),
+                kind=infer_kind(relative),
+                group_id=infer_group_id(nifti_stem(path)),
+            )
+            try:
+                array = load_array(path)
+                row.update(
+                    # Per-file intensity statistics. load_manifest later uses std
+                    # (blank-slice test) and nonzero_frac (sparse-slice test).
+                    shape="x".join(map(str, array.shape)),
+                    # 7 significant digits are enough to round-trip float32 values
+                    # through the CSV.
+                    min=f"{array.min():.7g}",
+                    max=f"{array.max():.7g}",
+                    mean=f"{array.mean():.7g}",
+                    std=f"{array.std():.7g}",
+                    nonzero_frac=f"{np.count_nonzero(array) / array.size:.7g}",
+                )
+                counts["read_ok"] += 1
+            except Exception as exc:  # noqa: BLE001 - record the reason and keep auditing
+                row["error"] = f"{type(exc).__name__}: {exc}"
+                counts["read_error"] += 1
+            writer.writerow(row)
+    return counts
+
+
+def read_manifest(manifest_path: Path) -> List[Dict[str, str]]:
+    """All manifest rows as dicts of strings (used by load_manifest and explore.py)."""
+    manifest_path = manifest_path.expanduser().resolve()
+    if not manifest_path.is_file():
+        raise FileNotFoundError(f"Manifest not found: {manifest_path} (run `python3 dataset.py audit` first)")
+    # utf-8-sig silently strips the byte-order mark that Excel adds when a CSV is re-saved.
+    with manifest_path.open(newline="", encoding="utf-8-sig") as handle:
+        return list(csv.DictReader(handle))
+
+
+def _number(text: str, default: float) -> float:
+    """Parse `text` as a float, returning `default` when it is empty or not numeric (manifest cells can be
+    blank).
+    """
+    try:
+        return float(text)
+    except (TypeError, ValueError):
+        return default
+
+
+def load_manifest(
+    manifest_path: Path, data_root: Path, keep_shape: str = SOURCE_SHAPE_TEXT, min_nonzero_frac: float = 0.0
+) -> List[Dict[str, str]]:
+    """Return the readable image rows (path, split, group_id).
+
+    Dropped: masks, rows with a read error, images whose shape is not `keep_shape`
+    (default 256x128), blank slices (constant intensity, so there is nothing to learn from;
+    they would all normalise to an all-zero image) and, if `min_nonzero_frac` > 0, slices
+    with a smaller fraction of non-zero voxels.
+    """
+    data_root = data_root.expanduser().resolve()
+    rows = []
+    dropped_shapes: Counter = Counter()
+    n_blank = n_sparse = 0
+    for source in read_manifest(manifest_path):
+        if source["kind"] != "image" or source["error"]:
+            continue
+        if keep_shape and source["shape"] != keep_shape:
+            dropped_shapes[source["shape"] or "unknown"] += 1
+            continue
+        # std ~ 0 means a constant (blank) slice; the default of 1.0 keeps rows whose std is
+        # missing.
+        if _number(source["std"], 1.0) <= 1e-8:
+            n_blank += 1
+            continue
+        if _number(source["nonzero_frac"], 1.0) < min_nonzero_frac:
+            n_sparse += 1
+            continue
+        if not (data_root / source["path"]).is_file():
+            raise FileNotFoundError(f"Manifest file missing under --data-root: {data_root / source['path']}")
+        # Keep only the columns the rest of the pipeline needs.
+        rows.append({k: source[k] for k in ("path", "split", "group_id")})
+    if dropped_shapes:
+        print(f"Dropped images whose shape is not {keep_shape}: {dict(dropped_shapes)}")
+    if n_blank or n_sparse:
+        print(f"Dropped {n_blank} blank slices and {n_sparse} slices below nonzero_frac {min_nonzero_frac}")
+    print(f"Kept {len(rows)} images")
+    if not rows:
+        raise ValueError(f"The manifest contains no usable {keep_shape} image rows")
+    return rows
+
+
+def split_from_manifest(rows: Sequence[Dict[str, str]]) -> Dict[str, List[Dict[str, str]]]:
+    """Group rows by the dataset's own train/val/test folders (no re-shuffling).
+
+    Case IDs must be disjoint between splits; we fail loudly rather than train on a
+    layout that leaks a patient into the test set.
+    """
+    splits: Dict[str, List[Dict[str, str]]] = {"train": [], "val": [], "test": []}
+    for row in rows:
+        if row["split"] not in splits:
+            raise ValueError(f"Row has no train/val/test split (is --data-root the keras_slices_data folder?): {row['path']}")
+        splits[row["split"]].append(row)
+    empty = [name for name, values in splits.items() if not values]
+    if empty:
+        raise ValueError(f"No image rows for split(s) {empty}; check --data-root and the manifest.")
+
+    # Set of case IDs per split; used to prove that no patient appears in two splits.
+    cases = {name: {row["group_id"] for row in values} for name, values in splits.items()}
+    overlaps = {
+        # Pairwise set intersection of case IDs; any non-empty result means patient leakage between
+        # splits.
+        f"{a}/{b}": sorted(cases[a] & cases[b]) for a, b in (("train", "val"), ("train", "test"), ("val", "test"))
+    }
+    # Keep only the pairs that actually overlap.
+    overlaps = {pair: ids for pair, ids in overlaps.items() if ids}
+    if overlaps:
+        detail = "; ".join(f"{pair}: {ids[:10]}" for pair, ids in overlaps.items())
+        raise ValueError(f"Case IDs overlap across splits (leakage): {detail}")
+    return splits
+
+
+def normalize_mri(array: np.ndarray) -> np.ndarray:
+    """Per-slice scaling to [0, 1] after clipping to the 1st-99.5th percentile.
+
+    Clipping stops a few very bright voxels from compressing the useful range, and
+    per-slice scaling removes the arbitrary absolute intensity scale between scans.
+    """
+    low, high = np.percentile(array, [1.0, 99.5])
+    if high <= low:  # constant slice: nothing to scale
+        return np.zeros_like(array, dtype=np.float32)
+    return ((np.clip(array, low, high) - low) / (high - low)).astype(np.float32)
+
+
+class NiftiSliceDataset(Dataset):
+    """Load one NIfTI slice at a time and resize it to the full canvas (no padding).
+
+    The canvas must have the same aspect ratio as the 256x128 source slices, so the
+    image is only scaled (default 128x64 = exactly 2x down) and never stretched,
+    cropped or centred on a larger canvas.
+
+    cache=True decodes every slice once up front (using `threads` threads) and keeps the
+    processed tensors in RAM; the transform is deterministic, so results are identical
+    but an epoch no longer re-reads and gunzips thousands of files.
+    """
+
+    def __init__(
+        self,
+        rows: Sequence[Dict[str, str]],
+        data_root: Path,
+        image_height: int = 128,
+        image_width: int = 64,
+        cache: bool = False,
+        threads: int = 1,
+    ):
+        """Validate the canvas size and, if `cache` is set, pre-load every slice into RAM.
+
+        rows: manifest rows (path, split, group_id); data_root: folder the row paths are relative
+        to; image_height / image_width: target size, which must keep the 2:1 aspect ratio of the
+        source slices; threads: number of loader threads used while caching.
+        """
+        if image_height % 8 or image_width % 8:
+            raise ValueError("image_height and image_width must both be divisible by 8")
+        if min(image_height, image_width) < 32:
+            raise ValueError("Image canvas must be at least 32 pixels on each side")
+        # Cross-multiplied aspect-ratio test (height/width == 256/128) that avoids floating-point
+        # division.
+        if image_height * SOURCE_SHAPE[1] != image_width * SOURCE_SHAPE[0]:
+            raise ValueError(
+                f"{image_height}x{image_width} does not keep the {SOURCE_SHAPE_TEXT} aspect ratio "
+                f"(height:width must be {SOURCE_SHAPE[0]}:{SOURCE_SHAPE[1]}, e.g. 128x64 or 64x32)"
+            )
+        self.rows = list(rows)
+        self.data_root = Path(data_root).expanduser().resolve()
+        self.image_height = int(image_height)
+        self.image_width = int(image_width)
+        self._cache = None
+        if cache:
+            print(f"Caching {len(self.rows)} slices in memory ({max(1, threads)} threads)...")
+            # pool.map keeps the input order, so cache[i] belongs to rows[i]. Threads help
+            # because reading and decompressing files is I/O-bound.
+            with ThreadPoolExecutor(max_workers=max(1, threads)) as pool:
+                self._cache = torch.stack(list(pool.map(self._load, self.rows)))
+
+    def _load(self, row: Dict[str, str]) -> torch.Tensor:
+        """Read, normalise and (if needed) resize one slice to a float32 tensor [1, H, W]; raises if
+        the raw slice is not 256x128.
+        """
+        array = normalize_mri(load_array(self.data_root / row["path"]))
+        if array.shape != SOURCE_SHAPE:
+            raise ValueError(f"{row['path']}: expected a {SOURCE_SHAPE_TEXT} slice, got {array.shape}")
+        # Add the channel dimension: [H, W] -> [1, H, W].
+        image = torch.from_numpy(array)[None]
+        # Skip resizing when the requested canvas equals the source size.
+        if tuple(array.shape) != (self.image_height, self.image_width):
+            image = F.interpolate(
+                # F.interpolate needs a batch dimension, hence image[None] and the trailing
+                # [0]. antialias=True low-pass filters before downsampling to avoid
+                # aliasing.
+                image[None], size=(self.image_height, self.image_width), mode="bilinear",
+                align_corners=False, antialias=True,
+            )[0]
+        return image.contiguous()
+
+    def __len__(self) -> int:
+        """Number of slices in the dataset."""
+        return len(self.rows)
+
+    def __getitem__(self, index: int) -> Dict[str, object]:
+        """Return {'image': [1, H, W] tensor, 'path': manifest path, 'group_id': case ID}, using the
+        RAM cache when it exists.
+        """
+        row = self.rows[index]
+        image = self._cache[index] if self._cache is not None else self._load(row)
+        return {"image": image, "path": row["path"], "group_id": row["group_id"]}
+
+
+def main() -> None:
+    """CLI entry point: the only sub-command, `audit`, scans the NIfTI folders and writes the manifest CSV.
+    """
+    parser = argparse.ArgumentParser(description="Create manifest.csv from the HipMRI NIfTI folders")
+    commands = parser.add_subparsers(dest="command", required=True)
+    audit = commands.add_parser("audit", help="scan .nii/.nii.gz files and write the manifest")
+    audit.add_argument("--data-root", type=Path, required=True, help="Folder containing keras_slices_* directories")
+    audit.add_argument("--output", type=Path, default=Path("manifest.csv"), help="Output CSV path")
+    args = parser.parse_args()
+    try:
+        counts = audit_directory(args.data_root, args.output)
+    except Exception as exc:  # noqa: BLE001 - report cleanly instead of a traceback
+        print(f"ERROR: {exc}", file=sys.stderr)
+        raise SystemExit(2)
+    print(f"NIfTI audit complete: {counts}")
+    print(f"Manifest: {args.output.resolve()}")
+
+
+if __name__ == "__main__":
+    main()
