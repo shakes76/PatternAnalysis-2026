@@ -460,6 +460,7 @@ example) bleeds into the corner of an adjacent tile; should that tile be selecte
 ![Anatomy of the prostate](images/prostate.jpg)
 
 *Figure 9: Anatomy of the prostate [2]*
+
 </div>
 
 <div align="justify">
