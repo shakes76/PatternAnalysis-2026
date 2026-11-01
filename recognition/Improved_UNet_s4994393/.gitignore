@@ -1,0 +1,21 @@
+__pycache__/
+.venv*/
+.test-deps/
+runs/
+predictions/
+HipMRI_Study_open/
+*.pt
+*.pth
+data_downsampled/
+hipmri_cache/
+
+# Local experiment records and report drafts are not part of the submission.
+/results/
+/README_submission.md
+/README_original_grid.md
+/PERFORMANCE.md
+/VALIDATION.md
+/DOWNSAMPLING.md
+/DEVELOPMENT_TIMELINE.md
+/benchmark_data.py
+/colab_training.ipynb
