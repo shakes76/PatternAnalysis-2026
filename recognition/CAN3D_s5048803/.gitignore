@@ -1,0 +1,42 @@
+**/HipMRI_2D
+**/HipMRI_3D
+**/__pycache__
+.vscode/
+.vscode/*
+.vscode
+*.pt
+tempCodeRunnerFile.python
+models
+results/2d_slices/*
+results/3d_slices/*
+
+!results/2d_slices/can2d_slice_25.png
+!results/3d_slices/can3d_slice_64_ax2.png
+
+# General macOS files
+.DS_Store
+.localized
+__MACOSX/
+.AppleDouble
+.LSOverride
+Icon
+
+# Resource forks
+._*
+
+# Files that may appear on external disks / volumes
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.com.apple.timemachine.supported
+.fseventsd
+.DocumentRevisions-V100
+.TemporaryItems
+
+# Remote AFP share directories
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
