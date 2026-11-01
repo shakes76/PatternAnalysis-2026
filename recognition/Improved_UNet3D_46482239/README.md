@@ -24,7 +24,7 @@
 ## 1. Overview
 
 Prostate radiotherapy planning requires millimetre-level delineation of the prostate while sparing nearby organs at risk
-(bladder, rectum, femoral heads). This project implements a 3D Improved U-Net [2] that segments the background, body 
+(bladder, rectum, femoral heads). This project implements a 3D Improved U-Net [1] that segments the background, body 
 outline, bone, bladder, rectum, prostate from pelvic MRI volumes in the HipMRI study. It is benchmarked against a 2D 
 Improved U-Net with the same kind of residual connections and deep supervision baseline to investigate whether 
 volumetric context soothes boundary errors at the prostate base and apex.
@@ -51,7 +51,7 @@ since training a 3D segmentation model will up many times more the computation r
 ### 2.2 Model Choice and Course Concepts
 The dataset will be split at the patient-level, and we will separate the data into a training set, validation set, and 
 test set with the following weights of 0.80, 0.08, 0.12 (or similar). As an initial model, we will take inspiration from
-<___67876> and use a 3D Improved U-Net with residual blocks and deep supervision and choose LeakyReLU and InstanceNorm 
+Isensee [1] and use a 3D Improved U-Net with residual blocks and deep supervision and choose LeakyReLU and InstanceNorm 
 units in the residual blocks. Four (encoder & decoder) layers will be implemented, and we will use 2-layer deep 
 supervision. Dice-CE loss will be the basic loss function, and Tversky-CE loss can be considered if more suitable. We 
 can implement the base U-Net in accordance with the example shown in week 7/8 of COMP3710. We will compare the 
@@ -118,9 +118,9 @@ accompanied by an illustration featured in Figure 3 below.
 | Instance normalisation | normalises each channel of each sample independently across its spatial dimensions.                                                           | Allows for smaller batch sizes to save on VRAM usage since its outputs don’t depend on the batch                                                                                                                                    |
 
 
-![Architecture diagram](images/improved_unet.png)\
+![Architecture diagram](images/improved_unet.png)
 
-*Figure 3: Architecture of an improved U-Net [2]*
+*Figure 3: Architecture of an improved U-Net [1]*
 
 ### 3.3 Loss Function
 In an image segmentation task, we want the model to make accurate predictions on both at pixel-level and general-level.
@@ -131,12 +131,14 @@ Coefficient (DSC). This is because DSC calculates the overlap between the predic
 and focuses on the intersection over union of the specific classes rather than raw pixel counts. Consequently, this is
 what makes it a suitable choice for datasets (like the HipMRI) with class imbalance.
 The equations for DSC, Dice Loss, and CE are as follows: 
+
 $$\text{DSC}_c = \frac{2 \sum_{i=1}^{N} y_{i,c} \hat{y}_{i,c} + \epsilon}{\sum_{i=1}^{N} y_{i,c} + \sum_{i=1}^{N} \hat{y}_{i,c} + \epsilon}$$
+
 $$\mathcal{L}_{DSC} = 1 - \frac{1}{C} \sum_{c=1}^{C} \text{DSC}_c$$
+
 $$\mathcal{L}_{CE} = - \sum_{i=1}^{N} \sum_{c=1}^{C} y_{i,c} \log(\hat{y}_{i,c})$$
+
 Implementation of these loss functions can be found in modules.py
-
-
 
 ---
 
@@ -148,13 +150,13 @@ Implementation of these loss functions can be found in modules.py
 - **Input shape:** Shape of `(256, 256, 128)` with dimensions $H$, $W$, $D$ 
 - **Volume size:** $\text{~}256 \text{ MB}$ depending of precision
   - Made up of `256x256x128`voxels ($8,388,608\text{ voxels}$)
-  - Each volume loaded into float32 tensors/arrays $32\times 8,388,608=256 \text{ MB}$
+  - Each volume loaded into float32 tensors/arrays $32\times 8,388,608\div8=32 \text{ MB}$
   - For training, we take sub-voxels (patches) of the 3D scan to save on memory cost. The specific ratios is assigned to the `PATCH` variable in the `HipMRI3DDataset` class in `dataset.py`
 
 ### 4.2 Preprocessing
 - **Splits:** Patient level splits according to the proportions listed in section 4.3
 - **Label encoding:** One-hot with 6 channels (labels)
-- **Resampling / downsampling:** 2D scans are cropped to `256x128` when necessary
+- **Resampling / downsampling:** 2D scans are cropped to `256x128` to ensure uniformity (majority are `256x128`, some are `256x144`)
 - **Data loading:** The 3D `.nii.gz` files were converted to `.npy` files (under `./processed_npy/`) to speed up data loading during training and inference
 
 ### 4.3 Train / Validation / Test Split
@@ -273,11 +275,15 @@ produce a silhouette of the class.
 
 *Figure 5: False positives and false negatives for each class for volume 1 (not to scale)*
 
-Likewise, a more intuitive visualisation can be seen below in.
+Likewise, a more intuitive visualisation can be seen below in Figure 6. The mask for a random volume was permuted and 
+was split across the horizontal (W) axis, going from the superior end (apex) to the inferior (base) end. Each of the 2D
+slices along the axis was taken and shaded in accordance to its respective ground truth mask, predicted mask, and errors
+in the predicted mask. When all 256 slices was stitched together, it produced the `.gif` seen in Figure 5. As expected, 
+the errors between the predicted and ground truth masks consistently lie around the boundaries of the organs.
 
-![sliding](images/3d_sliding.gif)
+![sliding slices](images/3d_sliding.gif)
 
-*Figure 0DFDSF: sliding*
+*Figure 6: Animated gif of the slices of a random volume*
 
 ### 7.3 Test Set Performance
 *Table 6: Inference results with unseen test set*
@@ -320,8 +326,6 @@ greater than 0.7.
 
 ## 8. Investigation of the Open Research Dilemma
 
-> **Question:** Does multi-scale context or true 3D continuity eliminate hazardous boundary and slice-transition errors compared with a standard 2D baseline, or does it only smooth easy central slices at 5–10× the cost?
-
 ### 8.1 Baseline
 The base model is a 2D improved U-Net with the same kind of residual connections and deep supervision.
 
@@ -346,62 +350,164 @@ lower than the precision and recall, it suggests that the  precision and recall 
 by the background. Comparing this to the 3D network, where the metrics are more consistent throughout, it leads us to 
 believe that the 3D model can provide a better segmentation.
 
-### 8.3 Where Does Context Help? (Slice-wise Analysis)
-![Dice by slice position](images/dice_by_slice.png)
-*Figure 5: Prostate Dice versus slice position (inferior apex → superior base) for each model.*
+In short, the dice scores suggest that the 3D predicted mask is more compact and closer to the ground truth than the 
+predicted masks from the 2D network for slices that contain the prostate.
 
-<Do the models differ at the apex and base compared with the central slices? Discuss empty-slice handling.>
+### 8.3 Slice-wise Analysis & Failure Case Autopsy
+
+Slices across the superior and inferior ends of the prostate are taken from the inference results for the 2D network
+(Figure 7) and the 3D network (Figure 8). The red end on the colour scales denote false positives and the blue end 
+denotes false negatives.
+
+![2D Sliced](images/2d_smi.png)
+
+*Figure 7: Random sample taken at superior, middle, and inferior slice (2D network)*
+
+
+![3D Sliced](images/3d_smi.png)
+
+*Figure 8: Random sample taken at superior, middle, and inferior slice (3D network)*
+
+
+#### Case 1: Prostate Apex (superior) and Base (inferior) Slices
+
+The segmented results from both the 2D and 3D network showed that they underpredict at the superior end; false negative 
+on the prostate. conversely, at the inferior end, both networks show that they overpredict the prostate; false positive
+on the prostate slices. This may be because the 2D and 3D models, which differ in how they use context, show the same 
+bias. The cause is likely in the data: low contrast and partial-volume effects at both ends, and ambiguity in where the 
+ground truth stops. Likewise, the annotators who produced the ground truth masks may both share similar segmentation 
+practices and on deciding where each organ ends/begins. It is akin to solving Captchas where a sliver of bicycle (for 
+example) bleeds into the corner of an adjacent tile; should that tile be selected or ignored? 
+
+![Anatomy of the prostate](images/prostate.jpg)
+*Figure 9: Anatomy of the prostate [2]*
+
+Figure 9 helps illustrate this phenomenon. From the superior end (left side of prostate), the prostate can be seen to 
+taper off. When taking slices at this tapered end, it can be expected that other organs will hold a larger presence, 
+which leads to both the 2D and 3D networks to be more inclined in predicting the other organs. Conversely, at the 
+inferior end (right side of the prostate),the prostate is seen to share a flatter end. Consequently, when taking slices 
+at this end, we can expect the 3D network to overpredict since the transition from the end of the prostate to the rectum 
+is abrupt, and the tissue contrast may be low. Likewise, on the 2D baseline, this flatness means the slices may suddenly
+jump from with-prostate to no-prostate. However, this also means the slices with the inferior end of the prostate will 
+hold a larger presence of the prostate. Combine this with unclear boundaries due to contrast, we can expect some bias 
+towards predicting the prostate.
+
+*Table 8: Worst dice score of slices at each location across the entire test batch*
+| Location | Worst Dice Score |
+|----------|------------------|
+| Superior | 3.3e-10          |
+| Middle   | 0.860            |
+| Inferior | 1.3e-10          |
+
+This behaviour is reflected in the corresponding dice scores for the 3D inference results, as seen in Table 8.
+At the superior and inferior, the 3D network fails to correctly segment the prostate.
+
+#### Case 2: Prostate Middle Slices
+
+In both the 3D network (Figure 8) and the baseline (Figure 7), we saw that the middle slice shared both false negatives 
+and fals positives along the boundaries of the prostate. The explanation for this phenomenon is similar to what was 
+discussed above in case 1, where low tissue contrast and unclear boundaries play a considerable role. What is different 
+here, however, is that the false negatives tend to lie towards the bottom, where the body outline hold a larger presence. 
+Similarly, the false positives tend to lie above, which is where the bladder would sit (Figure 9). This aligns with what 
+have already been brought up: low tissue contrast between organs create unclear boundaries and that the body outline hold
+a more dominant presence.
+
+
+#### Case 3: Class Boundaries
+
+This case ties in with what was discussed in cases 1 and 2 already. Most notably about when the prostate sits along the 
+boundaries to other organs like the bladder, as we have mentioned in case 2. Another factor not brought up yet, is that 
+any tapered ends (hard or soft) may not have been properly captured due to the resolutions of the scans. We know that 
+the dataset for both the 2D and 3D scans are downsampled already. If the resolution were to have been reduced, boundaries
+would have to be blurred, which is also why all the errors, like in Figure 6, form a silhouette of the organs. Ideally, 
+if we had a sufficiently high resolution of the scans such that blending of the boundary pixel/voxels are kept to a 
+negligible amount, the network can be assumed to produced fewer artefacts around the boundaries.
 
 ### 8.4 Resource Profiling
-*Table 7: Resource usage during training*
-
-| Model             | Parameters | Approx size in FP32 (MB) | Peak VRAM Allocated (GB) | Peak VRAM Reserved (GB) | Training time | Mean Inference time   |
-|-------------------|------------|--------------------------|--------------------------|-------------------------|---------------|-----------------------|
-| 2D Improved U-Net | 2,055,186  | 7.84                     | 1.67                     | 2.15                    | ~20 mins      | 40 ms / batch (of 42) |
-| 3D Improved U-Net | 5,944,914  | 22.68                    | 16.14                    | 22.82                   | ~76 mins      | 140 ms  / volume      |
+Table 9 details the computation resources for training the models along with the inference performance.
 
 For both the 2D and 3D architecture, we used four encoders and decoders, each with two `size=3`convolution blocks and a
 `size=1` shortcut. Combine this with the same in/out channels for each resolution layer, the only variable becomes the 
 dimensionality of the model.
 
-### 8.5 Failure Case Autopsy (3–5 cases)
+*Table 9: Resource usage during training*
 
-(prostate base and apex slices, small disconnected
-artifacts). Advise your manager which anatomical cases remain unsuitable for automated drafting.
-For each case, include the multi-panel figure (image, ground truth, prediction, FP/FN overlay).
+| Model             | Parameters | Approx size in FP32 (MB) | Peak VRAM Allocated (GB) | Peak VRAM Reserved (GB) | Training time | Mean Inference time   |
+|-------------------|------------|--------------------------|--------------------------|-------------------------|---------------|-----------------------|
+| 2D Improved U-Net | 2,055,186  | 7.84                     | 1.67                     | 2.15                    | ~20 mins      | 40 ms / batch (of 42) |
+| 3D Improved U-Net | 5,944,914  | 22.68                    | 16.14                    | 22.82                   | ~76 mins      | 90 ms  / volume       |
 
-#### Case 1: <e.g. prostate apex slice, Patient X>
-![Failure case 1](images/failure_1.png)
-- **What happened:** <...>
-- **Likely trigger:** <e.g. low soft-tissue contrast, partial volume effect>
-- **Did the baseline fail too?** <...>
+It is evident that training on 3D volumes take up significantly more resources. On the A100 GPUs on rangpur, we saw that 
+the peak VRAM allocated went up to almost 10x the 2D resources. On top of that, feeding the full `256x256x128` volumes 
+from the training set into the network will eventually cause an OOM error on the A100s. As a result, patch-training had 
+to be implemented. 
 
-#### Case 2: <...>
-<Repeat the same structure for Cases 3–5.>
+### 8.5 Recommendation to the Project Manager
 
-### 8.6 Recommendation to the Project Manager
-- **Does 3D context justify its cost?** <Evidence-based answer.>
-- **Where it helps / where it does not:** <...>
-- **Cases unsuitable for automated drafting:** <...>
-- **Suggested workflow:** <e.g. automate central slices, route base/apex to a human>
+Current evidence suggest that the **2D Improved U-Net** serves as the better model.*
+
+#### Justification
+
+The 3D network is better at capturing context. However, due to the relatively tiny sample (211 3D volumes vs 12,660 2D 
+scans) there is considerable leeway in claiming that the sample used for training the 3D volumes were not diverse enough.
+Hence, it is fair to claim that the 2D Improved U-Net is a better contour-drafting assistant when taking into account 
+the computational resources required.
+
+The 3D network showed a considerable higher dice score (0.833 compared to 0.762 and 0.867 pooled) but a lower precision
+(0.7955 vs 0.8357) but most importantly, even with the full 3D context, the 3D Improved U-Net was not able to remove the 
+boundary failures that was present in the 2D counterpart. Similarly, both networks underpredicted (FNR higher) at the 
+superior end and overpredicted (FPR higher) at the inferior ends. On top of that, the 3D model required about 9.7× the 
+peak GPU memory (16.1 GB vs 1.7 GB) and about 3.8× the training time, so the extra context did not translate into 
+measurable clinical benefit for the cost.
+
+#### Where the 3D Improved U-Net Performs Better
+
+We saw in Table 8 above that the worst dice score for the middle slice of the prostate was 0.860, which is considerably 
+higher than the mean dice score of 0.762 as referenced in Table 7. Should this trend hold true for a more diverse set of 
+data, we can conclude that the 3D Improved U-Net is better at segmenting the middle prostate slices than its 2D counterpart,
+albeit edge artefacts still exist.
+
+#### Suitable Workflow
+
+We have shown that both networks underpredicted (FNR higher) at the superior end and overpredicted (FPR higher) at the
+inferior ends, all while performing the best around the middle slice of the prostate. Therefore, for slices in the 
+central part of the prostate gland, the draft may be accepted with spot-checking. For the superior and inferior parts, 
+it is recommended that we give the scan to a human for manual contouring. 
+
+#### Cases Unsuitable for Drafting
+
+The dataset we were provided featured scans from presumably whole bodies, meaning no scans were taken of someone with 
+deformaties around the hip. Our dataset also did not feature any scans from people who have artificial devices planted
+in their hips, like hip implants for example. Hence, we should not use the network to attempt to segment MRI scans of 
+individuals who fit these descriptions since it is unknown how the model will perform.
 
 ---
 
 ## 9. Generative AI Disclosure
 *Table 8: GenAI disclosure*
 
-| Tool              | Used for                             | Verification Processes                                                                                   |
-|:------------------|--------------------------------------|----------------------------------------------------------------------------------------------------------|
-| Claude Sonnet 5.5 | Explaining theory                    | Cross-reference with course material and other sources                                                   |
-| ...               | Subset-sum problem for patient split | Manual checks on split patient lists using pycharm's debug mode and asserts to detect duplicate patients |
-| ...               | Debugging OOM                        | Check training graph and inference results to ascertain the plausibility of results                      |
-| ...               | Debugging stdout buffering           | `cat log.out` and `cat log.err` to ensure training is happening                                          |
-| ...               | Report template                      | Cross-check with task sheet                                                                              |
+| Tool              | Used for                                 | Verification Processes                                                                                   |
+|:------------------|------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| Claude Sonnet 5.5 | Explaining theory                        | Cross-reference with course material and other sources                                                   |
+| ...               | Subset-sum problem for patient split [3] | Manual checks on split patient lists using pycharm's debug mode and asserts to detect duplicate patients |
+| ...               | Debugging OOM                            | Check training graph and inference results to ascertain the plausibility of results                      |
+| ...               | Debugging stdout buffering               | `cat log.out` and `cat log.err` to ensure training is happening                                          |
+| ...               | Report template [4]                      | Cross-check with task sheet                                                                              |
 
 ---
 
 ## 10. References
-1. <Baseline / dataset reference [1]>
-2. F. Isensee et al., "Brain Tumor Segmentation and Radiomics Survival Prediction: Contribution to the BRATS 2017 Challenge," 2017. <Check the exact reference given in the assignment.>
-3. <3D U-Net reference [4]>
-4. <Any code, library, or online resource adapted — cite it here and in docstrings.>
+[1] Isensee et al., "Brain Tumor Segmentation and Radiomics Survival Prediction: Contribution to the BRATS 2017 
+Challenge," 2017.
+
+[2] Cleveland Clinic, "Prostate: Anatomy, Location, Function & Conditions," Cleveland Clinic, Nov. 24, 2025. [Online]. 
+Available: https://my.clevelandclinic.org/health/body/23965-prostate. [Accessed: 1 Nov, 2026].
+
+[3] Anthropic, "Selecting boxes to match a ball total," Claude Sonnet 5.5. [Online]. Available: 
+https://claude.ai/share/b6dfd125-b6e9-46e6-84f6-664c2585c6ca. [Accessed: 28 Oct, 2026].
+
+[4] Anthropic, "Report outline for 2D and 3D improved U-Net," Claude Sonnet 5.5. [Online]. Available: 
+https://claude.ai/share/4084bb61-89f3-4781-9a55-3a427ceac0e0. [Accessed: 29 Oct, 2026].
+
+[5] Matplotlib, "Animated image using a precomputed list of images," [Online]. 
+Available: https://matplotlib.org/stable/gallery/animation/dynamic_image.html. [Accessed: 31 Oct, 2026].
