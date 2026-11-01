@@ -1,0 +1,40 @@
+Using device :: cuda
+Ready: 9000 real test slices from 'ADNI/AD_NC/test'.
+Ready: 21520 real training slices from 'ADNI/AD_NC/train'.
+Loading trained VAE feature extractor from 'vae_weights.pt'...
+Pre-extracting real test features for Domain FID...
+
+======================================================================
+ RUNNING EVALUATION (PyTorch-Ignite SSIM & Domain VAE-FID)
+======================================================================
+
+--- Evaluating LDM (200 samples from 'ldm_out') ---
+  [1/4] Computing Pairwise SSIM (Diversity)...
+        Pairwise SSIM: 0.7042
+  [2/4] Scanning Training Set (21520 slices) for Memorization...
+        Train NN SSIM: 0.7713 (Max: 0.8573)
+  [3/4] Scanning Test Set (9000 slices) for Generalization...
+        Test NN SSIM:  0.7626 (Max: 0.8164)
+  [4/4] Computing Domain Fréchet Distance (VAE Latent-FID)...
+        Domain FID (Raw):     0.4234
+        Domain FID (Clamped): 0.4119  [air noise < 0.05 zeroed]
+
+--- Evaluating GAN (200 samples from 'gan') ---
+  [1/4] Computing Pairwise SSIM (Diversity)...
+        Pairwise SSIM: 0.6598
+  [2/4] Scanning Training Set (21520 slices) for Memorization...
+        Train NN SSIM: 0.7298 (Max: 0.8063)
+  [3/4] Scanning Test Set (9000 slices) for Generalization...
+        Test NN SSIM:  0.7243 (Max: 0.7948)
+  [4/4] Computing Domain Fréchet Distance (VAE Latent-FID)...
+        Domain FID (Raw):     0.3972
+        Domain FID (Clamped): 0.3378  [air noise < 0.05 zeroed]
+
+==========================================================================================================
+                 COMPARATIVE BENCHMARK SUMMARY (PRIVACY & FID BENCHMARK)
+==========================================================================================================
+Model    | Pairwise SSIM    | Train NN Mean (Max)    | Test NN Mean (Max)     | FID (Raw)    | FID (Clamped) 
+----------------------------------------------------------------------------------------------------------
+LDM      | 0.7042           | 0.7713 (0.8573)        | 0.7626 (0.8164)        | 0.4234       | 0.4119        
+GAN      | 0.6598           | 0.7298 (0.8063)        | 0.7243 (0.7948)        | 0.3972       | 0.3378        
+==========================================================================================================
