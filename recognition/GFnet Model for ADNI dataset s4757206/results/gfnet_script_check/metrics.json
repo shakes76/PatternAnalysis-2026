@@ -1,0 +1,13 @@
+{
+  "model": "GFNet",
+  "checkpoint": "/content/drive/MyDrive/COMP3710/project/gfnet_best_1.pth",
+  "test_slices": 4440,
+  "test_patients": 102,
+  "test_loss": 0.5800716301342389,
+  "accuracy": 0.7150900900900901,
+  "balanced_accuracy": 0.7046680327868853,
+  "macro_precision": 0.7162727030796525,
+  "macro_recall": 0.7046680327868853,
+  "macro_f1": 0.7060890677911955,
+  "auroc": 0.778922131147541
+}

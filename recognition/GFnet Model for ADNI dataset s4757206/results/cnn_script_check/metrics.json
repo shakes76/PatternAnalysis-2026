@@ -1,0 +1,13 @@
+{
+  "model": "CNN",
+  "checkpoint": "/content/drive/MyDrive/COMP3710/project/models/cnn_baseline_best.pth",
+  "test_slices": 4440,
+  "test_patients": 102,
+  "test_loss": 0.5559342944944227,
+  "accuracy": 0.7236486486486486,
+  "balanced_accuracy": 0.7125450819672131,
+  "macro_precision": 0.726510820094433,
+  "macro_recall": 0.7125450819672131,
+  "macro_f1": 0.714110275364364,
+  "auroc": 0.7939094262295082
+}
