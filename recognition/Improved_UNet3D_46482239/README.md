@@ -10,9 +10,9 @@
 ## Table of Contents
 1. [Overview](#1-overview)
 2. [Feasibility Review](#2-feasibility-review)
-3. [How the Algorithm Works](#3-how-the-algorithm-works)
+3. [Network Architecture](#3-network-architecture)
 4. [Data and Preprocessing](#4-data-and-preprocessing)
-5. [Setup and Reproducibility](#5-setup-and-reproducibility)
+5. [Setup](#5-setup)
 6. [Usage](#6-usage)
 7. [Results](#7-results)
 8. [Investigation of the Open Research Dilemma](#8-investigation-of-the-open-research-dilemma)
@@ -49,6 +49,7 @@ feasibility of using a 3D automated segmentation model in medical imaging. Speci
 the prostate in MRI scans. The primary dilemma here is the accuracy trade-off for using 3D scans instead of 2D scans 
 since training a 3D segmentation model will up many times more the computation resources.
 </div>
+
 - **Acceptance criteria (3–5, testable):**
   1. Prostate Dice Score (present) ≥ 0.70 on unseen test set;
   2. Prostate IoU Score (present) ≥ 0.70 on unseen test set;
