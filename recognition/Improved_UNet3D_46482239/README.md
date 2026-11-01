@@ -91,7 +91,7 @@ skip connections that transfer information between the encoder and the decoder o
 connection is what mitigates the loss of information (preserves spatial detail) as it gets downsampled in the encoders 
 and passes through the (bottleneck) latent layer.
 
-![Architecture diagram](images/unet.png)\
+![Architecture diagram](images/unet.png)
 
 *Figure 2: Architecture of a U-Net*
 
@@ -180,6 +180,9 @@ The data is split in accordance to the ratios defined by the 2D MRI scans below:
 ## 5. Setup
 
 ### 5.1 Dependencies
+
+*Table 5: Version of python libraries used*
+
 | Package    | Version |
 |------------|---------|
 | Python     | 3.14.5  |
