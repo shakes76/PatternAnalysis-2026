@@ -1,0 +1,33 @@
+{
+  "device": "mps",
+  "test_baseline": {
+    "ssim_mean": 0.9822269549587566,
+    "ssim_std": 0.0028232641962515426,
+    "ssim_min": 0.9740336883028999,
+    "frac_ssim_above_0.6": 1.0,
+    "mse": 0.00015552761033177376
+  },
+  "test_VQ-VAE2": {
+    "ssim_mean": 0.934637429075467,
+    "ssim_std": 0.010809987305667831,
+    "ssim_min": 0.9061349309663304,
+    "frac_ssim_above_0.6": 1.0,
+    "mse": 0.0006141322664916515
+  },
+  "sampling_seconds_per_slice": 131.208842754364,
+  "memorisation": {
+    "heldout_reference": "validate + test pooled (7 patients, 1200 slices)",
+    "generated_nn_mse_median": 0.02302614226937294,
+    "generated_nn_mse_min": 0.018187589943408966,
+    "heldout_nn_mse_median": 0.020024187862873077,
+    "heldout_nn_mse_5th_percentile": 0.014566443860530853,
+    "generated_below_heldout_5th_percentile": 0,
+    "n_generated": 8
+  },
+  "diversity": {
+    "generated_mean_pairwise_mse": 0.023251598700881004,
+    "real_test_mean_pairwise_mse": 0.0444432832300663,
+    "top_codes_used_in_samples": 87,
+    "bottom_codes_used_in_samples": 81
+  }
+}

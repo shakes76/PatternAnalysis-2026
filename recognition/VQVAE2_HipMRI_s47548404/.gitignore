@@ -1,0 +1,27 @@
+# Data: never commit (Rangpur-only, and large)
+data/
+*.nii
+*.nii.gz
+*.npy
+*.npz
+
+# Model weights and checkpoints
+*.pt
+*.pth
+checkpoints/
+
+# Run outputs (copy chosen figures into images/ instead)
+outputs/
+runs/
+*.out
+*.err
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# Mac
+.DS_Store
