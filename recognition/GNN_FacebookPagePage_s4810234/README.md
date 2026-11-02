@@ -259,12 +259,12 @@ the acceptance criteria (training < 5 min, inference < 1 s).
 
 | Criterion | Target | Result | Met? |
 |---|---|---|---|
-| GCN test accuracy | ≥ 0.90 | 0.913 |  |
-| GCN macro-F1 | ≥ 0.88 | 0.908 |  |
-| Macro-F1 gain over MLP | ≥ 5 points | +12.6 |  |
-| ECE after temperature scaling | ≤ 0.05 | 0.021 |  |
-| ≥ 0.97 accuracy with ≤ 15% routed to review | ≤ 15% | 20.1% routed |  (narrow miss) |
-| Training time / inference | < 5 min / < 1 s | 80 s / 47 ms | |
+| GCN test accuracy | ≥ 0.90 | 0.913 | Yes |
+| GCN macro-F1 | ≥ 0.88 | 0.908 |  Yes|
+| Macro-F1 gain over MLP | ≥ 5 points | +12.6 |  Yes|
+| ECE after temperature scaling | ≤ 0.05 | 0.021 |  Yes|
+| ≥ 0.97 accuracy with ≤ 15% routed to review | ≤ 15% | 20.1% routed |  No (with a narrow miss) |
+| Training time / inference | < 5 min / < 1 s | 80 s / 47 ms | Yes|
 
 ## 7. The open dilemma: confidence and triage
 
