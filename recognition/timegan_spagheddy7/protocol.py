@@ -5,14 +5,15 @@ import json
 
 import numpy as np
 
+from dataset import PRICE_COLUMNS, PRICE_DIVISOR
 from evaluation import conditioning_history
 
 
 PRIOR_SEED_OFFSET = 10000
 
 
-def comparison_protocol(sequence_length=32, max_lags=4, seeds=(42, 43, 44)):
-    return {
+def comparison_protocol(sequence_length=32, max_lags=4, seeds=(42, 43, 44), context_scaler=None):
+    protocol = {
         "id": "anchor_only_v1", "sequence_length": sequence_length, "reference_history_length": max_lags,
         "generation_seeds": list(seeds),
         "generator_heldout_inputs": [], "decoder_heldout_inputs": ["20 prices at the window's anchor snapshot"],
@@ -25,6 +26,58 @@ def comparison_protocol(sequence_length=32, max_lags=4, seeds=(42, 43, 44)):
                        "best-of-many matching to real futures", "repairing or dropping invalid generated books"],
         "scope": "Anchored feature generation, not forecasting the particular observed future or generating starting prices.",
     }
+    if context_scaler is not None:
+        protocol.update(id="anchor_conditioned_v1", context_scaler=context_scaler,
+            generator_heldout_inputs=["19 standardised log relative price gaps from the anchor snapshot"],
+            timegan_initialisation="Noise plus static anchor price-gap context; no held-out feature history or volumes.",
+            ar_initialisation="Uniform training-history bootstrap plus the identical static context in a VARX(2).",
+            scope="Conditional anchored generation; includes a same-architecture zero-context ablation.")
+    return protocol
+
+
+def anchor_gap_features(anchors):
+    """Scale-invariant anchor shape: spread, nine ask gaps and nine bid gaps."""
+    prices = np.asarray(anchors, dtype=np.float64)
+    if prices.ndim != 2 or prices.shape[1] != 20 or not len(prices) or not np.isfinite(prices).all() or np.any(prices <= 0):
+        raise ValueError("Expected positive finite (windows, 20) anchor prices.")
+    asks, bids = prices[:, ::2], prices[:, 1::2]
+    gaps = np.concatenate((np.log(asks[:, :1] / bids[:, :1]), np.log(asks[:, 1:] / asks[:, :-1]), np.log(bids[:, :-1] / bids[:, 1:])), axis=1)
+    if np.any(gaps <= 0):
+        raise ValueError("Anchor prices must have a positive spread and strictly ordered ladders.")
+    return np.log(gaps)
+
+
+def fit_anchor_context(training_anchors):
+    """Fit only on anchor snapshots of complete training windows."""
+    values = anchor_gap_features(training_anchors)
+    scale = values.std(axis=0)
+    return dict(representation="log_relative_price_gaps_v1", dimensions=19, training_windows=len(values),
+                mean=values.mean(axis=0).tolist(), scale=np.where(scale > 1e-12, scale, 1.).tolist())
+
+
+def anchor_context(anchors, scaler, mode="matched"):
+    """Use fixed training statistics; never clip future contexts or inspect futures."""
+    if mode == "none":
+        return None
+    if mode not in ("matched", "zero") or scaler is None or scaler.get("representation") != "log_relative_price_gaps_v1":
+        raise ValueError("Unknown anchor-conditioning configuration.")
+    values = (anchor_gap_features(anchors) - np.asarray(scaler["mean"])) / np.asarray(scaler["scale"])
+    if values.shape[1] != 19 or not np.isfinite(values).all():
+        raise ValueError("Invalid anchor context.")
+    return np.zeros_like(values, dtype=np.float32) if mode == "zero" else values.astype(np.float32)
+
+
+def conditional_training_pairs(training, context_scaler, lags=2, max_lags=4):
+    """Teacher-forced training pairs with the starting context fixed for 32 updates."""
+    if training.raw_offset != 0 or not 1 <= lags <= max_lags:
+        raise ValueError("Use the training split and lags within the shared history budget.")
+    starts = training.starts[training.starts >= max_lags]
+    if not len(starts):
+        raise ValueError("No complete training windows with enough history.")
+    targets = (starts[:, None] + np.arange(training.sequence_length)).ravel()
+    previous = training.features[targets[:, None] - np.arange(1, lags + 1)].reshape(len(targets), -1)
+    contexts = anchor_context(training.book[starts][:, PRICE_COLUMNS] / PRICE_DIVISOR, context_scaler)
+    return previous, training.features[targets], np.repeat(contexts, training.sequence_length, axis=0)
 
 
 def sample_training_prior(training, count, max_lags, seed):

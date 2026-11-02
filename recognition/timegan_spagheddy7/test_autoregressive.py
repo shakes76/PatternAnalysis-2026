@@ -9,6 +9,29 @@ from modules import VARFit, VectorAR, lagged_pairs
 
 
 class AutoregressiveChecks(unittest.TestCase):
+    def test_varx_recovers_known_exogenous_coefficients_and_recursive_rollout(self):
+        rng = torch.Generator().manual_seed(77)
+        previous, context = torch.randn(300, 1, generator=rng, dtype=torch.float64), torch.randn(300, 1, generator=rng, dtype=torch.float64)
+        following = .5 * previous + 2 * context + .3
+        model = VARFit.from_pairs(previous, following, context).fit(0)
+        torch.testing.assert_close(model.weight, torch.tensor([[.5]], dtype=torch.float64), rtol=0, atol=1e-12)
+        torch.testing.assert_close(model.context_weight, torch.tensor([[2.]], dtype=torch.float64), rtol=0, atol=1e-12)
+        actual = model.generate(torch.zeros(1, 1), 3, context=torch.tensor([[2.]]))
+        torch.testing.assert_close(actual, torch.tensor([[[4.3],[6.45],[7.525]]],dtype=torch.float64), rtol=0, atol=1e-11)
+        restored = VectorAR(**model.state_dict())
+        torch.testing.assert_close(actual, restored.generate(torch.zeros(1,1),3,context=torch.tensor([[2.]])), rtol=0,atol=0)
+        with self.assertRaises(ValueError):
+            model.generate(torch.zeros(1,1))
+
+    def test_zero_context_has_same_ridge_solution_as_absent_context(self):
+        values = torch.randn(200, 3, generator=torch.Generator().manual_seed(8), dtype=torch.float64)
+        previous, following = lagged_pairs(values, 2)
+        reference = VARFit(values, 2).fit(.01)
+        zero = VARFit.from_pairs(previous, following, torch.zeros(len(previous), 19)).fit(.01)
+        for name in ("weight","bias","residuals"):
+            torch.testing.assert_close(getattr(zero,name),getattr(reference,name),rtol=0,atol=1e-12)
+        self.assertEqual(float(zero.context_weight.abs().max()),0.)
+
     def test_shared_svd_matches_augmented_least_squares(self):
         values = torch.randn((300, 3), generator=torch.Generator().manual_seed(71), dtype=torch.float64)
         values[:, 2] = values[:, 0]  # Include rank deficiency, also at zero regularisation.

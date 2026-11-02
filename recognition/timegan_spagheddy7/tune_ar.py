@@ -9,13 +9,14 @@ import numpy as np
 import scipy
 import torch
 
-from dataset import PROJECT_DIR, prepare_datasets, sha256_file
+from dataset import PROJECT_DIR, PRICE_COLUMNS, PRICE_DIVISOR, prepare_datasets, sha256_file
 from evaluation import (ValidationEvaluator, conditioning_history, decode_batch, metric_specification,
                         validation_windows, validity_rates)
-from modules import VARFit, lagged_pairs
-from train import make_checkpoint
+from modules import VectorAR, VARFit, lagged_pairs
+from train import make_checkpoint, write_json
 from ar_report import source_fingerprint
-from protocol import PRIOR_SEED_OFFSET, comparison_protocol, comparison_signature, sample_training_prior
+from protocol import (PRIOR_SEED_OFFSET, comparison_protocol, comparison_signature, sample_training_prior,
+                      fit_anchor_context, anchor_context, conditional_training_pairs)
 
 
 DEFAULT_GRID = {"lags": [1, 2, 4], "ridges": [1e-6, 1e-4, 1e-2], "seeds": [42, 43, 44]}
@@ -34,14 +35,14 @@ def experiment_config(lags, ridges, seeds, sequence_length, threads):
             "sequence_length": sequence_length, "threads": threads}
 
 
-def evaluate_candidate(model, base_row, histories, seeds, length, scaler, anchors, reference):
+def evaluate_candidate(model, base_row, histories, seeds, length, scaler, anchors, reference, context=None):
     """Evaluate a fitted model without changing the information used to fit it."""
     row, runs, diagnostics, preview = dict(base_row), [], [], None
     for seed in seeds:
         run = {"candidate": row["candidate"], "seed": seed, "status": "ok"}
         try:
             generated_at = perf_counter()
-            features = model.generate(histories[seed], length, seed)
+            features = model.generate(histories[seed], length, seed, context=context)
             run["generation_seconds"] = perf_counter() - generated_at
             scores, details = reference.evaluate(decode_batch(features, scaler, anchors))
             run.update(scores)
@@ -180,7 +181,7 @@ def run_grid(data_dir, lags=(1, 2, 4), ridges=(1e-6, 1e-4, 1e-2), seeds=(42, 43,
             "KL depends on the declared binning and smoothing; 32-update ACF only measures short event-time dependence.",
             "Depth SSIM uses fixed chronological pairing and the declared 7x7 uniform-window variant. It measures volumes, not price validity.",
             "Teacher-forced one-step validation MSE is a separate observed-history diagnostic, not main generation performance.",
-            "Final test comparison is pending. TimeGAN has not been trained or evaluated.",
+            "Final test comparison is pending. TimeGAN validation experiments are recorded separately in timegan_results.ipynb.",
             "The lowest invalid rate is ranked first even when another candidate has lower KL or one-step MSE.",
             "Candidate fit time includes an equal share of the order's SVD setup plus its own ridge solve/residual calculation.",
             "Rollout timing excludes decoding and IO. Historical refactor timings cover one observed-history grid without SSIM, not the new two-protocol run.",
@@ -201,6 +202,66 @@ def run_grid(data_dir, lags=(1, 2, 4), ridges=(1e-6, 1e-4, 1e-2), seeds=(42, 43,
     return report
 
 
+def run_conditioned_baseline(data_dir, report_path=None, output_dir=None, threads=4):
+    """Fixed VARX(2), ridge 0.01, with a zero-context control; no new grid or test scoring."""
+    torch.set_num_threads(threads)
+    report_path = Path(report_path or PROJECT_DIR / "reports/ar/anchor_conditioned.json")
+    output_dir = Path(output_dir or PROJECT_DIR / "outputs/ar/anchor_conditioned")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    if report_path.exists():
+        raise ValueError("Conditional AR report exists; preserve it and choose a new destination.")
+    datasets, scaler, audit = prepare_datasets(data_dir, 32, 32)
+    training, validation = datasets["train"], datasets["validation"]
+    del datasets
+    normalisation = fit_anchor_context(training.book[training.starts][:, PRICE_COLUMNS] / PRICE_DIVISOR)
+    protocol = comparison_protocol(context_scaler=normalisation)
+    starts, anchors, real = validation_windows(validation, 4)
+    spec = metric_specification(training)
+    reference = ValidationEvaluator(real, anchors, spec)
+    previous, following, contexts = conditional_training_pairs(training, normalisation)
+    histories = {seed: sample_training_prior(training, len(starts), 4, seed)[0][:, -2:] for seed in (42, 43, 44)}
+    rows, all_runs, replays = [], [], {}
+    for mode in ("zero", "matched"):
+        fitted_at = perf_counter()
+        inputs = np.zeros_like(contexts) if mode == "zero" else contexts
+        fitter = VARFit.from_pairs(torch.from_numpy(previous), torch.from_numpy(following), torch.from_numpy(inputs))
+        model = fitter.fit(.01)
+        fit_seconds = perf_counter() - fitted_at
+        del fitter
+        key = f"p2_ridge0.01_{mode}"
+        context = anchor_context(anchors, normalisation, mode)
+        base = dict(candidate=key, status="ok", lags=2, ridge=.01, anchor_conditioning=mode,
+            fit_seconds=fit_seconds, coefficient_count=sum(v.numel() for k,v in model.state_dict().items() if k != "residuals"),
+            training_pairs=len(following), training_one_step_mse=float(model.residuals.square().mean()), spectral_radius=model.spectral_radius)
+        row, runs, _, _, preview = evaluate_candidate(model, base, histories, (42,43,44), 32, scaler, anchors, reference, context)
+        if row["status"] != "ok":
+            raise RuntimeError(f"Conditional AR rollout failed: {runs}")
+        checkpoint = make_checkpoint(model, training, scaler, dict(base, sequence_length=32))
+        checkpoint["anchor_context_scaler"] = normalisation
+        path = output_dir / f"{mode}.pt"
+        torch.save(checkpoint, path)
+        restored = VectorAR(**torch.load(path, weights_only=True)["state_dict"])
+        replay = decode_batch(restored.generate(histories[42], 32, 42, context)[:3], scaler, anchors[:3])
+        difference = float(np.abs(replay-preview).max())
+        if difference != 0:
+            raise RuntimeError("Conditional AR checkpoint did not replay exactly.")
+        row.update(checkpoint=path.relative_to(PROJECT_DIR).as_posix(), checkpoint_sha256=sha256_file(path), reload_max_abs_difference=difference)
+        np.savez_compressed(output_dir/f"{mode}_examples.npz", real=real[:3], generated=preview, anchors=anchors[:3])
+        rows.append(row); all_runs.extend(runs); replays[mode] = difference
+        print(mode, "invalid", row["invalid_rate_mean"], "return KL", row["kl_mid_return_mean"], flush=True)
+    report = dict(format_version=1, candidates=rows, runs=all_runs, original_candidate=rows[0]["candidate"],
+        selected_candidate=rows[1]["candidate"], selection_rule="Fixed previous VAR(2)/ridge=0.01; matched context is the predeclared baseline, zero is its ablation.",
+        comparison_protocol=protocol, comparison_signature=comparison_signature(protocol,spec,starts+validation.raw_offset,audit["files"],scaler.to_dict()),
+        source_fingerprint=source_fingerprint(), preprocessing_scaler=scaler.to_dict(), context_scaler=normalisation,
+        metric_specification=spec, validation_windows=len(starts), test_evaluated=False, checkpoint_replays=replays,
+        limitations=["Training pairs cover complete windows with four past rows; static context is fixed within each window.",
+            "Both controls use the same pairs, uniform training-history bootstrap and generation seeds; only context values differ.",
+            "This is a new conditioning protocol. Historical anchor-only scores remain supplementary, not an equal-information comparison.",
+            "Context does not guarantee valid prices; no clipping, sorting, rounding or repair is used."])
+    write_json(report_path, report)
+    return report
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, required=True)
@@ -208,7 +269,11 @@ def main():
     parser.add_argument("--ridges", type=float, nargs="+", default=DEFAULT_GRID["ridges"])
     parser.add_argument("--seeds", type=int, nargs="+", default=DEFAULT_GRID["seeds"])
     parser.add_argument("--threads", type=int, default=4)
+    parser.add_argument("--anchor-conditioned", action="store_true", help="Run the fixed VARX baseline and its zero-context control.")
     args = parser.parse_args()
+    if args.anchor_conditioned:
+        run_conditioned_baseline(args.data_dir, threads=args.threads)
+        return
     report = run_grid(args.data_dir, args.lags, args.ridges, args.seeds, threads=args.threads)
     print(f"Selected {report['selected_candidate']} under {report['protocol_id']}; saved reports/ar/results.json (validation only).")
 

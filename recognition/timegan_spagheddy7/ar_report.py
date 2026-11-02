@@ -14,11 +14,13 @@ def source_fingerprint(project=None):
     return hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest()
 
 
-def load_report(project):
-    """Read only: no CSV loading, fitting, generation, or figure rewriting."""
+def load_report(project, historical_sha256=None):
+    """Read current or explicitly pinned historical results; normalise text line endings."""
     folder = Path(project) / "reports/ar"
-    report = json.loads((folder / "results.json").read_text(encoding="utf-8"))
-    if report.get("format_version") != 3 or report["source_fingerprint"] != source_fingerprint(project):
+    content = (folder / "results.json").read_text(encoding="utf-8").encode()
+    report = json.loads(content)
+    historical_match = historical_sha256 is not None and hashlib.sha256(content).hexdigest() == historical_sha256
+    if report.get("format_version") != 3 or (report["source_fingerprint"] != source_fingerprint(project) and not historical_match):
         raise ValueError("Saved report is from different code. Recompute the grid explicitly before reporting current results.")
     for figure in report.get("figures", {}).values():
         content = (folder / figure["file"]).read_bytes()

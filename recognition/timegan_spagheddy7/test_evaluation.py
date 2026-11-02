@@ -2,6 +2,11 @@
 
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
+from pathlib import Path
+import tempfile
+import hashlib
+import json
 
 import numpy as np
 import torch
@@ -10,10 +15,39 @@ from dataset import PRICE_COLUMNS, FeatureScaler
 from evaluation import (absolute_return_acf, conditioning_history, decode_batch, histogram_kl, histogram_probabilities,
                         market_series, validation_windows, validity_rates, DepthSSIM, depth_images, depth_ssim_specification)
 from tune_ar import select_candidate
-from protocol import comparison_protocol, comparison_signature, sample_training_prior
+from protocol import (comparison_protocol, comparison_signature, sample_training_prior, anchor_gap_features,
+                      fit_anchor_context, anchor_context, conditional_training_pairs)
 
 
 class EvaluationChecks(unittest.TestCase):
+    def test_historical_report_requires_exact_pin_and_still_checks_figures(self):
+        from ar_report import load_report
+        with tempfile.TemporaryDirectory() as folder, patch("ar_report.source_fingerprint",return_value="current"):
+            project = Path(folder)
+            report_dir = project/"reports/ar"
+            report_dir.mkdir(parents=True)
+            figure = report_dir/"figure.png"
+            figure.write_bytes(b"saved figure")
+            report = dict(format_version=3,source_fingerprint="old",figures={"preview":{"file":figure.name,"sha256":hashlib.sha256(figure.read_bytes()).hexdigest()}})
+            path = report_dir/"results.json"
+            content = (json.dumps(report,indent=2)+"\n").encode()
+            expected = hashlib.sha256(content).hexdigest()
+            path.write_bytes(content)
+            with self.assertRaises(ValueError):
+                load_report(project)
+            with self.assertRaises(ValueError):
+                load_report(project,historical_sha256="wrong")
+            for newline in (b"\n",b"\r\n"):
+                path.write_bytes(content.replace(b"\n",newline))
+                self.assertEqual(load_report(project,historical_sha256=expected),report)
+            path.write_bytes(content.replace(b'"old"',b'"changed"'))
+            with self.assertRaises(ValueError):
+                load_report(project,historical_sha256=expected)
+            path.write_bytes(content)
+            figure.write_bytes(b"changed")
+            with self.assertRaises(ValueError):
+                load_report(project,historical_sha256=expected)
+
     def test_depth_ssim_matches_independent_patch_statistics(self):
         rng = np.random.default_rng(17)
         real, generated = rng.uniform(1, 500, (2, 10, 40)), rng.uniform(1, 500, (2, 10, 40))
@@ -130,6 +164,56 @@ class EvaluationChecks(unittest.TestCase):
 
 
 class ProtocolChecks(unittest.TestCase):
+    def anchors(self):
+        prices = np.empty((4,20))
+        prices[:,::2] = 101 + np.arange(10)[None,:] * np.arange(1,5)[:,None]
+        prices[:,1::2] = 99 - np.arange(10)[None,:] * np.arange(1,5)[:,None]
+        prices[:,0] += np.arange(4)*.1
+        return prices
+
+    def test_anchor_context_uses_ordered_gaps_and_is_price_scale_invariant(self):
+        prices = self.anchors()
+        values = anchor_gap_features(prices)
+        self.assertEqual(values.shape,(4,19))
+        self.assertAlmostEqual(values[0,0],np.log(np.log(101/99)))
+        self.assertAlmostEqual(values[0,1],np.log(np.log(102/101)))
+        self.assertAlmostEqual(values[0,10],np.log(np.log(99/98)))
+        np.testing.assert_allclose(values,anchor_gap_features(prices*3),rtol=0,atol=1e-12)
+        prices[0,0] = prices[0,1]
+        with self.assertRaises(ValueError):
+            anchor_gap_features(prices)
+
+    def test_context_scaler_is_fixed_and_future_values_are_not_clipped(self):
+        prices = self.anchors()
+        normalisation = fit_anchor_context(prices[:3])
+        expected_mean = anchor_gap_features(prices[:3]).mean(0)
+        np.testing.assert_allclose(normalisation["mean"],expected_mean)
+        future = prices[3:].copy()
+        future[:,::2] += 100
+        result = anchor_context(future,normalisation)
+        np.testing.assert_allclose(result,(anchor_gap_features(future)-expected_mean)/normalisation["scale"],rtol=1e-6,atol=1e-6)
+        self.assertGreater(float(np.abs(result).max()),3.)
+        np.testing.assert_array_equal(anchor_context(future,normalisation,"zero"),np.zeros((1,19)))
+        self.assertIsNone(anchor_context(future,None,"none"))
+        self.assertEqual(comparison_protocol(context_scaler=normalisation)["id"],"anchor_conditioned_v1")
+        self.assertEqual(comparison_protocol()["generator_heldout_inputs"],[])
+
+    def test_conditional_pairs_use_only_past_rows_and_the_fixed_start_anchor(self):
+        features = np.arange(128*40).reshape(128,40).astype(np.float32)
+        book = np.ones((129,40))*100
+        for i in range(len(book)):
+            book[i,PRICE_COLUMNS] = self.anchors()[i%4]*10000
+        training = SimpleNamespace(raw_offset=0,starts=np.array([0,32,64,96]),features=features,book=book,sequence_length=32)
+        norm = fit_anchor_context(book[training.starts][:,PRICE_COLUMNS]/10000)
+        previous, following, context = conditional_training_pairs(training,norm)
+        np.testing.assert_array_equal(previous[0],np.r_[features[31],features[30]])
+        np.testing.assert_array_equal(previous[31],np.r_[features[62],features[61]])
+        np.testing.assert_array_equal(following[[0,31,32]],features[[32,63,64]])
+        np.testing.assert_array_equal(context[:32],np.repeat(anchor_context(book[32:33,PRICE_COLUMNS]/10000,norm),32,axis=0))
+        training.raw_offset = 128
+        with self.assertRaises(ValueError):
+            conditional_training_pairs(training,norm)
+
     def test_prior_repeats_without_touching_global_rng_or_heldout_data(self):
         features = np.arange(128 * 40).reshape(128, 40).astype(float)
         training = SimpleNamespace(raw_offset=0, starts=np.array([0, 32, 64, 96]), features=features)

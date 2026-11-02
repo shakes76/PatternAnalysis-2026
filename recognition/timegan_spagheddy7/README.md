@@ -1,70 +1,46 @@
 # TimeGAN for AMZN Limit Order Book Simulation
 
-COMP3710 Section 2.7. The autoregressive baseline is implemented and evaluated on validation data. TimeGAN and final test evaluation are pending.
+Edward Tennyson, s46482079 — COMP3710, Section 2.7 (Hard).
 
-Start with [ar_results.ipynb](ar_results.ipynb) for the complete AR baseline report: initial fit, tuning, structural validity, distributions, temporal behaviour, depth SSIM, fixed examples, runtime and conclusions. All displayed results are saved; opening or rerunning the notebook does not train models by default.
+## Feasibility review
 
-Under the main `anchor_only_v1` protocol, VAR(2), ridge 0.01, reduces invalid validation snapshots from 93.15% to 93.02%. Depth SSIM rises from 0.125 to 0.151, below the > 0.6 target. Return KL improves, while spread KL and temporal error worsen. This is an inadequate order-book simulator; the small validity difference does not establish a reliable advantage.
+### 1. User need, scope and acceptance criteria
 
-The earlier experiment used observed validation histories. Its selected VAR(4), ridge 1e-6, still scores 91.38% invalid snapshots and now has measured SSIM 0.262. These supplementary results remain in the same notebook under `observed_history_v1`; they are not the main comparison against noise-driven TimeGAN.
+Quant Researchers that specialise in market microstructure research often find themselves needing to model realistic market data to test trading algorithms. Under controlled conditions, it is extremely useful to have accurate simulations at hand that can do this. The purpose of this project is to investigate whether a TimeGAN model can reproduced Amazon Level-10 orderbook behaviour more accurately than a simple autoregressive basline while maintaing valid market conditions.
 
-## Shared comparison protocol
+The prototype will use the given LOBSTER sample from 21 June 2012 with 32 market updates, meaing that one training example will contain 32 consecutive recorded market events (i.e. a new order, trade, cancellation etc.) Genereated price changes will be reconstructed using supplied beginning prices with results limited by trading day.
 
-Both models learn only from training data. At generation time:
+The proposed effectiveness critera include:
 
-| Information | AR | TimeGAN (planned) |
-| --- | --- | --- |
-| Initial feature state | Random training history; last p rows of a shared four-row sample | Noise |
-| Validation feature history or volumes | Not supplied | Not supplied |
-| Starting prices | 20 observed prices, supplied only to the common decoder | Same prices and decoder |
-| Evaluation | 1,080 chronological validation windows, 32 updates, seeds 42/43/44 | Same windows, length, seeds and metrics |
+1. KL divergence ≤ 0.1 of spreads and price mid-point returns when comparing real and generated distributions.
+2. Heatmap depth structural similarity SSIM > 0.6.
+3. No observed structural violations in outputs, including: crossed orderbooks, invalid price levels, negative quantities.
+4. Improvement in volatility clustering compared to the baseline, which will be measured by a lower error (against the real autocorrelation return with lags 1-10).
+5. Peak GPU memory uses ≤ 7 GiB on this computer's RTX 4060 (which has 8GB VRAM). Training time and generation throughput will be recorded to measure efficiency benchmarks.
 
-AR history sampling uses seed + 10000, independently of residual sampling. The two models need not use identical random draws; the seed schedule and evaluation conditions must match. Generated sample i is paired with real window i, without best-of-many matching or structural repair. This evaluates anchored feature generation, not forecasting a specific observed future or generating starting prices. `protocol.py` and the saved comparison signature record the contract for the later TimeGAN evaluation.
+### 2. Model choice and course concepts
 
-Depth SSIM compares separate 10-level × 32-update ask/bid volume images. Signed log volumes are divided by the maximum log volume in training; `data_range=1` remains fixed and no values are clipped. We use 7×7 uniform windows, sample covariance, K1=0.01 and K2=0.03, averaging valid local windows, sides, sequences and seeds. This is a declared variant of the [SSIM equation](https://ece.uwaterloo.ca/~z70wang/publications/ssim.pdf), not the original 11×11 Gaussian setting. It measures volume similarity, not valid prices; the fixed shuffled-real control illustrates pairing sensitivity. SSIM is reported but does not affect grid selection.
+TimeGAN is the selected model according the task sheet. It combines a 'learned embedding with supervised temporal learning and adversarial training' (Yoon, Jarrett, van der Scharr, 2019). The model will be used to investigate the quantified temporal patterns in orderbook data can re-produce structurally valid orderbooks according the pre-defined market conditions. Relevant course concepts include recurrent networks, generative adversial learning, and representation learning.
 
-## Project documents
+An implementation in PyTorch will be compared with a simple first-order autogressive (AR) model/generator per sampled residuals in the data. Data splits will be the same for each model, following 70/15/15% split between training, validation, and testing. To simplify the data mathematically, which is done commonly across quantitative research desks, we will take the logarithm of prices to calculate log returns with scaling fit to the training data.
 
-- [AR baseline report](ar_results.ipynb): the main results notebook.
-- [Data checks](data_checks.ipynb): data feasibility evidence.
-- [Feasibility and report draft](feasibility_README.md): the student's writing.
-- [Development log](commitlog_README.md): recorded work and verification.
+### 3. Preliminary feasibility evidence
 
-## Reproduce the results
+The initial audit verified 269748 aligned message and order-book rows, with 40 orderbook features (10 orderbook levels per bid/ask side). The checks found no missing price levels, invalid spreads (non-positive), incorrectly ordered price ladders or invalid quantities. Proprocessing produced 5507, 1081, and 1839 training, validation, and test sequences respectfully. This is resulting of the 70/15/15% day-split. The first 70% of the day is used for training, next 15% for validation, and final 15% for testing. Each complete sequency contains 32 steps by 40 features, ready for the model.
 
-Use the project Python environment. Dependencies are in requirements.txt; notebook extras are in requirements-notebook.txt. From the repository root:
+The next initial check was the RTX 4060, which successfully was able to process a batch containing 64 sequences of market data. These results demonstrate working and audited data and GPU compatability.
 
-```powershell
-python recognition/timegan_spagheddy7/tune_ar.py --data-dir "../LOBSTER_SampleFile_AMZN_2012-06-21_10"
-python -m unittest discover -s recognition/timegan_spagheddy7 -p "test_*.py" -v
-```
+### 4. Risks, budget and fallback
 
-The first command fits nine configurations once and evaluates each with three seeds under both protocols: 54 evaluations, one results bundle. Then rerun the notebook to refresh its displayed outputs. Alternatively, set `RECOMPUTE_GRID = True` in the notebook. The historical initial smoke-test measurements remain labelled separately. The default notebook view needs neither raw CSVs nor checkpoints.
+The main risks with the model include unstable adversarial training, repetitive outputs, structural violations (of orderbook constraints), and unrealistic computing times. Also, the dataset covers 1 trading day of Amazon, limiting conclusions about extending the analysis to other stocks and market conditions that the data wasn't able to capture.
 
-For standalone fitting and generation:
+Initial experimenting will be done using the RTX 4060, which will be capped to a memory budget of 7 out of the 8 GiB VRAM available. Next steps will include running small TimeGANS to measure training stability, memory usage, and throughput. If memory requirements are excessive, batch size and hidden-layer width will need to be reduced, and computing on rangpur will be considered of local requirements are not enough.
 
-```powershell
-python recognition/timegan_spagheddy7/train.py --data-dir "../LOBSTER_SampleFile_AMZN_2012-06-21_10" --lags 1
-python recognition/timegan_spagheddy7/predict.py --num-sequences 64 --seed 42
-```
+Finally, for fallback, if the generated sequences are unrealistic, the baselines AR comparison and structural diagnostics will be utilised to identify the limitations of the TimeGAN and assist in making a final recommendation for backtesting in quantitative research.
 
-These write local scratch results under `outputs/ar/`. They do not overwrite the published report. Generation samples training histories and produces 32 new updates after each supplied anchor.
+### References
 
-## File responsibilities
-
-| File or folder | Purpose |
-| --- | --- |
-| `dataset.py` | Full-day checks, chronological splits, training-only scaling and batch decoding |
-| `modules.py` | PyTorch VAR model; shares one SVD across ridge values of the same order |
-| `train.py` / `predict.py` | Standalone fit and reload/generate commands; shared checkpoint schema |
-| `evaluation.py` | Strict book validity, KL, within-window ACF and depth SSIM; cached real reference statistics |
-| `protocol.py` | Training-only initial histories and the shared AR/TimeGAN information contract |
-| `tune_ar.py` | Shared fits, both initial-information protocols and explicit validation selection |
-| `ar_report.py` | Report loading, provenance checks and plots |
-| `reports/ar/` | One report bundle: results.json and report figures, including historical measurements |
-| `outputs/ar/` | Ignored checkpoints and generated arrays; selected model under `tuning/` |
-
-The CSVs remain outside Git. No book repairs are applied. The full-day data audit reads test data, but test model scores are not computed or used for tuning. The TimeGAN comparison and final held-out evaluation remain pending.
+https://proceedings.neurips.cc/paper_files/paper/2019/file/c9efe5f26cd17ba6216bbe2a7d26d490-Paper.pdf
 
 ## Artificial Intelligence Usage Disclosure
 
