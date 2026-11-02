@@ -6,14 +6,14 @@ Dataset: the modified Gayanku `facebook.npz`
 (https://github.com/gayanku/facebook_page-page_dataset), which contains
 22,470 Facebook pages (nodes), 171,002 mutual-like links (stored as
 342,004 directed edges), 128-dim node features, and 4 page categories:
-0 = company, 1 = government, 2 = company, 3 = politician.
+0 = company, 1 = government, 2 = politician ,3 =  TV show
 
 Setting: TRANSDUCTIVE semi-supervised node classification.
     - The model sees the WHOLE graph (all nodes, all edges, all features)
-      during training, because message passing needs neighbours.
-    - The loss is computed ONLY on training-node labels.
+      during   training, because message passing needs neighbours.
+    -The loss is computed ONLY on training-node labels.
     - Validation/test labels are never used for training or tuning;
-      they are hidden behind boolean masks.
+      they are hidden behind boolean masks sot here are limits in biases.
 """
 
 import numpy as np
@@ -50,7 +50,7 @@ def make_stratified_masks(y, train_frac=0.70, val_frac=0.15, seed=42):
     """Split node indices into train/val/test, stratified by class.
 
     Stratified = each class is split 70/15/15 separately, so the small
-    politician class (~15% of nodes) keeps the same share in every split.
+    TV show class (~15% of nodes) keeps the same share in every split.
     A fixed seed makes the split identical on every run (reproducibility),
     so the MLP baseline and the GCN are compared on exactly the same nodes.
 

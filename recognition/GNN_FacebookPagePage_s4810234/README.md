@@ -231,8 +231,7 @@ so homophily recovers most of them.
 ![Confusion matrices](figures/confusion_matrices.png)
 
 The MLP's largest error is **TV show → company (18%)**, followed by politician → government (14%). The GCN
-halves TV show → company to 9% and politician → government to 6%. TV show → company remains the GCN's largest
-single error, which motivates the failure autopsy in Section 8.
+halves TV show → company to 9% and politician → government to 6%. TV show → company remains the GCN's highest t single error, which motivates the failure autopsy in Section 8.
 
 ### t-SNE of hidden embeddings
 ![t-SNE](figures/tsne_embeddings.png)
@@ -260,16 +259,20 @@ the acceptance criteria (training < 5 min, inference < 1 s).
 
 | Criterion | Target | Result | Met? |
 |---|---|---|---|
-| GCN test accuracy | ≥ 0.90 | 0.913 | ✅ |
-| GCN macro-F1 | ≥ 0.88 | 0.908 | ✅ |
-| Macro-F1 gain over MLP | ≥ 5 points | +12.6 | ✅ |
-| ECE after temperature scaling | ≤ 0.05 | 0.021 | ✅ |
-| ≥ 0.97 accuracy with ≤ 15% routed to review | ≤ 15% | 20.1% routed | ❌ (narrow miss) |
-| Training time / inference | < 5 min / < 1 s | 80 s / 47 ms | ✅ |
+| GCN test accuracy | ≥ 0.90 | 0.913 |  |
+| GCN macro-F1 | ≥ 0.88 | 0.908 |  |
+| Macro-F1 gain over MLP | ≥ 5 points | +12.6 |  |
+| ECE after temperature scaling | ≤ 0.05 | 0.021 |  |
+| ≥ 0.97 accuracy with ≤ 15% routed to review | ≤ 15% | 20.1% routed |  (narrow miss) |
+| Training time / inference | < 5 min / < 1 s | 80 s / 47 ms | |
 
 ## 7. The open dilemma: confidence and triage
 
-<!-- WRITE THIS SECTION IN YOUR OWN WORDS. Facts and figures to use are listed below; delete this comment. -->
+
+Confidence is a useful sign however it may not represent the entire picture. When the GCN is wrong, it is wrong approximately 63.6% confident, compared to when it was right at 89.3%. 
+
+However, 41 of those 293 errors were made with >90% confidence, with there being no threshold able to catch those. 
+The GCN show underconfidennce with its uncalibrated reliability curve sitting above the diagonal, and temperature scaling chose T = 0.78. This value being less than 1 sharpens the probabilities. I believe this happens as using neighbours to average over smooths the respective outputs. Temperature scaling reduced the GCN's ECE from 0.044 to 0.021 without changing accuracy, because dividing every logit by the same T never changes which class scores highest. The MLP was already well calibrated (T = 1.01). At my target of 97% accuracy on automated pages, the GCN can handle 79.9% of pages itself versus 40.4% for the MLP, so human reviewers only need to check 20.1% of pages instead of 59.6%. This narrowly misses my feasibility target of routing at most 15% to review. The extra cost about 11× the training time and 15× the inference time, is clearly worth halving the human workload. This comparison is only shown to have an increase of a few seconds on a laptop. (80 s vs 7 s), ~15x inference (38 ms vs 2.4 ms)
 
 ![Confidence histograms](figures/confidence_histograms.png)
 ![Reliability diagrams](figures/reliability_diagrams.png)
@@ -290,17 +293,10 @@ the acceptance criteria (training < 5 min, inference < 1 s).
 | MLP | 0.926 | 40.4% | 59.6% | 0.974 | 0.682 |
 | GCN | 0.825 | 79.9% | 20.1% | 0.971 | 0.683 |
 
-<!-- Points to cover, in your words:
-- Does confidence separate right from wrong? (yes on average; but 41 GCN errors are >90% confident)
-- GCN is UNDERconfident (T < 1 sharpens). Why might that be? (neighbourhood averaging + dropout smooth logits)
-- Temperature scaling never changes accuracy, only confidence. Both models meet ECE <= 0.05.
-- At the same 0.97 accuracy, the GCN automates twice as many pages (79.9% vs 40.4%).
-- Feasibility criterion "<= 15% routed" is narrowly MISSED (20.1%). Say so plainly.
-- Cost: ~11x training time (80 s vs 7 s), ~15x inference (38 ms vs 2.4 ms) - is it worth it? -->
+
 
 ## 8. Failure case autopsy
 
-<!-- WRITE THIS SECTION IN YOUR OWN WORDS. Delete this comment. -->
 
 ![Error rate by homophily and degree](figures/error_by_homophily_degree.png)
 
@@ -321,28 +317,62 @@ The GCN fixed 460 of the MLP's errors and broke 79 pages the MLP had right.
 | Page | True | GCN predicted | Conf. | Degree | Neighbours in predicted class | MLP |
 |---|---|---|---|---|---|---|
 | Senate of Canada | government | politician | 1.00 | 266 | 100% | politician |
-| Viacom18 | company | TV show | 1.00 | 4 | 100% | company ✅ |
-| DIRECTV Puerto Rico | company | TV show | 1.00 | 69 | 81% | company ✅ |
+| Viacom18 | company | TV show | 1.00 | 4 | 100% | company |
+| DIRECTV Puerto Rico | company | TV show | 1.00 | 69 | 81% | company |
 | Comedy Central UK | company | TV show | 1.00 | 16 | 94% | TV show |
 | Fractal | TV show | company | 1.00 | 1 | 100% | company |
 
-<!-- Points to cover, in your words:
-- Heterophily is the systematic failure: below 0.25 homophily the GCN is WORSE than the MLP.
-- Legislatures (Senate, Camara de Diputados) are government pages whose neighbours are almost all politicians.
-- Media companies / broadcasters (Viacom18, DIRECTV, Comedy Central UK) sit in TV-show neighbourhoods;
-  for Viacom18 and DIRECTV the MLP was RIGHT and the graph overrode correct features.
-- Fractal: one neighbour decides everything (low degree).
-- These are ambiguous category boundaries, not random noise. Systematic, not one-off.
-- Confidently-wrong errors cannot be caught by any threshold. -->
+Heterophily is the main systematic failure here. For pages where fewer than 25% of their neighbours share their class, the GCN's error rate was 78.5% versus 54.4% for the MLP. The neighbours essentially pull the prediction towards the wrong class. Errors also fall steadily as degree rises, from 13.3% for pages with one neighbour to 4.9% for pages with 16 or more. This is due to the lack of context lower-degree pages have to average over. Overall, the GCN fixed 460 of the MLP's errors and introduced 79 new errors.
+The failure cases fall into clear groups. Legislatures such as the Senate of Canada are government pages whose neighbours are almost all politicians (265 of its 266), so the GCN confidently predicts politician. Media companies such as Viacom18 and DIRECTV Puerto Rico sit in TV-show neighbourhoods. For these two the MLP was correct, so the graph overrode correct feature evidence. Fractal has only one neighbour, so one link decides the prediction. These are ambiguous category boundaries rather than random noise, which makes them systematic, and because the GCN is confident on them, a confidence threshold is unable to catch these errors.
+One major confusion, TV show to company, is largely feature-driven: only 24% of these pages' neighbours are companies, and the MLP makes the same mistake 67% of the time. Company to TV show, by contrast, is more graph-driven: 46% of neighbours are TV shows, and the MLP makes that mistake only 39% of the time.
 
 ## 9. Recommendation to the project manager
+I would deploy the GCN with temperature scaling (T = 0.78) and a confidence threshold of 0.825. On held-out data, this automates roughly 80% of pages with 97% accuracy. The remaining 20% is sent to human reviewers, which is half the workload the MLP baseline requires.
+However, confidence alone is not enough. I would also send pages with very low homophily or very few neighbours (where the GCN is consistently and confidently wrong) to reviewand treat media companies and legislatures as known ambiguous categories. Before production I'd repeat the experiments over several random seeds, test a heterophily-aware GNN such as GraphSAGE or GAT, whilst measuring GPU memory and latency on hardware this is being deployed on. 
 
-<!-- WRITE THIS IN YOUR OWN WORDS: deploy or not? at what threshold? what stays manual?
-     what would you try next (e.g. heterophily-aware GNN, using node degree/homophily as a routing signal)? -->
+**Limitations:** results come from one training run with one seed, and all timings are on a laptop CPU (Apple M2), so no GPU memory out is reported. 
+
 
 ## 10. Artificial Intelligence Usage Disclosure
 
-TODO: final version from my AI log.
+### Tools used
+- **Claude (Anthropic)**, a chat assistant, used throughout for explanation, code drafting, debugging and review. The full conversation log is retained and available on request.
+
+### What AI assisted with
+
+**Planning and feasibility (29 Oct)**
+- Explaining the assessment spec and feasibility check-off requirements.
+- Drafting the smoke-test script (data loading + MLP baseline) used as preliminary evidence. I ran it myself in Colab.
+- Drafting the one-page feasibility review from my own audit results.
+
+**Repository and environment setup (30 Oct)**
+- Explaining the fork / upstream / branch workflow and fetching `topic-recognition` from upstream.
+- Drafting `.gitignore` entries to keep datasets and model weights out of git.
+- Diagnosing that `pip` was installing into the system Python instead of the conda env (fixed with `python -m pip`).
+
+**Code:** Claude drafted the first version of every script:
+- `dataset.py`: npz loader, stratified 70/15/15 masks, leakage assertions, data audit.
+- `modules.py`: MLP baseline and 2-layer GCN.
+- `train.py`: training loop, early stopping, checkpointing, curve plotting.
+- `evaluate.py`: sklearn metrics, confusion matrices, t-SNE, latency profiling.
+- `dilemma.py`: ECE, temperature scaling, coverage–accuracy curve, threshold selection.
+- `autopsy.py`: failure-case analysis by homophily, degree and confusion pair.
+- `predict.py`: inference demo with the calibrated triage policy.
+- `requirements.txt`: versions are the ones actually installed in my environment.
+
+**README:** Claude drafted the structure and the technical sections (1–6). I wrote sections 7–9 in my own words from my results; Claude corrected factual and wording errors.
+
+**Learning and interpretation:** explanations of transductive learning, GCN message passing, degree normalisation, homophily, over-smoothing, precision/recall/F1/AUROC, t-SNE, calibration and temperature scaling. I checked my understanding with self-quiz questions and inspected every figure myself before writing conclusions.
+
+### How I audited and verified AI-suggested work
+- **Ran every script myself** on the real dataset and checked outputs against the dataset documentation (22,470 nodes, 342,004 directed edges, 128 features).
+- **Leakage:** confirmed the masks are disjoint and cover every node (assertions in `check_masks`), that the training loss uses only `train_mask`, and that the temperature and threshold are fitted on validation only.
+- **Spec compliance:** confirmed `modules.py` contains no NumPy.
+- **Shape/size checks:** both models output `[22470, 4]` logits and have 8,516 trainable parameters each.
+- **Consistency:** `evaluate.py` and `predict.py` reproduce `train.py`'s test accuracies exactly (0.800 / 0.913); temperature scaling left accuracy unchanged; routed pages had much lower accuracy (0.68) than automated ones (0.97), confirming the threshold separates hard cases.
+- **Found and fixed an error:** the class mapping Claude took from the dataset's README (0 = TV show, 1 = government, 2 = company, 3 = politician) was wrong. I noticed well-known pages were mislabelled in `predict.py` output (e.g. airlines shown as "TV show"), verified the true alphabetical encoding with a keyword check on page names (e.g. 1,206 of 1,209 government-keyword pages have label 1), and corrected `CLASS_NAMES`. No numeric results changed; class names and the failure-autopsy interpretation were corrected.
+- **Failure autopsy:** looked up the misclassified pages myself.
+- Read through every line before committing, asked Claude to explain anything I didn't understand, and committed each component separately once it was verified.
 
 ## 11. References
 
