@@ -531,10 +531,10 @@ dimensionality of the model.
 
 *Table 9: Resource usage during training*
 
-| Model             | Parameters | Approx size in FP32 (MB) | Peak VRAM Allocated (GB) | Peak VRAM Reserved (GB) | Training time | Mean Inference time   |
-|-------------------|------------|--------------------------|--------------------------|-------------------------|---------------|-----------------------|
-| 2D Improved U-Net | 2,055,186  | 7.84                     | 1.67                     | 2.15                    | ~29 s / epoch | 40 ms / batch (of 42) |
-| 3D Improved U-Net | 5,944,914  | 22.68                    | 16.14                    | 22.82                   | ~55 s / epoch | 90 ms  / volume       |
+| Model             | Parameters | Approx size in FP32 (MB) | Peak VRAM Allocated (GB) | Peak VRAM Reserved (GB) | Training time   | Mean Inference time   |
+|-------------------|------------|--------------------------|--------------------------|-------------------------|-----------------|-----------------------|
+| 2D Improved U-Net | 2,055,186  | 7.84                     | 7.51                     | 9.73                    | ~2.69 s / epoch | 12 ms / batch (of 42) |
+| 3D Improved U-Net | 5,944,914  | 22.68                    | 16.14                    | 22.82                   | ~55.0 s / epoch | 90 ms  / volume       |
 
 
 
@@ -544,7 +544,7 @@ the peak VRAM allocated went up to almost 10x the 2D resources. On top of that, 
 from the training set into the network will eventually cause an OOM error on the A100s. As a result, patch-training had 
 to be implemented. 
 
-Despite having almost 3x the parameters, the training time per epoch for the 3D Improved U-Net was only about 2.2x longer 
+Despite having almost 3x the parameters, the training time per epoch for the 3D Improved U-Net was about 20.4x longer 
 than the 2D U-Net version.
 
 
@@ -563,9 +563,9 @@ the computational resources required.
 The 3D network showed a considerable higher dice score (0.833 compared to 0.762 and 0.867 pooled) but a lower precision
 (0.7955 vs 0.8357) but most importantly, even with the full 3D context, the 3D Improved U-Net was not able to remove the 
 boundary failures that was present in the 2D counterpart. Similarly, both networks underpredicted (FNR higher) at the 
-superior end and overpredicted (FPR higher) at the inferior ends. On top of that, the 3D model required about 9.7× the 
-peak GPU memory (16.1 GB vs 1.7 GB) and about 2.2× the training time (assuming we reduce the epochs to 50 as suggested
-in section 7.1), so the extra context did not translate into any significant measurable clinical benefit for the cost.
+superior end and overpredicted (FPR higher) at the inferior ends. On top of that, the 3D model required about 2.14× the 
+peak GPU memory (16.1 GB vs 7.51 GB) and about 20.4× the training time, so the extra context did not translate into any
+significant measurable clinical benefit for the cost.
 
 #### Where the 3D Improved U-Net Performs Better
 
