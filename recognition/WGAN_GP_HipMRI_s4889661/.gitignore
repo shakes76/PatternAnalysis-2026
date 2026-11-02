@@ -1,0 +1,13 @@
+data/
+*.nii
+*.nii.gz
+*.pt
+*.pth
+runs/
+__pycache__/
+.ipynb_checkpoints/
+ai_notes.md
+data_preview.png
+slurm/logs/
+figures/
+README.pdf
