@@ -12,7 +12,7 @@ from evaluation import conditioning_history
 PRIOR_SEED_OFFSET = 10000
 
 
-def comparison_protocol(sequence_length=32, max_lags=4, seeds=(42, 43, 44), context_scaler=None):
+def comparison_protocol(sequence_length=32, max_lags=4, seeds=(42, 43, 44), context_scaler=None, volume_mode="none"):
     protocol = {
         "id": "anchor_only_v1", "sequence_length": sequence_length, "reference_history_length": max_lags,
         "generation_seeds": list(seeds),
@@ -32,6 +32,20 @@ def comparison_protocol(sequence_length=32, max_lags=4, seeds=(42, 43, 44), cont
             timegan_initialisation="Noise plus static anchor price-gap context; no held-out feature history or volumes.",
             ar_initialisation="Uniform training-history bootstrap plus the identical static context in a VARX(2).",
             scope="Conditional anchored generation; includes a same-architecture zero-context ablation.")
+    if volume_mode != "none":
+        if volume_mode not in ("matched", "zero") or context_scaler is None or context_scaler.get("representation") != "log_relative_price_gaps_log1p_volumes_v1":
+            raise ValueError("Starting-volume conditioning requires the 39-dimensional training scaler.")
+        protocol.update(id="anchor_price_volume_conditioned_v1",
+            generator_heldout_inputs=["19 standardised log relative price gaps from the anchor snapshot",
+                                     "20 standardised log1p volumes from that snapshot in the matched-volume arm only"],
+            timegan_initialisation="Noise plus matched static anchor price context; compare matched anchor volumes against zeroed volume context at identical capacity.",
+            ar_initialisation="No AR result is included under this expanded information budget.",
+            prohibited=["held-out feature histories as generator inputs", "held-out future snapshots or volumes",
+                        "fitting context statistics on validation or test snapshots",
+                        "best-of-many matching to real futures", "repairing or dropping invalid generated books"],
+            scope="Conditional anchored generation with a 39-dimensional context; the matched/zero volume pair shares this protocol and must not be pooled with historical price-only groups.")
+    elif context_scaler is not None and context_scaler.get("representation") == "log_relative_price_gaps_log1p_volumes_v1":
+        raise ValueError("The starting-volume scaler requires an explicit matched or zero volume mode.")
     return protocol
 
 
@@ -47,16 +61,66 @@ def anchor_gap_features(anchors):
     return np.log(gaps)
 
 
-def fit_anchor_context(training_anchors):
-    """Fit only on anchor snapshots of complete training windows."""
+def fit_anchor_context(training_anchors, training_volumes=None):
+    """Fit only on anchor snapshots of complete training windows.
+
+    Optional volumes are the 20 raw share counts at those same starting rows,
+    in ask/bid order by level. The caller must supply the training split only.
+    Omitting volumes preserves the historical price-only scaler exactly.
+    """
     values = anchor_gap_features(training_anchors)
     scale = values.std(axis=0)
-    return dict(representation="log_relative_price_gaps_v1", dimensions=19, training_windows=len(values),
-                mean=values.mean(axis=0).tolist(), scale=np.where(scale > 1e-12, scale, 1.).tolist())
+    fitted = dict(representation="log_relative_price_gaps_v1", dimensions=19, training_windows=len(values),
+                  mean=values.mean(axis=0).tolist(), scale=np.where(scale > 1e-12, scale, 1.).tolist())
+    if training_volumes is not None:
+        volumes = _anchor_volume_features(training_volumes, len(values))
+        volume_scale = volumes.std(axis=0)
+        fitted.update(representation="log_relative_price_gaps_log1p_volumes_v1", dimensions=39,
+                      price_dimensions=19, volume_dimensions=20,
+                      volume_order="ask_1,bid_1,...,ask_10,bid_10",
+                      mean=fitted["mean"] + volumes.mean(axis=0).tolist(),
+                      scale=fitted["scale"] + np.where(volume_scale > 1e-12, volume_scale, 1.).tolist())
+    return fitted
 
 
-def anchor_context(anchors, scaler, mode="matched"):
+def _anchor_volume_features(volumes, count):
+    """Validate raw starting share counts before the fixed log1p transform."""
+    values = np.asarray(volumes, dtype=np.float64)
+    if values.shape != (count, 20) or not np.isfinite(values).all() or np.any(values < 0):
+        raise ValueError("Expected nonnegative finite (windows, 20) anchor volumes.")
+    return np.log1p(values)
+
+
+def fit_ladder_gap_scale(training):
+    """Training-window log-gap change ranges, with 10% headroom and a 0.1 floor."""
+    if training.raw_offset != 0:
+        raise ValueError("Ladder statistics must be fitted on the training split.")
+    prices = training.book[:, PRICE_COLUMNS] / PRICE_DIVISOR
+    gaps = anchor_gap_features(prices)
+    future = training.starts[:, None] + np.arange(1, training.sequence_length + 1)
+    changes = gaps[future] - gaps[training.starts, None]
+    return np.maximum(1.1 * np.abs(changes).max(axis=(0, 1)), .1)
+
+
+def anchor_context(anchors, scaler, mode="matched", volumes=None, volume_mode="none"):
     """Use fixed training statistics; never clip future contexts or inspect futures."""
+    if volume_mode != "none":
+        if volume_mode not in ("matched", "zero") or mode != "matched" or scaler is None or scaler.get("representation") != "log_relative_price_gaps_log1p_volumes_v1":
+            raise ValueError("Volume controls require matched price context and the 39-dimensional scaler.")
+        mean, scale = np.asarray(scaler.get("mean"), dtype=np.float64), np.asarray(scaler.get("scale"), dtype=np.float64)
+        if scaler.get("dimensions") != 39 or mean.shape != (39,) or scale.shape != (39,) or not np.isfinite(mean).all() or not np.isfinite(scale).all() or np.any(scale <= 0):
+            raise ValueError("Invalid starting-volume context scaler.")
+        prices = (anchor_gap_features(anchors) - mean[:19]) / scale[:19]
+        # The zero-volume arm need not read any held-out volume values.
+        volume_values = np.zeros((len(prices), 20)) if volume_mode == "zero" else (_anchor_volume_features(volumes, len(prices)) - mean[19:]) / scale[19:]
+        values = np.concatenate((prices, volume_values), axis=1)
+        if not np.isfinite(values).all() or np.any(np.abs(values) > np.finfo(np.float32).max):
+            raise ValueError("Invalid starting-volume context.")
+        return values.astype(np.float32)
+    if volumes is not None:
+        raise ValueError("Supply an explicit matched or zero volume mode for anchor volumes.")
+    if scaler is not None and scaler.get("representation") == "log_relative_price_gaps_log1p_volumes_v1":
+        raise ValueError("The starting-volume scaler requires an explicit matched or zero volume mode.")
     if mode == "none":
         return None
     if mode not in ("matched", "zero") or scaler is None or scaler.get("representation") != "log_relative_price_gaps_v1":

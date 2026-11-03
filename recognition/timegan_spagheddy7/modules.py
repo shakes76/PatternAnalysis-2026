@@ -69,6 +69,54 @@ class SequenceNetwork(torch.nn.Module):
         return torch.sigmoid(projected) if self.bounded else projected
 
 
+class PriceLadderDecoder(torch.nn.Module):
+    """Learn an ordered log-price ladder, then return scaled log-return targets.
+
+    Architecture extension: one common bid return and 19 positive relative gaps.
+    Gap changes are bounded by training-only ranges, not sorted or repaired.
+    Buffers add no trainable parameters. Volumes retain the sigmoid output.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.register_buffer("minimum", torch.zeros(40, dtype=torch.float64))
+        self.register_buffer("span", torch.ones(40, dtype=torch.float64))
+        self.register_buffer("gap_scale", torch.ones(19, dtype=torch.float64))
+
+    @torch.no_grad()
+    def configure(self, minimum, span, gap_scale):
+        for name, value in (("minimum", minimum), ("span", span), ("gap_scale", gap_scale)):
+            value = torch.as_tensor(value, dtype=torch.float64, device=self.minimum.device)
+            target = getattr(self, name)
+            if value.shape != target.shape or not torch.isfinite(value).all() or (name != "minimum" and (value <= 0).any()):
+                raise ValueError("Invalid training-only ladder decoder statistics.")
+            target.copy_(value)
+
+    def forward(self, logits, anchors):
+        if anchors is None or anchors.shape != (len(logits), 20):
+            raise ValueError("Ladder recovery requires one 20-price anchor per sequence.")
+        anchors = anchors.to(device=logits.device, dtype=torch.float64)
+        if not torch.isfinite(anchors).all() or (anchors <= 0).any():
+            raise ValueError("Ladder anchors must be finite and positive.")
+        initial = anchors.log()
+        asks, bids = initial[:, ::2], initial[:, 1::2]
+        gaps = torch.cat((asks[:, :1] - bids[:, :1], asks[:, 1:] - asks[:, :-1], bids[:, :-1] - bids[:, 1:]), dim=-1)
+        if (gaps <= 0).any():
+            raise ValueError("Ladder anchors must be strictly ordered with positive spread.")
+        raw = logits[..., ::2].double()
+        bid_returns = raw[..., 1].sigmoid() * self.span[2] + self.minimum[2]
+        best_bid = initial[:, None, 1] + bid_returns.cumsum(dim=1)
+        gap_logits = torch.cat((raw[..., :1], raw[..., 2:]), dim=-1)
+        future_gaps = gaps[:, None] * (gap_logits.tanh() * self.gap_scale).exp()
+        best_ask = best_bid + future_gaps[..., 0]
+        ask_path = torch.cat((best_ask[..., None], best_ask[..., None] + future_gaps[..., 1:10].cumsum(dim=-1)), dim=-1)
+        bid_path = torch.cat((best_bid[..., None], best_bid[..., None] - future_gaps[..., 10:].cumsum(dim=-1)), dim=-1)
+        log_prices = torch.stack((ask_path, bid_path), dim=-1).flatten(-2)
+        previous = torch.cat((initial[:, None], log_prices[:, :-1]), dim=1)
+        returns = (log_prices - previous - self.minimum[::2]) / self.span[::2]
+        return torch.stack((returns.to(logits.dtype), logits[..., 1::2].sigmoid()), dim=-1).flatten(-2)
+
+
 class TimeGAN(torch.nn.Module):
     """Five-network TimeGAN for fixed-length feature sequences.
 
@@ -79,7 +127,7 @@ class TimeGAN(torch.nn.Module):
     context enters every network; this is a labelled conditional extension.
     """
 
-    def __init__(self, features=40, hidden=32, layers=2, noise_dim=40, cell="pytorch", context_dim=0):
+    def __init__(self, features=40, hidden=32, layers=2, noise_dim=40, cell="pytorch", context_dim=0, price_decoder="none"):
         super().__init__()
         if min(features, hidden, noise_dim) < 1 or layers < 2 or not isinstance(context_dim, int) or context_dim < 0:
             raise ValueError("Use positive widths and at least two main GRU layers.")
@@ -88,22 +136,31 @@ class TimeGAN(torch.nn.Module):
         self.config = dict(features=features, hidden=hidden, layers=layers, noise_dim=noise_dim, cell=cell)
         if context_dim:
             self.config["context_dim"] = context_dim
+        if price_decoder not in ("none", "ladder") or (price_decoder == "ladder" and features != 40):
+            raise ValueError("Use none or ladder; the ladder decoder requires 40 features.")
+        if price_decoder != "none":
+            self.config["price_decoder"] = price_decoder
         self.embedder = SequenceNetwork(features, hidden, hidden, layers, cell=cell, context_dim=context_dim)
-        self.recovery = SequenceNetwork(hidden, hidden, features, layers, cell=cell, context_dim=context_dim)
+        self.recovery = SequenceNetwork(hidden, hidden, features, layers, bounded=price_decoder == "none", cell=cell, context_dim=context_dim)
         self.generator = SequenceNetwork(noise_dim, hidden, hidden, layers, cell=cell, context_dim=context_dim)
         self.supervisor = SequenceNetwork(hidden, hidden, hidden, layers - 1, cell=cell, context_dim=context_dim)
         self.discriminator = SequenceNetwork(hidden, hidden, 1, layers, bounded=False, cell=cell, context_dim=context_dim)
+        self.price_ladder = PriceLadderDecoder() if price_decoder == "ladder" else None
 
-    def forward(self, noise, context=None):
-        return self.recovery(self.supervisor(self.generator(noise, context), context), context)
+    def recover(self, latent, context=None, anchors=None):
+        recovered = self.recovery(latent, context)
+        return recovered if self.price_ladder is None else self.price_ladder(recovered, anchors)
 
-    def reconstruct(self, features, context=None):
-        return self.recovery(self.embedder(features, context), context)
+    def forward(self, noise, context=None, anchors=None):
+        return self.recover(self.supervisor(self.generator(noise, context), context), context, anchors)
+
+    def reconstruct(self, features, context=None, anchors=None):
+        return self.recover(self.embedder(features, context), context, anchors)
 
     # Cached TorchScript autograd graphs require normal tensors even when gradients are disabled.
     @torch.inference_mode(False)
     @torch.no_grad()
-    def generate(self, count, sequence_length=32, seed=42, batch_size=64, context=None):
+    def generate(self, count, sequence_length=32, seed=42, batch_size=64, context=None, anchors=None):
         """Seeded generation; conditional models require preprocessed anchor context."""
         if min(count, sequence_length, batch_size) < 1 or seed < 0 or seed >= 2**63:
             raise ValueError("Invalid generation size or seed.")
@@ -116,10 +173,15 @@ class TimeGAN(torch.nn.Module):
                 raise ValueError("Invalid generation context.")
         elif self.config.get("context_dim", 0):
             raise ValueError("Conditional generation needs anchor context.")
+        if anchors is not None:
+            anchors = torch.as_tensor(anchors, dtype=torch.float64, device="cpu")
+            if anchors.shape != (count, 20):
+                raise ValueError("Invalid generation anchors.")
         was_training = self.training
         self.eval()
         try:
-            return torch.cat([self(noise[i:i + batch_size].to(device), None if context is None else context[i:i + batch_size].to(device)).cpu()
+            return torch.cat([self(noise[i:i + batch_size].to(device), None if context is None else context[i:i + batch_size].to(device),
+                                   None if anchors is None else anchors[i:i + batch_size].to(device)).cpu()
                               for i in range(0, count, batch_size)])
         finally:
             self.train(was_training)

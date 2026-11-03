@@ -11,10 +11,10 @@ from time import perf_counter
 import numpy as np
 import torch
 
-from dataset import FEATURE_NAMES, PRICE_COLUMNS, PRICE_DIVISOR, PROJECT_DIR, prepare_datasets, sha256_file
+from dataset import FEATURE_NAMES, PRICE_COLUMNS, VOLUME_COLUMNS, PRICE_DIVISOR, PROJECT_DIR, prepare_datasets, sha256_file
 from modules import VectorAR, TimeGAN, temporal_loss, moment_loss, order_penalty
 from evaluation import conditioning_history, ValidationEvaluator, DepthSSIM, decode_batch, metric_specification, validation_windows, validity_rates
-from protocol import comparison_protocol, comparison_signature, fit_anchor_context, anchor_context
+from protocol import comparison_protocol, comparison_signature, fit_anchor_context, anchor_context, fit_ladder_gap_scale
 
 
 def write_json(path, value):
@@ -103,7 +103,7 @@ class TimeGANTrainer:
         group = "embedding" if joint else "embedding_pretrain"
         self.activate(group)
         latent = self.model.embedder(real, context)
-        recovered = self.model.recovery(latent, context)
+        recovered = self.model.recover(latent, context, anchors)
         reconstruction = torch.nn.functional.mse_loss(recovered, real)
         supervision = temporal_loss(latent, self.model.supervisor(latent, context)) if joint and not self.no_supervision else reconstruction.new_zeros(())
         objective_mse = reconstruction if self.reconstruction_weights is None else ((recovered - real).square() * self.reconstruction_weights).mean()
@@ -141,7 +141,7 @@ class TimeGANTrainer:
                 latent = self.model.embedder(real, context)
         raw_fake = self.model.generator(noise, context)
         fake = self.model.supervisor(raw_fake, context)
-        generated = self.model.recovery(fake, context)  # Frozen recovery still passes gradients to its input.
+        generated = self.model.recover(fake, context, anchors)  # Frozen recovery still passes gradients to its input.
         adversarial = self.classify(self.model.discriminator(fake, context), True) + self.gamma * self.classify(self.model.discriminator(raw_fake, context), True)
         supervision = adversarial.new_zeros(())
         if not self.no_supervision:
@@ -181,35 +181,42 @@ def timegan_code_hashes():
     return {name: hashlib.sha256((PROJECT_DIR / name).read_text(encoding="utf-8").encode()).hexdigest() for name in names}
 
 
-def reconstruction_check(values, architecture, device, steps=600, contexts=None):
+def reconstruction_check(values, architecture, device, steps=600, contexts=None, anchors=None, decoder_statistics=None):
     """Independent eight-window learning check; these weights are discarded."""
     torch.manual_seed(9001)
     probe = TimeGAN(**architecture).to(device)
+    if decoder_statistics is not None:
+        probe.price_ladder.configure(**decoder_statistics)
     trainer = TimeGANTrainer(probe)
     indices = torch.linspace(0, len(values) - 1, 8).long()
     batch = values[indices].to(device)
     context = None if contexts is None else contexts[indices].to(device)
+    anchor = None if anchors is None else anchors[indices].to(device)
     with torch.no_grad():
-        before = float((probe.reconstruct(batch, context) - batch).square().mean())
+        before = float((probe.reconstruct(batch, context, anchor) - batch).square().mean())
         constant = float((batch - batch.mean(dim=(0, 1), keepdim=True)).square().mean())
     for _ in range(steps):
-        trainer.embedding_step(batch, collect=False, context=context)
+        trainer.embedding_step(batch, collect=False, context=context, anchors=anchor)
     with torch.no_grad():
-        after = float((probe.reconstruct(batch, context) - batch).square().mean())
+        after = float((probe.reconstruct(batch, context, anchor) - batch).square().mean())
     return dict(windows=8, steps=steps, initial_mse=before, final_mse=after, constant_feature_mean_mse=constant,
                 passed=bool(after < min(.5 * before, constant)), scope="Training-only reconstruction check; independent model discarded.")
 
 
 def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=1000, supervised_steps=1000, joint_steps=1000,
                 eval_every=250, seed=2026, batch_size=128, hidden=24, layers=3, learning_rate=1e-3, device="auto", sanity_steps=600, threads=4,
-                structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none"):
+                structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none", price_decoder="none", volume_conditioning="none"):
     """Reference-structure experiment; fixed validation selection, no test scoring."""
     if min(embedding_steps, supervised_steps, joint_steps, eval_every, batch_size, sanity_steps, threads) < 1 or not 0 <= seed < 2**63 - 1000:
         raise ValueError("Use positive training budgets and a valid seed.")
     if not np.isfinite(learning_rate) or learning_rate <= 0:
         raise ValueError("Learning rate must be finite and positive.")
+    if price_decoder not in ("none", "ladder") or (price_decoder == "ladder" and anchor_conditioning != "matched"):
+        raise ValueError("The ladder pilot requires matched anchor conditioning.")
     if anchor_conditioning not in ("none", "matched", "zero"):
         raise ValueError("Unknown anchor conditioning mode.")
+    if volume_conditioning not in ("none", "zero", "matched") or (volume_conditioning != "none" and anchor_conditioning != "matched"):
+        raise ValueError("Volume conditioning requires matched price context and none/zero/matched volume mode.")
     if not np.isfinite(balance_power) or not 0 <= balance_power <= 1 or (not balance_reconstruction and balance_power != 1.):
         raise ValueError("Use balance-reconstruction with a balance power between zero and one.")
     device = "cuda" if device == "auto" and torch.cuda.is_available() else ("cpu" if device == "auto" else device)
@@ -244,24 +251,33 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     price_weight = reconstruction_price_weight(values, balance_power) if balance_reconstruction else 1.
     starts, anchors, real = validation_windows(validation, 4)
     training_anchors = torch.as_tensor(training.book[training.starts][:, PRICE_COLUMNS] / PRICE_DIVISOR)
-    context_scaler = None if anchor_conditioning == "none" else fit_anchor_context(training_anchors.numpy())
-    contexts = anchor_context(training_anchors.numpy(), context_scaler, anchor_conditioning)
+    training_volumes = None if volume_conditioning == "none" else training.book[training.starts][:, VOLUME_COLUMNS].astype(np.float64)
+    validation_volumes = None if training_volumes is None else validation.book[starts][:, VOLUME_COLUMNS]
+    context_scaler = None if anchor_conditioning == "none" else fit_anchor_context(training_anchors.numpy(), training_volumes)
+    contexts = anchor_context(training_anchors.numpy(), context_scaler, anchor_conditioning, volumes=training_volumes, volume_mode=volume_conditioning)
     contexts = None if contexts is None else torch.from_numpy(contexts)
-    validation_context = anchor_context(anchors, context_scaler, anchor_conditioning)
-    spec, protocol = metric_specification(training), comparison_protocol(context_scaler=context_scaler)
+    validation_context = anchor_context(anchors, context_scaler, anchor_conditioning, volumes=validation_volumes, volume_mode=volume_conditioning)
+    spec, protocol = metric_specification(training), comparison_protocol(context_scaler=context_scaler, volume_mode=volume_conditioning)
     signature = comparison_signature(protocol, spec, starts + validation.raw_offset, audit["files"], scaler.to_dict())
     ar = json.loads((PROJECT_DIR / "reports/ar" / ("results.json" if context_scaler is None else "anchor_conditioned.json")).read_text(encoding="utf-8"))
-    if signature != ar["comparison_signature"]:
+    # Preserve the historical data/metric contract, while explicitly separating the richer input budget.
+    base_protocol = protocol if training_volumes is None else comparison_protocol(context_scaler=fit_anchor_context(training_anchors.numpy()))
+    base_signature = comparison_signature(base_protocol, spec, starts + validation.raw_offset, audit["files"], scaler.to_dict())
+    if base_signature != ar["comparison_signature"]:
         raise ValueError("AR and TimeGAN comparison contracts differ; resolve the discrepancy before training.")
     reference = ValidationEvaluator(real, anchors, spec)
     reference_feature_std = np.stack([validation.features[s:s + 32] for s in starts]).reshape(-1, 40).std(axis=0).tolist()
     loading_seconds = perf_counter() - started
     architecture = dict(features=40, hidden=hidden, layers=layers, noise_dim=40, cell="reference")
     if context_scaler is not None:
-        architecture["context_dim"] = 19
+        architecture["context_dim"] = context_scaler["dimensions"]
+    decoder_statistics = None
+    if price_decoder == "ladder":
+        architecture["price_decoder"] = price_decoder
+        decoder_statistics = dict(minimum=scaler.minimum, span=scaler.span, gap_scale=fit_ladder_gap_scale(training))
     print("Checking reconstruction on eight training windows...", flush=True)
     sanity_started = perf_counter()
-    sanity = reconstruction_check(values, architecture, device, sanity_steps, contexts)
+    sanity = reconstruction_check(values, architecture, device, sanity_steps, contexts, training_anchors, decoder_statistics)
     sanity["seconds"] = perf_counter() - sanity_started
     print(f"Reconstruction check: {sanity}", flush=True)
     if not sanity["passed"]:
@@ -272,6 +288,10 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
         torch.cuda.reset_peak_memory_stats()
     torch.manual_seed(seed)
     model = TimeGAN(**architecture).to(device)
+    if decoder_statistics is not None:
+        model.price_ladder.configure(**decoder_statistics)
+    initial_parameters_sha256 = hashlib.sha256(b"".join(p.detach().cpu().numpy().tobytes() for p in model.parameters())).hexdigest()
+    minibatch_digest, noise_digest = hashlib.sha256(), hashlib.sha256()
     # Default weight zero preserves the reference objective. The extension uses training data only.
     asks, bids = training.book[:, 0::4], training.book[:, 2::4]
     margin = float(min(np.diff(asks, axis=1).min(), (-np.diff(bids, axis=1)).min(), (asks[:, 0] - bids[:, 0]).min()) / PRICE_DIVISOR)
@@ -295,6 +315,9 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     config["anchor_conditioning"] = anchor_conditioning
     if context_scaler is not None:
         config["objective"] += " + static anchor context" if anchor_conditioning == "matched" else " + zero-context architecture control"
+    if volume_conditioning != "none":
+        config["volume_conditioning"] = volume_conditioning
+        config["objective"] += " + starting-volume context" if volume_conditioning == "matched" else " + zero-volume-context control"
     if no_supervision:
         config["objective"] += " without temporal supervision"
         config["supervision_ablation"] = "No supervisor warm-up or temporal terms in E/R and G/S; same five networks, adversarial/moment terms and joint minibatch/noise streams."
@@ -302,15 +325,21 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
         config.update(balance_reconstruction=True, balance_power=balance_power, price_reconstruction_weight=price_weight,
                       reconstruction_weight_scope="(Training-window volume variance / price variance) ** balance_power; volume weights remain one.")
         config["objective"] += " + variance-balanced reconstruction"
+    if price_decoder == "ladder":
+        config.update(price_decoder=price_decoder, ladder_gap_scale=decoder_statistics["gap_scale"].tolist())
+        config["objective"] += " + ordered price-ladder decoder"
     history, validation_history, best, best_examples = [], [], None, None
     stage_seconds = {}
 
     def batch():
         indices = torch.randperm(len(values), generator=sampler, device=device)[:batch_size]
+        minibatch_digest.update(indices.cpu().numpy().tobytes())
         return values[indices], anchor_values[indices], None if context_values is None else context_values[indices]
 
     def noise(count):
-        return torch.rand(count, 32, architecture["noise_dim"], generator=noise_rng, device=device)
+        result = torch.rand(count, 32, architecture["noise_dim"], generator=noise_rng, device=device)
+        noise_digest.update(result.cpu().numpy().tobytes())
+        return result
 
     def save_model(name, stage, step):
         checkpoint = {"format_version": 1, "model_type": "timegan", "architecture": architecture,
@@ -318,13 +347,15 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
                       "scaler": {"minimum": torch.from_numpy(scaler.minimum), "maximum": torch.from_numpy(scaler.maximum)},
                       "training_price_anchors": training_anchors, "config": config, "stage": stage, "step": step,
                       "comparison_signature": signature, "source_files": source_files, "anchor_context_scaler": context_scaler}
+        if training_volumes is not None:
+            checkpoint["training_volume_anchors"] = torch.from_numpy(training_volumes)
         torch.save(checkpoint, output_dir / name)
 
     def evaluate(step):
         runs, samples, feature_summary = [], {}, None
         for generation_seed in protocol["generation_seeds"]:
             generated_at = perf_counter()
-            features = model.generate(len(starts), 32, generation_seed, batch_size, context=validation_context)
+            features = model.generate(len(starts), 32, generation_seed, batch_size, context=validation_context, anchors=anchors)
             generation_seconds = perf_counter() - generated_at
             books = decode_batch(features, scaler, anchors)
             scores, details = reference.evaluate(books)
@@ -392,7 +423,7 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     checkpoint = torch.load(output_dir / "selected.pt", map_location=device, weights_only=True)
     reloaded = TimeGAN(**checkpoint["architecture"]).to(device)
     reloaded.load_state_dict(checkpoint["state_dict"])
-    replay = decode_batch(reloaded.generate(len(starts), 32, protocol["generation_seeds"][0], batch_size, context=validation_context)[:3], scaler, anchors[:3])
+    replay = decode_batch(reloaded.generate(len(starts), 32, protocol["generation_seeds"][0], batch_size, context=validation_context, anchors=anchors)[:3], scaler, anchors[:3])
     reload_difference = float(np.abs(replay - np.asarray(best_examples["generated"])).max())
     if not np.allclose(replay, best_examples["generated"], atol=1e-7, rtol=1e-7):
         raise RuntimeError("Selected checkpoint failed the saved-example reload check.")
@@ -404,13 +435,14 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     from predict import save_timegan_report_figures
     figures = save_timegan_report_figures(best_examples, report_path.parent)
     report = dict(format_version=1, status="single-training-seed reference-structure experiment; not final model selection", config=config,
+                  initial_parameters_sha256=initial_parameters_sha256, minibatch_stream_sha256=minibatch_digest.hexdigest(), noise_stream_sha256=noise_digest.hexdigest(),
                   previous_runs=previous_runs, source_files=source_files, comparison_protocol=protocol, comparison_signature=signature,
                   metric_specification=spec, input_files=audit["files"], splits=audit["splits"], fit_split="train",
                   selection_split="validation", test_evaluated=False, validation_windows=len(starts), real_validity=validity_rates(real),
                   history=history, validation_history=validation_history, selected=best, figures=figures, example_diagnostics=example_diagnostics,
                   example_raw_anchor_indices=best_examples["raw_anchor_indices"],
-                  ar_baselines=[row for row in ar["candidates"] if row["candidate"] in (ar["original_candidate"], ar["selected_candidate"])],
-                  ar_selected_candidate=ar["selected_candidate"], reconstruction_check=sanity, reload_max_abs_difference=reload_difference,
+                  ar_baselines=[] if training_volumes is not None else [row for row in ar["candidates"] if row["candidate"] in (ar["original_candidate"], ar["selected_candidate"])],
+                  ar_selected_candidate=None if training_volumes is not None else ar["selected_candidate"], reconstruction_check=sanity, reload_max_abs_difference=reload_difference,
                   selected_checkpoint_sha256=sha256_file(output_dir / "selected.pt"), data_loading_seconds=loading_seconds,
                   stage_training_seconds=stage_seconds, total_seconds=perf_counter() - started,
                   device=device, device_name=torch.cuda.get_device_name(0) if device == "cuda" else "CPU",
@@ -441,6 +473,14 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
         report["status"] = "Anchor-conditioned architecture extension" if anchor_conditioning == "matched" else "Zero-context ablation of the conditional architecture"
         report["limitations"].append("All five networks have static context inputs. Only matched mode supplies observed anchor gaps; zero mode retains identical dimensions with zero values. This is not the authors' objective/architecture.")
         report["anchor_context_scaler"] = context_scaler
+    if price_decoder == "ladder":
+        report["status"] = "Ordered price-ladder architecture extension; validation only."
+        report["limitations"][4] = "Common bid returns and volumes are bounded to training ranges; relative gaps use training-only change ranges. Other price returns can exceed training ranges."
+        report["limitations"][5] = "Positive spread and ordered prices are built into the decoder; no sorting or repair. This alone does not establish realistic dynamics or diversity."
+    if training_volumes is not None:
+        report["status"] = "Starting-volume conditioning controlled pilot; validation only."
+        report["limitations"].append("Starting volumes expand the held-out input budget. Compare the matched/zero-volume pair; historical AR and price-only TimeGAN scores are not matched-information baselines.")
+        report["historical_data_metric_contract"] = base_signature
     write_json(report_path, report)
     return report
 
@@ -533,6 +573,8 @@ def main():
     parser.add_argument("--balance-power", type=float, default=1., help="Exponent in [0, 1] for partial variance balance; requires --balance-reconstruction.")
     parser.add_argument("--no-supervision", action="store_true", help="Ablation: omit supervisor pretraining and both joint temporal-loss terms.")
     parser.add_argument("--anchor-conditioning", choices=("none","matched","zero"), default="none")
+    parser.add_argument("--price-decoder", choices=("none", "ladder"), default="none")
+    parser.add_argument("--volume-conditioning", choices=("none", "zero", "matched"), default="none", help="Labelled extension: starting volumes or same-dimension zero-volume control; requires matched price context.")
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
     args = parser.parse_args()
     if args.model == "timegan":
@@ -540,7 +582,7 @@ def main():
             parser.error("The fixed AR/TimeGAN comparison requires sequence-length=32.")
         report = fit_timegan(args.data_dir, args.output_dir, args.report, args.embedding_steps, args.supervised_steps,
                             args.joint_steps, args.eval_every, args.seed, args.batch_size, args.hidden, args.layers,
-                            args.learning_rate, args.device, args.sanity_steps, args.threads, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning)
+                            args.learning_rate, args.device, args.sanity_steps, args.threads, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning, args.price_decoder, args.volume_conditioning)
         print(f"TimeGAN pilot complete. Selected joint step {report['selected']['step']}; validation only.")
         return
     report_path = args.report or PROJECT_DIR / "outputs/ar/fit.json"

@@ -13,12 +13,287 @@ from protocol import anchor_context, fit_anchor_context
 from train import timegan_code_hashes, write_json
 
 
+def reconstruction_scores(features, recovered, training_mean, scaler, anchors, real):
+    """Observed-input diagnostics; the constant predictor is fitted on training only."""
+    if features.shape != recovered.shape or features.ndim != 3 or features.shape[-1] != 40:
+        raise ValueError("Expected matching (windows, updates, 40) reconstruction arrays.")
+    if training_mean.shape != (40,) or not all(torch.isfinite(x).all() for x in (features, recovered, training_mean)):
+        raise ValueError("Reconstruction inputs and training means must be finite.")
+    mse = (features - recovered).square().mean((0, 1)).double().numpy()
+    baseline = (features - training_mean).square().mean((0, 1)).double().numpy()
+    variance = features.double().var((0, 1), unbiased=False).numpy()
+    groups = {}
+    for name, columns in (("price", PRICE_COLUMNS), ("volume", VOLUME_COLUMNS)):
+        error, constant, var = (float(a[columns].mean()) for a in (mse, baseline, variance))
+        if min(constant, var) <= 0:
+            raise ValueError("Reconstruction groups need positive baseline error and variance.")
+        groups[name] = dict(mse=error, training_mean_mse=constant, mse_over_training_mean=error / constant,
+                            variance=var, mse_over_variance=error / var)
+    decoded = decode_batch(recovered, scaler, anchors)
+    if not np.isfinite(decoded).all():
+        raise FloatingPointError("Non-finite decoded reconstruction.")
+    price_error = decoded[..., PRICE_COLUMNS] - real[..., PRICE_COLUMNS]
+    return dict(feature_groups=groups, reconstruction=validity_rates(decoded), real=validity_rates(real),
+                price_rmse_usd=float(np.sqrt(np.square(price_error).mean())),
+                endpoint_price_rmse_usd=float(np.sqrt(np.square(price_error[:, -1]).mean())),
+                mean_price_error_by_update_usd=price_error.mean((0, 2)).tolist(),
+                invalid_by_update=[validity_rates(decoded[:, i:i + 1])["invalid_rate"] for i in range(features.shape[1])],
+                finite=True, windows=len(features))
+
+
+def reconstruction_screen(candidate, control):
+    """Fixed-final pilot gate, declared before fitting; not a simulator quality claim."""
+    candidate, control = candidate["validation"], control["validation"]
+    price = candidate["feature_groups"]["price"]["mse"] / control["feature_groups"]["price"]["mse"]
+    volume = candidate["feature_groups"]["volume"]["mse"] / control["feature_groups"]["volume"]["mse"]
+    invalid = candidate["reconstruction"]["invalid_rate"] - control["reconstruction"]["invalid_rate"]
+    endpoint = candidate["endpoint_price_rmse_usd"] / control["endpoint_price_rmse_usd"]
+    values = (price, volume, invalid, endpoint)
+    if not np.isfinite(values).all():
+        raise ValueError("Screen values must be finite.")
+    return [dict(criterion=label, passed=bool(passed), value=float(value)) for label, passed, value in (
+        ("Price MSE at least 20% lower", price <= .8, price),
+        ("Volume MSE increase at most 5%", volume <= 1.05, volume),
+        ("Reconstructed invalidity increase at most 2 percentage points", invalid <= .02, invalid),
+        ("Endpoint price RMSE increase at most 5%", endpoint <= 1.05, endpoint))]
+
+
+def save_reconstruction_figures(report, audit_folder, destination):
+    """Fixed cases and common scales for the reconstruction-to-generation study."""
+    import matplotlib.pyplot as plt
+    destination, audit_folder = Path(destination), Path(audit_folder)
+    def save(fig, key):
+        path = destination / f"reconstruction_{key}.png"
+        fig.savefig(path, dpi=145)
+        plt.close(fig)
+        report["figures"][key] = dict(file=path.name, sha256=sha256_file(path))
+    fig, axes = plt.subplots(2, 2, figsize=(12, 7), layout="constrained")
+    for name, run in sorted(report["reconstruction_runs"].items()):
+        label = name.replace("er_", "").replace("_s2026", "").replace("_", " ")
+        rows = [r for r in run["evaluations"] if r["step"] > 0]
+        for ax, group in zip(axes[0], ("price", "volume")):
+            ax.plot([r["step"] for r in rows], [r["validation"]["feature_groups"][group]["mse_over_training_mean"] for r in rows], marker="o", label=label)
+            ax.set(title=f"Validation {group} MSE / training-mean baseline", xlabel="Embedding update")
+        axes[1, 0].plot([r["step"] for r in rows], [100*r["validation"]["reconstruction"]["invalid_rate"] for r in rows], marker="o", label=label)
+        axes[1, 1].plot(range(1, 33), run["final"]["validation"]["mean_price_error_by_update_usd"], label=label)
+    axes[1, 0].set(title="Reconstructed invalid snapshots (%)", xlabel="Embedding update")
+    axes[1, 1].set(title="Fixed-final mean price error (USD)", xlabel="Within-window update")
+    axes[1, 1].axhline(0, color="black", linewidth=.7)
+    for ax in axes.ravel(): ax.grid(alpha=.2)
+    axes[0, 0].legend(fontsize=8)
+    fig.suptitle("Observed-input E/R probes; one training seed, no generator training")
+    save(fig, "probes")
+
+    audit = report["full_audit"]
+    metrics = [("invalid_rate", "Invalid (%)", 100), ("kl_spread", "Spread KL", 1), ("kl_mid_return", "Return KL", 1),
+               ("abs_return_acf_mae", "ACF error", 1), ("depth_ssim", "Depth SSIM", 1)]
+    rows = [("control", "selected"), ("candidate", "selected"), ("candidate", "final")]
+    fig, axes = plt.subplots(1, 5, figsize=(14, 4), layout="constrained")
+    for ax, (key, title, scale) in zip(axes, metrics):
+        scores = [audit["models"][label]["checkpoints"][stage]["score"] for label, stage in rows]
+        ax.bar(range(3), [r[key+"_mean"]*scale for r in scores], yerr=[r[key+"_sd"]*scale for r in scores], capsize=3,
+               color=["#8291a3", "#187caa", "#dc8b32"])
+        ax.set(title=title, xticks=range(3), xticklabels=["Control\n5000", "Candidate\nselected 3000", "Candidate\nfinal 5000"])
+        ax.tick_params(axis="x", labelsize=8)
+        ax.grid(axis="y", alpha=.2)
+    fig.suptitle("Full TimeGAN pilot; error bars show generation-seed SD, not retraining uncertainty")
+    save(fig, "full_metrics")
+
+    fig, axes = plt.subplots(2, 3, figsize=(12, 7), layout="constrained")
+    for label, model in audit["models"].items():
+        for ax, stage, key, title in zip(axes[0], ("embedding", "supervised", "joint"),
+                ("reconstruction_mse", "supervised_mse", "generator_adversarial"),
+                ("Unweighted reconstruction warm-up MSE", "Supervisor warm-up MSE", "Joint generator adversarial loss")):
+            records = [r for r in model["training_history"] if r["stage"] == stage]
+            ax.plot([r["step"] for r in records], [r[key] for r in records], label=label)
+            ax.set(title=title, xlabel="Stage update")
+        records = model["validation_history"]
+        for ax, key, title, scale in zip(axes[1], ("invalid_rate", "kl_mid_return", "depth_ssim"),
+                ("Validation invalid (%)", "Validation return KL", "Validation depth SSIM"), (100, 1, 1)):
+            ax.plot([r["step"] for r in records], [r[key+"_mean"]*scale for r in records], marker="o", label=label)
+            ax.set(title=title, xlabel="Joint update")
+    for ax in axes.ravel(): ax.grid(alpha=.2)
+    axes[0, 0].legend()
+    fig.suptitle("Training diagnostics and validation trajectories; lower losses do not certify quality")
+    save(fig, "full_training")
+
+    samples = {}
+    for label, stage in rows:
+        with np.load(audit_folder / f"{label}_{stage}_cases.npz") as saved:
+            samples[label+" "+stage] = saved["generated"]
+            samples["Real"] = saved["real"]
+    order = ["Real", "control selected", "candidate selected", "candidate final"]
+    spec = report["depth_specification"]
+    images = {label: depth_images(samples[label], spec) for label in order}
+    fig, axes = plt.subplots(3, 4, figsize=(14, 8), layout="constrained")
+    for i, window in enumerate((1, 540, 1080)):
+        for j, label in enumerate(order):
+            picture = np.concatenate([images[label][i, 0, ::-1], images[label][i, 1]], axis=0)
+            heat = axes[i, j].imshow(picture, aspect="auto", vmin=0, vmax=1, cmap="viridis", interpolation="nearest")
+            axes[i, j].set(title=f"Window {window}: {label}", xlabel="Update", yticks=[0, 9.5, 19], yticklabels=["Ask 10", "Best", "Bid 10"])
+    fig.colorbar(heat, ax=axes.ravel().tolist(), shrink=.8, label="log(1 + volume) / training maximum")
+    save(fig, "depth")
+    fig, axes = plt.subplots(3, 2, figsize=(12, 8), layout="constrained")
+    for i, window in enumerate((1, 540, 1080)):
+        for label in order:
+            book = samples[label][i]
+            gaps = np.c_[np.diff(book[:, 0::4], axis=1), -np.diff(book[:, 2::4], axis=1), book[:, 0]-book[:, 2]]
+            axes[i, 0].plot(range(1, 33), gaps.min(1), label=label)
+            axes[i, 1].plot(range(1, 33), book[:, 0]-book[:, 2], label=label)
+        for ax, title in zip(axes[i], ("Minimum of 19 price gaps", "Best spread")):
+            ax.set(title=f"Window {window}: {title}", xlabel="Update", ylabel="USD")
+            ax.axhline(0, color="black", linewidth=.7)
+            ax.grid(alpha=.2)
+    axes[0, 0].legend(fontsize=8)
+    save(fig, "gaps")
+
+
 def shifted_anchors(anchors, seed):
     """Move every window index by a seeded nonzero shift; prices can still repeat."""
     if len(anchors) < 2:
         raise ValueError("Anchor diagnostic requires at least two windows.")
     shift = int(np.random.default_rng(seed).integers(1, len(anchors)))
     return np.roll(anchors, shift, axis=0), shift
+
+
+def check_decoder_pair(runs):
+    """Require paired fresh fits differing only in the configured price decoder."""
+    settings = []
+    for mode in ("ordinary", "ladder"):
+        run = runs[mode]
+        config = json.loads(json.dumps(run["config"]))
+        expected = "none" if mode == "ordinary" else "ladder"
+        if config.get("price_decoder", "none") != expected or config["architecture"].get("price_decoder", "none") != expected:
+            raise ValueError("Incorrect decoder pair labels.")
+        if config.get("anchor_conditioning") != "matched" or run.get("test_evaluated") is not False:
+            raise ValueError("Use matched-anchor validation fits only.")
+        for key in ("price_decoder", "ladder_gap_scale", "objective"):
+            config.pop(key, None)
+        config["architecture"].pop("price_decoder", None)
+        settings.append(config)
+    if settings[0] != settings[1]:
+        raise ValueError("Decoder controls must have matching budgets and settings.")
+    for key in ("source_files", "comparison_signature", "metric_specification", "parameter_count",
+                "initial_parameters_sha256", "minibatch_stream_sha256", "noise_stream_sha256"):
+        if key not in runs["ordinary"] or runs["ordinary"][key] != runs["ladder"].get(key):
+            raise ValueError("Decoder pair mismatch: " + key)
+
+
+def audit_generation_runs(data_dir, run_dirs, destination):
+    """Replay selected/final checkpoints, fixed-anchor noise and observed-input recovery.
+
+    No training or test scoring. Generation-seed SD describes one fitted model,
+    and the extra correlation diagnostic is descriptive, not a selection rule.
+    """
+    torch.set_num_threads(1)
+    destination = Path(destination)
+    if destination.exists() and any(destination.iterdir()):
+        raise ValueError("Audit output already exists; preserve it and choose a fresh folder.")
+    destination.mkdir(parents=True, exist_ok=True)
+    prepared = prepare_datasets(data_dir, 32, 32)
+    validation, fitted_scaler = prepared[0]["validation"], prepared[1]
+    starts, anchors, real = validation_windows(validation, 4)
+    actual = np.stack([validation.features[s:s + 32] for s in starts])
+    real_sd = actual.reshape(-1, 40).std(0)
+    cases = np.array([0, (len(starts) - 1) // 2, len(starts) - 1])
+    current_sources = timegan_code_hashes()
+    result = dict(test_evaluated=False, source_files=current_sources, analysis_sha256=sha256_file(Path(__file__)),
+                  scope="One training seed per mode; noise-seed SD is not retraining uncertainty.", models={}, cases=[], noise_rows=[], resources=[])
+    signature = None
+    for label, run_dir in run_dirs.items():
+        folder = Path(run_dir)
+        run = json.loads((folder / "results.json").read_text(encoding="utf-8"))
+        if run["test_evaluated"] or run["source_files"] != current_sources:
+            raise ValueError("Use validation fits with their unchanged model sources.")
+        signature = signature or run["comparison_signature"]
+        if signature != run["comparison_signature"]:
+            raise ValueError("Run comparison protocols differ.")
+        reference = ValidationEvaluator(real, anchors, run["metric_specification"])
+        result["models"][label] = dict(name=folder.name, config=run["config"], training_history=run["history"],
+                                       validation_history=run["validation_history"], checkpoints={})
+        result["resources"].append(dict(model=label, parameters=run["parameter_count"], fit_minutes=run["total_seconds"] / 60,
+                                        stage_training_seconds=run["stage_training_seconds"], device=run["device"]))
+        for stage, filename, score in (("selected", "selected.pt", run["selected"]), ("final", "joint_last.pt", run["validation_history"][-1])):
+            path = folder / filename
+            model, scaler, checkpoint = load_timegan(path)
+            assert checkpoint["source_files"] == current_sources and checkpoint["config"] == run["config"]
+            assert checkpoint["step"] == score["step"] and checkpoint["comparison_signature"] == signature
+            np.testing.assert_array_equal(scaler.minimum, fitted_scaler.minimum)
+            np.testing.assert_array_equal(scaler.maximum, fitted_scaler.maximum)
+            if stage == "selected":
+                assert sha256_file(path) == run["selected_checkpoint_sha256"]
+            volume_mode = run["config"].get("volume_conditioning", "none")
+            if volume_mode != "none":
+                training = prepared[0]["train"]
+                training_prices = training.book[training.starts][:, PRICE_COLUMNS] / 10000
+                training_volumes = training.book[training.starts][:, VOLUME_COLUMNS]
+                expected_scaler = fit_anchor_context(training_prices, training_volumes)
+                assert checkpoint["anchor_context_scaler"] == run["anchor_context_scaler"] == expected_scaler
+                np.testing.assert_array_equal(checkpoint["training_volume_anchors"].numpy(), training_volumes)
+            volume_anchors = None if volume_mode == "none" else validation.book[starts][:, VOLUME_COLUMNS]
+            context = anchor_context(anchors, checkpoint.get("anchor_context_scaler"), run["config"].get("anchor_conditioning", "none"), volumes=volume_anchors, volume_mode=volume_mode)
+            noise = []
+            shifted_context_runs = []
+            covariance = []
+            for recorded in score["runs"]:
+                seed = recorded["seed"]
+                features = model.generate(len(starts), 32, seed, 128, context=context, anchors=anchors)
+                assert torch.isfinite(features).all()
+                books = decode_batch(features, scaler, anchors)
+                assert np.isfinite(books).all()
+                scores, details = reference.evaluate(books)
+                for key, value in scores.items():
+                    assert np.isclose(value, recorded[key], rtol=1e-12, atol=1e-12), (label, stage, seed, key)
+                for index in cases:
+                    fixed_anchors = np.repeat(anchors[index:index+1], 128, axis=0)
+                    fixed_context = None if context is None else np.repeat(context[index:index+1], 128, axis=0)
+                    generated = model.generate(128, 32, seed, 128, context=fixed_context, anchors=fixed_anchors).numpy()
+                    sd = generated.std(0).mean(0)
+                    noise.append(dict(seed=seed, validation_window=int(index+1), price_sd=float(sd[::2].mean()), volume_sd=float(sd[1::2].mean()),
+                                      price_ratio=float(sd[::2].mean() / real_sd[::2].mean()),
+                                      volume_ratio=float(sd[1::2].mean() / real_sd[1::2].mean()),
+                                      unique_sequences=int(len(np.unique(generated.reshape(128, -1), axis=0)))))
+                if context is not None:
+                    moved, shift = shifted_anchors(anchors, seed)
+                    # Volume pilots shift only the volume context; price information stays fixed.
+                    moved_context = anchor_context(moved if volume_mode == "none" else anchors, checkpoint.get("anchor_context_scaler"), run["config"]["anchor_conditioning"], volumes=None if volume_anchors is None else np.roll(volume_anchors, shift, axis=0), volume_mode=volume_mode)
+                    moved_features = model.generate(len(starts), 32, seed, 128, context=moved_context, anchors=anchors)
+                    moved_scores, _ = reference.evaluate(decode_batch(moved_features, scaler, anchors))
+                    shifted_context_runs.append(dict(seed=seed, cyclic_shift=shift, mean_feature_change=float((moved_features-features).abs().mean()), **moved_scores))
+                price_real, price_fake = actual[..., ::2].reshape(-1, 20), features.numpy()[..., ::2].reshape(-1, 20)
+                mask = np.triu(np.ones((20, 20), dtype=bool), 1)
+                covariance.append(dict(seed=seed, price_correlation_mae=float(np.abs(np.corrcoef(price_real.T) - np.corrcoef(price_fake.T))[mask].mean())))
+                if seed == 42:
+                    if stage == "selected":
+                        with np.load(folder / "validation_examples.npz") as saved:
+                            np.testing.assert_array_equal(books[:3], saved["generated"])
+                    np.savez_compressed(destination / f"{label}_{stage}_cases.npz", real=real[cases], generated=books[cases], anchors=anchors[cases])
+                    for index in cases:
+                        book = books[index]
+                        gaps = np.c_[np.diff(book[:, 0::4], axis=1), -np.diff(book[:, 2::4], axis=1), book[:, 0] - book[:, 2]]
+                        result["cases"].append(dict(model=label, checkpoint=stage, validation_window=int(index + 1), raw_anchor_row=int(starts[index] + validation.raw_offset),
+                            **validity_rates(book[None]), depth_ssim=float(details["depth_ssim_per_sequence"][index]), minimum_gap_usd=float(gaps.min()),
+                            generated_volume_changes=int(np.count_nonzero(np.diff(book[:, VOLUME_COLUMNS], axis=0))),
+                            real_volume_changes=int(np.count_nonzero(np.diff(real[index][:, VOLUME_COLUMNS], axis=0)))))
+            for index in cases:
+                case_noise = [r for r in noise if r["validation_window"] == int(index+1)]
+                result["noise_rows"].append({"Model": label, "Checkpoint": stage, "Validation window": int(index + 1),
+                    "Price SD / real": float(np.mean([r["price_ratio"] for r in case_noise])),
+                    "Volume SD / real": float(np.mean([r["volume_ratio"] for r in case_noise])),
+                    "Minimum unique sequences": min(r["unique_sequences"] for r in case_noise)})
+            diagnostic = diagnose(data_dir, path, destination / f"{label}_{stage}_reconstruction.json", prepared=prepared)
+            result["models"][label]["checkpoints"][stage] = dict(score=score, checkpoint_sha256=sha256_file(path),
+                replayed_generation_seeds=[r["seed"] for r in score["runs"]], exact_saved_examples=stage == "selected",
+                finite=True, reconstruction=diagnostic, fixed_anchor_noise_runs=noise, shifted_context_runs=shifted_context_runs, price_correlation=covariance)
+    result["noise_scope"] = "128 sequences per generation seed at each of three fixed anchors/contexts. SD across noise at fixed updates divided by global real-validation feature SD, separately for prices and volumes. Noise-seed SD is not retraining uncertainty. Shifted-context checks keep decoder anchors fixed and change only network context."
+    result["shifted_context_scope"] = "Volume-context fits shift only starting volumes while preserving price context and decoder anchors; legacy fits shift price-gap context."
+    result["comparison_signature"] = signature
+    write_json(destination / "audit.json", result)
+    return result
+
+
+# Preserve the former report entry point for archived local study scripts.
+audit_unconditional_runs = audit_generation_runs
 
 
 @torch.inference_mode()
@@ -38,9 +313,10 @@ def diagnose(data_dir, checkpoint_path, destination, train_count=512, prepared=N
             take = np.linspace(0, len(starts) - 1, min(train_count, len(starts)), dtype=int)
             starts, anchors, real = starts[take], anchors[take], real[take]
         features = torch.from_numpy(np.stack([dataset.features[s:s + 32] for s in starts]))
-        context = anchor_context(anchors, checkpoint.get("anchor_context_scaler"), checkpoint["config"].get("anchor_conditioning", "none"))
+        volume_mode = checkpoint["config"].get("volume_conditioning", "none")
+        context = anchor_context(anchors, checkpoint.get("anchor_context_scaler"), checkpoint["config"].get("anchor_conditioning", "none"), volumes=None if volume_mode == "none" else dataset.book[starts][:, VOLUME_COLUMNS], volume_mode=volume_mode)
         context = None if context is None else torch.from_numpy(context)
-        recovered = torch.cat([model.reconstruct(features[i:i+128], None if context is None else context[i:i+128]) for i in range(0, len(features), 128)])
+        recovered = torch.cat([model.reconstruct(features[i:i+128], None if context is None else context[i:i+128], torch.from_numpy(anchors[i:i+128])) for i in range(0, len(features), 128)])
         decoded = decode_batch(recovered, scaler, anchors)
         roundtrip = decode_batch(features, scaler, anchors)
         mse = (features - recovered).square().mean((0, 1)).numpy()
@@ -77,6 +353,44 @@ def check_conditioning_pair(runs):
     for key in ("comparison_signature", "metric_specification", "source_files", "parameter_count"):
         if runs["zero"][key] != runs["matched"][key]:
             raise ValueError(f"Paired runs differ in {key}.")
+
+
+def check_volume_conditioning_pair(runs):
+    """Isolate access to starting volumes, retaining identical price context."""
+    settings = []
+    for mode in ("zero", "matched"):
+        run = runs[mode]
+        config = run["config"]
+        if (config.get("volume_conditioning") != mode or config.get("anchor_conditioning") != "matched"
+                or config["architecture"].get("context_dim") != 39 or run.get("test_evaluated") is not False):
+            raise ValueError("Use matched-price, 39-context, zero/matched-volume validation fits.")
+        settings.append({k: v for k, v in config.items() if k not in ("volume_conditioning", "objective")})
+    if settings[0] != settings[1]:
+        raise ValueError("Volume pair changes settings other than volume conditioning.")
+    for key in ("comparison_signature", "metric_specification", "source_files", "parameter_count",
+                "anchor_context_scaler", "initial_parameters_sha256", "minibatch_stream_sha256", "noise_stream_sha256"):
+        if not runs["zero"].get(key) or runs["zero"][key] != runs["matched"].get(key):
+            raise ValueError(f"Volume pair differs in {key}.")
+
+
+def volume_conditioning_screen(matched, zero, noise_rows):
+    """New SSIM-focused screen for the volume pilot; previous study gates stay intact."""
+    criteria = [("Depth SSIM gain at least 0.05", matched["depth_ssim_mean"] - zero["depth_ssim_mean"] >= .05,
+                 matched["depth_ssim_mean"] - zero["depth_ssim_mean"]),
+                ("No increased invalidity", matched["invalid_rate_mean"] <= zero["invalid_rate_mean"],
+                 matched["invalid_rate_mean"] - zero["invalid_rate_mean"])]
+    for metric in ("kl_spread", "kl_mid_return", "abs_return_acf_mae"):
+        criteria.append((metric + " increase at most 5%", matched[metric + "_mean"] <= 1.05 * zero[metric + "_mean"],
+                         matched[metric + "_mean"] - zero[metric + "_mean"]))
+    if len(noise_rows) != 3:
+        raise ValueError("Use all three predetermined noise cases.")
+    ratios = [r[k] for r in noise_rows for k in ("Price SD / real", "Volume SD / real")]
+    if not np.isfinite(ratios).all():
+        raise ValueError("Noise ratios must be finite.")
+    criteria.append(("Fixed-context noise SD ratios at least 0.1 in every case", min(ratios) >= .1, min(ratios)))
+    if not all(np.isfinite(value) for _, _, value in criteria):
+        raise ValueError("Screen metrics must be finite.")
+    return [dict(Criterion=label, Passed=bool(passed), Value=float(value)) for label, passed, value in criteria]
 
 
 def conditioning_screen(matched, zero, noise_rows):

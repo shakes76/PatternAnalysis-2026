@@ -1,13 +1,16 @@
 """TimeGAN loss alignment, gradient routes and reproducible generation."""
 
+import copy
 import io
 import unittest
 from unittest.mock import patch
 
+import numpy as np
 import torch
 
 from modules import TimeGAN, ReferenceGRU, temporal_loss, moment_loss, order_penalty
 from train import TimeGANTrainer, reconstruction_price_weight
+from protocol import anchor_context, anchor_gap_features, comparison_protocol, fit_anchor_context
 
 
 class TimeGANChecks(unittest.TestCase):
@@ -339,6 +342,90 @@ class ReconstructionBalanceChecks(unittest.TestCase):
 
 
 class TuningChecks(unittest.TestCase):
+    def test_reconstruction_scores_use_supplied_training_mean_not_validation_mean(self):
+        import numpy as np
+        from dataset import FeatureScaler
+        from evaluation import decode_batch
+        from timegan_report import reconstruction_scores
+        features = torch.arange(2 * 32 * 40).reshape(2, 32, 40).float() / 10000
+        mean = torch.full((40,), .7)
+        scaler = FeatureScaler(np.zeros(40), np.full(40, .001))
+        anchors = np.full((2, 20), 100.)
+        result = reconstruction_scores(features, features.clone(), mean, scaler, anchors, decode_batch(features, scaler, anchors))
+        self.assertEqual(result["feature_groups"]["price"]["mse"], 0)
+        self.assertAlmostEqual(result["feature_groups"]["price"]["training_mean_mse"],
+                               float((features[..., ::2] - .7).square().mean()), places=6)
+        self.assertNotAlmostEqual(result["feature_groups"]["price"]["training_mean_mse"],
+                                  float(features[..., ::2].var(unbiased=False)), places=3)
+        self.assertEqual(result["endpoint_price_rmse_usd"], 0)
+        with self.assertRaisesRegex(ValueError, "finite"):
+            reconstruction_scores(features, features * float("nan"), mean, scaler, anchors, decode_batch(features, scaler, anchors))
+
+    def test_reconstruction_gate_rejects_price_gain_that_damages_volume_or_structure(self):
+        import copy
+        from timegan_report import reconstruction_screen
+        control = {"validation": dict(feature_groups={"price": {"mse": 1.}, "volume": {"mse": 2.}},
+                                      reconstruction={"invalid_rate": .5}, endpoint_price_rmse_usd=1.)}
+        candidate = copy.deepcopy(control)
+        candidate["validation"]["feature_groups"]["price"]["mse"] = .7
+        self.assertTrue(all(row["passed"] for row in reconstruction_screen(candidate, control)))
+        candidate["validation"]["feature_groups"]["volume"]["mse"] = 2.2
+        candidate["validation"]["reconstruction"]["invalid_rate"] = .6
+        self.assertEqual([r["passed"] for r in reconstruction_screen(candidate, control)], [True, False, False, True])
+
+    def test_reconstruction_pair_has_identical_initial_weights_and_minibatches_and_reloads(self):
+        import tempfile
+        import numpy as np
+        from pathlib import Path
+        from dataset import FeatureScaler, LOBWindowDataset, make_features
+        from tune_timegan import run_reconstruction
+        from predict import load_timegan
+        # Small but valid chronological books, including all 20 price/volume columns.
+        rng = np.random.default_rng(8)
+        n = 224
+        mid = 1000000 + np.cumsum(rng.integers(-2, 3, n))
+        book = np.empty((n, 40))
+        for level in range(10):
+            book[:, 4 * level] = mid + 10 + 10 * level
+            book[:, 4 * level + 2] = mid - 10 - 10 * level
+            book[:, 4 * level + 1] = rng.integers(10, 500, n)
+            book[:, 4 * level + 3] = rng.integers(10, 500, n)
+        raw = make_features(book)
+        scaler = FeatureScaler.fit(raw)
+        datasets = {name: LOBWindowDataset(book.copy(), np.arange(n, dtype=float), scaler.transform(raw), 32, 32, offset)
+                    for name, offset in (("train", 0), ("validation", n), ("test", 2 * n))}
+        class NeverScoreTest:
+            def __getattr__(self, key):
+                raise AssertionError("Test set accessed by probe")
+        datasets["test"] = NeverScoreTest()
+        with tempfile.TemporaryDirectory() as folder, patch("dataset.prepare_datasets", return_value=(datasets, scaler, {"files": {}, "splits": {}})):
+            base = Path(folder)
+            plain = run_reconstruction(None, base / "plain", hidden=4, steps=2)
+            weighted = run_reconstruction(None, base / "weighted", hidden=4, steps=2, balance=True)
+            self.assertEqual(plain["initial_er_sha256"], weighted["initial_er_sha256"])
+            self.assertEqual(plain["minibatch_stream_sha256"], weighted["minibatch_stream_sha256"])
+            self.assertNotEqual(plain["final"]["validation"]["feature_groups"]["price"]["mse"], weighted["final"]["validation"]["feature_groups"]["price"]["mse"])
+            for result in (plain, weighted):
+                self.assertEqual(result["reload_max_abs_difference"], 0.)
+                self.assertTrue(result["untrained_networks_unchanged"])
+                self.assertFalse(result["test_evaluated"])
+                self.assertEqual(result["final"]["step"], 2)
+            with self.assertRaisesRegex(ValueError, "Unsupported"):
+                load_timegan(base / "plain/reconstruction.pt")
+            with self.assertRaisesRegex(ValueError, "already exists"):
+                run_reconstruction(None, base / "plain", hidden=4, steps=2)
+
+    def test_reconstruction_cli_does_not_start_full_fit(self):
+        import sys
+        from tune_timegan import main
+        with patch.object(sys, "argv", ["tune_timegan.py", "--reconstruction-only", "--probe-output", "probe", "--data-dir", "data"]), \
+             patch("tune_timegan.run_reconstruction") as probe, patch("tune_timegan.run_candidate") as fit, \
+             patch("tune_timegan.collect_summary") as summary:
+            main()
+        probe.assert_called_once()
+        fit.assert_not_called()
+        summary.assert_not_called()
+
     def test_atomic_report_retries_a_temporary_windows_file_lock(self):
         import json
         import tempfile
@@ -424,6 +511,244 @@ class TuningChecks(unittest.TestCase):
         self.assertTrue(0 < shift < len(anchors))
         self.assertFalse(np.any(np.all(moved == anchors, axis=1)))
         np.testing.assert_array_equal(np.sort(moved[:, 0]), np.sort(anchors[:, 0]))
+
+
+class LadderDecoderChecks(unittest.TestCase):
+    def setUp(self):
+        torch.set_num_threads(1)
+        torch.manual_seed(55)
+        self.model = TimeGAN(hidden=8, layers=2, cell="reference", context_dim=19, price_decoder="ladder")
+        self.minimum, self.span = torch.zeros(40, dtype=torch.float64), torch.ones(40, dtype=torch.float64)
+        self.minimum[::2], self.span[::2] = -.001, .002
+        self.model.price_ladder.configure(self.minimum, self.span, torch.full((19,), 3.))
+        asks = 100.01 + torch.arange(10, dtype=torch.float64) * .01
+        bids = 100. - torch.arange(10, dtype=torch.float64) * .01
+        self.anchors = torch.stack((asks, bids), -1).flatten().repeat(4, 1)
+        self.context, self.noise = torch.rand(4, 19), torch.rand(4, 32, 40)
+
+    def prices(self, features):
+        returns = features[..., ::2].double() * self.span[::2] + self.minimum[::2]
+        return self.anchors[:, None] * returns.cumsum(1).exp()
+
+    def test_ordered_prices_after_log_return_roundtrip_and_extreme_logits(self):
+        for scale in (0., 1., 100.):
+            logits = torch.randn(4, 32, 40) * scale
+            features = self.model.price_ladder(logits, self.anchors)
+            prices = self.prices(features)
+            asks, bids = prices[..., ::2], prices[..., 1::2]
+            self.assertTrue(torch.isfinite(features).all() and torch.isfinite(prices).all())
+            self.assertTrue((prices > 0).all() and (asks[..., 0] > bids[..., 0]).all())
+            self.assertTrue((asks.diff(dim=-1) > 0).all() and (bids.diff(dim=-1) < 0).all())
+            if scale == 0:
+                torch.testing.assert_close(prices, self.anchors[:, None].expand_as(prices), rtol=0, atol=1e-9)
+
+    def test_decoder_gradients_reach_all_price_coordinates_and_volumes(self):
+        logits = (torch.randn(4, 32, 40) * .1).requires_grad_()
+        recovered = self.model.price_ladder(logits, self.anchors)
+        (recovered - torch.rand_like(recovered)).square().mean().backward()
+        self.assertTrue(torch.isfinite(logits.grad).all())
+        self.assertTrue((logits.grad.abs().sum((0, 1)) > 0).all())
+
+    def test_training_gradient_routes_and_initial_parameter_pairing(self):
+        torch.manual_seed(55)
+        control = TimeGAN(hidden=8, layers=2, cell="reference", context_dim=19)
+        for (name, value), (other, paired) in zip(self.model.named_parameters(), control.named_parameters()):
+            self.assertEqual(name, other)
+            torch.testing.assert_close(value, paired, rtol=0, atol=0)
+        trainer = TimeGANTrainer(self.model)
+        real = torch.rand_like(self.noise)
+        for operation, allowed in ((lambda: trainer.embedding_step(real, anchors=self.anchors, context=self.context), {"embedder", "recovery"}),
+                                   (lambda: trainer.generator_step(real, self.noise, anchors=self.anchors, context=self.context), {"generator", "supervisor"})):
+            before = {n: p.detach().clone() for n, p in self.model.named_parameters()}
+            result = operation()
+            changed = {n.split('.')[0] for n, p in self.model.named_parameters() if not torch.equal(p, before[n])}
+            self.assertEqual(changed, allowed)
+            self.assertTrue(all(torch.isfinite(v) for v in result.values()))
+
+    def test_checkpoint_replay_noise_response_and_batching(self):
+        first = self.model.generate(4, context=self.context, anchors=self.anchors, batch_size=4)
+        clone = TimeGAN(**self.model.config)
+        stream = io.BytesIO()
+        torch.save(self.model.state_dict(), stream); stream.seek(0)
+        clone.load_state_dict(torch.load(stream, weights_only=True))
+        torch.testing.assert_close(first, clone.generate(4, context=self.context, anchors=self.anchors, batch_size=4), rtol=0, atol=0)
+        torch.testing.assert_close(first, clone.generate(4, context=self.context, anchors=self.anchors, batch_size=2), rtol=1e-5, atol=1e-6)
+        self.assertFalse(torch.equal(first, clone.generate(4, seed=43, context=self.context, anchors=self.anchors)))
+
+    def test_rejects_missing_invalid_anchors_and_statistics(self):
+        for anchors in (None, self.anchors[:1], -self.anchors, self.anchors.flip(-1)):
+            with self.assertRaises(ValueError):
+                self.model(self.noise, self.context, anchors)
+        with self.assertRaises(ValueError):
+            self.model.price_ladder.configure(self.minimum, self.span, torch.zeros(19))
+
+    def test_training_gap_ranges_cover_observed_changes_and_reject_heldout(self):
+        import numpy as np
+        from types import SimpleNamespace
+        from protocol import fit_ladder_gap_scale, anchor_gap_features
+        prices = self.anchors[:1].numpy().repeat(5, axis=0)
+        prices[1:, 0::2] += np.arange(1, 5)[:, None] * .001
+        book = np.empty((5, 40)); book[:, ::2] = prices * 10000; book[:, 1::2] = 10
+        dataset = SimpleNamespace(raw_offset=0, book=book, starts=np.array([0]), sequence_length=4)
+        scale = fit_ladder_gap_scale(dataset)
+        changes = anchor_gap_features(prices[1:]) - anchor_gap_features(prices[:1])
+        self.assertTrue(np.all(np.abs(changes) < scale))
+        dataset.raw_offset = 100
+        with self.assertRaises(ValueError):
+            fit_ladder_gap_scale(dataset)
+
+    def test_decoder_pair_rejects_unpaired_budget_stream_or_initialization(self):
+        import copy
+        from timegan_report import check_decoder_pair
+        runs = {mode: dict(config=dict(architecture=dict(hidden=48), anchor_conditioning="matched", joint_steps=5000),
+                           test_evaluated=False, source_files={}, comparison_signature="shared", metric_specification={},
+                           parameter_count=215993, initial_parameters_sha256="a", minibatch_stream_sha256="b", noise_stream_sha256="c")
+                for mode in ("ordinary", "ladder")}
+        runs["ladder"]["config"].update(price_decoder="ladder", ladder_gap_scale=[1.]*19)
+        runs["ladder"]["config"]["architecture"]["price_decoder"]="ladder"
+        check_decoder_pair(runs)
+        for key in ("initial_parameters_sha256", "minibatch_stream_sha256", "noise_stream_sha256"):
+            bad=copy.deepcopy(runs); bad["ladder"][key]="different"
+            with self.assertRaises(ValueError): check_decoder_pair(bad)
+        bad=copy.deepcopy(runs); bad["ladder"]["config"]["joint_steps"]=3000
+        with self.assertRaises(ValueError): check_decoder_pair(bad)
+
+
+class StartingVolumeContextChecks(unittest.TestCase):
+    def setUp(self):
+        self.prices = np.array([[value for level in range(10) for value in
+                               (101. + row * .03 + level * (.05 + row * .002),
+                                100. - row * .01 - level * (.05 + row * .001))]
+                              for row in range(6)])
+        self.volumes = np.arange(120, dtype=float).reshape(6, 20)
+        self.volumes[:, 0] = 0.
+        self.price_scaler = fit_anchor_context(self.prices)
+        self.scaler = fit_anchor_context(self.prices, self.volumes)
+
+    def test_legacy_price_scaler_and_context_are_exact(self):
+        values = anchor_gap_features(self.prices)
+        scale = values.std(axis=0)
+        expected = dict(representation="log_relative_price_gaps_v1", dimensions=19, training_windows=6,
+                        mean=values.mean(axis=0).tolist(), scale=np.where(scale > 1e-12, scale, 1.).tolist())
+        self.assertEqual(self.price_scaler, expected)
+        np.testing.assert_array_equal(anchor_context(self.prices, self.price_scaler),
+                                      ((values - np.array(expected["mean"])) / np.array(expected["scale"])).astype(np.float32))
+        np.testing.assert_array_equal(anchor_context(self.prices, self.price_scaler, "zero"), np.zeros((6, 19), np.float32))
+        self.assertIsNone(anchor_context(self.prices, None, "none"))
+        self.assertEqual(comparison_protocol()["id"], "anchor_only_v1")
+        self.assertEqual(comparison_protocol(context_scaler=self.price_scaler)["id"], "anchor_conditioned_v1")
+
+    def test_volume_fit_is_log1p_training_statistics_with_constant_fallback(self):
+        self.assertEqual(self.scaler["dimensions"], 39)
+        self.assertEqual(self.scaler["mean"][:19], self.price_scaler["mean"])
+        self.assertEqual(self.scaler["scale"][:19], self.price_scaler["scale"])
+        values = np.log1p(self.volumes)
+        np.testing.assert_array_equal(self.scaler["mean"][19:], values.mean(axis=0))
+        np.testing.assert_array_equal(self.scaler["scale"][19:], np.where(values.std(axis=0) > 1e-12, values.std(axis=0), 1.))
+        matched = anchor_context(self.prices, self.scaler, volumes=self.volumes, volume_mode="matched")
+        np.testing.assert_array_equal(matched[:, :19], anchor_context(self.prices, self.price_scaler))
+        self.assertEqual(matched.dtype, np.float32)
+        np.testing.assert_array_equal(matched[:, 19], np.zeros(6))
+
+    def test_zero_volume_control_keeps_prices_and_does_not_read_volumes(self):
+        class UnreadableVolumes:
+            def __array__(self, *args, **kwargs):
+                raise AssertionError("The zero arm read held-out volume values.")
+        result = anchor_context(self.prices, self.scaler, volumes=UnreadableVolumes(), volume_mode="zero")
+        np.testing.assert_array_equal(result[:, :19], anchor_context(self.prices, self.price_scaler))
+        np.testing.assert_array_equal(result[:, 19:], np.zeros((6, 20)))
+        np.testing.assert_array_equal(result, anchor_context(self.prices, self.scaler, volume_mode="zero"))
+
+    def test_transform_never_refits_or_clips_heldout_volume_context(self):
+        saved = copy.deepcopy(self.scaler)
+        heldout = self.volumes + 1.e12
+        result = anchor_context(self.prices, self.scaler, volumes=heldout, volume_mode="matched")
+        expected = (np.log1p(heldout) - np.array(saved["mean"])[19:]) / np.array(saved["scale"])[19:]
+        np.testing.assert_array_equal(result[:, 19:], expected.astype(np.float32))
+        self.assertGreater(float(result[:, 19:].max()), 10.)
+        self.assertEqual(saved, self.scaler)
+
+    def test_rejects_bad_volume_inputs_scalers_and_incompatible_modes(self):
+        for volumes in (np.zeros((6, 19)), np.zeros((5, 20)), np.full((6, 20), -1.),
+                        np.full((6, 20), np.nan), np.full((6, 20), np.inf)):
+            with self.assertRaises(ValueError): fit_anchor_context(self.prices, volumes)
+            with self.assertRaises(ValueError): anchor_context(self.prices, self.scaler, volumes=volumes, volume_mode="matched")
+        for mode in ("zero", "none"):
+            with self.assertRaises(ValueError): anchor_context(self.prices, self.scaler, mode, volume_mode="zero")
+        with self.assertRaises(ValueError): anchor_context(self.prices, self.price_scaler, volume_mode="zero")
+        with self.assertRaises(ValueError): anchor_context(self.prices, self.scaler)
+        with self.assertRaises(ValueError): anchor_context(self.prices, self.scaler, "none")
+        with self.assertRaises(ValueError): anchor_context(self.prices, self.price_scaler, volumes=self.volumes)
+        with self.assertRaises(ValueError): anchor_context(self.prices, self.scaler, volume_mode="matched")
+        for key, value in (("mean", [0.] * 38), ("scale", [0.] * 39), ("scale", [float("nan")] * 39), ("dimensions", 19)):
+            broken = dict(self.scaler, **{key: value})
+            with self.assertRaises(ValueError): anchor_context(self.prices, broken, volume_mode="zero")
+
+    def test_protocol_separates_expanded_budget_but_keeps_pair_identical(self):
+        matched = comparison_protocol(context_scaler=self.scaler, volume_mode="matched")
+        self.assertEqual(matched, comparison_protocol(context_scaler=self.scaler, volume_mode="zero"))
+        self.assertNotEqual(matched["id"], comparison_protocol(context_scaler=self.price_scaler)["id"])
+        self.assertEqual(len(matched["generator_heldout_inputs"]), 2)
+        self.assertIn("held-out future snapshots or volumes", matched["prohibited"])
+        self.assertNotIn("held-out volumes as initial state", matched["prohibited"])
+        for scaler, mode in ((self.scaler, "none"), (self.price_scaler, "matched"), (None, "zero"), (self.scaler, "invalid")):
+            with self.assertRaises(ValueError): comparison_protocol(context_scaler=scaler, volume_mode=mode)
+
+
+class StartingVolumePilotChecks(unittest.TestCase):
+    def test_volume_pair_requires_matching_modes_budgets_and_all_hashes(self):
+        from timegan_report import check_volume_conditioning_pair
+        common = dict(test_evaluated=False, comparison_signature="protocol", metric_specification={"depth": "shared"},
+                      source_files={"train.py": "same"}, parameter_count=123, anchor_context_scaler={"dimensions": 39},
+                      initial_parameters_sha256="initial", minibatch_stream_sha256="batch", noise_stream_sha256="noise")
+        runs = {mode: dict(copy.deepcopy(common), config=dict(volume_conditioning=mode, anchor_conditioning="matched",
+                       architecture=dict(context_dim=39), joint_steps=5000, training_seed=2026, objective=mode))
+                for mode in ("zero", "matched")}
+        check_volume_conditioning_pair(runs)
+        for key in common:
+            if key == "test_evaluated":
+                continue
+            bad = copy.deepcopy(runs)
+            bad["matched"][key] = "different"
+            with self.subTest(mismatch=key), self.assertRaises(ValueError): check_volume_conditioning_pair(bad)
+        for mode in ("zero", "matched"):
+            bad = copy.deepcopy(runs)
+            del bad[mode]["noise_stream_sha256"]
+            with self.subTest(missing=mode), self.assertRaises((ValueError, KeyError)): check_volume_conditioning_pair(bad)
+        for key, value in (("volume_conditioning", "zero"), ("anchor_conditioning", "zero"),
+                           ("joint_steps", 3000), ("training_seed", 2027), ("architecture", {"context_dim": 19})):
+            bad = copy.deepcopy(runs)
+            bad["matched"]["config"][key] = value
+            with self.subTest(setting=key), self.assertRaises(ValueError): check_volume_conditioning_pair(bad)
+        bad = copy.deepcopy(runs)
+        bad["matched"]["test_evaluated"] = True
+        with self.assertRaises(ValueError): check_volume_conditioning_pair(bad)
+
+    def test_volume_screen_thresholds_and_each_failure_are_independent(self):
+        from timegan_report import volume_conditioning_screen
+        zero = dict(depth_ssim_mean=0., invalid_rate_mean=0., kl_spread_mean=1.,
+                    kl_mid_return_mean=1., abs_return_acf_mae_mean=1.)
+        matched = dict(depth_ssim_mean=.05, invalid_rate_mean=0., kl_spread_mean=1.05,
+                       kl_mid_return_mean=1.05, abs_return_acf_mae_mean=1.05)
+        noise = [{"Price SD / real": .1, "Volume SD / real": .1} for _ in range(3)]
+        self.assertTrue(all(row["Passed"] for row in volume_conditioning_screen(matched, zero, noise)))
+        for key, value, failed_index in (("depth_ssim_mean", .049999, 0), ("invalid_rate_mean", .000001, 1),
+                                        ("kl_spread_mean", 1.050001, 2), ("kl_mid_return_mean", 1.050001, 3),
+                                        ("abs_return_acf_mae_mean", 1.050001, 4)):
+            bad = dict(matched, **{key: value})
+            rows = volume_conditioning_screen(bad, zero, noise)
+            with self.subTest(metric=key):
+                self.assertEqual([i for i, row in enumerate(rows) if not row["Passed"]], [failed_index])
+        for key in ("Price SD / real", "Volume SD / real"):
+            bad_noise = copy.deepcopy(noise)
+            bad_noise[-1][key] = .099999
+            self.assertFalse(volume_conditioning_screen(matched, zero, bad_noise)[-1]["Passed"])
+        with self.assertRaises(ValueError): volume_conditioning_screen(matched, zero, noise[:2])
+        with self.assertRaises(ValueError): volume_conditioning_screen(dict(matched, depth_ssim_mean=float("nan")), zero, noise)
+        bad_noise = copy.deepcopy(noise)
+        bad_noise[-1]["Volume SD / real"] = float("inf")
+        with self.assertRaises(ValueError): volume_conditioning_screen(matched, zero, bad_noise)
+
 
 
 if __name__ == "__main__":

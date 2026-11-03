@@ -143,10 +143,13 @@ def generate_timegan_examples(checkpoint_path, output_path, report_path, figure_
     model, scaler, checkpoint = load_timegan(checkpoint_path, device)
     rng = torch.Generator().manual_seed(seed + 10000)
     pool = checkpoint["training_price_anchors"]
-    anchors = pool[torch.randint(len(pool), (count,), generator=rng)].numpy()
+    indices = torch.randint(len(pool), (count,), generator=rng)
+    anchors = pool[indices].numpy()
+    volumes = checkpoint.get("training_volume_anchors")
+    volumes = None if volumes is None else volumes[indices].numpy()
     started = perf_counter()
-    context = anchor_context(anchors, checkpoint.get("anchor_context_scaler"), checkpoint["config"].get("anchor_conditioning", "none"))
-    features = model.generate(count, 32, seed, checkpoint["config"]["batch_size"], context=context)
+    context = anchor_context(anchors, checkpoint.get("anchor_context_scaler"), checkpoint["config"].get("anchor_conditioning", "none"), volumes=volumes, volume_mode=checkpoint["config"].get("volume_conditioning", "none"))
+    features = model.generate(count, 32, seed, checkpoint["config"]["batch_size"], context=context, anchors=anchors)
     elapsed = perf_counter() - started
     books = decode_batch(features, scaler, anchors)
     output_path, report_path = Path(output_path), Path(report_path)
@@ -158,6 +161,7 @@ def generate_timegan_examples(checkpoint_path, output_path, report_path, figure_
                   generated_shape=list(features.shape), all_decoded_values_finite=bool(np.isfinite(books).all()),
                   generation_seconds=elapsed, sequences_per_second=count / elapsed, device=device,
                   anchor_conditioning=checkpoint["config"].get("anchor_conditioning", "none"),
+                  volume_conditioning=checkpoint["config"].get("volume_conditioning", "none"),
                   scope="Seeded generation with sampled training anchors and the checkpoint's conditioning mode; not validation quality results.")
     report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return report
