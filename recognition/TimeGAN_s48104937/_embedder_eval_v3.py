@@ -14,17 +14,17 @@ from dataset import load_books
 
 
 MODELS = {                          # column title -> checkpoint, left to right
-    "Default MSE Autoencoder": Path("models/saved/autoencoder_default.pt"),
-    "Grouped MSE Autoencoder": Path("models/saved/primary.pt"),
+    "Default MSE": Path("models/saved/autoencoder_default.pt"),
+    "Grouped MSE": Path("models/checkpoint_autoencoder.pt"),
 }
-SAMPLE_FROM: str = "Grouped MSE Autoencoder"   # model whose encoding picks the real window (as in the earlier figure)
+SAMPLE_FROM: str = "Grouped MSE"   # model whose encoding picks the real window (as in the earlier figure)
 WINDOW_LENGTH: int | None = None           # None = that model's training window length
 TICKER: str = "AMZN"                       # ticker to evaluate (must be in every model's cfg.tickers)
 SPLIT: str = "val"                         # split to take the real windows from
-SEED: int = 48
+SEED: int = 1  # 48
 EVAL_WINDOWS: int = 1000                   # random windows per model for the printed metrics
-SHOW = {"mid_rel": "Mid (relative)", "spread": "Spread"}
-OUT_DIR = Path("dummy/figures")
+SHOW = {"mid_rel": "Mid (relative)", "spread": "Spread", "gaps": "Gaps", "sizes": "Sizes"}
+OUT_DIR = Path("figures")
 
 # Feature groups in the scaled model space (the change flags follow the features)
 N_FEAT = len(FEATURE_COLS)
@@ -114,29 +114,29 @@ def main() -> None:
         real_x, _, labels = encode(books=window_books, scalers=scalers, window_length=len(window_books))
         results[name] = (real_x[0], reconstruct(model, real_x, labels)[0])
 
-    # Plot: one column per model, one row per feature
-    fig, axes = plt.subplots(len(SHOW), len(MODELS), figsize=(14, 2.6 * len(SHOW)),
-                             sharex=True, squeeze=False)
+    # Plot: one column per model, one row per feature (same size and style as plot_book_pair)
+    fig, axes = plt.subplots(len(SHOW), len(MODELS), figsize=(12, 3.6), sharex=True,
+                             squeeze=False, layout="constrained")
+    fig.get_layout_engine().set(w_pad=1 / 72, wspace=0)
+
     for col, (name, (real, recon)) in enumerate(results.items()):
-        axes[0, col].text(0.5, 1.18, name, transform=axes[0, col].transAxes,
-                          ha="center", va="bottom", fontsize=12, weight="bold")
+        axes[0, col].set_title(name, fontsize=12, weight="bold")
+
         for row, (feat, label) in enumerate(SHOW.items()):
             ax = axes[row, col]
             j = FEATURE_COLS.index(feat)
             ax.plot(real[:, j], color="black", lw=1.3, alpha=0.8, label="Real", zorder=1)
             ax.plot(recon[:, j], color="C1", lw=1.3, alpha=0.9, label="Reconstruction", zorder=2)
             ax.spines[["top", "right"]].set_visible(False)
-            ax.tick_params(labelsize=10)
             if col == 0:
-                ax.set_ylabel(label, fontsize=11)
-        axes[-1, col].set_xlabel("Time (s)", fontsize=11)
+                ax.set_ylabel(label)
+        axes[-1, col].set_xlabel("Time (s)")
 
-    for ax in axes[0]:
-        ax.legend(ncol=2, loc="lower left", bbox_to_anchor=(0, 1.0), fontsize=10,
-                  frameon=False, borderaxespad=0.2, handlelength=1.8)
-    fig.tight_layout()
-    path = OUT_DIR / f"autoencoder_comparison.png"
-    fig.savefig(path, dpi=200, bbox_inches="tight")
+    # One shared legend inside the first panel, so it adds no height to the figure
+    axes[0, 0].legend(loc="upper left", fontsize=8, frameon=False, ncol=2)
+
+    path = OUT_DIR / "autoencoder_comparison.png"
+    fig.savefig(path, dpi=300, bbox_inches="tight")
     print(f"\nSaved {path}")
 
 

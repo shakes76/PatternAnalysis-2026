@@ -22,7 +22,7 @@ from common.metrics import spread
 from common.metrics import unchanged_rates
 from common.metrics import violation_rates
 from common.metrics import vwap_returns
-from common.visualizations import plot_book_pair
+from common.visualizations import plot_book_pair_v2
 from common.visualizations import plot_distributions
 from common.visualizations import plot_spread_by_step
 
@@ -290,9 +290,9 @@ def main() -> None:
 
     # Report figure: a real window (left) beside a baseline window (right), on a shared
     i = SHOWN_WINDOW
-    plot_book_pair(real, synth, FIGURE_DIR / "baseline_real_vs_synth.png", i, i,
-                   title=f"Real vs Baseline - {WINDOW_LENGTH} Second Windows ({', '.join(TICKERS)})",
-                   col_titles=("Real Sample", "Baseline Model"))
+    plot_book_pair_v2(real, synth, FIGURE_DIR / "baseline_real_vs_synth.png", i, i,
+                   title=None,
+                   col_titles=("Real Sample", "AR-GRU Sample"))
     print(f"\nSaved the window figure and the spread/distribution plots to {FIGURE_DIR}")
 
 if __name__ == "__main__":

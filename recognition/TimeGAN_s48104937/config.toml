@@ -2,13 +2,12 @@
 
 # Data
 tickers = ["AMZN", "AAPL", "GOOG", "INTC", "MSFT"]  # LOBSTER tickers to train on; each gets its own scaler and label
-# tickers = ["AMZN"]  # LOBSTER tickers to train on; each gets its own scaler and label
 resample_freq = "1s"      # pandas frequency the book is resampled to
 trim_regimes = ""         # pandas duration cut from both the open and the close of each day
 window_length = 64        # steps per training window (seconds, at 1 s resampling)
 train_frac = 0.7          # chronological share of each ticker's day used for training
-val_frac = 0.25           # following share used for validation (early stopping, model choice)
-test_frac = 0.05          # final share held out for the reported results; the three must sum to 1
+val_frac = 0.15           # following share used for validation (early stopping, model choice)
+test_frac = 0.15          # final share held out for the reported results; the three must sum to 1
 
 # Model
 hidden_dim = 64           # width of the latent space and of the generator, supervisor and discriminator GRUs
@@ -18,7 +17,7 @@ num_layers = 3            # stacked GRU layers per network
 # Training
 batch_size = 128          # windows per batch (each batch holds a single ticker)
 learning_rate = 1e-3      # Adam learning rate for all three phases
-embedding_epochs = 50     # phase 1: embedder + recovery (autoencoder)
+embedding_epochs = 500     # phase 1: embedder + recovery (autoencoder)
 supervised_epochs = 25    # phase 2: supervisor on real latents
 joint_epochs = 100        # phase 3: adversarial training of all networks
 d_threshold = 0.5         # discriminator only updates while its loss is above this, so it can't dominate the generator

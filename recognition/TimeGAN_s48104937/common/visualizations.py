@@ -162,7 +162,7 @@ def plot_book_pair(
         ax_px.set_ylim(mid - span / 2, mid + span / 2)
         ax_px.ticklabel_format(axis="y", useOffset=False, style="plain")
         if col_titles:
-            ax_px.set_title(col_titles[col])
+            ax_px.set_title(col_titles[col], fontsize=12, weight="bold")
 
         # Depth: bids below the white line, asks above
         im = ax_vol.imshow(heat, aspect="auto", origin="lower", cmap="viridis",
@@ -175,7 +175,81 @@ def plot_book_pair(
                            length=6, width=1)
 
     axes[0, 0].set_ylabel("Price ($)")
-    axes[0, 0].legend(loc="upper left")
+    # axes[0, 0].legend(loc="upper left")
+    suptitle = fig.suptitle(title) if title else None
+
+    # Colour bar hugging the left heatmap, in the space under the price labels
+    cax = axes[1, 0].inset_axes([-0.03, 0, 0.012, 1])
+    fig.colorbar(im, cax=cax, label="log(1 + size)")
+    cax.yaxis.set_ticks_position("left")
+    cax.yaxis.set_label_position("left")
+
+    # Text placed after layout so it can be centred without widening the gaps
+    fig.canvas.draw()
+    left, right = axes[1, 0].get_position(), axes[1, 1].get_position()
+    x = (left.x1 + right.x0) / 2
+    for name, frac in (("Bid", 0.25), ("Ask", 0.75)):
+        fig.text(x, left.y0 + frac * left.height, name, ha="center", va="center")
+    if suptitle:  # centre over the panels, not the whole figure with the colour bar
+        suptitle.set_x((axes[0, 0].get_position().x0 + axes[0, 1].get_position().x1) / 2)
+
+    fig.savefig(path, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+def plot_book_pair_v2(
+        book_a: dict,
+        book_b: dict,
+        path: Path,
+        idx_a: int = 0,
+        idx_b: int = 0,
+        title: str | None = None,
+        col_titles: tuple[str, str] | None = None,
+) -> None:
+    cols = [(book_a, idx_a), (book_b, idx_b)]
+    depth = book_a["ask_px"].shape[2]
+    shades = np.linspace(1.0, 0.35, depth)  # level 1 darkest, deeper levels lighter
+    centres = [depth / 2 - 0.5, 1.5 * depth - 0.5]  # middle of the bid half, ask half
+
+    prices = [{s: b[f"{s}_px"][i] / 100 for s in ("ask", "bid")} for b, i in cols]
+    heatmaps = [depth_heatmap(b, i) for b, i in cols]
+    vmax = max(h.max() for h in heatmaps)
+    span = 1.1 * max(np.ptp(np.concatenate(list(p.values()))) for p in prices)
+
+    fig, axes = plt.subplots(2, 2, figsize=(12, 3.6), sharex=True,
+                             gridspec_kw={"height_ratios": [2, 1]}, layout="constrained")
+    fig.get_layout_engine().set(w_pad=1 / 72, wspace=0)
+
+    for col, (px, heat) in enumerate(zip(prices, heatmaps)):
+        ax_px, ax_vol = axes[:, col]
+
+
+        for side, cmap in (("ask", plt.cm.Reds), ("bid", plt.cm.Blues)):
+            for level in reversed(range(depth)):  # best level last, so it sits on top
+                ax_px.plot(px[side][:, level], color=cmap(shades[level]),
+                           lw=1.5 if level == 0 else 0.8,
+                           label=f"{side.capitalize()}s" if level == 0 else None)
+        all_px = np.concatenate(list(px.values()))
+        mid = (all_px.min() + all_px.max()) / 2
+        ax_px.set_ylim(mid - span / 2, mid + span / 2)
+        ax_px.ticklabel_format(axis="y", useOffset=False, style="plain")
+        ax_px.spines[["top", "right"]].set_visible(False)  # open boxes, as in the recon figure
+
+        if col_titles:
+            ax_px.set_title(col_titles[col], fontsize=12, weight="bold")
+
+        # Depth: bids below the white line, asks above
+        im = ax_vol.imshow(heat, aspect="auto", origin="lower", cmap="viridis",
+                           vmin=0, vmax=vmax, interpolation="nearest")
+        ax_vol.axhline(depth - 0.5, color="white", lw=1)
+        ax_vol.set_xlabel("Time (s)")
+        # Dashes pointing into the middle gap at the Bid/Ask labels
+        ax_vol.set_yticks(centres)
+        ax_vol.tick_params(axis="y", left=col == 1, right=col == 0, labelleft=False,
+                           length=6, width=1)
+
+    axes[0, 0].set_ylabel("Price ($)")
+    # One shared legend inside the first panel, so it adds no height to the figure
+    axes[0, 0].legend(loc="upper left", fontsize=8, frameon=False, ncol=2)
     suptitle = fig.suptitle(title) if title else None
 
     # Colour bar hugging the left heatmap, in the space under the price labels

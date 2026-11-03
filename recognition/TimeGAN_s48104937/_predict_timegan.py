@@ -5,7 +5,7 @@ import torch
 
 from common.constants import DEVICE
 from common.misc import load_model
-from common.visualizations import plot_sample_pair
+from common.visualizations import plot_book_pair_v2
 from dataset import decode
 from dataset import encode
 from dataset import load_books
@@ -13,12 +13,14 @@ from dataset import load_books
 
 WINDOW_LENGTH: int = 512       # steps to generate and compare
 BURN_IN: int = 10              # number of steps to let the GRU warm-up
-TICKER: str = "AMZN"          # index into the checkpoint's tickers
-SEED: int = 3               # seed for np and torch rng
+TICKER: str = "AMZN"           # ticker to compare (must be in the checkpoint's tickers)
+SEED: int = 21                 # seed for np and torch rng
+COL_TITLES = ("AMZN 512s Real Sample", "AMZN 512s TimeGAN Sample")
 # 64, 3,
 
+
 def main() -> None:
-    Path("dummy/figures").mkdir(exist_ok=True)
+    Path("figures").mkdir(exist_ok=True)
     rng: np.random.Generator = np.random.default_rng(SEED)
     torch.manual_seed(SEED)
 
@@ -29,16 +31,18 @@ def main() -> None:
     real_x, refs, labels = encode(books=books["val"], scalers=scalers, window_length=WINDOW_LENGTH)
 
     # One random real window and one synthetic window of the same ticker
-    print(real_x.shape, refs.shape, real_x.dtype)
     k = cfg.tickers.index(TICKER)
     idx = rng.choice(np.flatnonzero(labels == k), size=1)
     with torch.no_grad():
         synth_x = model.sample(n=1, window_length=WINDOW_LENGTH + BURN_IN, ticker=k).cpu().numpy()[:, BURN_IN:]
 
+    # Both decoded at the same reference, so they start from the same book
     real = decode(real_x[idx], refs[idx], labels[idx], scalers, rng)
-    print(f"real: {real}")
     synth = decode(synth_x, refs[idx], labels[idx], scalers, rng)
-    plot_sample_pair(real, synth, 0, Path(f"dummy/figures/timegan_{TICKER}_long_pair.png"))
+
+    path = Path(f"figures/timegan_{TICKER}_seed{SEED}.png")
+    plot_book_pair_v2(real, synth, path, title=None, col_titles=COL_TITLES)
+    print(f"Seed {SEED}  -> {path}")
 
 
 if __name__ == "__main__":
