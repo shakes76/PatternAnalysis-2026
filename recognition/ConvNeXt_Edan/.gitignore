@@ -1,0 +1,85 @@
+# ==========================================
+# COMP3710 - ConvNeXt ADNI Classification
+# ==========================================
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+comp3710-venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ADNI dataset and patient information
+ADNI/
+AD_NC/
+data/
+datasets/
+splits.json
+*patient_manifest*.json
+*patient_manifest*.csv
+
+# Trained models and checkpoints
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+checkpoints/
+weights/
+models/saved/
+
+# Training logs and experiment tracking
+logs/
+runs/
+wandb/
+mlruns/
+lightning_logs/
+events.out.tfevents.*
+
+# Temporary experiment outputs
+outputs/
+results/raw/
+predictions/
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Slurm output files
+slurm-*.out
+slurm-*.err
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.log
