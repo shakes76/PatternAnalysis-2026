@@ -1,0 +1,60 @@
+{
+  "name": "round6_pretrained_cv",
+  "description": "Five-fold run of ConvNeXt-Tiny initialised from the authors' ImageNet-1k weights (round5 recipe: 40 epochs, peak LR 5e-5, strong augmentation, three-slice context, final-epoch weights, seed 3710). Same folds and pipeline as the scratch ConvNeXt and the CNN of round3_cv_final_epoch. Folds 4 and 5 repeat round5 with identical settings.",
+  "common": {
+    "epochs": 40,
+    "batch_size": 32,
+    "lr": 5e-05,
+    "weight_decay": 0.05,
+    "lr_schedule": "warmup_cosine",
+    "warmup_epochs": 3,
+    "image_height": 240,
+    "image_width": 256,
+    "augmentation": "strong",
+    "ema_decay": 0.999,
+    "context_slices": 3,
+    "seed": 3710,
+    "workers": 4,
+    "threads": 4,
+    "device": "cuda",
+    "model": "convnext_tiny_in1k",
+    "pretrained_weights": "~/comp3710/pretrained/convnext_tiny_1k_224_ema.pth"
+  },
+  "cases": [
+    {
+      "id": "PT_tiny_context_fold1",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny, fold 1.",
+      "args": {
+        "fold": 1
+      }
+    },
+    {
+      "id": "PT_tiny_context_fold2",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny, fold 2.",
+      "args": {
+        "fold": 2
+      }
+    },
+    {
+      "id": "PT_tiny_context_fold3",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny, fold 3.",
+      "args": {
+        "fold": 3
+      }
+    },
+    {
+      "id": "PT_tiny_context_fold4",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny, fold 4.",
+      "args": {
+        "fold": 4
+      }
+    },
+    {
+      "id": "PT_tiny_context_fold5",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny, fold 5.",
+      "args": {
+        "fold": 5
+      }
+    }
+  ]
+}

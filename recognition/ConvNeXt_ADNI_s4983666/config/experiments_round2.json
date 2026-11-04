@@ -1,0 +1,28 @@
+{
+  "name": "round2_auroc_full_schedule",
+  "description": "Fold 1. Changes from strong_aug_screen: the checkpoint epoch is chosen by early-stop scan AUROC (early-stop patients only) and every case runs the full 80-epoch warm-up + cosine schedule without early stopping. Each checkpoint is scored once on the 95 fold-1 outer-validation patients; calibration and test patients are not used.",
+  "common": {
+    "fold": 1, "epochs": 80, "patience": 80, "selection_metric": "scan_auroc", "batch_size": 32,
+    "lr": 0.0001, "weight_decay": 0.05, "lr_schedule": "warmup_cosine", "warmup_epochs": 3,
+    "image_height": 240, "image_width": 256, "augmentation": "strong", "ema_decay": 0.999,
+    "workers": 4, "threads": 4, "device": "cuda"
+  },
+  "cases": [
+    {"id": "R2_S2_lite_single_seed3710", "purpose": "Single-slice input; control for the three-slice context.",
+     "args": {"model": "convnext_lite", "context_slices": 1, "seed": 3710}},
+    {"id": "R2_S3_lite_context_seed3710", "purpose": "Three-slice context.",
+     "args": {"model": "convnext_lite", "context_slices": 3, "seed": 3710}},
+    {"id": "R2_S4_tiny_context_seed3710", "purpose": "ConvNeXt-Tiny with three-slice context.",
+     "args": {"model": "convnext_tiny", "context_slices": 3, "seed": 3710}},
+    {"id": "R2_B1_cnn_context_seed3710", "purpose": "Baseline CNN, identical pipeline and selection rule.",
+     "args": {"model": "cnn", "context_slices": 3, "lr": 0.001, "weight_decay": 0.0001, "seed": 3710}},
+    {"id": "R2_S2_lite_single_seed4710", "purpose": "Second seed of R2_S2.",
+     "args": {"model": "convnext_lite", "context_slices": 1, "seed": 4710}},
+    {"id": "R2_S3_lite_context_seed4710", "purpose": "Second seed of R2_S3.",
+     "args": {"model": "convnext_lite", "context_slices": 3, "seed": 4710}},
+    {"id": "R2_S4_tiny_context_seed4710", "purpose": "Second seed of R2_S4.",
+     "args": {"model": "convnext_tiny", "context_slices": 3, "seed": 4710}},
+    {"id": "R2_B1_cnn_context_seed4710", "purpose": "Second seed of R2_B1.",
+     "args": {"model": "cnn", "context_slices": 3, "lr": 0.001, "weight_decay": 0.0001, "seed": 4710}}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "strong_aug_screen",
+  "description": "Fold 1. Each case trains on fold-1 train patients, selects its epoch on fold-1 early-stop patients and is scored once on the 95 fold-1 outer-validation patients. Calibration and test patients are not used. Two seeds per configuration.",
+  "common": {
+    "fold": 1, "epochs": 60, "patience": 15, "batch_size": 32, "lr": 0.0001, "weight_decay": 0.05,
+    "lr_schedule": "warmup_cosine", "warmup_epochs": 3, "image_height": 240, "image_width": 256,
+    "workers": 4, "threads": 4, "device": "cuda"
+  },
+  "cases": [
+    {"id": "S1_lite_light_seed3710", "purpose": "Strongest setting available before this change: light augmentation, Mixup 0.2, DropPath 0.2, no EMA.",
+     "args": {"model": "convnext_lite", "augmentation": "light", "context_slices": 1, "ema_decay": 0, "mixup_alpha": 0.2, "drop_path": 0.2, "seed": 3710}},
+    {"id": "S1_lite_light_seed4710", "purpose": "Second seed of S1.",
+     "args": {"model": "convnext_lite", "augmentation": "light", "context_slices": 1, "ema_decay": 0, "mixup_alpha": 0.2, "drop_path": 0.2, "seed": 4710}},
+    {"id": "S2_lite_strong_seed3710", "purpose": "Strong augmentation and EMA on single slices.",
+     "args": {"model": "convnext_lite", "augmentation": "strong", "context_slices": 1, "ema_decay": 0.999, "seed": 3710}},
+    {"id": "S2_lite_strong_seed4710", "purpose": "Second seed of S2.",
+     "args": {"model": "convnext_lite", "augmentation": "strong", "context_slices": 1, "ema_decay": 0.999, "seed": 4710}},
+    {"id": "S3_lite_context_seed3710", "purpose": "S2 plus three-slice context (the proposed default).",
+     "args": {"model": "convnext_lite", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "seed": 3710}},
+    {"id": "S3_lite_context_seed4710", "purpose": "Second seed of S3.",
+     "args": {"model": "convnext_lite", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "seed": 4710}},
+    {"id": "S4_tiny_context_seed3710", "purpose": "S3 with ConvNeXt-Tiny: does more capacity help once memorisation is controlled?",
+     "args": {"model": "convnext_tiny", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "seed": 3710}},
+    {"id": "S4_tiny_context_seed4710", "purpose": "Second seed of S4.",
+     "args": {"model": "convnext_tiny", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "seed": 4710}},
+    {"id": "S5_lite_context_mixup_seed3710", "purpose": "S3 plus Mixup 0.2.",
+     "args": {"model": "convnext_lite", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "mixup_alpha": 0.2, "seed": 3710}},
+    {"id": "S5_lite_context_mixup_seed4710", "purpose": "Second seed of S5.",
+     "args": {"model": "convnext_lite", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "mixup_alpha": 0.2, "seed": 4710}},
+    {"id": "B1_cnn_context_seed3710", "purpose": "Baseline CNN with the identical data pipeline (its earlier learning rate 1e-3).",
+     "args": {"model": "cnn", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "lr": 0.001, "weight_decay": 0.0001, "seed": 3710}},
+    {"id": "B1_cnn_context_seed4710", "purpose": "Second seed of B1.",
+     "args": {"model": "cnn", "augmentation": "strong", "context_slices": 3, "ema_decay": 0.999, "lr": 0.001, "weight_decay": 0.0001, "seed": 4710}}
+  ]
+}

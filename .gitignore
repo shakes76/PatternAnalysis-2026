@@ -1,0 +1,50 @@
+# Operating-system metadata anywhere in the course repository.
+.DS_Store
+
+# Keep ADNI-specific exclusions scoped to this project folder.
+# Local Python environments and generated caches.
+/recognition/ConvNeXt_ADNI_s4983666/**/.venv/
+/recognition/ConvNeXt_ADNI_s4983666/**/venv/
+/recognition/ConvNeXt_ADNI_s4983666/**/__pycache__/
+/recognition/ConvNeXt_ADNI_s4983666/**/*.py[cod]
+/recognition/ConvNeXt_ADNI_s4983666/**/.pytest_cache/
+/recognition/ConvNeXt_ADNI_s4983666/**/.mypy_cache/
+/recognition/ConvNeXt_ADNI_s4983666/**/.ruff_cache/
+/recognition/ConvNeXt_ADNI_s4983666/**/.coverage
+/recognition/ConvNeXt_ADNI_s4983666/**/htmlcov/
+
+# Local credential files.
+/recognition/ConvNeXt_ADNI_s4983666/**/.env
+/recognition/ConvNeXt_ADNI_s4983666/**/.env.*
+!/recognition/ConvNeXt_ADNI_s4983666/**/.env.example
+
+# Course data and generated patient-level manifests stay outside Git.
+/recognition/ConvNeXt_ADNI_s4983666/**/ADNI/
+!/recognition/ConvNeXt_ADNI_s4983666/figures/adni/
+!/recognition/ConvNeXt_ADNI_s4983666/figures/adni/*.png
+/recognition/ConvNeXt_ADNI_s4983666/**/AD_NC/
+/recognition/ConvNeXt_ADNI_s4983666/**/data/
+/recognition/ConvNeXt_ADNI_s4983666/**/datasets/
+/recognition/ConvNeXt_ADNI_s4983666/**/adni_splits*/
+/recognition/ConvNeXt_ADNI_s4983666/**/meta_data_with_label.json
+/recognition/ConvNeXt_ADNI_s4983666/**/*.csv
+/recognition/ConvNeXt_ADNI_s4983666/**/*.jpg
+/recognition/ConvNeXt_ADNI_s4983666/**/*.jpeg
+/recognition/ConvNeXt_ADNI_s4983666/**/*.nii
+/recognition/ConvNeXt_ADNI_s4983666/**/*.nii.gz
+
+# Training outputs and derived data.
+/recognition/ConvNeXt_ADNI_s4983666/**/checkpoints/
+/recognition/ConvNeXt_ADNI_s4983666/**/outputs/
+/recognition/ConvNeXt_ADNI_s4983666/**/runs/
+/recognition/ConvNeXt_ADNI_s4983666/**/wandb/
+/recognition/ConvNeXt_ADNI_s4983666/**/*.pt
+/recognition/ConvNeXt_ADNI_s4983666/**/*.pth
+/recognition/ConvNeXt_ADNI_s4983666/**/*.ckpt
+/recognition/ConvNeXt_ADNI_s4983666/**/*.npy
+/recognition/ConvNeXt_ADNI_s4983666/**/*.npz
+/recognition/ConvNeXt_ADNI_s4983666/**/*.pkl
+
+# The supplied coursework brief is reference material, not project source.
+/recognition/ConvNeXt_ADNI_s4983666/**/COMP3710_Report_2026*.pdf
+COMP3710_Report_2026*.pdf

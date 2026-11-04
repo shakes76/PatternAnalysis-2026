@@ -1,0 +1,113 @@
+{
+  "name": "round3_cv_final_epoch",
+  "description": "Five-fold comparison of ConvNeXt-Tiny and the baseline CNN with an identical pipeline. Each fold trains on its train + early_stop manifests for a fixed 80 epochs; the weights after the last epoch are kept, so no validation score selects a checkpoint. The fold's val patients are monitored every epoch and reported. Calibration and test are not used.",
+  "common": {
+    "epochs": 80,
+    "batch_size": 32,
+    "lr": 0.0001,
+    "weight_decay": 0.05,
+    "lr_schedule": "warmup_cosine",
+    "warmup_epochs": 3,
+    "image_height": 240,
+    "image_width": 256,
+    "augmentation": "strong",
+    "ema_decay": 0.999,
+    "context_slices": 3,
+    "seed": 3710,
+    "workers": 4,
+    "threads": 4,
+    "device": "cuda"
+  },
+  "cases": [
+    {
+      "id": "CV_tiny_context_fold1",
+      "purpose": "ConvNeXt-Tiny, three-slice context, fold 1.",
+      "args": {
+        "model": "convnext_tiny",
+        "fold": 1
+      }
+    },
+    {
+      "id": "CV_tiny_context_fold2",
+      "purpose": "ConvNeXt-Tiny, three-slice context, fold 2.",
+      "args": {
+        "model": "convnext_tiny",
+        "fold": 2
+      }
+    },
+    {
+      "id": "CV_tiny_context_fold3",
+      "purpose": "ConvNeXt-Tiny, three-slice context, fold 3.",
+      "args": {
+        "model": "convnext_tiny",
+        "fold": 3
+      }
+    },
+    {
+      "id": "CV_tiny_context_fold4",
+      "purpose": "ConvNeXt-Tiny, three-slice context, fold 4.",
+      "args": {
+        "model": "convnext_tiny",
+        "fold": 4
+      }
+    },
+    {
+      "id": "CV_tiny_context_fold5",
+      "purpose": "ConvNeXt-Tiny, three-slice context, fold 5.",
+      "args": {
+        "model": "convnext_tiny",
+        "fold": 5
+      }
+    },
+    {
+      "id": "CV_cnn_context_fold1",
+      "purpose": "Baseline CNN on the same patients, fold 1.",
+      "args": {
+        "model": "cnn",
+        "fold": 1,
+        "lr": 0.001,
+        "weight_decay": 0.0001
+      }
+    },
+    {
+      "id": "CV_cnn_context_fold2",
+      "purpose": "Baseline CNN on the same patients, fold 2.",
+      "args": {
+        "model": "cnn",
+        "fold": 2,
+        "lr": 0.001,
+        "weight_decay": 0.0001
+      }
+    },
+    {
+      "id": "CV_cnn_context_fold3",
+      "purpose": "Baseline CNN on the same patients, fold 3.",
+      "args": {
+        "model": "cnn",
+        "fold": 3,
+        "lr": 0.001,
+        "weight_decay": 0.0001
+      }
+    },
+    {
+      "id": "CV_cnn_context_fold4",
+      "purpose": "Baseline CNN on the same patients, fold 4.",
+      "args": {
+        "model": "cnn",
+        "fold": 4,
+        "lr": 0.001,
+        "weight_decay": 0.0001
+      }
+    },
+    {
+      "id": "CV_cnn_context_fold5",
+      "purpose": "Baseline CNN on the same patients, fold 5.",
+      "args": {
+        "model": "cnn",
+        "fold": 5,
+        "lr": 0.001,
+        "weight_decay": 0.0001
+      }
+    }
+  ]
+}
