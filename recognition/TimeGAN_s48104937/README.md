@@ -153,6 +153,10 @@ Comparing this new autoencoder trained with a grouped loss shows a clear improve
 
 ## Evaluation
 
+All evaluation metrics were calculated using 200 randomly sampled 128s windows per ticker, with means and uncertainties averaged across 5 runs using seeds 48–52. For KL divergences, the score was calculated from real to synthetic distributions using 50 bins spanning the central 99% of pooled values.
+
+One thing to note is that depth SSIM is likely a poor metric for this use case. Two independently sampled real windows only achieve a score of around 0.14 against each other, whilst even time-shuffled real windows achieve a ratio of 0.98. This suggests the metric is not particularly sensitive to the temporal structure we are trying to capture, meaning its passes should be treated with caution.
+
 ### Training and Stability
 
 Profiling resource usage in training we see the TimeGAN's increased complexity coincides with higher parameter count, peak VRAM, and training duration. However, the TimeGAN has faster inference speeds than our baseline model. This is because the AR-GRU is autoregressive, meaning the baseline must generate each step sequentially, whilst the TimeGAN generates the entire window in a single call.
