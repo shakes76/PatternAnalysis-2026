@@ -1,0 +1,5 @@
+- https://blog.devgenius.io/sculpting-language-gpt-2-fine-tuning-with-lora-1caf3bfbc3c6
+- https://huggingface.co/docs/transformers/en/model_doc/gpt2
+- https://huggingface.co/docs/transformers/hpo_train?backends=Optuna
+- https://huggingface.co/docs/transformers/training
+- https://medium.com/@Uvwxyz/rlhf-on-a-budget-gpt-2-for-summarization-39f9d016202b

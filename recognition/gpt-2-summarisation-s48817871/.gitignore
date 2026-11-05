@@ -1,0 +1,9 @@
+uv.lock
+.python-version
+.env
+gpt2_*
+!*.png
+__pycache__/
+modelout/
+*.back
+outputs/
