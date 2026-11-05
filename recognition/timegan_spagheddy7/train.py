@@ -1,10 +1,14 @@
 """Train AR or TimeGAN on the chronological training period."""
 
 import argparse
+import copy
 import json
 import hashlib
 import os
+import random
+import shutil
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from time import perf_counter
 
@@ -31,6 +35,120 @@ def write_json(path, value):
             if attempt == 19:
                 raise
             time.sleep(.1 + .05 * attempt)
+
+
+def atomic_torch_save(value, path, retain_previous=False):
+    """Install a complete checkpoint, retaining the previous readable state on request."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    def retry(operation):
+        for attempt in range(20):
+            try:
+                return operation()
+            except PermissionError:
+                if attempt == 19:
+                    raise
+                time.sleep(.1 + .05 * attempt)
+    def write():
+        with temporary.open("wb") as handle:
+            torch.save(value, handle)
+            handle.flush()
+            os.fsync(handle.fileno())
+    retry(write)
+    # Never rotate a corrupt/incomplete write into the current slot.
+    retry(lambda: torch.load(temporary, map_location="cpu", weights_only=True))
+    def replace(source, destination):
+        retry(lambda: source.replace(destination))
+    if retain_previous and path.exists():
+        try:
+            retry(lambda: torch.load(path, map_location="cpu", weights_only=True))
+        except PermissionError:
+            raise  # A locked file is not evidence of corruption.
+        except Exception:
+            # Explicitly resuming the previous file must not destroy corruption evidence.
+            replace(path, path.with_name(f"{path.stem}.corrupt.{time.time_ns()}{path.suffix}"))
+        else:
+            prior = path.with_name(path.stem + ".previous" + path.suffix)
+            prior_temporary = prior.with_name(f".{prior.name}.{os.getpid()}.tmp")
+            retry(lambda: shutil.copyfile(path, prior_temporary))
+            replace(prior_temporary, prior)
+    replace(temporary, path)
+
+
+def assert_exact_state(actual, expected, label="state"):
+    """Compare nested safe checkpoint values, including every tensor and decoder buffer."""
+    if isinstance(expected, torch.Tensor):
+        if not isinstance(actual, torch.Tensor) or actual.dtype != expected.dtype or actual.shape != expected.shape or not torch.equal(actual.cpu(), expected.cpu()):
+            raise ValueError(f"Exact checkpoint mismatch: {label}")
+    elif isinstance(expected, dict):
+        if not isinstance(actual, dict) or actual.keys() != expected.keys():
+            raise ValueError(f"Exact checkpoint keys mismatch: {label}")
+        for key in expected:
+            assert_exact_state(actual[key], expected[key], f"{label}.{key}")
+    elif isinstance(expected, (list, tuple)):
+        if not isinstance(actual, type(expected)) or len(actual) != len(expected):
+            raise ValueError(f"Exact checkpoint sequence mismatch: {label}")
+        for index, (left, right) in enumerate(zip(actual, expected)):
+            assert_exact_state(left, right, f"{label}[{index}]")
+    elif actual != expected:
+        raise ValueError(f"Exact checkpoint mismatch: {label}")
+
+
+def training_rng_state():
+    numpy_state = np.random.get_state()
+    return dict(torch=torch.get_rng_state(), cuda=torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [],
+                python=random.getstate(), numpy=dict(kind=numpy_state[0], keys=torch.tensor(numpy_state[1].astype(np.int64)),
+                position=numpy_state[2], has_gauss=numpy_state[3], cached_gaussian=numpy_state[4]))
+
+
+def restore_training_rng_state(state):
+    if state["cuda"]:
+        # Flush lazy manual_seed_all callbacks from disposable warm-up before
+        # installing the saved CUDA states, including in CPU-only training.
+        torch.cuda.init()
+        torch.cuda.set_rng_state_all(state["cuda"])
+    torch.set_rng_state(state["torch"].cpu())
+    random.setstate(state["python"])
+    item = state["numpy"]
+    np.random.set_state((item["kind"], item["keys"].cpu().numpy().astype(np.uint32), item["position"], item["has_gauss"], item["cached_gaussian"]))
+
+
+def append_stream_segment(segments, hashed, count=1):
+    if segments and segments[-1][0] == hashed:
+        segments[-1][1] += count
+    else:
+        segments.append([hashed, count])
+
+
+def rebuild_training_streams(state, count, batch_size, noise_dim, device):
+    """Rebuild the original byte-stream SHA256 digests without storing generated noise."""
+    sampler, noise_rng = torch.Generator(device=device), torch.Generator(device=device)
+    sampler.set_state(state["initial_sampler"].cpu())
+    noise_rng.set_state(state["initial_noise"].cpu())
+    minibatch_digest, noise_digest = hashlib.sha256(), hashlib.sha256()
+    for hashed, draws in state["sampler_segments"]:
+        for _ in range(draws):
+            indices = torch.randperm(count, generator=sampler, device=device)[:batch_size]
+            if hashed:
+                minibatch_digest.update(indices.cpu().numpy().tobytes())
+    for _ in range(state["noise_draws"]):
+        noise = torch.rand(min(count, batch_size), 32, noise_dim, generator=noise_rng, device=device)
+        noise_digest.update(noise.cpu().numpy().tobytes())
+    assert_exact_state(sampler.get_state(), state["sampler"], "sampler RNG replay")
+    assert_exact_state(noise_rng.get_state(), state["noise"], "noise RNG replay")
+    if minibatch_digest.hexdigest() != state["minibatch_sha256"] or noise_digest.hexdigest() != state["noise_sha256"]:
+        raise ValueError("Training stream hash replay mismatch.")
+    return sampler, noise_rng, minibatch_digest, noise_digest
+
+
+def add_training_state_arguments(parser):
+    parser.add_argument("--training-state-every", type=int, default=0, help="Opt-in full state every N complete updates (0 disables periodic saves).")
+    parser.add_argument("--resume-state", type=Path, help="Resume a complete training_state.pt, including all Adam and random states.")
+    parser.add_argument("--stop-request", type=Path, help="Save full state and exit at a complete update boundary when this file exists.")
+    parser.add_argument("--training-deadline", help="UTC ISO timestamp for graceful boundary stop; an external hard cutoff remains necessary.")
+    parser.add_argument("--replay-checkpoint", type=Path, help="Require exact legacy generation-checkpoint replay before passing its joint step.")
+    parser.add_argument("--replay-step", type=int, help="Joint step of the preserved checkpoint (required with --replay-checkpoint).")
 
 
 def skip_supervisor_draws(sampler, count, steps, device="cpu"):
@@ -176,6 +294,30 @@ class TimeGANTrainer:
                     discriminator_fake_probability=fake_logits.detach().sigmoid().mean()) if collect else {}
 
 
+def warm_resume_execution(model, completed, values, anchors, contexts, batch_size, trainer_options, no_supervision):
+    """Warm TorchScript's process-local plans on a discarded model before restoring RNG.
+
+    Model/Adam/RNG checkpoint state alone does not contain the JIT execution cache.
+    Only routes used before this boundary are warmed; fresh fits are untouched.
+    """
+    disposable = TimeGANTrainer(copy.deepcopy(model), **trainer_options)
+    real, anchor = values[:batch_size], anchors[:batch_size]
+    context = None if contexts is None else contexts[:batch_size]
+    generator = torch.Generator(device=values.device).manual_seed(0)
+    def noise():
+        return torch.rand(len(real), 32, model.config["noise_dim"], generator=generator, device=values.device)
+    for _ in range(min(4, completed["embedding"])):
+        disposable.embedding_step(real, collect=False, anchors=anchor, context=context)
+    if not no_supervision:
+        for _ in range(min(4, completed["supervised"])):
+            disposable.supervisor_step(real, collect=False, context=context)
+    for _ in range(min(4, completed["joint"])):
+        for _ in range(2):
+            disposable.generator_step(real, noise(), collect=False, anchors=anchor, context=context)
+            disposable.embedding_step(real, joint=True, collect=False, anchors=anchor, context=context)
+        disposable.discriminator_step(real, noise(), collect=False, context=context)
+
+
 def timegan_code_hashes():
     names = ("modules.py", "train.py", "predict.py", "dataset.py", "evaluation.py", "protocol.py")
     return {name: hashlib.sha256((PROJECT_DIR / name).read_text(encoding="utf-8").encode()).hexdigest() for name in names}
@@ -205,12 +347,19 @@ def reconstruction_check(values, architecture, device, steps=600, contexts=None,
 
 def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=1000, supervised_steps=1000, joint_steps=1000,
                 eval_every=250, seed=2026, batch_size=128, hidden=24, layers=3, learning_rate=1e-3, device="auto", sanity_steps=600, threads=4,
-                structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none", price_decoder="none", volume_conditioning="none"):
+                structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none", price_decoder="none", volume_conditioning="none",
+                training_state_every=0, resume_state=None, stop_request=None, training_deadline=None, replay_checkpoint=None, replay_step=None):
     """Reference-structure experiment; fixed validation selection, no test scoring."""
     if min(embedding_steps, supervised_steps, joint_steps, eval_every, batch_size, sanity_steps, threads) < 1 or not 0 <= seed < 2**63 - 1000:
         raise ValueError("Use positive training budgets and a valid seed.")
     if not np.isfinite(learning_rate) or learning_rate <= 0:
         raise ValueError("Learning rate must be finite and positive.")
+    if training_state_every < 0 or (replay_checkpoint is None) != (replay_step is None) or (replay_step is not None and not 1 <= replay_step <= joint_steps):
+        raise ValueError("Use a nonnegative state interval and both replay checkpoint and valid joint step.")
+    deadline = None if training_deadline is None else datetime.fromisoformat(training_deadline.replace("Z", "+00:00"))
+    if deadline is not None and deadline.tzinfo is None:
+        raise ValueError("Training deadline must include a UTC offset.")
+    state_enabled = bool(training_state_every or resume_state or stop_request or deadline or replay_checkpoint)
     if price_decoder not in ("none", "ladder") or (price_decoder == "ladder" and anchor_conditioning != "matched"):
         raise ValueError("The ladder pilot requires matched anchor conditioning.")
     if anchor_conditioning not in ("none", "matched", "zero"):
@@ -231,6 +380,9 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     report_path = Path(report_path or PROJECT_DIR / "reports/timegan/results.json")
     output_dir.mkdir(parents=True, exist_ok=True)
     report_path.parent.mkdir(parents=True, exist_ok=True)
+    resumed = None if resume_state is None else torch.load(resume_state, map_location="cpu", weights_only=True)
+    if resumed is not None and (resumed.get("model_type") != "timegan_training_state" or resumed.get("format_version") != 1):
+        raise ValueError("Resume requires a full training-state checkpoint, not generation-only weights.")
     previous_runs = []
     if report_path.exists():
         previous = json.loads(report_path.read_text(encoding="utf-8"))
@@ -275,11 +427,14 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     if price_decoder == "ladder":
         architecture["price_decoder"] = price_decoder
         decoder_statistics = dict(minimum=scaler.minimum, span=scaler.span, gap_scale=fit_ladder_gap_scale(training))
-    print("Checking reconstruction on eight training windows...", flush=True)
-    sanity_started = perf_counter()
-    sanity = reconstruction_check(values, architecture, device, sanity_steps, contexts, training_anchors, decoder_statistics)
-    sanity["seconds"] = perf_counter() - sanity_started
-    print(f"Reconstruction check: {sanity}", flush=True)
+    if resumed is None:
+        print("Checking reconstruction on eight training windows...", flush=True)
+        sanity_started = perf_counter()
+        sanity = reconstruction_check(values, architecture, device, sanity_steps, contexts, training_anchors, decoder_statistics)
+        sanity["seconds"] = perf_counter() - sanity_started
+        print(f"Reconstruction check: {sanity}", flush=True)
+    else:
+        sanity = resumed["reconstruction_check"]
     if not sanity["passed"]:
         write_json(output_dir / "failed_reconstruction_check.json", sanity)
         raise RuntimeError("Reconstruction did not beat a constant-feature predictor. Inspect the check before adversarial training.")
@@ -295,11 +450,14 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     # Default weight zero preserves the reference objective. The extension uses training data only.
     asks, bids = training.book[:, 0::4], training.book[:, 2::4]
     margin = float(min(np.diff(asks, axis=1).min(), (-np.diff(bids, axis=1)).min(), (asks[:, 0] - bids[:, 0]).min()) / PRICE_DIVISOR)
-    trainer = TimeGANTrainer(model, learning_rate, structure_weight=structure_weight,
+    trainer_options = dict(learning_rate=learning_rate, structure_weight=structure_weight,
                             minimum=torch.as_tensor(scaler.minimum, device=device), span=torch.as_tensor(scaler.span, device=device), margin=margin,
                             price_reconstruction_weight=price_weight, no_supervision=no_supervision)
+    trainer = TimeGANTrainer(model, **trainer_options)
     values = values.to(device)  # About 27 MiB: one transfer instead of copying every minibatch.
     sampler, noise_rng = torch.Generator(device=device).manual_seed(seed + 100), torch.Generator(device=device).manual_seed(seed + 200)
+    initial_sampler_state, initial_noise_state = sampler.get_state(), noise_rng.get_state()
+    sampler_segments, noise_draws = [], 0
     anchor_values = training_anchors.to(device)
     context_values = None if contexts is None else contexts.to(device)
     config = dict(architecture=architecture, training_seed=seed, batch_size=batch_size, learning_rate=learning_rate,
@@ -330,26 +488,130 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
         config["objective"] += " + ordered price-ladder decoder"
     history, validation_history, best, best_examples = [], [], None, None
     stage_seconds = {}
+    resume_stage, resume_step, elapsed_before, stage_elapsed_before = None, 0, 0., 0.
+    selected_checkpoint, replay_verification = None, None
+    replay_reference = None if replay_checkpoint is None else torch.load(replay_checkpoint, map_location="cpu", weights_only=True)
+    replay_sha256 = None if replay_checkpoint is None else sha256_file(replay_checkpoint)
 
     def batch():
         indices = torch.randperm(len(values), generator=sampler, device=device)[:batch_size]
         minibatch_digest.update(indices.cpu().numpy().tobytes())
+        if state_enabled:
+            append_stream_segment(sampler_segments, True)
         return values[indices], anchor_values[indices], None if context_values is None else context_values[indices]
 
     def noise(count):
+        nonlocal noise_draws
         result = torch.rand(count, 32, architecture["noise_dim"], generator=noise_rng, device=device)
         noise_digest.update(result.cpu().numpy().tobytes())
+        noise_draws += 1
         return result
 
-    def save_model(name, stage, step):
+    def model_checkpoint(stage, step):
         checkpoint = {"format_version": 1, "model_type": "timegan", "architecture": architecture,
-                      "state_dict": {k: v.detach().cpu() for k, v in model.state_dict().items()}, "feature_names": FEATURE_NAMES,
+                      "state_dict": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}, "feature_names": FEATURE_NAMES,
                       "scaler": {"minimum": torch.from_numpy(scaler.minimum), "maximum": torch.from_numpy(scaler.maximum)},
                       "training_price_anchors": training_anchors, "config": config, "stage": stage, "step": step,
                       "comparison_signature": signature, "source_files": source_files, "anchor_context_scaler": context_scaler}
         if training_volumes is not None:
             checkpoint["training_volume_anchors"] = torch.from_numpy(training_volumes)
-        torch.save(checkpoint, output_dir / name)
+        return checkpoint
+
+    def save_model(name, stage, step):
+        checkpoint = model_checkpoint(stage, step)
+        if state_enabled:
+            atomic_torch_save(checkpoint, output_dir / name)
+        else:
+            torch.save(checkpoint, output_dir / name)
+        return checkpoint
+
+    def verify_replay(step):
+        nonlocal replay_verification
+        if replay_reference is None or step != replay_step:
+            return
+        record = dict(passed=False, joint_step=step, reference_checkpoint=str(Path(replay_checkpoint).resolve()),
+                      reference_sha256=replay_sha256, current_source_files=source_files,
+                      reference_source_files=replay_reference.get("source_files"), checked_at_utc=datetime.now(timezone.utc).isoformat())
+        try:
+            current = model_checkpoint("joint", step)
+            for key in ("format_version", "model_type", "architecture", "state_dict", "feature_names", "scaler", "config", "stage", "step",
+                        "comparison_signature", "anchor_context_scaler", "training_price_anchors"):
+                assert_exact_state(current[key], replay_reference[key], "replay." + key)
+            assert_exact_state(current.get("training_volume_anchors"), replay_reference.get("training_volume_anchors"), "replay.training_volume_anchors")
+            for name in source_files:
+                if name != "train.py" and source_files[name] != replay_reference["source_files"].get(name):
+                    raise ValueError(f"Replay frozen source differs: {name}")
+            record.update(passed=True, tensor_count=len(current["state_dict"]),
+                          scope="Every model tensor/buffer, config, feature/scaler/context/anchor metadata and comparison signature exact; only train.py instrumentation may differ.")
+        except Exception as error:
+            record["error"] = str(error)
+            atomic_torch_save(current, output_dir / "replay_mismatch.pt")
+            write_json(output_dir / "replay_verification.json", record)
+            raise
+        replay_verification = record
+        write_json(output_dir / "replay_verification.json", record)
+        print(f"Exact original-checkpoint replay passed at joint {step}.", flush=True)
+
+    def save_training_state(stage, step, stage_elapsed):
+        state = dict(format_version=1, model_type="timegan_training_state", checkpoint=model_checkpoint(stage, step),
+                     optimizers={key: optimizer.state_dict() for key, optimizer in trainer.optimizers.items()},
+                     rng=training_rng_state(), streams=dict(initial_sampler=initial_sampler_state, initial_noise=initial_noise_state,
+                     sampler=sampler.get_state(), noise=noise_rng.get_state(), sampler_segments=sampler_segments, noise_draws=noise_draws,
+                     minibatch_sha256=minibatch_digest.hexdigest(), noise_sha256=noise_digest.hexdigest()),
+                     comparison_protocol=protocol, metric_specification=spec, input_files=audit["files"],
+                     initial_parameters_sha256=initial_parameters_sha256, history=history, validation_history=validation_history,
+                     best=best, best_examples=best_examples, selected_checkpoint=selected_checkpoint,
+                     stage_training_seconds=stage_seconds, stage_elapsed_seconds=stage_elapsed,
+                     elapsed_seconds=elapsed_before + perf_counter() - started, reconstruction_check=sanity, previous_runs=previous_runs,
+                     replay_reference_sha256=replay_sha256, replay_step=replay_step, replay_verification=replay_verification,
+                     source_files=source_files, environment=dict(torch_version=str(torch.__version__), numpy_version=np.__version__, device=device),
+                     saved_at_utc=datetime.now(timezone.utc).isoformat())
+        atomic_torch_save(state, output_dir / "training_state.pt", retain_previous=True)
+
+    if resumed is not None:
+        checkpoint = resumed["checkpoint"]
+        current = model_checkpoint(checkpoint["stage"], checkpoint["step"])
+        for key in current:
+            if key != "state_dict":
+                assert_exact_state(current[key], checkpoint[key], "resume." + key)
+        for key, actual in (("comparison_protocol", protocol), ("metric_specification", spec), ("input_files", audit["files"]),
+                            ("initial_parameters_sha256", initial_parameters_sha256), ("source_files", source_files),
+                            ("replay_reference_sha256", replay_sha256), ("replay_step", replay_step),
+                            ("environment", dict(torch_version=str(torch.__version__), numpy_version=np.__version__, device=device))):
+            assert_exact_state(actual, resumed[key], "resume." + key)
+        model.load_state_dict(checkpoint["state_dict"])
+        if resumed["optimizers"].keys() != trainer.optimizers.keys():
+            raise ValueError("Resume optimizer groups differ.")
+        for key, optimizer in trainer.optimizers.items():
+            optimizer.load_state_dict(resumed["optimizers"][key])
+        sampler, noise_rng, minibatch_digest, noise_digest = rebuild_training_streams(resumed["streams"], len(values), batch_size, architecture["noise_dim"], device)
+        initial_sampler_state, initial_noise_state = resumed["streams"]["initial_sampler"], resumed["streams"]["initial_noise"]
+        sampler_segments, noise_draws = resumed["streams"]["sampler_segments"], resumed["streams"]["noise_draws"]
+        history, validation_history, best, best_examples = (resumed[key] for key in ("history", "validation_history", "best", "best_examples"))
+        selected_checkpoint, replay_verification = resumed["selected_checkpoint"], resumed["replay_verification"]
+        stage_seconds, stage_elapsed_before, elapsed_before = (resumed[key] for key in ("stage_training_seconds", "stage_elapsed_seconds", "elapsed_seconds"))
+        previous_runs = resumed["previous_runs"]
+        resume_stage, resume_step = checkpoint["stage"], checkpoint["step"]
+        if selected_checkpoint is not None:
+            atomic_torch_save(selected_checkpoint, output_dir / "selected.pt")
+        if replay_verification is not None:
+            if not replay_verification.get("passed") or replay_verification.get("reference_sha256") != replay_sha256:
+                raise ValueError("Resume contains invalid replay verification.")
+            write_json(output_dir / "replay_verification.json", replay_verification)
+        if replay_reference is not None and resume_stage == "joint" and resume_step >= replay_step and replay_verification is None:
+            raise ValueError("Resume has passed the required original replay boundary without verification.")
+        # The first JIT profile in a fresh fit sees the eight-window sanity shape,
+        # not the main minibatch shape. Recreate it before warming historical routes.
+        print("Restoring process-local execution plans with the original reconstruction check...", flush=True)
+        warm_check = reconstruction_check(values.cpu(), architecture, device, sanity["steps"], contexts, training_anchors, decoder_statistics)
+        if not warm_check["passed"]:
+            raise RuntimeError("Resume execution-plan reconstruction check failed.")
+        completed = dict(embedding=resume_step if resume_stage == "embedding" else embedding_steps,
+                         supervised=supervised_steps if resume_stage == "joint" else resume_step if resume_stage == "supervised" else 0,
+                         joint=resume_step if resume_stage == "joint" else 0)
+        warm_resume_execution(model, completed, values, anchor_values, context_values, batch_size, trainer_options, no_supervision)
+        restore_training_rng_state(resumed["rng"])
+        print(f"Resumed full training state after {resume_stage} {resume_step}; stream hashes verified.", flush=True)
 
     def evaluate(step):
         runs, samples, feature_summary = [], {}, None
@@ -371,14 +633,60 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
                    for suffix, operation in (("mean", np.mean), ("sd", lambda a: np.std(a, ddof=1)))}
         return dict(step=step, runs=runs, **summary, diversity=feature_summary), samples
 
-    for stage, steps in (("embedding", embedding_steps), ("supervised", supervised_steps), ("joint", joint_steps)):
+    def stop_reason():
+        if stop_request is not None and Path(stop_request).exists():
+            return "stop_request"
+        if deadline is not None and datetime.now(timezone.utc) >= deadline:
+            return "training_deadline"
+        return None
+
+    def boundary(stage, step, stage_elapsed, final_stage_step=False):
+        reason = stop_reason()
+        if state_enabled and (reason or final_stage_step or (training_state_every and step % training_state_every == 0)):
+            save_training_state(stage, step, stage_elapsed)
+        if reason:
+            result = dict(status="incomplete", reason=reason, stage=stage, step=step, config=config,
+                          training_state=str((output_dir / "training_state.pt").resolve()), test_evaluated=False,
+                          replay_verification=replay_verification, stopped_at_utc=datetime.now(timezone.utc).isoformat())
+            write_json(output_dir / "incomplete.json", result)
+            write_json(output_dir / "progress.json", dict(config=config, history=history, boundary=result))
+            print(f"Stopped safely after {stage} {step}: {reason}; full state saved.", flush=True)
+            return result
+        return None
+
+    schedule = (("embedding", embedding_steps), ("supervised", supervised_steps), ("joint", joint_steps))
+    stage_order = {name: index for index, (name, _) in enumerate(schedule)}
+    if resume_stage is not None and (resume_stage not in stage_order or not 0 <= resume_step <= dict(schedule)[resume_stage]):
+        raise ValueError("Invalid resume stage/update boundary.")
+    if replay_reference is not None:
+        # Fail metadata/source mismatches before spending hours on deterministic replay.
+        current = model_checkpoint("joint", replay_step)
+        for key in current:
+            if key not in ("state_dict", "source_files"):
+                assert_exact_state(current[key], replay_reference[key], "replay.preflight." + key)
+        for name, digest in source_files.items():
+            if name != "train.py" and replay_reference["source_files"].get(name) != digest:
+                raise ValueError(f"Replay frozen source differs: {name}")
+    if stop_reason():
+        return boundary(resume_stage or "embedding", resume_step, stage_elapsed_before)
+
+    for stage, steps in schedule:
+        if resume_stage is not None and stage_order[stage] < stage_order[resume_stage]:
+            continue
+        first_step = resume_step + 1 if stage == resume_stage else 1
+        stage_prior = stage_elapsed_before if stage == resume_stage else 0.
         stage_started, evaluation_seconds = perf_counter(), 0.
         if stage == "supervised" and no_supervision:
-            skip_supervisor_draws(sampler, len(values), steps, device)
+            skip_supervisor_draws(sampler, len(values), steps - first_step + 1, device)
+            if state_enabled and steps >= first_step:
+                append_stream_segment(sampler_segments, False, steps - first_step + 1)
             stage_seconds[stage] = 0.
             print(f"supervised: skipped {steps} scheduled updates; advanced sampler to preserve paired joint batches", flush=True)
+            stopped = boundary(stage, steps, 0., True)
+            if stopped is not None:
+                return stopped
             continue
-        for step in range(1, steps + 1):
+        for step in range(first_step, steps + 1):
             collect = step == 1 or step % config["log_every"] == 0 or step == steps
             if stage == "embedding":
                 real_batch, price_anchors, context = batch()
@@ -399,7 +707,7 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
                 losses = dict(zip(losses, torch.stack(list(losses.values())).cpu().tolist()))
                 if not all(np.isfinite(list(losses.values()))):
                     raise FloatingPointError(f"Non-finite {stage} diagnostics at step {step}.")
-                history.append(dict(stage=stage, step=step, training_seconds=perf_counter() - stage_started - evaluation_seconds, **losses))
+                history.append(dict(stage=stage, step=step, training_seconds=stage_prior + perf_counter() - stage_started - evaluation_seconds, **losses))
                 print(f"{stage} {step}/{steps}: " + ", ".join(f"{k}={v:.5f}" for k, v in losses.items() if "grad" not in k), flush=True)
                 write_json(output_dir / "progress.json", dict(config=config, history=history))
             if stage == "joint" and (step % eval_every == 0 or step == steps):
@@ -411,13 +719,25 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
                 rank = lambda candidate: (candidate["invalid_rate_mean"], candidate["mean_kl_mean"], candidate["abs_return_acf_mae_mean"], candidate["step"])
                 if best is None or rank(row) < rank(best):
                     best, best_examples = row, examples
-                    save_model("selected.pt", stage, step)
+                    selected_checkpoint = save_model("selected.pt", stage, step)
                 print(f"Validation {step}: invalid={row['invalid_rate_mean']:.2%}, SSIM={row['depth_ssim_mean']:.4f}", flush=True)
                 evaluation_seconds += perf_counter() - evaluation_started
+            if stage == "joint":
+                verify_replay(step)
+            state_started = perf_counter()
+            stopped = boundary(stage, step, stage_prior + state_started - stage_started - evaluation_seconds, step == steps)
+            if stopped is not None:
+                return stopped
+            if state_enabled:
+                evaluation_seconds += perf_counter() - state_started  # State I/O is not update throughput.
         if device == "cuda":
             torch.cuda.synchronize()
-        stage_seconds[stage] = perf_counter() - stage_started - evaluation_seconds
+        stage_seconds[stage] = stage_prior + perf_counter() - stage_started - evaluation_seconds
+    if replay_reference is not None and not (replay_verification and replay_verification.get("passed")):
+        raise RuntimeError("Training completed without the required original-checkpoint replay verification.")
     save_model("joint_last.pt", "joint", joint_steps)
+    if state_enabled:
+        save_training_state("joint", joint_steps, stage_seconds["joint"])
 
     # Verify the selected checkpoint, not just the final in-memory model.
     checkpoint = torch.load(output_dir / "selected.pt", map_location=device, weights_only=True)
@@ -444,7 +764,7 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
                   ar_baselines=[] if training_volumes is not None else [row for row in ar["candidates"] if row["candidate"] in (ar["original_candidate"], ar["selected_candidate"])],
                   ar_selected_candidate=None if training_volumes is not None else ar["selected_candidate"], reconstruction_check=sanity, reload_max_abs_difference=reload_difference,
                   selected_checkpoint_sha256=sha256_file(output_dir / "selected.pt"), data_loading_seconds=loading_seconds,
-                  stage_training_seconds=stage_seconds, total_seconds=perf_counter() - started,
+                  stage_training_seconds=stage_seconds, total_seconds=elapsed_before + perf_counter() - started,
                   device=device, device_name=torch.cuda.get_device_name(0) if device == "cuda" else "CPU",
                   peak_allocated_bytes=torch.cuda.max_memory_allocated() if device == "cuda" else None,
                   peak_reserved_bytes=torch.cuda.max_memory_reserved() if device == "cuda" else None,
@@ -481,6 +801,12 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
         report["status"] = "Starting-volume conditioning controlled pilot; validation only."
         report["limitations"].append("Starting volumes expand the held-out input budget. Compare the matched/zero-volume pair; historical AR and price-only TimeGAN scores are not matched-information baselines.")
         report["historical_data_metric_contract"] = base_signature
+    if state_enabled:
+        report["limitations"] = ["Generation checkpoints retain their historical format; separate full training-state checkpoints support exact boundary resume."
+                                 if item.startswith("Checkpoints support generation") else item for item in report["limitations"]]
+        report["training_recovery"] = dict(full_state=str((output_dir / "training_state.pt").resolve()),
+                                           resumed_from=None if resume_state is None else str(Path(resume_state).resolve()),
+                                           replay_verification=replay_verification)
     write_json(report_path, report)
     return report
 
@@ -576,13 +902,18 @@ def main():
     parser.add_argument("--price-decoder", choices=("none", "ladder"), default="none")
     parser.add_argument("--volume-conditioning", choices=("none", "zero", "matched"), default="none", help="Labelled extension: starting volumes or same-dimension zero-volume control; requires matched price context.")
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
+    add_training_state_arguments(parser)
     args = parser.parse_args()
     if args.model == "timegan":
         if args.sequence_length != 32:
             parser.error("The fixed AR/TimeGAN comparison requires sequence-length=32.")
         report = fit_timegan(args.data_dir, args.output_dir, args.report, args.embedding_steps, args.supervised_steps,
                             args.joint_steps, args.eval_every, args.seed, args.batch_size, args.hidden, args.layers,
-                            args.learning_rate, args.device, args.sanity_steps, args.threads, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning, args.price_decoder, args.volume_conditioning)
+                            args.learning_rate, args.device, args.sanity_steps, args.threads, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning, args.price_decoder, args.volume_conditioning,
+                            args.training_state_every, args.resume_state, args.stop_request, args.training_deadline, args.replay_checkpoint, args.replay_step)
+        if report.get("status") == "incomplete":
+            print(f"TimeGAN incomplete; resumable state saved after {report['stage']} {report['step']}.")
+            return
         print(f"TimeGAN pilot complete. Selected joint step {report['selected']['step']}; validation only.")
         return
     report_path = args.report or PROJECT_DIR / "outputs/ar/fit.json"

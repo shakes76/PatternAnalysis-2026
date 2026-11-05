@@ -1,0 +1,109 @@
+{
+  "state": "complete",
+  "completed_at": "2026-11-05T10:26:14.876397+00:00",
+  "identity": {
+    "pid": 87076,
+    "create_time": 1793874366.310284,
+    "script": "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+    "cmdline": [
+      "C:\\Users\\franz\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+      "--mode",
+      "prepare"
+    ]
+  },
+  "training_shape": [
+    5507,
+    32,
+    40
+  ],
+  "validation_windows": 1080,
+  "input_hashes": {
+    "training_inputs.npz": "161997d387fef4101b7291dfd5b873777d70ff09976b793d567ea20af10da6b4",
+    "generation_inputs.npz": "53e59c76d20131d05198e7e214af3f08ba13fc9035eacb927c2f851ada0ab6d1",
+    "training_draws.npz": "d3f05b27c05a2cf63cb6198a1d6f52bedd8431a3649f03e9b0fa6397bae7b615"
+  },
+  "configuration": {
+    "architecture": {
+      "features": 40,
+      "hidden": 48,
+      "layers": 3,
+      "noise_dim": 40,
+      "cell": "reference",
+      "context_dim": 39,
+      "price_decoder": "ladder"
+    },
+    "training_seed": 2026,
+    "batch_size": 128,
+    "learning_rate": 0.0003,
+    "embedding_steps": 4000,
+    "supervised_steps": 4000,
+    "joint_steps": 4000,
+    "eval_every": 1000,
+    "sequence_length": 32,
+    "generation_seeds": [
+      42,
+      43,
+      44
+    ],
+    "dtype": "float32",
+    "supervised_weight": 100.0,
+    "embedding_supervised_weight": 0.1,
+    "no_supervision": false,
+    "effective_supervised_steps": 4000,
+    "moment_weight": 100.0,
+    "gamma": 1.0,
+    "gradient_clip_norm": null,
+    "square_root_epsilon": 0.0,
+    "discriminator_threshold": 0.15,
+    "generator_updates_per_joint_step": 2,
+    "memory_budget_gib": 7.0,
+    "threads": 1,
+    "log_every": 100,
+    "training_tensor_device": "cpu",
+    "reference": "jsyoon0823/TimeGAN@8f6181cb9b9d2fa0c930cd902411d9ac8a308e07",
+    "structure_weight": 0.0,
+    "structure_margin_usd": 0.01,
+    "objective": "reference + static anchor context + starting-volume context + variance-balanced reconstruction + ordered price-ladder decoder",
+    "anchor_conditioning": "matched",
+    "volume_conditioning": "matched",
+    "balance_reconstruction": true,
+    "balance_power": 0.5,
+    "price_reconstruction_weight": 10.726583062613983,
+    "reconstruction_weight_scope": "(Training-window volume variance / price variance) ** balance_power; volume weights remain one.",
+    "price_decoder": "ladder",
+    "ladder_gap_scale": [
+      3.896701124499672,
+      3.4964726579147807,
+      3.541644636846746,
+      3.846991477826343,
+      3.540126719846962,
+      3.541644636846746,
+      4.0289385456998135,
+      4.0289385456998135,
+      3.7071425708630814,
+      6.124334642097732,
+      4.445980482818805,
+      3.778172359067315,
+      3.912209221431456,
+      4.004721659444074,
+      5.378666399329577,
+      4.112495602807401,
+      4.112495602807401,
+      3.8514022515411974,
+      4.003244124467107
+    ]
+  },
+  "source_files": {
+    "source_sha256": {
+      "modules.py": "1e32f1cf192c370bf0720b71ed56f83b9584c34052d49abfa6f4e2a6a754a891",
+      "train.py": "aadd9f9f2e093dfba3f91f72fd6b72b42131e6bde8e7ab4167c2cbad6e51fc87",
+      "dataset.py": "5c8a3a3b81a746f2cc5c8db477a9318d2f4ce376deecfabdc6500be45fd5882b",
+      "evaluation.py": "93f840d626f70bc28a045fc5253982950a1adf8e6fc2c20e2a694faff4c3c5fc",
+      "protocol.py": "760285cd04eee2d5a9b9186e3d14ca206bb4b35a6ae78926433824c6a5b2ea41",
+      "predict.py": "0ef1172df104b05489eacee520e7482f60adc752e3d84dc95c87a17c3534b5cf"
+    },
+    "checkpoint_sha256": "f6ddf9f1f93066b0f481d618f723ef8c1b3ea24b3470fdfad7ae9a7aac754034"
+  },
+  "scope": "Training and validation contexts only; no model quality scoring or test generation. CSV preprocessing is outside profiling-worker memory/timing."
+}

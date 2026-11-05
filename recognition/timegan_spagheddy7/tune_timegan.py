@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 
 from dataset import PROJECT_DIR, sha256_file
-from train import fit_timegan, timegan_code_hashes, write_json
+from train import fit_timegan, timegan_code_hashes, write_json, add_training_state_arguments
 from timegan_report import diagnose, analyse_conditioning
 
 
@@ -126,7 +126,8 @@ def run_reconstruction(data_dir, output, hidden=24, steps=5000, seed=2026, balan
 
 
 def run_candidate(data_dir, name, hidden=24, learning_rate=.001, embedding_steps=1000, supervised_steps=1000,
-                  joint_steps=1000, seed=2026, eval_every=250, structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none", price_decoder="none", volume_conditioning="none"):
+                  joint_steps=1000, seed=2026, eval_every=250, structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none", price_decoder="none", volume_conditioning="none",
+                  training_state_every=0, resume_state=None, stop_request=None, training_deadline=None, replay_checkpoint=None, replay_step=None):
     if not name or any(c not in "abcdefghijklmnopqrstuvwxyz0123456789_-" for c in name):
         raise ValueError("Use a simple lowercase experiment name.")
     output = PROJECT_DIR / "outputs/timegan/experiments" / name
@@ -147,7 +148,11 @@ def run_candidate(data_dir, name, hidden=24, learning_rate=.001, embedding_steps
         report = fit_timegan(data_dir, output_dir=output, report_path=report_path, hidden=hidden, learning_rate=learning_rate,
                             embedding_steps=embedding_steps, supervised_steps=supervised_steps, joint_steps=joint_steps,
                             seed=seed, eval_every=eval_every, device="cpu", threads=1, structure_weight=structure_weight,
-                            balance_reconstruction=balance_reconstruction, balance_power=balance_power, no_supervision=no_supervision, anchor_conditioning=anchor_conditioning, price_decoder=price_decoder, volume_conditioning=volume_conditioning)
+                            balance_reconstruction=balance_reconstruction, balance_power=balance_power, no_supervision=no_supervision, anchor_conditioning=anchor_conditioning, price_decoder=price_decoder, volume_conditioning=volume_conditioning,
+                            training_state_every=training_state_every, resume_state=resume_state, stop_request=stop_request,
+                            training_deadline=training_deadline, replay_checkpoint=replay_checkpoint, replay_step=replay_step)
+        if report.get("status") == "incomplete":
+            return report
     collect_summary()
     return report
 
@@ -222,6 +227,7 @@ def main():
     parser.add_argument("--anchor-conditioning", choices=("none","matched","zero"), default="none")
     parser.add_argument("--price-decoder", choices=("none", "ladder"), default="none")
     parser.add_argument("--volume-conditioning", choices=("none", "zero", "matched"), default="none", help="Labelled extension: starting volumes or same-dimension zero-volume control; requires matched price context.")
+    add_training_state_arguments(parser)
     args = parser.parse_args()
     if args.reconstruction_only:
         if args.data_dir is None or args.probe_output is None or args.name or args.diagnose or args.refresh_notebook or args.conditioning_report or args.structure_weight or args.no_supervision or args.anchor_conditioning != "none" or args.price_decoder != "none" or args.volume_conditioning != "none":
@@ -253,8 +259,12 @@ def main():
                           "shuffled_anchor_mean": row["shuffled_anchor_mean"]}, flush=True)
     if args.name:
         report = run_candidate(args.data_dir, args.name, args.hidden, args.learning_rate, args.embedding_steps,
-                               args.supervised_steps, args.joint_steps, args.seed, args.eval_every, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning, args.price_decoder, args.volume_conditioning)
-        print(args.name, "selected", report["selected"]["step"], "invalid", report["selected"]["invalid_rate_mean"], flush=True)
+                               args.supervised_steps, args.joint_steps, args.seed, args.eval_every, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning, args.price_decoder, args.volume_conditioning,
+                               args.training_state_every, args.resume_state, args.stop_request, args.training_deadline, args.replay_checkpoint, args.replay_step)
+        if report.get("status") == "incomplete":
+            print(args.name, "incomplete", report["stage"], report["step"], "full state saved", flush=True)
+        else:
+            print(args.name, "selected", report["selected"]["step"], "invalid", report["selected"]["invalid_rate_mean"], flush=True)
     if not args.diagnose and not args.name:
         parser.error("Choose --diagnose and/or --name.")
 

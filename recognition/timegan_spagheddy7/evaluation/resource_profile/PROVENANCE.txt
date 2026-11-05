@@ -1,0 +1,36 @@
+Resource-profile provenance (recorded 5 November 2026)
+
+The reported short CPU/RTX 4060 comparison is in
+reports/resources/resource_profile_20261105.json. This package preserves the
+original recorded result, runner, plan and prepared-input provenance byte for
+byte. No measurements, training or generation were repeated for packaging.
+
+Scope: final matched h48 reference-GRU/context39/ladder model, 230,393
+parameters, batch 128, one CPU thread. Disposable weight copies and fresh Adam
+states were used for two warmups and five measured updates in each stage.
+These are short operation measurements, not production-fit runtime or peak RAM.
+Host RAM includes imports and prepared inputs. Raw CSV preprocessing is outside
+the worker's measurements. CUDA allocated/reserved counters exclude driver and
+context memory; reserved memory includes allocated memory.
+
+Generation correction: the initial plan specified two 128-sequence warmups.
+Those did not exercise the partial final batch of the 1,080-sequence workload.
+Only generation timing was repeated with two full 1,080-sequence warmups on
+both devices, followed by seeds 42/43/44. Training measurements were preserved.
+The full results record this correction, its reason and the original diagnostic
+result hash under generation_warmup_correction. Use the corrected result here.
+
+The runner is archived evidence, not a portable one-command rerun interface:
+it retains original absolute project/data/checkpoint paths, writes beside itself,
+and has its original expired controller deadline (5 November 2026, 10:50 UTC).
+A future rerun would require a fresh working copy/output directory, suitable
+local paths, the external data/checkpoint, psutil and a new explicit deadline.
+Prepared NPZ caches, logs and process-identity sidecars are intentionally omitted.
+The complete local archive remains at:
+C:\Users\franz\OneDrive\Documents\FinMath\Sem4\COMP3710\Assignment\TimeGAN_Resource_Profile_20261105
+
+SHA256 hashes of byte-identical copied evidence:
+49b430763f1439f573519cef19b5a026ee5a1adc2792ad42cd38f7ab0f9c0473  reports/resources/resource_profile_20261105.json
+10ce9ca094fbce602a2afedc6e21e43e7e87fbf636b3fec4ed1ce3e778247226  evaluation/resource_profile/profile_resources.py
+1290ca8e50f4ef17c9d1caae380b8c3eb7e1c4fc10ba6f31eab3414bd30294d3  evaluation/resource_profile/plan.json
+ba1768dacfd2157f8421685676fc2a49df9dd19b631365238dd14b0300526b2f  evaluation/resource_profile/preparation.json

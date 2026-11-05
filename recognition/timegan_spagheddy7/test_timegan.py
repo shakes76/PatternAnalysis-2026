@@ -751,5 +751,134 @@ class StartingVolumePilotChecks(unittest.TestCase):
 
 
 
+class TrainingStateChecks(unittest.TestCase):
+    """Full-state persistence must preserve training, rather than reset Adam/RNGs."""
+
+    @unittest.skipUnless(torch.cuda.is_available(), "CUDA state is absent on this host")
+    def test_cold_process_restore_overrides_pending_lazy_cuda_seed(self):
+        import subprocess
+        import sys
+        import tempfile
+        from pathlib import Path
+        from train import training_rng_state
+        torch.manual_seed(2026)
+        state = training_rng_state()
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "rng.pt"
+            torch.save(state, path)
+            code = "\n".join((
+                "import sys, torch",
+                "from train import restore_training_rng_state, training_rng_state, assert_exact_state",
+                "state = torch.load(sys.argv[1], weights_only=True)",
+                "assert not torch.cuda.is_initialized(), 'Probe must start with cold CUDA'",
+                "torch.manual_seed(9001)",
+                "assert not torch.cuda.is_initialized(), 'manual_seed should leave lazy CUDA pending'",
+                "restore_training_rng_state(state)",
+                "assert_exact_state(training_rng_state(), state, 'restored_rng')",
+            ))
+            result = subprocess.run([sys.executable, "-c", code, str(path)], cwd=Path(__file__).resolve().parent,
+                                    capture_output=True, text=True, timeout=60)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_global_rng_roundtrip_includes_python_numpy_and_torch(self):
+        import random
+        from train import training_rng_state, restore_training_rng_state
+        random.seed(137)
+        np.random.seed(271)
+        torch.manual_seed(419)
+        state = training_rng_state()
+        expected = (random.random(), np.random.normal(size=9), torch.rand(11))
+        random.seed(4)
+        np.random.seed(5)
+        torch.manual_seed(6)
+        restore_training_rng_state(state)
+        self.assertEqual(random.random(), expected[0])
+        np.testing.assert_array_equal(np.random.normal(size=9), expected[1])
+        torch.testing.assert_close(torch.rand(11), expected[2], rtol=0, atol=0)
+
+    def test_stream_rebuild_preserves_hashed_and_skipped_draws_exactly(self):
+        import hashlib
+        from train import append_stream_segment, rebuild_training_streams
+        sampler = torch.Generator().manual_seed(7)
+        noise = torch.Generator().manual_seed(9)
+        state = dict(initial_sampler=sampler.get_state(), initial_noise=noise.get_state(), sampler_segments=[], noise_draws=4)
+        batch_hash, noise_hash = hashlib.sha256(), hashlib.sha256()
+        for hashed in (True, True, False, False, True):
+            indices = torch.randperm(11, generator=sampler)[:4]
+            append_stream_segment(state["sampler_segments"], hashed)
+            if hashed:
+                batch_hash.update(indices.numpy().tobytes())
+        for _ in range(state["noise_draws"]):
+            noise_hash.update(torch.rand(4, 32, 3, generator=noise).numpy().tobytes())
+        state.update(sampler=sampler.get_state(), noise=noise.get_state(),
+                     minibatch_sha256=batch_hash.hexdigest(), noise_sha256=noise_hash.hexdigest())
+        resumed_sampler, resumed_noise, resumed_batch_hash, resumed_noise_hash = rebuild_training_streams(state, 11, 4, 3, "cpu")
+        self.assertEqual(state["sampler_segments"], [[True, 2], [False, 2], [True, 1]])
+        for _ in range(3):
+            expected_batch = torch.randperm(11, generator=sampler)[:4]
+            actual_batch = torch.randperm(11, generator=resumed_sampler)[:4]
+            expected_noise = torch.rand(4, 32, 3, generator=noise)
+            actual_noise = torch.rand(4, 32, 3, generator=resumed_noise)
+            torch.testing.assert_close(actual_batch, expected_batch, rtol=0, atol=0)
+            torch.testing.assert_close(actual_noise, expected_noise, rtol=0, atol=0)
+            batch_hash.update(expected_batch.numpy().tobytes())
+            resumed_batch_hash.update(actual_batch.numpy().tobytes())
+            noise_hash.update(expected_noise.numpy().tobytes())
+            resumed_noise_hash.update(actual_noise.numpy().tobytes())
+        self.assertEqual(resumed_batch_hash.hexdigest(), batch_hash.hexdigest())
+        self.assertEqual(resumed_noise_hash.hexdigest(), noise_hash.hexdigest())
+        bad = copy.deepcopy(state)
+        bad["minibatch_sha256"] = "wrong"
+        with self.assertRaisesRegex(ValueError, "hash replay"):
+            rebuild_training_streams(bad, 11, 4, 3, "cpu")
+        bad = copy.deepcopy(state)
+        bad["noise_draws"] -= 1
+        with self.assertRaisesRegex(ValueError, "RNG replay"):
+            rebuild_training_streams(bad, 11, 4, 3, "cpu")
+
+    def test_atomic_training_state_retains_previous_and_retries_file_lock(self):
+        import tempfile
+        from pathlib import Path
+        from train import atomic_torch_save
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "training_state.pt"
+            atomic_torch_save({"step": 1, "weights": torch.ones(2)}, target, retain_previous=True)
+            original, calls = Path.replace, []
+            def locked_then_replace(source, destination):
+                if Path(destination) == target:
+                    calls.append(1)
+                    self.assertEqual(torch.load(target, weights_only=True)["step"], 1)
+                    if len(calls) < 3:
+                        raise PermissionError("temporary file-sharing lock")
+                return original(source, destination)
+            with patch.object(Path, "replace", locked_then_replace), patch("train.time.sleep"):
+                atomic_torch_save({"step": 2, "weights": torch.zeros(2)}, target, retain_previous=True)
+            self.assertEqual(torch.load(target, weights_only=True)["step"], 2)
+            self.assertEqual(torch.load(target.with_name("training_state.previous.pt"), weights_only=True)["step"], 1)
+            self.assertEqual(len(calls), 3)
+            with patch("train.torch.save", side_effect=OSError("interrupted write")), self.assertRaises(OSError):
+                atomic_torch_save({"step": 3}, target, retain_previous=True)
+            self.assertEqual(torch.load(target, weights_only=True)["step"], 2)
+            self.assertEqual(torch.load(target.with_name("training_state.previous.pt"), weights_only=True)["step"], 1)
+
+    def test_exact_checkpoint_comparison_rejects_buffer_dtype_and_configuration_changes(self):
+        from train import assert_exact_state
+        expected = {"state_dict": {"weight": torch.ones(2), "decoder_buffer": torch.zeros(3)}, "config": {"lr": .0003}}
+        assert_exact_state(copy.deepcopy(expected), expected)
+        for key in ("weight", "decoder_buffer"):
+            bad = copy.deepcopy(expected)
+            bad["state_dict"][key][0] += 1e-5
+            with self.subTest(tensor=key), self.assertRaisesRegex(ValueError, key):
+                assert_exact_state(bad, expected)
+        bad = copy.deepcopy(expected)
+        bad["state_dict"]["weight"] = bad["state_dict"]["weight"].double()
+        with self.assertRaisesRegex(ValueError, "weight"):
+            assert_exact_state(bad, expected)
+        bad = copy.deepcopy(expected)
+        bad["config"]["lr"] = .001
+        with self.assertRaisesRegex(ValueError, "config.lr"):
+            assert_exact_state(bad, expected)
+
+
 if __name__ == "__main__":
     unittest.main()

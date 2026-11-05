@@ -1,0 +1,34 @@
+{
+  "authorised_scope": "Short resource profile only; no scientific model fit or new score",
+  "deadline_utc": "2026-11-05T10:50:00Z",
+  "devices": [
+    "cpu",
+    "cuda"
+  ],
+  "model": "final matched h48 referenceGRU context39 ladder checkpoint at joint4000",
+  "parameters": 230393,
+  "batch_size": 128,
+  "threads": 1,
+  "training_profile": {
+    "warmup_per_stage": 2,
+    "timed_per_stage": 5,
+    "stages": [
+      "embedding",
+      "supervised",
+      "joint"
+    ],
+    "initialization": "Disposable final-weight copies; fresh Adam states; common prepared input/noise batches"
+  },
+  "generation": {
+    "count": 1080,
+    "warmup_calls": 2,
+    "warmup_count": 128,
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "batch_size": 128
+  },
+  "memory_scope": "Prepared-data worker lifetime peak working set; raw CSV loading in separate unprofiled worker. CUDA allocated/reserved counters exclude driver/context. No full-run peak claim."
+}
