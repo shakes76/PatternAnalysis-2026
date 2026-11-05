@@ -2,18 +2,18 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.ticker import MaxNLocator
 
 from common.constants import DEPTH
 from common.constants import LEVELS
 from common.metrics import abs_return_autocorr
 from common.metrics import central_bins
 from common.metrics import depth_heatmap
-from common.metrics import max_log_size
 from common.metrics import mid_returns
 from common.metrics import spread
 from common.metrics import tick_bins
 from common.metrics import vwap_returns
-
+from dataset import FEATURE_COLS
 
 SOURCES = ("Real", "Synthetic")
 LEVEL_LABELS = [f"bid {l}" for l in reversed(LEVELS)] + [f"ask {l}" for l in LEVELS]
@@ -27,19 +27,88 @@ def mid_changes(book: dict) -> np.ndarray:
 
 # Training Plots
 def plot_losses(embedding_losses: dict, supervisor_losses: dict, joint_losses: dict, path: Path) -> None:
-    """One panel per training phase, saved for the README."""
-    fig, axes = plt.subplots(1, 3, figsize=(16, 4))
-    for ax, hist, title in [(axes[0], embedding_losses, "Phase 1: embedding (recon MSE)"),
-                            (axes[1], supervisor_losses, "Phase 2: supervised (next-step MSE)"),
-                            (axes[2], joint_losses, "Phase 3: joint training")]:
-        for name, values in hist.items():
-            ax.plot(values, label=name)
-        ax.set(title=title, xlabel="Epoch")
-        ax.legend()
-    axes[0].set_yscale("log")
-    axes[1].set_yscale("log")
-    fig.tight_layout()
-    fig.savefig(path, dpi=150)
+    train_val = {
+        "embedding": ("Phase 1: Autoencoder", "Reconstruction MSE"),
+        "supervised": ("Phase 2: Supervised", "Next-step MSE"),
+    }
+    # Phase-3 series: key -> display name
+    joint_series = {
+        "d_loss": "Discriminator",
+        "g_adv": "Generator",
+        "g_spread_w1": "Spread W1",
+        "g_mid_w1": "Mid W1",
+        "g_moment": "Moment",
+    }
+
+    history = {"embedding": embedding_losses, "supervised": supervisor_losses, "joint": joint_losses}
+
+    fig, axes = plt.subplots(1, 3, figsize=(12, 3.6), layout="constrained")   # 4 x 3.6 in per panel
+
+    for ax, (phase, losses) in zip(axes, history.items()):
+        if phase in train_val:
+            # Phases 1 and 2: train and validation
+            for split, colour in (("train", "C0"), ("val", "C1")):
+                values = losses[split]
+                ax.plot(range(1, len(values) + 1), values, color=colour, lw=1.5, label=split.capitalize())
+            title, ylabel = train_val[phase]
+        else:
+            # Phase 3: every loss on one log axis
+            for name, label in joint_series.items():
+                values = losses[name]
+                ax.plot(range(1, len(values) + 1), values, lw=1.5, label=label)
+            title, ylabel = "Phase 3: Joint", "Loss"
+
+        ax.set_title(title, fontsize=12, weight="bold")
+        ax.set_xlabel("Epoch", fontsize=11)
+        ax.set_ylabel(ylabel, fontsize=11)
+        ax.set_yscale("log")
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True, steps=[1, 2, 5, 10]))   # whole, round epochs
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.tick_params(labelsize=10)
+
+        if phase in train_val:
+            ax.legend(fontsize=8, frameon=False)
+        else:
+            # Legend inside the panel so it adds no width; extra headroom above the losses makes space for it
+            lo, hi = ax.get_ylim()
+            ax.set_ylim(lo, hi * 4)
+            ax.legend(fontsize=7, frameon=False, ncol=3, loc="upper left", handlelength=1.6, columnspacing=1.0)
+
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+def plot_reconstruction(results: dict[str, tuple[np.ndarray, np.ndarray]], path: Path) -> None:
+    """One column per model, one row per feature: the real window against its reconstruction.
+
+    results maps column title -> (real, recon), each a (time, feature) window in scaled model space.
+    """
+    show = {"mid_rel": "Mid (relative)", "spread": "Spread", "gaps": "Gaps", "sizes": "Sizes"}
+
+    fig, axes = plt.subplots(len(show), len(results), figsize=(12, 3.6), sharex=True,
+                             squeeze=False, layout="constrained")
+    fig.get_layout_engine().set(w_pad=1 / 72, wspace=0)
+
+    for col, (name, (real, recon)) in enumerate(results.items()):
+        axes[0, col].set_title(name, fontsize=12, weight="bold")
+
+        for row, (feat, label) in enumerate(show.items()):
+            ax = axes[row, col]
+            j = FEATURE_COLS.index(feat)
+            ax.plot(real[:, j], color="black", lw=1.3, alpha=0.8, label="Real", zorder=1)
+            ax.plot(recon[:, j], color="C1", lw=1.3, alpha=0.9, label="Reconstruction", zorder=2)
+            ax.spines[["top", "right"]].set_visible(False)
+            if col == 0:
+                ax.set_ylabel(label)
+        axes[-1, col].set_xlabel("Time (s)")
+
+    # One shared legend inside the first panel, so it adds no height to the figure
+    axes[0, 0].legend(loc="upper left", fontsize=8, frameon=False, ncol=2)
+
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 # Evaluation Plots
@@ -110,93 +179,7 @@ def plot_distributions(real: dict, synth: dict, path: Path) -> None:
     fig.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(fig)
 
-def plot_sample_pair(real: dict, synth: dict, i: int, path: Path) -> None:
-    """Real vs synthetic window i: prices on top, depth below.
-
-    The real windows are a random sample of the split and the synthetic ones
-    are independent draws, so pairing them by index is already random.
-    """
-    vmax = max_log_size(real, synth)   # same colour scale for both heatmaps
-    fig, axes = plt.subplots(2, 2, figsize=(16, 9), constrained_layout=True)
-    im = None
-    for col, (book, name) in enumerate(zip((real, synth), SOURCES)):
-        draw_prices(axes[0, col], book, i, f"{name} #{i}: price")
-        im = draw_depth(axes[1, col], book, i, vmax, f"{name} #{i}: volume")
-    fig.colorbar(im, ax=axes[1, :], label="log(1 + size)")
-    fig.savefig(path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-
 def plot_book_pair(
-        book_a: dict,
-        book_b: dict,
-        path: Path,
-        idx_a: int = 0,
-        idx_b: int = 0,
-        title: str | None = None,
-        col_titles: tuple[str, str] | None = None,
-) -> None:
-    cols = [(book_a, idx_a), (book_b, idx_b)]
-    depth = book_a["ask_px"].shape[2]
-    shades = np.linspace(1.0, 0.35, depth)  # level 1 darkest, deeper levels lighter
-    centres = [depth / 2 - 0.5, 1.5 * depth - 0.5]  # middle of the bid half, ask half
-
-    prices = [{s: b[f"{s}_px"][i] / 100 for s in ("ask", "bid")} for b, i in cols]
-    heatmaps = [depth_heatmap(b, i) for b, i in cols]
-    vmax = max(h.max() for h in heatmaps)
-    span = 1.1 * max(np.ptp(np.concatenate(list(p.values()))) for p in prices)
-
-    fig, axes = plt.subplots(2, 2, figsize=(12, 3.6), sharex=True,
-                             gridspec_kw={"height_ratios": [2, 1]}, layout="constrained")
-    fig.get_layout_engine().set(w_pad=1 / 72, wspace=0)
-
-    for col, (px, heat) in enumerate(zip(prices, heatmaps)):
-        ax_px, ax_vol = axes[:, col]
-
-        for side, cmap in (("ask", plt.cm.Reds), ("bid", plt.cm.Blues)):
-            for level in reversed(range(depth)):  # best level last, so it sits on top
-                ax_px.plot(px[side][:, level], color=cmap(shades[level]),
-                           lw=1.5 if level == 0 else 0.8,
-                           label=f"best {side}" if level == 0 else None)
-        all_px = np.concatenate(list(px.values()))
-        mid = (all_px.min() + all_px.max()) / 2
-        ax_px.set_ylim(mid - span / 2, mid + span / 2)
-        ax_px.ticklabel_format(axis="y", useOffset=False, style="plain")
-        if col_titles:
-            ax_px.set_title(col_titles[col], fontsize=12, weight="bold")
-
-        # Depth: bids below the white line, asks above
-        im = ax_vol.imshow(heat, aspect="auto", origin="lower", cmap="viridis",
-                           vmin=0, vmax=vmax, interpolation="nearest")
-        ax_vol.axhline(depth - 0.5, color="white", lw=1)
-        ax_vol.set_xlabel("Time (s)")
-        # Dashes pointing into the middle gap at the Bid/Ask labels
-        ax_vol.set_yticks(centres)
-        ax_vol.tick_params(axis="y", left=col == 1, right=col == 0, labelleft=False,
-                           length=6, width=1)
-
-    axes[0, 0].set_ylabel("Price ($)")
-    # axes[0, 0].legend(loc="upper left")
-    suptitle = fig.suptitle(title) if title else None
-
-    # Colour bar hugging the left heatmap, in the space under the price labels
-    cax = axes[1, 0].inset_axes([-0.03, 0, 0.012, 1])
-    fig.colorbar(im, cax=cax, label="log(1 + size)")
-    cax.yaxis.set_ticks_position("left")
-    cax.yaxis.set_label_position("left")
-
-    # Text placed after layout so it can be centred without widening the gaps
-    fig.canvas.draw()
-    left, right = axes[1, 0].get_position(), axes[1, 1].get_position()
-    x = (left.x1 + right.x0) / 2
-    for name, frac in (("Bid", 0.25), ("Ask", 0.75)):
-        fig.text(x, left.y0 + frac * left.height, name, ha="center", va="center")
-    if suptitle:  # centre over the panels, not the whole figure with the colour bar
-        suptitle.set_x((axes[0, 0].get_position().x0 + axes[0, 1].get_position().x1) / 2)
-
-    fig.savefig(path, dpi=300, bbox_inches="tight")
-    plt.close(fig)
-
-def plot_book_pair_v2(
         book_a: dict,
         book_b: dict,
         path: Path,

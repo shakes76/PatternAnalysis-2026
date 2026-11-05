@@ -81,13 +81,12 @@ def train_supervisor(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, va
     return losses
 
 # Training Phase 2: Joint Generator and Discriminator
-def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScaler], epochs: int, meta: dict) -> dict:
+def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScaler], epochs: int) -> dict:
     """Phase 3: adversarial training with embedder fine-tuning.
 
     Each batch performs two generator + embedder updates and then one
     discriminator update, skipped while the discriminator is already winning
     (loss below D_THRESHOLD) so it cannot overpower the generator.
-    Saves a checkpoint every 10 epochs.
     """
     opt_g = torch.optim.Adam(
         list(model.generator.parameters()) + list(model.supervisor.parameters()), lr=cfg.learning_rate)
@@ -149,10 +148,6 @@ def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScale
             totals["g_mid_w1"] += g_mid_w1.item()
             totals["e_loss"] += e_loss.item()
 
-        if epoch % 10 == 0:
-            torch.save({**meta, "model": model.state_dict(), "epoch": epoch},
-                       Path(f"models/checkpoints/timegan_joint_epoch{epoch:03d}.pt"))
-
         for name in losses:
             losses[name].append(totals[name] / len(loader))
         print(f"[Joint      {epoch:3d}/{epochs}] " + "  ".join(f"{k} {v[-1]:.4f}" for k, v in losses.items()))
@@ -163,7 +158,6 @@ def train_joint(model: TimeGAN, loader: DataLoader, scalers: list[LogMinMaxScale
 def main() -> None:
     # Initialize rng and required filepaths
     Path("models").mkdir(exist_ok=True)
-    Path("models/checkpoints").mkdir(exist_ok=True)
     Path("figures").mkdir(exist_ok=True)
     torch.manual_seed(cfg.train_seed)
 
@@ -192,7 +186,7 @@ def main() -> None:
     model = TimeGAN(feature_dim, cfg.hidden_dim, cfg.noise_dim, cfg.num_layers, len(cfg.tickers)).to(DEVICE)
     val_c = model.one_hot(val_y)
 
-    # Metadata saved with every checkpoint and the final model
+    # Metadata saved with the final model
     meta = {
         "config": cfg.to_dict(),
         "scaler_lo": {ticker: s.lo.tolist() for ticker, s in scalers.items()},
@@ -215,7 +209,7 @@ def main() -> None:
     times["supervised"] = time.perf_counter() - start
 
     start = time.perf_counter()
-    joint_losses = train_joint(model, loader, list(scalers.values()), epochs=cfg.joint_epochs, meta=meta)
+    joint_losses = train_joint(model, loader, list(scalers.values()), epochs=cfg.joint_epochs)
     times["joint"] = time.perf_counter() - start
 
     profile = {
@@ -228,12 +222,11 @@ def main() -> None:
     for phase, minutes in profile["train_minutes"].items():
         print(f"Training time     {phase:<11}{minutes:6.1f} min")
     print(f"Total             {'':<11}{profile['total_train_minutes']:6.1f} min")
-    if profile["peak_vram_mib"] is not None:
-        print(f"Peak GPU memory   {profile['peak_vram_mib']:.0f} MiB")
+    print(f"Peak GPU memory   {profile['peak_vram_mib']:.0f} MiB")
 
     # Save model and loss plots
-    torch.save({**meta, "model": model.state_dict()}, Path("models/embedder_grouped.pt"))
-    plot_losses(embedding_losses, supervisor_losses, joint_losses, Path("figures/timegan_losses.png"))
+    torch.save({**meta, "model": model.state_dict()}, Path("models/timegan.pt"))
+    plot_losses(embedding_losses, supervisor_losses, joint_losses, Path("figures/timegan_training_losses.png"))
 
 
 if __name__ == "__main__":
