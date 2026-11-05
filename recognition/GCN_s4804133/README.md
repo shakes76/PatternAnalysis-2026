@@ -16,15 +16,55 @@
 
 ## Project Overview
 
-This project classifies official Facebook Pages into four categories: television shows, government organisations, companies, and politicians. The Facebook Page-Page dataset contains 22,470 pages, represented by 128-dimensional feature vectors derived from page descriptions. An edge connects pages that mutually like one another [1]. The task is semi-supervised node classification: the models learn from labels on the training pages and predict categories for the remaining pages. I compare a two-layer Graph Convolutional Network (GCN), which uses page features and graph connections, with a Multi-Layer Perceptron (MLP) baseline, which uses the same page features but ignores connections.
+This project classifies official Facebook Pages into four categories: television shows, government organisations, companies, and politicians. The Facebook Page-Page dataset contains 22,470 pages, represented by 128-dimensional feature vectors derived from page descriptions. An edge connects pages that mutually like one another [\[1\]](https://github.com/gayanku/facebook_page-page_dataset). The task is semi-supervised node classification: the models learn from labels on the training pages and predict categories for the remaining pages. I compare a two-layer Graph Convolutional Network (GCN), which uses page features and graph connections, with a Multi-Layer Perceptron (MLP) baseline, which uses the same page features but ignores connections.
 
-The GCN transforms each page's features and aggregates normalised information from its neighbours, including the page itself through self-loops. Its final layer produces scores for the four categories. The MLP applies linear layers to each page independently, providing a baseline for measuring the value of graph information. Both models receive the full graph and page features, but training loss is calculated only from training labels.
+The GCN transforms each page's features and aggregates normalised information from its neighbours, including the page itself through self-loops [\[2\]](https://arxiv.org/abs/1609.02907). Its final layer produces scores for the four categories. The MLP applies linear layers to each page independently, providing a baseline for measuring the value of graph information. Both models receive the full graph and page features, but training loss is calculated only from training labels.
 
 ![t-SNE plot of GCN hidden-layer embeddings](figures/gcn_tsne_embeddings.png)
 
 *Figure 1. t-SNE projection of 1,000 sampled pages from each category, coloured by their true category. This is a qualitative visualisation; the plotted distances are not a measure of model accuracy.*
 
 ## Model Architecture
+```mermaid
+flowchart LR
+    X["Page features<br/>N × 128"]
+
+    subgraph GCN["Graph Convolutional Network"]
+        direction LR
+        G1["Graph convolution<br/>64 hidden features"]
+        R["ReLU + dropout"]
+        G2["Graph convolution<br/>4 class scores"]
+        G1 --> R --> G2
+    end
+
+    E["Page connections<br/>edge_index"] --> G1
+    E --> G2
+    X --> G1
+    G2 --> GP["Predicted page class"]
+
+    subgraph MLP["MLP baseline"]
+        direction LR
+        M1["Linear layer<br/>64 hidden features"]
+        MR["ReLU + dropout"]
+        M2["Linear layer<br/>4 class scores"]
+        M1 --> MR --> M2
+    end
+
+    X --> M1
+    M2 --> MP["Predicted page class"]
+
+    classDef input fill:#e8f1fb,color:#000000,stroke:#3674a5,stroke-width:1.5px
+    classDef gcnStyle fill:#e8f5e9,color:#000000,stroke:#42864b,stroke-width:1.5px
+    classDef dense fill:#fff3df,color:#000000,stroke:#c58a27,stroke-width:1.5px
+    classDef output fill:#f2eafb,color:#000000,stroke:#8055a5,stroke-width:1.5px
+
+    class X,E input
+    class G1,G2,R gcnStyle
+    class M1,M2,MR dense
+    class GP,MP output
+```
+
+*Figure 2. Overview of the GCN and MLP architectures. The GCN uses page connections during graph convolution, while the MLP uses page features only.*
 
 ### Graph Convolutional Network
 [Describe the GCN layers, feature transformation, normalised neighbour aggregation, self-loops, activation, dropout, and output classes. Explain that the layer is implemented in PyTorch.]
@@ -106,5 +146,5 @@ Inference was measured on the NVIDIA Tesla T4 GPU using the full graph, with 5 w
 
 ## References
 
-1. [Facebook Page-Page dataset repository](https://github.com/gayanku/facebook_page-page_dataset)
-2. [Add the original GCN paper and any other sources cited in the report.]
+1. [Facebook Page-Page Dataset Repository](https://github.com/gayanku/facebook_page-page_dataset)
+2. Kipf, T. N., & Welling, M. (2017). [*Semi-Supervised Classification with Graph Convolutional Networks*](https://arxiv.org/abs/1609.02907). International Conference on Learning Representations (ICLR).
