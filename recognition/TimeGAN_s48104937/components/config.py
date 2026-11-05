@@ -36,6 +36,7 @@ class Config:
     # Evaluation
     sample_length: int          # steps per generated window in predict.py (may exceed window_length)
     num_samples: int            # real and synthetic windows compared per ticker
+    num_draws: int              # numbers of trials to run per metric for uncertainty
     burn_in: int                # generated steps discarded at the start while the GRUs warm up
     eval_seed: int              # seed for sampling windows and generating in predict.py
 
