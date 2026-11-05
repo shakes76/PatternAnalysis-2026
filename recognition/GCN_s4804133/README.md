@@ -303,7 +303,7 @@ Z^{(l+1)}=\tilde D^{-1/2}\tilde A\tilde D^{-1/2}H^{(l)}W^{(l)}+b^{(l)},\quad
 \tilde A=A+I,\quad \tilde D_{ii}=\sum_j\tilde A_{ij},\quad l=0,1.
 $$
 
-The hidden state is $H^{(1)}=\operatorname{ReLU}(Z^{(1)})$ with training dropout; $Z^{(2)}$ gives class logits. Self-loops retain each node’s features and symmetric normalisation adjusts for degree. The model uses two layers; deeper variants were not evaluated.
+The hidden state is $H^{(1)}=\text{ReLU}(Z^{(1)})$ with training dropout; $Z^{(2)}$ gives class logits. Self-loops retain each node’s features and symmetric normalisation adjusts for degree. The model uses two layers; deeper variants were not evaluated.
 
 ### 3. Preliminary Feasibility Evidence
 
