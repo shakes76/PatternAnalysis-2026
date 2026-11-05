@@ -366,9 +366,9 @@ The t-SNE plot is a qualitative projection of a balanced sample, not a performan
 
 **Tool used.** GitHub Copilot with GPT-6 Luna.
 
-**How it assisted.** I used Copilot to organise and edit this README, format its tables and figure captions, and draft the Mermaid model-architecture diagram. It helped me clarify explanations of course concepts such as GCN, MLP and splitting, as well as confidence calibration. During implementation, it generated suggestions for comments, docstrings, argument parsing, plotting, and metric helper code. It was then also used for debugging issues that arose when running scripts.
+**How it assisted.** I used Copilot to organise and edit this README, format its tables and figure captions, and draft the Mermaid model-architecture diagram. It helped me clarify explanations of course concepts such as GCN, MLP and splitting, as well as confidence calibration. During implementation, it generated suggestions for loading the graph and preparing data splits in `dataset.py`. It was also used for implementing boiler-plate code for the MLP and GCN layers in `modules.py`. It also helped with boiler-plate prediction and analysis code for various for classification metrics, precision-recall plots and risk-coverage plots. Further assistance includes comments, docstrings, argument parsing, plotting and debugging. 
 
-**How I verified the work.** I reviewed suggestions against the task requirements, my understanding of the course material, and the implementation in `dataset.py`, `modules.py`, and `train.py`. Where the AI was used for debugging outputs, I manually checked and verified all outputs used in this project. 
+**How I verified the work.** I reviewed suggestions against the task requirements, my understanding of the course material, and the implementation in the relevant files. All suggestions were adapted and refined based on my needs, and where AI was used for debugging outputs, I manually verified all outputs used in this project. 
 
 I am responsible for the final code, experiments, interpretation and report. I reviewed and edited all AI-assisted material before including it.
 
