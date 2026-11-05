@@ -184,7 +184,6 @@ def decode(
 
     # Group levels by side and kind, rounded to whole ticks and shares
     return {
-        f"{side}_{kind}": np.rint(np.stack([books[f"{side}_{kind}_{l}"] for l in LEVELS], axis=-1))
-                          .astype("int64")
+        f"{side}_{kind}": np.rint(np.stack([books[f"{side}_{kind}_{l}"] for l in LEVELS], axis=-1)).astype("int64")
         for side in ("ask", "bid") for kind in ("px", "sz")
     }

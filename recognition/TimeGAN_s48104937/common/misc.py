@@ -9,7 +9,6 @@ from components.scaler import LogMinMaxScaler
 from recognition.TimeGAN_s48104937.modules import TimeGAN
 
 
-# Miscellaneous Functions
 def download_dataset(ticker: str, path: Path) -> None:
     """Download the LOBSTER level-10 sample CSVs for `ticker` into `path`. Raises on failure."""
     base_url = "https://huggingface.co/datasets/totalorganfailure/lobster-data/resolve/main/"
