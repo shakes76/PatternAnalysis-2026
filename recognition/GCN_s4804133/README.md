@@ -72,11 +72,11 @@ I selected a GCN as the main model because the task is node classification on a 
 
 ### Graph Convolutional Network
 
-The main model is a two-layer Graph Convolutional Network (GCN), based on the graph-convolution approach of Kipf and Welling [\[2\]](https://arxiv.org/abs/1609.02907). Its dimensions are 128 input features, 64 hidden features, and four output scores - one for each page category. Each graph-convolution layer transforms node features and aggregates symmetrically normalised information from connected pages. Self-loops are added so each page's own features also contribute. ReLU and dropout are applied after the hidden layer; the final layer returns class logits. The graph-convolution operation is implemented directly with PyTorch in `modules.py`, rather than using a pre-built graph-convolution layer.
+The main model is a two-layer Graph Convolutional Network (GCN), based on the graph-convolution approach of Kipf and Welling [\[2\]](https://arxiv.org/abs/1609.02907). Its dimensions are 128 input features, 64 hidden features, and four output scores - one for each page category. Each graph-convolution layer transforms node features and aggregates symmetrically normalised information from connected pages. Self-loops are added so each page's own features also contribute. ReLU and dropout are applied after the hidden layer; dropout is a regularisation technique that randomly omits activations during training [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). The final layer returns class logits. The graph-convolution operation is implemented directly with PyTorch in `modules.py`, rather than using a pre-built graph-convolution layer.
 
 ### MLP Baseline
 
-The baseline is a two-layer Multi-Layer Perceptron (MLP) with 128 input features, 64 hidden units, and four output scores. It applies a fully connected linear layer to each page's features, followed by ReLU and dropout, then a second linear layer to produce class logits [\[3\]](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). It does not use graph edges.
+The baseline is a two-layer Multi-Layer Perceptron (MLP) with 128 input features, 64 hidden units, and four output scores. It applies a fully connected linear layer to each page's features, followed by ReLU and dropout, then a second linear layer to produce class logits [\[3\]](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). Dropout is used as a regulariser [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). It does not use graph edges.
 
 ### Configuration Experiments
 
@@ -105,7 +105,7 @@ The Facebook Page-Page dataset represents verified Facebook pages as nodes and m
 
 ### Train, Validation, and Test Splits
 
-The nodes are split once using stratified sampling with random seed 42. The split assigns 10% of nodes to training, 10% to validation, and 80% to testing, preserving the class proportions as closely as possible in each subset.
+The nodes are split once using stratified sampling with random seed 42. The split assigns 10% of nodes to training, 10% to validation, and 80% to testing, preserving the class proportions as closely as possible in each subset. The validation set supports model selection separately from final evaluation on the test set; the 80/10/10 proportions are the split chosen for this project, not a ratio prescribed by the cited guidance [\[5\]](https://apxml.com/courses/introduction-to-neural-networks/chapter-2-data-preparation-neural-networks/data-splitting).
 
 | Split     | Proportion | Nodes | Use |
 |-----------|-----------:|------:|-----|
@@ -178,9 +178,9 @@ python plot_embeddings.py
 
 ### Reproducibility
 
-The stratified node split uses seed 42 and is fixed across model runs. Training randomness uses seeds 42–46 for the five-seed experiment. The selected configurations are a two-layer GCN with 64 hidden units and dropout 0.5, and a two-layer MLP with 64 hidden units and dropout 0.3. Other training settings are recorded with each checkpoint and in `results/tuning.csv`; the training script defaults to learning rate 0.01, weight decay 0.0005, and patience 50.
+The stratified node split uses seed 42 and is fixed across model runs. Training randomness uses seeds 42–46 for the five-seed experiment. The selected configurations are a two-layer GCN with 64 hidden units and dropout 0.5, and a two-layer MLP with 64 hidden units and dropout 0.3. Dropout is applied during training as regularisation [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). Training is full-batch: each epoch processes the full graph in one forward/backward pass, while the loss is calculated only on training nodes. The training script allows up to 300 epochs and uses patience 50 for early stopping. The terms batch and epoch describe how training data is grouped and revisited during optimisation [\[7\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-3-training-deep-neural-networks/batches-epochs). Other training settings are recorded with each checkpoint and in `results/tuning.csv`; the training script defaults to learning rate 0.01 and weight decay 0.0005.
 
-Training automatically selects the checkpoint with the best validation macro-F1 and evaluates the test split after selection. Use the same dataset file, split seed, model settings, and training seeds to reproduce the reported experiment. Runtime and measured memory depend on the device and software build. The resource profile in this report was measured on the UQ GPU Lab NVIDIA Tesla T4; local training and inference can use CUDA, Apple MPS, or CPU where supported.
+Training automatically selects the checkpoint with the best validation macro-F1 and evaluates the test split after selection. Use the same dataset file, split seed, model settings, and training seeds to reproduce the reported experiment. Runtime and measured memory depend on the device and software build. The resource profile in this report was measured on the UQ GPU Lab `g4dn.xlarge` virtual GPU, recorded as a Tesla T4 but not independently confirmed; local training and inference can use CUDA, Apple MPS, or CPU where supported.
 
 ## Results and Analysis
 
@@ -243,7 +243,7 @@ On the seed-42 test set, expected calibration error (ECE, 15 equal-width bins) w
 
 #### Confidence-based reject option
 
-I selected the lowest confidence threshold that achieved at least 95% accuracy among retained validation predictions, then applied that fixed threshold to the test set. On test, the MLP retained 42.85% of nodes at 95.00% accuracy using threshold 0.9345. The GCN retained 89.64% of nodes at 94.86% accuracy using threshold 0.6674. Thus, for this target, the GCN retained substantially more predictions at nearly the same accuracy. The red point on each risk-coverage plot marks test performance at the validation-selected threshold. A separate low-degree rejection rule was not evaluated.
+Because this model assists human reviewers, I chose 95% validation accuracy as an illustrative target: errors may misroute cases, while abstentions can be reviewed by experts. Selective classification frames this as a risk–coverage trade-off [\[8\]](https://arxiv.org/abs/1705.08500); 95% is my project-defined target, not a value prescribed by the paper. I selected the lowest confidence cutoff meeting the target on validation and applied it unchanged to test, consistent with separating model selection from evaluation [\[5\]](https://apxml.com/courses/introduction-to-neural-networks/chapter-2-data-preparation-neural-networks/data-splitting). The MLP retained 42.85% of test nodes at 95.00% accuracy (threshold 0.9345); the GCN retained 89.64% at 94.86% (threshold 0.6674). A separate low-degree rejection rule was not evaluated.
 
 ### Embedding Visualisation
 
@@ -288,7 +288,7 @@ Among test predictions, mean degree was 16.53 for correct MLP predictions and 10
 
 ### Resource Profile
 
-Inference was measured on the NVIDIA Tesla T4 GPU using the full graph, with 5 warm-up runs and 30 timed runs. Memory is PyTorch peak allocated CUDA memory. Training time is the mean training-loop duration across the five runs recorded in `results/tuning.csv`; the log does not record the training device, so these times are machine-specific and are not directly comparable with the T4 inference measurements.
+Inference was measured on the UQ GPU Lab `g4dn.xlarge` virtual GPU using the full graph, with 5 warm-up runs and 30 timed runs. The instance was recorded as a Tesla T4, although the exact GPU model was not independently confirmed. Memory is PyTorch peak allocated CUDA memory. Training time is the mean training-loop duration across the five runs recorded in `results/tuning.csv`; the log does not record the training device, so these times are machine-specific and are not directly comparable with the virtual-GPU inference measurements.
 
 | Model | Parameters | Mean training time | Mean inference latency | Peak CUDA memory |
 |-------|-----------:|-------------------:|-----------------------:|-----------------:|
@@ -297,11 +297,11 @@ Inference was measured on the NVIDIA Tesla T4 GPU using the full graph, with 5 w
 
 *Table 8. Model parameter counts, mean training time, mean full-graph inference latency, and peak allocated CUDA memory. Training-device information was not recorded.*
 
-[Interpret the resource trade-off and explain the hardware and measurement method.]
+Both models have the same number of trainable parameters, but the GCN costs more to run because it aggregates features across graph edges. In this experiment, GCN mean inference latency was about 13 times the MLP's (4.162 ms versus 0.317 ms), and peak allocated CUDA memory was about 6.2 times higher (222.05 MB versus 35.58 MB). Its logged mean training time was about 9.8 times higher, though the training device was not recorded, so this is a comparison of these runs rather than a controlled hardware benchmark. The inference measurements cover a full-graph forward pass after 5 warm-ups, averaged over 30 timed passes; memory is PyTorch's peak allocated CUDA memory. These figures describe this dataset, implementation, and virtual-GPU environment, not expected performance on every deployment system.
 
 ### Qualitative Error Autopsies
 
-The following five GCN test-set errors were selected because they illustrate confident mistakes in neighbourhoods dominated by a class other than the node's true class. Each prediction had confidence 1.000. Neighbour context is summarized by neighbours' ground-truth classes, examined retrospectively; it is not information used to select or tune these cases. These test-set examples are diagnostic only and were not used as a basis for tuning.
+The following five GCN test-set errors were selected because they illustrate confident mistakes in neighbourhoods dominated by a class other than the node's true class. Each prediction had confidence 1.000. Neighbour context is summarised by neighbours' ground-truth classes, examined retrospectively; it is not information used to select or tune these cases. These test-set examples are diagnostic only and were not used as a basis for tuning.
 
 | Node | True class | GCN prediction | Confidence | Degree | Neighbours' true classes | Plausible interpretation |
 |------|------------|---------------|-----------:|-------:|--------------------------|--------------------------|
@@ -317,11 +317,17 @@ These examples are consistent with a possible difficulty for neighbourhood aggre
 
 ### Engineering Recommendation and Trade-offs
 
-[Recommend which model should be used for the stated task and explain why. Balance predictive performance against latency, memory, complexity, and the value of graph information. State when the alternative model might be preferable.]
+For this task, I recommend the GCN when the mutual-like graph is available and the goal is to maximise classification performance. On the fixed seed-42 test split, it achieved macro-F1 of 0.9038 and accuracy of 0.9094, compared with 0.7354 and 0.7556 for the MLP. The five-seed mean macro-F1 also favoured the GCN (0.9043 versus 0.7356). This performance improvement comes with greater full-graph inference latency and memory use, while both models have the same parameter count.
+
+The MLP is the more practical choice when graph edges are unavailable, expensive to maintain, or when lower latency and memory use matter more than the accuracy gain. A confidence-based reject option can reduce errors when abstention is acceptable: with thresholds chosen on validation, the GCN retained 89.64% of test nodes at 94.86% accuracy, while the MLP retained 42.85% at 95.00%. The GCN therefore covered substantially more nodes at nearly the same accuracy, but did not reach 95% accuracy on test. Since test metrics were inspected during exploratory runs, these comparisons are evidence from this experiment, not an unbiased final estimate of future performance.
 
 ## Limitations
 
-[Discuss limitations such as dataset scope, class imbalance, the chosen split, hardware-specific measurements, uncertainty across seeds, and the qualitative limits of t-SNE and retrospective neighbour analysis.]
+This evaluation uses one Facebook Page-Page dataset and one fixed stratified split, so it does not show how the models would perform on other datasets, later data, or alternative splits. The five training seeds vary training randomness but do not capture split-to-split variation. Class counts are also uneven: `politician` is the smallest class (14.8% of nodes), while `government` is the largest (30.6%), so per-class metrics are important alongside overall accuracy.
+
+Test metrics were inspected during exploratory configuration runs. Although the final configurations were selected using validation macro-F1, this prior test inspection means the reported test results are not an untouched estimate of generalisation. The graph-context analysis and error autopsies also use neighbours' true labels retrospectively; those labels are unavailable at inference and the analyses show association, not causation.
+
+The t-SNE plot is a qualitative projection of a balanced sample, not a performance measure, and its visible clusters may depend on the projection and sampling. Resource measurements are specific to full-graph inference in the recorded UQ GPU Lab virtual-GPU environment; the precise GPU model was not independently confirmed, and the device used for the logged training times was not recorded. Results may differ on other hardware, graph sizes, or deployment settings.
 
 ## Artificial Intelligence Usage Disclosure
 
@@ -333,3 +339,7 @@ These examples are consistent with a possible difficulty for neighbourhood aggre
 2. Kipf, T. N., & Welling, M. (2017). [*Semi-Supervised Classification with Graph Convolutional Networks*](https://arxiv.org/abs/1609.02907). International Conference on Learning Representations (ICLR).
 3. PyTorch. [*torch.nn.Linear*](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). PyTorch 2.15 documentation.
 4. ApX Machine Learning. [*Graph Data Splitting: Transductive vs. Inductive*](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). *Introduction to Graph Neural Networks*, Chapter 4.
+5. ApX Machine Learning. [*Data Splitting*](https://apxml.com/courses/introduction-to-neural-networks/chapter-2-data-preparation-neural-networks/data-splitting). *Introduction to Neural Networks*, Chapter 2.
+6. ApX Machine Learning. [*Regularization: L1, L2, and Dropout*](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). *Deep Learning Fundamentals with Keras*, Chapter 6.
+7. ApX Machine Learning. [*Batches and Epochs*](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-3-training-deep-neural-networks/batches-epochs). *Deep Learning Fundamentals with Keras*, Chapter 3.
+8. Geifman, Y., & El-Yaniv, R. (2017). [*Selective Classification for Deep Neural Networks*](https://arxiv.org/abs/1705.08500). NeurIPS.
