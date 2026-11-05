@@ -1,0 +1,43 @@
+HELD-OUT TEST EVALUATION: SAVED EVIDENCE
+
+Quick review (from the project directory):
+    python evaluation/verify_final_test.py
+
+This uses only the Python standard library. It checks the frozen plan, original
+assessment script and saved report hashes, then recomputes means, sample standard
+deviations, paired differences and target flags from the 45 saved seed records.
+It does not need raw LOBSTER data, model weights or PyTorch; it does not train,
+generate predictions, write files or select models. The script resolves its paths
+from its own location and can also be called by absolute path from any directory.
+Current scientific-source byte hashes are reported separately; line-ending changes
+can affect those hashes. This is an integrity/arithmetic check, not a new empirical
+assessment of the models.
+
+Files:
+  ../reports/test/final_test_20261106.json
+      Complete held-out result: 15 frozen fits, generation seeds 42/43/44,
+      1,838 test windows and 58,816 snapshots per generation seed and fit.
+  final_test_20261106/plan.json
+      Byte-exact plan frozen before test scoring, including checkpoint hashes,
+      training-only preprocessing/evaluation settings and the fixed model cohort.
+  final_test_20261106/evaluate_frozen_test.py
+      Byte-exact script used for the completed inference-only assessment.
+
+The original script retains the original computer's absolute project location
+and the one-shot guards that prohibit overwriting the frozen plan/result. It is
+included for inspection and provenance, not as a portable replay command. A new
+full inference replay would require the same raw data, all 15 original checkpoints,
+the recorded environment/source versions and explicitly relocated paths/output
+locations. Raw data and weights are intentionally excluded from the repository.
+Do not run its prepare action to redefine the completed test cohort.
+
+Interpretation:
+  Historical TimeGAN groups average three training-seed fits; VAR and each final
+  volume arm have one fit. Generation-seed SD measures sampling, not retraining.
+  Historical and volume-conditioned groups use different information budgets.
+  No test-based tuning or checkpoint selection was performed. The original
+  fixed-context diversity screen was not repeated on test. These are later-period
+  results from the same trading day, not evidence of cross-day generalisation.
+
+The .gitattributes rules preserve exact archive/report bytes for hash checking.
+All historical results remain in their original report and notebook locations.

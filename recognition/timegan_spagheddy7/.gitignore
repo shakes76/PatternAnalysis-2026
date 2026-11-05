@@ -1,0 +1,17 @@
+# Raw data, derived arrays, weights, and local environments are not submissions.
+/data/
+/outputs/
+/checkpoints/
+/.venv/
+*.csv
+*.zip
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/

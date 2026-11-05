@@ -1,0 +1,709 @@
+{
+  "state": "complete",
+  "completed_at": "2026-11-05T10:29:52.907052+00:00",
+  "scope": "Supplementary short operation and generation profile; not original full-run peak memory or scientific retraining.",
+  "sources_unchanged": true,
+  "source_before": {
+    "source_sha256": {
+      "modules.py": "1e32f1cf192c370bf0720b71ed56f83b9584c34052d49abfa6f4e2a6a754a891",
+      "train.py": "aadd9f9f2e093dfba3f91f72fd6b72b42131e6bde8e7ab4167c2cbad6e51fc87",
+      "dataset.py": "5c8a3a3b81a746f2cc5c8db477a9318d2f4ce376deecfabdc6500be45fd5882b",
+      "evaluation.py": "93f840d626f70bc28a045fc5253982950a1adf8e6fc2c20e2a694faff4c3c5fc",
+      "protocol.py": "760285cd04eee2d5a9b9186e3d14ca206bb4b35a6ae78926433824c6a5b2ea41",
+      "predict.py": "0ef1172df104b05489eacee520e7482f60adc752e3d84dc95c87a17c3534b5cf"
+    },
+    "checkpoint_sha256": "f6ddf9f1f93066b0f481d618f723ef8c1b3ea24b3470fdfad7ae9a7aac754034"
+  },
+  "source_after": {
+    "source_sha256": {
+      "modules.py": "1e32f1cf192c370bf0720b71ed56f83b9584c34052d49abfa6f4e2a6a754a891",
+      "train.py": "aadd9f9f2e093dfba3f91f72fd6b72b42131e6bde8e7ab4167c2cbad6e51fc87",
+      "dataset.py": "5c8a3a3b81a746f2cc5c8db477a9318d2f4ce376deecfabdc6500be45fd5882b",
+      "evaluation.py": "93f840d626f70bc28a045fc5253982950a1adf8e6fc2c20e2a694faff4c3c5fc",
+      "protocol.py": "760285cd04eee2d5a9b9186e3d14ca206bb4b35a6ae78926433824c6a5b2ea41",
+      "predict.py": "0ef1172df104b05489eacee520e7482f60adc752e3d84dc95c87a17c3534b5cf"
+    },
+    "checkpoint_sha256": "f6ddf9f1f93066b0f481d618f723ef8c1b3ea24b3470fdfad7ae9a7aac754034"
+  },
+  "results": {
+    "training_cpu": {
+      "state": "complete",
+      "mode": "training",
+      "device": "cpu",
+      "identity": {
+        "pid": 2420,
+        "create_time": 1793874375.382122,
+        "script": "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+        "cmdline": [
+          "C:\\Users\\franz\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+          "--mode",
+          "training",
+          "--device",
+          "cpu"
+        ]
+      },
+      "started_at": "2026-11-05T10:26:18.009630+00:00",
+      "architecture": {
+        "features": 40,
+        "hidden": 48,
+        "layers": 3,
+        "noise_dim": 40,
+        "cell": "reference",
+        "context_dim": 39,
+        "price_decoder": "ladder"
+      },
+      "parameters": 230393,
+      "batch_size": 128,
+      "sequence_length": 32,
+      "cpu_threads": 1,
+      "torch_version": "2.8.0+cu128",
+      "numpy_version": "2.2.6",
+      "device_name": "13th Gen Intel Core i7-13650HX",
+      "source_files": {
+        "source_sha256": {
+          "modules.py": "1e32f1cf192c370bf0720b71ed56f83b9584c34052d49abfa6f4e2a6a754a891",
+          "train.py": "aadd9f9f2e093dfba3f91f72fd6b72b42131e6bde8e7ab4167c2cbad6e51fc87",
+          "dataset.py": "5c8a3a3b81a746f2cc5c8db477a9318d2f4ce376deecfabdc6500be45fd5882b",
+          "evaluation.py": "93f840d626f70bc28a045fc5253982950a1adf8e6fc2c20e2a694faff4c3c5fc",
+          "protocol.py": "760285cd04eee2d5a9b9186e3d14ca206bb4b35a6ae78926433824c6a5b2ea41",
+          "predict.py": "0ef1172df104b05489eacee520e7482f60adc752e3d84dc95c87a17c3534b5cf"
+        },
+        "checkpoint_sha256": "f6ddf9f1f93066b0f481d618f723ef8c1b3ea24b3470fdfad7ae9a7aac754034"
+      },
+      "memory_points": {
+        "after_imports": {
+          "rss_bytes": 463904768,
+          "lifetime_peak_working_set_bytes": 463904768,
+          "private_commit_bytes": 2123132928,
+          "lifetime_peak_pagefile_bytes": 2123132928
+        },
+        "after_model_data_optimizer_construction": {
+          "rss_bytes": 571940864,
+          "lifetime_peak_working_set_bytes": 574046208,
+          "private_commit_bytes": 2257764352,
+          "lifetime_peak_pagefile_bytes": 2259939328
+        },
+        "after_embedding": {
+          "rss_bytes": 818151424,
+          "lifetime_peak_working_set_bytes": 818151424,
+          "private_commit_bytes": 2476720128,
+          "lifetime_peak_pagefile_bytes": 2478817280
+        },
+        "after_supervised": {
+          "rss_bytes": 818302976,
+          "lifetime_peak_working_set_bytes": 818302976,
+          "private_commit_bytes": 2476654592,
+          "lifetime_peak_pagefile_bytes": 2478817280
+        },
+        "after_joint": {
+          "rss_bytes": 829739008,
+          "lifetime_peak_working_set_bytes": 874729472,
+          "private_commit_bytes": 2484764672,
+          "lifetime_peak_pagefile_bytes": 2552442880
+        },
+        "finished": {
+          "rss_bytes": 829775872,
+          "lifetime_peak_working_set_bytes": 874729472,
+          "private_commit_bytes": 2484830208,
+          "lifetime_peak_pagefile_bytes": 2552442880
+        }
+      },
+      "memory_scope": "Windows lifetime per-process peak working set includes Python/imports, prepared input loading, checkpoint/model and profiling operations; excludes raw CSV preprocessing, other processes, and a full production fit. CUDA counters cover this worker and exclude driver/context memory; reserved includes allocated.",
+      "workload": "Disposable final-checkpoint weights with fresh Adam states; short operation profile, not resumed production training.",
+      "training_windows": 5507,
+      "warmup_updates_per_stage": 2,
+      "measured_updates_per_stage": 5,
+      "stages": {
+        "embedding": {
+          "warmup_seconds": [
+            3.4051951998844743,
+            0.2530463000293821
+          ],
+          "measured_seconds": [
+            0.2200635999906808,
+            0.24808449996635318,
+            0.19497450022026896,
+            0.1948065001051873,
+            0.18853210005909204
+          ],
+          "mean_seconds": 0.20929224006831645,
+          "sample_sd_seconds": 0.02483283799937247,
+          "optimizer_step_sums_before": {
+            "embedding_pretrain": 0,
+            "embedding": 0,
+            "supervised": 0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "optimizer_step_sums_after": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "wall_seconds": 4.7069584999699146
+        },
+        "supervised": {
+          "warmup_seconds": [
+            0.10976970009505749,
+            0.07242390001192689
+          ],
+          "measured_seconds": [
+            0.08365370007231832,
+            0.08441419992595911,
+            0.07304650009609759,
+            0.08939770003780723,
+            0.06264760019257665
+          ],
+          "mean_seconds": 0.07863194006495178,
+          "sample_sd_seconds": 0.010738371050422572,
+          "optimizer_step_sums_before": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "optimizer_step_sums_after": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 70.0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "wall_seconds": 0.5759664999786764
+        },
+        "joint": {
+          "warmup_seconds": [
+            1.9265103000216186,
+            2.009640500182286
+          ],
+          "measured_seconds": [
+            1.9583861001301557,
+            1.9301916998811066,
+            1.8505317999515682,
+            1.7105328999459743,
+            1.988995200023055
+          ],
+          "mean_seconds": 1.887727539986372,
+          "sample_sd_seconds": 0.11161590332726594,
+          "optimizer_step_sums_before": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 70.0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "optimizer_step_sums_after": {
+            "embedding_pretrain": 196.0,
+            "embedding": 392.0,
+            "supervised": 70.0,
+            "generator": 336.0,
+            "discriminator": 98.0
+          },
+          "wall_seconds": 13.37563640018925
+        }
+      },
+      "diagnostic_gradient_norms": false,
+      "discriminator_threshold": 0.15,
+      "full_cycle": "Two generator/supervisor plus two joint embedder/recovery updates, then one discriminator opportunity.",
+      "common_draws_sha256": "d3f05b27c05a2cf63cb6198a1d6f52bedd8431a3649f03e9b0fa6397bae7b615",
+      "prepared_draw_cache_bytes": {
+        "noise": 13762560,
+        "indices": 35840
+      },
+      "training_timing_scope": "Prepared batch indexing and exact training operations; excludes RNG generation, CSV preprocessing, checkpoint loading/saving and validation scoring. A preloaded common noise/index cache remains resident, so memory is the profiled workload, not an original production-run peak.",
+      "optimizer_state_entry_counts": {
+        "embedding_pretrain": 28,
+        "embedding": 28,
+        "supervised": 10,
+        "generator": 24,
+        "discriminator": 14
+      },
+      "draws_used": {
+        "batches": 35,
+        "noise_batches": 21
+      },
+      "finite_parameters": true,
+      "finished_at": "2026-11-05T10:26:40.654468+00:00",
+      "worker_wall_seconds": 25.16239139996469,
+      "original_checkpoint_unchanged": true
+    },
+    "training_cuda": {
+      "state": "complete",
+      "mode": "training",
+      "device": "cuda",
+      "identity": {
+        "pid": 45324,
+        "create_time": 1793874401.3585677,
+        "script": "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+        "cmdline": [
+          "C:\\Users\\franz\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+          "--mode",
+          "training",
+          "--device",
+          "cuda"
+        ]
+      },
+      "started_at": "2026-11-05T10:26:43.959121+00:00",
+      "architecture": {
+        "features": 40,
+        "hidden": 48,
+        "layers": 3,
+        "noise_dim": 40,
+        "cell": "reference",
+        "context_dim": 39,
+        "price_decoder": "ladder"
+      },
+      "parameters": 230393,
+      "batch_size": 128,
+      "sequence_length": 32,
+      "cpu_threads": 1,
+      "torch_version": "2.8.0+cu128",
+      "numpy_version": "2.2.6",
+      "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "source_files": {
+        "source_sha256": {
+          "modules.py": "1e32f1cf192c370bf0720b71ed56f83b9584c34052d49abfa6f4e2a6a754a891",
+          "train.py": "aadd9f9f2e093dfba3f91f72fd6b72b42131e6bde8e7ab4167c2cbad6e51fc87",
+          "dataset.py": "5c8a3a3b81a746f2cc5c8db477a9318d2f4ce376deecfabdc6500be45fd5882b",
+          "evaluation.py": "93f840d626f70bc28a045fc5253982950a1adf8e6fc2c20e2a694faff4c3c5fc",
+          "protocol.py": "760285cd04eee2d5a9b9186e3d14ca206bb4b35a6ae78926433824c6a5b2ea41",
+          "predict.py": "0ef1172df104b05489eacee520e7482f60adc752e3d84dc95c87a17c3534b5cf"
+        },
+        "checkpoint_sha256": "f6ddf9f1f93066b0f481d618f723ef8c1b3ea24b3470fdfad7ae9a7aac754034"
+      },
+      "memory_points": {
+        "after_imports": {
+          "rss_bytes": 583643136,
+          "lifetime_peak_working_set_bytes": 583643136,
+          "private_commit_bytes": 2325872640,
+          "lifetime_peak_pagefile_bytes": 2325921792,
+          "cuda_allocated_bytes": 0,
+          "cuda_reserved_bytes": 0,
+          "cuda_peak_allocated_bytes": 0,
+          "cuda_peak_reserved_bytes": 0
+        },
+        "after_model_data_optimizer_construction": {
+          "rss_bytes": 668909568,
+          "lifetime_peak_working_set_bytes": 671010816,
+          "private_commit_bytes": 2521493504,
+          "lifetime_peak_pagefile_bytes": 2523660288,
+          "cuda_allocated_bytes": 45586944,
+          "cuda_reserved_bytes": 48234496,
+          "cuda_peak_allocated_bytes": 45586944,
+          "cuda_peak_reserved_bytes": 48234496
+        },
+        "after_embedding": {
+          "rss_bytes": 1399877632,
+          "lifetime_peak_working_set_bytes": 1399877632,
+          "private_commit_bytes": 3390599168,
+          "lifetime_peak_pagefile_bytes": 3390599168,
+          "cuda_allocated_bytes": 64514048,
+          "cuda_reserved_bytes": 134217728,
+          "cuda_peak_allocated_bytes": 108704768,
+          "cuda_peak_reserved_bytes": 134217728
+        },
+        "after_supervised": {
+          "rss_bytes": 1441284096,
+          "lifetime_peak_working_set_bytes": 1441284096,
+          "private_commit_bytes": 3435032576,
+          "lifetime_peak_pagefile_bytes": 3435032576,
+          "cuda_allocated_bytes": 64552960,
+          "cuda_reserved_bytes": 134217728,
+          "cuda_peak_allocated_bytes": 108704768,
+          "cuda_peak_reserved_bytes": 134217728
+        },
+        "after_joint": {
+          "rss_bytes": 1506398208,
+          "lifetime_peak_working_set_bytes": 1508569088,
+          "private_commit_bytes": 3551186944,
+          "lifetime_peak_pagefile_bytes": 3554099200,
+          "cuda_allocated_bytes": 66466304,
+          "cuda_reserved_bytes": 178257920,
+          "cuda_peak_allocated_bytes": 155444736,
+          "cuda_peak_reserved_bytes": 178257920
+        },
+        "finished": {
+          "rss_bytes": 1506443264,
+          "lifetime_peak_working_set_bytes": 1508569088,
+          "private_commit_bytes": 3551186944,
+          "lifetime_peak_pagefile_bytes": 3554099200,
+          "cuda_allocated_bytes": 66466304,
+          "cuda_reserved_bytes": 178257920,
+          "cuda_peak_allocated_bytes": 155444736,
+          "cuda_peak_reserved_bytes": 178257920
+        }
+      },
+      "memory_scope": "Windows lifetime per-process peak working set includes Python/imports, prepared input loading, checkpoint/model and profiling operations; excludes raw CSV preprocessing, other processes, and a full production fit. CUDA counters cover this worker and exclude driver/context memory; reserved includes allocated.",
+      "workload": "Disposable final-checkpoint weights with fresh Adam states; short operation profile, not resumed production training.",
+      "training_windows": 5507,
+      "warmup_updates_per_stage": 2,
+      "measured_updates_per_stage": 5,
+      "stages": {
+        "embedding": {
+          "warmup_seconds": [
+            6.901902799960226,
+            0.1508148000575602
+          ],
+          "measured_seconds": [
+            0.18348150001838803,
+            0.13715189998038113,
+            0.15569210005924106,
+            0.12123909988440573,
+            0.12705929996445775
+          ],
+          "mean_seconds": 0.14492477998137474,
+          "sample_sd_seconds": 0.025214878162865006,
+          "optimizer_step_sums_before": {
+            "embedding_pretrain": 0,
+            "embedding": 0,
+            "supervised": 0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "optimizer_step_sums_after": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "wall_seconds": 7.778525900095701
+        },
+        "supervised": {
+          "warmup_seconds": [
+            1.1084264998789877,
+            0.06306719989515841
+          ],
+          "measured_seconds": [
+            0.0779678001999855,
+            0.07866799994371831,
+            0.08280330011621118,
+            0.08419889979995787,
+            0.07301210006698966
+          ],
+          "mean_seconds": 0.07933002002537251,
+          "sample_sd_seconds": 0.00441530550728106,
+          "optimizer_step_sums_before": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "optimizer_step_sums_after": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 70.0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "wall_seconds": 1.5690085999667645
+        },
+        "joint": {
+          "warmup_seconds": [
+            3.683189900126308,
+            1.4103403999470174
+          ],
+          "measured_seconds": [
+            1.5038065998815,
+            1.4828315998893231,
+            1.4346630000509322,
+            1.250325699802488,
+            1.3014361998066306
+          ],
+          "mean_seconds": 1.3946126198861748,
+          "sample_sd_seconds": 0.11270593065299718,
+          "optimizer_step_sums_before": {
+            "embedding_pretrain": 196.0,
+            "embedding": 0,
+            "supervised": 70.0,
+            "generator": 0,
+            "discriminator": 0
+          },
+          "optimizer_step_sums_after": {
+            "embedding_pretrain": 196.0,
+            "embedding": 392.0,
+            "supervised": 70.0,
+            "generator": 336.0,
+            "discriminator": 98.0
+          },
+          "wall_seconds": 12.067359700100496
+        }
+      },
+      "diagnostic_gradient_norms": false,
+      "discriminator_threshold": 0.15,
+      "full_cycle": "Two generator/supervisor plus two joint embedder/recovery updates, then one discriminator opportunity.",
+      "common_draws_sha256": "d3f05b27c05a2cf63cb6198a1d6f52bedd8431a3649f03e9b0fa6397bae7b615",
+      "prepared_draw_cache_bytes": {
+        "noise": 13762560,
+        "indices": 35840
+      },
+      "training_timing_scope": "Prepared batch indexing and exact training operations; excludes RNG generation, CSV preprocessing, checkpoint loading/saving and validation scoring. A preloaded common noise/index cache remains resident, so memory is the profiled workload, not an original production-run peak.",
+      "optimizer_state_entry_counts": {
+        "embedding_pretrain": 28,
+        "embedding": 28,
+        "supervised": 10,
+        "generator": 24,
+        "discriminator": 14
+      },
+      "draws_used": {
+        "batches": 35,
+        "noise_batches": 21
+      },
+      "finite_parameters": true,
+      "finished_at": "2026-11-05T10:27:07.178957+00:00",
+      "worker_wall_seconds": 25.697748699923977,
+      "original_checkpoint_unchanged": true
+    },
+    "generation_cpu": {
+      "state": "complete",
+      "mode": "generation",
+      "device": "cpu",
+      "identity": {
+        "pid": 17656,
+        "create_time": 1793874577.858755,
+        "script": "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+        "cmdline": [
+          "C:\\Users\\franz\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+          "--mode",
+          "generation",
+          "--device",
+          "cpu"
+        ]
+      },
+      "started_at": "2026-11-05T10:29:40.915354+00:00",
+      "architecture": {
+        "features": 40,
+        "hidden": 48,
+        "layers": 3,
+        "noise_dim": 40,
+        "cell": "reference",
+        "context_dim": 39,
+        "price_decoder": "ladder"
+      },
+      "parameters": 230393,
+      "batch_size": 128,
+      "sequence_length": 32,
+      "cpu_threads": 1,
+      "torch_version": "2.8.0+cu128",
+      "numpy_version": "2.2.6",
+      "device_name": "13th Gen Intel Core i7-13650HX",
+      "source_files": {
+        "source_sha256": {
+          "modules.py": "1e32f1cf192c370bf0720b71ed56f83b9584c34052d49abfa6f4e2a6a754a891",
+          "train.py": "aadd9f9f2e093dfba3f91f72fd6b72b42131e6bde8e7ab4167c2cbad6e51fc87",
+          "dataset.py": "5c8a3a3b81a746f2cc5c8db477a9318d2f4ce376deecfabdc6500be45fd5882b",
+          "evaluation.py": "93f840d626f70bc28a045fc5253982950a1adf8e6fc2c20e2a694faff4c3c5fc",
+          "protocol.py": "760285cd04eee2d5a9b9186e3d14ca206bb4b35a6ae78926433824c6a5b2ea41",
+          "predict.py": "0ef1172df104b05489eacee520e7482f60adc752e3d84dc95c87a17c3534b5cf"
+        },
+        "checkpoint_sha256": "f6ddf9f1f93066b0f481d618f723ef8c1b3ea24b3470fdfad7ae9a7aac754034"
+      },
+      "memory_points": {
+        "after_imports": {
+          "rss_bytes": 462139392,
+          "lifetime_peak_working_set_bytes": 462139392,
+          "private_commit_bytes": 2120200192,
+          "lifetime_peak_pagefile_bytes": 2120200192
+        },
+        "after_model_context_loading": {
+          "rss_bytes": 468393984,
+          "lifetime_peak_working_set_bytes": 469704704,
+          "private_commit_bytes": 2155806720,
+          "lifetime_peak_pagefile_bytes": 2157228032
+        },
+        "after_generation_warmup": {
+          "rss_bytes": 509886464,
+          "lifetime_peak_working_set_bytes": 509886464,
+          "private_commit_bytes": 2198839296,
+          "lifetime_peak_pagefile_bytes": 2199101440
+        },
+        "finished": {
+          "rss_bytes": 509894656,
+          "lifetime_peak_working_set_bytes": 515428352,
+          "private_commit_bytes": 2198839296,
+          "lifetime_peak_pagefile_bytes": 2204422144
+        }
+      },
+      "memory_scope": "Windows lifetime per-process peak working set includes Python/imports, prepared input loading, checkpoint/model and profiling operations; excludes raw CSV preprocessing, other processes, and a full production fit. CUDA counters cover this worker and exclude driver/context memory; reserved includes allocated.",
+      "workload": "Saved final checkpoint generation; no parameter updates.",
+      "count": 1080,
+      "generation_batch_size": 128,
+      "warmup_calls": 2,
+      "warmup_sequences_per_call": 1080,
+      "generation_seeds": [
+        42,
+        43,
+        44
+      ],
+      "runs": [
+        {
+          "seed": 42,
+          "seconds": 0.4697084000799805,
+          "sequences_per_second": 2299.29888376725,
+          "generated_sha256": "ceb4ba67500012a8cb68ed1b966edf679694f5f3afe8e51a60ef2a15a0c02a82"
+        },
+        {
+          "seed": 43,
+          "seconds": 0.36460480000823736,
+          "sequences_per_second": 2962.111305105144,
+          "generated_sha256": "7b73388c5896087d3ee7ffcce95ba85de8ebe5424d09f550844d2589aaf10c28"
+        },
+        {
+          "seed": 44,
+          "seconds": 0.42812099982984364,
+          "sequences_per_second": 2522.6513075257817,
+          "generated_sha256": "1d0f662985af053c1183fb51b67f6848a0566dd6825a6a6ba28eb495c0eba94b"
+        }
+      ],
+      "timing_scope": "model.generate includes common CPU noise creation, batches transferred to device and output returned to CPU; excludes model/context loading and market-metric computation.",
+      "mean_seconds": 0.4208113999726872,
+      "sample_sd_seconds": 0.05293169536831441,
+      "sequences_per_second": 2566.470395217662,
+      "finished_at": "2026-11-05T10:29:43.224206+00:00",
+      "worker_wall_seconds": 5.243330399971455,
+      "original_checkpoint_unchanged": true
+    },
+    "generation_cuda": {
+      "state": "complete",
+      "mode": "generation",
+      "device": "cuda",
+      "identity": {
+        "pid": 66528,
+        "create_time": 1793874583.7267244,
+        "script": "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+        "cmdline": [
+          "C:\\Users\\franz\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\profile_resources.py",
+          "--mode",
+          "generation",
+          "--device",
+          "cuda"
+        ]
+      },
+      "started_at": "2026-11-05T10:29:46.740155+00:00",
+      "architecture": {
+        "features": 40,
+        "hidden": 48,
+        "layers": 3,
+        "noise_dim": 40,
+        "cell": "reference",
+        "context_dim": 39,
+        "price_decoder": "ladder"
+      },
+      "parameters": 230393,
+      "batch_size": 128,
+      "sequence_length": 32,
+      "cpu_threads": 1,
+      "torch_version": "2.8.0+cu128",
+      "numpy_version": "2.2.6",
+      "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "source_files": {
+        "source_sha256": {
+          "modules.py": "1e32f1cf192c370bf0720b71ed56f83b9584c34052d49abfa6f4e2a6a754a891",
+          "train.py": "aadd9f9f2e093dfba3f91f72fd6b72b42131e6bde8e7ab4167c2cbad6e51fc87",
+          "dataset.py": "5c8a3a3b81a746f2cc5c8db477a9318d2f4ce376deecfabdc6500be45fd5882b",
+          "evaluation.py": "93f840d626f70bc28a045fc5253982950a1adf8e6fc2c20e2a694faff4c3c5fc",
+          "protocol.py": "760285cd04eee2d5a9b9186e3d14ca206bb4b35a6ae78926433824c6a5b2ea41",
+          "predict.py": "0ef1172df104b05489eacee520e7482f60adc752e3d84dc95c87a17c3534b5cf"
+        },
+        "checkpoint_sha256": "f6ddf9f1f93066b0f481d618f723ef8c1b3ea24b3470fdfad7ae9a7aac754034"
+      },
+      "memory_points": {
+        "after_imports": {
+          "rss_bytes": 583802880,
+          "lifetime_peak_working_set_bytes": 583802880,
+          "private_commit_bytes": 2325733376,
+          "lifetime_peak_pagefile_bytes": 2325790720,
+          "cuda_allocated_bytes": 0,
+          "cuda_reserved_bytes": 0,
+          "cuda_peak_allocated_bytes": 0,
+          "cuda_peak_reserved_bytes": 0
+        },
+        "after_model_context_loading": {
+          "rss_bytes": 590315520,
+          "lifetime_peak_working_set_bytes": 591638528,
+          "private_commit_bytes": 2336305152,
+          "lifetime_peak_pagefile_bytes": 2362925056,
+          "cuda_allocated_bytes": 934400,
+          "cuda_reserved_bytes": 2097152,
+          "cuda_peak_allocated_bytes": 934400,
+          "cuda_peak_reserved_bytes": 2097152
+        },
+        "after_generation_warmup": {
+          "rss_bytes": 1018122240,
+          "lifetime_peak_working_set_bytes": 1018122240,
+          "private_commit_bytes": 2890522624,
+          "lifetime_peak_pagefile_bytes": 2890522624,
+          "cuda_allocated_bytes": 9454080,
+          "cuda_reserved_bytes": 31457280,
+          "cuda_peak_allocated_bytes": 17562624,
+          "cuda_peak_reserved_bytes": 31457280
+        },
+        "finished": {
+          "rss_bytes": 1023746048,
+          "lifetime_peak_working_set_bytes": 1029279744,
+          "private_commit_bytes": 2865311744,
+          "lifetime_peak_pagefile_bytes": 2901860352,
+          "cuda_allocated_bytes": 9454080,
+          "cuda_reserved_bytes": 31457280,
+          "cuda_peak_allocated_bytes": 17562624,
+          "cuda_peak_reserved_bytes": 31457280
+        }
+      },
+      "memory_scope": "Windows lifetime per-process peak working set includes Python/imports, prepared input loading, checkpoint/model and profiling operations; excludes raw CSV preprocessing, other processes, and a full production fit. CUDA counters cover this worker and exclude driver/context memory; reserved includes allocated.",
+      "workload": "Saved final checkpoint generation; no parameter updates.",
+      "count": 1080,
+      "generation_batch_size": 128,
+      "warmup_calls": 2,
+      "warmup_sequences_per_call": 1080,
+      "generation_seeds": [
+        42,
+        43,
+        44
+      ],
+      "runs": [
+        {
+          "seed": 42,
+          "seconds": 0.44618850015103817,
+          "sequences_per_second": 2420.5016481473904,
+          "generated_sha256": "208db1a19252b2f821b5a60e64b179177dd4a82d6fa075bbb52bdb4f279dd19f"
+        },
+        {
+          "seed": 43,
+          "seconds": 0.45514440000988543,
+          "sequences_per_second": 2372.8733122423196,
+          "generated_sha256": "984ae71f827ef2812aa248f96d3e67d31f5c8c126f13dc681fae46eb4e03dd99"
+        },
+        {
+          "seed": 44,
+          "seconds": 0.4410489001311362,
+          "sequences_per_second": 2448.7080676969963,
+          "generated_sha256": "a7925b7a34598a4209e014744f8b1bb3b7513dd581026b038db6b28e0492d986"
+        }
+      ],
+      "timing_scope": "model.generate includes common CPU noise creation, batches transferred to device and output returned to CPU; excludes model/context loading and market-metric computation.",
+      "mean_seconds": 0.4474606000973533,
+      "sample_sd_seconds": 0.007133334277392037,
+      "sequences_per_second": 2413.620327164059,
+      "finished_at": "2026-11-05T10:29:52.291356+00:00",
+      "worker_wall_seconds": 8.435901199933141,
+      "original_checkpoint_unchanged": true
+    }
+  },
+  "generation_warmup_correction": {
+    "recorded_at": "2026-11-05T10:29:37.805576+00:00",
+    "scope": "Inference only, no training repetition",
+    "reason": "Original two 128-sequence warmups did not cover the 56-sequence tail of the 1080-sequence workload. Preserve original results as diagnostic, then use two full1080 warmups on both devices before the same three timed seeds.",
+    "archive": "C:\\Users\\franz\\OneDrive\\Documents\\FinMath\\Sem4\\COMP3710\\Assignment\\tmp\\resource_profile_20261105\\initial_generation_warmup_diagnostic",
+    "archived_result_sha256": "1fa0a4d3f0db4ff5754ca8b7700c4a4d36d4e153db29fe97d92da4e1d03b5fa4",
+    "new_warmup_calls": 2,
+    "new_warmup_count": 1080
+  }
+}

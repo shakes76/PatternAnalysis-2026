@@ -1,0 +1,253 @@
+{
+  "session": "AMZN_2012-06-21",
+  "rows": 269748,
+  "levels": 10,
+  "book_columns": 40,
+  "session_seconds": [
+    34200.0,
+    57600.0
+  ],
+  "timestamp_range_seconds": [
+    34200.017459617,
+    57599.95935965
+  ],
+  "timestamps_nondecreasing": true,
+  "event_type_counts": {
+    "1": 131954,
+    "2": 2917,
+    "3": 123458,
+    "4": 8974,
+    "5": 2445
+  },
+  "raw_integrity": {
+    "missing_level_entries": 0,
+    "nonpositive_price_entries": 0,
+    "negative_volume_entries": 0,
+    "nonpositive_spread_rows": 0,
+    "unordered_ask_rows": 0,
+    "unordered_bid_rows": 0,
+    "trading_halt_rows": 0
+  },
+  "files": [
+    {
+      "name": "AMZN_2012-06-21_34200000_57600000_message_10.csv",
+      "bytes": 11248750,
+      "sha256": "c85a75b51f3616a683f825c2e03f984535e9329a8be5ab12325130d32223a2c5"
+    },
+    {
+      "name": "AMZN_2012-06-21_34200000_57600000_orderbook_10.csv",
+      "bytes": 63216242,
+      "sha256": "decfe952b3fa06c9922dc8fba763a37a0fb032d4231767997e4abf2aa0d29b50"
+    }
+  ],
+  "split_method": "70/15/15 of elapsed session time by default; split before returns and windows",
+  "split_fractions": [
+    0.7,
+    0.15,
+    0.15
+  ],
+  "cut_times_seconds": [
+    50580.0,
+    54090.0
+  ],
+  "sequence_length": 32,
+  "stride": 32,
+  "features": 40,
+  "sampling": "event time; irregular wall-clock intervals are retained as metadata",
+  "initial_state": "Each sequence requires its own 20-price anchor for reconstruction.",
+  "splits": {
+    "train": {
+      "raw_row_interval_half_open": [
+        0,
+        176255
+      ],
+      "raw_rows": 176255,
+      "timestamp_range_seconds": [
+        34200.017459617,
+        50578.724107769
+      ],
+      "feature_rows": 176254,
+      "windows": 5507
+    },
+    "validation": {
+      "raw_row_interval_half_open": [
+        176255,
+        210879
+      ],
+      "raw_rows": 34624,
+      "timestamp_range_seconds": [
+        50584.059662468,
+        54088.727719952
+      ],
+      "feature_rows": 34623,
+      "windows": 1081
+    },
+    "test": {
+      "raw_row_interval_half_open": [
+        210879,
+        269748
+      ],
+      "raw_rows": 58869,
+      "timestamp_range_seconds": [
+        54090.074256651,
+        57599.95935965
+      ],
+      "feature_rows": 58868,
+      "windows": 1839
+    }
+  },
+  "scaler": {
+    "method": "per-feature min-max, training period only, no clipping",
+    "feature_names": [
+      "ask_log_return_1",
+      "ask_log1p_volume_1",
+      "bid_log_return_1",
+      "bid_log1p_volume_1",
+      "ask_log_return_2",
+      "ask_log1p_volume_2",
+      "bid_log_return_2",
+      "bid_log1p_volume_2",
+      "ask_log_return_3",
+      "ask_log1p_volume_3",
+      "bid_log_return_3",
+      "bid_log1p_volume_3",
+      "ask_log_return_4",
+      "ask_log1p_volume_4",
+      "bid_log_return_4",
+      "bid_log1p_volume_4",
+      "ask_log_return_5",
+      "ask_log1p_volume_5",
+      "bid_log_return_5",
+      "bid_log1p_volume_5",
+      "ask_log_return_6",
+      "ask_log1p_volume_6",
+      "bid_log_return_6",
+      "bid_log1p_volume_6",
+      "ask_log_return_7",
+      "ask_log1p_volume_7",
+      "bid_log_return_7",
+      "bid_log1p_volume_7",
+      "ask_log_return_8",
+      "ask_log1p_volume_8",
+      "bid_log_return_8",
+      "bid_log1p_volume_8",
+      "ask_log_return_9",
+      "ask_log1p_volume_9",
+      "bid_log_return_9",
+      "bid_log1p_volume_9",
+      "ask_log_return_10",
+      "ask_log1p_volume_10",
+      "bid_log_return_10",
+      "bid_log1p_volume_10"
+    ],
+    "minimum": [
+      -0.001604063971798083,
+      0.6931471805599453,
+      -0.0029470885362496897,
+      0.6931471805599453,
+      -0.0016934805063330315,
+      0.6931471805599453,
+      -0.0017857147602346438,
+      0.6931471805599453,
+      -0.0017826905514432903,
+      0.6931471805599453,
+      -0.0017857147602346438,
+      0.6931471805599453,
+      -0.0016037066872605374,
+      0.6931471805599453,
+      -0.0015637219761827587,
+      0.6931471805599453,
+      -0.0016037066872605374,
+      0.6931471805599453,
+      -0.0015637219761827587,
+      0.6931471805599453,
+      -0.0011590586176327287,
+      0.6931471805599453,
+      -0.0015637219761827587,
+      0.6931471805599453,
+      -0.0017356865880850216,
+      0.6931471805599453,
+      -0.0018810467746407534,
+      0.6931471805599453,
+      -0.008324894201801101,
+      0.6931471805599453,
+      -0.0017054893950390036,
+      0.6931471805599453,
+      -0.01166168410987537,
+      0.6931471805599453,
+      -0.005947035008075766,
+      0.6931471805599453,
+      -0.01166168410987537,
+      0.6931471805599453,
+      -0.005947035008075766,
+      0.6931471805599453
+    ],
+    "maximum": [
+      0.0016486580541707752,
+      8.006700845440367,
+      0.0029470885362497803,
+      10.433262498460529,
+      0.0017826905514432333,
+      7.943072717277933,
+      0.0025507363974096435,
+      10.433262498460529,
+      0.0017826905514432333,
+      7.943072717277933,
+      0.0021037091213020487,
+      10.437492449249524,
+      0.001603706687260644,
+      7.937374696163295,
+      0.0018801205233889375,
+      10.437492449249524,
+      0.001603706687260644,
+      7.937374696163295,
+      0.0017054893950389607,
+      10.437492449249524,
+      0.0011590586176326207,
+      8.006367567650246,
+      0.005947035008075703,
+      10.437492449249524,
+      0.001735686588085048,
+      8.006367567650246,
+      0.005947035008075703,
+      10.442667369798647,
+      0.008324894201800962,
+      8.006367567650246,
+      0.005947035008075703,
+      10.442667369798647,
+      0.008324894201800962,
+      8.006367567650246,
+      0.005947035008075703,
+      10.442667369798647,
+      0.011661684109875392,
+      8.040768994367578,
+      0.005947035008075703,
+      10.439132610118632
+    ],
+    "constant_feature_count": 0
+  },
+  "training_round_trip": {
+    "max_price_error_usd": 2.5850394536064414e-07,
+    "max_volume_error_shares": 0.001273622924600204
+  },
+  "device_check": {
+    "device": "cuda",
+    "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch_version": "2.8.0+cu128",
+    "cuda_version": "12.8",
+    "batch_shape": [
+      64,
+      32,
+      40
+    ],
+    "batch_memory_mib": 0.3125,
+    "scope": "Minibatch transfer and finite-value check only; no TimeGAN training benchmark."
+  },
+  "status": "data and device checks passed; models and feasibility review not yet implemented",
+  "limitations": [
+    "One stock on one trading day; later intraday performance is not cross-day generalisation.",
+    "Event-time sequences do not model event-arrival times; anchors are supplied rather than generated.",
+    "Standalone chronological splits discard the return at each split boundary.",
+    "Training-only min-max scaling can place future values outside [0, 1]; these are not clipped."
+  ]
+}

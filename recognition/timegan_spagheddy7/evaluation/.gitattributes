@@ -1,0 +1,6 @@
+# Preserve the original evidence hashes across Git checkouts.
+final_test_20261106/evaluate_frozen_test.py -text
+final_test_20261106/plan.json -text
+resource_profile/profile_resources.py -text
+resource_profile/plan.json -text
+resource_profile/preparation.json -text
