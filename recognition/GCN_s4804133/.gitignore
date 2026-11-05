@@ -1,0 +1,7 @@
+data/
+*.pt
+*.pth
+outputs/
+.DS_Store
+__pycache__/
+logs/
