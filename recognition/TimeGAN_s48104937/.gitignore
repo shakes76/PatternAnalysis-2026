@@ -1,16 +1,7 @@
 # Data
 data/
 *.csv
-*.npz
 
 # Models
 models/
 *.pt
-
-# Docs
-docs/
-*.pdf
-
-# !! Temporary !!
-*.png
-*.txt
