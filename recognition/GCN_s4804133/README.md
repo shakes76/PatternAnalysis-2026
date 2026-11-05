@@ -18,7 +18,7 @@
 
 This project classifies official Facebook Pages into four categories: television shows, government organisations, companies, and politicians. The Facebook Page-Page dataset contains 22,470 pages, represented by 128-dimensional feature vectors derived from page descriptions. An edge connects pages that mutually like one another [\[1\]](https://github.com/gayanku/facebook_page-page_dataset). The task is semi-supervised node classification: the models learn from labels on the training pages and predict categories for the remaining pages. I compare a two-layer Graph Convolutional Network (GCN), which uses page features and graph connections, with a Multi-Layer Perceptron (MLP) baseline, which uses the same page features but ignores connections.
 
-The GCN transforms each page's features and aggregates normalised information from its neighbours, including the page itself through self-loops [\[2\]](https://arxiv.org/abs/1609.02907). Its final layer produces scores for the four categories. The MLP applies linear layers to each page independently, providing a baseline for measuring the value of graph information. Both models receive the full graph and page features, but training loss is calculated only from training labels.
+The GCN transforms each page's features and aggregates normalised information from its neighbours, including the page itself through self-loops [\[2\]](https://arxiv.org/abs/1609.02907). Its final layer produces scores for the four categories. The MLP applies fully connected linear layers to each page independently [\[3\]](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html), providing a baseline for measuring the value of graph information. Unlike the GCN, it does not use graph connections. Both models receive the full graph and page features, but training loss is calculated only from training labels.
 
 ![t-SNE plot of GCN hidden-layer embeddings](figures/gcn_tsne_embeddings.png)
 
@@ -66,11 +66,21 @@ flowchart LR
 
 *Figure 2. Overview of the GCN and MLP architectures. The GCN uses page connections during graph convolution, while the MLP uses page features only.*
 
+### Model Selection and Design Rationale
+
+I selected a GCN as the main model because the task is node classification on a graph: in addition to page-description features, pages are connected by mutual likes. The GCN lets the experiment test whether using these connections improves classification compared with a feature-only model. I therefore implemented an MLP as the baseline. The MLP has a similar two-layer pattern but does not use graph edges, making the comparison useful for assessing the contribution of graph information.
+
 ### Graph Convolutional Network
-[Describe the GCN layers, feature transformation, normalised neighbour aggregation, self-loops, activation, dropout, and output classes. Explain that the layer is implemented in PyTorch.]
+
+The main model is a two-layer Graph Convolutional Network (GCN), based on the graph-convolution approach of Kipf and Welling [\[2\]](https://arxiv.org/abs/1609.02907). Its dimensions are 128 input features, 64 hidden features, and four output scores - one for each page category. Each graph-convolution layer transforms node features and aggregates symmetrically normalised information from connected pages. Self-loops are added so each page's own features also contribute. ReLU and dropout are applied after the hidden layer; the final layer returns class logits. The graph-convolution operation is implemented directly with PyTorch in `modules.py`, rather than using a pre-built graph-convolution layer.
 
 ### MLP Baseline
-[Describe the baseline architecture and clarify that it uses node features but not graph edges.]
+
+The baseline is a two-layer Multi-Layer Perceptron (MLP) with 128 input features, 64 hidden units, and four output scores. It applies a fully connected linear layer to each page's features, followed by ReLU and dropout, then a second linear layer to produce class logits [\[3\]](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). It does not use graph edges.
+
+### Configuration Experiments
+
+I compared hidden sizes of 32, 64, and 128, and also tested selected dropout and learning-rate values. I chose configurations using validation macro-F1, rather than test performance. The 64-hidden-unit GCN with dropout 0.5 and the 64-hidden-unit MLP with dropout 0.3 were carried forward to the five-seed evaluation. The experiments and validation results are recorded in [`results/tuning.csv`](results/tuning.csv).
 
 ## Data Preparation
 
@@ -148,3 +158,4 @@ Inference was measured on the NVIDIA Tesla T4 GPU using the full graph, with 5 w
 
 1. [Facebook Page-Page Dataset Repository](https://github.com/gayanku/facebook_page-page_dataset)
 2. Kipf, T. N., & Welling, M. (2017). [*Semi-Supervised Classification with Graph Convolutional Networks*](https://arxiv.org/abs/1609.02907). International Conference on Learning Representations (ICLR).
+3. PyTorch. [*torch.nn.Linear*](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). PyTorch 2.15 documentation.
