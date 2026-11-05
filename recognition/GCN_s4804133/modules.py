@@ -11,11 +11,11 @@ class MLP(nn.Module):
         super().__init__()
         self.fc1 = nn.Linear(in_dim, hidden_dim) # number of input features to hidden layer (128 for this dataset)
         self.fc2 = nn.Linear(hidden_dim, out_dim) # number of hidden layer features to output layer (4 classes)
-        self.dropout = dropout # half the values are zeroed out on each training pass
+        self.dropout = dropout # probability of zeroing each hidden activation during training
 
     def forward(self, x, edge_index=None):
         x = F.relu(self.fc1(x)) # apply Relu activation to hidden layer output (sets negative values to 0)
-        x = F.dropout(x, p=self.dropout, training=self.training) # zero out half of the hidden values during training
+        x = F.dropout(x, p=self.dropout, training=self.training) # zero hidden activations with probability p during training
         return self.fc2(x)  
     
 class GCNLayer(nn.Module):

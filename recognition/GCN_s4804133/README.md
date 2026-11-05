@@ -284,51 +284,34 @@ Among test predictions, mean degree was 16.53 for correct MLP predictions and 10
 
 ### 1. User Need, Scope and Acceptance Criteria
 
-This prototype evaluates a classification assistant for human reviewers. It categorises Facebook Pages as `tvshow`, `government`, `company`, or `politician`; uncertain cases can be referred to experts. A wrong category could misroute a page, while abstention requires human review. The 95% accuracy target is illustrative, not a confirmed operational requirement.
+This prototype assists human reviewers by classifying Facebook Pages as `tvshow`, `government`, `company`, or `politician`; uncertain predictions may be referred for review. The 95% target is illustrative, not an operational requirement.
 
-Acceptance criteria for this prototype:
+Acceptance criteria:
 
-- **Split integrity and reproducibility:** Train, validation, and test masks are disjoint and together cover all 22,470 nodes (2,247 / 2,247 / 17,976). Stratification keeps class proportions close to those of the full graph, including `politician` at about 14.8%; regenerating masks with seed 42 produces identical splits.
-- **No training-label leakage:** Models receive node features and graph edges, with no label-derived input features; training loss uses training labels only. Test labels are excluded from model inputs and training, but are used for scoring and retrospective analyses. Test metrics were inspected during exploratory runs, so they are not an untouched estimate.
-- **Graph and feature hygiene:** Remove the 358 existing self-loops before message passing, verify the loaded edge list is symmetric, and report zero isolated nodes. No additional feature normalisation is applied.
-- **Graph benefit:** Compare GCN and feature-only MLP on the same split over five seeds. The GCN’s mean test macro-F1 was 0.9043 ± 0.0018 versus 0.7356 ± 0.0026 for the MLP; this is a higher mean, not a significance test.
-- **Confidence reporting:** Report calibration and error-detection metrics. On seed 42, GCN ECE was 0.0197 and confidence error-detection AUROC was 0.8513.
-- **Reject-option assessment:** Choose a confidence cutoff on validation for a 95% accuracy target, then report test accuracy and coverage. The GCN achieved 94.86% accuracy at 89.64% test coverage; the MLP achieved 95.00% at 42.85%.
-- **Resource budget:** Measure full-graph inference on the UQ GPU Lab virtual GPU. The GCN used 4.162 ms and 222.05 MB peak allocated CUDA memory; the recorded Tesla T4 model was not independently confirmed.
+- **Data integrity:** The 10/10/80 train/validation/test masks are disjoint, complete, stratified, and reproducible with seed 42; inputs contain only features and edges, and training loss uses training labels only. The graph is symmetric, has no isolated nodes, and has 358 source self-loops removed; no feature normalisation is added.
+- **Model comparison:** On the fixed split over five training seeds, compare macro-F1 and per-class metrics. GCN mean test macro-F1 was 0.9043 ± 0.0018 versus 0.7356 ± 0.0026 for MLP; this is not a significance test.
+- **Confidence:** Report ECE and confidence error-detection AUROC. For seed 42, GCN scored 0.0197 ECE and 0.8513 error-detection AUROC.
+- **Reject option:** Choose the 95% accuracy threshold on validation and report test accuracy and coverage. GCN achieved 94.86% at 89.64% coverage; MLP achieved 95.00% at 42.85%.
+- **Resources:** Report full-graph inference time and peak memory. GCN measured 4.162 ms and 222.05 MB on the UQ GPU Lab virtual GPU (recorded as Tesla T4; not independently confirmed).
 
 ### 2. Model Choice
 
-The dataset has 22,470 nodes, 128 features per node, four classes, and 341,646 directed edge entries after self-loop removal. The chosen difficulty is graph-based semi-supervised node classification, using a two-layer GCN implemented from scratch and an MLP baseline that ignores graph edges.
-
-The GCN uses the symmetric-normalised aggregation from Kipf and Welling [2]:
+The dataset has 22,470 nodes, 128 features, four classes, and 341,646 directed edges after self-loop removal. The selected Section 2 band is **Multi-layer GNN [Normal Difficulty]**: a two-layer GCN implemented from scratch, compared with a feature-only MLP. Symmetric normalisation follows Kipf and Welling [2]. Let $H^{(0)}=X$:
 
 $$
-H^{(l+1)}
-=
-\sigma\left(
-\tilde{D}^{-1/2}
-\tilde{A}
-\tilde{D}^{-1/2}
-H^{(l)}
-W^{(l)}
-\right),
-\qquad
-\tilde{A}=A+I,
-\qquad
-\tilde{D}_{ii}=\sum_j \tilde{A}_{ij}.
+Z^{(l+1)}=\tilde D^{-1/2}\tilde A\tilde D^{-1/2}H^{(l)}W^{(l)}+b^{(l)},\quad
+\tilde A=A+I,\quad \tilde D_{ii}=\sum_j\tilde A_{ij},\quad l=0,1.
 $$
 
-Self-loops include each node’s own features; symmetric degree normalisation adjusts neighbour contributions for node degree. Deeper GCNs can oversmooth representations, so this prototype uses two layers; deeper variants were not evaluated.
+The hidden state is $H^{(1)}=\operatorname{ReLU}(Z^{(1)})$ with training dropout; $Z^{(2)}$ gives class logits. Self-loops retain each node’s features and symmetric normalisation adjusts for degree. The model uses two layers; deeper variants were not evaluated.
 
 ### 3. Preliminary Feasibility Evidence
 
-The data audit confirmed 22,470 nodes, 128 features, four classes, and zero isolated nodes. Class proportions range from 14.8% `politician` to 30.6% `government`. The graph is stored as an edge list; a dense float32 adjacency matrix would require about 2.02 GB for the adjacency alone. In the completed prototype, the GCN outperformed the MLP on mean test macro-F1, but test metrics were inspected during exploratory runs.
+The audit found no isolated nodes; class proportions range from 14.8% `politician` to 30.6% `government`. The edge-list representation avoids a dense float32 adjacency matrix of about 2.02 GB. GCN outperformed MLP on this split, but test metrics were inspected during exploratory runs, so results are not an untouched generalisation estimate.
 
 ### 4. Risks, Budget and Fallback
 
-Risks include class imbalance, confident errors, and nodes whose neighbours mostly belong to another class. Neighbour-label agreement analysis is retrospective and cannot be used at inference. The 95% target does not establish a deployment requirement; review capacity and the costs of errors versus abstentions remain unknown.
-
-Logged mean training times were 2.94 s for the MLP and 28.96 s for the GCN, but the training device was not recorded. The next experiment should assess a new split and confirm resource measurements on a verified device. If graph data or GCN resources are unsuitable, use the feature-only MLP; it is the implemented fallback. Applying either model to genuinely new pages requires an inductive evaluation, which this project did not perform.
+Risks include class imbalance, confident errors, and neighbours with conflicting labels; neighbour-label analysis is retrospective, not an inference input. Review capacity and error-versus-abstention costs are unknown. Mean training times were 2.94 s (MLP) and 28.96 s (GCN), but the device was not recorded. Next, test a new split and repeat resource measurements on verified hardware. Use the feature-only MLP if graph data or GCN resources are unsuitable; evaluating genuinely new pages remains future work.
 
 ## Open Research Dilemma
 
