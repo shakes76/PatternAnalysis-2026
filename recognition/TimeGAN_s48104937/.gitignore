@@ -5,3 +5,6 @@ data/
 # Models
 models/
 *.pt
+
+# Misc
+__pycache__/
