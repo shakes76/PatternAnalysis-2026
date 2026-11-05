@@ -85,13 +85,44 @@ I compared hidden sizes of 32, 64, and 128, and also tested selected dropout and
 ## Data Preparation
 
 ### Dataset
-[Summarise the dataset, its source, number of nodes, feature dimension, number of classes, and graph edges. Cite the source in References.]
+
+The Facebook Page-Page dataset represents verified Facebook pages as nodes and mutual likes between pages as edges [\[1\]](https://github.com/gayanku/facebook_page-page_dataset). It contains 22,470 nodes, each with a 128-dimensional feature vector derived from its page description, and four page categories: `tvshow`, `government`, `company`, and `politician`. The source data contains 342,004 directed edge entries. After removing self-loops, the graph used in this project contains 341,646 directed edge entries. Because page likes are mutual, connections are represented in both directions.
+
+| Dataset property | Value |
+|---|---:|
+| Pages (nodes) | 22,470 |
+| Features per page | 128 |
+| Classes | 4 |
+| Directed edge entries after preprocessing | 341,646 |
 
 ### Pre-processing
-[Describe how the data is loaded and any changes made before training, including removal of existing self-loops because the GCN adds self-loops itself.]
+
+`dataset.py` loads the dataset's feature matrix, edge list, and labels into a PyTorch Geometric `Data` object. Features are converted to `float32` and labels and edge indices to integer tensors. The raw graph contains 358 self-loop entries; these are removed during loading because each GCN layer adds one self-loop per node during message passing. No additional feature scaling or dimensionality reduction is applied by this project.
 
 ### Train, Validation, and Test Splits
-[State the stratified split proportions and random seed. Explain that validation is used for model selection and test labels are held out from training and tuning. Describe the transductive setting: features and graph structure are available for all nodes, while training loss uses only training labels.]
+
+The nodes are split once using stratified sampling with random seed 42. The split assigns 10% of nodes to training, 10% to validation, and 80% to testing, preserving the class proportions as closely as possible in each subset.
+
+| Split     | Proportion | Nodes | Use |
+|-----------|-----------:|------:|-----|
+| Training  | 10%        | 2,247 | Calculate training loss and update model weights |
+| Validation| 10%        | 2,247 | Select configurations and determine the early-stopping checkpoint |
+| Test      | 80%        | 17,976 | Final evaluation after model selection |
+
+This is a transductive node-classification setting: the models receive the features and graph structure for all pages, but the training loss is calculated only from training labels [\[4\]](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). Validation labels guide model selection and early stopping. Test labels are reserved for final evaluation and retrospective error analysis, not for training or configuration selection.
+
+```mermaid
+flowchart LR
+    G["All page features and graph connections<br/>22,470 nodes"] --> M["GCN or MLP"]
+    YT["Training labels<br/>2,247 nodes"] --> L["Training loss"]
+    M --> L
+    YV["Validation labels<br/>2,247 nodes"] --> V["Model selection<br/>and early stopping"]
+    M --> V
+    YE["Test labels<br/>17,976 nodes"] --> E["Final evaluation only"]
+    M --> E
+```
+
+*Figure 3. Transductive evaluation: the graph and page features are available to the models for all nodes, while labels have separate training, validation, and test roles.*
 
 ## Training and Reproducibility
 
@@ -159,3 +190,4 @@ Inference was measured on the NVIDIA Tesla T4 GPU using the full graph, with 5 w
 1. [Facebook Page-Page Dataset Repository](https://github.com/gayanku/facebook_page-page_dataset)
 2. Kipf, T. N., & Welling, M. (2017). [*Semi-Supervised Classification with Graph Convolutional Networks*](https://arxiv.org/abs/1609.02907). International Conference on Learning Representations (ICLR).
 3. PyTorch. [*torch.nn.Linear*](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). PyTorch 2.15 documentation.
+4. ApX Machine Learning. [*Graph Data Splitting: Transductive vs. Inductive*](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). *Introduction to Graph Neural Networks*, Chapter 4.
