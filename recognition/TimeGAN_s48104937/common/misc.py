@@ -6,7 +6,7 @@ import torch
 
 from components.config import Config
 from components.scaler import LogMinMaxScaler
-from recognition.TimeGAN_s48104937.modules import TimeGAN
+from modules import TimeGAN
 
 
 def download_dataset(ticker: str, path: Path) -> None:

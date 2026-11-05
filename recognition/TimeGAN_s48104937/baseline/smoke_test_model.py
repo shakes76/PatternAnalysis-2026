@@ -50,7 +50,7 @@ SEED = 0
 # --- Evaluation Config ---
 NUM_EVAL = 1000
 SHOWN_WINDOW = 0         # which evaluation window goes in the report figure
-CHECKPOINT_PATH = ROOT / "models/checkpoints/baseline.pt"
+CHECKPOINT_PATH = ROOT / "models/baseline.pt"
 LOSS_PLOT_PATH = ROOT / "figures/baseline_losses.png"
 FIGURE_DIR = ROOT / "figures"
 
@@ -289,8 +289,8 @@ def main() -> None:
     plot_distributions(real, synth, FIGURE_DIR / "baseline_distributions.png")
 
     # Report figure: a real window (left) beside a baseline window (right), on a shared
-    i = SHOWN_WINDOW
-    plot_book_pair(real, synth, FIGURE_DIR / "baseline_real_vs_synth.png", i, i, col_titles=("Real Sample", "AR-GRU Sample"))
+    plot_book_pair(real, synth, FIGURE_DIR / "baseline_real_vs_synth.png", SHOWN_WINDOW, SHOWN_WINDOW,
+                   col_titles=("Real Sample", "AR-GRU Sample"))
     print(f"\nSaved the window figure and the spread/distribution plots to {FIGURE_DIR}")
 
 if __name__ == "__main__":

@@ -74,10 +74,10 @@ def main() -> None:
     Path("figures").mkdir(exist_ok=True)
 
     # Load TimeGAN from checkpoint
-    model, scalers, cfg = load_model(Path("models/primary_ready.pt"), device=DEVICE)
+    model, scalers, cfg = load_model(Path("models/primary.pt"), device=DEVICE)
 
     # Load the AR-GRU baseline and the min-max bounds of its scaler
-    ckpt = torch.load(Path("models/saved/baseline.pt"), map_location="cpu", weights_only=False)
+    ckpt = torch.load(Path("models/baseline.pt"), map_location="cpu", weights_only=False)
     gen = Generator(ckpt["config"]["n_features"], ckpt["config"]["hidden_dim"], ckpt["config"]["num_layers"])
     gen.load_state_dict(ckpt["generator"])
     gen.to(DEVICE).eval()
@@ -187,7 +187,7 @@ def main() -> None:
             synth_x = synth_x[:, cfg.burn_in:]
         synth = decode(synth_x, refs[idx], labels[idx], scalers, rng)
 
-        plot_book_pair(real, synth, Path(f"figures/timegan_{ticker}_{length}s.png"),
+        plot_book_pair(real, synth, Path(f"figures/predict_timegan_{ticker}_{length}s.png"),
                        col_titles=(f"{ticker} Real", f"{ticker} TimeGAN"))
 
 

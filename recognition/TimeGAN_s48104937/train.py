@@ -28,7 +28,6 @@ from modules import TimeGAN
 with open(Path("config.toml"), "rb") as f:
     cfg = Config(**tomllib.load(f))
 
-
 # Training Phase 1: Embedder
 def train_embedding(model: TimeGAN, loader: DataLoader, val_x: torch.Tensor, val_c: torch.Tensor, epochs: int) -> dict:
     """Phase 1: train embedder + recovery to reconstruct real windows."""
