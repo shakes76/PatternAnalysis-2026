@@ -74,7 +74,7 @@ def main() -> None:
     Path("figures").mkdir(exist_ok=True)
 
     # Load TimeGAN from checkpoint
-    model, scalers, cfg = load_model(Path("models/primary.pt"), device=DEVICE)
+    model, scalers, cfg = load_model(Path("models/timegan.pt"), device=DEVICE)
 
     # Load the AR-GRU baseline and the min-max bounds of its scaler
     ckpt = torch.load(Path("models/baseline.pt"), map_location="cpu", weights_only=False)
