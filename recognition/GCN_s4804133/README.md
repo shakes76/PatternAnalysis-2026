@@ -16,9 +16,9 @@
 
 ## Project Overview
 
-This project classifies official Facebook Pages into four categories: television shows, government organisations, companies, and politicians. The Facebook Page-Page dataset contains 22,470 pages, represented by 128-dimensional feature vectors derived from page descriptions. An edge connects pages that mutually like one another [\[1\]](https://github.com/gayanku/facebook_page-page_dataset). The task is semi-supervised node classification: the models learn from labels on the training pages and predict categories for the remaining pages. I compare a two-layer Graph Convolutional Network (GCN), which uses page features and graph connections, with a Multi-Layer Perceptron (MLP) baseline, which uses the same page features but ignores connections.
+This project classifies official Facebook Pages into four categories: television shows, government organisations, companies, and politicians. The Facebook Page-Page dataset contains 22,470 pages, represented by 128-dimensional feature vectors derived from page descriptions. An edge connects pages that mutually like one another [\[1\]](#ref-1). The task is semi-supervised node classification: the models learn from labels on the training pages and predict categories for the remaining pages. I compare a two-layer Graph Convolutional Network (GCN), which uses page features and graph connections, with a Multi-Layer Perceptron (MLP) baseline, which uses the same page features but ignores connections.
 
-The GCN transforms each page's features and aggregates normalised information from its neighbours, including the page itself through self-loops [\[2\]](https://arxiv.org/abs/1609.02907). Its final layer produces scores for the four categories. The MLP applies fully connected linear layers to each page independently [\[3\]](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html), providing a baseline for measuring the value of graph information. Unlike the GCN, it does not use graph connections. Both models receive the full graph and page features, but training loss is calculated only from training labels.
+The GCN transforms each page's features and aggregates normalised information from its neighbours, including the page itself through self-loops [\[2\]](#ref-2). Its final layer produces scores for the four categories. The MLP applies fully connected linear layers to each page independently [\[3\]](#ref-3), providing a baseline for measuring the value of graph information. Unlike the GCN, it does not use graph connections. Both models receive the full graph and page features, but training loss is calculated only from training labels.
 
 ![t-SNE plot of GCN hidden-layer embeddings](figures/gcn_tsne_embeddings.png)
 
@@ -72,11 +72,11 @@ I selected a GCN as the main model because the task is node classification on a 
 
 ### Graph Convolutional Network
 
-The main model is a two-layer Graph Convolutional Network (GCN), based on the graph-convolution approach of Kipf and Welling [\[2\]](https://arxiv.org/abs/1609.02907). Its dimensions are 128 input features, 64 hidden features, and four output scores - one for each page category. Each graph-convolution layer transforms node features and aggregates symmetrically normalised information from connected pages. Self-loops are added so each page's own features also contribute. ReLU and dropout are applied after the hidden layer; dropout is a regularisation technique that randomly omits activations during training [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). The final layer returns class logits. The graph-convolution operation is implemented directly with PyTorch in `modules.py`, rather than using a pre-built graph-convolution layer.
+The main model is a two-layer Graph Convolutional Network (GCN), based on the graph-convolution approach of Kipf and Welling [\[2\]](#ref-2). Its dimensions are 128 input features, 64 hidden features, and four output scores - one for each page category. Each graph-convolution layer transforms node features and aggregates symmetrically normalised information from connected pages. Self-loops are added so each page's own features also contribute. ReLU and dropout are applied after the hidden layer; dropout is a regularisation technique that randomly omits activations during training [\[6\]](#ref-6). The final layer returns class logits. The graph-convolution operation is implemented directly with PyTorch in `modules.py`, rather than using a pre-built graph-convolution layer.
 
 ### MLP Baseline
 
-The baseline is a two-layer Multi-Layer Perceptron (MLP) with 128 input features, 64 hidden units, and four output scores. It applies a fully connected linear layer to each page's features, followed by ReLU and dropout, then a second linear layer to produce class logits [\[3\]](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). Dropout is used as a regulariser [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). It does not use graph edges.
+The baseline is a two-layer Multi-Layer Perceptron (MLP) with 128 input features, 64 hidden units, and four output scores. It applies a fully connected linear layer to each page's features, followed by ReLU and dropout, then a second linear layer to produce class logits [\[3\]](#ref-3). Dropout is used as a regulariser [\[6\]](#ref-6). It does not use graph edges.
 
 ### Configuration Experiments
 
@@ -86,7 +86,7 @@ I compared hidden sizes of 32, 64, and 128, and also tested selected dropout and
 
 ### Dataset
 
-The Facebook Page-Page dataset represents verified Facebook pages as nodes and mutual likes between pages as edges [\[1\]](https://github.com/gayanku/facebook_page-page_dataset). It contains 22,470 nodes, each with a 128-dimensional feature vector derived from its page description, and four page categories: `tvshow`, `government`, `company`, and `politician`. The source data contains 342,004 directed edge entries. After removing self-loops, the graph used in this project contains 341,646 directed edge entries. Because page likes are mutual, connections are represented in both directions.
+The Facebook Page-Page dataset represents verified Facebook pages as nodes and mutual likes between pages as edges [\[1\]](#ref-1). It contains 22,470 nodes, each with a 128-dimensional feature vector derived from its page description, and four page categories: `tvshow`, `government`, `company`, and `politician`. The source data contains 342,004 directed edge entries. After removing self-loops, the graph used in this project contains 341,646 directed edge entries. Because page likes are mutual, connections are represented in both directions.
 
 | Dataset property | Value |
 |---|---:|
@@ -105,7 +105,7 @@ The Facebook Page-Page dataset represents verified Facebook pages as nodes and m
 
 ### Train, Validation, and Test Splits
 
-The nodes are split once using stratified sampling with random seed 42. The split assigns 10% of nodes to training, 10% to validation, and 80% to testing, preserving the class proportions as closely as possible in each subset. The validation set supports model selection separately from final evaluation on the test set; the 80/10/10 proportions are the split chosen for this project, not a ratio prescribed by the cited guidance [\[5\]](https://apxml.com/courses/introduction-to-neural-networks/chapter-2-data-preparation-neural-networks/data-splitting).
+The nodes are split once using stratified sampling with random seed 42. The split assigns 10% of nodes to training, 10% to validation, and 80% to testing, preserving the class proportions as closely as possible in each subset. The validation set supports model selection separately from final evaluation on the test set; the 80/10/10 proportions are the split chosen for this project, not a ratio prescribed by the cited guidance [\[5\]](#ref-5).
 
 | Split     | Proportion | Nodes | Use |
 |-----------|-----------:|------:|-----|
@@ -115,7 +115,7 @@ The nodes are split once using stratified sampling with random seed 42. The spli
 
 *Table 2. Stratified node split sizes and the role of each split.*
 
-This is a transductive node-classification setting: the models receive the features and graph structure for all pages, but the training loss is calculated only from training labels [\[4\]](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). Validation labels are used for model selection and early stopping. Test labels are excluded from the training loss, but test metrics were inspected across exploratory tuning runs. Therefore, the reported test results should be interpreted with this limitation rather than as an untouched final hold-out estimate; no further configurations should be chosen based on test performance.
+This is a transductive node-classification setting: the models receive the features and graph structure for all pages, but the training loss is calculated only from training labels [\[4\]](#ref-4). Validation labels are used for model selection and early stopping. Test labels are excluded from the training loss, but test metrics were inspected across exploratory tuning runs. Therefore, the reported test results should be interpreted with this limitation rather than as an untouched final hold-out estimate; no further configurations should be chosen based on test performance.
 
 ```mermaid
 flowchart LR
@@ -178,7 +178,7 @@ python plot_embeddings.py
 
 ### Reproducibility
 
-The stratified node split uses seed 42 and is fixed across model runs. Training randomness uses seeds 42–46 for the five-seed experiment. The selected configurations are a two-layer GCN with 64 hidden units, dropout 0.5, a 600-epoch limit, and patience 100; and a two-layer MLP with 64 hidden units, dropout 0.3, a 300-epoch limit, and patience 50. Dropout is applied during training as regularisation [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). Training is full-batch: each epoch processes the full graph in one forward/backward pass, while the loss is calculated only on training nodes. These epoch counts are maximums; early stopping can end training sooner when validation macro-F1 stops improving for the configured patience. The terms batch and epoch describe how training data is grouped and revisited during optimisation [\[7\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-3-training-deep-neural-networks/batches-epochs). Other training settings are recorded with each checkpoint and in `results/tuning.csv`; both runs use learning rate 0.01 and weight decay 0.0005.
+The stratified node split uses seed 42 and is fixed across model runs. Training randomness uses seeds 42–46 for the five-seed experiment. The selected configurations are a two-layer GCN with 64 hidden units, dropout 0.5, a 600-epoch limit, and patience 100; and a two-layer MLP with 64 hidden units, dropout 0.3, a 300-epoch limit, and patience 50. Dropout is applied during training as regularisation [\[6\]](#ref-6). Training is full-batch: each epoch processes the full graph in one forward/backward pass, while the loss is calculated only on training nodes. These epoch counts are maximums; early stopping can end training sooner when validation macro-F1 stops improving for the configured patience. The terms batch and epoch describe how training data is grouped and revisited during optimisation [\[7\]](#ref-7). Other training settings are recorded with each checkpoint and in `results/tuning.csv`; both runs use learning rate 0.01 and weight decay 0.0005.
 
 Training automatically selects the checkpoint with the best validation macro-F1 and evaluates the test split after selection. Use the same dataset file, split seed, model settings, and training seeds to reproduce the reported experiment. Runtime and measured memory depend on the device and software build. The resource profile in this report was measured on the UQ GPU Lab `g4dn.xlarge` virtual GPU, recorded as a Tesla T4 but not independently confirmed; local training and inference can use CUDA, Apple MPS, or CPU where supported.
 
@@ -243,7 +243,7 @@ On the seed-42 test set, expected calibration error (ECE, 15 equal-width bins) w
 
 #### Confidence-based reject option
 
-Because this model assists human reviewers, I chose 95% validation accuracy as an illustrative target: errors may misroute cases, while abstentions can be reviewed by experts. Selective classification frames this as a risk–coverage trade-off [\[8\]](https://arxiv.org/abs/1705.08500); 95% is my project-defined target, not a value prescribed by the paper. I selected the lowest confidence cutoff meeting the target on validation and applied it unchanged to test, consistent with separating model selection from evaluation [\[5\]](https://apxml.com/courses/introduction-to-neural-networks/chapter-2-data-preparation-neural-networks/data-splitting). The MLP retained 42.85% of test nodes at 95.00% accuracy (threshold 0.9345); the GCN retained 89.64% at 94.86% (threshold 0.6674). A separate low-degree rejection rule was not evaluated.
+Because this model assists human reviewers, I chose 95% validation accuracy as an illustrative target: errors may misroute cases, while abstentions can be reviewed by experts. Selective classification frames this as a risk–coverage trade-off [\[8\]](#ref-8); 95% is my project-defined target, not a value prescribed by the paper. I selected the lowest confidence cutoff meeting the target on validation and applied it unchanged to test, consistent with separating model selection from evaluation [\[5\]](#ref-5). The MLP retained 42.85% of test nodes at 95.00% accuracy (threshold 0.9345); the GCN retained 89.64% at 94.86% (threshold 0.6674). A separate low-degree rejection rule was not evaluated.
 
 ### Embedding Visualisation
 
@@ -296,7 +296,7 @@ Acceptance criteria:
 
 ### 2. Model Choice
 
-The dataset has 22,470 nodes, 128 features, four classes, and 341,646 directed edges after self-loop removal. The selected Section 2 band is **Multi-layer GNN [Normal Difficulty]**: a two-layer GCN implemented from scratch, compared with a feature-only MLP. Symmetric normalisation follows Kipf and Welling [2]. Let $H^{(0)}=X$:
+The dataset has 22,470 nodes, 128 features, four classes, and 341,646 directed edges after self-loop removal. The selected Section 2 band is **Multi-layer GNN [Normal Difficulty]**: a two-layer GCN implemented from scratch, compared with a feature-only MLP. Symmetric normalisation follows Kipf and Welling [\[2\]](#ref-2). Let $H^{(0)}=X$:
 
 $$
 Z^{(l+1)}=\tilde D^{-1/2}\tilde A\tilde D^{-1/2}H^{(l)}W^{(l)}+b^{(l)},\quad
@@ -365,11 +365,11 @@ I reviewed AI-generated suggestions and code against my understanding and course
 
 ## References
 
-1. [Facebook Page-Page Dataset Repository](https://github.com/gayanku/facebook_page-page_dataset)
-2. Kipf, T. N., & Welling, M. (2017). [*Semi-Supervised Classification with Graph Convolutional Networks*](https://arxiv.org/abs/1609.02907). International Conference on Learning Representations (ICLR).
-3. PyTorch. [*torch.nn.Linear*](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). PyTorch 2.15 documentation.
-4. ApX Machine Learning. [*Graph Data Splitting: Transductive vs. Inductive*](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). *Introduction to Graph Neural Networks*, Chapter 4.
-5. ApX Machine Learning. [*Data Splitting*](https://apxml.com/courses/introduction-to-neural-networks/chapter-2-data-preparation-neural-networks/data-splitting). *Introduction to Neural Networks*, Chapter 2.
-6. ApX Machine Learning. [*Regularization: L1, L2, and Dropout*](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). *Deep Learning Fundamentals with Keras*, Chapter 6.
-7. ApX Machine Learning. [*Batches and Epochs*](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-3-training-deep-neural-networks/batches-epochs). *Deep Learning Fundamentals with Keras*, Chapter 3.
-8. Geifman, Y., & El-Yaniv, R. (2017). [*Selective Classification for Deep Neural Networks*](https://arxiv.org/abs/1705.08500). NeurIPS.
+1. <a id="ref-1"></a>[Facebook Page-Page Dataset Repository](https://github.com/gayanku/facebook_page-page_dataset)
+2. <a id="ref-2"></a>Kipf, T. N., & Welling, M. (2017). [*Semi-Supervised Classification with Graph Convolutional Networks*](https://arxiv.org/abs/1609.02907). International Conference on Learning Representations (ICLR).
+3. <a id="ref-3"></a>PyTorch. [*torch.nn.Linear*](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html). PyTorch 2.15 documentation.
+4. <a id="ref-4"></a>ApX Machine Learning. [*Graph Data Splitting: Transductive vs. Inductive*](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). *Introduction to Graph Neural Networks*, Chapter 4.
+5. <a id="ref-5"></a>ApX Machine Learning. [*Data Splitting*](https://apxml.com/courses/introduction-to-neural-networks/chapter-2-data-preparation-neural-networks/data-splitting). *Introduction to Neural Networks*, Chapter 2.
+6. <a id="ref-6"></a>ApX Machine Learning. [*Regularization: L1, L2, and Dropout*](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). *Deep Learning Fundamentals with Keras*, Chapter 6.
+7. <a id="ref-7"></a>ApX Machine Learning. [*Batches and Epochs*](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-3-training-deep-neural-networks/batches-epochs). *Deep Learning Fundamentals with Keras*, Chapter 3.
+8. <a id="ref-8"></a>Geifman, Y., & El-Yaniv, R. (2017). [*Selective Classification for Deep Neural Networks*](https://arxiv.org/abs/1705.08500). NeurIPS.
