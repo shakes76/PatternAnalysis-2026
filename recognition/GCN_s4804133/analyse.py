@@ -12,6 +12,7 @@ from utils import (
     classification_metrics,
     confidence_error_auroc,
     expected_calibration_error,
+    precision_recall_data,
     risk_coverage_curve,
 )
 
@@ -88,6 +89,38 @@ def save_confidence_plots(
     return output_path
 
 
+def save_precision_recall_plot(
+    model_name: str,
+    y_true: np.ndarray,
+    probabilities: np.ndarray,
+) -> Path:
+    """Save one-vs-rest precision-recall curves for each class."""
+    curves = precision_recall_data(y_true, probabilities, CLASS_NAMES)
+    fig, ax = plt.subplots(figsize=(7, 5))
+    for class_name, curve in curves.items():
+        precision = curve["precision"]
+        recall = curve["recall"]
+        pr_auc = curve["pr_auc"]
+        if precision.size and recall.size:
+            ax.plot(recall, precision, label=f"{class_name} (PR-AUC={pr_auc:.3f})")
+
+    ax.set(
+        xlim=(0, 1),
+        ylim=(0, 1),
+        xlabel="recall",
+        ylabel="precision",
+        title=f"{model_name.upper()} one-vs-rest precision-recall",
+    )
+    ax.legend()
+    ax.grid(alpha=0.25)
+    fig.tight_layout()
+    output_path = Path("figures") / f"{model_name}_precision_recall.png"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(output_path, dpi=160)
+    plt.close(fig)
+    return output_path
+
+
 def main() -> None:
     """Print test metrics and validation-selected reject-rule results for both models."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -158,6 +191,10 @@ def main() -> None:
                 f"coverage={test_coverage:.4f}"
             )
         print(f"Saved confidence plots: {save_confidence_plots(model_name, y_test, test_probabilities, threshold)}")
+        print(
+            "Saved precision-recall plot: "
+            f"{save_precision_recall_plot(model_name, y_test, test_probabilities)}"
+        )
         print("Class                 Precision  Recall  F1      AUROC   PR-AUC  Support")
         for class_name, scores in metrics["per_class"].items():
             # each row reports one class against all remaining classes.

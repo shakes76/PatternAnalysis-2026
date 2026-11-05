@@ -80,7 +80,7 @@ The baseline is a two-layer Multi-Layer Perceptron (MLP) with 128 input features
 
 ### Configuration Experiments
 
-I compared hidden sizes of 32, 64, and 128, and also tested selected dropout and learning-rate values. I chose configurations using validation macro-F1, rather than test performance. The 64-hidden-unit GCN with dropout 0.5 and the 64-hidden-unit MLP with dropout 0.3 were carried forward to the five-seed evaluation. The experiments and validation results are recorded in [`results/tuning.csv`](results/tuning.csv).
+I compared hidden sizes of 32, 64, and 128, and also tested selected dropout and learning-rate values. Validation macro-F1 was used to guide configuration and checkpoint selection. Test metrics were also inspected during exploratory runs, so the final test results are not an untouched hold-out estimate. The 64-hidden-unit GCN with dropout 0.5 and the 64-hidden-unit MLP with dropout 0.3 were carried forward to the five-seed evaluation. The experiments and results are recorded in [`results/tuning.csv`](results/tuning.csv).
 
 ## Data Preparation
 
@@ -95,9 +95,13 @@ The Facebook Page-Page dataset represents verified Facebook pages as nodes and m
 | Classes | 4 |
 | Directed edge entries after preprocessing | 341,646 |
 
+*Table 1. Summary of the Facebook Page-Page dataset used in this project after self-loop removal.*
+
 ### Pre-processing
 
 `dataset.py` loads the dataset's feature matrix, edge list, and labels into a PyTorch Geometric `Data` object. Features are converted to `float32` and labels and edge indices to integer tensors. The raw graph contains 358 self-loop entries; these are removed during loading because each GCN layer adds one self-loop per node during message passing. No additional feature scaling or dimensionality reduction is applied by this project.
+
+**Preprocessing summary:** the graph has 342,004 directed edge entries before preprocessing; 358 self-loop entries are removed, leaving 341,646 directed edge entries and 0 isolated nodes.
 
 ### Train, Validation, and Test Splits
 
@@ -109,7 +113,9 @@ The nodes are split once using stratified sampling with random seed 42. The spli
 | Validation| 10%        | 2,247 | Select configurations and determine the early-stopping checkpoint |
 | Test      | 80%        | 17,976 | Final evaluation after model selection |
 
-This is a transductive node-classification setting: the models receive the features and graph structure for all pages, but the training loss is calculated only from training labels [\[4\]](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). Validation labels guide model selection and early stopping. Test labels are reserved for final evaluation and retrospective error analysis, not for training or configuration selection.
+*Table 2. Stratified node split sizes and the role of each split.*
+
+This is a transductive node-classification setting: the models receive the features and graph structure for all pages, but the training loss is calculated only from training labels [\[4\]](https://apxml.com/courses/introduction-to-graph-neural-networks/chapter-4-training-gnn-models/graph-data-splitting-transductive-inductive). Validation labels are used for model selection and early stopping. Test labels are excluded from the training loss, but test metrics were inspected across exploratory tuning runs. Therefore, the reported test results should be interpreted with this limitation rather than as an untouched final hold-out estimate; no further configurations should be chosen based on test performance.
 
 ```mermaid
 flowchart LR
@@ -118,7 +124,7 @@ flowchart LR
     M --> L
     YV["Validation labels<br/>2,247 nodes"] --> V["Model selection<br/>and early stopping"]
     M --> V
-    YE["Test labels<br/>17,976 nodes"] --> E["Final evaluation only"]
+    YE["Test labels<br/>17,976 nodes"] --> E["Test evaluation<br/>inspected across exploratory runs"]
     M --> E
 ```
 
@@ -127,26 +133,152 @@ flowchart LR
 ## Training and Reproducibility
 
 ### Dependencies
-[List the Python version and required package versions, or explain how to install the pinned dependencies in `requirements.txt`.]
+
+The project uses Python, PyTorch, PyTorch Geometric, NumPy, scikit-learn, and Matplotlib. The package versions are pinned in [`requirements.txt`](requirements.txt). The project was run locally with Python 3.11 and on the UQ GPU Lab with Python 3.10; select a Python environment compatible with the pinned packages. PyTorch installation can depend on whether the machine uses a CPU, Apple MPS, or CUDA GPU, so use the appropriate PyTorch build for the target machine before installing the remaining requirements if needed.
+
+I used the Conda environment named `comp3710` locally. Activate it before running the project:
+
+```bash
+conda activate comp3710
+```
+
+The UQ GPU Lab provides its own Conda environment at `/conda`. In either environment, install the project dependencies from this directory if they are not already available:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+The dataset file is not included in Git. Obtain `facebook.npz` from the [Facebook Page-Page dataset repository](https://github.com/gayanku/facebook_page-page_dataset) and place it at `data/FacebookPagePage/raw/facebook.npz`. The `data/` directory is ignored by Git.
 
 ### Running the Project
-[Give commands to train the GCN and MLP, generate predictions, run the analysis scripts, and create the visualisations. Explain where the dataset must be placed and how to obtain it.]
+
+Run these commands from `recognition/GCN_s4804133`, where the Python scripts are located.
+
+To train one GCN and one MLP run with the selected settings:
+
+```bash
+python train.py --model gcn --seed 42 --tag five-seed --hidden 64 --dropout 0.5
+python train.py --model mlp --seed 42 --tag five-seed --hidden 64 --dropout 0.3
+```
+
+The five-seed experiment used training seeds 42–46. To repeat that experiment, run the same commands with each seed from 42 to 46. Training saves checkpoints in `outputs/`, learning curves in `figures/`, and appends run metrics to `results/tuning.csv`.
+
+Generate predictions from the seed-42 checkpoints, then run the saved-prediction analyses and visualisations:
+
+```bash
+python predict.py --checkpoint outputs/gcn_seed42_five-seed.pt
+python predict.py --checkpoint outputs/mlp_seed42_five-seed.pt
+python analyse.py --tag five-seed
+python analyse_graph_context.py
+python plot_embeddings.py
+```
+
+`predict.py` saves per-node predictions and probabilities under `outputs/`. `analyse.py` reports classification and confidence metrics and saves confidence and precision-recall plots. `analyse_graph_context.py` compares accuracy by graph context and saves a CSV and plot. `plot_embeddings.py` creates the GCN t-SNE plot. These analysis commands use existing checkpoints or saved predictions; they do not train models.
 
 ### Reproducibility
-[Record the split seed, training seeds, selected model settings, checkpoint naming, and any hardware-dependent considerations. Explain how to reproduce the reported results.]
+
+The stratified node split uses seed 42 and is fixed across model runs. Training randomness uses seeds 42–46 for the five-seed experiment. The selected configurations are a two-layer GCN with 64 hidden units and dropout 0.5, and a two-layer MLP with 64 hidden units and dropout 0.3. Other training settings are recorded with each checkpoint and in `results/tuning.csv`; the training script defaults to learning rate 0.01, weight decay 0.0005, and patience 50.
+
+Training automatically selects the checkpoint with the best validation macro-F1 and evaluates the test split after selection. Use the same dataset file, split seed, model settings, and training seeds to reproduce the reported experiment. Runtime and measured memory depend on the device and software build. The resource profile in this report was measured on the UQ GPU Lab NVIDIA Tesla T4; local training and inference can use CUDA, Apple MPS, or CPU where supported.
 
 ## Results and Analysis
 
 ### Quantitative Benchmarking
-[Compare the GCN and MLP on the same split. Report accuracy, macro-F1, per-class precision and recall, AUROC, and any other required metrics. Summarise the five-seed results and include relevant training or confidence plots.]
+
+Both models use the same stratified split (seed 42). Across five training seeds (42–46), the GCN achieved a higher mean test macro-F1 than the MLP. Only the model initialisation/training randomness changed between these runs; the data split remained fixed at seed 42.
+
+| Model | Test macro-F1, mean ± standard deviation | Test accuracy, mean ± standard deviation |
+|---|---:|---:|
+| MLP | 0.7356 ± 0.0026 | 0.7558 ± 0.0019 |
+| GCN | 0.9043 ± 0.0018 | 0.9096 ± 0.0016 |
+
+*Table 3. Mean and sample standard deviation of test macro-F1 and accuracy across five training seeds, using the fixed seed-42 split.*
+
+The following detailed classification metrics are for the seed-42 checkpoint on the fixed test set. AUROC and PR-AUC are one-vs-rest per class; macro values are unweighted means across the four classes.
+
+| Model | Class | Precision | Recall | F1 | AUROC (OvR) | PR-AUC |
+|---|---|---:|---:|---:|---:|---:|
+| MLP | tvshow | 0.8077 | 0.7947 | 0.8012 | 0.9388 | 0.8868 |
+| MLP | government | 0.7319 | 0.8205 | 0.7737 | 0.9299 | 0.8598 |
+| MLP | company | 0.7632 | 0.7529 | 0.7580 | 0.9356 | 0.8587 |
+| MLP | politician | 0.6829 | 0.5494 | 0.6089 | 0.8967 | 0.6993 |
+| GCN | tvshow | 0.9203 | 0.8972 | 0.9086 | 0.9807 | 0.9637 |
+| GCN | government | 0.8931 | 0.9430 | 0.9174 | 0.9834 | 0.9617 |
+| GCN | company | 0.9380 | 0.9179 | 0.9278 | 0.9893 | 0.9733 |
+| GCN | politician | 0.8746 | 0.8489 | 0.8616 | 0.9794 | 0.9249 |
+
+*Table 4. Seed-42 test-set precision, recall, F1, one-vs-rest AUROC, and PR-AUC for each class.*
+
+| Model | Test accuracy | Macro-F1 | Macro AUROC (OvR) | Macro PR-AUC |
+|---|---:|---:|---:|---:|
+| MLP (seed 42) | 0.7556 | 0.7354 | 0.9252 | 0.8261 |
+| GCN (seed 42) | 0.9094 | 0.9038 | 0.9832 | 0.9559 |
+
+*Table 5. Seed-42 test-set accuracy and macro-averaged classification metrics.*
+
+The GCN outperformed the MLP on all four classes in the seed-42 classification table. The largest class-level difference is for `politician`, where GCN recall is 0.8489 versus 0.5494 for the MLP. The five-seed results show that the overall macro-F1 advantage is consistent across the tested training seeds.
+
+The plots below show the seed-42 training curves for both models. The confidence plots include confidence histograms for correct and incorrect predictions, reliability diagrams, and risk-coverage curves. Precision-recall plots show one-vs-rest curves for each class; PR-AUC is reported in the metric tables above.
+
+| MLP training curves | GCN training curves |
+|---|---|
+| ![MLP training loss and validation macro-F1](figures/mlp_seed42_five-seed_curves.png) | ![GCN training loss and validation macro-F1](figures/gcn_seed42_five-seed_curves.png) |
+
+*Figure 4. Seed-42 training loss and validation macro-F1 curves for the MLP (left) and GCN (right).*
+
+| MLP confidence analysis | GCN confidence analysis |
+|---|---|
+| ![MLP confidence histogram, reliability diagram, and risk-coverage curve](figures/mlp_confidence_analysis.png) | ![GCN confidence histogram, reliability diagram, and risk-coverage curve](figures/gcn_confidence_analysis.png) |
+
+*Figure 5. Confidence histograms, reliability diagrams, and risk-coverage curves for the MLP (left) and GCN (right) on the seed-42 test set.*
+
+| MLP precision-recall curves | GCN precision-recall curves |
+|---|---|
+| ![MLP one-vs-rest precision-recall curves](figures/mlp_precision_recall.png) | ![GCN one-vs-rest precision-recall curves](figures/gcn_precision_recall.png) |
+
+*Figure 6. Seed-42 one-vs-rest precision-recall curves for the MLP (left) and GCN (right); per-class PR-AUC values are included in the legends.*
+
+On the seed-42 test set, expected calibration error (ECE, 15 equal-width bins) was 0.0399 for MLP and 0.0197 for GCN. Confidence error-detection AUROC was 0.8121 for MLP and 0.8513 for GCN; higher values indicate better ranking of incorrect predictions as uncertain.
+
+#### Confidence-based reject option
+
+I selected the lowest confidence threshold that achieved at least 95% accuracy among retained validation predictions, then applied that fixed threshold to the test set. On test, the MLP retained 42.85% of nodes at 95.00% accuracy using threshold 0.9345. The GCN retained 89.64% of nodes at 94.86% accuracy using threshold 0.6674. Thus, for this target, the GCN retained substantially more predictions at nearly the same accuracy. The red point on each risk-coverage plot marks test performance at the validation-selected threshold. A separate low-degree rejection rule was not evaluated.
 
 ### Embedding Visualisation
-[Interpret Figure 1's visible class groupings and overlaps. State that 1,000 nodes were sampled per class and that t-SNE is qualitative, not a performance metric.]
+
+Figure 1 shows visible class-dominated regions in the 2D t-SNE projection: `company` points are concentrated mainly in the upper-left, `politician` in the upper-right, `tvshow` in the lower-right, and `government` largely in the lower-left. There is overlap and scattering, especially around the centre, so the representation does not cleanly separate every page. The plot uses 1,000 randomly sampled nodes from each class. It is a qualitative visualisation; t-SNE axes and distances are not direct measures of model performance. The plot is coloured by true class, not by neighbour agreement, so it does not establish where low-agreement nodes lie relative to the clusters.
 
 ### Performance by Graph Context
 ![Test accuracy by node degree and neighbour-label agreement](figures/graph_context_accuracy.png)
 
-[Describe how accuracy changes across node-degree and neighbour-agreement groups. Make clear that neighbour-label agreement uses true labels retrospectively and is not an input available to the models at inference time.]
+*Figure 7. Seed-42 test accuracy by node-degree and neighbour-label-agreement bands for the MLP and GCN. Neighbour-label agreement is computed retrospectively from true labels.*
+
+The GCN has higher test accuracy than the MLP in every degree band. Accuracy rises with degree for both models: from 0.7074 (MLP) and 0.8549 (GCN) for degree ≤2, to 0.8459 and 0.9574 respectively for degree >21. This pattern is consistent with the GCN benefiting from neighbourhood information, although it does not by itself prove that degree causes the improvement.
+
+| Test-node group | Nodes | MLP accuracy | GCN accuracy |
+|---|---:|---:|---:|
+| Degree ≤2 | 4,012 | 0.7074 | 0.8549 |
+| Degree >2–≤5 | 3,777 | 0.7114 | 0.8888 |
+| Degree >5–≤10 | 3,403 | 0.7511 | 0.9224 |
+| Degree >10–≤21 | 3,189 | 0.7714 | 0.9341 |
+| Degree >21–≤709 | 3,595 | 0.8459 | 0.9574 |
+
+*Table 6. Seed-42 test accuracy by node-degree band.*
+
+Accuracy also generally rises with neighbour-label agreement. In the lowest-agreement band (≤0.50), the GCN is slightly below the MLP (0.5289 versus 0.5460); in the remaining bands, it is higher, reaching 0.9957 for agreement >0.90–≤0.99.
+
+| Fraction of neighbours with the same true class | Nodes | MLP accuracy | GCN accuracy |
+|---|---:|---:|---:|
+| ≤0.50 | 1,575 | 0.5460 | 0.5289 |
+| >0.50–≤0.75 | 1,741 | 0.6829 | 0.8828 |
+| >0.75–≤0.90 | 2,294 | 0.7716 | 0.9730 |
+| >0.90–≤0.99 | 2,325 | 0.8658 | 0.9957 |
+| >0.99–1.00 | 10,041 | 0.7718 | 0.9391 |
+
+*Table 7. Seed-42 test accuracy by neighbour-label-agreement band; agreement uses the true labels of a node's neighbours and is not an inference-time feature.*
+
+Among test predictions, mean degree was 16.53 for correct MLP predictions and 10.86 for incorrect MLP predictions; mean neighbour-label agreement was 0.903 and 0.825 respectively. For the GCN, the corresponding means were degree 15.73 and 9.33, and agreement 0.910 and 0.623. These are retrospective diagnostics: neighbour-label agreement uses ground-truth labels and is unavailable as an inference-time feature. They suggest that GCN errors can occur when neighbourhood context conflicts with a node's true class, but do not prove graph context caused any individual error.
 
 ## Feasibility Review
 
@@ -156,22 +288,32 @@ flowchart LR
 
 ### Resource Profile
 
-Inference was measured on the NVIDIA Tesla T4 GPU using the full graph, with 5 warm-up runs and 30 timed runs. Memory is PyTorch peak allocated CUDA memory.
+Inference was measured on the NVIDIA Tesla T4 GPU using the full graph, with 5 warm-up runs and 30 timed runs. Memory is PyTorch peak allocated CUDA memory. Training time is the mean training-loop duration across the five runs recorded in `results/tuning.csv`; the log does not record the training device, so these times are machine-specific and are not directly comparable with the T4 inference measurements.
 
-| Model | Parameters | Mean inference latency | Peak CUDA memory |
-|-------|-----------:|-----------------------:|-----------------:|
-| MLP   | 8,516      | 0.317 ms               | 35.58 MB         |
-| GCN   | 8,516      | 4.162 ms               | 222.05 MB        |
+| Model | Parameters | Mean training time | Mean inference latency | Peak CUDA memory |
+|-------|-----------:|-------------------:|-----------------------:|-----------------:|
+| MLP   | 8,516      | 2.94 s             | 0.317 ms               | 35.58 MB         |
+| GCN   | 8,516      | 28.96 s            | 4.162 ms               | 222.05 MB        |
+
+*Table 8. Model parameter counts, mean training time, mean full-graph inference latency, and peak allocated CUDA memory. Training-device information was not recorded.*
 
 [Interpret the resource trade-off and explain the hardware and measurement method.]
 
 ### Qualitative Error Autopsies
 
-[Analyse 3–5 representative test-set failures. For each, report the true class, predicted class, confidence, node degree, and neighbour context. Diagnose plausible triggers without claiming causation. Include high-confidence errors and state that test-set inspection is retrospective, not a basis for tuning.]
+The following five GCN test-set errors were selected because they illustrate confident mistakes in neighbourhoods dominated by a class other than the node's true class. Each prediction had confidence 1.000. Neighbour context is summarized by neighbours' ground-truth classes, examined retrospectively; it is not information used to select or tune these cases. These test-set examples are diagnostic only and were not used as a basis for tuning.
 
-| Node | True class | Model prediction | Confidence | Degree | Neighbour context | Diagnosis |
-|------|------------|------------------|-----------:|-------:|-------------------|-----------|
-| [node] | [class] | [class] | [value] | [degree] | [summary] | [reasoned interpretation] |
+| Node | True class | GCN prediction | Confidence | Degree | Neighbours' true classes | Plausible interpretation |
+|------|------------|---------------|-----------:|-------:|--------------------------|--------------------------|
+| 11332 | tvshow | government | 1.000 | 328 | 289 government, 21 tvshow, 9 politician, 9 company | The large neighbourhood is overwhelmingly government-labelled, consistent with the incorrect prediction despite the node's tvshow label. |
+| 9254 | tvshow | politician | 1.000 | 16 | 15 politician, 1 tvshow | Nearly all neighbours are politician-labelled, which may help explain the confident class mismatch. |
+| 11612 | government | company | 1.000 | 19 | 18 company, 1 government | The local neighbourhood strongly favours company over the node's government label. |
+| 9077 | government | tvshow | 1.000 | 20 | 17 tvshow, 3 government | Most neighbours are tvshow-labelled, matching the mistaken prediction rather than the true class. |
+| 20083 | tvshow | politician | 1.000 | 69 | 56 politician, 11 tvshow, 1 government, 1 company | The neighbourhood is dominated by politician-labelled nodes, although the node is tvshow. |
+
+*Table 9. Five selected high-confidence GCN test errors and their retrospective neighbour-label context.*
+
+These examples are consistent with a possible difficulty for neighbourhood aggregation when neighbouring labels conflict with the target node's class. They do not establish the cause of an error, and the neighbour labels are ground truth available only for retrospective analysis.
 
 ### Engineering Recommendation and Trade-offs
 
