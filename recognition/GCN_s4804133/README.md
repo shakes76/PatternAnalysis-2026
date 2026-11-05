@@ -363,9 +363,14 @@ Test metrics were inspected during exploratory configuration runs. Although the 
 The t-SNE plot is a qualitative projection of a balanced sample, not a performance measure, and its visible clusters may depend on the projection and sampling. Resource measurements are specific to full-graph inference in the recorded UQ GPU Lab virtual-GPU environment; Results may differ on other hardware, graph sizes, or deployment settings.
 
 ## Artificial Intelligence Usage Disclosure
-GitHub Copilot was used with GPT-6 Luna to help structure and edit this README, format tables and figures, and improve explanations based on my own notes and analysis. It also helped explain concepts, debug issues, review code against the task requirements, draft architecture diagrams in Mermaid, and generate suggestions for comments, docstrings, argument parsing, plotting, and metric-helper code.
 
-I reviewed AI-generated suggestions and code against my understanding and course materials, and checked the project outputs and changes where applicable. I am responsible for the final implementation, experiments, results and report.
+**Tool used.** GitHub Copilot with GPT-6 Luna.
+
+**How it assisted.** I used Copilot to organise and edit this README, format its tables and figure captions, and draft the Mermaid model-architecture diagram. It helped me clarify explanations of course concepts such as GCN, MLP and splitting, as well as confidence calibration. During implementation, it generated suggestions for comments, docstrings, argument parsing, plotting, and metric helper code. It was then also used for debugging issues that arose when running scripts.
+
+**How I verified the work.** I reviewed suggestions against the task requirements, my understanding of the course material, and the implementation in `dataset.py`, `modules.py`, and `train.py`. Where the AI was used for debugging outputs, I manually checked and verified all outputs used in this project. 
+
+I am responsible for the final code, experiments, interpretation and report. I reviewed and edited all AI-assisted material before including it.
 
 ## References
 
