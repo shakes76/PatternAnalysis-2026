@@ -158,11 +158,11 @@ Run these commands from `recognition/GCN_s4804133`, where the Python scripts are
 To train one GCN and one MLP run with the selected settings:
 
 ```bash
-python train.py --model gcn --seed 42 --tag five-seed --hidden 64 --dropout 0.5
-python train.py --model mlp --seed 42 --tag five-seed --hidden 64 --dropout 0.3
+python train.py --model gcn --seed 42 --tag five-seed --hidden 64 --dropout 0.5 --epochs 600 --patience 100
+python train.py --model mlp --seed 42 --tag five-seed --hidden 64 --dropout 0.3 --epochs 300 --patience 50
 ```
 
-The five-seed experiment used training seeds 42–46. To repeat that experiment, run the same commands with each seed from 42 to 46. Training saves checkpoints in `outputs/`, learning curves in `figures/`, and appends run metrics to `results/tuning.csv`.
+The five-seed experiment used training seeds 42–46. To repeat that experiment, run both commands with each seed from 42 to 46. Training saves checkpoints in `outputs/`, learning curves in `figures/`, and appends run metrics to `results/tuning.csv`.
 
 Generate predictions from the seed-42 checkpoints, then run the saved-prediction analyses and visualisations:
 
@@ -174,11 +174,11 @@ python analyse_graph_context.py
 python plot_embeddings.py
 ```
 
-`predict.py` saves per-node predictions and probabilities under `outputs/`. `analyse.py` reports classification and confidence metrics and saves confidence and precision-recall plots. `analyse_graph_context.py` compares accuracy by graph context and saves a CSV and plot. `plot_embeddings.py` creates the GCN t-SNE plot. These analysis commands use existing checkpoints or saved predictions; they do not train models.
+`predict.py` prints test metrics, saves per-node predictions and probabilities under `outputs/`, and creates a test confidence, reliability, and risk-coverage plot under `figures/`. `analyse.py` reports detailed classification and confidence metrics, updates the confidence plot with the validation-selected threshold, and saves precision-recall plots. `analyse_graph_context.py` compares accuracy by graph context and saves a CSV and plot. `plot_embeddings.py` creates the GCN t-SNE plot. These analysis commands use existing checkpoints or saved predictions; they do not train models.
 
 ### Reproducibility
 
-The stratified node split uses seed 42 and is fixed across model runs. Training randomness uses seeds 42–46 for the five-seed experiment. The selected configurations are a two-layer GCN with 64 hidden units and dropout 0.5, and a two-layer MLP with 64 hidden units and dropout 0.3. Dropout is applied during training as regularisation [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). Training is full-batch: each epoch processes the full graph in one forward/backward pass, while the loss is calculated only on training nodes. The training script allows up to 300 epochs and uses patience 50 for early stopping. The terms batch and epoch describe how training data is grouped and revisited during optimisation [\[7\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-3-training-deep-neural-networks/batches-epochs). Other training settings are recorded with each checkpoint and in `results/tuning.csv`; the training script defaults to learning rate 0.01 and weight decay 0.0005.
+The stratified node split uses seed 42 and is fixed across model runs. Training randomness uses seeds 42–46 for the five-seed experiment. The selected configurations are a two-layer GCN with 64 hidden units, dropout 0.5, a 600-epoch limit, and patience 100; and a two-layer MLP with 64 hidden units, dropout 0.3, a 300-epoch limit, and patience 50. Dropout is applied during training as regularisation [\[6\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-6-improving-model-performance-workflow/regularization-l1-l2-dropout). Training is full-batch: each epoch processes the full graph in one forward/backward pass, while the loss is calculated only on training nodes. These epoch counts are maximums; early stopping can end training sooner when validation macro-F1 stops improving for the configured patience. The terms batch and epoch describe how training data is grouped and revisited during optimisation [\[7\]](https://apxml.com/courses/deep-learning-fundamentals-keras/chapter-3-training-deep-neural-networks/batches-epochs). Other training settings are recorded with each checkpoint and in `results/tuning.csv`; both runs use learning rate 0.01 and weight decay 0.0005.
 
 Training automatically selects the checkpoint with the best validation macro-F1 and evaluates the test split after selection. Use the same dataset file, split seed, model settings, and training seeds to reproduce the reported experiment. Runtime and measured memory depend on the device and software build. The resource profile in this report was measured on the UQ GPU Lab `g4dn.xlarge` virtual GPU, recorded as a Tesla T4 but not independently confirmed; local training and inference can use CUDA, Apple MPS, or CPU where supported.
 
@@ -282,7 +282,53 @@ Among test predictions, mean degree was 16.53 for correct MLP predictions and 10
 
 ## Feasibility Review
 
-[Insert the one-page feasibility review required by Section 3. Discuss the problem's suitability, available data and resources, likely risks, and whether the proposed approach is practical.]
+### 1. User Need, Scope and Acceptance Criteria
+
+This prototype evaluates a classification assistant for human reviewers. It categorises Facebook Pages as `tvshow`, `government`, `company`, or `politician`; uncertain cases can be referred to experts. A wrong category could misroute a page, while abstention requires human review. The 95% accuracy target is illustrative, not a confirmed operational requirement.
+
+Acceptance criteria for this prototype:
+
+- **Split integrity and reproducibility:** Train, validation, and test masks are disjoint and together cover all 22,470 nodes (2,247 / 2,247 / 17,976). Stratification keeps class proportions close to those of the full graph, including `politician` at about 14.8%; regenerating masks with seed 42 produces identical splits.
+- **No training-label leakage:** Models receive node features and graph edges, with no label-derived input features; training loss uses training labels only. Test labels are excluded from model inputs and training, but are used for scoring and retrospective analyses. Test metrics were inspected during exploratory runs, so they are not an untouched estimate.
+- **Graph and feature hygiene:** Remove the 358 existing self-loops before message passing, verify the loaded edge list is symmetric, and report zero isolated nodes. No additional feature normalisation is applied.
+- **Graph benefit:** Compare GCN and feature-only MLP on the same split over five seeds. The GCN’s mean test macro-F1 was 0.9043 ± 0.0018 versus 0.7356 ± 0.0026 for the MLP; this is a higher mean, not a significance test.
+- **Confidence reporting:** Report calibration and error-detection metrics. On seed 42, GCN ECE was 0.0197 and confidence error-detection AUROC was 0.8513.
+- **Reject-option assessment:** Choose a confidence cutoff on validation for a 95% accuracy target, then report test accuracy and coverage. The GCN achieved 94.86% accuracy at 89.64% test coverage; the MLP achieved 95.00% at 42.85%.
+- **Resource budget:** Measure full-graph inference on the UQ GPU Lab virtual GPU. The GCN used 4.162 ms and 222.05 MB peak allocated CUDA memory; the recorded Tesla T4 model was not independently confirmed.
+
+### 2. Model Choice
+
+The dataset has 22,470 nodes, 128 features per node, four classes, and 341,646 directed edge entries after self-loop removal. The chosen difficulty is graph-based semi-supervised node classification, using a two-layer GCN implemented from scratch and an MLP baseline that ignores graph edges.
+
+The GCN uses the symmetric-normalised aggregation from Kipf and Welling [2]:
+
+$$
+H^{(l+1)}
+=
+\sigma\left(
+\tilde{D}^{-1/2}
+\tilde{A}
+\tilde{D}^{-1/2}
+H^{(l)}
+W^{(l)}
+\right),
+\qquad
+\tilde{A}=A+I,
+\qquad
+\tilde{D}_{ii}=\sum_j \tilde{A}_{ij}.
+$$
+
+Self-loops include each node’s own features; symmetric degree normalisation adjusts neighbour contributions for node degree. Deeper GCNs can oversmooth representations, so this prototype uses two layers; deeper variants were not evaluated.
+
+### 3. Preliminary Feasibility Evidence
+
+The data audit confirmed 22,470 nodes, 128 features, four classes, and zero isolated nodes. Class proportions range from 14.8% `politician` to 30.6% `government`. The graph is stored as an edge list; a dense float32 adjacency matrix would require about 2.02 GB for the adjacency alone. In the completed prototype, the GCN outperformed the MLP on mean test macro-F1, but test metrics were inspected during exploratory runs.
+
+### 4. Risks, Budget and Fallback
+
+Risks include class imbalance, confident errors, and nodes whose neighbours mostly belong to another class. Neighbour-label agreement analysis is retrospective and cannot be used at inference. The 95% target does not establish a deployment requirement; review capacity and the costs of errors versus abstentions remain unknown.
+
+Logged mean training times were 2.94 s for the MLP and 28.96 s for the GCN, but the training device was not recorded. The next experiment should assess a new split and confirm resource measurements on a verified device. If graph data or GCN resources are unsuitable, use the feature-only MLP; it is the implemented fallback. Applying either model to genuinely new pages requires an inductive evaluation, which this project did not perform.
 
 ## Open Research Dilemma
 
@@ -330,8 +376,9 @@ Test metrics were inspected during exploratory configuration runs. Although the 
 The t-SNE plot is a qualitative projection of a balanced sample, not a performance measure, and its visible clusters may depend on the projection and sampling. Resource measurements are specific to full-graph inference in the recorded UQ GPU Lab virtual-GPU environment; the precise GPU model was not independently confirmed, and the device used for the logged training times was not recorded. Results may differ on other hardware, graph sizes, or deployment settings.
 
 ## Artificial Intelligence Usage Disclosure
+GitHub Copilot was used with GPT-6 Luna to help structure and edit this README, format tables and figures, and improve explanations based on my own notes and analysis. It also helped explain concepts, debug issues, review code against the task requirements, draft architecture diagrams in Mermaid, and generate suggestions for comments, docstrings, argument parsing, plotting, and metric-helper code.
 
-[Disclose any AI tools used and what they contributed, such as explanations, debugging, code suggestions, or report editing. State what you personally reviewed, tested, and verified, following Section 6.]
+I reviewed AI-generated suggestions and code against my understanding and course materials, and checked the project outputs and changes where applicable. I am responsible for the final implementation, experiments, results and report.
 
 ## References
 

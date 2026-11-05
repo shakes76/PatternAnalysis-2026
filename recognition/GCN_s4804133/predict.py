@@ -6,8 +6,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-
-# import helpers and modules
+from analyse import save_confidence_plots
 from dataset import CLASS_NAMES, load_graph, make_masks
 from modules import GCN, MLP
 
@@ -98,6 +97,14 @@ def main() -> None:
         test_mask=test_mask.cpu().numpy(),
     )
     print(f"Saved predictions and probabilities for {data.num_nodes} nodes to {output_path}")
+
+    plot_path = save_confidence_plots(
+        checkpoint["args"]["model"],
+        data.y[test_mask].cpu().numpy(),
+        probabilities[test_mask].cpu().numpy(),
+        threshold=None,
+    )
+    print(f"Saved test confidence visualisation to {plot_path}")
 
 
 if __name__ == "__main__":
