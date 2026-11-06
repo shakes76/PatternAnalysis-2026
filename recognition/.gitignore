@@ -1,0 +1,11 @@
+
+
+__pycache__/
+predictions/
+predictions_improved/
+files/
+
+*.pth
+*.out
+*.png
+
