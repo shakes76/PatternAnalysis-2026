@@ -1,0 +1,148 @@
+------------------------------------------------------------------
+Changes:
+------------------------------------------------------------------
+Baseline Model with Patch Embedding and Random Affine Transfomations, but no Random Horizontal Flips
+
+------------------------------------------------------------------
+Stats (Based of validation set):
+------------------------------------------------------------------
+
+SLICE LEVEL STATS
+              precision    recall  f1-score   support
+
+          NC      0.792     0.779     0.785      2100
+          AD      0.790     0.803     0.797      2180
+
+    accuracy                          0.791      4280
+   macro avg      0.791     0.791     0.791      4280
+weighted avg      0.791     0.791     0.791      4280
+
+Accuracy:    0.791
+Macro-F1:    0.791
+Recall:      0.803
+Specificity: 0.779
+AUROC:       0.861
+
+ SCAN LEVEL STATS
+Scan Accuracy: 0.827
+Scan Macro-F1: 0.827
+Scan AUROC:    0.921
+
+ COMPUTATION STATS
+Parameters:  7,124,226
+Peak VRAM:   194.3 MB (batch of 64)
+Median Inference Time:     1.41ms per image
+Done
+
+------------------------------------------------------------------
+Epochs:
+------------------------------------------------------------------
+
+Using cuda
+Epoch 1: train loss: 0.682 acc: 0.558 | val loss: 0.679 val acc: 0.546
+New highest val accuracy
+Epoch 2: train loss: 0.655 acc: 0.607 | val loss: 0.572 val acc: 0.719
+New highest val accuracy
+Epoch 3: train loss: 0.618 acc: 0.663 | val loss: 0.509 val acc: 0.753
+New highest val accuracy
+Epoch 4: train loss: 0.591 acc: 0.690 | val loss: 0.491 val acc: 0.767
+New highest val accuracy
+Epoch 5: train loss: 0.577 acc: 0.700 | val loss: 0.496 val acc: 0.756
+Epoch 6: train loss: 0.543 acc: 0.728 | val loss: 0.524 val acc: 0.752
+Epoch 7: train loss: 0.533 acc: 0.734 | val loss: 0.499 val acc: 0.750
+Epoch 8: train loss: 0.516 acc: 0.747 | val loss: 0.488 val acc: 0.764
+Epoch 9: train loss: 0.488 acc: 0.765 | val loss: 0.539 val acc: 0.737
+Epoch 10: train loss: 0.465 acc: 0.780 | val loss: 0.550 val acc: 0.739
+Epoch 11: train loss: 0.459 acc: 0.781 | val loss: 0.485 val acc: 0.773
+New highest val accuracy
+Epoch 12: train loss: 0.442 acc: 0.792 | val loss: 0.499 val acc: 0.767
+Epoch 13: train loss: 0.419 acc: 0.810 | val loss: 0.523 val acc: 0.751
+Epoch 14: train loss: 0.410 acc: 0.815 | val loss: 0.522 val acc: 0.759
+Epoch 15: train loss: 0.393 acc: 0.823 | val loss: 0.525 val acc: 0.750
+Epoch 16: train loss: 0.374 acc: 0.834 | val loss: 0.521 val acc: 0.758
+Epoch 17: train loss: 0.362 acc: 0.840 | val loss: 0.529 val acc: 0.763
+Epoch 18: train loss: 0.349 acc: 0.847 | val loss: 0.524 val acc: 0.775
+New highest val accuracy
+Epoch 19: train loss: 0.333 acc: 0.855 | val loss: 0.597 val acc: 0.739
+Epoch 20: train loss: 0.330 acc: 0.856 | val loss: 0.542 val acc: 0.769
+Epoch 21: train loss: 0.308 acc: 0.869 | val loss: 0.613 val acc: 0.753
+Epoch 22: train loss: 0.298 acc: 0.872 | val loss: 0.607 val acc: 0.747
+Epoch 23: train loss: 0.288 acc: 0.876 | val loss: 0.551 val acc: 0.773
+Epoch 24: train loss: 0.275 acc: 0.885 | val loss: 0.571 val acc: 0.774
+Epoch 25: train loss: 0.264 acc: 0.889 | val loss: 0.682 val acc: 0.742
+Epoch 26: train loss: 0.251 acc: 0.895 | val loss: 0.656 val acc: 0.751
+Epoch 27: train loss: 0.241 acc: 0.898 | val loss: 0.635 val acc: 0.764
+Epoch 28: train loss: 0.233 acc: 0.903 | val loss: 0.601 val acc: 0.792
+New highest val accuracy
+Epoch 29: train loss: 0.227 acc: 0.907 | val loss: 0.777 val acc: 0.756
+Epoch 30: train loss: 0.211 acc: 0.913 | val loss: 0.679 val acc: 0.775
+Epoch 31: train loss: 0.210 acc: 0.915 | val loss: 0.618 val acc: 0.776
+Epoch 32: train loss: 0.197 acc: 0.918 | val loss: 0.637 val acc: 0.782
+Epoch 33: train loss: 0.190 acc: 0.923 | val loss: 0.754 val acc: 0.772
+Epoch 34: train loss: 0.185 acc: 0.926 | val loss: 0.747 val acc: 0.750
+Epoch 35: train loss: 0.180 acc: 0.927 | val loss: 0.759 val acc: 0.750
+Epoch 36: train loss: 0.166 acc: 0.931 | val loss: 0.737 val acc: 0.765
+Epoch 37: train loss: 0.160 acc: 0.936 | val loss: 0.749 val acc: 0.780
+Epoch 38: train loss: 0.158 acc: 0.936 | val loss: 0.831 val acc: 0.757
+Epoch 39: train loss: 0.148 acc: 0.942 | val loss: 0.728 val acc: 0.786
+Epoch 40: train loss: 0.144 acc: 0.942 | val loss: 0.819 val acc: 0.756
+Epoch 41: train loss: 0.134 acc: 0.948 | val loss: 0.820 val acc: 0.773
+Epoch 42: train loss: 0.130 acc: 0.949 | val loss: 0.776 val acc: 0.779
+Epoch 43: train loss: 0.129 acc: 0.950 | val loss: 0.867 val acc: 0.758
+Epoch 44: train loss: 0.127 acc: 0.951 | val loss: 0.775 val acc: 0.765
+Epoch 45: train loss: 0.119 acc: 0.954 | val loss: 0.840 val acc: 0.756
+Epoch 46: train loss: 0.119 acc: 0.954 | val loss: 0.886 val acc: 0.765
+Epoch 47: train loss: 0.108 acc: 0.958 | val loss: 0.850 val acc: 0.787
+Epoch 48: train loss: 0.103 acc: 0.961 | val loss: 0.880 val acc: 0.769
+Epoch 49: train loss: 0.103 acc: 0.960 | val loss: 0.861 val acc: 0.786
+Epoch 50: train loss: 0.096 acc: 0.964 | val loss: 1.031 val acc: 0.763
+Epoch 51: train loss: 0.094 acc: 0.965 | val loss: 0.969 val acc: 0.777
+Epoch 52: train loss: 0.090 acc: 0.966 | val loss: 0.998 val acc: 0.768
+Epoch 53: train loss: 0.090 acc: 0.967 | val loss: 0.986 val acc: 0.755
+Epoch 54: train loss: 0.085 acc: 0.968 | val loss: 1.002 val acc: 0.769
+Epoch 55: train loss: 0.082 acc: 0.970 | val loss: 1.024 val acc: 0.773
+Epoch 56: train loss: 0.078 acc: 0.971 | val loss: 1.054 val acc: 0.773
+Epoch 57: train loss: 0.075 acc: 0.972 | val loss: 1.091 val acc: 0.776
+Epoch 58: train loss: 0.077 acc: 0.971 | val loss: 1.027 val acc: 0.769
+Epoch 59: train loss: 0.069 acc: 0.974 | val loss: 1.122 val acc: 0.775
+Epoch 60: train loss: 0.070 acc: 0.974 | val loss: 1.082 val acc: 0.771
+Epoch 61: train loss: 0.067 acc: 0.976 | val loss: 1.117 val acc: 0.769
+Epoch 62: train loss: 0.067 acc: 0.975 | val loss: 1.152 val acc: 0.768
+Epoch 63: train loss: 0.064 acc: 0.977 | val loss: 1.191 val acc: 0.773
+Epoch 64: train loss: 0.063 acc: 0.977 | val loss: 1.112 val acc: 0.773
+Epoch 65: train loss: 0.065 acc: 0.976 | val loss: 1.289 val acc: 0.764
+Epoch 66: train loss: 0.059 acc: 0.979 | val loss: 1.230 val acc: 0.763
+Epoch 67: train loss: 0.054 acc: 0.981 | val loss: 1.332 val acc: 0.755
+Epoch 68: train loss: 0.053 acc: 0.981 | val loss: 1.477 val acc: 0.766
+Epoch 69: train loss: 0.052 acc: 0.981 | val loss: 1.432 val acc: 0.764
+Epoch 70: train loss: 0.049 acc: 0.983 | val loss: 1.403 val acc: 0.776
+Epoch 71: train loss: 0.052 acc: 0.981 | val loss: 1.310 val acc: 0.773
+Epoch 72: train loss: 0.049 acc: 0.983 | val loss: 1.406 val acc: 0.773
+Epoch 73: train loss: 0.044 acc: 0.985 | val loss: 1.585 val acc: 0.772
+Epoch 74: train loss: 0.043 acc: 0.984 | val loss: 1.518 val acc: 0.771
+Epoch 75: train loss: 0.043 acc: 0.985 | val loss: 1.528 val acc: 0.780
+Epoch 76: train loss: 0.044 acc: 0.986 | val loss: 1.487 val acc: 0.774
+Epoch 77: train loss: 0.044 acc: 0.985 | val loss: 1.503 val acc: 0.774
+Epoch 78: train loss: 0.039 acc: 0.987 | val loss: 1.569 val acc: 0.782
+Epoch 79: train loss: 0.042 acc: 0.986 | val loss: 1.750 val acc: 0.762
+Epoch 80: train loss: 0.040 acc: 0.986 | val loss: 1.630 val acc: 0.767
+Epoch 81: train loss: 0.038 acc: 0.987 | val loss: 1.573 val acc: 0.773
+Epoch 82: train loss: 0.037 acc: 0.988 | val loss: 1.678 val acc: 0.776
+Epoch 83: train loss: 0.035 acc: 0.988 | val loss: 1.798 val acc: 0.778
+Epoch 84: train loss: 0.036 acc: 0.989 | val loss: 1.687 val acc: 0.770
+Epoch 85: train loss: 0.033 acc: 0.989 | val loss: 1.943 val acc: 0.778
+Epoch 86: train loss: 0.032 acc: 0.989 | val loss: 1.912 val acc: 0.774
+Epoch 87: train loss: 0.027 acc: 0.991 | val loss: 1.934 val acc: 0.773
+Epoch 88: train loss: 0.029 acc: 0.990 | val loss: 1.974 val acc: 0.766
+Epoch 89: train loss: 0.031 acc: 0.991 | val loss: 2.176 val acc: 0.756
+Epoch 90: train loss: 0.030 acc: 0.990 | val loss: 1.970 val acc: 0.777
+Epoch 91: train loss: 0.031 acc: 0.990 | val loss: 1.903 val acc: 0.779
+Epoch 92: train loss: 0.028 acc: 0.991 | val loss: 1.925 val acc: 0.783
+Epoch 93: train loss: 0.032 acc: 0.990 | val loss: 2.015 val acc: 0.773
+Epoch 94: train loss: 0.025 acc: 0.992 | val loss: 2.111 val acc: 0.785
+Epoch 95: train loss: 0.030 acc: 0.991 | val loss: 2.038 val acc: 0.777
+Epoch 96: train loss: 0.030 acc: 0.991 | val loss: 2.115 val acc: 0.781
+Epoch 97: train loss: 0.029 acc: 0.992 | val loss: 2.358 val acc: 0.765
+Epoch 98: train loss: 0.024 acc: 0.992 | val loss: 2.312 val acc: 0.780
+Epoch 99: train loss: 0.032 acc: 0.991 | val loss: 2.082 val acc: 0.779
+Epoch 100: train loss: 0.027 acc: 0.992 | val loss: 2.265 val acc: 0.775

@@ -1,0 +1,22 @@
+== 1. Direct counts per class ==
+AD: images=14860 scans=743 patients=221
+NC: images=15660 scans=783 patients=459
+total patients: 680 total scans: 1526 total images: 30520
+
+== 2. Metadata label vs folder ==
+folder=AD metadata_label=2: 743 scans
+folder=NC metadata_label=0: 783 scans
+
+== 3. Example raw paths (patient ID should be the NNN_S_NNNN part) ==
+AD 1003730 -> ADNI_T1_3T/ADNI_135_S_6389_MR_Accelerated_Sag_IR-FSPGR___br_raw_20180529163541369_55_S690538_I1003730.nii
+AD 1004740 -> ADNI_T1_3T/ADNI_037_S_6230_MR_Accelerated_Sagittal_MPRAGE__br_raw_20180601145216071_33_S691350_I1004740.nii
+NC 1000359 -> ADNI_T1_3T/ADNI_135_S_6360_MR_Accelerated_Sag_IR-FSPGR___br_raw_20180521153209239_112_S687810_I1000359.nii
+NC 1000691 -> ADNI_T1_3T/ADNI_016_S_6381_MR_Accelerated_Sagittal_MPRAGE__br_raw_20180522132015417_85_S688087_I1000691.nii
+number of NNN_S_NNNN matches per raw path: {1: 1526}
+
+== 4. Consecutive slices ==
+scans with non-consecutive slices: 0 []
+
+== 5. Exact duplicate images (hashing all files, takes a minute) ==
+duplicate pairs: 0
+duplicates across AD/NC: 0
