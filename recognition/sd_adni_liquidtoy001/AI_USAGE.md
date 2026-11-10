@@ -310,3 +310,13 @@ as completed. The student must verify, understand and revise this draft before u
 "I reviewed and examined all AI-generated work, assessed each proposal, personally carried out
 the verification and blinded classification, and cross-checked the instructions in the README
 file against the recorded accounts."
+
+## 2026-11-10 — Response to the PR review (Claude Code)
+
+- The initial review of PR #44 asked for the AI disclosure to say, in the student's own words,
+  which parts the student checked personally, and noted that a single blinded-sort rater who had
+  seen many samples probably understates how often samples pass as real.
+- The student wrote their account in Chinese; I put it into English in README Section 13 ("What I
+  checked myself", "Problems I found"), adding only items already in this record (the reference
+  slices before the blinded sort), and the student checked the wording. No second rater was available; README Sections 7.3 and 12 now state the direction of
+  the bias as a limitation.

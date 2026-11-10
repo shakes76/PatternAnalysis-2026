@@ -331,7 +331,9 @@ and 32 E2 samples, the student (no medical training; shown 16 real training
 slices first) was right on 42 of 64, 66% (95% CI 53-77%; chance 50%, p = 0.017).
 12 of the 32 samples were taken for real, and 10 of the 32 real slices for
 synthetic ([result](docs/test-blind-sort-2026-10-24.json)). The samples pass
-as real often, but not as often as real slices do.
+as real often, but not as often as real slices do. The rater had also seen
+many samples during development, so a viewer new to them would probably take
+samples for real more often than this; no second, naive rater was available.
 
 **Does the requested class show?** (post-hoc, not pre-registered.) A linear
 probe fitted on validation slices separates real AD from NC test slices with
@@ -503,8 +505,11 @@ the README figures are redrawn by `tools/figure_report.py` from data in `docs/`.
 
 ## 12. Limitations
 
-- No radiologist review. The blinded sort had one non-expert rater, who had
-  seen real and synthetic examples beforehand; 64 items give a wide interval.
+- No radiologist review. The blinded sort had one non-expert rater, the
+  student, who had seen many samples during development and 16 real slices just
+  before; the result probably understates how often samples pass as real, and
+  64 items give a wide interval. A second rater who has never seen the samples
+  would strengthen the plausibility verdict.
 - Downstream utility is not measured.
 - 2D slices, one dataset; two seeds for E2 and E3, one per baseline.
 - KID and FID use ImageNet features, a convention rather than a validated MRI
@@ -530,15 +535,40 @@ student* chose the project, approved every protocol and GPU run before it
 started, decided reruns and deletions, presented the check-off, and relayed the
 tutor's feedback that reshaped the evaluation.
 
-**Verification.** Hypotheses and pass criteria were committed before every
-experiment, with deviations recorded as dated errata. CPU unit tests check the
-sampler against diffusers' pipeline, DDIM inversion, the metrics against closed
-forms and the data contract; key tests fail on deliberately broken code. Every
-file copied to Rangpur, weight file and generated image was hash-checked, and
-every Slurm job dry-run first. The evaluation code had to reproduce all earlier
-validation SSIM values to six decimals before the test split was read. Every
-grid and closest-pair panel was inspected before its numbers were interpreted.
-Mistakes found and fixed are listed in AI_USAGE.md.
+**Checks the AI tools ran.** Pass criteria committed before every experiment;
+CPU unit tests (the sampler against diffusers' pipeline, DDIM inversion, the
+metrics against closed forms, the data contract), several of which fail on
+deliberately broken code; hash checks of every file copied to Rangpur and every
+downloaded image; a dry run of every Slurm job; and a rehearsal that had to
+reproduce all validation SSIM values to six decimals before the test split was
+read. I read their results but did not write these checks. The mistakes the
+tools made and fixed are listed in AI_USAGE.md.
+
+**What I checked myself.**
+
+- *Images.* I looked at every uncurated sample grid, closest-pair panel and
+  failure-autopsy figure, and checked the numbers quoted with each against the
+  dated [ledger](docs/experiments.md).
+- *Experiments.* I read every protocol before approving its GPU run, and
+  compared the settings of all arms (data, recipe, trainable weights, seed)
+  with how their results differed.
+- *Data split.* I checked the finding that the course train and test folders
+  share 216 subjects, and discussed the subject-level re-split with the tutor
+  at check-off.
+- *Decisions.* I approved every protocol, GPU run, deletion and README change,
+  and did the blinded sort alone.
+
+**Problems I found.**
+
+1. The first drafts showed results mostly as tables, too few figures to see how
+   the models differ. I had the report figures drawn and replaced an AI-drawn
+   diagram with the architecture figure of Rombach et al.
+2. At check-off SD was compared with one simple baseline, the conditional VAE,
+   too few arms to tell what fine-tuning adds. Together with the tutor's
+   feedback, I had the GAN and from-scratch diffusion baselines and the seed
+   replicates added (Section 2).
+3. Having no medical training, I asked to see real slices before the blinded
+   sort; this is recorded in the ledger as a deviation (Section 12).
 
 *Student verification:* "I reviewed and examined all AI-generated work,
 assessed each proposal, personally carried out the verification and blinded
