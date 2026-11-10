@@ -1,0 +1,61 @@
+{
+  "gate": false,
+  "checkpoint": "epoch-5.pt",
+  "checkpoint_sha256": "f42b7a3abaa5218a7fdd80847f7c8a5a55853899a42112f053cb4272ada9e31f",
+  "parameters": 1268961,
+  "peak_allocated_bytes": 160791552,
+  "seconds": 165.5769235449843,
+  "traces": [
+    {
+      "epoch": 1,
+      "samples": 21280,
+      "loss": 224.8107790036309,
+      "reconstruction_sse": 206.06971428663212,
+      "kl": 18.741064736768042
+    },
+    {
+      "epoch": 2,
+      "samples": 21280,
+      "loss": 109.00656454903739,
+      "reconstruction_sse": 95.10394649649025,
+      "kl": 13.902618088399556
+    },
+    {
+      "epoch": 3,
+      "samples": 21280,
+      "loss": 97.0965394443139,
+      "reconstruction_sse": 82.38937696872797,
+      "kl": 14.707162505701968
+    },
+    {
+      "epoch": 4,
+      "samples": 21280,
+      "loss": 92.68049112190877,
+      "reconstruction_sse": 77.39996949389464,
+      "kl": 15.280521612239063
+    },
+    {
+      "epoch": 5,
+      "samples": 21280,
+      "loss": 89.90211318166632,
+      "reconstruction_sse": 74.14971836635044,
+      "kl": 15.752394931477712
+    }
+  ],
+  "contract": {
+    "model": "small-conditional-vae128-latent64",
+    "manifest": "bc77d11ade201eaa0acbbcd1986be565557c161bc676bc45b230dae52e557396",
+    "code": "870b9c3cd9a4e94cd141457ded6f39654a2c42347a8bba7215c971bebf864616",
+    "dataset_code": "c6f12fc2075a52c4a9b2fa62d0406761e8590947ef803c9ac69a91c1dd1d595f",
+    "batch": 32,
+    "lr": 0.001,
+    "seed": 3710,
+    "epochs": 5,
+    "loss": "sum squared pixels + sum KL per sample; batch mean",
+    "gate": false
+  },
+  "gate_save_reload_equal": false,
+  "job_id": 632570,
+  "elapsed": "00:03:02",
+  "all64_image_hashes_verified": true
+}

@@ -1,0 +1,242 @@
+{
+  "checkpoint_sha256": "39f4ed220e0fa09f86a8b1a68898cce9f7abe974844cd19f1c5c4ab58d43551c",
+  "code_sha256": "29190a56f76f487c5b204433e8ebcb6373661ccf6ccd260fc28a9b9af762efe5",
+  "prompts": {
+    "AD": "a brain MRI slice, Alzheimer disease",
+    "NC": "a brain MRI slice, normal control",
+    "empty": ""
+  },
+  "parity": [
+    {
+      "label": "AD",
+      "seed": 37100,
+      "max_pixel_difference": 105,
+      "mean_pixel_difference": 2.2924397786458335,
+      "exact_pixels": false,
+      "historical_png_sha256": "3933215938f7529dfe58270ac2049e77c8bdc6be2f9661e0b879e9c458cc06b8"
+    },
+    {
+      "label": "AD",
+      "seed": 37101,
+      "max_pixel_difference": 71,
+      "mean_pixel_difference": 0.931732177734375,
+      "exact_pixels": false,
+      "historical_png_sha256": "1e73e2f0d86bed6b4f093a8006c96918b3191c52165826a32d8ba2f5e0430740"
+    },
+    {
+      "label": "NC",
+      "seed": 37100,
+      "max_pixel_difference": 52,
+      "mean_pixel_difference": 1.207733154296875,
+      "exact_pixels": false,
+      "historical_png_sha256": "d96dde4d77719dd77e7b30d4a7610a48a7e431dc05074f9d2ce8eeec7bb5c5a8"
+    },
+    {
+      "label": "NC",
+      "seed": 37101,
+      "max_pixel_difference": 46,
+      "mean_pixel_difference": 0.9711405436197916,
+      "exact_pixels": false,
+      "historical_png_sha256": "f1d9059dd205de3d82867166467dafc53eea726aa7f3ba0e0a1a086563fad4f3"
+    }
+  ],
+  "records": [
+    {
+      "file": "official-256-cfg1.0-AD-37100.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "AD",
+      "seed": 37100,
+      "initial_noise_sha256": "831be04ec2ce5fadc6ca53c6c2a24610303beef04d28b273ee59ee1f239ad792",
+      "png_sha256": "f935563d07b42b3f596e8b7480d0cc7d6cc898ce5d7f7384038ab8c92764f0e5",
+      "peak_allocated_bytes": 4533325824
+    },
+    {
+      "file": "official-256-cfg1.0-AD-37101.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "AD",
+      "seed": 37101,
+      "initial_noise_sha256": "0095440e295602d74b7309db2b3b970342e287a5941cbc15efe1873621839391",
+      "png_sha256": "2991073687844664baf2b3361c34d35ccb6561992827dffd39678c7a2b406855",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg1.0-NC-37100.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "NC",
+      "seed": 37100,
+      "initial_noise_sha256": "831be04ec2ce5fadc6ca53c6c2a24610303beef04d28b273ee59ee1f239ad792",
+      "png_sha256": "dcfdb8d5615f3445c155e3e3d38df911fe93aee4b4edd51b65ee993ba8e1e456",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg1.0-NC-37101.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "NC",
+      "seed": 37101,
+      "initial_noise_sha256": "0095440e295602d74b7309db2b3b970342e287a5941cbc15efe1873621839391",
+      "png_sha256": "2ba0d7e4085308ab24fd8fd6ad095c913ec4d794953670eeac584fba6fcfcb02",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg7.5-AD-37100.png",
+      "size": 256,
+      "guidance": 7.5,
+      "label": "AD",
+      "seed": 37100,
+      "initial_noise_sha256": "831be04ec2ce5fadc6ca53c6c2a24610303beef04d28b273ee59ee1f239ad792",
+      "png_sha256": "e79ebc6d76bdae5bb0908f6be4b9b242d7eeb553b58fda0bab0791794cfbad31",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg7.5-AD-37101.png",
+      "size": 256,
+      "guidance": 7.5,
+      "label": "AD",
+      "seed": 37101,
+      "initial_noise_sha256": "0095440e295602d74b7309db2b3b970342e287a5941cbc15efe1873621839391",
+      "png_sha256": "1f15c71c9999bdf11677ca6dae55a120767ab0ce5468ffc6d0da525fe999d1b9",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg7.5-NC-37100.png",
+      "size": 256,
+      "guidance": 7.5,
+      "label": "NC",
+      "seed": 37100,
+      "initial_noise_sha256": "831be04ec2ce5fadc6ca53c6c2a24610303beef04d28b273ee59ee1f239ad792",
+      "png_sha256": "776edd74e4f05447f7d4e515eb8e56700cfcc34e8e4c6b287da0ae7ae1296c21",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg7.5-NC-37101.png",
+      "size": 256,
+      "guidance": 7.5,
+      "label": "NC",
+      "seed": 37101,
+      "initial_noise_sha256": "0095440e295602d74b7309db2b3b970342e287a5941cbc15efe1873621839391",
+      "png_sha256": "03e04e43baf809bd76a146bb7edefe3fed5af904fdb5262020e24bc74bfacb95",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-512-cfg1.0-AD-37100.png",
+      "size": 512,
+      "guidance": 1.0,
+      "label": "AD",
+      "seed": 37100,
+      "initial_noise_sha256": "090739201bf55faef8741fe7608942ba1207f0bd814c78788c9fecf6dae3d344",
+      "png_sha256": "b6b534cb859e742d5b9ea6f6752561b5196335f9dfd2236001325f86dfafc541",
+      "peak_allocated_bytes": 5593628160
+    },
+    {
+      "file": "official-512-cfg1.0-AD-37101.png",
+      "size": 512,
+      "guidance": 1.0,
+      "label": "AD",
+      "seed": 37101,
+      "initial_noise_sha256": "a9f3795d144d6425ee117ada2be625a0d1038c2c6ed8c3abff176d27997b7139",
+      "png_sha256": "1b3b267c6f85ca36002c5651d5bbd4aa300ea4455abd55e615113bc081ae4e0e",
+      "peak_allocated_bytes": 5596036608
+    },
+    {
+      "file": "official-512-cfg1.0-NC-37100.png",
+      "size": 512,
+      "guidance": 1.0,
+      "label": "NC",
+      "seed": 37100,
+      "initial_noise_sha256": "090739201bf55faef8741fe7608942ba1207f0bd814c78788c9fecf6dae3d344",
+      "png_sha256": "ac680ea4650c0769805add541f8a418cede6b5bd91a29b7a89244d3f8f1d3c78",
+      "peak_allocated_bytes": 5596560896
+    },
+    {
+      "file": "official-512-cfg1.0-NC-37101.png",
+      "size": 512,
+      "guidance": 1.0,
+      "label": "NC",
+      "seed": 37101,
+      "initial_noise_sha256": "a9f3795d144d6425ee117ada2be625a0d1038c2c6ed8c3abff176d27997b7139",
+      "png_sha256": "2d221b6f870600a9ebd19734b2b86d556dd4c88ff6d732c29207e1dc98599f63",
+      "peak_allocated_bytes": 5596036608
+    },
+    {
+      "file": "official-512-cfg7.5-AD-37100.png",
+      "size": 512,
+      "guidance": 7.5,
+      "label": "AD",
+      "seed": 37100,
+      "initial_noise_sha256": "090739201bf55faef8741fe7608942ba1207f0bd814c78788c9fecf6dae3d344",
+      "png_sha256": "86e4ff08ce9f907191ba647009d744c0f55380f1f411e943c722dde2dba346e4",
+      "peak_allocated_bytes": 6857131008
+    },
+    {
+      "file": "official-512-cfg7.5-AD-37101.png",
+      "size": 512,
+      "guidance": 7.5,
+      "label": "AD",
+      "seed": 37101,
+      "initial_noise_sha256": "a9f3795d144d6425ee117ada2be625a0d1038c2c6ed8c3abff176d27997b7139",
+      "png_sha256": "88cc7171a6f32852cf9ae83fc53c6ef50f60a8bd104317859268fe56db68d30a",
+      "peak_allocated_bytes": 6857131008
+    },
+    {
+      "file": "official-512-cfg7.5-NC-37100.png",
+      "size": 512,
+      "guidance": 7.5,
+      "label": "NC",
+      "seed": 37100,
+      "initial_noise_sha256": "090739201bf55faef8741fe7608942ba1207f0bd814c78788c9fecf6dae3d344",
+      "png_sha256": "2543d3ae56cc36ecb42958853918c8f5e4b5984e703c0e9ec81e03e5900e1361",
+      "peak_allocated_bytes": 6857131008
+    },
+    {
+      "file": "official-512-cfg7.5-NC-37101.png",
+      "size": 512,
+      "guidance": 7.5,
+      "label": "NC",
+      "seed": 37101,
+      "initial_noise_sha256": "a9f3795d144d6425ee117ada2be625a0d1038c2c6ed8c3abff176d27997b7139",
+      "png_sha256": "341343c18b4195f49e53747906f8ebdd46e1d4f5c835d3a57bd889fd211d7865",
+      "peak_allocated_bytes": 6857131008
+    }
+  ],
+  "scheduler_config": {
+    "num_train_timesteps": 1000,
+    "beta_start": 0.00085,
+    "beta_end": 0.012,
+    "beta_schedule": "scaled_linear",
+    "trained_betas": null,
+    "clip_sample": false,
+    "set_alpha_to_one": false,
+    "steps_offset": 1,
+    "prediction_type": "epsilon",
+    "thresholding": false,
+    "dynamic_thresholding_ratio": 0.995,
+    "clip_sample_range": 1.0,
+    "sample_max_value": 1.0,
+    "timestep_spacing": "leading",
+    "rescale_betas_zero_snr": false,
+    "_use_default_values": [
+      "rescale_betas_zero_snr",
+      "dynamic_thresholding_ratio",
+      "thresholding",
+      "timestep_spacing",
+      "sample_max_value",
+      "clip_sample_range",
+      "prediction_type"
+    ],
+    "_class_name": "DDIMScheduler",
+    "_diffusers_version": "0.6.0",
+    "skip_prk_steps": true
+  },
+  "inference_steps": 30,
+  "eta": 0.0,
+  "seconds": 50.153758992441,
+  "torch": "2.13.0+cu130",
+  "scope": "4 historical pairs; 16 fixed factorial samples; pixel comparison is not latent-level proof",
+  "job_id": 632530,
+  "elapsed": "00:01:57",
+  "artifact_hashes_verified": true
+}

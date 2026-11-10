@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "steps": 8,
+  "max_adapter_difference": 0.0,
+  "atol": 1e-06,
+  "rtol": 1e-05,
+  "checks": [
+    "adapters",
+    "optimizer",
+    "scheduler",
+    "RNG",
+    "input_noise_loss_traces",
+    "mismatched_contract_rejected",
+    "changed_adapter_rejected"
+  ]
+}

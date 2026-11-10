@@ -1,0 +1,27 @@
+{
+  "model": "e2",
+  "rule": "5 lowest nearest SSIM plus every near-empty sample",
+  "near_empty": 0,
+  "samples": [
+    {
+      "file": "NC-37263-cfg7.5.png",
+      "nearest_ssim": 0.5355478661140367
+    },
+    {
+      "file": "NC-37407-cfg7.5.png",
+      "nearest_ssim": 0.562698799295313
+    },
+    {
+      "file": "NC-37489-cfg7.5.png",
+      "nearest_ssim": 0.5772756032269516
+    },
+    {
+      "file": "NC-37595-cfg7.5.png",
+      "nearest_ssim": 0.5858684516734277
+    },
+    {
+      "file": "NC-37341-cfg7.5.png",
+      "nearest_ssim": 0.5872022214835636
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-24",
+  "protocol": "docs/final-evaluation-protocol.md (blinded sort); deviation in docs/experiments.md 2026-10-24",
+  "rater": "the student, one non-expert; shown 16 real training slices beforehand and had read the README",
+  "items": 64,
+  "answered": 64,
+  "correct": 42,
+  "accuracy": 0.6562,
+  "accuracy_ci95_clopper_pearson": [
+    0.527,
+    0.7705
+  ],
+  "binomial_p_two_sided": 0.0169,
+  "synthetic_called_real": {
+    "k": 12,
+    "n": 32,
+    "ci95": [
+      0.211,
+      0.5631
+    ]
+  },
+  "real_called_synthetic": {
+    "k": 10,
+    "n": 32,
+    "ci95": [
+      0.1612,
+      0.5001
+    ]
+  },
+  "by_truth_and_class": {
+    "real-AD": {
+      "n": 16,
+      "correct": 10
+    },
+    "real-NC": {
+      "n": 16,
+      "correct": 12
+    },
+    "synthetic-AD": {
+      "n": 16,
+      "correct": 10
+    },
+    "synthetic-NC": {
+      "n": 16,
+      "correct": 10
+    }
+  },
+  "scope": "aggregate counts only; the page, key and answers stay private (real slices)"
+}

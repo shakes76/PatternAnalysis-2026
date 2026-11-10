@@ -1,0 +1,33 @@
+{
+  "batches": {
+    "train": {
+      "batch_shape": [
+        2,
+        3,
+        256,
+        256
+      ],
+      "sample_checks": 3
+    },
+    "validation": {
+      "batch_shape": [
+        2,
+        3,
+        256,
+        256
+      ],
+      "sample_checks": 3
+    }
+  },
+  "coverage_images": 30520,
+  "deterministic_patient_assignment": true,
+  "job_id": "623310",
+  "manifest_sha256": "bc77d11ade201eaa0acbbcd1986be565557c161bc676bc45b230dae52e557396",
+  "negative_controls_rejected": [
+    "patient_overlap",
+    "path_escape",
+    "label_mismatch",
+    "duplicate_row"
+  ],
+  "test_model_outputs_or_quality_metrics_computed": false
+}

@@ -1,0 +1,125 @@
+{
+  "reports": [
+    {
+      "cohort": "../runs/e1-20261012/outputs/e1-cohort-656354",
+      "samples": 64,
+      "metric": "grayscale64 pixel RMSE, not a semantic feature metric",
+      "matched_patients_per_class": {
+        "AD": 33,
+        "NC": 69
+      },
+      "neighbors": {
+        "train_full": {
+          "reference_count": 21280,
+          "mean": 0.06546429544687271,
+          "median": 0.06797108799219131,
+          "min": 0.0015848692273721099,
+          "max": 0.1736922264099121
+        },
+        "train_patient_matched": {
+          "reference_count": 102,
+          "mean": 0.09803107380867004,
+          "median": 0.09230097383260727,
+          "min": 0.061020877212285995,
+          "max": 0.20777539908885956
+        },
+        "validation_full": {
+          "reference_count": 4540,
+          "mean": 0.07832510769367218,
+          "median": 0.07624150067567825,
+          "min": 0.0516207329928875,
+          "max": 0.18690483272075653
+        },
+        "validation_patient_matched": {
+          "reference_count": 102,
+          "mean": 0.09468929469585419,
+          "median": 0.09008600562810898,
+          "min": 0.06457307189702988,
+          "max": 0.20408351719379425
+        }
+      },
+      "pairwise_generated_rmse": {
+        "mean": 0.14726699888706207,
+        "median": 0.14207424223423004,
+        "min": 0.002962798345834017,
+        "max": 0.29558733105659485
+      },
+      "AD_pairwise_rmse": {
+        "mean": 0.13472852110862732,
+        "median": 0.1311858892440796,
+        "min": 0.05639362707734108,
+        "max": 0.23861688375473022
+      },
+      "NC_pairwise_rmse": {
+        "mean": 0.15535172820091248,
+        "median": 0.14483009278774261,
+        "min": 0.002962798345834017,
+        "max": 0.29558733105659485
+      }
+    },
+    {
+      "cohort": "../runs/e1-20261012/outputs/e1-cohort-656355",
+      "samples": 64,
+      "metric": "grayscale64 pixel RMSE, not a semantic feature metric",
+      "matched_patients_per_class": {
+        "AD": 33,
+        "NC": 69
+      },
+      "neighbors": {
+        "train_full": {
+          "reference_count": 21280,
+          "mean": 0.0699700266122818,
+          "median": 0.06784109771251678,
+          "min": 0.028140895068645477,
+          "max": 0.21578601002693176
+        },
+        "train_patient_matched": {
+          "reference_count": 102,
+          "mean": 0.09501206129789352,
+          "median": 0.09084142744541168,
+          "min": 0.06237492710351944,
+          "max": 0.2218741923570633
+        },
+        "validation_full": {
+          "reference_count": 4540,
+          "mean": 0.07754361629486084,
+          "median": 0.07326410710811615,
+          "min": 0.04612431675195694,
+          "max": 0.21837593615055084
+        },
+        "validation_patient_matched": {
+          "reference_count": 102,
+          "mean": 0.09309446811676025,
+          "median": 0.08830443769693375,
+          "min": 0.06647493690252304,
+          "max": 0.2250375896692276
+        }
+      },
+      "pairwise_generated_rmse": {
+        "mean": 0.14396485686302185,
+        "median": 0.13927491009235382,
+        "min": 0.03886181861162186,
+        "max": 0.29285576939582825
+      },
+      "AD_pairwise_rmse": {
+        "mean": 0.12666286528110504,
+        "median": 0.12554891407489777,
+        "min": 0.0589166097342968,
+        "max": 0.2234957218170166
+      },
+      "NC_pairwise_rmse": {
+        "mean": 0.1594904363155365,
+        "median": 0.15283231437206268,
+        "min": 0.03886181861162186,
+        "max": 0.29285576939582825
+      }
+    }
+  ],
+  "exact_copy_control_passed": true,
+  "limits": [
+    "Unequal full reference sizes bias nearest distances",
+    "Black background and alignment affect pixel RMSE",
+    "No privacy or anatomical validity guarantee",
+    "Validation only; test sealed"
+  ]
+}

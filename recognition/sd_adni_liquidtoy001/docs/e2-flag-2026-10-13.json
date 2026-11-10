@@ -1,0 +1,32 @@
+{
+  "near_empty_below": 0.05,
+  "splits": {
+    "train": {
+      "slices": 21280,
+      "near_empty_slices": 30,
+      "flagged_scans": 2,
+      "flagged_scans_by_class": {
+        "AD": 0,
+        "NC": 2
+      },
+      "flagged_subjects": 2,
+      "slices_removed": 40,
+      "near_empty_slices_per_flagged_scan": [
+        11,
+        19
+      ]
+    },
+    "validation": {
+      "slices": 4540,
+      "near_empty_slices": 0,
+      "flagged_scans": 0,
+      "flagged_scans_by_class": {
+        "AD": 0,
+        "NC": 0
+      },
+      "flagged_subjects": 0,
+      "slices_removed": 0,
+      "near_empty_slices_per_flagged_scan": []
+    }
+  }
+}

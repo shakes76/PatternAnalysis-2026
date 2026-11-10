@@ -1,0 +1,50 @@
+{
+  "protocol": "docs/final-evaluation-protocol.md",
+  "mode": "test",
+  "roles": {
+    "heldout": "test",
+    "calibration": "validation",
+    "floor": "validation"
+  },
+  "test_split_read": true,
+  "frozen_commit": "2104414dcb9089088937e79b5827af5b57e4ef06",
+  "counts": {
+    "train": {
+      "AD": 10160,
+      "NC": 11120
+    },
+    "test": {
+      "AD": 2440,
+      "NC": 2260
+    },
+    "validation": {
+      "AD": 2260,
+      "NC": 2280
+    }
+  },
+  "floor_slices": 1024,
+  "reference_patients": {
+    "heldout": 102,
+    "floor": 102,
+    "train": 102
+  },
+  "heldout_to_train_pixel_rmse": {
+    "n": 4700,
+    "mean": 0.0745014101266861,
+    "median": 0.07333317399024963,
+    "min": 0.04239695891737938
+  },
+  "calibration_log_ratio": {
+    "pixel": -0.08609116077423096,
+    "vae": -0.10479876399040222
+  },
+  "exact_copy_control_passed": true,
+  "provenance_sha256": {
+    "vae": "f109b077518e789db73bbba3811670b32fc79dfefb069a9234888a3aa503d5bc",
+    "inception_weights": "0cc3c7bd75056d25e46cba549dc184522069b81e9787eff6df84f397bd52a5ef",
+    "manifest": "bc77d11ade201eaa0acbbcd1986be565557c161bc676bc45b230dae52e557396",
+    "final_common.py": "a0f4a4e3204b1830d98930429d068ef4cf23e34139af639666a39a052de6abc0",
+    "final_real_features.py": "102e39aebe2cd4da1b1149bdfd56a7a42e76eb324ba6a94a5c9ad2e39dc24759"
+  },
+  "seconds": 579.7440382570494
+}

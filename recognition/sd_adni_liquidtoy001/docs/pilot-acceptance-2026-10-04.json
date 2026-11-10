@@ -1,0 +1,18 @@
+{
+  "job": 629919,
+  "status": "engineering_checks_passed",
+  "steps": 200,
+  "training_patients": 32,
+  "generated_images": 24,
+  "paired_noise_verified": true,
+  "prefix_traces_verified": true,
+  "peak_training_allocated_bytes": 6109799424,
+  "checkpoint_bytes": 9912045,
+  "max_adapter_change": 0.015061408281326294,
+  "quality_verdict": "not_established",
+  "sampling_seconds": [
+    21.456021938938648,
+    21.744400199037045,
+    21.84278618893586
+  ]
+}

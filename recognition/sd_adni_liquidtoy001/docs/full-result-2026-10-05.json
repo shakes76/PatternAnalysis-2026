@@ -1,0 +1,21 @@
+{
+  "job_id": 629931,
+  "slurm_state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed": "01:21:39",
+  "steps": 20000,
+  "checkpoints": 10,
+  "verified_generated_images": 88,
+  "paired_noise_verified": true,
+  "stage_prefixes_verified": true,
+  "finite_traces_verified": true,
+  "training_indices_seen": 20000,
+  "peak_allocated_bytes": 6109799424,
+  "quality_accepted": false,
+  "visual_scope": "final fixed eight-image grid only",
+  "visual_findings": [
+    "fragmented or collage-like structures",
+    "background block artifacts",
+    "similar AD and NC outputs for matched seeds"
+  ]
+}

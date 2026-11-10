@@ -1,0 +1,3 @@
+-r requirements-vae.txt
+transformers==5.18.0
+peft==0.21.2

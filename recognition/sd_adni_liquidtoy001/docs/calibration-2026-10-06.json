@@ -1,0 +1,83 @@
+{
+  "metric": "grayscale64 pixel RMSE",
+  "matched_counts": {
+    "AD": 33,
+    "NC": 69
+  },
+  "self_patient_excluded": true,
+  "calibration": {
+    "train_matched_pairwise": {
+      "mean": 0.16121745109558105,
+      "median": 0.1559012234210968,
+      "min": 0.07229172438383102,
+      "max": 0.3607550263404846
+    },
+    "train_to_train_full": {
+      "mean": 0.07629746198654175,
+      "median": 0.07420069724321365,
+      "min": 0.0585327185690403,
+      "max": 0.13298389315605164
+    },
+    "train_to_train_matched": {
+      "mean": 0.09664913266897202,
+      "median": 0.09494061022996902,
+      "min": 0.07229169458150864,
+      "max": 0.1886844038963318
+    },
+    "validation_matched_pairwise": {
+      "mean": 0.15242892503738403,
+      "median": 0.1491541564464569,
+      "min": 0.06782723218202591,
+      "max": 0.29240283370018005
+    },
+    "validation_to_train_full": {
+      "mean": 0.07310068607330322,
+      "median": 0.07256441563367844,
+      "min": 0.04842006042599678,
+      "max": 0.09820161014795303
+    },
+    "validation_to_train_matched": {
+      "mean": 0.09184592217206955,
+      "median": 0.09095270186662674,
+      "min": 0.06683517247438431,
+      "max": 0.1351856142282486
+    }
+  },
+  "cases": [
+    {
+      "id": "F1-background",
+      "sample": "official-256-cfg7.5-AD-37220.png",
+      "description": "gray background",
+      "train_rmse": 0.35756808519363403,
+      "validation_rmse": 0.3590168356895447
+    },
+    {
+      "id": "F2-color",
+      "sample": "official-256-cfg7.5-NC-37217.png",
+      "description": "colored patch",
+      "train_rmse": 0.08233072608709335,
+      "validation_rmse": 0.06647813320159912
+    },
+    {
+      "id": "F3-closest",
+      "sample": "official-256-cfg7.5-NC-37215.png",
+      "description": "closest training neighbor; risk probe",
+      "train_rmse": 0.07020994275808334,
+      "validation_rmse": 0.07660697400569916
+    },
+    {
+      "id": "F4-blur",
+      "sample": "vae-AD-37200.png",
+      "description": "blurred baseline",
+      "train_rmse": 0.037764228880405426,
+      "validation_rmse": 0.038171716034412384
+    },
+    {
+      "id": "F5-repeat",
+      "sample": "official-256-cfg7.5-AD-37201.png",
+      "description": "similar gross shape across seeds; hypothesis",
+      "train_rmse": 0.07742633670568466,
+      "validation_rmse": 0.08514030277729034
+    }
+  ]
+}

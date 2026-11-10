@@ -1,0 +1,31 @@
+{
+  "gate": true,
+  "checkpoint": "epoch-1.pt",
+  "checkpoint_sha256": "7444c510d3748962f96ba72c408d53d8298d78ad80b53cbefae322b12af9919a",
+  "parameters": 1268961,
+  "peak_allocated_bytes": 160791552,
+  "seconds": 2.716161709278822,
+  "traces": [
+    {
+      "epoch": 1,
+      "samples": 64,
+      "loss": 3298.873291015625,
+      "reconstruction_sse": 3298.8681640625,
+      "kl": 0.005113080609589815
+    }
+  ],
+  "contract": {
+    "model": "small-conditional-vae128-latent64",
+    "manifest": "bc77d11ade201eaa0acbbcd1986be565557c161bc676bc45b230dae52e557396",
+    "code": "870b9c3cd9a4e94cd141457ded6f39654a2c42347a8bba7215c971bebf864616",
+    "dataset_code": "c6f12fc2075a52c4a9b2fa62d0406761e8590947ef803c9ac69a91c1dd1d595f",
+    "batch": 32,
+    "lr": 0.001,
+    "seed": 3710,
+    "epochs": 5,
+    "loss": "sum squared pixels + sum KL per sample; batch mean",
+    "gate": true
+  },
+  "records": [],
+  "gate_save_reload_equal": true
+}

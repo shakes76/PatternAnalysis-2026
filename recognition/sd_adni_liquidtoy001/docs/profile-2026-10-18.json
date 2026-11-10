@@ -1,0 +1,146 @@
+{
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "torch": "2.13.0+cu130",
+  "e2": {
+    "weights_mode": "unet",
+    "as_generated": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 1.9735498046875,
+        "seconds_per_image": 1.9735498046875,
+        "images_per_second": 0.5067011724886994,
+        "peak_allocated_gib": 3.756415843963623
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 7.91777685546875,
+        "seconds_per_image": 0.4948610534667969,
+        "images_per_second": 2.020769250266117,
+        "peak_allocated_gib": 8.656425476074219
+      }
+    ],
+    "fast": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 1.31544287109375,
+        "seconds_per_image": 1.31544287109375,
+        "images_per_second": 0.7602002504058051,
+        "peak_allocated_gib": 3.8054885864257812
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 3.748066650390625,
+        "seconds_per_image": 0.23425416564941406,
+        "images_per_second": 4.268867523562441,
+        "peak_allocated_gib": 7.324394226074219
+      }
+    ]
+  },
+  "e3": {
+    "weights_mode": "lora",
+    "as_generated": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 2.671700073242188,
+        "seconds_per_image": 2.671700073242188,
+        "images_per_second": 0.37429351071824096,
+        "peak_allocated_gib": 3.759385585784912
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 8.5938857421875,
+        "seconds_per_image": 0.5371178588867187,
+        "images_per_second": 1.8617887740182288,
+        "peak_allocated_gib": 8.659395217895508
+      }
+    ],
+    "fast": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 1.96228076171875,
+        "seconds_per_image": 1.96228076171875,
+        "images_per_second": 0.5096110707033106,
+        "peak_allocated_gib": 3.8084583282470703
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 4.3179338378906245,
+        "seconds_per_image": 0.26987086486816403,
+        "images_per_second": 3.705475952317102,
+        "peak_allocated_gib": 7.327363967895508
+      }
+    ]
+  },
+  "b3": {
+    "weights_mode": "unet",
+    "as_generated": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 1.8950087890625,
+        "seconds_per_image": 1.8950087890625,
+        "images_per_second": 0.5277020379914548,
+        "peak_allocated_gib": 0.8918642997741699
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 5.146152099609375,
+        "seconds_per_image": 0.3216345062255859,
+        "images_per_second": 3.109119141895262,
+        "peak_allocated_gib": 5.791706085205078
+      }
+    ],
+    "fast": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 1.2849427490234375,
+        "seconds_per_image": 1.2849427490234375,
+        "images_per_second": 0.778244790096683,
+        "peak_allocated_gib": 0.9409370422363281
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 1.7270035400390624,
+        "seconds_per_image": 0.1079377212524414,
+        "images_per_second": 9.264601738823362,
+        "peak_allocated_gib": 4.459674835205078
+      }
+    ]
+  },
+  "b1": {
+    "as_generated": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 0.0008075520098209381,
+        "seconds_per_image": 0.0008075520098209381,
+        "images_per_second": 1238.3103352336825,
+        "peak_allocated_gib": 0.42204952239990234
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 0.001137600004673004,
+        "seconds_per_image": 7.110000029206275e-05,
+        "images_per_second": 14064.697551226804,
+        "peak_allocated_gib": 0.4294915199279785
+      }
+    ]
+  },
+  "b2": {
+    "as_generated": [
+      {
+        "batch": 1,
+        "seconds_per_batch_median": 0.0018712320327758788,
+        "seconds_per_image": 0.0018712320327758788,
+        "images_per_second": 534.4072688391028,
+        "peak_allocated_gib": 0.4472184181213379
+      },
+      {
+        "batch": 16,
+        "seconds_per_batch_median": 0.006201200008392334,
+        "seconds_per_image": 0.0003875750005245209,
+        "images_per_second": 2580.145774744655,
+        "peak_allocated_gib": 0.5316147804260254
+      }
+    ]
+  },
+  "seconds": 1008.0661923598964
+}
