@@ -1,0 +1,10 @@
+.venv/
+data/
+__pycache__/
+*.pt
+*.pth
+*.ckpt
+.DS_Store
+runs/
+job_*.out
+job_*.err
