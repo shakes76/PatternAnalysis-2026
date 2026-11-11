@@ -12,10 +12,11 @@
 6. [Results: CAN vs U-Net](#6-results-can-vs-u-net)
 7. [Failure case analysis](#7-failure-case-analysis)
 8. [Recommendation](#8-recommendation)
-9. [Usage](#9-usage)
-10. [Dependencies and reproducibility](#10-dependencies-and-reproducibility)
-11. [Artificial Intelligence Usage Disclosure](#11-artificial-intelligence-usage-disclosure)
-12. [References](#12-references)
+9. [Conclusion](#9-conclusion)
+10. [Usage](#10-usage)
+11. [Dependencies and reproducibility](#11-dependencies-and-reproducibility)
+12. [Artificial Intelligence Usage Disclosure](#12-artificial-intelligence-usage-disclosure)
+13. [References](#13-references)
 
 ## 1. Problem
 
@@ -388,11 +389,22 @@ All four are met. The CAN passes the accuracy target, but it does not beat the b
 3. **Next investment: inter-slice context, not more in-plane context.** The shared failures point to a 2.5D input or a 3D model as the next step, not a wider 2D context.
 4. **Caveat:** 3 test patients is a small sample. Validate on more patients before any clinical use.
 
-## 9. Usage
+## 9. Conclusion
+
+This project asked whether the multi-scale context of a 2D Context Aggregation Network fixes the prostate boundary failures that a high overall Dice can hide, compared with a plain 2D U-Net. The findings show that it does not.
+
+- **The CAN works.** With 23× fewer parameters it reaches a test prostate Dice of 0.863 ± 0.015, well above the 0.75 target, and segments the body, bone and bladder about as well as the U-Net.
+- **It is not better where it matters.** The U-Net is ahead on the rectum (0.876 vs 0.845) and slightly ahead on the prostate (0.879 vs 0.863). The CAN is no better at the base, apex or edge slices, and it labels false prostate on far more empty slices (8.7 vs 1.3 of 345).
+- **The gap is most likely not a design detail.** A 4× wider CAN and a ResidualCAN with gridded dilations both stayed behind the U-Net, so neither model size nor the dilation pattern explains it.
+- **The main failures are shared and come from the 2D input.** Every model misses the prostate on the same edge slices, where one slice does not show that the gland starts or ends in the next one. More in-plane context cannot supply that.
+
+The answer to the dilemma is that the CAN mainly matches the U-Net on easy central slices, does worse near the rectum, and saves inference cost that an offline contouring tool does not need. The U-Net is the better draft-contouring model. The next step is inter-slice context (a 2.5D input or a 3D model), tested on more patients than the 3 available here.
+
+## 10. Usage
 
 **Setup.** All commands run from this folder.
 
-1. Install the packages: `pip install -r requirements.txt` (Python 3.11; versions in Section 10).
+1. Install the packages: `pip install -r requirements.txt` (Python 3.11; versions in Section 11).
 2. Get the data. On Rangpur it is at `/home/groups/comp3710/HipMRI_Study_open/keras_slices_data`. Either copy that folder to `data/keras_slices_data/` here (the scripts' default; `data/` is git-ignored), or pass its location to any script with `--data-root <path>`. It must contain the six `keras_slices_*` folders listed at the top of [`dataset.py`](dataset.py).
 3. Training needs a GPU for practical run times: one 30-epoch run took 50–64 minutes on an A100. It also runs on Apple Silicon (MPS) or CPU, but much more slowly, so use `--limit` for quick tests there.
 
@@ -444,7 +456,7 @@ python plot_figures.py --checkpoints runs/unet/best.pt runs/can/best.pt runs/can
 
 *On central slices like this one, all three models closely match the ground truth for every structure. The errors that matter are at the ends of the prostate (Sections 6.2 and 7).*
 
-## 10. Dependencies and reproducibility
+## 11. Dependencies and reproducibility
 
 Install with `pip install -r requirements.txt`. These are the exact versions used for every run in this report (Rangpur `torch` conda environment):
 
@@ -491,13 +503,13 @@ On Rangpur, each training run can be submitted as a Slurm job instead, e.g. `MOD
 
 Re-running gives very close but not bit-identical numbers, because GPU arithmetic is not fully deterministic. Small differences between machines are expected: for example, on a Mac the seed-42 U-Net gave the same Dice scores but one fewer single-pixel false-positive slice.
 
-## 11. Artificial Intelligence Usage Disclosure
+## 12. Artificial Intelligence Usage Disclosure
 
 - **Tools used:** Claude
 - **Tasks:** writing and debugging the model, training and analysis scripts, running and monitoring Rangpur jobs, analysing results, visuals
 - **Verification:** Every model is checked by `python modules.py` (one forward and backward pass, output shape and parameter count). Each new model was smoke-tested on Rangpur (1 epoch on 500 slices) before full training.
 
-## 12. References
+## 13. References
 
 1. O. Ronneberger, P. Fischer and T. Brox, "U-Net: Convolutional networks for biomedical image segmentation," in *Proc. MICCAI*, 2015, pp. 234–241.
 2. F. Yu and V. Koltun, "Multi-scale context aggregation by dilated convolutions," in *Proc. ICLR*, 2016.
