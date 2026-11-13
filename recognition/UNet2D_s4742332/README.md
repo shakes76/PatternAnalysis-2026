@@ -51,12 +51,12 @@ The following commands were used to run the train.py and predict.py using comman
 cd \path\to\PatternAnalysis-2026\recognition\UNet2D_s4742332
 
 # train: no-skip and skip, lightweight depths, no patient weighting, original split
-python train.py --no-skip --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split
-python train.py --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split
+python train.py --no-skip --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split --data-root absolute\path\to\dir\keras_data_slices --cache-dir absolute\path\to\dir
+python train.py --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split --data-root absolute\path\to\dir\keras_data_slices --cache-dir absolute\path\to\dir
 
-# evaluate: validation first, then test once
-python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split validate
-python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split test
+# evaluate: validation first, then test once, replace run path with yours
+python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split validate --data-root absolute\path\to\dir --cache-dir absolute\path\to\dir
+python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split test --data-root absolute\path\to\dir --cache-dir absolute\path\to\dir
 ```
 
 ## Investigation

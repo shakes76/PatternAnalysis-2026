@@ -17,7 +17,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from dataset import full_load_dataset, slice_name, DATA_ROOT, CACHE_DIR, N_LABELS
+from dataset import full_load_dataset, slice_name, N_LABELS
 from modules import UNet2D
 
 LABELS = {"background": 0, "body": 1, "femoral hip":2, "bladder":3, "rectum":4, "prostate":5}
@@ -25,6 +25,10 @@ REGIONS = ("base", "central", "apex")
 
 def parse_args():
     p = argparse.ArgumentParser(description="Train 2D U-Net on HipMRI prostate slices")
+    p.add_argument("--data-root", type=Path, required=True,
+                   help="HipMRI keras_slices_data folder (holds the keras_slices_<split> and keras_slices_seg_<split> folders)")
+    p.add_argument("--cache-dir", type=Path, required=True,
+                   help="folder for the slice cache (~2 GB, built on the first run), keep it outside the repo")
     p.add_argument("--seed", type=int, default=11)
     p.add_argument("--epochs", type=int, default=20)
     p.add_argument("--batch-size", type=int, default=8)
@@ -61,7 +65,7 @@ def setup(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
     loaders = full_load_dataset(seed=args.seed, batch_size=args.batch_size, augment=args.augment,
                                 num_workers=args.num_workers, n_val=args.n_val, n_test=args.n_test,
-                                root=DATA_ROOT, cache_dir=CACHE_DIR, patient_weighting=args.patient_weighting,
+                                root=args.data_root, cache_dir=args.cache_dir, patient_weighting=args.patient_weighting,
                                 slice_weights=(lambda ds: end_weights(ds, args.oversample_ends)) if args.oversample_ends else None,
                                 resplit=not args.original_split, context=args.context)
 

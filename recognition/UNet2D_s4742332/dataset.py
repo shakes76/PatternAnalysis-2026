@@ -25,12 +25,12 @@ from torch.utils.data import Dataset
 from torchvision import transforms as T
 from torchvision.transforms import functional as F
 
-DATA_ROOT = Path(r"S:\PatternAnalysis-2026\HipMRI_Study_Open\keras_slices_data")
 _NAME_RE = re.compile(r"(?:case|seg)_(\d+)_week_(\d+)_slice_(\d+)\.nii\.gz")
 SPLITS = ("train", "validate", "test")
 H, W = 256, 128 # most slices; 019_week_1 is 256x144 and gets cropped
 N_LABELS = 6
-CACHE_DIR = Path(r"S:\hipmri-cache") # outside the repo, ~2 GB
+# the data folder (root) and the slice cache folder (cache_dir, ~2 GB, keep it outside the repo) are passed in
+# from the command line (--data-root, --cache-dir in train.py and predict.py), nothing here points at a drive
 
 
 # dataclasses
@@ -66,7 +66,7 @@ def full_load_dataset(seed: int | None, batch_size: int, augment: bool, num_work
     loaders = {}
     for split, ids in all_ids.items():
         train = split == "train"
-        ds = HipMRISlices(ids, pooled, JointTransform2D() if train and augment else None, cache_dir, context)
+        ds = HipMRISlices(ids, pooled, cache_dir, JointTransform2D() if train and augment else None, context)
         sampler = None
         if train and (patient_weighting or slice_weights):  # train only, validate/test stay unweighted
             weights = torch.ones(len(ds), dtype=torch.double)
@@ -168,7 +168,7 @@ def load_slice(sid: SliceID):
         raise ValueError(f"{sid}: labels {np.unique(mask)} outside 0-{N_LABELS - 1}")
     return image, mask.astype(np.uint8)
 
-def build_cache(ids: list[SliceID], cache_dir: Path = CACHE_DIR):
+def build_cache(ids: list[SliceID], cache_dir: Path):
     ids = sorted(ids)
     cache_dir.mkdir(parents=True, exist_ok=True)
     keys = np.array([(s.patient, s.week, s.slice) for s in ids], dtype=np.int32)
@@ -185,7 +185,7 @@ def build_cache(ids: list[SliceID], cache_dir: Path = CACHE_DIR):
     np.save(cache_dir / "keys.npy", keys)
     print(f"cache built: {len(ids)} slices -> {cache_dir}")
 
-def load_cache(ids: list[SliceID], cache_dir: Path = CACHE_DIR):
+def load_cache(ids: list[SliceID], cache_dir: Path):
     ids = sorted(ids) # the cache is always in sorted order, whatever order the caller pooled in
     if not (cache_dir / "keys.npy").exists():
         build_cache(ids, cache_dir)
@@ -306,11 +306,12 @@ class HipMRISlices(Dataset):
     """
     2D slices of one split, read from the cache.
     split_ids: the SliceIDs of this split, pooled: the sorted SliceIDs of every split (the cache order).
+    cache_dir: folder holding (or to build) the slice cache.
     joint_transform: callable (image, mask) -> (image, mask) on tensors, applied to both together.
     context: neighbouring slices on each side of the same scan stacked around it (2.5D), the edge slice repeats past the scan's ends.
     returns image [1+2*context,H,W] float32 (centre slice in the middle), mask [H,W] long (centre slice), slice name (a str so the DataLoader can batch it)
     """
-    def __init__(self, split_ids: list[SliceID], pooled: list[SliceID], joint_transform=None, cache_dir: Path = CACHE_DIR, context: int = 0):
+    def __init__(self, split_ids: list[SliceID], pooled: list[SliceID], cache_dir: Path, joint_transform=None, context: int = 0):
         pooled = sorted(pooled) # cache order, so callers can pool the splits in any order
         index_of = {s: i for i, s in enumerate(pooled)}
         self.ids = split_ids
@@ -413,13 +414,18 @@ class JointTransform2D:
 
 
 if __name__ == "__main__":
-    loaders = full_load_dataset(seed=11, batch_size=8, augment=True, num_workers=2, n_val=5, n_test=5, root=DATA_ROOT, cache_dir=CACHE_DIR)
+    import argparse
+    p = argparse.ArgumentParser(description="Smoke test: build the loaders and print one batch per split")
+    p.add_argument("--data-root", type=Path, required=True, help="HipMRI keras_slices_data folder")
+    p.add_argument("--cache-dir", type=Path, required=True, help="slice cache folder (~2 GB), keep it outside the repo")
+    cli = p.parse_args()
+    loaders = full_load_dataset(seed=11, batch_size=8, augment=True, num_workers=2, n_val=5, n_test=5, root=cli.data_root, cache_dir=cli.cache_dir)
     for split, loader in loaders.items():
         images_b, masks_b, names_b = next(iter(loader))
         print(f"{split:9} slices={len(loader.dataset):5} batches={len(loader):4}  "
               f"{tuple(images_b.shape)} {images_b.dtype}  {tuple(masks_b.shape)} {masks_b.dtype}  {names_b[0]}")
 
-    # all_ids = build_all_sliceids(DATA_ROOT)
+    # all_ids = build_all_sliceids(cli.data_root)
     # all_ids = resplit_patients(all_ids, 1, 5, 5)
     
     # for split, ids in all_ids.items():
@@ -428,7 +434,7 @@ if __name__ == "__main__":
     
     
         #_ = check_weeks_per_case(split, ids)
-        #check_labels(DATA_ROOT / f"keras_slices_seg_{split}")
+        #check_labels(cli.data_root / f"keras_slices_seg_{split}")
     # #check_images_manually(all_ids["train"][45])
 
    

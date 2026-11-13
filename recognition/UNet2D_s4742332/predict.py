@@ -20,7 +20,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from dataset import full_load_dataset, DATA_ROOT, CACHE_DIR, N_LABELS, H, W
+from dataset import full_load_dataset, N_LABELS, H, W
 from modules import UNet2D
 from train import LABELS, REGIONS, prostate_regions
 
@@ -31,6 +31,10 @@ ERROR_COLOURS = {"TP": (1.0, 0.85, 0.0), "FP": (0.85, 0.1, 0.1), "FN": (0.1, 0.4
 def parse_args():
     p = argparse.ArgumentParser(description="Evaluate a trained 2D U-Net on the HipMRI test split")
     p.add_argument("run_dirs", type=Path, nargs="+", help="run folders written by train.py")
+    p.add_argument("--data-root", type=Path, required=True,
+                   help="HipMRI keras_slices_data folder (holds the keras_slices_<split> and keras_slices_seg_<split> folders)")
+    p.add_argument("--cache-dir", type=Path, required=True,
+                   help="folder for the slice cache (~2 GB, built on the first run), keep it outside the repo")
     p.add_argument("--checkpoint", default="best.pt", help="checkpoint file inside each run folder")
     p.add_argument("--batch-size", type=int, default=16, help="slices per forward pass at inference")
     p.add_argument("--fail-dice", type=float, default=0.5, help="prostate slices below this dice are listed as failures")
@@ -67,10 +71,11 @@ def val_region_dice(run_dir, epoch):
     with open(run_dir / "history.json") as f:
         return json.load(f)["val_region_dice"][epoch - 1]
 
-def eval_dataset(train_args, split):
-    """the run's held-out test (or validate) patients, rebuilt from its saved seed and split sizes, no augmentation"""
+def eval_dataset(train_args, split, data_root, cache_dir):
+    """the run's held-out test (or validate) patients, rebuilt from its saved seed and split sizes, no augmentation.
+    the data and cache folders come from this command line, not the checkpoint, so runs still evaluate after the data moves"""
     loaders = full_load_dataset(seed=train_args["seed"], batch_size=1, augment=False, num_workers=0,
-                                n_val=train_args["n_val"], n_test=train_args["n_test"], root=DATA_ROOT, cache_dir=CACHE_DIR,
+                                n_val=train_args["n_val"], n_test=train_args["n_test"], root=data_root, cache_dir=cache_dir,
                                 resplit=not train_args.get("original_split", False), context=train_args.get("context", 0))
     return loaders[split].dataset
 
@@ -399,7 +404,7 @@ if __name__ == "__main__":
             split = (train_args["seed"], train_args["n_val"], train_args["n_test"])
         split = (split, train_args.get("context", 0))  # 2D and 2.5D runs need their own datasets
         if split not in datasets:  # runs with the same split share the test set
-            datasets[split] = eval_dataset(train_args, args.split)
+            datasets[split] = eval_dataset(train_args, args.split, args.data_root, args.cache_dir)
         dataset = datasets[split]
         for low in [None, *(args.hysteresis or [])]:
             # plain test keeps the old file names, validate and hysteresis get their own so nothing is overwritten
