@@ -1,6 +1,0 @@
-#Data
-HipMRI_Study_Open/
-
-#Local
-recognition/UNet2D_s4742332/__pycache__
-recognition/UNet2D_s4742332/runs
