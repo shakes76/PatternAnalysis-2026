@@ -37,26 +37,30 @@ matplotlib:  3.11.2
 
 ### Reproducibility
 
-The 2D .nii.gz dataset is labelled HipMRISlices and can be accessed in UQ's rangpur system.
+All reported results use seed 11 (`--seed 11`, the default) with `--original-split`, so the test patients are 040–042. The seed fixes the Python, NumPy and PyTorch random generators, the shuffle order and the augmentations, so rerunning with the same seed and settings gives the same batches. cuDNN is not set to deterministic, so repeated GPU runs agree closely but are not bit-identical.
 
-Seeds 11,
-
-This was primarily made ro run on a GTX 1660 Ti GPU, with secondary considerations to A100 GPU's available on UQ's Rangpur. Training was fp32 and AMP was turned off the duration of training to ensure no NaNs were produced on the card.
+This was primarily made to run on a 6 GB GTX 1660 Ti GPU, with secondary considerations to the A100 GPUs available on UQ's Rangpur. Training was fp32 and AMP was turned off for the duration of training to ensure no NaNs were produced on the card.
 
 ### Commands
 
 The following commands were used to run the train.py and predict.py using command line argparse. All runs are save under skip/noskip, weighted sampling procedure, seed, and any additional CLI's used such as original split, CE for CE Dice Loss added and so on and so forth.
 
-```Shell
+`--data-root` is the HipMRI `keras_slices_data` folder and `--cache-dir` is where the ~2 GB slice cache is built on the first run. Commands are written for PowerShell, where a backtick at the end of a line continues the command onto the next line.
+
+```powershell
 cd \path\to\PatternAnalysis-2026\recognition\UNet2D_s4742332
 
 # train: no-skip and skip, lightweight depths, no patient weighting, original split
-python train.py --no-skip --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split --data-root absolute\path\to\dir\keras_data_slices --cache-dir absolute\path\to\dir
-python train.py --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split --data-root absolute\path\to\dir\keras_data_slices --cache-dir absolute\path\to\dir
+python train.py --no-skip --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split `
+    --data-root \path\to\HipMRI_Study_open\keras_slices_data --cache-dir \path\to\hipmri-cache
+python train.py --conv-depths 32 64 128 256 512 --epochs 20 --seed 11 --original-split `
+    --data-root \path\to\HipMRI_Study_open\keras_slices_data --cache-dir \path\to\hipmri-cache
 
 # evaluate: validation first, then test once, replace run path with yours
-python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split validate --data-root absolute\path\to\dir --cache-dir absolute\path\to\dir
-python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split test --data-root absolute\path\to\dir --cache-dir absolute\path\to\dir
+python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split validate `
+    --data-root \path\to\HipMRI_Study_open\keras_slices_data --cache-dir \path\to\hipmri-cache
+python predict.py runs\noskip_pw-None_seed11_origsplit runs\skip_pw-None_seed11_origsplit --split test `
+    --data-root \path\to\HipMRI_Study_open\keras_slices_data --cache-dir \path\to\hipmri-cache
 ```
 
 ## Investigation
@@ -121,13 +125,93 @@ The following table compares the best checkpoint of each model (seed 11, origina
 | Bladder Dice                    | 0.855                           | **0.887**                           | 0.961                           | 0.966                                     |
 | Inference (batch 16), peak VRAM | **3.0 ms/slice, 0.56 GB** | 3.5 ms/slice, 0.63 GB                     | **3.0 ms/slice, 0.56 GB** | 3.4 ms/slice, 0.63 GB                     |
 
+#### Per-class Dice and IoU (test set)
+
+Per-class Dice and IoU for all six labels on the held-out test set (patients 040–042, 9 scans, 540 slices), best checkpoint of each model, seed 11, original split. Both are computed from the pixel counts pooled over the whole test set.
+
+| Class       | No-skip Dice    | No-skip IoU     | Skip Dice       | Skip IoU        |
+| ----------- | --------------- | --------------- | --------------- | --------------- |
+| Background  | 0.993           | 0.986           | **0.997** | **0.994** |
+| Body        | 0.983           | 0.967           | **0.985** | **0.971** |
+| Femoral hip | 0.934           | 0.876           | **0.942** | **0.890** |
+| Bladder     | 0.961           | 0.925           | **0.966** | **0.935** |
+| Rectum      | **0.845** | **0.731** | 0.826           | 0.704           |
+| Prostate    | 0.862           | 0.757           | **0.871** | **0.772** |
+
+The skip U-Net is ahead on five of the six classes, rectum being the exception. The rectum is the hardest class for both models (IoU 0.70–0.73), followed by the prostate. These are the two smallest organs, and they share a thin boundary, which is the clinically important boundary for rectal toxicity.
+
+#### Inference time and memory (test set, GTX 1660 Ti, fp32, batch 16)
+
+| Per 60-slice scan | No-skip           | Skip           |
+| ----------------- | ----------------- | -------------- |
+| Median            | **0.20 s**  | 0.23 s         |
+| Mean ± std       | 0.46 ± 0.37 s    | 0.50 ± 0.40 s |
+| Range             | 0.19 – 1.11 s    | 0.22 – 1.15 s |
+| Peak VRAM         | **0.56 GB** | 0.63 GB        |
+
+Most scans take about 0.2 s. A few scans in each run took 0.9–1.2 s, which pulls the mean up to roughly twice the median. These slower scans were not investigated further.
+
+Example predict.py output with DICE Class and IOU:
+
+```Shell
+python predict.py runs\skip_pw-None_seed11_origsplit runs\noskip_pw-None_seed11_origsplit --split test `
+>>     --data-root S:\HipMRI_Study_Open\keras_slices_data --cache-dir S:\hipmri-cache
+skip_pw-None_seed11_origsplit: epoch 15, 7.77M params, skip True, depths [32, 64, 128, 256, 512], seed 11, val prostate dice 0.856 (base 0.828 central 0.907 apex 0.794)
+Loading dataset with seed 11
+train: 11460 images/masks paired OK
+validate: 660 images/masks paired OK
+test: 540 images/masks paired OK
+no leakage
+
+skip_pw-None_seed11_origsplit test: 9 cases, 540 slices
+  class          dice    iou
+  background    0.997  0.994
+  body          0.985  0.971
+  femoral hip   0.942  0.890
+  bladder       0.966  0.935
+  rectum        0.826  0.704
+  prostate      0.871  0.772
+  prostate base 0.839 central 0.920 apex 0.807
+  per-case prostate dice 0.875 +/- 0.018 (min 0.851)
+  peak VRAM 0.63 GB, inference 501 +/- 396 ms per case (8.4 ms per slice, batch 16)
+  failure summary: 195 slices with prostate, 15 missed entirely (base 13, central 0, apex 2)
+    0 slices with prostate predicted beyond the gland (past base 0, past apex 0, median 0 px)
+    2 prostate slices with stray blobs, median slice dice base 0.835 central 0.921 apex 0.842
+    false positive prostate: 7625 px, 12.7% of predicted prostate (precision 0.873, recall 0.870) | on gland slices base 1022 central 2517 apex 4086 | past base 0 past apex 0
+  failure figures: base case_042_week_0_slice_12 (dice 0.00), apex case_040_week_0_slice_38 (dice 0.00), stray blob case_040_week_1_slice_39 (dice 0.22) -> runs\skip_pw-None_seed11_origsplit\failures
+  all failures: base 19, central 0, apex 11, stray blob 1, beyond the gland 0 -> test_results.json
+noskip_pw-None_seed11_origsplit: epoch 19, 6.98M params, skip False, depths [32, 64, 128, 256, 512], seed 11, val prostate dice 0.848 (base 0.835 central 0.897 apex 0.783)
+
+noskip_pw-None_seed11_origsplit test: 9 cases, 540 slices
+  class          dice    iou
+  background    0.993  0.986
+  body          0.983  0.967
+  femoral hip   0.934  0.876
+  bladder       0.961  0.925
+  rectum        0.845  0.731
+  prostate      0.862  0.757
+  prostate base 0.839 central 0.909 apex 0.803
+  per-case prostate dice 0.857 +/- 0.027 (min 0.814)
+  peak VRAM 0.56 GB, inference 460 +/- 369 ms per case (7.7 ms per slice, batch 16)
+  failure summary: 195 slices with prostate, 23 missed entirely (base 17, central 0, apex 6)
+    8 slices with prostate predicted beyond the gland (past base 0, past apex 8, median 74 px)
+    0 prostate slices with stray blobs, median slice dice base 0.845 central 0.910 apex 0.813
+    false positive prostate: 7065 px, 12.2% of predicted prostate (precision 0.878, recall 0.846) | on gland slices base 728 central 1941 apex 3948 | past base 0 past apex 448
+  failure figures: base case_040_week_3_slice_16 (dice 0.00), apex case_040_week_0_slice_37 (dice 0.00), beyond the gland case_041_week_0_slice_41 (dice 0.00) -> runs\noskip_pw-None_seed11_origsplit\failures
+  all failures: base 20, central 0, apex 12, stray blob 0, beyond the gland 8 -> test_results.json
+
+run                             pros dice pros iou   base central   apex     case dice   prec recall  FP px VRAM GB ms/case
+skip_pw-None_seed11_origsplit       0.871    0.772  0.839   0.920  0.807  0.875+/-0.018  0.873  0.870   7625    0.63     501
+noskip_pw-None_seed11_origsplit     0.862    0.757  0.839   0.909  0.803  0.857+/-0.027  0.878  0.846   7065    0.56     460
+```
+
 ### In Regards to Baseline vs Comparative Models
 
 The skip connections gave small gains on this task, smaller than expected. As more seeds were not tested, these results may not be fully indicative how the extent to which skip connections assit with spatial localisation of the prostate base, central and apex slices.
 
 ### Failure Case Autopsy & Usability Analysis
 
-The following were identified as failure cases within this study:
+The following is a summary of the failures that were identified in the test-set failure cases within this study:
 
 1. Stray blobs of identified segmented away from the ground truth mask where the true area of the classified segment lies. This includes identifying prostate on an image without prostate identified in the ground truth mask. The threshold for this was $\leq$ 10 px as the end user requires high precision, any stray blobs pose significant threat to patient outcomes.
 2. No prediction of a prostate prediciton when the ground truth mask identified prostate within the image. This is identified through true's pixel mask being larger than 0px and the prediction having 0 pixels. This is also a signifcant concern for missing areas may result in tumour reoccurance.
@@ -135,13 +219,51 @@ The following were identified as failure cases within this study:
 4. Over prediction of an area split by region and past the apex and base by using a pixel total of prediction - intersection.
 5. Failure to predict the base, central, apex slices of the prostate with a DICE score of less than 0.75. This is under-prediction accuracy in an area of the prostate.
 
-It is recommended that this tool be used as a first-draft with human review for each slice. At 0.2s per scan, and 0.63GB peak VRAM usage it runs well on consumer GPUs that are more available to be used. This means that it will fit easily into a specialists workflow with minimal time loss. However, whilst it can primarily be trusted with central regions of the prostate it heavily struggles with the apex, and a majority of slices are missed at this point.
+#### Test-set failure cases
 
-Patients with unique anatomy cases such as patient 010, 038. 041 should be considered to be done primarily by hand with minimal assistance from this tool as it was unable to identify this patient's results. The model tends to struggle with more unique orientations of anatomy, in particular of the rectum, and then tends to be overly cautious when this occurs. An example of failures from the skip run is shown below.
+The five cases below are real slices from the held-out test set (seed 11, original split): three from the skip U-Net and two from the no-skip baseline. `predict.py` chose them as the lowest-Dice slice in each failure category. Each row of a figure shows:
 
-![1793326536814](image/README/1793326536814.png)
+- the input slice
+- the ground truth
+- the prediction
+- the prostate errors on the input: prostate TP yellow, FP red, FN blue
+- a zoomed view of those errors
 
-The recommended configuration is the 2D skip U-Net with the listed depth as earlier but to come at the cost of indepth and accuracy to ensure performance on lower end GPUs available to the end users.
+In the ground truth and prediction panels the prostate label is also drawn in red, so the error panel is the one to read.
+
+Skip U-Net, test set:
+
+![Skip U-Net test failure cases](image/skip/failures/failures.png)
+
+No-skip U-Net (baseline), test set:
+
+![No-skip U-Net test failure cases](image/no-skip/failures/failures.png)
+
+**Case 1: base slice missed between detected slices (skip, `case_042_week_0_slice_12`).** Dice 0.00, 182 px of prostate in the ground truth, 0 px predicted. The gland starts at slice 9 and its true area grows steadily from 8 px to 370 px by slice 15. The skip model's prediction instead flickers on and off: 32 px on slice 11, nothing on slice 12, then 9 px and 3 px on slices 13 and 14. On this slice the base of the prostate sits directly on the dome of the bladder. Without a visible intensity edge between them, the model labels the region bladder or body. Because the 2D model sees each slice on its own, nothing keeps its prediction consistent with the slices either side. The no-skip baseline predicted 120 px here (Dice 0.72), so the skip connections did not help on this slice.
+
+**Case 2: last apex slice missed (skip, `case_040_week_0_slice_38`).** Dice 0.00, 65 px true, 0 px predicted. This is the final slice of the gland (slices 16–38). Towards the apex the prediction shrinks faster than the gland does: 278 px of 327 on slice 35, 145 of 264 on slice 36, 48 of 204 on slice 37, and nothing on slice 38. At 65 px, the prostate here is about 0.2 % of the slice. It is a thin strip beside the rectum, so a cross-entropy model trained mostly on central slices leans towards background. The baseline missed both slice 37 and slice 38 entirely, so on this case the skip connections recovered part of slice 37.
+
+**Case 3: apex under-prediction with a stray pixel (skip, `case_040_week_1_slice_39`).** Dice 0.22, 81 px true, 11 px predicted, of which 10 px overlap and 1 px is a disconnected speck. This is again the last slice of the gland. The cause is the same apex tapering as Case 2, plus argmax noise at the boundary. A single stray pixel is clinically small, but a specialist would still have to find and remove it. On the same slice the baseline predicted 39 px (Dice 0.42), and it then carried on onto slice 40, past the end of the gland.
+
+**Case 4: first four base slices missed (no-skip, `case_040_week_3_slice_16`).** Dice 0.00, 137 px true, 0 px predicted. Slices 13–16 (5, 47, 98 and 137 px) are all missed, and the first prediction is on slice 17 (46 of 172 px). As in Case 1, the base of patient 040's prostate is pressed onto the bladder. Patient 040 accounts for most of the missed slices in the test set: 17 of 23 for the baseline and 11 of 15 for the skip model. The skip model also misses slices 13–15 but finds 46 px on slice 16, one slice earlier than the baseline.
+
+**Case 5: prostate predicted beyond the apex (no-skip, `case_041_week_0_slice_41`).** 0 px true, 103 px predicted, plus 7 px on slice 42. The gland ends at slice 40. On slices 38–40 the baseline already over-contours heavily: 444 px predicted against 188 true, 385 against 97, and 273 against 36. It covers all of the true prostate but is 2–7 times too large, and then it continues past the gland into the tissue between the rectum and the bladder. Without skip connections the decoder only has coarse, low-resolution features to place the boundary from, so it paints a blob where the gland would be expected to continue. This is the over-contouring failure that would irradiate the rectal wall. The skip model over-contours slices 38–40 of this patient by a similar amount (490, 453 and 272 px), but it stops at the end of the gland (0 px on slice 41).
+
+**Summary of the failures.** Every failure above is in the first or last four slices of the gland, where the prostate is small and touches the bladder or rectum. Across the whole test set, all 15 slices the skip model missed entirely are end slices (13 base, 2 apex, 0 central). They are small, from 3 to 182 px with a median of 16 px. The baseline misses more slices (23) and also predicts prostate on 8 slices past the apex, where the skip model predicts none.
+
+### Usability Standpoint
+
+It is recommended that this tool be used as a first draft, with human review of every slice. At a median of 0.23 s per 60-slice scan (mean 0.50 s) and 0.63 GB peak VRAM, it runs well on the consumer GPUs that are more widely available, so it fits into a specialist's workflow with minimal time lost. The central region of the prostate can largely be trusted (Dice 0.920). The base is the weakest region: most missed slices are there, where the gland meets the bladder. The apex has a lower Dice (0.807) but fewer entirely missed slices, and it is where the baseline over-contours past the gland.
+
+*Patients with unusual anatomy should be contoured primarily by hand,* with minimal assistance from this tool. Examples are:
+
+- patient 038, the worst validation case (prostate Dice 0.620 skip, 0.665 no-skip)
+- patient 010, which made up much of the test set of the earlier random seed-11 split
+- patient 040, whose base accounts for most of the missed test slices
+
+The model tends to struggle with more unusual orientations of anatomy, in particular of the rectum, and tends to be overly cautious when this occurs.
+
+The recommended configuration is the 2D skip U-Net with the listed depth as earlier but to come at the cost of indepth and accuracy to ensure performance on lower end GPUs available to the end users. Additional recommendations to improve the model include upgrading to the improved 2D U-Net or to a 2.5D model to add context on either side of the slice to be predicted to improve apex and base Dice scores through additional context.
 
 ## Limitations
 
@@ -153,13 +275,17 @@ The following limitations have been identified:
 - normalisation per slice z-scoring alters the intensity scales at the base and apex slices. Per voume normalisation was untried, but has the potential for raising base and apex slice DICE scores.
 - 2D slices do not have the same contextual information as 2.5D and 3D which could lead to greater outcomes.
 
+# Conclusion
+
+In summary, this project compared a no skip U-Net as a baseline versus a skip U-Net architecture to segment 2D HipMRI scans into background, body, femoral hip, bladder, rectum, and prostate classes respectively. Both models met the prostate Dice target of $\geq$ 0.75 on unseen test patients (0.871 skip, 0.862 no skip), with every class above 0.82 Dice and inference of 3.4 ms per slice at 0.63 GB peak VRAM on a GTX 1660 Ti. However, the global Dice hides failures at the ends of the gland: central slices reach 0.920 while the base and apex fall to 0.839 and 0.807, and every missed slice lies within the first or last four slices of the gland. Skip connections gave small but consistent gains (15 vs 23 missed slices, 0 vs 8 slices predicted past the gland) for a modest cost, although with one seed and three test patients part of this gap may be noise. The skip U-Net is therefore recommended as a first-draft contouring assistant with every slice reviewed by a specialist, and the next step is to add contextual information by upgrading from 2D to 2.5D, using the previous and next slices, to better predict the base and apex of the prostate.
+
 ## Artificial Intelligence Usage Disclosure
 
 The following AI tool was utilized in this projet: Claude Code
 
 The following tasks were where AI was utilized: Cleaning up print statements to ensure good terminal experiences, creating plotting scripts that assist in visualisation, validation of methodology and approach to scaffolding and alteration of existing code to suit project purposes, soundboard prompting to encourage further indepth thinking about the dataset, referencing in the report, assistance with data compliation into Tables for the README.md
 
-AI-suggested code was auditied with: Manual Reading, AI generated code was kept seperated from the submission through the chat, Tests and consistent running of the code to ensure that no hallucinations had occured, diff was used to ensure that the AI had only touched what it was prompted to, runtime checks onthe code to ensure that errors were captured early, manual audits of the files and code, visual checks, and rejecting suggestions based on evidence or findings through testing.
+AI-suggested code was audited with: Manual Reading, AI generated code was kept seperated from the submission through the chat, Tests and consistent running of the code to ensure that no hallucinations had occured, diff was used to ensure that the AI had only touched what it was prompted to, runtime checks onthe code to ensure that errors were captured early, manual audits of the files and code, visual checks, and rejecting suggestions based on evidence or findings through testing.
 
 ## References
 
