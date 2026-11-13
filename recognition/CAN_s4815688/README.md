@@ -19,7 +19,7 @@ trusted near the boundaries that determine those risks.
 The project compares two architectures on the same patient-level split:
 
 - a four-level 2D U-Net, which is the standard segmentation baseline;
-- the same U-Net with a dilated context aggregation block (CAN) at 1/8 resolution,
+- the same U-Net with a dilated context aggregation block (CAN) at 1/4 resolution,
   following Yu and Koltun's multi-scale context idea.
 
 The open research question is whether the added context genuinely improves boundary and
@@ -81,12 +81,18 @@ bottleneck: **7,762,630 parameters**.
 ### 3.2 Dilated context block
 
 The CAN variant keeps the same encoder and decoder and inserts a context block after the
-third encoder stage, at 1/8 resolution and 256 channels. The block is a sequence of four
-3×3 convolutions with dilation rates 1, 2, 4 and 8, each followed by batch normalisation
-and ReLU, with a residual connection. It raises the parameter count to **8,353,478**
-(+7.6%) without changing the output resolution. The name "CAN" is used in the report for
-this hybrid; it is not a full-resolution context aggregation network, and the README says
-so rather than overclaiming.
+third encoder stage, at 1/4 resolution and 128 channels (64×32 for a 256×128 input). The
+block is a sequence of four 3×3 convolutions with dilation rates 1, 2, 4 and 8, each
+followed by batch normalisation and ReLU, with a residual connection. It raises the
+parameter count to **8,353,478** (+7.6%) without changing the output resolution. The name
+"CAN" is used in the report for this hybrid; it is not a full-resolution context
+aggregation network, and the README says so rather than overclaiming.
+
+![Architecture](figures/architecture.png)
+
+The diagram shows the baseline path and where the context block is inserted. The baseline
+is the same network without the orange block. The context output is used by Enc4 and by the
+Dec3 skip, so it affects both the deeper features and the boundary reconstruction.
 
 This is the Normal-difficulty 2D CAN entry from the course table. The context block is the
 CAN component; the U-Net scaffold is held constant so the comparison isolates context
@@ -339,3 +345,26 @@ the split, the label mapping, the Dice and leakage calculations, and the reporte
 The assistant did not generate results; all values in this report come from the runs in
 `outputs/eval`. The AI assistance is disclosed here as required by the course policy, and
 the student remains responsible for every line of code and every claim above.
+
+## 11. Conclusion
+
+The project set out to test whether a dilated context block makes a 2D prostate
+segmentation model safer at the boundary, not merely better on average. The answer is
+qualified. The CAN variant met the course target (test prostate Dice 0.863) and improved
+per-slice Dice by 0.019 over the U-Net baseline, with a paired interval that excludes zero.
+It also ranked slices better under confidence-based rejection.
+
+Those gains are not sufficient for deployment. The same model increased leakage into the
+bladder and rectum from 0.3% to 1.8%, put 2.6% of slices above 10% leakage, and produced
+four times as many false positives on slices with no prostate. The failure autopsy shows
+why: the block shifts errors towards the organs at risk rather than removing them, and the
+worst cases retain high confidence. For a clinical contouring assistant, that trade is the
+wrong direction.
+
+The practical recommendation is therefore the simpler model: U-Net as the default, a
+confidence threshold near 0.88, and mandatory review of apex/base slices and any prediction
+that overlaps the bladder or rectum. CAN is only worth revisiting with an explicit
+organ-at-risk penalty or a post-hoc leakage filter, evaluated on the same patient-level
+split. The main limitations are the 2D scope, three test patients, one seed, and
+uncalibrated confidence; those are the next experiments, not reasons to overstate the
+result.
