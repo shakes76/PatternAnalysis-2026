@@ -281,6 +281,7 @@ class ExponentialMovingAverage:
     """
 
     def __init__(self, parameters: dict[str, torch.nn.Parameter], decay: float):
+        """Copy the trainable weights in float32; decay is the long-run rate."""
         if not 0.0 < decay < 1.0:
             raise ValueError("decay must lie strictly between 0 and 1")
         self.decay = decay
@@ -288,10 +289,12 @@ class ExponentialMovingAverage:
         self.shadow = {n: p.detach().clone().float() for n, p in parameters.items()}
 
     def current_decay(self) -> float:
+        """Decay for the next update: warmed up, then capped at self.decay."""
         return min(self.decay, (1 + self.updates) / (10 + self.updates))
 
     @torch.no_grad()
     def update(self, parameters: dict[str, torch.nn.Parameter]) -> None:
+        """Move each shadow weight towards the live weight by 1 - decay."""
         self.updates += 1
         weight = 1.0 - self.current_decay()
         for name, param in parameters.items():

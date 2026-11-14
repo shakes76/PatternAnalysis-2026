@@ -107,6 +107,12 @@ class ADNISliceDataset(Dataset):
         image_size: int = 256,
         verify_hash: bool = False,
     ):
+        """Select the rows of one split from the validated manifest.
+
+        root is the ADNI folder, manifest the subject-level split file
+        (data/manifest-seed3710.csv), split one of SPLITS, and image_size the
+        output side in pixels (a multiple of 8, the VAE's downsampling factor).
+        """
         if split not in SPLITS:
             raise ValueError(f"split must be one of {SPLITS}")
         if image_size <= 0 or image_size % 8:
@@ -119,9 +125,17 @@ class ADNISliceDataset(Dataset):
         self.verify_hash = verify_hash
 
     def __len__(self) -> int:
+        """Number of slices in the split."""
         return len(self.rows)
 
     def __getitem__(self, index: int) -> dict:
+        """Load one slice: grayscale, zero-padded to square, resized, repeated to
+        three channels and scaled to [-1, 1].
+
+        Returns pixel_values [3, size, size], class_name ("AD" or "NC"),
+        slice_index and relative_path. Raises if the file lies outside root or,
+        with verify_hash, if its SHA-256 differs from the manifest.
+        """
         row = self.rows[index]
         path = (self.root / row["relative_path"]).resolve()
         if not path.is_relative_to(self.root):

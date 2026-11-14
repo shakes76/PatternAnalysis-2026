@@ -56,6 +56,13 @@ SAMPLE_SEEDS = (37100, 37101, 37102, 37103)
 
 @dataclass
 class TrainConfig:
+    """Hyperparameters of one training run, written into metrics.json.
+
+    The defaults are the E2 recipe: AdamW at lr 1e-5 with 500 warm-up steps,
+    offset noise 0.1, 10% prompt dropout for classifier-free guidance, EMA
+    decay 0.999 and gradient clipping at 1.0, batch 16 for 10 epochs.
+    """
+
     epochs: int = 10
     batch_size: int = 16
     lr: float = 1e-5
@@ -86,6 +93,7 @@ class EncodedSplit:
     foreground: torch.Tensor | None = None  # share of bright pixels per slice
 
     def __len__(self) -> int:
+        """Number of slices in the split."""
         return self.mean.shape[0]
 
     def select(self, keep: torch.Tensor) -> "EncodedSplit":
@@ -247,6 +255,7 @@ def plot_curves(history, epochs, path):
 
 
 def write_rows(path, rows):
+    """Write a list of same-keyed dicts as a CSV file with a header row."""
     with path.open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
         writer.writeheader()
@@ -426,10 +435,12 @@ def fit(
 
 
 def digest(path: Path) -> str:
+    """SHA-256 of a file, recorded so a run can be tied to its exact inputs."""
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 def parse_args() -> argparse.Namespace:
+    """Command-line options; the defaults reproduce E2 (see README Section 11)."""
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -491,6 +502,12 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    """Encode the splits with the frozen VAE, train the UNet or adapter, and
+    write weights, loss curves, sample grids and metrics.json to --output.
+
+    Only the train and validation splits are read; metrics.json records
+    test_split_read = False and the SHA-256 of the code, models and manifest.
+    """
     args = parse_args()
     config = TrainConfig(
         epochs=args.epochs,
@@ -562,6 +579,7 @@ def main() -> None:
     setup_seconds = time.perf_counter() - started
 
     def sample_fn(epoch):
+        """Save the fixed-seed sample grid for this epoch (called by fit)."""
         sample_grid(
             unet,
             vae,

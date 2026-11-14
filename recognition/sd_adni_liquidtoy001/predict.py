@@ -58,6 +58,11 @@ def appearance(image: np.ndarray) -> dict:
 
 
 def save_grids(tiles, columns, size, output, guidance):
+    """Save the uncurated sample grids for one guidance scale.
+
+    tiles is a list of (caption, PIL image). Writes a captioned RGB grid and
+    a grayscale grid without captions, `columns` images wide.
+    """
     rows = (len(tiles) + columns - 1) // columns
     colour = Image.new("RGB", (columns * size, rows * (size + 24)), "white")
     gray = Image.new("L", (columns * size, rows * size), 0)
@@ -72,11 +77,15 @@ def save_grids(tiles, columns, size, output, guidance):
 
 
 def digest(path: Path) -> str:
+    """SHA-256 of a file, recorded in report.json for every output."""
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 @torch.no_grad()
 def main() -> None:
+    """Load the weights, generate --count seeds per class at each guidance
+    scale, and save the PNGs, grids and report.json; prints the appearance
+    summary per class."""
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
