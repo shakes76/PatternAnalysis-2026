@@ -1,0 +1,35 @@
+{
+  "job_id": "629852",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed_seconds": 55,
+  "acceptance": {
+    "status": "passed",
+    "steps": 8,
+    "max_adapter_difference": 0.0,
+    "atol": 1e-06,
+    "rtol": 1e-05,
+    "checks": [
+      "adapters",
+      "optimizer",
+      "scheduler",
+      "RNG",
+      "input_noise_loss_traces",
+      "mismatched_contract_rejected",
+      "changed_adapter_rejected"
+    ]
+  },
+  "measurements": {
+    "seconds": 4.37614602711983,
+    "peak_allocated_bytes": 6109799424,
+    "checkpoint_bytes": 9884717,
+    "max_adapter_change": 0.0007783340406604111,
+    "trainable_parameters": 797184
+  },
+  "limits": [
+    "8 fixed training slices",
+    "256 pixels",
+    "not generation quality",
+    "not signal termination recovery"
+  ]
+}

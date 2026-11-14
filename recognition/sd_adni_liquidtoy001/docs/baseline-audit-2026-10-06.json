@@ -1,0 +1,68 @@
+{
+  "reports": [
+    {
+      "cohort": "../runs/baseline128-20261005/outputs/baseline-vae-632570",
+      "samples": 64,
+      "metric": "grayscale64 pixel RMSE, not a semantic feature metric",
+      "matched_patients_per_class": {
+        "AD": 33,
+        "NC": 69
+      },
+      "neighbors": {
+        "train_full": {
+          "reference_count": 21280,
+          "mean": 0.05652038753032684,
+          "median": 0.0554167777299881,
+          "min": 0.037764228880405426,
+          "max": 0.07282417267560959
+        },
+        "train_patient_matched": {
+          "reference_count": 102,
+          "mean": 0.07703768461942673,
+          "median": 0.07803376019001007,
+          "min": 0.052311111241579056,
+          "max": 0.1071612685918808
+        },
+        "validation_full": {
+          "reference_count": 4540,
+          "mean": 0.062434229999780655,
+          "median": 0.06375537067651749,
+          "min": 0.038171716034412384,
+          "max": 0.08255944401025772
+        },
+        "validation_patient_matched": {
+          "reference_count": 102,
+          "mean": 0.0773552656173706,
+          "median": 0.07350163161754608,
+          "min": 0.057602494955062866,
+          "max": 0.10741177946329117
+        }
+      },
+      "pairwise_generated_rmse": {
+        "mean": 0.11743126064538956,
+        "median": 0.11840778589248657,
+        "min": 0.00715023884549737,
+        "max": 0.19557048380374908
+      },
+      "AD_pairwise_rmse": {
+        "mean": 0.11940442770719528,
+        "median": 0.11902105063199997,
+        "min": 0.04737894609570503,
+        "max": 0.19543609023094177
+      },
+      "NC_pairwise_rmse": {
+        "mean": 0.11886118352413177,
+        "median": 0.11846445500850677,
+        "min": 0.04773075506091118,
+        "max": 0.19382832944393158
+      }
+    }
+  ],
+  "exact_copy_control_passed": true,
+  "limits": [
+    "Unequal full reference sizes bias nearest distances",
+    "Black background and alignment affect pixel RMSE",
+    "No privacy or anatomical validity guarantee",
+    "Validation only; test sealed"
+  ]
+}

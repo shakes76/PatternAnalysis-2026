@@ -1,0 +1,45 @@
+# Local environments, Python/build caches, and credentials
+.venv/
+.venv-train/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.cache/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Datasets and large/reconstructible run artifacts
+data/
+datasets/
+manifests/
+checkpoints/
+models/
+outputs/
+runs/
+logs/
+data_check_*.out
+data_check_*.err
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.onnx
+*.h5
+*.hdf5
+*.nii
+*.nii.gz
+*.dcm
+*.npy
+*.npz
+*.tar
+*.tar.gz
+*.zip
+
+# Selected report images and compact metric tables belong in docs/.

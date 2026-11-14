@@ -1,0 +1,124 @@
+{
+  "aligned_scheduler_precision": true,
+  "parity_only": true,
+  "checkpoint_sha256": "39f4ed220e0fa09f86a8b1a68898cce9f7abe974844cd19f1c5c4ab58d43551c",
+  "code_sha256": "4d38bcc093c47c43930f22a850b9fe298f8a042d4dc3b705698599d65a8a9099",
+  "prompts": {
+    "AD": "a brain MRI slice, Alzheimer disease",
+    "NC": "a brain MRI slice, normal control",
+    "empty": ""
+  },
+  "parity": [
+    {
+      "label": "AD",
+      "seed": 37100,
+      "max_pixel_difference": 0,
+      "mean_pixel_difference": 0.0,
+      "exact_pixels": true,
+      "historical_png_sha256": "3933215938f7529dfe58270ac2049e77c8bdc6be2f9661e0b879e9c458cc06b8"
+    },
+    {
+      "label": "AD",
+      "seed": 37101,
+      "max_pixel_difference": 0,
+      "mean_pixel_difference": 0.0,
+      "exact_pixels": true,
+      "historical_png_sha256": "1e73e2f0d86bed6b4f093a8006c96918b3191c52165826a32d8ba2f5e0430740"
+    },
+    {
+      "label": "NC",
+      "seed": 37100,
+      "max_pixel_difference": 0,
+      "mean_pixel_difference": 0.0,
+      "exact_pixels": true,
+      "historical_png_sha256": "d96dde4d77719dd77e7b30d4a7610a48a7e431dc05074f9d2ce8eeec7bb5c5a8"
+    },
+    {
+      "label": "NC",
+      "seed": 37101,
+      "max_pixel_difference": 0,
+      "mean_pixel_difference": 0.0,
+      "exact_pixels": true,
+      "historical_png_sha256": "f1d9059dd205de3d82867166467dafc53eea726aa7f3ba0e0a1a086563fad4f3"
+    }
+  ],
+  "records": [
+    {
+      "file": "official-256-cfg1.0-AD-37100.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "AD",
+      "seed": 37100,
+      "initial_noise_sha256": "831be04ec2ce5fadc6ca53c6c2a24610303beef04d28b273ee59ee1f239ad792",
+      "png_sha256": "3933215938f7529dfe58270ac2049e77c8bdc6be2f9661e0b879e9c458cc06b8",
+      "peak_allocated_bytes": 4533325824
+    },
+    {
+      "file": "official-256-cfg1.0-AD-37101.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "AD",
+      "seed": 37101,
+      "initial_noise_sha256": "0095440e295602d74b7309db2b3b970342e287a5941cbc15efe1873621839391",
+      "png_sha256": "1e73e2f0d86bed6b4f093a8006c96918b3191c52165826a32d8ba2f5e0430740",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg1.0-NC-37100.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "NC",
+      "seed": 37100,
+      "initial_noise_sha256": "831be04ec2ce5fadc6ca53c6c2a24610303beef04d28b273ee59ee1f239ad792",
+      "png_sha256": "d96dde4d77719dd77e7b30d4a7610a48a7e431dc05074f9d2ce8eeec7bb5c5a8",
+      "peak_allocated_bytes": 4534112256
+    },
+    {
+      "file": "official-256-cfg1.0-NC-37101.png",
+      "size": 256,
+      "guidance": 1.0,
+      "label": "NC",
+      "seed": 37101,
+      "initial_noise_sha256": "0095440e295602d74b7309db2b3b970342e287a5941cbc15efe1873621839391",
+      "png_sha256": "f1d9059dd205de3d82867166467dafc53eea726aa7f3ba0e0a1a086563fad4f3",
+      "peak_allocated_bytes": 4534112256
+    }
+  ],
+  "scheduler_config": {
+    "num_train_timesteps": 1000,
+    "beta_start": 0.00085,
+    "beta_end": 0.012,
+    "beta_schedule": "scaled_linear",
+    "trained_betas": null,
+    "clip_sample": false,
+    "set_alpha_to_one": false,
+    "steps_offset": 1,
+    "prediction_type": "epsilon",
+    "thresholding": false,
+    "dynamic_thresholding_ratio": 0.995,
+    "clip_sample_range": 1.0,
+    "sample_max_value": 1.0,
+    "timestep_spacing": "leading",
+    "rescale_betas_zero_snr": false,
+    "_use_default_values": [
+      "timestep_spacing",
+      "prediction_type",
+      "rescale_betas_zero_snr",
+      "clip_sample_range",
+      "dynamic_thresholding_ratio",
+      "thresholding",
+      "sample_max_value"
+    ],
+    "_class_name": "DDIMScheduler",
+    "_diffusers_version": "0.6.0",
+    "skip_prk_steps": true
+  },
+  "inference_steps": 30,
+  "eta": 0.0,
+  "seconds": 10.726863543502986,
+  "torch": "2.13.0+cu130",
+  "scope": "4 historical pairs; 16 fixed factorial samples; pixel comparison is not latent-level proof",
+  "job_id": 632535,
+  "elapsed": "00:00:26",
+  "artifact_hashes_verified": true
+}

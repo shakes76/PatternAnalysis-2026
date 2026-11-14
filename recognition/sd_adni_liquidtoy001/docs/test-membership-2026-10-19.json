@@ -1,0 +1,122 @@
+{
+  "b3": {
+    "weights": "../b3-20261015/outputs/b3-668934/weights/unet-ema-epoch-98.safetensors",
+    "weights_sha256": "cbe3cd2b113cea9629db3be297ad212331d7ad5f6a9dfd511ef63570082634f8",
+    "heldout_split": "test",
+    "test_split_read": true,
+    "frozen_commit": "2104414dcb9089088937e79b5827af5b57e4ef06",
+    "members": 1024,
+    "nonmembers": 1024,
+    "primary_timesteps": [
+      100,
+      200,
+      300
+    ],
+    "primary_draws": 4,
+    "mean_primary_loss": {
+      "member": 0.06264535337686539,
+      "nonmember": 0.16732415556907654
+    },
+    "seconds": 93.75810836302117
+  },
+  "e2": {
+    "weights": "../e2-20261013/outputs/e2-656467/weights/unet-ema-epoch-10.safetensors",
+    "weights_sha256": "e051da4c56ddd7965026448767182fc895d2535a379f5903020b4de4f6cc4595",
+    "heldout_split": "test",
+    "test_split_read": true,
+    "frozen_commit": "2104414dcb9089088937e79b5827af5b57e4ef06",
+    "members": 1024,
+    "nonmembers": 1024,
+    "primary_timesteps": [
+      100,
+      200,
+      300
+    ],
+    "primary_draws": 4,
+    "mean_primary_loss": {
+      "member": 0.09272190183401108,
+      "nonmember": 0.10068513453006744
+    },
+    "seconds": 223.54361361288466
+  },
+  "e3": {
+    "weights": "../e3-20261015/outputs/e3-660842/weights/lora-ema-epoch-10.safetensors",
+    "weights_sha256": "a37fa4b7fe032094dfbbb4b404daa94bc4e3bd2208033e081400adf58ef1facb",
+    "heldout_split": "test",
+    "test_split_read": true,
+    "frozen_commit": "2104414dcb9089088937e79b5827af5b57e4ef06",
+    "members": 1024,
+    "nonmembers": 1024,
+    "primary_timesteps": [
+      100,
+      200,
+      300
+    ],
+    "primary_draws": 4,
+    "mean_primary_loss": {
+      "member": 0.10800553858280182,
+      "nonmember": 0.10852662473917007
+    },
+    "seconds": 253.21617505908944
+  },
+  "r1e2": {
+    "weights": "../r1-20261017/outputs/r1-e2-669198/weights/unet-ema-epoch-10.safetensors",
+    "weights_sha256": "cfe8171441a83d18568072902ae9100e09f90da815e1c60b9936e406b5537b6d",
+    "heldout_split": "test",
+    "test_split_read": true,
+    "frozen_commit": "2104414dcb9089088937e79b5827af5b57e4ef06",
+    "members": 1024,
+    "nonmembers": 1024,
+    "primary_timesteps": [
+      100,
+      200,
+      300
+    ],
+    "primary_draws": 4,
+    "mean_primary_loss": {
+      "member": 0.09285596013069153,
+      "nonmember": 0.10065052658319473
+    },
+    "seconds": 223.7487847711891
+  },
+  "r1e3": {
+    "weights": "../r1-20261017/outputs/r1-e3-672769/weights/lora-ema-epoch-10.safetensors",
+    "weights_sha256": "acb050c85c9a7c57ef8ad982ad34f5117ade495d47b7b06c15580776f98df1e6",
+    "heldout_split": "test",
+    "test_split_read": true,
+    "frozen_commit": "2104414dcb9089088937e79b5827af5b57e4ef06",
+    "members": 1024,
+    "nonmembers": 1024,
+    "primary_timesteps": [
+      100,
+      200,
+      300
+    ],
+    "primary_draws": 4,
+    "mean_primary_loss": {
+      "member": 0.10802293568849564,
+      "nonmember": 0.10857853293418884
+    },
+    "seconds": 253.8091651480645
+  },
+  "sd": {
+    "weights": null,
+    "weights_sha256": null,
+    "heldout_split": "test",
+    "test_split_read": true,
+    "frozen_commit": "2104414dcb9089088937e79b5827af5b57e4ef06",
+    "members": 1024,
+    "nonmembers": 1024,
+    "primary_timesteps": [
+      100,
+      200,
+      300
+    ],
+    "primary_draws": 4,
+    "mean_primary_loss": {
+      "member": 0.1758531779050827,
+      "nonmember": 0.17565816640853882
+    },
+    "seconds": 222.65156654990278
+  }
+}

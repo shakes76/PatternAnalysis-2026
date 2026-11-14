@@ -1,0 +1,65 @@
+{
+  "cross_split_patient_scan_hash_overlap": 0,
+  "decoded_modes": {
+    "L": 30520
+  },
+  "decoded_sizes": {
+    "256x240": 30520
+  },
+  "duplicate_file_hash_groups": 0,
+  "images": 30520,
+  "job_id": "623310",
+  "manifest_sha256": "bc77d11ade201eaa0acbbcd1986be565557c161bc676bc45b230dae52e557396",
+  "metadata_sha256": "600f1d18a51057e688d8efebaab8a71e53e75aa86f40e5ab2ecb2101307817a4",
+  "patient_percentages": [
+    70,
+    15,
+    15
+  ],
+  "patients": 680,
+  "schema_version": 1,
+  "seed": 3710,
+  "split_method": "class-stratified SHA256 ordering with largest remainder",
+  "splits": {
+    "test": {
+      "image_classes": {
+        "AD": 2440,
+        "NC": 2260
+      },
+      "images": 4700,
+      "patient_classes": {
+        "AD": 33,
+        "NC": 69
+      },
+      "patients": 102,
+      "scans": 235
+    },
+    "train": {
+      "image_classes": {
+        "AD": 10160,
+        "NC": 11120
+      },
+      "images": 21280,
+      "patient_classes": {
+        "AD": 155,
+        "NC": 321
+      },
+      "patients": 476,
+      "scans": 1064
+    },
+    "validation": {
+      "image_classes": {
+        "AD": 2260,
+        "NC": 2280
+      },
+      "images": 4540,
+      "patient_classes": {
+        "AD": 33,
+        "NC": 69
+      },
+      "patients": 102,
+      "scans": 227
+    }
+  },
+  "status": "provisional split; no model selection or evaluation performed"
+}

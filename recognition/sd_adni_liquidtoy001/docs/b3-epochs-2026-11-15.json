@@ -1,0 +1,206 @@
+{
+  "post_hoc": true,
+  "question": "Does B3's replication of training slices grow with training (README 8, autopsy 4)?",
+  "membership_vs_validation": {
+    "epoch49_vs_sd": {
+      "auc": 0.9985265731811523,
+      "tpr_at_1pct_fpr": 0.974609375,
+      "control_auc": 0.46468162536621094,
+      "auc_minus_control": 0.5338449478149414,
+      "auc_minus_control_ci95": [
+        0.5087304592132569,
+        0.5583298206329346
+      ]
+    },
+    "epoch98_vs_sd": {
+      "auc": 1.0,
+      "tpr_at_1pct_fpr": 1.0,
+      "control_auc": 0.46468162536621094,
+      "auc_minus_control": 0.5353183746337891,
+      "auc_minus_control_ci95": [
+        0.509977126121521,
+        0.5599119663238525
+      ]
+    },
+    "epoch49_minus_epoch98": {
+      "auc": 0.9985265731811523,
+      "tpr_at_1pct_fpr": 0.974609375,
+      "control_auc": 1.0,
+      "auc_minus_control": -0.0014734268188476562,
+      "auc_minus_control_ci95": [
+        -0.0023927927017211915,
+        -0.0007781982421875
+      ]
+    },
+    "mean_primary_loss": {
+      "epoch49": {
+        "member": 0.08404848724603653,
+        "nonmember": 0.13312353193759918
+      },
+      "epoch98": {
+        "member": 0.06264535337686539,
+        "nonmember": 0.1665210872888565
+      }
+    },
+    "auc_by_timestep": {
+      "timesteps": [
+        50,
+        100,
+        150,
+        200,
+        250,
+        300,
+        350,
+        400,
+        450,
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        900,
+        950
+      ],
+      "epoch49": [
+        0.9769792556762695,
+        0.9928865432739258,
+        0.9964818954467773,
+        0.9977006912231445,
+        0.9980888366699219,
+        0.9981441497802734,
+        0.9979381561279297,
+        0.9965248107910156,
+        0.993708610534668,
+        0.9850063323974609,
+        0.9624757766723633,
+        0.9145317077636719,
+        0.8353471755981445,
+        0.7342290878295898,
+        0.6317052841186523,
+        0.5604033470153809,
+        0.5282998085021973,
+        0.5133838653564453,
+        0.5102996826171875
+      ],
+      "epoch98": [
+        0.9999866485595703,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.9999990463256836,
+        0.9981870651245117,
+        0.9921588897705078,
+        0.972862720489502,
+        0.917881965637207,
+        0.8177528381347656,
+        0.6987133026123047,
+        0.5944623947143555,
+        0.5392007827758789,
+        0.5151309967041016,
+        0.5079727172851562
+      ]
+    }
+  },
+  "samples_nearest_training": {
+    "seed_limit": 37328,
+    "thresholds_from_validation": {
+      "validation_p1": 0.05250364914536476,
+      "validation_min": 0.039489369839429855
+    },
+    "cohorts": {
+      "epoch49": {
+        "samples": 256,
+        "per_class": {
+          "AD": 128,
+          "NC": 128
+        },
+        "nearest_training_rmse": {
+          "mean": 0.0611114576458931,
+          "median": 0.056645698845386505,
+          "min": 0.029531771317124367,
+          "max": 0.24815323948860168
+        },
+        "near_copies": {
+          "validation_p1": {
+            "samples": 84,
+            "share": 0.328125,
+            "training_slices_copied_by_several_seeds": 6,
+            "most_seeds_on_one_slice": 3
+          },
+          "validation_min": {
+            "samples": 8,
+            "share": 0.03125,
+            "training_slices_copied_by_several_seeds": 0,
+            "most_seeds_on_one_slice": 1
+          }
+        }
+      },
+      "epoch98": {
+        "samples": 256,
+        "per_class": {
+          "AD": 128,
+          "NC": 128
+        },
+        "nearest_training_rmse": {
+          "mean": 0.05289982259273529,
+          "median": 0.04653371870517731,
+          "min": 0.020777389407157898,
+          "max": 0.2391800880432129
+        },
+        "near_copies": {
+          "validation_p1": {
+            "samples": 160,
+            "share": 0.625,
+            "training_slices_copied_by_several_seeds": 9,
+            "most_seeds_on_one_slice": 3
+          },
+          "validation_min": {
+            "samples": 60,
+            "share": 0.234375,
+            "training_slices_copied_by_several_seeds": 3,
+            "most_seeds_on_one_slice": 2
+          }
+        }
+      },
+      "epoch98-final-batch1": {
+        "samples": 256,
+        "per_class": {
+          "AD": 128,
+          "NC": 128
+        },
+        "nearest_training_rmse": {
+          "mean": 0.05277850478887558,
+          "median": 0.046577878296375275,
+          "min": 0.021161451935768127,
+          "max": 0.2391476184129715
+        },
+        "near_copies": {
+          "validation_p1": {
+            "samples": 165,
+            "share": 0.64453125,
+            "training_slices_copied_by_several_seeds": 10,
+            "most_seeds_on_one_slice": 4
+          },
+          "validation_min": {
+            "samples": 61,
+            "share": 0.23828125,
+            "training_slices_copied_by_several_seeds": 3,
+            "most_seeds_on_one_slice": 2
+          }
+        }
+      }
+    }
+  },
+  "weights_sha256": {
+    "epoch49": "dc2aa34338f133161a4087d363259da159b14a6bfad8978c16a47645e3e8dc08",
+    "epoch98": "cbe3cd2b113cea9629db3be297ad212331d7ad5f6a9dfd511ef63570082634f8"
+  },
+  "test_split_read": false
+}

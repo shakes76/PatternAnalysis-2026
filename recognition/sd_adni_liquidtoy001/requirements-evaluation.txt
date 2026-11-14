@@ -1,0 +1,11 @@
+# Local analysis environment: SSIM, distribution and membership measures,
+# t-SNE (tools/audit_ssim.py, final_metrics.py, final_ssim.py, final_tsne.py,
+# blind_sort.py). The GPU jobs use requirements-train.txt.
+numpy==2.5.1
+Pillow==12.3.0
+scipy==1.18.0
+scikit-learn==1.9.0
+scikit-image==0.25.2
+matplotlib==3.11.1
+threadpoolctl==3.6.0
+torch==2.13.0

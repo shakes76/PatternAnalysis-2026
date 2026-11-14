@@ -1,0 +1,81 @@
+{
+  "post_hoc": true,
+  "noise_draws_per_class": 512,
+  "first_seed": 37200,
+  "saturation_threshold": 0.99,
+  "generators": {
+    "b2": {
+      "checkpoint": "../b2-20261015/outputs/b2-663302/final.pt",
+      "checkpoint_sha256": "2d538a656f3947c07b4cf7065cc5e479931d28b7739a753210ed097d05ed1d99",
+      "step": 29000,
+      "classes": {
+        "AD": {
+          "first_layer": {
+            "noise_part_norm_mean": 42.21389444172382,
+            "class_part_norm": 145.88552856445312,
+            "noise_weight_norm": 42.154441833496094,
+            "class_weight_norm": 42.0250129699707
+          },
+          "noise_variance_share_by_layer": {
+            "project_norm": 0.08857682906642293,
+            "block1": 0.011383933755489784,
+            "block2": 0.014652958625603535,
+            "block3": 0.018796682234048026,
+            "block4": 0.03433545401288395,
+            "block5": 0.05042888726023171,
+            "to_image": 0.02177525301483805
+          },
+          "saturated_output_fraction": 0.4154326915740967,
+          "output_64px": {
+            "noise_variance_share": 0.07794881795983284,
+            "within_class_pairwise_rmse": 0.07270492613315582,
+            "correlation_with_class_mean": 0.9604938626289368
+          },
+          "max_pixel_difference_to_cohort_png": 0
+        },
+        "NC": {
+          "first_layer": {
+            "noise_part_norm_mean": 42.21389444172382,
+            "class_part_norm": 120.84498596191406,
+            "noise_weight_norm": 42.154441833496094,
+            "class_weight_norm": 42.0250129699707
+          },
+          "noise_variance_share_by_layer": {
+            "project_norm": 0.11194455033881812,
+            "block1": 0.02503033038951919,
+            "block2": 0.0337586046897716,
+            "block3": 0.04894382004074332,
+            "block4": 0.05494583376518565,
+            "block5": 0.08300128994111851,
+            "to_image": 0.04051269332405878
+          },
+          "saturated_output_fraction": 0.6545361280441284,
+          "output_64px": {
+            "noise_variance_share": 0.12476178516834013,
+            "within_class_pairwise_rmse": 0.07639690488576889,
+            "correlation_with_class_mean": 0.9397080540657043
+          },
+          "max_pixel_difference_to_cohort_png": 0
+        }
+      }
+    }
+  },
+  "real_training_slices_64px": {
+    "AD": {
+      "noise_variance_share": 0.28299493728240577,
+      "within_class_pairwise_rmse": 0.15187391638755798,
+      "correlation_with_class_mean": 0.8572583198547363
+    },
+    "NC": {
+      "noise_variance_share": 0.27089256854932303,
+      "within_class_pairwise_rmse": 0.15405340492725372,
+      "correlation_with_class_mean": 0.8677496314048767
+    }
+  },
+  "test_split_read": false,
+  "code_sha256": {
+    "gan_noise.py": "96beed19a2303d315cb94e28160b086e6794b89f10deac1fb1f4fb5baf82ac88",
+    "baseline_gan.py": "48c46b5036d49d91914e95eba07b9cffc46d4fa127a29a8170c7d5fe595d6af2"
+  },
+  "seconds": 5.153344220016152
+}

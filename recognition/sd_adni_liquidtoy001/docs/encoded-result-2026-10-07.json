@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "label": "NC",
+      "seed": 37215,
+      "generated_file": "official-256-cfg7.5-NC-37215.png",
+      "endpoint_mse": [
+        0.0006035948754288256,
+        0.0041033015586435795
+      ]
+    },
+    {
+      "label": "AD",
+      "seed": 37220,
+      "generated_file": "official-256-cfg7.5-AD-37220.png",
+      "endpoint_mse": [
+        0.0005461925757117569,
+        0.003970544319599867
+      ]
+    }
+  ],
+  "test_read": false,
+  "reference_count": 204,
+  "script_sha256": "1c99c9ba8a0b4dc2bc618dbe06f834dfd29473075c73b9cb0a54e2b3c7d911ab"
+}
