@@ -1,3 +1,39 @@
+
+## Providing your own dataset and storage
+
+The original experiments used the author's private Google Drive. That storage
+is not shared by this public repository. The repository includes code, frozen
+split manifests, duplicate-pair metadata and report figures; **the full JPEG
+dataset, image archive and trained weights are not included**.
+
+Obtain your own SIIM-ISIC 2020 Training JPEGs from the dataset provider (dataset
+identifier: DOI `10.34970/2020-DS01`) and follow its access and usage terms.
+The supplied image IDs must match the included split manifests. Do not upload
+images, archives, model weights or generated experiment outputs to GitHub.
+
+In `run_colab.ipynb`, configure:
+
+| Setting | What to provide |
+|---|---|
+| `IMAGE_DIR` | Your extracted JPEG directory on the remote Colab runtime; subfolders are supported. |
+| `ARCHIVE` | Optional path to your uploaded JPEG ZIP; leave `None` when images are already extracted. |
+| `USE_GOOGLE_DRIVE` | `False` by default; set `True` only to mount your own Google account's Drive. |
+| `OUTPUT_ROOT` | Your results/checkpoint folder outside the repository. `/content/isic_runs` is temporary. |
+| `CHECKPOINTS` | Your model checkpoint paths when `MODE="evaluate"`. No author-specific paths are supplied. |
+| `RESUME_RUN` | Optional existing run folder containing recovery checkpoints from the updated trainers. |
+
+For example, upload an archive to `/content/ISIC_2020_Training_JPEG.zip`, set
+`ARCHIVE` to that path, and let the notebook extract to `/content/isic2020/jpeg`.
+Alternatively point `IMAGE_DIR` at an existing complete image directory and leave
+`ARCHIVE=None`. These are remote Linux paths, not local Windows paths.
+For persistence, enable Drive and choose a folder in your own Drive; otherwise
+download results before the Colab runtime ends. The command-line scripts use
+`--images`, `--output` and `--checkpoint` for the same user-supplied locations.
+
+Git ignore rules guard common dataset/archive/weight/output paths. They do not
+remove files already tracked, so check `git status` before committing. Notebook
+outputs should be cleared before publication to avoid sharing personal paths.
+
 # Running and checking the models
 
 Run commands below from the repository root. Use Python 3.12 with
