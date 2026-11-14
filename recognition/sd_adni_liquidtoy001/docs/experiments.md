@@ -1410,3 +1410,64 @@ the adapter trains in 10.2 GiB, 57% less than full fine-tuning's 23.6 GiB, the
 expected direction. No other result changes; check-off figures quoted at the
 time (23.8 GiB for E2) are left as recorded. Aggregates are in
 [memory-check-2026-11-15.json](memory-check-2026-11-15.json).
+
+## 2026-11-15 — Post-hoc: testing the failure-autopsy explanations
+
+The second preliminary review deducted for causes in README Section 8 and the
+class-exaggeration explanation in Section 7.3 that were stated as untested
+hypotheses. Four jobs on a100-test, all submitted from the final run directory
+with its frozen code plus the new tools (SHA-256 of each copied file checked
+against the commit), none reading the test split:
+
+| Job | Tool | Elapsed |
+| --- | --- | ---: |
+| 765633 | `tools/guidance_sweep.py`, E2 at guidance 1 and 3, plus the five autopsy seeds at 1, 3, 5, 7.5 | 4:57 |
+| 765634 | `tools/guidance_sweep.py`, E2 at guidance 5 and 7.5 | 4:41 |
+| 765635 | `tools/b3_epochs.sbatch`: membership of B3 epoch 49 (validation non-members), samples of epochs 49 and 98, `tools/nearest_training.py` | 5:24 |
+| 765636 | `tools/gan_noise.py` on B2 (B2b kept no final model) | 0:07 |
+
+**Guidance and class exaggeration.** 128 seeds per class, batch 16. The probe
+of `tools/class_probe.py`, refitted on the validation slices, gives AUC 0.604
+(95% CI 0.531-0.672) at guidance 1, 0.799 (0.740-0.850) at 3, 0.889
+(0.844-0.926) at 5 and 0.946 (0.918-0.970) at 7.5; the final batch-1 cohort on
+the same seeds gives 0.949. Real test slices: 0.758. Mean tissue brightness
+(grey level above 0.1) rises from 0.29 to 0.34 (AD) and 0.36 (NC), tissue
+contrast from 0.12 to 0.15 (AD) and 0.14 (NC); tissue above 0.9 stays below
+0.03% at every scale. The real reference (middle validation slice of each
+patient) is 0.43-0.45 and 0.19, brighter than an average slice.
+
+**Autopsy seeds.** At 7.5 all five regenerated PNGs equal the final cohort's
+hashes. NC-37263: tissue mean 0.24, 0.19, 0.38, 0.49 at 1, 3, 5, 7.5; dark
+and disordered at 1 and 3, cut off at the edge at 5 and 7.5. NC-37595:
+off-centre at every scale, brightness 0.37 to 0.49. NC-37407 and NC-37341:
+the dissolved brainstem and the mottled lower half appear only at 7.5.
+NC-37489: the stripe and rim appear at every scale.
+
+**B3 epochs.** Membership against validation slices, primary score: AUC 0.998
+at epoch 49 and 1.000 at epoch 98 (SD control 0.465); member loss 0.084 and
+0.063, non-member loss 0.133 and 0.167. On the same 128 seeds per class,
+samples closer to a training slice than the closest real validation slice
+(0.0395): 8/256 at epoch 49, 60/256 at epoch 98 (61/256 for the final batch-1
+cohort); below the validation 1st percentile (0.0525): 84 and 160. Mean
+nearest-training RMSE 0.061 and 0.053 (batch-1 cohort 0.053).
+
+**B2 noise.** Seeds 37200-37711 per class; the first 16 images per class equal
+the cohort PNGs. First-layer weight norms: noise 42.2, class embedding 42.0;
+the noise part of the first layer is 42 against a class part of 146 (AD) and
+121 (NC). Share of activation variance due to the noise: 0.089/0.112 (AD/NC)
+after the first layer, 0.011/0.025 after the first upsampling block, 0.078/0.125
+at the 64 px output, against 0.283/0.271 for 512 real training slices per
+class. Within-class pairwise RMSE 0.073/0.076 against 0.152/0.154; correlation
+with the class mean 0.96/0.94 against 0.86/0.87.
+
+**Consequence.** README Sections 7.3 and 8 now report these tests. Revised:
+guidance does not cause E0's grey background (from the 2026-10-07 sweep); the
+B2 generator does not ignore its noise at the input but suppresses it in the
+first block; NC-37407 and NC-37341 come from strong guidance, not from
+averaging; guidance does not push intensities to extremes. Confirmed: guidance
+causes the class exaggeration; B3's replication grows with training. Still
+untested: the source of NC-37489's stripe and rim. Aggregates are in
+[guidance-sweep-2026-11-15.json](guidance-sweep-2026-11-15.json),
+[b3-epochs-2026-11-15.json](b3-epochs-2026-11-15.json) and
+[gan-noise-2026-11-15.json](gan-noise-2026-11-15.json); images and private
+scores stay in `outputs/`.

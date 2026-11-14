@@ -52,6 +52,15 @@ def auc_with_interval(is_nc: np.ndarray, score: np.ndarray) -> dict:
     }
 
 
+def fit_probe(real):
+    """The probe, fitted on the validation (floor) slices' Inception features."""
+    probe = make_pipeline(
+        StandardScaler(),
+        LogisticRegressionCV(Cs=10, cv=5, max_iter=5000, random_state=SEED),
+    )
+    return probe.fit(real["floor_inception"], real["floor_is_nc"])
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -65,11 +74,7 @@ def main():
     cohorts = np.load(args.cohorts / "private-cohort-features.npz")
     listing = json.loads((args.cohorts / "private-cohorts.json").read_text())
 
-    probe = make_pipeline(
-        StandardScaler(),
-        LogisticRegressionCV(Cs=10, cv=5, max_iter=5000, random_state=SEED),
-    )
-    probe.fit(real["floor_inception"], real["floor_is_nc"])
+    probe = fit_probe(real)
 
     def score(features):
         return probe.predict_proba(features)[:, 1]  # probability of NC

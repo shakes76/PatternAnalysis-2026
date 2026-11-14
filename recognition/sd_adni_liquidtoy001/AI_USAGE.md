@@ -334,3 +334,18 @@ file against the recorded accounts."
 - Verification: SHA-256 of every file copied to Rangpur matched the committed blob; the jobs used
   the E3 and B3 run directories' own code and environment; the phase runs reproduce each run's
   logged peak (23.8, 36.8, 34.3 GiB) to 0.02 GiB.
+
+## 2026-11-15 — Testing the failure-autopsy explanations (Claude Code)
+
+- The second preliminary review called the autopsy causes and the class-exaggeration explanation
+  untested. I proposed tests and, with the student's approval, wrote `tools/guidance_sweep.py`,
+  `tools/nearest_training.py`, `tools/gan_noise.py` and two local summaries, and ran four short
+  jobs that read no test data.
+- Several earlier explanations were wrong and are now corrected in README Section 8: guidance
+  does not cause E0's grey background; the GAN does not ignore its noise at the input; two of
+  E2's worst samples come from strong guidance rather than from averaging a variable region; and
+  guidance does not push intensities to extremes. Two were confirmed: guidance causes the class
+  exaggeration, and B3's replication grows with training.
+- Verification: SHA-256 of every copied file matched the committed blob; the regenerated autopsy
+  seeds at guidance 7.5 equal the final cohort byte for byte, and the batch-16 sweep reproduces
+  the final cohort's probe AUC (0.946 against 0.949); the GAN images equal the cohort PNGs.

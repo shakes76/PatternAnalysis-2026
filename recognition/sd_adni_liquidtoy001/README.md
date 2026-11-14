@@ -346,9 +346,20 @@ AUC 0.76. On samples split by the class asked for:
 ![Probe probability of NC by requested class](docs/figures/class-probe-test.png)
 
 The conditioning works, but E2's classes differ more than real slices do: the
-samples caricature their class, probably because guidance 7.5 extrapolates
-along the class direction (not tested). The GAN's value comes from one template
-per class.
+samples caricature their class. The GAN's value comes from one template per
+class.
+
+*Guidance causes the caricature* (post-hoc, after the review). E2 regenerated
+the first 128 seeds per class at lower guidance scales, and the same probe
+(fitted on validation slices; no test data read) scored them
+([result](docs/guidance-sweep-2026-11-15.json)). The AUC falls steadily with
+guidance: 0.95 at 7.5, 0.89 at 5, 0.80 at 3, close to real slices (0.76), and
+0.60 without guidance (95% CIs in the result). The batch-16 run matches the final
+cohort on the same seeds (0.946 against 0.949). Guidance also makes tissue
+brighter and more contrasted, towards real slices, without saturating it.
+Whether a lower scale costs fidelity was not measured.
+
+![Probe AUC, tissue brightness and contrast against guidance](docs/figures/guidance-sweep.png)
 
 ### 7.4 Interpolation
 
@@ -396,35 +407,77 @@ training step saves almost the same activations with and without the adapter
 
 ## 8. Failure autopsies
 
+The first review called these causes untested hypotheses. Each was then tested
+post-hoc, without reading test data; every item says how and what was found.
+
 1. **Grey backgrounds and colour casts (E0).** Only 23/64 samples were usable.
-   SD1.5's noise schedule cannot learn a global brightness shift from zero-mean
-   noise, and guidance extrapolated from a prompt branch never trained on MRI.
-   *Fix:* offset noise and prompt dropout (E1).
+   *Tested* with a guidance sweep of E0 (3, 5 and 7.5 on the same 64 seeds,
+   [result](docs/cfg-sweep-result-2026-10-07.json)): the two failures have
+   different causes. The grey background is not from guidance: border
+   brightness fell as guidance rose (0.205, 0.110, 0.059; lower in 64/64
+   samples from 3 to 5). It went once offset noise was added (E1: 0.002),
+   which supports the explanation that SD1.5's noise schedule cannot learn a
+   global brightness shift from zero-mean noise. The colour casts grew with
+   guidance (5 to 7.5: up in 45/64 samples), as expected if guidance
+   extrapolates from a prompt branch never trained on MRI; prompt dropout
+   removed them. E1 added both fixes at once, so their separate shares are
+   not known.
 2. **Blank NC samples (E1).** 7/32 NC samples were nearly black; their nearest
    training slices all came from one defective scan, a rare extreme item the
-   model reproduced. *Fix:* the defective-scan rule (E2: 0/32).
-3. **Mode collapse (B2, B2b).** From step 1,000, every sample in a class was the
-   same non-anatomical template: the generator ignored its noise (Mao et al.,
-   2019). The collapse check missed it because it pooled both classes. One GAN
-   per class collapsed too, even after a calibration bug was fixed.
+   model reproduced. *Tested by intervention:* removing that scan and one like
+   it (the defective-scan rule) and retraining removed them (E2: 0/32).
+3. **Mode collapse (B2, B2b).** From step 1,000, every sample in a class looked
+   like the same non-anatomical template. The collapse check missed it because
+   it pooled both classes. *Tested* on B2's generator with 512 noise draws per
+   class ([result](docs/gan-noise-2026-11-15.json)). The guess that the
+   generator ignored its noise, the explanation Mao et al. (2019) give for
+   conditional GANs, is only half right. The noise still enters: in the first
+   layer its weights are as large as the class embedding's (norm 42 each), and
+   its contribution is about a third of the class's. But the first upsampling
+   block squeezes it out: the share of activation variance due to the noise
+   falls from 9-11% to 1-3%. At the output, samples of a class differ half as
+   much as real training slices do (pairwise RMSE 0.07 against 0.15), and each
+   correlates 0.94-0.96 with its class mean (real slices 0.86-0.87). B2b (one
+   GAN per class) collapsed too, even after a calibration bug was fixed, and
+   kept no model to test.
 4. **Replicated training slices (B3).** The closest samples reproduce specific
-   training slices' outlines and ventricles with smeared gyri. 92 M parameters
-   from scratch on 21 k slices overfit after epoch 23 (Section 6), the
-   replication Somepalli et al. (2023) describe.
+   training slices' outlines and ventricles with smeared gyri, the replication
+   Somepalli et al. (2023) describe. Its validation loss was lowest at epoch 23
+   and rose in every later epoch (Section 6). *Tested* by comparing the two
+   saved checkpoints, epochs 49 and 98, on the same 128 seeds per class, with
+   validation slices as non-members ([result](docs/b3-epochs-2026-11-15.json)).
+   The weights had already memorised by epoch 49: the loss test recognises
+   training slices with AUC 0.998 (1.000 at epoch 98). The samples replicate
+   far more after further training: the share closer to a training slice
+   than any real validation slice is rose from 3% to 23%, and the mean
+   nearest-training RMSE fell from 0.061 to 0.053. Replication grows with
+   training, as overfitting predicts. No checkpoint near epoch 23 was kept, so
+   when it began is not known.
 5. **E2's worst test samples**, chosen by a rule fixed in advance (5 lowest SSIM
    of 1,024; no sample was near-empty):
 
 ![E2's five lowest-SSIM test samples](docs/figures/autopsy-e2.png)
 
-| Sample (SSIM) | What is wrong | Likely trigger (not verified) |
-| --- | --- | --- |
-| NC-37263 (0.536), NC-37595 (0.586) | over-bright, flat contrast, anatomy cut off at the edge | guidance pushes intensities to extremes; off-centre slices are rare |
-| NC-37407 (0.563) | brainstem and cerebellum dissolve into disordered tissue | the most variable region; the model averages incompatible shapes |
-| NC-37489 (0.577) | a stripe runs off the image; a bright rim circles the cortex | skull-stripping remnants in some training slices, exaggerated |
-| NC-37341 (0.587) | lower half replaced by mottled texture | the same failure, more severe |
+*Tested* by regenerating the five seeds at guidance 1, 3 and 5 (synthetic
+images below the table); at 7.5 all five matched the final cohort byte for byte.
 
+| Sample (SSIM) | What is wrong (at 7.5) | What the guidance sweep showed |
+| --- | --- | --- |
+| NC-37263 (0.536) | brighter than most samples (tissue mean 0.49 against 0.36); anatomy cut off at the edge | the brightness comes from guidance (0.24 at guidance 1), but at 1 and 3 the slice is dark and disordered instead; the cut-off remains at 5 |
+| NC-37595 (0.586) | the same | off-centre at every scale, so the starting noise, not guidance, sets the framing; brightness rises with guidance (0.37 to 0.49) |
+| NC-37407 (0.563) | brainstem and cerebellum dissolve into disordered tissue | appears only at 7.5: strong guidance causes it (the earlier guess, averaging in a variable region, is refuted) |
+| NC-37489 (0.577) | a stripe runs off the image; a bright rim circles the cortex | present at every scale: not guidance; the guessed source, skull-stripping remnants in training slices, remains untested |
+| NC-37341 (0.587) | lower half replaced by mottled texture | appears only at 7.5: strong guidance causes it |
+
+![The five seeds at guidance 1, 3, 5 and 7.5](docs/figures/autopsy-guidance.png)
+
+Across the sweep's 1,024 samples, guidance raises tissue brightness and
+contrast but almost no tissue saturates (under 0.03% above 0.9 at any scale),
+so the earlier guess that guidance pushes intensities to extremes was wrong.
 All five are NC, the more varied class. They are Section 2.4's "impossible
 tissue junctions": rare, but present, and the reason E2's precision is low.
+Two of the five come from guidance 7.5, the setting that also caricatures the
+classes (Section 7.3).
 
 ## 9. Recommendation
 
@@ -513,7 +566,9 @@ python -m unittest discover -s tests
 Seeds are fixed for data order, validation draws and every sample. Generation
 is deterministic and reproduces earlier cohorts byte for byte; training uses
 TF32 for speed. Every job is listed in the [ledger](docs/experiments.md), and
-the README figures are redrawn by `tools/figure_report.py` from data in `docs/`.
+the README figures are redrawn by `tools/figure_report.py` from data in `docs/`,
+except the two guidance-sweep figures, drawn by `tools/guidance_probe.py` from
+the sweep's outputs.
 
 ## 12. Limitations
 
@@ -523,6 +578,9 @@ the README figures are redrawn by `tools/figure_report.py` from data in `docs/`.
   64 items give a wide interval. A second rater who has never seen the samples
   would strengthen the plausibility verdict.
 - Downstream utility is not measured.
+- The autopsy causes were tested after the review, on the saved models, with
+  128 seeds per class in the guidance sweep; fidelity at lower guidance and the
+  source of NC-37489's stripe were not measured.
 - 2D slices, one dataset; two seeds for E2 and E3, one per baseline.
 - KID and FID use ImageNet features, a convention rather than a validated MRI
   measure.
