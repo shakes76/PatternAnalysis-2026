@@ -8,9 +8,12 @@
 | :----- | :------------------------------------------------- |
 | Author | Alex Janevik (47041585)                            |
 
-![YOLO11 Lesion Detection](assets/hero.gif)
+<img src="assets/hero.gif" style="width: 60%;">
 
+<p>
+    
 [Installation](./docs/INSTALLATION.md) • [Usage](./docs/USAGE.md)
+</p>
 
 </div>
 
