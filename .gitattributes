@@ -1,0 +1,3 @@
+# Preserve audited source CSV bytes and their recorded SHA-256 hashes.
+/recognition/Siamese_Nandos/splits/*.csv -text
+/recognition/Siamese_Nandos/ISIC_2020_Training_Duplicates.csv -text
