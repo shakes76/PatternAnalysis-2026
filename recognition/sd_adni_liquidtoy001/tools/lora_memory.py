@@ -21,6 +21,11 @@ Variants (one per process, so peaks do not mix):
 
 Data content does not change memory, so no ADNI image is read.
 
+Two peaks are reported: over the first step, which includes cuDNN's
+autotuning trials as train.py's peak does, and over the third step, after
+the algorithms are chosen. --no-benchmark turns autotuning off, to test
+whether its trials explain the recorded peaks.
+
     python tools/lora_memory.py --variant lora --output outputs/lora-memory-<job>
 """
 
@@ -144,12 +149,13 @@ def main():
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--lora-rank", type=int, default=4)
     parser.add_argument("--model-dir", type=Path, default=Path("models/sd15-smoke"))
+    parser.add_argument("--no-benchmark", action="store_true")
     args = parser.parse_args()
     device = torch.device("cuda")
     # The training run's throughput settings.
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
-    torch.backends.cudnn.benchmark = True
+    torch.backends.cudnn.benchmark = not args.no_benchmark
     torch.manual_seed(3710)
     args.output.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
@@ -162,7 +168,12 @@ def main():
         else None
     )
     weights_gib = torch.cuda.memory_allocated(device) / GIB
-    for _ in range(2):  # warm-up: optimiser state and cuDNN autotuning
+    torch.cuda.reset_peak_memory_stats(device)
+    first = step(unet, parameters, optimizer, schedule, args.batch_size, device)
+    torch.cuda.synchronize()
+    peak_first_step = torch.cuda.max_memory_allocated(device) / GIB
+    del first
+    for _ in range(1):  # warm-up: optimiser state and cuDNN autotuning
         step(unet, parameters, optimizer, schedule, args.batch_size, device)
     torch.cuda.synchronize()
     torch.cuda.reset_peak_memory_stats(device)
@@ -180,6 +191,8 @@ def main():
         "resident_before_step_gib": before / GIB,
         "held_after_forward_gib": (after_forward - before) / GIB,
         "peak_step_gib": torch.cuda.max_memory_allocated(device) / GIB,
+        "peak_first_step_gib": peak_first_step,
+        "cudnn_benchmark": torch.backends.cudnn.benchmark,
         **census.summary(),
         "attention_processors": dict(
             collections.Counter(
@@ -190,7 +203,8 @@ def main():
         "gpu": torch.cuda.get_device_name(),
         "seconds": time.perf_counter() - started,
     }
-    path = args.output / f"{args.variant}.json"
+    tag = "-nobench" if args.no_benchmark else ""
+    path = args.output / f"{args.variant}{tag}.json"
     path.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))
 
