@@ -168,10 +168,13 @@ recognition/Siamese_Nandos/
     train_aux.py
     predict.py
     runtime.py
+    training_utils.py
+    run_colab.ipynb
     split_utils.py
     prepare_splits.py
     test_pipeline.py
     test_splits.py
+    test_training_utils.py
     ISIC_2020_Training_Duplicates.csv
     splits/
         train.csv
@@ -240,7 +243,7 @@ python recognition/Siamese_Nandos/predict.py --model baseline --checkpoint runs/
 python recognition/Siamese_Nandos/predict.py --model siamese_aux --checkpoint runs/siamese_aux/best.pt --splits recognition/Siamese_Nandos/splits --images DATA/jpeg --output runs/siamese_aux/evaluation --device cuda --threshold-policy val_specificity80_max_sensitivity
 ```
 
-The included duplicate CSV is found automatically beside `splits/`. Use `--duplicates PATH` if it lives elsewhere. Missing audit files or leakage stop execution. The original manifests are consumed unchanged; training never regenerates partitions. Each trainer saves `best.pt`, validation predictions and `history.csv`. Siamese training also saves `last.pt` for `--resume`. Prediction saves `test_predictions.csv`, `test_metrics.csv`, confusion-matrix, precision-recall and ROC plots.
+The included duplicate CSV is found automatically beside `splits/`. Use `--duplicates PATH` if it lives elsewhere. Missing audit files or leakage stop execution. The original manifests are consumed unchanged; training never regenerates partitions. Each trainer saves `best.pt`, validation predictions and `history.csv`. Both trainers save `last.pt` after each completed epoch for explicit `--resume`, including optimizer, history, split hashes and main-process random states. Training and validation print batch progress and phase ETA. See [RUNNING.md](RUNNING.md#progress-and-interruption-recovery) for recovery limits. Prediction saves `test_predictions.csv`, `test_metrics.csv`, confusion-matrix, precision-recall and ROC plots.
 
 ### 5.6 Verification and Reproducibility Limits
 
@@ -250,7 +253,7 @@ For CPU-only smoke tests, install `requirements-cpu.txt` instead of the CUDA req
 python -m unittest discover -s recognition/Siamese_Nandos -v
 ```
 
-All 11 regression tests passed locally, covering synthetic training and evaluation for both models, Siamese resume, checkpoint compatibility, cached preprocessing, worker epoch updates, leakage rejection and explicit device selection. The tests select CPU and do not download pretrained weights. Local repair tests used Python 3.14 with newer compatible supporting libraries, so they do not validate the exact pinned Python 3.12 environment or CUDA execution.
+The initial 11 regression tests passed locally, covering synthetic training and evaluation for both models, Siamese resume, checkpoint compatibility, cached preprocessing, worker epoch updates, leakage rejection and explicit device selection. The suite now also tests exact zero-worker CPU resume equivalence for both models, nonempty-output rejection, random-state recovery, failed-save preservation and progress messages. The tests select CPU and do not download pretrained weights. Local repair tests used Python 3.14 with newer compatible supporting libraries, so they do not validate the exact pinned Python 3.12 environment or CUDA execution.
 
 The repaired Siamese model matches the supplied auxiliary-head notebook's outputs, combined loss and parameter gradients for identical CPU inputs and weights. The split-selection implementation matches the development notebook's membership, row order and score on a synthetic cohort. The supplied real manifests match the reported counts and pass the full metadata leakage audit, including all 425 listed duplicate pairs. Original file hashes are recorded in [manifest_audit.json](splits/manifest_audit.json).
 

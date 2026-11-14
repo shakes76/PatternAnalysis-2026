@@ -17,6 +17,8 @@ from dataset import ImageCache, ISICImageDataset, PairDataset, index_images, mak
 from modules import SiameseNetWithClassifier, contrastive_loss
 from split_utils import load_splits
 from runtime import select_device
+from training_utils import (prepare_output, atomic_save, atomic_csv, capture_rng,
+                            restore_rng, manifest_hashes, validate_resume, Progress, epoch_complete)
 
 
 def main():
@@ -40,7 +42,10 @@ def main():
     parser.add_argument("--seed", type=int, default=3710)
     parser.add_argument("--no-pretrained", action="store_true")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--log-every", type=int, default=25, help="Print progress every N batches")
     args = parser.parse_args()
+    if args.log_every < 1:
+        raise ValueError("log-every must be positive")
 
     if min(args.batch_size, args.pairs_per_epoch, args.image_size, args.epochs, args.embedding_dim) < 1 or args.workers < 0:
         raise ValueError("Batch, pair, image, epoch and embedding sizes must be positive; workers cannot be negative.")
@@ -53,7 +58,8 @@ def main():
         torch.cuda.manual_seed_all(args.seed)
     device = select_device(args.device)
     splits, output = Path(args.splits), Path(args.output)
-    output.mkdir(parents=True, exist_ok=True)
+    prepare_output(output, args.resume)
+    hashes = manifest_hashes(splits)
     frames = load_splits(splits, args.duplicates)
     train_df, val_df = frames["train"], frames["val"]
     paths = index_images(args.images)
@@ -90,7 +96,7 @@ def main():
         pin_memory=device.type == "cuda", persistent_workers=args.workers > 0,
     )
 
-    model = SiameseNetWithClassifier(args.embedding_dim, pretrained=not args.no_pretrained).to(device)
+    model = SiameseNetWithClassifier(args.embedding_dim, pretrained=not args.no_pretrained and not args.resume).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
     criterion = nn.BCEWithLogitsLoss()
     use_amp = device.type == "cuda"
@@ -103,19 +109,23 @@ def main():
     if args.resume:
         # Resume the optimiser and scaler as well as the weights so the next
         # update continues from the saved training state.
-        checkpoint = torch.load(last_path, map_location=device, weights_only=False)
+        checkpoint = torch.load(last_path, map_location="cpu", weights_only=False)
+        validate_resume(checkpoint, args, hashes)
         model.load_state_dict(checkpoint["model"])
         optimizer.load_state_dict(checkpoint["optimizer"])
         scaler.load_state_dict(checkpoint["scaler"])
         start_epoch = checkpoint["epoch"] + 1
         best_ap, history = checkpoint["best_ap"], checkpoint["history"]
+        restore_rng(checkpoint["rng"])
+        print(f"Resuming after epoch {start_epoch}", flush=True)
 
     for epoch in range(start_epoch, args.epochs):
         pair_ds.set_epoch(epoch)
         model.train()
         totals = np.zeros(3, dtype=np.float64)
         started = time.time()
-        for a, b, same, y_a, y_b in train_loader:
+        progress = Progress("train", epoch + 1, args.epochs, len(train_loader), args.log_every)
+        for batch, (a, b, same, y_a, y_b) in enumerate(train_loader, 1):
             a, b = a.to(device), b.to(device)
             same, y_a, y_b = same.to(device), y_a.to(device), y_b.to(device)
             optimizer.zero_grad(set_to_none=True)
@@ -129,18 +139,21 @@ def main():
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()
+            progress.update(batch, loss.item())
             totals += np.array([loss.item(), metric_loss.item(), class_loss.item()]) * len(same)
 
         model.eval()
         logits, labels, names = [], [], []
+        progress = Progress("validation", epoch + 1, args.epochs, len(val_loader), args.log_every)
         with torch.inference_mode():
-            for x, y, image_names in val_loader:
+            for batch, (x, y, image_names) in enumerate(val_loader, 1):
                 x = x.to(device)
                 with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
                     score = model.classify(x).float()
                 logits.extend(score.cpu().numpy().tolist())
                 labels.extend(y.numpy().tolist())
                 names.extend(image_names)
+                progress.update(batch)
         # AP is useful for this highly imbalanced validation set; AUROC is also
         # recorded to describe ranking performance across class thresholds.
         ap = float(average_precision_score(labels, logits))
@@ -160,21 +173,24 @@ def main():
             "image_name": names, "target": labels, "score_logit": logits,
             "score_probability": probabilities,
         })
+        print("Saving validation results and checkpoints...", flush=True)
         # Keep the weights and predictions from the same best-AP epoch.
         if ap > best_ap:
             best_ap = ap
-            torch.save({
+            atomic_save({
                 "model": model.state_dict(), "epoch": epoch, "val_ap": ap,
                 "config": vars(args),
             }, best_path)
-            predictions.to_csv(output / "best_val_scores.csv", index=False)
-        torch.save({
+            atomic_csv(predictions, output / "best_val_scores.csv")
+        print("Saving epoch recovery checkpoint...", flush=True)
+        atomic_save({
             "model": model.state_dict(), "optimizer": optimizer.state_dict(),
             "scaler": scaler.state_dict(), "epoch": epoch, "best_ap": best_ap,
             "history": history, "config": vars(args),
+            "rng": capture_rng(), "manifest_hashes": hashes,
         }, last_path)
-        pd.DataFrame(history).to_csv(output / "history.csv", index=False)
-        print(row)
+        atomic_csv(pd.DataFrame(history), output / "history.csv")
+        epoch_complete(row, history, args.epochs)
     print(f"Best validation AP: {best_ap:.6f}; checkpoint: {best_path}")
 
 

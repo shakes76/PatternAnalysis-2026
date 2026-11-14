@@ -116,10 +116,22 @@ class PipelineTests(unittest.TestCase):
             if name == "siamese_aux":
                 args += ["--pairs-per-epoch", 4, "--embedding-dim", 16, "--cache-images"]
             self.run_script("train.py", *args)
-            if name == "siamese_aux":
-                self.run_script("train.py", *args, "--resume", "--epochs", 2)
-                self.assertEqual(len(pd.read_csv(output / "history.csv")), 2)
-                load_model(name, output / "last.pt", torch.device("cpu"))
+            self.run_script("train.py", *args, "--resume", "--epochs", 2)
+            self.assertEqual(len(pd.read_csv(output / "history.csv")), 2)
+            load_model(name, output / "last.pt", torch.device("cpu"))
+            full_output = self.root / (name + "_uninterrupted")
+            full_args = list(args)
+            full_args[full_args.index("--output") + 1] = full_output
+            self.run_script("train.py", *full_args, "--epochs", 2)
+            resumed = torch.load(output / "last.pt", map_location="cpu", weights_only=False)
+            full = torch.load(full_output / "last.pt", map_location="cpu", weights_only=False)
+            state_key = "state_dict" if name == "baseline" else "model"
+            for key, value in full[state_key].items():
+                self.assertTrue(torch.equal(value, resumed[state_key][key]), f"{name}: {key}")
+            refusal = subprocess.run([sys.executable, str(Path(__file__).with_name("train.py")),
+                                      *map(str, args)], capture_output=True, text=True)
+            self.assertNotEqual(refusal.returncode, 0)
+            self.assertIn("Output is not empty", refusal.stderr)
             evaluation = output / "evaluation"
             self.run_script("predict.py", "--model", name, "--checkpoint", output / "best.pt",
                             "--splits", self.splits, "--images", self.images, "--output", evaluation,

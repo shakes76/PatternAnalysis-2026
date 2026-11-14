@@ -8,6 +8,7 @@ run; use a different output directory if you train both models.
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -44,12 +45,17 @@ def main() -> None:
     if not script_path.is_file():
         raise FileNotFoundError(f"Training script was not found: {script_path}")
 
-    # Launch a new Python process so the selected script runs exactly as it
-    # would when called directly. Its exit status and any training errors are
-    # passed back to the user by subprocess.run.
-    command = [sys.executable, str(script_path), *training_args]
+    # Replace the dispatcher so cancellation targets the trainer itself.
+    # Unbuffered output also applies when stdout is piped by the notebook.
+    command = [sys.executable, "-u", str(script_path), *training_args]
     print(f"Starting {args.model} training with {script_name}", flush=True)
-    subprocess.run(command, check=True)
+    if os.name == "nt":
+        # Windows exec does not preserve the caller's wait/exit semantics.
+        # Keep an explicitly waited child for local tests and CLI use.
+        subprocess.run(command, check=True)
+    else:
+        os.execv(sys.executable, command)
+
 
 
 if __name__ == "__main__":

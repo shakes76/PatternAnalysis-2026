@@ -104,3 +104,39 @@ CUDA placement does not change the existing precision policy: baseline training
 uses FP32; auxiliary training prefers BF16 on supported CUDA hardware and uses
 FP16 otherwise; prediction retains FP16 CUDA autocast. These settings must be
 recorded when comparing saved experiment scores.
+
+
+## Progress and interruption recovery
+
+Both trainers print the first batch, every 25th batch and the final batch of
+training and validation. `--log-every N` changes this interval. Phase ETA is based
+on observed batch speed; after each epoch, a training/validation ETA is printed.
+Neither estimate includes future checkpoint I/O or guarantees runtime availability.
+The dispatcher uses unbuffered Python and replaces itself on Colab/Linux. The
+notebook launches a separate process group and stops the trainer and its workers
+when execution is interrupted.
+
+Both models save `last.pt` after every completed epoch, including optimizer,
+history, configuration, split hashes and main-process Python/NumPy/PyTorch/CUDA
+random states. Siamese also saves its gradient scaler. Files are written to a
+temporary sibling and replaced only after a successful save; Drive durability
+still depends on the remote filesystem. Keep `best.pt` for evaluation.
+
+To resume, repeat the original training command with the same output directory
+and settings and add `--resume`. `--epochs` remains the **total** target epoch
+count, not additional epochs. Resume rejects changed split hashes or training
+settings. A fresh run refuses a nonempty output directory. The old epoch-4
+`best.pt` has no optimizer/recovery state and cannot be used with `--resume`.
+An unfinished epoch is restarted from the last completed-epoch checkpoint.
+
+Zero-worker CPU tests compare resumed and uninterrupted model weights exactly.
+Persistent DataLoader worker augmentation states are not captured, so multi-worker
+resume recovers training state but is not a bitwise reproduction. CUDA kernels
+may also be nondeterministic; model architecture and loss equations are unchanged.
+
+`run_colab.ipynb` now repeats image completeness/leakage checks immediately before
+each launch, writes a unique log per attempt, and records commands. Set
+`RESUME_RUN` to an existing run directory and set `MODELS` to the models with
+`last.pt` there. Use a fresh run for models that have not started. The notebook's
+Git commit pin must be updated after code fixes; editing local files does not
+change an already-cloned remote checkout.
