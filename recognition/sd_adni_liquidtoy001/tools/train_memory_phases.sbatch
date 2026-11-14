@@ -7,7 +7,8 @@
 #SBATCH --output=logs/train_memory_phases_%j.out
 #SBATCH --error=logs/train_memory_phases_%j.err
 # Post-hoc: peak memory of each train.py phase (tools/train_memory_phases.py),
-# for the E3 configuration (MODE=lora) or E2's (MODE=unet), 50 steps of the
+# for the E3 configuration (MODE=lora), E2's (MODE=unet) or B3's (MODE=scratch,
+# from the B3 run directory), 50 steps of the
 # E3 probe setting; NOBENCH=1 turns cuDNN autotuning off while sampling.
 # Submitted from the E3 run directory so it uses E3's code. Reads the train
 # and validation splits only. Run output goes to job scratch.
@@ -17,9 +18,10 @@ cd "$SLURM_SUBMIT_DIR"
 export OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONUNBUFFERED=1
 export HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
-mode="${MODE:?set MODE=lora or MODE=unet}"
+mode="${MODE:?set MODE=lora, unet or scratch}"
 extra=()
 if [ "$mode" = lora ]; then extra=(--trainable lora --lora-rank 4 --lr 1e-4); fi
+if [ "$mode" = scratch ]; then extra=(--unet-init scratch --lr 1e-4 --warmup-steps 1000 --batch-size 64); fi
 tag=""
 flags=()
 if [ "${NOBENCH:-0}" = 1 ]; then tag="-nobench"; flags=(--sampling-no-benchmark); fi
