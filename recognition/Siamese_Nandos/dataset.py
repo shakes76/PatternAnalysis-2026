@@ -1,3 +1,71 @@
+"""ISIC split and pair datasets for the COMP3710 models."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import torch
+from PIL import Image
+from torch.utils.data import Dataset
+from torchvision import transforms
+
+
+IMAGENET_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_STD = (0.229, 0.224, 0.225)
+
+
+def make_transform(image_size: int = 224, train: bool = False, resize: bool = True):
+    ops = [transforms.Resize((image_size, image_size))] if resize else []
+    if train:
+        ops.extend([
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
+            transforms.RandomRotation(15),
+        ])
+    ops.extend([transforms.ToTensor(), transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD)])
+    return transforms.Compose(ops)
+
+
+def index_images(image_dir: str | Path) -> dict[str, Path]:
+    """Map image stem to path; rejects duplicate stems to avoid silent misalignment."""
+    paths: dict[str, Path] = {}
+    for path in Path(image_dir).rglob("*"):
+        if path.is_file() and path.suffix.lower() in {".jpg", ".jpeg"}:
+            if path.stem in paths:
+                raise ValueError(f"Duplicate image ID {path.stem}: {paths[path.stem]} and {path}")
+            paths[path.stem] = path
+    return paths
+
+
+class ImageCache:
+    """Cache RGB pixels before augmentation, using the same resize as transforms."""
+
+    def __init__(self, image_names, image_paths, image_size: int = 224):
+        self.images = {}
+        resize = transforms.Resize((image_size, image_size))
+        for name in image_names:
+            key = Path(str(name).strip()).stem
+            if key not in self.images:
+                with Image.open(image_paths[key]) as image:
+                    self.images[key] = np.array(resize(image.convert("RGB")), copy=True)
+
+    def __len__(self):
+        return len(self.images)
+
+    @property
+    def memory_gb(self):
+        return sum(pixels.nbytes for pixels in self.images.values()) / 1024**3
+
+    def get_image(self, name):
+        return Image.fromarray(self.images[Path(str(name).strip()).stem].copy())
+
+
+class ISICImageDataset(Dataset):
+    """One row per image; returns (tensor, target, image_name)."""
+
+    def __init__(
         self,
         frame: pd.DataFrame,
         image_paths: dict[str, Path],
@@ -49,7 +117,9 @@ class PairDataset(Dataset):
         self.image_paths = image_paths
         self.n_pairs = int(n_pairs)
         self.seed = int(seed)
-        self.epoch = 0
+        # Persistent DataLoader workers must see set_epoch updates from the
+        # parent process, including with Windows' spawn start method.
+        self._epoch = torch.zeros((), dtype=torch.int64).share_memory_()
         self.image_cache = image_cache
         self.transform = transform or make_transform(train=True)
         # Save row indices by class now instead of filtering the DataFrame for
@@ -66,7 +136,11 @@ class PairDataset(Dataset):
     def set_epoch(self, epoch: int):
         # The epoch contributes to each pair's seed: reruns are reproducible,
         # while later epochs draw fresh pairs and fresh random augmentations.
-        self.epoch = int(epoch)
+        self._epoch.fill_(int(epoch))
+
+    @property
+    def epoch(self):
+        return int(self._epoch.item())
 
     def __len__(self):
         return self.n_pairs

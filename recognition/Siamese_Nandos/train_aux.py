@@ -1,3 +1,77 @@
+"""Train the auxiliary-head Siamese model using the notebook's loss and schedule."""
+
+from __future__ import annotations
+
+import argparse
+import random
+import time
+from pathlib import Path
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.metrics import average_precision_score, roc_auc_score
+from torch import nn
+from torch.utils.data import DataLoader
+
+from dataset import ImageCache, ISICImageDataset, PairDataset, index_images, make_transform
+from modules import SiameseNetWithClassifier, contrastive_loss
+from split_utils import load_splits
+from runtime import select_device
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--splits", required=True, help="Directory containing train.csv and val.csv")
+    parser.add_argument("--images", required=True, help="Directory containing extracted JPEGs")
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--epochs", type=int, default=12)
+    parser.add_argument("--batch-size", type=int, default=64, help="Pairs per batch")
+    parser.add_argument("--pairs-per-epoch", type=int, default=24000)
+    parser.add_argument("--image-size", type=int, default=224)
+    parser.add_argument("--duplicates", help="Duplicate-pair CSV; defaults to the parent of --splits")
+    parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
+    parser.add_argument("--embedding-dim", type=int, default=128)
+    parser.add_argument("--learning-rate", type=float, default=1e-4)
+    parser.add_argument("--weight-decay", type=float, default=1e-4)
+    parser.add_argument("--class-loss-weight", type=float, default=1.0)
+    parser.add_argument("--margin", type=float, default=1.0)
+    parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument("--cache-images", action="store_true", help="Preload resized images into RAM")
+    parser.add_argument("--seed", type=int, default=3710)
+    parser.add_argument("--no-pretrained", action="store_true")
+    parser.add_argument("--resume", action="store_true")
+    args = parser.parse_args()
+
+    if min(args.batch_size, args.pairs_per_epoch, args.image_size, args.epochs, args.embedding_dim) < 1 or args.workers < 0:
+        raise ValueError("Batch, pair, image, epoch and embedding sizes must be positive; workers cannot be negative.")
+    if args.pairs_per_epoch % args.batch_size:
+        raise ValueError("pairs-per-epoch must be divisible by batch-size.")
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
+    device = select_device(args.device)
+    splits, output = Path(args.splits), Path(args.output)
+    output.mkdir(parents=True, exist_ok=True)
+    frames = load_splits(splits, args.duplicates)
+    train_df, val_df = frames["train"], frames["val"]
+    paths = index_images(args.images)
+    required = {Path(str(name).strip()).stem
+                for frame in (train_df, val_df) for name in frame.image_name}
+    missing = required - paths.keys()
+    if missing:
+        raise FileNotFoundError(f"{len(missing)} split images missing; examples: {list(missing)[:5]}")
+
+    image_cache = None
+    if args.cache_images:
+        image_cache = ImageCache(list(train_df.image_name) + list(val_df.image_name), paths, args.image_size)
+        print(f"Cached {len(image_cache):,} images ({image_cache.memory_gb:.2f} GB).")
+
+    pair_ds = PairDataset(
+        train_df, paths, args.pairs_per_epoch, args.seed,
+        transform=make_transform(
+            args.image_size, train=True, resize=image_cache is None
         ),
         image_cache=image_cache,
     )
@@ -97,7 +171,7 @@
         torch.save({
             "model": model.state_dict(), "optimizer": optimizer.state_dict(),
             "scaler": scaler.state_dict(), "epoch": epoch, "best_ap": best_ap,
-            "history": history,
+            "history": history, "config": vars(args),
         }, last_path)
         pd.DataFrame(history).to_csv(output / "history.csv", index=False)
         print(row)

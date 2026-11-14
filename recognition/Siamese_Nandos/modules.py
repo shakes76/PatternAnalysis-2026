@@ -1,3 +1,59 @@
+"""Model definitions used by the COMP3710 ISIC 2020 experiments."""
+
+from __future__ import annotations
+
+import torch
+from torch import nn
+import torch.nn.functional as F
+from torchvision.models import ResNet18_Weights, resnet18
+
+
+class ResNet18Baseline(nn.Module):
+    """Binary melanoma classifier matching the baseline evaluator checkpoint."""
+
+    def __init__(self, pretrained: bool = False) -> None:
+        super().__init__()
+        weights = ResNet18_Weights.DEFAULT if pretrained else None
+        backbone = resnet18(weights=weights)
+        # Keep torchvision's top-level parameter names so state_dicts can be
+        # loaded directly by the evaluator's `resnet18(); model.fc = ...` code.
+        for name in (
+            "conv1", "bn1", "relu", "maxpool", "layer1", "layer2",
+            "layer3", "layer4", "avgpool", "fc",
+        ):
+            setattr(self, name, getattr(backbone, name))
+        self.fc = nn.Linear(self.fc.in_features, 1)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+        x = self.avgpool(x)
+        x = torch.flatten(x, 1)
+        return self.fc(x).squeeze(1)
+
+
+class SiameseNetWithClassifier(nn.Module):
+    """Shared ResNet-18 encoder, metric-learning projector and binary head."""
+
+    def __init__(self, dim: int = 128, pretrained: bool = True) -> None:
+        super().__init__()
+        weights = ResNet18_Weights.DEFAULT if pretrained else None
+        backbone = resnet18(weights=weights)
+        features = backbone.fc.in_features
+        backbone.fc = nn.Identity()
+        self.backbone = backbone
+        self.projector = nn.Linear(features, dim)
+        self.classifier = nn.Linear(features, 1)
+
+    def encode_features(self, x: torch.Tensor) -> torch.Tensor:
+        return self.backbone(x)
+
 
     def embed_features(self, features: torch.Tensor) -> torch.Tensor:
         # Unit-length vectors make pair distances less sensitive to feature scale.

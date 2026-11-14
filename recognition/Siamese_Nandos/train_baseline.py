@@ -1,3 +1,39 @@
+"""Train the ResNet-18 baseline and save evaluator-compatible checkpoints."""
+
+from __future__ import annotations
+
+import argparse
+import random
+import time
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.metrics import average_precision_score, roc_auc_score
+from torch import nn
+from torch.utils.data import DataLoader
+
+from dataset import ImageCache, ISICImageDataset, index_images, make_transform
+from modules import ResNet18Baseline
+from split_utils import load_splits
+from runtime import select_device
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--splits", required=True)
+    parser.add_argument("--images", required=True)
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--image-size", type=int, default=224)
+    parser.add_argument("--duplicates", help="Duplicate-pair CSV; defaults to the parent of --splits")
+    parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
+    parser.add_argument("--learning-rate", type=float, default=1e-4)
+    parser.add_argument("--weight-decay", type=float, default=1e-4)
+    parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument(
         "--cache-images",
         action="store_true",
         help="Preload resized train and validation images into host RAM (about 4.2 GB at 224 px).",
@@ -7,6 +43,9 @@
     parser.add_argument("--no-pretrained", action="store_true")
     args = parser.parse_args()
 
+    if min(args.batch_size, args.image_size, args.epochs) < 1 or args.workers < 0:
+        raise ValueError("Batch size, image size and epochs must be positive; workers cannot be negative.")
+
     # Fix the random ordering and initialisation so a run can be reproduced
     # from the same split files and settings.
     random.seed(args.seed)
@@ -14,12 +53,14 @@
     torch.manual_seed(args.seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(args.seed)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = select_device(args.device)
     splits, output = Path(args.splits), Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
-    train_df, val_df = pd.read_csv(splits / "train.csv"), pd.read_csv(splits / "val.csv")
+    frames = load_splits(splits, args.duplicates)
+    train_df, val_df = frames["train"], frames["val"]
     paths = index_images(args.images)
-    required = set(train_df.image_name.astype(str)) | set(val_df.image_name.astype(str))
+    required = {Path(str(name).strip()).stem
+                for frame in (train_df, val_df) for name in frame.image_name}
     missing = required - paths.keys()
     if missing:
         raise FileNotFoundError(f"{len(missing)} split images missing; examples: {list(missing)[:5]}")

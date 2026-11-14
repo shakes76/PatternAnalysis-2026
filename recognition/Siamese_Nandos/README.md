@@ -27,13 +27,13 @@ The intended users are dermatology clinicians or trained image reviewers who nee
 
 ### Model choice and preliminary evidence
 
-The audited ISIC 2020 cohort contains 33,126 images from 2,056 patients; 584 are melanoma (1.76%). The planned patient-separated split contains 23,188 training images (403 melanoma), 4,938 validation images (92 melanoma) and 5,000 test images (89 melanoma). The audit found 425 duplicate pairs, none crossing patient IDs, and no conflicting lesion labels. These checks support a leakage-controlled experiment, even though the positive class remains very small.
+The audited ISIC 2020 cohort contains 33,126 images from 2,056 patients; 584 are melanoma (1.76%). The frozen patient-separated split contains 23,188 training images (403 melanoma), 4,938 validation images (92 melanoma) and 5,000 test images (89 melanoma). The audit found 425 duplicate pairs, none crossing patient IDs, and no conflicting lesion labels. These checks support a leakage-controlled experiment, even though the positive class remains very small.
 
 The baseline is an ImageNet-pretrained ResNet-18 trained with weighted binary cross-entropy. The Siamese model uses a shared ResNet-18 encoder, a 128-dimensional embedding, contrastive loss and an auxiliary binary classifier. This fits the course themes well: transfer learning, residual CNNs, metric learning, imbalance-aware sampling, patient-grouped validation and precision–recall evaluation. The smoke test and completed training runs show that the pipeline works on Colab GPUs.
 
 ### Risks, resource budget and fallback
 
-A melanoma prevalence of 1.76% means accuracy is easy to misread. Balanced pair sampling gives the model more exposure to melanoma examples without creating new patients, but it can also increase overfitting. The validation-selected specificity may not transfer cleanly to the test set, and repeated inspection of test mistakes can make the evaluation exploratory. Colab GPU availability and session time are also constraints, so checkpoints and split manifests should be saved to Drive and the dataset should not be committed to GitHub.
+A melanoma prevalence of 1.76% means accuracy is easy to misread. Balanced pair sampling gives the model more exposure to melanoma examples without creating new patients, but it can also increase overfitting. The validation-selected specificity may not transfer cleanly to the test set, and repeated inspection of test mistakes can make the evaluation exploratory. Colab GPU availability and session time are also constraints, so checkpoints and image archives are kept outside GitHub. Frozen split manifests and duplicate-pair metadata are included for reproducibility.
 
 If the Siamese model does not improve the clinically relevant trade-off or exceeds the resource target, the safer fallback is to keep ResNet-18 as the benchmark and use human-reviewed triage only. Neither model should be treated as clinically ready without external validation, calibration and workflow assessment.
 
@@ -105,7 +105,7 @@ Before the data can be used for training, the data must error-checked. An analys
 
 ### 2.3 Duplicate Analysis
 
-There are 425 duplicated pairs of data. A further analysis is needed to identify whether images linked as duplicates belong to different patients; they must be assigned to the same split or affected records be removed. This is crucial for a Siamese network as duplicates can enable a model to learn to match identical data rather than checking for markers of melanoma.
+The supplied duplicate metadata lists 425 image pairs. The completed audit confirms that every endpoint is present in the frozen manifests, every pair has consistent labels, and no pair crosses train, validation or test partitions. This prevents the listed duplicate images from leaking between partitions. It does not establish that no additional, unlisted visual near-duplicates exist.
 
 The following parameters were investigated:
 
@@ -119,7 +119,7 @@ The following parameters were investigated:
 
 *Table 3: Duplicate analysis across the dataset*
 
-The analysis shows that duplicate pairs are patient-unique, which enables splits based on patient_ids. However, there are pairs across different lesions. This this coudld be due to metadata inconsistencies or different lesion identifiers assigned to duplicate images.
+The analysis shows that duplicate pairs are patient-unique, which enables splits based on patient_ids. However, there are pairs across different lesions. This could be due to metadata inconsistencies or different lesion identifiers assigned to duplicate images.
 
 ## 3 Data Plan
 
@@ -133,9 +133,11 @@ The completed patient-separated split is shown below. The target proportions wer
 
 *Table 4: Training, validation and test split*
 
+The original frozen manifests are included in [splits/](splits/), unchanged from the supplied CSVs. Their counts and image/patient/lesion separation have been verified; [manifest_audit.json](splits/manifest_audit.json) records SHA-256 hashes and audit status. The original [duplicate-pair CSV](ISIC_2020_Training_Duplicates.csv) is included unchanged. The full metadata leakage audit passes: all 425 known duplicate pairs have endpoints present, consistent labels and no cross-split leakage. See [RUNNING.md](RUNNING.md) for commands. Images and model weights are not included.
+
 In this dataset, the main leakage risk is that multiple images from the same patient are highly similar. If those images are spread across train, validation and test sets, the model can learn patient-specific patterns instead of true melanoma signals. Grouping by patient_id ensures all images from one patient stay in the same split.
 
-At the same time, melanoma is rare, so a plain group split can easily produce folds with very different melanoma proportions. StratifiedGroupKFold addresses both issues at once: it groups by patient_id to prevent patient overlap, while also stratifying by label to keep the melanoma/benign proportions roughly consistent across folds. The split that best matched the target 70/15/15 distribution and class balance was selected, and patient separation plus class distribution were checked before training.
+The development notebook uses two stages of GroupShuffleSplit grouped by patient_id. For each seed from 0 through 99, it reserves 15% of patient groups for test, then reserves 0.15/0.85 of the remaining groups for validation. It selects the first candidate minimizing the sum, over train/validation/test, of the absolute image-proportion deviation from 70/15/15 plus twice the absolute melanoma-prevalence deviation from the full cohort. This is a one-time split-definition procedure, not model selection on test performance. `prepare_splits.py` reproduces this rule and records the selected seed, library version and file hashes. All model entry points audit image, patient, lesion and known-duplicate separation across the frozen three-way split before use. See [RUNNING.md](RUNNING.md) for commands and required metadata.
 
 ## 4 Model Plan
 
@@ -145,7 +147,7 @@ Pair sampling increased exposure to melanoma images during Siamese training. The
 
 Siamese training used pairs labelled as **same class** or **different classes**. Pair types were balanced across benign–benign, melanoma–melanoma, benign–melanoma and melanoma–benign combinations, excluding images from the same patient within a pair. This increases exposure to the limited melanoma images but did not create new independent melanoma cases or guarantee protection against overfitting. Performance was evaluated on patient-separated validation and test sets.
 
-The auxiliary classification head was trained in conjunction with the contrastive-learning components.Then, at inference, each test image was processed by the trained backbone and auxiliary classification head to produce its melanoma score. The decision threshold was selected using validation data before evaluation on the held-out test set. A validation metric of 80% precision was set as a target.
+The auxiliary classification head was trained in conjunction with the contrastive-learning components. Then, at inference, each test image was processed by the trained backbone and auxiliary classification head to produce its melanoma score. The decision threshold was selected using validation data before evaluation on the held-out test set. The operating rule maximises validation sensitivity subject to at least 80% specificity.
 
 ## 5 GitHub File
 
@@ -154,15 +156,29 @@ The auxiliary classification head was trained in conjunction with the contrastiv
 The code structure for the repo is as follows:
 
 ```text
-recognition/
-└── Siamese_Nandos/
-    ├── README.md
-    ├── dataset.py
-    ├── modules.py
-    ├── predict.py
-    ├── train.py
-    ├── train_aux.py
-    └── train_baseline.py
+recognition/Siamese_Nandos/
+    README.md
+    RUNNING.md
+    requirements.txt
+    requirements-cpu.txt
+    dataset.py
+    modules.py
+    train.py
+    train_baseline.py
+    train_aux.py
+    predict.py
+    runtime.py
+    split_utils.py
+    prepare_splits.py
+    test_pipeline.py
+    test_splits.py
+    ISIC_2020_Training_Duplicates.csv
+    splits/
+        train.csv
+        val.csv
+        test.csv
+        manifest_audit.json
+    images/                       # report figures, not training JPEGs
 ```
 
 ### 5.2 File Breakdown
@@ -177,28 +193,70 @@ recognition/
 | train_aux.py      | Trains the Siamese model using image pairs, contrastive loss and the auxiliary classification head. It also evaluates on the validation split and saves the best checkpoint and training results.            |
 | predict.py        | Loads a trained checkpoint, selects a classification threshold using validation data, evaluates the model on the test split, and saves prediction results, metrics and plots.                                |
 
+Additional reproducibility files:
+
+| File | Purpose |
+|---|---|
+| `split_utils.py` | Validates all three manifests and rejects image, patient, lesion and known-duplicate leakage. |
+| `prepare_splits.py` | Reproduces the development notebook's split search; refuses to overwrite frozen manifests. |
+| `runtime.py` | Requires CUDA by default, with explicit CPU selection for smoke tests. |
+| `splits/` | Original experiment manifests and their SHA-256 audit record. |
+| `ISIC_2020_Training_Duplicates.csv` | Original 425-pair metadata, loaded automatically for the included splits. |
+| `test_pipeline.py`, `test_splits.py` | Synthetic pipeline, model compatibility, leakage rejection and device-selection tests. |
+| `RUNNING.md` | Detailed setup, notebook compatibility and reproduction limitations. |
+
 ### 5.3 Architecture Breakdown
 
 The training scripts select the relevant pipeline, while `dataset.py` handles image loading and preprocessing and `modules.py` defines the model architecture. After training, `predict.py` loads the saved checkpoint and applies the same preprocessing to produce test predictions and evaluation outputs.
 
-The dataset, trained checkpoints and generated results are kept outside the source-code folder so the GitHub submission stays focused on the code and documentation.
+Training JPEGs, trained checkpoints and generated run outputs are kept outside the source-code folder. The original split manifests, duplicate-pair metadata and report figures are included. Training and evaluation audit all three manifests before using the model; test labels are not used for model fitting or threshold selection.
 
 ### 5.4 Software Environment and Dependencies
 
-The dependency pins below match the CPU install in requirements.txt. The saved Colab notebook outputs record PyTorch 2.11.0+cu130 running on GPU hardware, so the notebook training runtime differs from this pinned CPU environment.
+All reported training and inference runs used CUDA. `requirements.txt` now selects CUDA 13.0 PyTorch wheels, matching the recorded PyTorch 2.11.0+cu130 runtime. `requirements-cpu.txt` is provided separately for local smoke tests. The notebook's later dependency-list cell prints CPU builds; that list does not identify the GPU runtime used for the reported experiments.
 
 | Package      | Pinned version | Use                               |
 |--------------|----------------|-----------------------------------|
 | Python       | Not pinned     | Notebook runtime                  |
-| PyTorch      | 2.11.0+cpu     | Model training and inference      |
-| torchvision  | 0.26.0+cpu     | ResNet-18 and image transforms    |
+| PyTorch      | 2.11.0+cu130     | Model training and inference      |
+| torchvision  | 0.26.0+cu130     | ResNet-18 and image transforms    |
 | NumPy        | 2.1.3          | Array and numerical operations    |
 | pandas       | 2.2.3          | Split manifests and result tables |
 | Pillow       | 11.3.0         | JPEG image loading                |
 | scikit-learn | 1.6.1          | Classification metrics            |
 | matplotlib   | 3.10.0         | Prediction plots                  |
 
-Python was not pinned in the supplied dependency list. The Colab GPU package build is recorded separately above because it differs from the CPU installation in requirements.txt.
+Use Python 3.12 for these dependency pins. Experiment entry points default to `--device cuda` and fail clearly when CUDA is unavailable; use `--device cpu` explicitly for smoke tests. CUDA availability alone does not imply identical floating-point precision: the existing baseline and Siamese AMP policies are retained.
+
+### 5.5 Running the Implementation
+
+Run these commands from the repository root in a Python 3.12 environment. Install the CUDA dependencies and supply the original JPEG directory as `DATA/jpeg`:
+
+```powershell
+python -m pip install -r recognition/Siamese_Nandos/requirements.txt
+python recognition/Siamese_Nandos/train.py --model baseline --splits recognition/Siamese_Nandos/splits --images DATA/jpeg --output runs/baseline --device cuda
+python recognition/Siamese_Nandos/train.py --model siamese_aux --splits recognition/Siamese_Nandos/splits --images DATA/jpeg --output runs/siamese_aux --device cuda
+python recognition/Siamese_Nandos/predict.py --model baseline --checkpoint runs/baseline/best.pt --splits recognition/Siamese_Nandos/splits --images DATA/jpeg --output runs/baseline/evaluation --device cuda --threshold-policy val_specificity80_max_sensitivity
+python recognition/Siamese_Nandos/predict.py --model siamese_aux --checkpoint runs/siamese_aux/best.pt --splits recognition/Siamese_Nandos/splits --images DATA/jpeg --output runs/siamese_aux/evaluation --device cuda --threshold-policy val_specificity80_max_sensitivity
+```
+
+The included duplicate CSV is found automatically beside `splits/`. Use `--duplicates PATH` if it lives elsewhere. Missing audit files or leakage stop execution. The original manifests are consumed unchanged; training never regenerates partitions. Each trainer saves `best.pt`, validation predictions and `history.csv`. Siamese training also saves `last.pt` for `--resume`. Prediction saves `test_predictions.csv`, `test_metrics.csv`, confusion-matrix, precision-recall and ROC plots.
+
+### 5.6 Verification and Reproducibility Limits
+
+For CPU-only smoke tests, install `requirements-cpu.txt` instead of the CUDA requirements, then run:
+
+```powershell
+python -m unittest discover -s recognition/Siamese_Nandos -v
+```
+
+All 11 regression tests passed locally, covering synthetic training and evaluation for both models, Siamese resume, checkpoint compatibility, cached preprocessing, worker epoch updates, leakage rejection and explicit device selection. The tests select CPU and do not download pretrained weights. Local repair tests used Python 3.14 with newer compatible supporting libraries, so they do not validate the exact pinned Python 3.12 environment or CUDA execution.
+
+The repaired Siamese model matches the supplied auxiliary-head notebook's outputs, combined loss and parameter gradients for identical CPU inputs and weights. The split-selection implementation matches the development notebook's membership, row order and score on a synthetic cohort. The supplied real manifests match the reported counts and pass the full metadata leakage audit, including all 425 listed duplicate pairs. Original file hashes are recorded in [manifest_audit.json](splits/manifest_audit.json).
+
+These checks do not reproduce the historical GPU experiment. The numerical results below remain the original notebook results, not new measurements from the repaired scripts. Correcting persistent-worker epoch propagation changes sampled training pairs after epoch 1 relative to runs affected by the old bug. The architecture, losses and augmentation remain unchanged. CUDA precision also matters: baseline training uses FP32, auxiliary training prefers BF16 on supported hardware, and prediction uses FP16 autocast. Original checkpoints, data and runtime settings are required to compare reported scores.
+
+The current trainers save histories but do not generate training-history plots. Complete automated resource profiling, all report metrics (including macro-F1), and stronger failure-cause experiments remain separate follow-up work; the historical report figures should not be mistaken for newly generated verification outputs.
 
 ## 6 Baseline Testing
 
@@ -373,7 +431,7 @@ For both models, melanoma scores tend to be higher than benign scores, but the d
 
 Both thresholds below were selected on the validation set using the same rule: **maximise sensitivity while maintaining at least 80% specificity**. Test specificity is below 80% for both models; that is the measured result on the held-out test set.
 
-**Prediction reproducibility:** for both models, append --threshold-policy val_specificity80_max_sensitivity to the existing predict.py command, retaining the same checkpoint, validation/test splits and other run settings. This explicitly selects the policy used in the report: maximise validation sensitivity subject to at least 80% validation specificity, then apply the selected threshold unchanged to the test set. The policy alone cannot guarantee identical numerical thresholds without the original checkpoint, data and preprocessing. The README prediction examples and any default-policy documentation must use this explicit option. Source-code and README updates remain pending access to those files.
+**Prediction reproducibility:** the commands in Section 5.5 explicitly use `--threshold-policy val_specificity80_max_sensitivity`, matching the report's operating rule. The threshold is selected on validation predictions and applied unchanged to test predictions. Matching the policy alone does not guarantee the same numerical threshold without the original checkpoint, data, preprocessing and precision settings.
 
 | **Metric**                    | **ResNet-18 baseline** | **Siamese + auxiliary head** |
 |-------------------------------|------------------------|------------------------------|
@@ -443,7 +501,7 @@ A more systematic search would therefore need to use nested, patient-grouped val
 
 ### 9.1 AI Disclosure Statement
 
-ChatGPT was used to clarify model and evaluation concepts, assist with debugging and drafting evaluation code, and help prepare report documentation. The Colab notebooks were run to produce the reported training and test outputs, and the results were checked against the saved notebook outputs and report tables. The student remains responsible for reviewing the code, verifying the calculations and ensuring that the final committed implementation matches the experiments.
+ChatGPT was used to clarify model and evaluation concepts, assist with debugging and drafting evaluation code, and help prepare report documentation. The Colab notebooks were run to produce the reported training and test outputs, and the results were checked against the saved notebook outputs and report tables. Codex subsequently assisted with restoring incomplete Python files from Git history, comparing model definitions with the supplied notebooks, implementing shared leakage checks and the notebook split procedure, adding regression tests, integrating the supplied manifests and duplicate metadata unchanged, and updating documentation. Verification included the 11 passing local regression tests, CPU model/loss/gradient comparisons, synthetic split-definition comparisons and the full metadata audit with recorded file hashes. These checks did not rerun the original CUDA experiments. The student remains responsible for reviewing the changes, interpreting the results and verifying the submitted implementation against the experiments.
 
 ## 10 References
 
