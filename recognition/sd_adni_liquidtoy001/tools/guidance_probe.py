@@ -113,7 +113,7 @@ def main() -> None:
         "intensity_by_guidance": {g: intensity[g] for g in order},
         "real_validation_references": real_references,
         "autopsy_seeds": sorted(autopsy, key=lambda r: (r["seed"], r["guidance"])),
-        "sweep_reports": [str(s) for s in args.sweep],
+        "sweep_reports": [s.as_posix() for s in args.sweep],
         "test_split_read": False,
     }
     args.json.write_text(json.dumps(summary, indent=2) + "\n")

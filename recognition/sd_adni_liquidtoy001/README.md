@@ -436,7 +436,7 @@ post-hoc, without reading test data; every item says how and what was found.
    its contribution is about a third of the class's. But the first upsampling
    block squeezes it out: the share of activation variance due to the noise
    falls from 9-11% to 1-3%. At the output, samples of a class differ half as
-   much as real training slices do (pairwise RMSE 0.07 against 0.15), and each
+   much as real training slices do (pairwise RMSE 0.07-0.08 against 0.15), and each
    correlates 0.94-0.96 with its class mean (real slices 0.86-0.87). B2b (one
    GAN per class) collapsed too, even after a calibration bug was fixed, and
    kept no model to test.
@@ -447,7 +447,7 @@ post-hoc, without reading test data; every item says how and what was found.
    saved checkpoints, epochs 49 and 98, on the same 128 seeds per class, with
    validation slices as non-members ([result](docs/b3-epochs-2026-11-15.json)).
    The weights had already memorised by epoch 49: the loss test recognises
-   training slices with AUC 0.998 (1.000 at epoch 98). The samples replicate
+   training slices with AUC 0.999 (1.000 at epoch 98). The samples replicate
    far more after further training: the share closer to a training slice
    than any real validation slice is rose from 3% to 23%, and the mean
    nearest-training RMSE fell from 0.061 to 0.053. Replication grows with

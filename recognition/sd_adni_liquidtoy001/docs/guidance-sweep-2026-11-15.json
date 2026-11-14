@@ -463,8 +463,8 @@
     }
   ],
   "sweep_reports": [
-    "outputs\\guidance\\job765633",
-    "outputs\\guidance\\job765634"
+    "outputs/guidance/job765633",
+    "outputs/guidance/job765634"
   ],
   "test_split_read": false
 }

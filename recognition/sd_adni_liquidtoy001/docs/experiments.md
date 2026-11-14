@@ -1443,7 +1443,7 @@ off-centre at every scale, brightness 0.37 to 0.49. NC-37407 and NC-37341:
 the dissolved brainstem and the mottled lower half appear only at 7.5.
 NC-37489: the stripe and rim appear at every scale.
 
-**B3 epochs.** Membership against validation slices, primary score: AUC 0.998
+**B3 epochs.** Membership against validation slices, primary score: AUC 0.999
 at epoch 49 and 1.000 at epoch 98 (SD control 0.465); member loss 0.084 and
 0.063, non-member loss 0.133 and 0.167. On the same 128 seeds per class,
 samples closer to a training slice than the closest real validation slice
