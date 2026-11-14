@@ -1,0 +1,4 @@
+# O35: A0 augmentation, 35% malignant sampling.
+condition: O35 # run label, so runs are saved as O35-s<seed>
+sampling:
+  malignant_fraction: 0.35 # 35% of each epoch is drawn from malignant images (natural share is about 19%)

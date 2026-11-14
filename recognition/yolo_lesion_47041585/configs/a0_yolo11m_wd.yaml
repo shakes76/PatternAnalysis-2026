@@ -1,0 +1,6 @@
+# A0-m-wd: A0 on YOLO11m with stronger weight decay. Differs from A0-m only in
+# train.weight_decay, and from A0-wd only in the starting checkpoint.
+condition: A0-m-wd # run label, so runs are saved as A0-m-wd-s<seed>
+model: weights/yolo11m.pt # the medium YOLO11 checkpoint instead of nano
+train:
+  weight_decay: 0.05 # strong weight decay, as in A0-wd

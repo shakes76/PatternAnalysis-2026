@@ -1,0 +1,9 @@
+# Local debugging on an Apple GPU, layered on a condition: --config configs/base.yaml
+# --config configs/o35.yaml --config configs/mps.yaml --pilot
+# Batch 16 stalled the Metal GPU at 640px, so this uses batch 8 with nbs 8 (no gradient
+# accumulation). The different batch size, the lack of mixed precision and MPS operations
+# without deterministic implementations mean results are NOT comparable with Rangpur runs.
+train:
+  batch: 8 # half the base batch size, so it fits and runs on the Apple GPU
+  nbs: 8 # nominal batch equal to batch, so there is still no gradient accumulation
+  device: mps # train on the Apple Metal GPU instead of CUDA

@@ -1,0 +1,4 @@
+# A0-m: A0 on YOLO11m instead of YOLO11n. The only change from A0 is the starting checkpoint
+# (the COCO-pretrained detection weights, downloaded to weights/ on first use).
+condition: A0-m # run label, so runs are saved as A0-m-s<seed>
+model: weights/yolo11m.pt # the medium YOLO11 checkpoint, about 7 times the parameters of the nano model

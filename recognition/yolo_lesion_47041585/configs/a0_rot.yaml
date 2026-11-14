@@ -1,0 +1,4 @@
+# A0-rot: A0 with random rotation added. The only change from A0 is augment.degrees.
+condition: A0-rot # run label, so runs are saved as A0-rot-s<seed>
+augment:
+  degrees: 180 # random rotation up to +/-180 degrees, so any orientation; dermoscopy images have no up or down

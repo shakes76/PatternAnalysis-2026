@@ -1,0 +1,14 @@
+# B0: no random augmentation, plain Ultralytics shuffling. Reference only: it differs from A0
+# in both augmentation and sampling scheme, so do not read B0 vs A0 as an augmentation effect.
+condition: B0 # run label, so runs are saved as B0-s<seed>
+sampling:
+  scheme: stock # the plain Ultralytics shuffle, each image once per epoch
+augment:
+  hsv_h: 0.0 # no hue shift
+  hsv_s: 0.0 # no saturation change
+  hsv_v: 0.0 # no brightness change
+  translate: 0.0 # no random shift
+  scale: 0.0 # no random zoom
+  flipud: 0.0 # no vertical flips
+  fliplr: 0.0 # no horizontal flips
+  auto_augment: null # no preset augmentation policy

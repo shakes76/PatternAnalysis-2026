@@ -1,0 +1,6 @@
+# A0-wd: A0 with stronger weight decay. The only change from A0 is train.weight_decay.
+# AdamW decays weights by lr * weight_decay per step, so the base value of 0.0005 shrinks
+# them by about 0.1% over a whole run, while 0.05 shrinks them by about 13%.
+condition: A0-wd # run label, so runs are saved as A0-wd-s<seed>
+train:
+  weight_decay: 0.05 # 100 times the base value, so the weights are pulled towards zero much harder

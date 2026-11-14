@@ -1,0 +1,61 @@
+# Shared settings for every controlled run.
+# Condition files override a few keys.
+condition: base # run label; each condition file replaces it, and it names the run folder (<condition>-s<seed>)
+seed: 47041585 # training seed (shuffling, sampling, augmentation); --seed on the command line overrides it, the data split is unaffected
+data: artifacts/isic2018/yolo/dataset.yaml # Ultralytics dataset file: image folders for train/val/test and the class names
+split_manifest: artifacts/isic2018/split_manifest.csv # CSV of which patient is in which split, used to check the sampler never touches validation or test
+model: weights/yolo11n.pt # starting checkpoint, COCO-pretrained YOLO11 nano; the detection head is rebuilt for 2 classes
+classes: [Benign, Malignant] # class names in order: the position is the class id (0 Benign, 1 Malignant)
+
+train:
+  imgsz: 640 # images are resized and padded to 640 x 640 pixels
+  batch: 16 # images per optimiser step
+  epochs: 100 # passes over the (resampled) training set
+  patience: 0 # no early stopping in controlled runs
+  optimizer: AdamW # explicit, so "auto" cannot choose for us
+  lr0: 0.001 # initial learning rate
+  lrf: 0.01 # final learning rate as a fraction of lr0 (0.001 x 0.01 = 0.00001 at the last epoch)
+  cos_lr: false # linear schedule
+  momentum: 0.9 # AdamW beta1
+  weight_decay: 0.0005 # L2-style penalty that shrinks weights a little every step (AdamW's decoupled form)
+  warmup_epochs: 3 # epochs at the start where the learning rate ramps up from near zero
+  freeze: null # fine-tune all layers
+  amp: true # automatic mixed precision: float16 where safe, for speed and memory on the GPU
+  nbs: 16 # nominal batch = batch, so no gradient accumulation
+  workers: 8 # data-loading worker processes
+  rect: false # false keeps square letterboxed batches; true would pad each batch to its own shape
+  deterministic: true # ask PyTorch for deterministic kernels, so reruns match (a little slower)
+  cache: ram # keeps the resized images in memory, so full-size JPEGs are decoded once
+  plots: false # Ultralytics' own plots need a font download; the project plots from results.csv
+
+# Ultralytics augmentation defaults must be set explicitly.
+# b0.yaml turns every one of them off.
+augment:
+  hsv_h: 0.015 # random hue shift, up to +/-1.5% of the colour wheel
+  hsv_s: 0.4 # random saturation change, up to +/-40%
+  hsv_v: 0.4 # random brightness (value) change, up to +/-40%
+  degrees: 0.0 # random rotation, up to +/- this many degrees (0 = none)
+  translate: 0.1 # random shift, up to +/-10% of the image size
+  scale: 0.2 # random zoom, between 80% and 120% of the original size
+  shear: 0.0 # random shear, up to +/- this many degrees (0 = none)
+  perspective: 0.0 # random perspective warp strength (0 = none)
+  flipud: 0.5 # chance of a vertical flip
+  fliplr: 0.5 # chance of a horizontal flip
+  mosaic: 0.0 # chance of tiling four images into one (off: it makes unrealistic lesion contexts)
+  mixup: 0.0 # chance of blending two images together (off)
+  cutmix: 0.0 # chance of pasting a patch of another image in (off)
+  copy_paste: 0.0 # copies objects between images, needs segmentation labels (off, no effect on boxes)
+  erasing: 0.0 # random erasing; Ultralytics uses it for classification training only, so it is inert for detection
+  auto_augment: null # preset augmentation policy; also classification-only in Ultralytics, null keeps it explicit
+
+# scheme "stock" is the plain Ultralytics shuffle (B0, a reference only). "replacement" draws
+# each epoch with replacement through the project's sampler: uniform when malignant_fraction
+# is null, so A0, O35 and O50 differ only in malignant_fraction.
+sampling:
+  scheme: replacement # "stock" or "replacement" (see above)
+  malignant_fraction: null # null = natural class balance; a number such as 0.35 forces that share of each epoch to be malignant
+
+inference:
+  conf: 0.001 # confidence floor: detections below this are dropped; the routing thresholds do the real deciding
+  iou: 0.7 # class-aware NMS
+  max_det: 100 # most detections kept per image after NMS

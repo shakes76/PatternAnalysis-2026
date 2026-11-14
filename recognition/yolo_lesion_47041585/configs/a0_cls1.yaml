@@ -1,0 +1,5 @@
+# A0-cls1: A0 with the classification loss weighted 1.0 instead of the Ultralytics default 0.5.
+# The only change from A0 is train.cls.
+condition: A0-cls1 # run label, so runs are saved as A0-cls1-s<seed>
+train:
+  cls: 1.0 # weight of the class loss in the total loss (box and DFL weights unchanged); twice the default

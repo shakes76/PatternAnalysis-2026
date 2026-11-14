@@ -1,0 +1,9 @@
+dataset/*
+!dataset/metadata_raw.csv
+.venv/
+__pycache__/
+artifacts/
+runs/
+weights/
+scripts/sync.sh
+*slurm-*.out

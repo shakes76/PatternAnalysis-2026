@@ -1,0 +1,2 @@
+# A0: modest augmentation (base.yaml defaults), natural class balance drawn with replacement.
+condition: A0 # run label, so runs are saved as A0-s<seed>

@@ -1,0 +1,60 @@
+{
+  "final": true,
+  "frozen_on": "validation",
+  "created": "2026-11-05T04:13:17+00:00",
+  "rule": "lenient",
+  "baseline_threshold_rule": "the baseline's tau_m is the one with the best validation sensitivity at a benign urgent rate at or below the candidate's, so both are compared at the same biopsy burden",
+  "candidate": {
+    "condition": "A0",
+    "run": "A0-s47041585",
+    "checkpoint": "runs/A0-s47041585/weights/best.pt",
+    "sha256": "e39a71cd24515b28f63ad785c311c1611bc2bbeb1546a4bf64e6cdb0dd093f85",
+    "tau_m": 0.07,
+    "tau_b": 0.001,
+    "tau_c": null
+  },
+  "baseline": {
+    "condition": "B0",
+    "run": "B0-s47041585",
+    "checkpoint": "runs/B0-s47041585/weights/best.pt",
+    "sha256": "8e2dddce7c7a5242978e3201f70411b3208970d2f49aba4315158ae92dfaa535",
+    "tau_m": 0.01,
+    "tau_b": 0.001,
+    "tau_c": null
+  },
+  "validation_at_frozen_thresholds": {
+    "candidate": {
+      "benign_clear": 0.5032679738562091,
+      "benign_monitor": 0.0,
+      "benign_urgent": 0.49673202614379086,
+      "coverage_benign": 1.0,
+      "iou_benign": 0.8675906632533456,
+      "malignant_clear": 0.19444444444444445,
+      "malignant_monitor": 0.0,
+      "malignant_urgent": 0.8055555555555556,
+      "coverage_malignant": 0.8055555555555556,
+      "iou_malignant": 0.8835764193488641,
+      "sensitivity": 0.8055555555555556,
+      "benign_escalation": 0.49673202614379086
+    },
+    "baseline": {
+      "benign_clear": 0.5294117647058824,
+      "benign_monitor": 0.006535947712418301,
+      "benign_urgent": 0.46405228758169936,
+      "coverage_benign": 0.9411764705882353,
+      "iou_benign": 0.8541502225127297,
+      "malignant_clear": 0.25,
+      "malignant_monitor": 0.0,
+      "malignant_urgent": 0.75,
+      "coverage_malignant": 0.7222222222222222,
+      "iou_malignant": 0.8433852743118054,
+      "sensitivity": 0.7222222222222222,
+      "benign_escalation": 0.47058823529411764
+    }
+  },
+  "dataset": {
+    "split_seed": 47041585,
+    "raw_metadata_sha256": "b32f2c8d943c0bc85a292b49feb874246f13d35958f979adb7a77d28d19e30d5",
+    "split_manifest_sha256": "f71cfdf06f1dc31c5a81677893b3d4b1b168792e6b0f384ef6e4d69fd2f06457"
+  }
+}

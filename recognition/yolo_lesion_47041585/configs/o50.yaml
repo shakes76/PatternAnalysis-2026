@@ -1,0 +1,4 @@
+# O50: A0 augmentation, 50% malignant sampling.
+condition: O50 # run label, so runs are saved as O50-s<seed>
+sampling:
+  malignant_fraction: 0.50 # half of each epoch is drawn from malignant images

@@ -1,0 +1,192 @@
+{
+  "split": "test",
+  "images": 189,
+  "n_valid_resamples": 2000,
+  "record": "assets/selection.json",
+  "observed": {
+    "candidate": {
+      "benign_clear": 0.6928104575163399,
+      "benign_monitor": 0.0,
+      "benign_urgent": 0.30718954248366015,
+      "coverage_benign": 0.9934640522875817,
+      "iou_benign": 0.8902136235037362,
+      "malignant_clear": 0.3333333333333333,
+      "malignant_monitor": 0.0,
+      "malignant_urgent": 0.6666666666666666,
+      "coverage_malignant": 0.6666666666666666,
+      "iou_malignant": 0.8716179318788143,
+      "sensitivity": 0.6666666666666666,
+      "benign_escalation": 0.30718954248366015
+    },
+    "baseline": {
+      "benign_clear": 0.5816993464052288,
+      "benign_monitor": 0.0,
+      "benign_urgent": 0.41830065359477125,
+      "coverage_benign": 0.9411764705882353,
+      "iou_benign": 0.8566817312862949,
+      "malignant_clear": 0.3055555555555556,
+      "malignant_monitor": 0.05555555555555555,
+      "malignant_urgent": 0.6388888888888888,
+      "coverage_malignant": 0.6111111111111112,
+      "iou_malignant": 0.8473659189646103,
+      "sensitivity": 0.6111111111111112,
+      "benign_escalation": 0.41830065359477125
+    }
+  },
+  "average_precision": {
+    "candidate": {
+      "ap50": [
+        0.9038279132738741,
+        0.5348031928372343
+      ],
+      "ap50_95": [
+        0.7094314823930397,
+        0.35726706631174704
+      ]
+    },
+    "baseline": {
+      "ap50": [
+        0.8380749048370489,
+        0.2660830668657765
+      ],
+      "ap50_95": [
+        0.5847682786156232,
+        0.1822990724410526
+      ]
+    }
+  },
+  "intervals": {
+    "candidate:sensitivity": [
+      0.45454545454545453,
+      0.8637121212121208
+    ],
+    "baseline:sensitivity": [
+      0.40737847222222223,
+      0.8181818181818182
+    ],
+    "diff:sensitivity": [
+      -0.13793103448275856,
+      0.2666666666666666
+    ],
+    "candidate:benign_urgent": [
+      0.22479829140958713,
+      0.39259372869802317
+    ],
+    "baseline:benign_urgent": [
+      0.3390804597701149,
+      0.5068516933028919
+    ],
+    "diff:benign_urgent": [
+      -0.20270270270270274,
+      -0.023995238095238142
+    ],
+    "candidate:benign_monitor": [
+      0.0,
+      0.0
+    ],
+    "baseline:benign_monitor": [
+      0.0,
+      0.0
+    ],
+    "diff:benign_monitor": [
+      0.0,
+      0.0
+    ],
+    "candidate:benign_clear": [
+      0.6074062713019768,
+      0.7752017085904129
+    ],
+    "baseline:benign_clear": [
+      0.493148306697108,
+      0.6609195402298851
+    ],
+    "diff:benign_clear": [
+      0.023995238095238125,
+      0.20270270270270263
+    ],
+    "candidate:benign_escalation": [
+      0.22479829140958713,
+      0.39259372869802317
+    ],
+    "baseline:benign_escalation": [
+      0.3390804597701149,
+      0.5068516933028919
+    ],
+    "diff:benign_escalation": [
+      -0.20270270270270274,
+      -0.023995238095238142
+    ],
+    "candidate:malignant_monitor": [
+      0.0,
+      0.0
+    ],
+    "baseline:malignant_monitor": [
+      0.0,
+      0.17391304347826086
+    ],
+    "diff:malignant_monitor": [
+      -0.17391304347826086,
+      0.0
+    ],
+    "candidate:malignant_clear": [
+      0.1362878787878789,
+      0.5454545454545454
+    ],
+    "baseline:malignant_clear": [
+      0.14285714285714285,
+      0.5
+    ],
+    "diff:malignant_clear": [
+      -0.12196366351418611,
+      0.17647058823529416
+    ],
+    "candidate:coverage_benign": [
+      0.9782608695652174,
+      1.0
+    ],
+    "baseline:coverage_benign": [
+      0.8881578947368421,
+      0.9808947432072885
+    ],
+    "diff:coverage_benign": [
+      0.017543859649122858,
+      0.09817262673555045
+    ],
+    "candidate:coverage_malignant": [
+      0.45454545454545453,
+      0.8637121212121208
+    ],
+    "baseline:coverage_malignant": [
+      0.40737847222222223,
+      0.8181818181818182
+    ],
+    "diff:coverage_malignant": [
+      -0.13793103448275856,
+      0.2666666666666666
+    ],
+    "candidate:iou_benign": [
+      0.8754268824897244,
+      0.9034850629107081
+    ],
+    "baseline:iou_benign": [
+      0.8378786214621624,
+      0.873270861679271
+    ],
+    "diff:iou_benign": [
+      0.020577722266402032,
+      0.04767932059925031
+    ],
+    "candidate:iou_malignant": [
+      0.8331360127882449,
+      0.908622302725825
+    ],
+    "baseline:iou_malignant": [
+      0.7918348709964249,
+      0.9004976116065826
+    ],
+    "diff:iou_malignant": [
+      -0.024899908976882164,
+      0.07988564943431631
+    ]
+  }
+}

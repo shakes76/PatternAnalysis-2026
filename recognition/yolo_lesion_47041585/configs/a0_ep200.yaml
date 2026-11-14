@@ -1,0 +1,6 @@
+# A0-ep200: A0 trained for twice as long with a cosine learning-rate schedule.
+# Changes from A0: train.epochs and train.cos_lr (two changes, so read it as "longer schedule").
+condition: A0-ep200 # run label, so runs are saved as A0-ep200-s<seed>
+train:
+  epochs: 200 # twice as many passes over the training set
+  cos_lr: true # learning rate follows a cosine curve down to lr0 x lrf, instead of a straight line
