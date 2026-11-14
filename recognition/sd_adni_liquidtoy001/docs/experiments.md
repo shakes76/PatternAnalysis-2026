@@ -1367,3 +1367,46 @@ tell them apart better than chance, though with many errors: 12 of 32 samples
 passed as real. The README's plausibility verdict changes from "plausible to a
 non-expert" to "partly". One rater and 64 items make this a weak test either
 way; it is not clinical validation.
+
+## 2026-11-15 — Post-hoc: where the training memory peaks came from
+
+Prompted by the second preliminary review (14 November), which noted that E3's
+logged training peak (36.8 GiB) exceeds full fine-tuning's (23.8 GiB) and that
+the cause was unverified. Approved by the student before any job ran; six short
+a100-test jobs, under 0.3 A100-hours in all. No test data were read; the
+phase runs read the train and validation splits, as the E3 probe did.
+
+**One training step** (`tools/lora_memory.py`, job 765406; random latents of
+the real shapes, batch 16, E3's code and environment). Full fine-tuning peaks
+at 16.1 GiB, the adapter at 9.2 GiB, the adapter on a bfloat16 base at 6.1 GiB.
+Autograd saves 6.3 GiB of activations for full fine-tuning and 5.8 GiB for the
+adapter, so the 2026-10-16 guess that the adapter layers keep extra float32
+copies is wrong. Turning cuDNN autotuning off or counting from the first step
+changes none of these peaks.
+
+**Phases of train.py** (`tools/train_memory_phases.py`, 50 steps of the E3
+probe setting; jobs 765415-765416 and 765437-765439 from the E3 run directory,
+765464 from the B3 run directory). The logged peak of every configuration is
+set by one call, the first VAE decode of the epoch-0 sample grid, before any
+training step; every later decode stays below 8 GiB:
+
+| | Logged peak (run) | First decode | Peak over training steps |
+| --- | ---: | ---: | ---: |
+| E2 configuration | 23.8 GiB | 23.8 GiB | 23.6 GiB |
+| E3 configuration | 36.8 GiB | 36.8 GiB | 10.2 GiB |
+| E3, autotuning off while sampling | | 4.5 GiB | 10.2 GiB |
+| B3 configuration | 34.3 GiB | 34.3 GiB | 10.5 GiB |
+
+The first decode is where cuDNN autotuning (`cudnn.benchmark`, set by
+`train.py`) first meets the VAE decoder's 256-pixel convolutions and tries
+their algorithms, some with large temporary workspaces; with autotuning off
+during sampling that decode needs 4.5 GiB. Why the trials reach different
+sizes in the three configurations (23.8, 36.8 and 34.3 GiB in total) was not
+investigated further. The E2 configuration was run with E3's code, which
+trains the full UNet the same way.
+
+**Consequence.** README Section 7.5 now reports the peak over training steps:
+the adapter trains in 10.2 GiB, 57% less than full fine-tuning's 23.6 GiB, the
+expected direction. No other result changes; check-off figures quoted at the
+time (23.8 GiB for E2) are left as recorded. Aggregates are in
+[memory-check-2026-11-15.json](memory-check-2026-11-15.json).

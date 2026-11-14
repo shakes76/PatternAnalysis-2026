@@ -10,7 +10,7 @@
 # for the E3 configuration (MODE=lora), E2's (MODE=unet) or B3's (MODE=scratch,
 # from the B3 run directory), 50 steps of the
 # E3 probe setting; NOBENCH=1 turns cuDNN autotuning off while sampling.
-# Submitted from the E3 run directory so it uses E3's code. Reads the train
+# Submitted from that run directory so it uses that run's code. Reads the train
 # and validation splits only. Run output goes to job scratch.
 set -euo pipefail
 umask 077

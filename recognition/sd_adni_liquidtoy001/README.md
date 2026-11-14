@@ -371,16 +371,28 @@ setting (TF32, fused attention).
 
 | Model | Trainable parameters | Weight file | Training (wall) | Training peak | Sec/image, batch 1 (det. / fast) | Sec/image, batch 16 (det. / fast) | Sampling peak, batch 1 / 16 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| **Full fine-tune** (E2) | 859.5 M | 1.7 GB | 43 min (10 epochs) | 23.8 GiB | 1.97 / 1.32 | 0.49 / 0.23 | 3.8 / 8.7 GiB |
-| **LoRA adapter** (E3) | 0.80 M | 1.6 MB | 38 min (10 epochs) | 36.8 GiB | 2.67 / 1.96 | 0.54 / 0.27 | 3.8 / 8.7 GiB |
-| Diffusion from scratch (B3) | 92.2 M | 0.18 GB | 110 min (98 epochs) | 34.3 GiB | 1.90 / 1.29 | 0.32 / 0.11 | 0.9 / 5.8 GiB |
+| **Full fine-tune** (E2) | 859.5 M | 1.7 GB | 43 min (10 epochs) | 23.6 GiB | 1.97 / 1.32 | 0.49 / 0.23 | 3.8 / 8.7 GiB |
+| **LoRA adapter** (E3) | 0.80 M | 1.6 MB | 38 min (10 epochs) | 10.2 GiB | 2.67 / 1.96 | 0.54 / 0.27 | 3.8 / 8.7 GiB |
+| Diffusion from scratch (B3) | 92.2 M | 0.18 GB | 110 min (98 epochs) | 10.5 GiB | 1.90 / 1.29 | 0.32 / 0.11 | 0.9 / 5.8 GiB |
 | Conditional VAE (B1) | 1.27 M | 5 MB | 3 min (5 epochs) | 0.15 GiB | 0.001 | < 0.001 | 0.4 GiB |
 | Conditional GAN (B2) | 9.2 M (G) + 12.5 M (D) | 37 MB (G) | 105 min (29,000 steps) | 3.8 GiB | 0.002 | < 0.001 | 0.5 GiB |
 
-The adapter's file is a thousand times smaller, yet its training peak is
-higher than full fine-tuning (likely float32 copies kept by the adapter layers,
-not verified), and unmerged it samples 35% slower. The GAN and VAE sample a
-thousand times faster than any diffusion model but fail the other two corners.
+The adapter's file is a thousand times smaller and it trains in 57% less
+memory than full fine-tuning, but unmerged it samples 35% slower. The GAN and
+VAE sample a thousand times faster than any diffusion model but fail the other
+two corners.
+
+*Training peaks, corrected after the review.* The runs logged 23.8 (E2),
+36.8 (E3) and 34.3 GiB (B3), which made the adapter look more expensive than
+full fine-tuning. A post-hoc check (`tools/train_memory_phases.py`, 50 steps
+of each configuration on Rangpur) found all three peaks were set once, before
+training, by the first VAE decode of the epoch-0 sample grid, when cuDNN
+autotuning tries convolution algorithms with large temporary workspaces. With
+autotuning off during sampling, E3's peak at that point falls from 36.8 to
+4.5 GiB. The table gives each model's peak over the training steps instead.
+The earlier guess (float32 copies in the adapter layers) was wrong: one
+training step saves almost the same activations with and without the adapter
+(5.8 against 6.3 GiB, `tools/lora_memory.py`).
 
 ## 8. Failure autopsies
 

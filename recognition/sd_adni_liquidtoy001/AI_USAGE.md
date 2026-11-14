@@ -320,3 +320,17 @@ file against the recorded accounts."
   checked myself", "Problems I found"), adding only items already in this record (the reference
   slices before the blinded sort), and the student checked the wording. No second rater was available; README Sections 7.3 and 12 now state the direction of
   the bias as a limitation.
+
+## 2026-11-14 to 15 — Second preliminary review: docstrings and the memory check (Claude Code)
+
+- Added docstrings to every function in `train.py`, `dataset.py`, `predict.py` and the EMA class
+  in `modules.py` (documentation only; the 33 local tests still pass).
+- With the student's approval, wrote `tools/lora_memory.py` and `tools/train_memory_phases.py`
+  and ran six short jobs to explain E3's 36.8 GiB training peak. My first two explanations were
+  wrong and the jobs showed it: the adapter does not keep extra float32 activations, and cuDNN
+  autotuning does not raise a training step's peak. The next run located the peak in the first
+  VAE decode of the epoch-0 sample grid, and turning autotuning off there removed it. README
+  Section 7.5 and the ledger now report the peak over training steps.
+- Verification: SHA-256 of every file copied to Rangpur matched the committed blob; the jobs used
+  the E3 and B3 run directories' own code and environment; the phase runs reproduce each run's
+  logged peak (23.8, 36.8, 34.3 GiB) to 0.02 GiB.
