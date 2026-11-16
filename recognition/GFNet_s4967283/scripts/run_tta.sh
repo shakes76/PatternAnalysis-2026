@@ -1,7 +1,7 @@
 #!/bin/bash
 # Measure what test-time augmentation buys on the best GFNet checkpoint.
 #
-#   sbatch run_tta.sh
+#   sbatch scripts/run_tta.sh
 #
 # Every slice is scored twice, as it is and mirrored left to right, and the two
 # probability vectors are averaged. No retraining and no change to the weights,

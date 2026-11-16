@@ -108,7 +108,7 @@ It made things worse.
 | AD recall | 0.5821 | 0.4632 | **−11.9 pts** |
 | Seconds per epoch | 14.0 | 33.7 | 2.41× |
 
-**The answer was in my own day-one measurement.** `visualise_data.py` reported
+**The answer was in my own day-one measurement.** `analysis/visualise_data.py` reported
 the correlation between flattened slice images:
 
 ```
@@ -284,7 +284,7 @@ Both splits are patient-disjoint. Validation is drawn from the shipped `train/`
 folder and test is the shipped `test/` folder, used exactly as distributed.
 
 Closing even half of that gap would put GFNet near the target, which makes it a
-better target for effort than further tuning. `audit_split_difference.py`
+better target for effort than further tuning. `analysis/audit_split_difference.py`
 compares the two folders on eight measures: slice
 numbering, patient ID ranges, head area and position in the frame, tissue
 contrast and intensity percentiles. It reports an effect size for each.

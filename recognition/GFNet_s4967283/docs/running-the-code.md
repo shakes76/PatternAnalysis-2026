@@ -27,21 +27,21 @@ PatternAnalysis-2026/
         ├── train.py                  Training loop, validation, checkpoints
         ├── predict.py                Inference, confusion matrix, report figures
         │
-        ├── audit_adni.py             Dataset audit, written before the loader
-        ├── visualise_data.py         Raw data figures and a leakage measurement
-        ├── brightness_baseline.py    One-feature classifier, audits for an artifact
-        ├── evaluate_calibration.py   ECE, reliability, reject option, temperature
-        ├── inspect_patient.py        Per-slice predictions for a named patient
-        ├── try_ensemble.py           Combines the two models and measures the gain
-        ├── audit_split_difference.py Compares the shipped train and test folders
-        ├── find_duplicate_subjects.py Finds repeat scans of one person across splits
-        ├── measure_leakage_impact.py Counts the leaked patients and scores without them
+        ├── analysis/audit_adni.py             Dataset audit, written before the loader
+        ├── analysis/visualise_data.py         Raw data figures and a leakage measurement
+        ├── analysis/brightness_baseline.py    One-feature classifier, audits for an artifact
+        ├── analysis/evaluate_calibration.py   ECE, reliability, reject option, temperature
+        ├── analysis/inspect_patient.py        Per-slice predictions for a named patient
+        ├── analysis/try_ensemble.py           Combines the two models and measures the gain
+        ├── analysis/audit_split_difference.py Compares the shipped train and test folders
+        ├── analysis/find_duplicate_subjects.py Finds repeat scans of one person across splits
+        ├── analysis/measure_leakage_impact.py Counts the leaked patients and scores without them
         │
-        ├── run_smoke.sh              SLURM, two epochs, run before any full job
-        ├── run_train.sh              SLURM, full run. Args: model seed epochs aug
-        ├── run_figures.sh            SLURM, rebuilds every figure from checkpoints
-        ├── run_recipe_figures.sh     SLURM, same but for a depth-12 patch-8 checkpoint
-        ├── run_tta.sh                SLURM, measures what test-time augmentation buys
+        ├── scripts/run_smoke.sh              SLURM, two epochs, run before any full job
+        ├── scripts/run_train.sh              SLURM, full run. Args: model seed epochs aug
+        ├── scripts/run_figures.sh            SLURM, rebuilds every figure from checkpoints
+        ├── scripts/run_recipe_figures.sh     SLURM, same but for a depth-12 patch-8 checkpoint
+        ├── scripts/run_tta.sh                SLURM, measures what test-time augmentation buys
         │
         └── figures/
             ├── fig1_class_comparison.png        Example slices, AD against NC
@@ -62,7 +62,7 @@ PatternAnalysis-2026/
 ```
 
 Model checkpoints and training logs are not committed. The spec forbids it and
-they are regenerable from `run_train.sh`.
+they are regenerable from `scripts/run_train.sh`.
 
 | File | Purpose |
 |------|---------|
@@ -70,18 +70,18 @@ they are regenerable from `run_train.sh`.
 | `dataset.py` | Data loader with patient-level splits and augmentation |
 | `train.py` | Training loop, validation, checkpoints, metric plots |
 | `predict.py` | Loads a checkpoint, runs inference, draws the report figures |
-| `audit_adni.py` | Dataset inspection, written before the loader |
-| `visualise_data.py` | Four figures of the raw data, plus a leakage measurement |
-| `brightness_baseline.py` | A one-feature classifier, used to audit the result |
-| `evaluate_calibration.py` | ECE, reliability, reject-option sweep, temperature scaling |
-| `inspect_patient.py` | Per-slice predictions for one patient, used for the error autopsy |
-| `try_ensemble.py` | Combines the two models and measures what that buys |
-| `audit_split_difference.py` | Compares the shipped folders on eight measures, with effect sizes |
-| `find_duplicate_subjects.py` | Detects repeat scans of one person, using test as a control |
-| `measure_leakage_impact.py` | Counts leaked patients and recomputes accuracy without them |
-| `run_smoke.sh` | SLURM smoke test, two epochs, run before any full job |
-| `run_train.sh` | SLURM training run. Takes model, seed, epochs and augmentation |
-| `run_figures.sh` | SLURM job that rebuilds every figure from a pair of checkpoints |
+| `analysis/audit_adni.py` | Dataset inspection, written before the loader |
+| `analysis/visualise_data.py` | Four figures of the raw data, plus a leakage measurement |
+| `analysis/brightness_baseline.py` | A one-feature classifier, used to audit the result |
+| `analysis/evaluate_calibration.py` | ECE, reliability, reject-option sweep, temperature scaling |
+| `analysis/inspect_patient.py` | Per-slice predictions for one patient, used for the error autopsy |
+| `analysis/try_ensemble.py` | Combines the two models and measures what that buys |
+| `analysis/audit_split_difference.py` | Compares the shipped folders on eight measures, with effect sizes |
+| `analysis/find_duplicate_subjects.py` | Detects repeat scans of one person, using test as a control |
+| `analysis/measure_leakage_impact.py` | Counts leaked patients and recomputes accuracy without them |
+| `scripts/run_smoke.sh` | SLURM smoke test, two epochs, run before any full job |
+| `scripts/run_train.sh` | SLURM training run. Takes model, seed, epochs and augmentation |
+| `scripts/run_figures.sh` | SLURM job that rebuilds every figure from a pair of checkpoints |
 
 ---
 
@@ -129,7 +129,7 @@ Run the whole pipeline in this order. Each step depends on the one before it.
 ### 1. Audit the dataset
 
 ```bash
-python audit_adni.py
+python analysis/audit_adni.py
 ```
 
 Expected output:
@@ -181,7 +181,7 @@ Run this first. Every later step assumes the layout it reports.
 ### 2. Produce the data figures
 
 ```bash
-python visualise_data.py --data-root /home/groups/comp3710/ADNI/AD_NC \
+python analysis/visualise_data.py --data-root /home/groups/comp3710/ADNI/AD_NC \
   --output-dir figures
 ```
 
@@ -284,15 +284,15 @@ warning, which is expected there and harmless.
 #   MODEL SEED EPOCHS AUG PATCH SLICES DEPTH DROPPATH WARMUP OPTIM MIXUP SMOOTH
 
 # The baseline
-sbatch run_train.sh baseline 42 80 strong
+sbatch scripts/run_train.sh baseline 42 80 strong
 
 # The two GFNet builds this report compares
-sbatch run_train.sh gfnet 42 80 normal 8 1 12 0.1 5 adamw
-sbatch run_train.sh gfnet 42 80 strong 8 1 12 0.3 5 adamw 0.8 0.1
+sbatch scripts/run_train.sh gfnet 42 80 normal 8 1 12 0.1 5 adamw
+sbatch scripts/run_train.sh gfnet 42 80 strong 8 1 12 0.3 5 adamw 0.8 0.1
 
 # Other configurations from the ledger
-sbatch run_train.sh gfnet 42 80 normal 16 3
-sbatch run_train.sh gfnet 42 150 normal 8 1 12 0.1 5 adamw
+sbatch scripts/run_train.sh gfnet 42 80 normal 16 3
+sbatch scripts/run_train.sh gfnet 42 150 normal 8 1 12 0.1 5 adamw
 ```
 
 Expected output from `sbatch`:
@@ -433,7 +433,7 @@ test set.
 ### 8. The dilemma investigation
 
 ```bash
-python evaluate_calibration.py \
+python analysis/evaluate_calibration.py \
   --predictions figures/test_predictions_baseline.npz figures/test_predictions_gfnet.npz \
   --val-predictions figures/validation_predictions_baseline.npz figures/validation_predictions_gfnet.npz \
   --names baseline gfnet --output-dir figures
@@ -470,7 +470,7 @@ them. If accuracy moves, the implementation is wrong.
 ### Rebuild every figure at once
 
 ```bash
-sbatch run_figures.sh
+sbatch scripts/run_figures.sh
 ```
 
 Runs steps 6, 7 and 8 for both models inside one GPU allocation. Use it after
@@ -487,7 +487,7 @@ the login node is fine.
 ### The brightness control
 
 ```bash
-python brightness_baseline.py --data-root /home/groups/comp3710/ADNI/AD_NC
+python analysis/brightness_baseline.py --data-root /home/groups/comp3710/ADNI/AD_NC
 ```
 
 Expected output ends with:
@@ -506,7 +506,7 @@ brightness.
 ### Per-slice predictions for one patient
 
 ```bash
-python inspect_patient.py --patient 985197 --worst 10
+python analysis/inspect_patient.py --patient 985197 --worst 10
 ```
 
 Expected output:
@@ -527,7 +527,7 @@ who has Alzheimer's.
 ### The ensemble
 
 ```bash
-python try_ensemble.py
+python analysis/try_ensemble.py
 ```
 
 Expected output ends with:
@@ -546,7 +546,7 @@ even split needs no fitting, so that is the number the report uses.
 ### Compare the two shipped folders
 
 ```bash
-python audit_split_difference.py
+python analysis/audit_split_difference.py
 ```
 
 Expected output ends with:
@@ -566,8 +566,8 @@ LARGE would be a candidate explanation for the validation-to-test gap.
 ### Detect repeat scans of one person
 
 ```bash
-python find_duplicate_subjects.py
-python measure_leakage_impact.py
+python analysis/find_duplicate_subjects.py
+python analysis/measure_leakage_impact.py
 ```
 
 Expected output from the second:
@@ -589,10 +589,10 @@ below.
 
 | Needs a GPU, so use SLURM | Login node is fine |
 |---|---|
-| `train.py`, through `run_train.sh` | `modules.py`, `dataset.py`, `audit_adni.py` |
-| `predict.py`, through `run_figures.sh` | `brightness_baseline.py`, `inspect_patient.py` |
-| | `try_ensemble.py`, `evaluate_calibration.py` |
-| | `audit_split_difference.py` and the two leakage scripts |
+| `train.py`, through `scripts/run_train.sh` | `modules.py`, `dataset.py`, `analysis/audit_adni.py` |
+| `predict.py`, through `scripts/run_figures.sh` | `analysis/brightness_baseline.py`, `analysis/inspect_patient.py` |
+| | `analysis/try_ensemble.py`, `analysis/evaluate_calibration.py` |
+| | `analysis/audit_split_difference.py` and the two leakage scripts |
 
 The rule I keep: a GPU, any `num_workers` above zero, or anything over a few
 minutes goes to SLURM. I broke it once and ran `predict.py` on the login node

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Rebuild the report figures and the calibration numbers for the recipe run.
 #
-#   sbatch run_recipe_figures.sh
+#   sbatch scripts/run_recipe_figures.sh
 #
 # The best GFNet result is the recipe configuration at patch size 8 with depth
 # 12, so the figures and every calibration number have to come from that
@@ -55,7 +55,7 @@ python predict.py $GFNET_ARGS --split validation --no-figures --output-dir figur
 # The baseline predictions in figures/ are still current, so they are reused.
 echo
 echo ">>> 3 of 3: calibration, reject option and temperature scaling"
-python evaluate_calibration.py \
+python analysis/evaluate_calibration.py \
     --predictions figures/test_predictions_baseline.npz figures/test_predictions_gfnet.npz \
     --val-predictions figures/validation_predictions_baseline.npz figures/validation_predictions_gfnet.npz \
     --names baseline gfnet --output-dir figures

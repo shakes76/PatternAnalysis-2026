@@ -2,18 +2,18 @@
 # Full training run on one A100. Takes the model name and the seed as arguments
 # so I do not need a separate script per run.
 #
-#   sbatch run_train.sh baseline 42
-#   sbatch run_train.sh gfnet 42
+#   sbatch scripts/run_train.sh baseline 42
+#   sbatch scripts/run_train.sh gfnet 42
 #
 # Arguments: MODEL SEED EPOCHS AUG PATCH SLICES
-#   sbatch run_train.sh gfnet 42 80 normal 8      patch size 8, finer tokens
-#   sbatch run_train.sh gfnet 42 80 normal 16 3   2.5D, three adjacent slices
+#   sbatch scripts/run_train.sh gfnet 42 80 normal 8      patch size 8, finer tokens
+#   sbatch scripts/run_train.sh gfnet 42 80 normal 16 3   2.5D, three adjacent slices
 #
 # Full argument list: MODEL SEED EPOCHS AUG PATCH SLICES DEPTH DROPPATH WARMUP OPTIM
 #
 # The paper's training recipe, which is AdamW with decoupled weight decay,
 # a linear warmup, stochastic depth, and the depth of GFNet-Ti:
-#   sbatch run_train.sh gfnet 42 80 normal 16 1 12 0.1 5 adamw
+#   sbatch scripts/run_train.sh gfnet 42 80 normal 16 1 12 0.1 5 adamw
 #
 # Full list: MODEL SEED EPOCHS AUG PATCH SLICES DEPTH DROPPATH WARMUP OPTIM MIXUP SMOOTH
 #
@@ -21,11 +21,11 @@
 # 0.9954 against validation at 0.8649, so the model had memorised the training
 # set. Mixup stops it seeing the same slice twice and label smoothing stops it
 # driving its outputs to 0 and 1:
-#   sbatch run_train.sh gfnet 42 80 strong 8 1 12 0.3 5 adamw 0.8 0.1
+#   sbatch scripts/run_train.sh gfnet 42 80 strong 8 1 12 0.3 5 adamw 0.8 0.1
 #
 # For the three-seed comparison later:
-#   for s in 42 1 2; do sbatch run_train.sh baseline $s; done
-#   for s in 42 1 2; do sbatch run_train.sh gfnet $s; done
+#   for s in 42 1 2; do sbatch scripts/run_train.sh baseline $s; done
+#   for s in 42 1 2; do sbatch scripts/run_train.sh gfnet $s; done
 #
 # Each run writes into its own output folder, outputs_<model>_seed<seed>, so
 # runs never overwrite each other's weights or metrics.

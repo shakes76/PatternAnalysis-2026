@@ -21,7 +21,7 @@ splits of one dataset is too large to accept without an explanation.
 
 ### Step 1. The two shipped folders are indistinguishable
 
-`audit_split_difference.py` compares the shipped `train/` and `test/` folders on
+`analysis/audit_split_difference.py` compares the shipped `train/` and `test/` folders on
 eight measures and reports Cohen's d for each.
 
 | Measure | train | test | Cohen's d | Size |
@@ -50,7 +50,7 @@ ADNI follows people for years and scans them repeatedly. If one person's session
 could be the same person as a training patient. The ID check would pass
 regardless.
 
-`find_duplicate_subjects.py` reduces each patient to one 48 × 48 mean image and
+`analysis/find_duplicate_subjects.py` reduces each patient to one 48 × 48 mean image and
 normalises it. It then finds the closest training patient for every validation
 and test patient, by correlation. Test acts as the control, because a high
 correlation means nothing on its own when all brain MRIs resemble each other.
@@ -65,7 +65,7 @@ The closest pairs settled it:
 | 982444 | 982443 | 0.9999 | 1 |
 | 1069428 | 1069430 | 1.0000 | 2 |
 
-`measure_leakage_impact.py` then separated the pairs by correlation and
+`analysis/measure_leakage_impact.py` then separated the pairs by correlation and
 compared their ID gaps.
 
 | Group | n | Median ID gap | Within 20 of each other |

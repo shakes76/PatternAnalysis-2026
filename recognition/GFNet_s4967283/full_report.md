@@ -5,6 +5,68 @@ Project 2.1 Classification. Model: GFNet. Difficulty: Hard.
 
 ---
 
+## Repository layout
+
+Every file in this submission, and what it is for.
+
+```
+recognition/GFNet_s4967283/
+|
+|-- modules.py                    the model: GFNet blocks, learnable filters,
+|                                 the baseline CNN, and six CPU self-tests
+|-- dataset.py                    patient-level splitting, transforms, slice stacking
+|-- train.py                      training loop, optimisers, warmup, mixup, cutmix
+|-- predict.py                    inference, patient-level voting, AUROC,
+|                                 test-time augmentation
+|-- README.md                     this page
+|
+|-- full_report.md                this page and the seven doc pages joined
+|-- GFNet_s4967283_report.docx    the submitted report
+|-- progress_log.md               daily log, including the experiments that failed
+|-- pr_description.md             the pull request text
+|
+|-- analysis/
+|   |-- evaluate_calibration.py     ECE, reliability diagrams, temperature scaling
+|   |-- visualise_data.py           dataset figures
+|   |-- audit_adni.py               dataset audit: counts, image sizes, split checks
+|   |-- audit_split_difference.py   compares the validation and test folders on 8 measures
+|   |-- brightness_baseline.py      the brightness-only ablation
+|   |-- find_duplicate_subjects.py  finds near-duplicate patients across splits
+|   |-- measure_leakage_impact.py   measures what the scan-ID leak actually costs
+|   |-- inspect_patient.py          per-patient failure inspection
+|   `-- try_ensemble.py             combines the baseline and GFNet predictions
+|
+|-- scripts/
+|   |-- run_train.sh              SLURM job: training
+|   |-- run_figures.sh            SLURM job: figures and calibration
+|   |-- run_recipe_figures.sh     SLURM job: figures for the recommended model
+|   |-- run_tta.sh                SLURM job: test-time augmentation
+|   `-- run_smoke.sh              SLURM job: 2-epoch smoke test
+|
+|-- docs/
+|   |-- running-the-code.md       every command with the output it really prints
+|   |-- data-and-splits.md        dataset layout and split design
+|   |-- experiment-ledger.md      all 20 experiments
+|   |-- dilemma-investigation.md  calibration, patient level, ensemble
+|   |-- error-autopsy.md          named failure patients
+|   |-- scan-id-finding.md        the scan-ID evidence
+|   `-- feasibility-review.md     the midpoint check-off review
+|
+|-- figures/                      every figure this README shows
+`-- results/
+    |-- gfnet_original_run/       figures for the superseded patch 16 run
+    `-- baseline_training_sample/ one sample training output
+```
+
+Everything in `analysis/` and `scripts/` is run from this folder rather than
+from inside its own, so paths resolve: `python analysis/audit_adni.py` and
+`sbatch scripts/run_train.sh`.
+
+These are produced when you run the code, and are not in the repository:
+`adni_subset/` (the dataset), `testout_local/`, `outputs_*/`, `__pycache__/`.
+
+---
+
 ## The problem
 
 Alzheimer's disease destroys brain tissue. The damage shows up on a structural
@@ -101,6 +163,8 @@ difference between them is this report's main finding.
 | Test accuracy, slice | 0.7421 | **0.7450** | 0.7381 |
 | Test accuracy, patient | 0.7511 | 0.7578 | **0.7689** |
 | Macro F1 | 0.7357 | 0.7367 | 0.7334 |
+| AUROC, slice | 0.8212 | **0.8257** | 0.8223 |
+| AUROC, patient | 0.8438 | **0.8616** | 0.8571 |
 | AD precision | 0.8411 | 0.8506 | 0.8157 |
 | AD recall | 0.5913 | 0.5729 | **0.6092** |
 | NC precision | 0.6892 | 0.6854 | 0.6925 |
@@ -116,6 +180,19 @@ to do it.
 A clinician classifies a patient, not a slice, so the patient-level row is the
 one that matters clinically. The slice row is reported because the
 specification's 0.80 target refers to it.
+
+**Every AUROC sits 8 to 10 points above the matching accuracy, and that gap is
+the point of reporting it.** AUROC asks whether the model gives an AD case a
+higher score than an NC case. Accuracy asks whether it does so on the right
+side of 0.50. A model that ranks well and scores poorly has the wrong
+threshold rather than the wrong representation, and that is what these two
+rows say about all three models.
+
+Both GFNet builds rank better than the baseline at patient level, by 1.8 and
+1.3 points, which is a wider margin than their accuracy advantage. AUROC is
+also far flatter across the project than accuracy is: the patch 16 recipe run
+reaches 0.8607 patient AUROC on 0.7294 accuracy. Training changes moved where
+the threshold falls much more than they moved the ranking.
 
 The three differ only in how GFNet was trained:
 
@@ -353,6 +430,14 @@ differed by **one slice in 9,000**, 0.7450 against 0.7449. So results are not
 bit-exact, and the noise floor is 0.01 accuracy points. Differences of 0.3
 points and above in this report are real rather than run-to-run variation.
 
+A second instance of this turned up when the AUROC figures were added. The
+recommended model's saved predictions come from a later inference pass than
+the one behind the accuracy table. They differ by one slice in 9,000, and that
+slice flipped one borderline patient: 0.7382 slice and 0.7711 patient against
+the 0.7381 and 0.7689 reported above. Same checkpoint, same test split, same
+code. The AUROC row comes from that later pass, so it is stated here rather
+than left for a reader to discover.
+
 **One seed.** Every result uses seed 42. The measurement above shows the noise
 floor is small, but it measures one configuration run twice, not the spread
 across seeds. Three seeds per model with a mean and standard deviation would
@@ -389,7 +474,7 @@ demonstrate.
 Anthropic Claude, mainly through an agentic coding session over approximately one week.
 
 ### What I used it for
-Claude helped me create the initial versions of several project files, including modules.py, dataset.py, train.py, predict.py, evaluate_calibration.py, visualise_data.py, and brightness_baseline.py. These were used as starting points rather than final solutions. I reviewed each file, made edits, corrected mistakes, and adapted the code to fit the requirements of the project.
+Claude helped me create the initial versions of several project files, including modules.py, dataset.py, train.py, predict.py, analysis/evaluate_calibration.py, analysis/visualise_data.py, and analysis/brightness_baseline.py. These were used as starting points rather than final solutions. I reviewed each file, made edits, corrected mistakes, and adapted the code to fit the requirements of the project.
 It also helped generate an early draft of the README structure and some explanatory text, which I substantially revised and rewrote during the final documentation process.
 During development, I used Claude as a debugging assistant when dealing with Python errors and configuring SLURM jobs on the university cluster. It was also useful for brainstorming potential analyses, including the brightness-ablation experiment, temperature scaling for calibration, patient-level prediction averaging, and strategies for addressing overfitting.
 
@@ -478,21 +563,21 @@ PatternAnalysis-2026/
         ├── train.py                  Training loop, validation, checkpoints
         ├── predict.py                Inference, confusion matrix, report figures
         │
-        ├── audit_adni.py             Dataset audit, written before the loader
-        ├── visualise_data.py         Raw data figures and a leakage measurement
-        ├── brightness_baseline.py    One-feature classifier, audits for an artifact
-        ├── evaluate_calibration.py   ECE, reliability, reject option, temperature
-        ├── inspect_patient.py        Per-slice predictions for a named patient
-        ├── try_ensemble.py           Combines the two models and measures the gain
-        ├── audit_split_difference.py Compares the shipped train and test folders
-        ├── find_duplicate_subjects.py Finds repeat scans of one person across splits
-        ├── measure_leakage_impact.py Counts the leaked patients and scores without them
+        ├── analysis/audit_adni.py             Dataset audit, written before the loader
+        ├── analysis/visualise_data.py         Raw data figures and a leakage measurement
+        ├── analysis/brightness_baseline.py    One-feature classifier, audits for an artifact
+        ├── analysis/evaluate_calibration.py   ECE, reliability, reject option, temperature
+        ├── analysis/inspect_patient.py        Per-slice predictions for a named patient
+        ├── analysis/try_ensemble.py           Combines the two models and measures the gain
+        ├── analysis/audit_split_difference.py Compares the shipped train and test folders
+        ├── analysis/find_duplicate_subjects.py Finds repeat scans of one person across splits
+        ├── analysis/measure_leakage_impact.py Counts the leaked patients and scores without them
         │
-        ├── run_smoke.sh              SLURM, two epochs, run before any full job
-        ├── run_train.sh              SLURM, full run. Args: model seed epochs aug
-        ├── run_figures.sh            SLURM, rebuilds every figure from checkpoints
-        ├── run_recipe_figures.sh     SLURM, same but for a depth-12 patch-8 checkpoint
-        ├── run_tta.sh                SLURM, measures what test-time augmentation buys
+        ├── scripts/run_smoke.sh              SLURM, two epochs, run before any full job
+        ├── scripts/run_train.sh              SLURM, full run. Args: model seed epochs aug
+        ├── scripts/run_figures.sh            SLURM, rebuilds every figure from checkpoints
+        ├── scripts/run_recipe_figures.sh     SLURM, same but for a depth-12 patch-8 checkpoint
+        ├── scripts/run_tta.sh                SLURM, measures what test-time augmentation buys
         │
         └── figures/
             ├── fig1_class_comparison.png        Example slices, AD against NC
@@ -513,7 +598,7 @@ PatternAnalysis-2026/
 ```
 
 Model checkpoints and training logs are not committed. The spec forbids it and
-they are regenerable from `run_train.sh`.
+they are regenerable from `scripts/run_train.sh`.
 
 | File | Purpose |
 |------|---------|
@@ -521,18 +606,18 @@ they are regenerable from `run_train.sh`.
 | `dataset.py` | Data loader with patient-level splits and augmentation |
 | `train.py` | Training loop, validation, checkpoints, metric plots |
 | `predict.py` | Loads a checkpoint, runs inference, draws the report figures |
-| `audit_adni.py` | Dataset inspection, written before the loader |
-| `visualise_data.py` | Four figures of the raw data, plus a leakage measurement |
-| `brightness_baseline.py` | A one-feature classifier, used to audit the result |
-| `evaluate_calibration.py` | ECE, reliability, reject-option sweep, temperature scaling |
-| `inspect_patient.py` | Per-slice predictions for one patient, used for the error autopsy |
-| `try_ensemble.py` | Combines the two models and measures what that buys |
-| `audit_split_difference.py` | Compares the shipped folders on eight measures, with effect sizes |
-| `find_duplicate_subjects.py` | Detects repeat scans of one person, using test as a control |
-| `measure_leakage_impact.py` | Counts leaked patients and recomputes accuracy without them |
-| `run_smoke.sh` | SLURM smoke test, two epochs, run before any full job |
-| `run_train.sh` | SLURM training run. Takes model, seed, epochs and augmentation |
-| `run_figures.sh` | SLURM job that rebuilds every figure from a pair of checkpoints |
+| `analysis/audit_adni.py` | Dataset inspection, written before the loader |
+| `analysis/visualise_data.py` | Four figures of the raw data, plus a leakage measurement |
+| `analysis/brightness_baseline.py` | A one-feature classifier, used to audit the result |
+| `analysis/evaluate_calibration.py` | ECE, reliability, reject-option sweep, temperature scaling |
+| `analysis/inspect_patient.py` | Per-slice predictions for one patient, used for the error autopsy |
+| `analysis/try_ensemble.py` | Combines the two models and measures what that buys |
+| `analysis/audit_split_difference.py` | Compares the shipped folders on eight measures, with effect sizes |
+| `analysis/find_duplicate_subjects.py` | Detects repeat scans of one person, using test as a control |
+| `analysis/measure_leakage_impact.py` | Counts leaked patients and recomputes accuracy without them |
+| `scripts/run_smoke.sh` | SLURM smoke test, two epochs, run before any full job |
+| `scripts/run_train.sh` | SLURM training run. Takes model, seed, epochs and augmentation |
+| `scripts/run_figures.sh` | SLURM job that rebuilds every figure from a pair of checkpoints |
 
 ---
 
@@ -580,7 +665,7 @@ Run the whole pipeline in this order. Each step depends on the one before it.
 ### 1. Audit the dataset
 
 ```bash
-python audit_adni.py
+python analysis/audit_adni.py
 ```
 
 Expected output:
@@ -632,7 +717,7 @@ Run this first. Every later step assumes the layout it reports.
 ### 2. Produce the data figures
 
 ```bash
-python visualise_data.py --data-root /home/groups/comp3710/ADNI/AD_NC \
+python analysis/visualise_data.py --data-root /home/groups/comp3710/ADNI/AD_NC \
   --output-dir figures
 ```
 
@@ -735,15 +820,15 @@ warning, which is expected there and harmless.
 #   MODEL SEED EPOCHS AUG PATCH SLICES DEPTH DROPPATH WARMUP OPTIM MIXUP SMOOTH
 
 # The baseline
-sbatch run_train.sh baseline 42 80 strong
+sbatch scripts/run_train.sh baseline 42 80 strong
 
 # The two GFNet builds this report compares
-sbatch run_train.sh gfnet 42 80 normal 8 1 12 0.1 5 adamw
-sbatch run_train.sh gfnet 42 80 strong 8 1 12 0.3 5 adamw 0.8 0.1
+sbatch scripts/run_train.sh gfnet 42 80 normal 8 1 12 0.1 5 adamw
+sbatch scripts/run_train.sh gfnet 42 80 strong 8 1 12 0.3 5 adamw 0.8 0.1
 
 # Other configurations from the ledger
-sbatch run_train.sh gfnet 42 80 normal 16 3
-sbatch run_train.sh gfnet 42 150 normal 8 1 12 0.1 5 adamw
+sbatch scripts/run_train.sh gfnet 42 80 normal 16 3
+sbatch scripts/run_train.sh gfnet 42 150 normal 8 1 12 0.1 5 adamw
 ```
 
 Expected output from `sbatch`:
@@ -884,7 +969,7 @@ test set.
 ### 8. The dilemma investigation
 
 ```bash
-python evaluate_calibration.py \
+python analysis/evaluate_calibration.py \
   --predictions figures/test_predictions_baseline.npz figures/test_predictions_gfnet.npz \
   --val-predictions figures/validation_predictions_baseline.npz figures/validation_predictions_gfnet.npz \
   --names baseline gfnet --output-dir figures
@@ -921,7 +1006,7 @@ them. If accuracy moves, the implementation is wrong.
 ### Rebuild every figure at once
 
 ```bash
-sbatch run_figures.sh
+sbatch scripts/run_figures.sh
 ```
 
 Runs steps 6, 7 and 8 for both models inside one GPU allocation. Use it after
@@ -938,7 +1023,7 @@ the login node is fine.
 ### The brightness control
 
 ```bash
-python brightness_baseline.py --data-root /home/groups/comp3710/ADNI/AD_NC
+python analysis/brightness_baseline.py --data-root /home/groups/comp3710/ADNI/AD_NC
 ```
 
 Expected output ends with:
@@ -957,7 +1042,7 @@ brightness.
 ### Per-slice predictions for one patient
 
 ```bash
-python inspect_patient.py --patient 985197 --worst 10
+python analysis/inspect_patient.py --patient 985197 --worst 10
 ```
 
 Expected output:
@@ -978,7 +1063,7 @@ who has Alzheimer's.
 ### The ensemble
 
 ```bash
-python try_ensemble.py
+python analysis/try_ensemble.py
 ```
 
 Expected output ends with:
@@ -997,7 +1082,7 @@ even split needs no fitting, so that is the number the report uses.
 ### Compare the two shipped folders
 
 ```bash
-python audit_split_difference.py
+python analysis/audit_split_difference.py
 ```
 
 Expected output ends with:
@@ -1017,8 +1102,8 @@ LARGE would be a candidate explanation for the validation-to-test gap.
 ### Detect repeat scans of one person
 
 ```bash
-python find_duplicate_subjects.py
-python measure_leakage_impact.py
+python analysis/find_duplicate_subjects.py
+python analysis/measure_leakage_impact.py
 ```
 
 Expected output from the second:
@@ -1040,10 +1125,10 @@ below.
 
 | Needs a GPU, so use SLURM | Login node is fine |
 |---|---|
-| `train.py`, through `run_train.sh` | `modules.py`, `dataset.py`, `audit_adni.py` |
-| `predict.py`, through `run_figures.sh` | `brightness_baseline.py`, `inspect_patient.py` |
-| | `try_ensemble.py`, `evaluate_calibration.py` |
-| | `audit_split_difference.py` and the two leakage scripts |
+| `train.py`, through `scripts/run_train.sh` | `modules.py`, `dataset.py`, `analysis/audit_adni.py` |
+| `predict.py`, through `scripts/run_figures.sh` | `analysis/brightness_baseline.py`, `analysis/inspect_patient.py` |
+| | `analysis/try_ensemble.py`, `analysis/evaluate_calibration.py` |
+| | `analysis/audit_split_difference.py` and the two leakage scripts |
 
 The rule I keep: a GPU, any `num_workers` above zero, or anything over a few
 minutes goes to SLURM. I broke it once and ran `predict.py` on the login node
@@ -1168,7 +1253,7 @@ Does the model read anatomy, or does it read brightness?
 mean shows visibly larger ventricles, which is the structural change the models
 are meant to find.*
 
-So I built the simplest classifier I could. `brightness_baseline.py` uses one
+So I built the simplest classifier I could. `analysis/brightness_baseline.py` uses one
 number per slice, which is the mean intensity of the tissue pixels. It fits the
 threshold on the train split only.
 
@@ -1188,7 +1273,7 @@ augmentation setting.
 
 ### Does the confidence mean anything?
 
-This is the core of the dilemma. I measured it with `evaluate_calibration.py`.
+This is the core of the dilemma. I measured it with `analysis/evaluate_calibration.py`.
 
 Three models are compared, because the training recipe moved calibration far
 more than it moved accuracy, and the direction reversed twice.
@@ -1434,7 +1519,7 @@ fewer missed Alzheimer's cases.
 because those are the dangerous ones. A mistake at 51% confidence goes to a
 human under any sensible threshold. A mistake at 99% confidence does not.
 
-`inspect_patient.py` then prints every slice of a named patient for both
+`analysis/inspect_patient.py` then prints every slice of a named patient for both
 models. That separates a patient the model is unsure about from a patient the
 model is confidently and completely wrong about.
 
@@ -1625,7 +1710,7 @@ splits of one dataset is too large to accept without an explanation.
 
 ### Step 1. The two shipped folders are indistinguishable
 
-`audit_split_difference.py` compares the shipped `train/` and `test/` folders on
+`analysis/audit_split_difference.py` compares the shipped `train/` and `test/` folders on
 eight measures and reports Cohen's d for each.
 
 | Measure | train | test | Cohen's d | Size |
@@ -1654,7 +1739,7 @@ ADNI follows people for years and scans them repeatedly. If one person's session
 could be the same person as a training patient. The ID check would pass
 regardless.
 
-`find_duplicate_subjects.py` reduces each patient to one 48 × 48 mean image and
+`analysis/find_duplicate_subjects.py` reduces each patient to one 48 × 48 mean image and
 normalises it. It then finds the closest training patient for every validation
 and test patient, by correlation. Test acts as the control, because a high
 correlation means nothing on its own when all brain MRIs resemble each other.
@@ -1669,7 +1754,7 @@ The closest pairs settled it:
 | 982444 | 982443 | 0.9999 | 1 |
 | 1069428 | 1069430 | 1.0000 | 2 |
 
-`measure_leakage_impact.py` then separated the pairs by correlation and
+`analysis/measure_leakage_impact.py` then separated the pairs by correlation and
 compared their ID gaps.
 
 | Group | n | Median ID gap | Within 20 of each other |
@@ -1852,7 +1937,7 @@ It made things worse.
 | AD recall | 0.5821 | 0.4632 | **−11.9 pts** |
 | Seconds per epoch | 14.0 | 33.7 | 2.41× |
 
-**The answer was in my own day-one measurement.** `visualise_data.py` reported
+**The answer was in my own day-one measurement.** `analysis/visualise_data.py` reported
 the correlation between flattened slice images:
 
 ```
@@ -2028,7 +2113,7 @@ Both splits are patient-disjoint. Validation is drawn from the shipped `train/`
 folder and test is the shipped `test/` folder, used exactly as distributed.
 
 Closing even half of that gap would put GFNet near the target, which makes it a
-better target for effort than further tuning. `audit_split_difference.py`
+better target for effort than further tuning. `analysis/audit_split_difference.py`
 compares the two folders on eight measures: slice
 numbering, patient ID ranges, head area and position in the frame, tissue
 contrast and intensity percentiles. It reports an effect size for each.

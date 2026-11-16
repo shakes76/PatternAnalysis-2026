@@ -18,7 +18,7 @@ Does the model read anatomy, or does it read brightness?
 mean shows visibly larger ventricles, which is the structural change the models
 are meant to find.*
 
-So I built the simplest classifier I could. `brightness_baseline.py` uses one
+So I built the simplest classifier I could. `analysis/brightness_baseline.py` uses one
 number per slice, which is the mean intensity of the tissue pixels. It fits the
 threshold on the train split only.
 
@@ -38,7 +38,7 @@ augmentation setting.
 
 ### Does the confidence mean anything?
 
-This is the core of the dilemma. I measured it with `evaluate_calibration.py`.
+This is the core of the dilemma. I measured it with `analysis/evaluate_calibration.py`.
 
 Three models are compared, because the training recipe moved calibration far
 more than it moved accuracy, and the direction reversed twice.

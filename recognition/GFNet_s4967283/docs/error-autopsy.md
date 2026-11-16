@@ -8,7 +8,7 @@
 because those are the dangerous ones. A mistake at 51% confidence goes to a
 human under any sensible threshold. A mistake at 99% confidence does not.
 
-`inspect_patient.py` then prints every slice of a named patient for both
+`analysis/inspect_patient.py` then prints every slice of a named patient for both
 models. That separates a patient the model is unsure about from a patient the
 model is confidently and completely wrong about.
 

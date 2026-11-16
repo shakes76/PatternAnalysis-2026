@@ -31,6 +31,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from PIL import Image
 
+# dataset.py sits one level up now that this script lives in analysis/, so
+# the project folder goes on the import path before importing from it.
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from dataset import scan_split_folder, LABEL_TO_CLASS, CLASS_TO_LABEL
 
 

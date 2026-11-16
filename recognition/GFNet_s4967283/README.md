@@ -20,7 +20,7 @@ want.
 | [Error autopsy](docs/error-autopsy.md) | Named failure patients, what each model did to them, and the one patient that defeats every version |
 | [The scan-ID finding](docs/scan-id-finding.md) | Evidence that the filename ID identifies a scan and not a person |
 | [Experiment ledger](docs/experiment-ledger.md) | All 20 experiments, including the three that disproved my own hypotheses |
-
+go
 ---
 
 ## Repository layout
@@ -30,33 +30,36 @@ Every file in this submission, and what it is for.
 ```
 recognition/GFNet_s4967283/
 |
-|-- README.md                     this page
-|-- full_report.md                this page and the seven doc pages joined, for submission
-|-- GFNet_s4967283_report.docx    the submitted report
-|-- progress_log.md               daily log, including the experiments that failed
-|-- pr_description.md             the pull request text
-|
 |-- modules.py                    the model: GFNet blocks, learnable filters,
 |                                 the baseline CNN, and six CPU self-tests
 |-- dataset.py                    patient-level splitting, transforms, slice stacking
 |-- train.py                      training loop, optimisers, warmup, mixup, cutmix
-|-- predict.py                    inference, patient-level voting, test-time augmentation
+|-- predict.py                    inference, patient-level voting, AUROC,
+|                                 test-time augmentation
+|-- README.md                     this page
 |
-|-- evaluate_calibration.py       ECE, reliability diagrams, temperature scaling
-|-- visualise_data.py             dataset figures
-|-- audit_adni.py                 dataset audit: counts, image sizes, split checks
-|-- audit_split_difference.py     compares the validation and test folders on 8 measures
-|-- brightness_baseline.py        the brightness-only ablation
-|-- find_duplicate_subjects.py    finds near-duplicate patients across splits
-|-- measure_leakage_impact.py     measures what the scan-ID leak actually costs
-|-- inspect_patient.py            per-patient failure inspection
-|-- try_ensemble.py               combines the baseline and GFNet predictions
+|-- full_report.md                this page and the seven doc pages joined
+|-- GFNet_s4967283_report.docx    the submitted report
+|-- progress_log.md               daily log, including the experiments that failed
+|-- pr_description.md             the pull request text
 |
-|-- run_train.sh                  SLURM job: training
-|-- run_figures.sh                SLURM job: figures and calibration
-|-- run_recipe_figures.sh         SLURM job: figures for the recommended model
-|-- run_tta.sh                    SLURM job: test-time augmentation
-|-- run_smoke.sh                  SLURM job: 2-epoch smoke test
+|-- analysis/
+|   |-- evaluate_calibration.py     ECE, reliability diagrams, temperature scaling
+|   |-- visualise_data.py           dataset figures
+|   |-- audit_adni.py               dataset audit: counts, image sizes, split checks
+|   |-- audit_split_difference.py   compares the validation and test folders on 8 measures
+|   |-- brightness_baseline.py      the brightness-only ablation
+|   |-- find_duplicate_subjects.py  finds near-duplicate patients across splits
+|   |-- measure_leakage_impact.py   measures what the scan-ID leak actually costs
+|   |-- inspect_patient.py          per-patient failure inspection
+|   `-- try_ensemble.py             combines the baseline and GFNet predictions
+|
+|-- scripts/
+|   |-- run_train.sh              SLURM job: training
+|   |-- run_figures.sh            SLURM job: figures and calibration
+|   |-- run_recipe_figures.sh     SLURM job: figures for the recommended model
+|   |-- run_tta.sh                SLURM job: test-time augmentation
+|   `-- run_smoke.sh              SLURM job: 2-epoch smoke test
 |
 |-- docs/
 |   |-- running-the-code.md       every command with the output it really prints
@@ -67,10 +70,15 @@ recognition/GFNet_s4967283/
 |   |-- scan-id-finding.md        the scan-ID evidence
 |   `-- feasibility-review.md     the midpoint check-off review
 |
-|-- figures/                      figures for the recommended model
-|-- figures_normal_aug/           figures for the original GFNet run
-`-- outputs/                      one sample training output
+|-- figures/                      every figure this README shows
+`-- results/
+    |-- gfnet_original_run/       figures for the superseded patch 16 run
+    `-- baseline_training_sample/ one sample training output
 ```
+
+Everything in `analysis/` and `scripts/` is run from this folder rather than
+from inside its own, so paths resolve: `python analysis/audit_adni.py` and
+`sbatch scripts/run_train.sh`.
 
 These are produced when you run the code, and are not in the repository:
 `adni_subset/` (the dataset), `testout_local/`, `outputs_*/`, `__pycache__/`.
@@ -177,6 +185,8 @@ difference between them is this report's main finding.
 | Test accuracy, slice | 0.7421 | **0.7450** | 0.7381 |
 | Test accuracy, patient | 0.7511 | 0.7578 | **0.7689** |
 | Macro F1 | 0.7357 | 0.7367 | 0.7334 |
+| AUROC, slice | 0.8212 | **0.8257** | 0.8223 |
+| AUROC, patient | 0.8438 | **0.8616** | 0.8571 |
 | AD precision | 0.8411 | 0.8506 | 0.8157 |
 | AD recall | 0.5913 | 0.5729 | **0.6092** |
 | NC precision | 0.6892 | 0.6854 | 0.6925 |
@@ -192,6 +202,19 @@ to do it.
 A clinician classifies a patient, not a slice, so the patient-level row is the
 one that matters clinically. The slice row is reported because the
 specification's 0.80 target refers to it.
+
+**Every AUROC sits 8 to 10 points above the matching accuracy, and that gap is
+the point of reporting it.** AUROC asks whether the model gives an AD case a
+higher score than an NC case. Accuracy asks whether it does so on the right
+side of 0.50. A model that ranks well and scores poorly has the wrong
+threshold rather than the wrong representation, and that is what these two
+rows say about all three models.
+
+Both GFNet builds rank better than the baseline at patient level, by 1.8 and
+1.3 points, which is a wider margin than their accuracy advantage. AUROC is
+also far flatter across the project than accuracy is: the patch 16 recipe run
+reaches 0.8607 patient AUROC on 0.7294 accuracy. Training changes moved where
+the threshold falls much more than they moved the ranking.
 
 The three differ only in how GFNet was trained:
 
@@ -429,6 +452,14 @@ differed by **one slice in 9,000**, 0.7450 against 0.7449. So results are not
 bit-exact, and the noise floor is 0.01 accuracy points. Differences of 0.3
 points and above in this report are real rather than run-to-run variation.
 
+A second instance of this turned up when the AUROC figures were added. The
+recommended model's saved predictions come from a later inference pass than
+the one behind the accuracy table. They differ by one slice in 9,000, and that
+slice flipped one borderline patient: 0.7382 slice and 0.7711 patient against
+the 0.7381 and 0.7689 reported above. Same checkpoint, same test split, same
+code. The AUROC row comes from that later pass, so it is stated here rather
+than left for a reader to discover.
+
 **One seed.** Every result uses seed 42. The measurement above shows the noise
 floor is small, but it measures one configuration run twice, not the spread
 across seeds. Three seeds per model with a mean and standard deviation would
@@ -465,7 +496,7 @@ demonstrate.
 Anthropic Claude, mainly through an agentic coding session over approximately one week.
 
 ### What I used it for
-Claude helped me create the initial versions of several project files, including modules.py, dataset.py, train.py, predict.py, evaluate_calibration.py, visualise_data.py, and brightness_baseline.py. These were used as starting points rather than final solutions. I reviewed each file, made edits, corrected mistakes, and adapted the code to fit the requirements of the project.
+Claude helped me create the initial versions of several project files, including modules.py, dataset.py, train.py, predict.py, analysis/evaluate_calibration.py, analysis/visualise_data.py, and analysis/brightness_baseline.py. These were used as starting points rather than final solutions. I reviewed each file, made edits, corrected mistakes, and adapted the code to fit the requirements of the project.
 It also helped generate an early draft of the README structure and some explanatory text, which I substantially revised and rewrote during the final documentation process.
 During development, I used Claude as a debugging assistant when dealing with Python errors and configuring SLURM jobs on the university cluster. It was also useful for brainstorming potential analyses, including the brightness-ablation experiment, temperature scaling for calibration, patient-level prediction averaging, and strategies for addressing overfitting.
 

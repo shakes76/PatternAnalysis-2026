@@ -1,7 +1,7 @@
 #!/bin/bash
 # Regenerate every report figure from the strong-augmentation checkpoints.
 #
-#   sbatch run_figures.sh
+#   sbatch scripts/run_figures.sh
 #
 # Why this script exists
 # ----------------------
@@ -70,7 +70,7 @@ python predict.py --model gfnet --checkpoint "$GFNET_CKPT" \
 
 echo
 echo ">>> 5 of 5: calibration, reject option and temperature scaling"
-python evaluate_calibration.py \
+python analysis/evaluate_calibration.py \
     --predictions figures/test_predictions_baseline.npz figures/test_predictions_gfnet.npz \
     --val-predictions figures/validation_predictions_baseline.npz figures/validation_predictions_gfnet.npz \
     --names baseline gfnet --output-dir figures
