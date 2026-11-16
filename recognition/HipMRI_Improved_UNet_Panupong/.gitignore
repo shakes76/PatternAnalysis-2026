@@ -1,0 +1,21 @@
+# Python and notebook caches
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+.analysis_deps/
+
+# MRI datasets
+data/
+keras_slices_data/
+*.nii
+*.nii.gz
+
+# Model weights and checkpoints
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.h5
+*.hdf5
