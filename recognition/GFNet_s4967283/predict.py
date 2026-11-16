@@ -137,8 +137,67 @@ def run_inference(model, loader, device, use_tta=False):
     }
 
 
+def average_ranks(values):
+    """
+    Rank the values from 1 upwards, giving tied values their average rank.
+
+    Ties matter here. Softmax outputs repeat often enough that ignoring them
+    would quietly shift the AUROC.
+    """
+    order = np.argsort(values, kind="mergesort")
+    sorted_values = values[order]
+    ranks = np.empty(len(values), dtype=np.float64)
+
+    start = 0
+    while start < len(values):
+        stop = start
+        while stop + 1 < len(values) and sorted_values[stop + 1] == sorted_values[start]:
+            stop += 1
+        # Everything from start to stop is tied, so they all take the midpoint.
+        ranks[order[start:stop + 1]] = 0.5 * (start + stop) + 1.0
+        start = stop + 1
+
+    return ranks
+
+
+def roc_auc(labels, ad_scores):
+    """
+    Area under the ROC curve, worked out by hand like the other metrics.
+
+    I use the rank form rather than tracing the curve. AUROC is the chance
+    that a randomly chosen AD case scores higher than a randomly chosen NC
+    case. Summing the ranks of the AD cases and taking off the smallest total
+    they could have had counts the AD/NC pairs that are ordered correctly, and
+    dividing by the number of pairs turns that count into the probability.
+
+    0.5 means the ranking is no better than a coin toss. 1.0 means every AD
+    case scores above every NC case. Unlike accuracy it does not care where
+    the decision threshold sits, which is the point: this report argues the
+    threshold is wrong rather than the ranking, and AUROC is how I show that.
+    """
+    is_ad = labels == 1
+    ad_count = int(is_ad.sum())
+    nc_count = int((~is_ad).sum())
+
+    # Undefined if a class is missing. That should not happen on this split,
+    # but it would divide by zero rather than say so.
+    if ad_count == 0 or nc_count == 0:
+        return float("nan")
+
+    ranks = average_ranks(ad_scores)
+    smallest_possible = ad_count * (ad_count + 1) / 2.0
+    return float((ranks[is_ad].sum() - smallest_possible) / (ad_count * nc_count))
+
+
 def print_metrics(probabilities, labels):
-    """Print accuracy, a confusion matrix, and per-class precision and recall."""
+    """
+    Print accuracy, a confusion matrix, per-class precision, recall and F1,
+    macro F1, and AUROC.
+
+    The assignment asks for all of these. The first group judges the calls the
+    model actually made at a 0.50 threshold. AUROC judges the ordering on its
+    own, with no threshold involved.
+    """
     predictions = probabilities.argmax(axis=1)
 
     accuracy = float((predictions == labels).mean())
@@ -159,6 +218,7 @@ def print_metrics(probabilities, labels):
         print("  actual %-3s   %12d   %12d" % (LABEL_TO_CLASS[true_class], row[0], row[1]))
 
     print()
+    f1_scores = []
     for class_index in (0, 1):
         class_name = LABEL_TO_CLASS[class_index]
         true_positives = int(((predictions == class_index) & (labels == class_index)).sum())
@@ -167,9 +227,20 @@ def print_metrics(probabilities, labels):
 
         precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) else 0.0
         recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+        f1_scores.append(f1)
 
-        print("  %s: precision %.4f  recall %.4f  (missed %d)"
-              % (class_name, precision, recall, false_negatives))
+        print("  %s: precision %.4f  recall %.4f  F1 %.4f  (missed %d)"
+              % (class_name, precision, recall, f1, false_negatives))
+
+    # Macro F1 is the plain mean of the two class F1 scores, so each class
+    # counts the same no matter how many slices it has. Same definition as
+    # compute_classification_metrics in train.py.
+    print()
+    print("  macro F1: %.4f" % float(np.mean(f1_scores)))
+
+    # AD is label 1, so column 1 holds P(AD) and that is what to rank on.
+    print("  AUROC: %.4f" % roc_auc(labels, probabilities[:, 1]))
 
     return accuracy
 
@@ -184,9 +255,13 @@ def print_patient_level(probabilities, labels, patient_ids):
     unique_patients = sorted(set(patient_ids.tolist()))
 
     correct = 0
+    patient_ad_scores = []
+    patient_labels = []
     for patient in unique_patients:
         mask = patient_ids == patient
         mean_probability = probabilities[mask].mean(axis=0)
+        patient_ad_scores.append(mean_probability[1])
+        patient_labels.append(labels[mask][0])
         if mean_probability.argmax() == labels[mask][0]:
             correct += 1
 
@@ -194,6 +269,8 @@ def print_patient_level(probabilities, labels, patient_ids):
     print()
     print("  patient level: %.4f  (%d of %d patients)"
           % (accuracy, correct, len(unique_patients)))
+    print("  patient level AUROC: %.4f"
+          % roc_auc(np.array(patient_labels), np.array(patient_ad_scores)))
     return accuracy
 
 
