@@ -26,8 +26,8 @@
   "failure_renderer_reproduces_selected_slice_dice": true,
   "report": {
     "pages": 14,
-    "readme_sha256": "c6bd128e83d2d455c8a8c20d1854cfc1e2e6e981eda4503ea6f1c7a563507cd7",
-    "pdf_sha256": "c1c7f7a180bbdd5fc20a208888ded54b1c6e491fbaf0aa71cb8ecc26b3ed21b3",
+    "readme_sha256": "8b709df3bb0bcbe7e1e64996c1571ec7be7fadcbbcdc9a55a524eb95a737a601",
+    "pdf_sha256": "b5ce153f3ad89d7fc9f41503fcf9e9485a6a77f1168bec044094b64edbfa1db4",
     "builder_sha256": "5d8f69a623adcf416c9b94be6543c56f1d1694dbfbb3a54235ea92224e14115e",
     "all_markdown_file_links_exist": true,
     "pdf_text_within_page_bounds": true,
@@ -39,5 +39,16 @@
     "Physical spacing and orientation not established",
     "No clinical validation",
     "Turnitin upload and future reviewer responses are student actions"
-  ]
+  ],
+  "review_revision": {
+    "date": "2026-11-16",
+    "automated_tests_passed": 73,
+    "core_code_ast_unchanged": true,
+    "experiment_results_unchanged": true,
+    "all_tracked_markdown_file_links_exist": true,
+    "all_changes_scoped_to_project_directory": true,
+    "pr_link_in_pdf": true,
+    "removed_duplicate_documents": 9,
+    "original_submission_commit": "839251965bd75a97e3185c98f983dab4eae169e1"
+  }
 }
