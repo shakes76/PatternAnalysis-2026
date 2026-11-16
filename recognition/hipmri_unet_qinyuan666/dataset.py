@@ -99,6 +99,7 @@ def map_labels(mask: np.ndarray, label_values: Sequence[int]) -> np.ndarray:
     if unknown.size:
         raise ValueError(f"Mask contains unknown raw labels: {unknown.tolist()}.")
     mapped = np.zeros(mask.shape, dtype=np.int64)
+    # Use the global dictionary even when this slice lacks some foreground classes.
     for class_index, raw_label in enumerate(values):
         mapped[mask == raw_label] = class_index
     return mapped
@@ -167,12 +168,14 @@ def resize_pair(image: torch.Tensor, mask: torch.Tensor, image_size: int,
     if min(height, width) < 1:
         raise ValueError("Image and mask dimensions must be positive.")
     if mode == "pad":
+        # Fit the longer side first; the remaining space becomes background padding.
         scale = image_size / max(height, width)
         size = (max(1, round(height * scale)), max(1, round(width * scale)))
     else:
         size = (image_size, image_size)
     image = F.interpolate(image.unsqueeze(0), size=size, mode="bilinear",
                           align_corners=False)[0]
+    # Nearest interpolation preserves discrete class IDs; bilinear would invent labels.
     mask = F.interpolate(mask[None, None].float(), size=size, mode="nearest")[0, 0].long()
     top, left = (image_size - size[0]) // 2, (image_size - size[1]) // 2
     padding = (left, image_size - size[1] - left, top, image_size - size[0] - top)
@@ -194,6 +197,7 @@ class HipMRIDataset(Dataset):
         if resize_mode not in ("pad", "stretch"):
             raise ValueError("resize_mode must be pad or stretch.")
         self.label_values = validate_label_values(label_values)
+        # Validate the entire manifest before filtering, so cross-split leakage is visible.
         self.records = [record for record in read_manifest(manifest) if record["split"] == split]
         if not self.records:
             raise ValueError(f"Manifest has no samples in the {split} split.")

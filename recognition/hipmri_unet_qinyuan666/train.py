@@ -77,6 +77,7 @@ def run_epoch(model, loader, device, num_classes, optimizer=None) -> dict:
                     if parameter.grad is not None and not torch.isfinite(parameter.grad).all():
                         raise RuntimeError("Non-finite gradients; refusing to update the model.")
                 optimizer.step()
+            # Pool integer counts before scoring; averaging batch Dice changes weighting.
             matrix += confusion_matrix(logits.detach(), targets, num_classes)
             loss_total += float(loss.detach()) * images.shape[0]
             sample_count += images.shape[0]
@@ -94,6 +95,7 @@ def benchmark_inference(model, image, device, warmup=5, repeats=20) -> dict:
         for _ in range(repeats):
             start = time.perf_counter()
             model(image)
+            # CUDA launches asynchronously; wait before stopping the wall-clock timer.
             synchronize(device)
             times.append((time.perf_counter() - start) * 1000)
     return {"batch_size": 1, "warmup": warmup, "repeats": repeats,
@@ -185,6 +187,7 @@ def train(args) -> dict:
         print(json.dumps({"epoch": epoch, "train_loss": train_scores["loss"],
                           "val_loss": val_scores["loss"], "data_kind": config["data_kind"]}), flush=True)
         if val_scores["loss"] < best_loss:
+            # Strict improvement retains the earlier epoch on ties; test data is unused.
             best_loss, best_epoch = val_scores["loss"], epoch
             torch.save({"format_version": 1, "model_state": model.state_dict(),
                         "config": config, "epoch": epoch}, args.output / "best.pt")

@@ -99,6 +99,7 @@ def run_prediction(checkpoint: str | Path, output: str | Path = "runs/prediction
         if manifest is None:
             raise ValueError("Real-data prediction requires --manifest")
         manifest_sha256 = hashlib.sha256(Path(manifest).read_bytes()).hexdigest()
+        # Bind inference to the recorded split assignments, not just compatible shapes.
         if manifest_sha256 != config.get("manifest_sha256"):
             raise ValueError("Prediction manifest does not match the checkpoint manifest_sha256; "
                              "use the unchanged training CSV to preserve patient split assignments")
@@ -131,12 +132,14 @@ def run_prediction(checkpoint: str | Path, output: str | Path = "runs/prediction
                 prediction = logits.argmax(dim=1)[0].cpu()
             image = sample["image"][0].cpu().numpy()
             target = sample["mask"].cpu()
+            # Masks contain channel indices; the documented raw prostate label was mapped above.
             predicted_foreground = prediction == foreground_channel
             target_foreground = target == foreground_channel
             true_positive = predicted_foreground & target_foreground
             false_positive = predicted_foreground & ~target_foreground
             false_negative = ~predicted_foreground & target_foreground
             denominator = int(predicted_foreground.sum() + target_foreground.sum())
+            # Both-empty slices have no target to assess; report null instead of perfect Dice.
             dice = 2.0 * int(true_positive.sum()) / denominator if denominator else None
             overlay = np.zeros((*target.shape, 4), dtype=np.float32)
             overlay[false_positive.numpy()] = (1.0, 0.1, 0.1, 0.7)

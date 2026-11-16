@@ -93,6 +93,7 @@ class UNet2D(nn.Module):
             x = encoder(x)
             skips.append(x)
         for decoder, skip in zip(self.decoders, reversed(skips[:-1])):
+            # Exclude the bottleneck: each decoder fuses the next finer encoder map.
             x = decoder(x, skip)
         return self.head(x)
 
@@ -115,6 +116,7 @@ class _ContextStage(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         shortcut = self.project(x)
+        # Project first so the residual addition matches both channels and resolution.
         return shortcut + self.context(shortcut)
 
 
@@ -184,10 +186,12 @@ class ImprovedUNet2D(nn.Module):
         for index, (decoder, skip) in enumerate(zip(self.decoders, reversed(skips[:-1]))):
             x = decoder(x, skip)
             if index >= 1:
+                # Skip the coarsest decoder; supervise quarter, half and full grids.
                 score = self.segmentation_heads[index - 1](x)
                 if score.shape[-2:] != output_size:
                     score = F.interpolate(score, size=output_size, mode="nearest")
                 logits.append(score)
+        # Sum raw logits: one CE/Dice loss sends gradients through all three heads.
         return logits[0] + logits[1] + logits[2]
 
 
