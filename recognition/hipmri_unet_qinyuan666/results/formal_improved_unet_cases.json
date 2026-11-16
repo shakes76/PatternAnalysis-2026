@@ -1,0 +1,307 @@
+{
+  "case_count": 4,
+  "slice_count": 660,
+  "cases": [
+    {
+      "case_alias": "Case 01",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9989210901298148,
+          "iou": 0.99784450584355,
+          "support_pixels": 2227378
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9819648078219722,
+          "iou": 0.9645686272604338,
+          "support_pixels": 1309004
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9477170584287766,
+          "iou": 0.9006294989574634,
+          "support_pixels": 339706
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9323554518056547,
+          "iou": 0.8732826420389649,
+          "support_pixels": 28973
+        },
+        {
+          "class_index": 4,
+          "dice": 0.9253435953820781,
+          "iou": 0.8610599549826069,
+          "support_pixels": 8883
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8881948782011243,
+          "iou": 0.798876404494382,
+          "support_pixels": 18216
+        }
+      ],
+      "macro_foreground_dice": 0.9351151583279211
+    },
+    {
+      "case_alias": "Case 02",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9996249756971352,
+          "iou": 0.9992502325752761,
+          "support_pixels": 2170758
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9823504697742035,
+          "iou": 0.9653131462225892,
+          "support_pixels": 1342149
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9494658209331047,
+          "iou": 0.9037933651777409,
+          "support_pixels": 334006
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9439288934220952,
+          "iou": 0.8938118726501328,
+          "support_pixels": 53304
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8544549836728347,
+          "iou": 0.7458938509569703,
+          "support_pixels": 5848
+        },
+        {
+          "class_index": 5,
+          "dice": 0.7444142684346259,
+          "iou": 0.5928820706703505,
+          "support_pixels": 26095
+        }
+      ],
+      "macro_foreground_dice": 0.8949228872473729
+    },
+    {
+      "case_alias": "Case 03",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9994456062371605,
+          "iou": 0.9988918268386099,
+          "support_pixels": 2275436
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9483750125898754,
+          "iou": 0.901818636817934,
+          "support_pixels": 1192889
+        },
+        {
+          "class_index": 2,
+          "dice": 0.908706569485768,
+          "iou": 0.8326876567538517,
+          "support_pixels": 336477
+        },
+        {
+          "class_index": 3,
+          "dice": 0.6315160080447899,
+          "iou": 0.46147124245313,
+          "support_pixels": 111189
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8950818353641372,
+          "iou": 0.8100888047750764,
+          "support_pixels": 13093
+        },
+        {
+          "class_index": 5,
+          "dice": 0.6871950193504964,
+          "iou": 0.5234555242245578,
+          "support_pixels": 3076
+        }
+      ],
+      "macro_foreground_dice": 0.8141748889670135
+    },
+    {
+      "case_alias": "Case 04",
+      "slices": 480,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9990673415036491,
+          "iou": 0.9981364210900021,
+          "support_pixels": 17928969
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9863546536910205,
+          "iou": 0.9730766853344381,
+          "support_pixels": 11366494
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9389669055868359,
+          "iou": 0.8849553426098924,
+          "support_pixels": 1824006
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9388473047778011,
+          "iou": 0.884742892332957,
+          "support_pixels": 184474
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8939508985067072,
+          "iou": 0.8082379862700229,
+          "support_pixels": 93505
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8537558911224392,
+          "iou": 0.7448290329347598,
+          "support_pixels": 59832
+        }
+      ],
+      "macro_foreground_dice": 0.9223751307369608
+    }
+  ],
+  "pixel_pooled": {
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9991383011069414,
+        "iou": 0.9982780859852831,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.9825580368137092,
+        "iou": 0.9657140872553196,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.9377376583829364,
+        "iou": 0.8827740772165892,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.8664226820028456,
+        "iou": 0.7643260572059368,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.8943221198288044,
+        "iou": 0.8088450857770019,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.8319777254393409,
+        "iou": 0.7122961124626512,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.9026036444935274
+  },
+  "case_macro_per_class": [
+    {
+      "class_index": 0,
+      "mean_dice": 0.9992647533919399,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.9985307465868596,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 1,
+      "mean_dice": 0.9747612359692679,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.9511942739088488,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 2,
+      "mean_dice": 0.9362140886086213,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.8805164658747371,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 3,
+      "mean_dice": 0.8616619145125852,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.7783271623687962,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 4,
+      "mean_dice": 0.8922078282314393,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.8063201492461691,
+      "defined_iou_cases": 4
+    },
+    {
+      "class_index": 5,
+      "mean_dice": 0.7933900142771715,
+      "defined_dice_cases": 4,
+      "mean_iou": 0.6650107580810125,
+      "defined_iou_cases": 4
+    }
+  ],
+  "prostate_case_dice": {
+    "mean": 0.7933900142771715,
+    "median": 0.7990850797785325,
+    "std_population": 0.08109870828078491,
+    "min": 0.6871950193504964,
+    "max": 0.8881948782011243,
+    "defined_cases": 4,
+    "undefined_cases": 0
+  },
+  "model": "improved_unet",
+  "epoch": 11,
+  "split": "val",
+  "label_values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "prostate_raw_label": 5,
+  "prostate_class_index": 5,
+  "image_size": 256,
+  "resize_mode": "pad",
+  "batch_size": 4,
+  "device": "cuda",
+  "test_evaluated": false,
+  "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3",
+  "checkpoint_sha256": "7ed4f8516e1c058a5dd2b3ca1f0c6dc9b1e90ff78aa1b8f1bde20e4d15bcecae",
+  "evaluator_sha256": "b4ea081f38d3c3a081bedaddb1a581c23a1a4b85918799a6a90958f828b8cc06",
+  "aggregation": "Sum confusion matrices across every slice and week of each manifest patient_id (Case), then average defined Case scores equally.",
+  "empty_policy": "Both truth and prediction empty: null, excluded from mean with count reported. One empty: zero.",
+  "limitations": [
+    "Case grouping follows the adopted pseudonymous dataset convention.",
+    "Weeks are pooled within each Case; not a per-scan average or reconstructed 3D volume metric.",
+    "Metrics include the padded input grid; not physical-space boundary measurements.",
+    "Validation used for model development; not final test evidence or a clinical claim."
+  ],
+  "provenance": {
+    "training_record": "results/formal_improved_unet.json",
+    "implementation_commit": "e8ec23651d4c386d3637fd9b86d2afe8e7c84e40",
+    "private_summary_sha256": "658808ae2ae6008ba7472aaceeca5f1dc361b1abbfb91ed789c1362d5d020c5b",
+    "pooled_metrics_match_training_summary_exactly": true
+  }
+}

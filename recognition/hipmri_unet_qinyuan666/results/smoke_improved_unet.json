@@ -1,0 +1,332 @@
+{
+  "status": "completed",
+  "data_kind": "synthetic_geometric",
+  "clinical_performance_claim": false,
+  "config": {
+    "model": "improved_unet",
+    "synthetic": true,
+    "manifest": null,
+    "label_values": [
+      0,
+      1
+    ],
+    "prostate_label": null,
+    "image_size": 128,
+    "base_channels": 16,
+    "batch_size": 4,
+    "epochs": 6,
+    "samples": 32,
+    "lr": 0.001,
+    "seed": 3710,
+    "device": "cuda",
+    "threads": 4,
+    "augment": false,
+    "output": "runs/midpoint_improved_unet",
+    "num_classes": 2,
+    "data_kind": "synthetic_geometric"
+  },
+  "training_samples": 32,
+  "validation_samples": 8,
+  "test_used_for_selection": false,
+  "parameter_count": 3186342,
+  "environment": {
+    "python": "3.10.19",
+    "torch": "2.5.1",
+    "numpy": "1.26.4",
+    "cuda_runtime": "11.8",
+    "device": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "os": "Windows-10-10.0.26200-SP0",
+    "dtype": "float32"
+  },
+  "initial_validation": {
+    "loss": 1.6495521664619446,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.5379311162627993,
+        "iou": 0.36792460481601336,
+        "support_pixels": 118223
+      },
+      {
+        "class_index": 1,
+        "dice": 0.1663404041376507,
+        "iou": 0.09071498576562281,
+        "support_pixels": 12849
+      }
+    ],
+    "macro_foreground_dice": 0.1663404041376507
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "loss": 0.7682318165898323,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9418936961762919,
+            "iou": 0.8901692512109082,
+            "support_pixels": 468210
+          },
+          {
+            "class_index": 1,
+            "dice": 0.6726098207563286,
+            "iou": 0.5067159839464628,
+            "support_pixels": 56078
+          }
+        ],
+        "macro_foreground_dice": 0.6726098207563286
+      },
+      "val": {
+        "loss": 0.36407439410686493,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9972741433021807,
+            "iou": 0.9945631067961165,
+            "support_pixels": 118223
+          },
+          {
+            "class_index": 1,
+            "dice": 0.975123609394314,
+            "iou": 0.951454846977235,
+            "support_pixels": 12849
+          }
+        ],
+        "macro_foreground_dice": 0.975123609394314
+      }
+    },
+    {
+      "epoch": 2,
+      "train": {
+        "loss": 0.2447565272450447,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9977987925415398,
+            "iou": 0.9956072544273971,
+            "support_pixels": 468210
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9817256001277433,
+            "iou": 0.9641071210774833,
+            "support_pixels": 56078
+          }
+        ],
+        "macro_foreground_dice": 0.9817256001277433
+      },
+      "val": {
+        "loss": 0.17366603016853333,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9982530275920122,
+            "iou": 0.9965121483645945,
+            "support_pixels": 118223
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9839518165921897,
+            "iou": 0.9684105858956708,
+            "support_pixels": 12849
+          }
+        ],
+        "macro_foreground_dice": 0.9839518165921897
+      }
+    },
+    {
+      "epoch": 3,
+      "train": {
+        "loss": 0.12914978805929422,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9982027303112418,
+            "iou": 0.9964119093889793,
+            "support_pixels": 468210
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9850770104336717,
+            "iou": 0.9705928632620592,
+            "support_pixels": 56078
+          }
+        ],
+        "macro_foreground_dice": 0.9850770104336717
+      },
+      "val": {
+        "loss": 0.1047549732029438,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9987018972596079,
+            "iou": 0.9974071602915466,
+            "support_pixels": 118223
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9880288555273933,
+            "iou": 0.9763409371146733,
+            "support_pixels": 12849
+          }
+        ],
+        "macro_foreground_dice": 0.9880288555273933
+      }
+    },
+    {
+      "epoch": 4,
+      "train": {
+        "loss": 0.08236656989902258,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9987281171541862,
+            "iou": 0.9974594655705323,
+            "support_pixels": 468210
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9893820930916741,
+            "iou": 0.9789872971065632,
+            "support_pixels": 56078
+          }
+        ],
+        "macro_foreground_dice": 0.9893820930916741
+      },
+      "val": {
+        "loss": 0.07096783444285393,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9990610566918743,
+            "iou": 0.9981238749588013,
+            "support_pixels": 118223
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9913645557803018,
+            "iou": 0.9828769764751253,
+            "support_pixels": 12849
+          }
+        ],
+        "macro_foreground_dice": 0.9913645557803018
+      }
+    },
+    {
+      "epoch": 5,
+      "train": {
+        "loss": 0.056682567577809095,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9990515819783488,
+            "iou": 0.9981049612456039,
+            "support_pixels": 468210
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9920912005700036,
+            "iou": 0.9843065177435317,
+            "support_pixels": 56078
+          }
+        ],
+        "macro_foreground_dice": 0.9920912005700036
+      },
+      "val": {
+        "loss": 0.05143999680876732,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9994586913864267,
+            "iou": 0.9989179684858321,
+            "support_pixels": 118223
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9950155763239875,
+            "iou": 0.9900805951642901,
+            "support_pixels": 12849
+          }
+        ],
+        "macro_foreground_dice": 0.9950155763239875
+      }
+    },
+    {
+      "epoch": 6,
+      "train": {
+        "loss": 0.041801054030656815,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9995044492765387,
+            "iou": 0.9990093894508516,
+            "support_pixels": 468210
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9958661487473718,
+            "iou": 0.9917663342442418,
+            "support_pixels": 56078
+          }
+        ],
+        "macro_foreground_dice": 0.9958661487473718
+      },
+      "val": {
+        "loss": 0.040726397186517715,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9995772242233609,
+            "iou": 0.999154805774367,
+            "support_pixels": 118223
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9960955801967828,
+            "iou": 0.992221530802738,
+            "support_pixels": 12849
+          }
+        ],
+        "macro_foreground_dice": 0.9960955801967828
+      }
+    }
+  ],
+  "best_epoch": 6,
+  "best_validation": {
+    "loss": 0.040726397186517715,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9995772242233609,
+        "iou": 0.999154805774367,
+        "support_pixels": 118223
+      },
+      {
+        "class_index": 1,
+        "dice": 0.9960955801967828,
+        "iou": 0.992221530802738,
+        "support_pixels": 12849
+      }
+    ],
+    "macro_foreground_dice": 0.9960955801967828
+  },
+  "training_seconds_including_validation_and_checkpoint": 1.935282799997367,
+  "peak_training_allocated_bytes": 201964032,
+  "peak_training_reserved_bytes": 226492416,
+  "memory_scope": "PyTorch CUDA allocator; excludes driver and other processes",
+  "inference": {
+    "batch_size": 1,
+    "warmup": 5,
+    "repeats": 20,
+    "median_ms": 5.813600007968489,
+    "mean_ms": 5.947515001753345,
+    "scope": "model only; excludes disk I/O and preprocessing; CUDA synchronized"
+  },
+  "checkpoint_reload_exact": true,
+  "checkpoint_reload_max_abs_error": 0.0,
+  "limitations": [
+    "Synthetic data is not evidence of HipMRI segmentation performance."
+  ],
+  "provenance": "Recorded synthetic software check using the training implementation committed as 5b65cab; not HipMRI performance."
+}

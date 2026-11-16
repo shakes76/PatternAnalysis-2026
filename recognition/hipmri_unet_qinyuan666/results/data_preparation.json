@@ -1,0 +1,41 @@
+{
+  "status": "course_manifest_prepared_no_real_training_run",
+  "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3",
+  "label_dictionary_sha256": "a48cf3cf50047ef1e31ad9b92585f78b1b748e72b6c20b3df81b0eb07c81f7b7",
+  "acquisition_summary_sha256": "af8e31cff7597024e160ffd35e5a61e9065497082ff2f4bd57403f005abbbcd6",
+  "rows": 12660,
+  "source_file_hashes_rechecked": 25320,
+  "splits": {
+    "train": {
+      "slices": 11460,
+      "case_groups": 31
+    },
+    "val": {
+      "slices": 660,
+      "case_groups": 4
+    },
+    "test": {
+      "slices": 540,
+      "case_groups": 3
+    }
+  },
+  "split_policy": "preserve course folders; validate renamed to val; all weeks/slices grouped by original Case identifier",
+  "patient_id_basis": "pseudonymous Case grouping convention matched to original case/week names; not independent verification of personal identity",
+  "label_values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "prostate_raw_label": 5,
+  "input_policy": {
+    "image_size": 256,
+    "resize_mode": "pad",
+    "normalization": "per-slice nonzero z-score clipped to [-5,5]"
+  },
+  "test_used_for_model_selection": false,
+  "real_data_training_run": false,
+  "physical_spacing_verified": false
+}

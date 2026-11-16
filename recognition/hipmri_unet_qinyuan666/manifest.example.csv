@@ -1,0 +1,4 @@
+image,mask,patient_id,split
+private_data/patient_A/image_001.nii.gz,private_data/patient_A/mask_001.nii.gz,patient_A,train
+private_data/patient_B/image_001.nii.gz,private_data/patient_B/mask_001.nii.gz,patient_B,val
+private_data/patient_C/image_001.nii.gz,private_data/patient_C/mask_001.nii.gz,patient_C,test

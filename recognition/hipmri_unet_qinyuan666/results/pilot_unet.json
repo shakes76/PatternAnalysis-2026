@@ -1,0 +1,272 @@
+{
+  "status": "completed",
+  "data_kind": "HipMRI_manifest",
+  "clinical_performance_claim": false,
+  "config": {
+    "model": "unet",
+    "synthetic": false,
+    "manifest": "private_data/manifests/course_v1.csv",
+    "label_values": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "prostate_label": 5,
+    "image_size": 256,
+    "resize_mode": "pad",
+    "base_channels": 16,
+    "batch_size": 4,
+    "epochs": 1,
+    "samples": 32,
+    "lr": 0.001,
+    "seed": 3710,
+    "device": "cuda",
+    "threads": 4,
+    "augment": false,
+    "output": "runs/real_unet_pilot",
+    "num_classes": 6,
+    "data_kind": "HipMRI_manifest",
+    "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3"
+  },
+  "training_samples": 11460,
+  "validation_samples": 660,
+  "test_used_for_selection": false,
+  "parameter_count": 1940902,
+  "environment": {
+    "python": "3.10.19",
+    "torch": "2.5.1",
+    "numpy": "1.26.4",
+    "cuda_runtime": "11.8",
+    "device": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "os": "Windows-10-10.0.26200-SP0",
+    "dtype": "float32"
+  },
+  "initial_validation": {
+    "loss": 2.632613484064738,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 1.62584818975827e-07,
+        "iou": 8.129241609636989e-08,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.0,
+        "iou": 0.0,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.122990708656555,
+        "iou": 0.06552482676765334,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.0,
+        "iou": 0.0,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.0,
+        "iou": 0.0,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.0,
+        "iou": 0.0,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.024598141731311
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "loss": 0.5837919952435643,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9880738786775505,
+            "iou": 0.9764288695169491,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9259708310329893,
+            "iou": 0.8621468185296844,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.6751334660324455,
+            "iou": 0.5095860214769221,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8383059159136571,
+            "iou": 0.721623642056311,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.4742485747544996,
+            "iou": 0.31082951449853036,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.561642820849101,
+            "iou": 0.3904752094891019,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.6950603217165385
+      },
+      "val": {
+        "loss": 0.550447819630305,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9972628991868896,
+            "iou": 0.9945407409162562,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9610718546948418,
+            "iou": 0.9250609477063997,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8365420729716417,
+            "iou": 0.71901360035278,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.7814917926636767,
+            "iou": 0.6413512752384567,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.8037765131919297,
+            "iou": 0.6719283829952861,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7243960275369935,
+            "iou": 0.5678847378769836,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8214556522118167
+      }
+    }
+  ],
+  "best_epoch": 1,
+  "best_validation": {
+    "loss": 0.550447819630305,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9972628991868896,
+        "iou": 0.9945407409162562,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.9610718546948418,
+        "iou": 0.9250609477063997,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.8365420729716417,
+        "iou": 0.71901360035278,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.7814917926636767,
+        "iou": 0.6413512752384567,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.8037765131919297,
+        "iou": 0.6719283829952861,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.7243960275369935,
+        "iou": 0.5678847378769836,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.8214556522118167
+  },
+  "training_seconds_including_validation_and_checkpoint": 129.55807659996208,
+  "peak_training_allocated_bytes": 317466624,
+  "peak_training_reserved_bytes": 450887680,
+  "memory_scope": "PyTorch CUDA allocator; excludes driver and other processes",
+  "inference": {
+    "batch_size": 1,
+    "warmup": 5,
+    "repeats": 20,
+    "median_ms": 2.071900002192706,
+    "mean_ms": 2.19677000422962,
+    "scope": "model only; excludes disk I/O and preprocessing; CUDA synchronized"
+  },
+  "checkpoint_reload_exact": true,
+  "checkpoint_reload_max_abs_error": 0.0,
+  "limitations": [
+    "Pixel-aggregated metrics; patient-level and physical-boundary evaluation still required.",
+    "One epoch and one seed; convergence and generalisation are not established.",
+    "No Improved U-Net real-data comparison or test-set evaluation yet.",
+    "Validation scores pool pixels across 660 slices; not evidence of the assignment's test-set prostate Dice target. The task does not explicitly prescribe the averaging method.",
+    "Padding is included in metrics and loss; background scores include added background pixels.",
+    "Elapsed training time excludes initial validation and final reload/inference checks.",
+    "Training scores accumulate during parameter updates; they are not final-model training-set scores.",
+    "CUDA cross-entropy emitted a nondeterminism warning; fixed seed does not promise bitwise retraining equality.",
+    "Laptop timings are single-run observations, not controlled hardware comparisons."
+  ],
+  "provenance": {
+    "implementation_commit": "0b8ec66f1f7eb31d87f200f10ef25ed445945fcb",
+    "source_sha256": {
+      "train.py": "4fd13e7c54e806672cd7af17ef216a28291870cefcf8de523b11b07214bdbe14",
+      "dataset.py": "31111039daac26b2832244eed96e9c19728eacfdbf7df73277b7692840ec8285",
+      "modules.py": "e1be1efb5e1a389ff7c59fae0e19dc0cb77218ae97be0b30e38c8b90f4adc5ee",
+      "metrics.py": "fc9929c523aabe602383d5f39e4cbb2c8a9dd1bb35a7e996e7d43aaf64c5e158",
+      "predict.py": "1a64134926c8c81cac06fc1b6443c5b4e2baa3b2062f22f5c096bc039b378278",
+      "labels.json": "a48cf3cf50047ef1e31ad9b92585f78b1b748e72b6c20b3df81b0eb07c81f7b7"
+    },
+    "private_summary_sha256": "43db561342824c24823ce3772aaccd76d08590249ffa0779e5d244aebd1dad14",
+    "checkpoint_sha256": "5e265c4948b56f9c7d98d70e0e326bed513fe030e787a02146b515ae1efe77ef",
+    "preparation_report": "results/data_preparation.json",
+    "split_policy": "Unchanged course Case groups: train 31, val 4, test 3.",
+    "run_scope": "One full training epoch, initial and post-epoch validation; no test-set model evaluation.",
+    "config_samples_note": "config.samples is a synthetic-only default; this real run used all 11460 training slices."
+  },
+  "prediction_check": {
+    "split": "val",
+    "examples_shown": 4,
+    "selection": "First four validation rows in the frozen manifest; not selected by performance or anatomy.",
+    "private_grid": "runs/real_unet_pilot/predictions/prediction_grid.png",
+    "private_summary_sha256": "5972969c0688bd774416595bdbdf0a0ac51018c966c7c23bd52d5bfaca9706be",
+    "interpretation": "Execution/visual sanity check, not representative patient-level performance.",
+    "undefined_prostate_dice_examples": 4
+  }
+}

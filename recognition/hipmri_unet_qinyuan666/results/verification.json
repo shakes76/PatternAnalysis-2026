@@ -1,0 +1,21 @@
+{
+  "recorded_at_utc": "2026-10-14T06:26:01+00:00",
+  "source_commit": "0d39ff862c87fe831dbe90a240af687bb6a84fda",
+  "command_from_repo_root": ".venv/Scripts/python.exe -m unittest discover -s recognition/hipmri_unet_qinyuan666/tests -v",
+  "runner": "unittest",
+  "tests_run": 41,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "runner_elapsed_seconds": 5.052,
+  "process_exit_code": 0,
+  "environment": {
+    "os": "Windows",
+    "python": "3.10.19",
+    "torch": "2.5.1",
+    "numpy": "1.26.4",
+    "nibabel": "5.3.2"
+  },
+  "scope": "CPU unit and integration tests, generated NIfTI fixtures and explicitly synthetic samples; no real HipMRI data.",
+  "clinical_performance_claim": false
+}

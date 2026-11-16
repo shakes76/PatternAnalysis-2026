@@ -1,0 +1,294 @@
+{
+  "status": "completed",
+  "data_kind": "HipMRI_manifest",
+  "clinical_performance_claim": false,
+  "config": {
+    "model": "improved_unet",
+    "synthetic": false,
+    "manifest": "private_data/manifests/course_v1.csv",
+    "label_values": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "prostate_label": 5,
+    "image_size": 256,
+    "resize_mode": "pad",
+    "base_channels": 16,
+    "batch_size": 4,
+    "epochs": 1,
+    "samples": 32,
+    "lr": 0.001,
+    "seed": 3710,
+    "device": "cuda",
+    "threads": 4,
+    "augment": false,
+    "output": "runs/real_improved_unet_pilot",
+    "num_classes": 6,
+    "data_kind": "HipMRI_manifest",
+    "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3"
+  },
+  "training_samples": 11460,
+  "validation_samples": 660,
+  "test_used_for_selection": false,
+  "parameter_count": 3186802,
+  "environment": {
+    "python": "3.10.19",
+    "torch": "2.5.1",
+    "numpy": "1.26.4",
+    "cuda_runtime": "11.8",
+    "device": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "os": "Windows-10-10.0.26200-SP0",
+    "dtype": "float32"
+  },
+  "initial_validation": {
+    "loss": 2.9836686856818924,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.3419901698096704,
+        "iou": 0.206265465730328,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.055480220088960495,
+        "iou": 0.028531579190980857,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.0942561178904644,
+        "iou": 0.04945896391183948,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.015480747344638585,
+        "iou": 0.007800754426506451,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.0045612614122354615,
+        "iou": 0.002285843871841243,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.005117689595216042,
+        "iou": 0.0025654092818024965,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.034979207266303
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "loss": 0.3363251345996041,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9966902467586232,
+            "iou": 0.9934023301763306,
+            "support_pixels": 440172833
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9639536591567215,
+            "iou": 0.9304155819633724,
+            "support_pixels": 253682431
+          },
+          {
+            "class_index": 2,
+            "dice": 0.8523056131989482,
+            "iou": 0.7426241889834143,
+            "support_pixels": 46951538
+          },
+          {
+            "class_index": 3,
+            "dice": 0.9115687545102935,
+            "iou": 0.8375069700430742,
+            "support_pixels": 7296009
+          },
+          {
+            "class_index": 4,
+            "dice": 0.6361624946028919,
+            "iou": 0.4664503594346165,
+            "support_pixels": 1340454
+          },
+          {
+            "class_index": 5,
+            "dice": 0.7068780053214625,
+            "iou": 0.5466444838386562,
+            "support_pixels": 1599295
+          }
+        ],
+        "macro_foreground_dice": 0.8141737053580634
+      },
+      "val": {
+        "loss": 0.468608662034526,
+        "per_class": [
+          {
+            "class_index": 0,
+            "dice": 0.9987134941387419,
+            "iou": 0.9974302942190327,
+            "support_pixels": 24602541
+          },
+          {
+            "class_index": 1,
+            "dice": 0.9751282614946277,
+            "iou": 0.9514637050258715,
+            "support_pixels": 15210536
+          },
+          {
+            "class_index": 2,
+            "dice": 0.9018112424808131,
+            "iou": 0.8211805450622246,
+            "support_pixels": 2834195
+          },
+          {
+            "class_index": 3,
+            "dice": 0.8211455497195657,
+            "iou": 0.6965622851270789,
+            "support_pixels": 377940
+          },
+          {
+            "class_index": 4,
+            "dice": 0.7907221683692491,
+            "iou": 0.6538796525385191,
+            "support_pixels": 121329
+          },
+          {
+            "class_index": 5,
+            "dice": 0.791863273448244,
+            "iou": 0.6554417691682689,
+            "support_pixels": 107219
+          }
+        ],
+        "macro_foreground_dice": 0.8561340991024998
+      }
+    }
+  ],
+  "best_epoch": 1,
+  "best_validation": {
+    "loss": 0.468608662034526,
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9987134941387419,
+        "iou": 0.9974302942190327,
+        "support_pixels": 24602541
+      },
+      {
+        "class_index": 1,
+        "dice": 0.9751282614946277,
+        "iou": 0.9514637050258715,
+        "support_pixels": 15210536
+      },
+      {
+        "class_index": 2,
+        "dice": 0.9018112424808131,
+        "iou": 0.8211805450622246,
+        "support_pixels": 2834195
+      },
+      {
+        "class_index": 3,
+        "dice": 0.8211455497195657,
+        "iou": 0.6965622851270789,
+        "support_pixels": 377940
+      },
+      {
+        "class_index": 4,
+        "dice": 0.7907221683692491,
+        "iou": 0.6538796525385191,
+        "support_pixels": 121329
+      },
+      {
+        "class_index": 5,
+        "dice": 0.791863273448244,
+        "iou": 0.6554417691682689,
+        "support_pixels": 107219
+      }
+    ],
+    "macro_foreground_dice": 0.8561340991024998
+  },
+  "training_seconds_including_validation_and_checkpoint": 451.9226676999824,
+  "peak_training_allocated_bytes": 695323648,
+  "peak_training_reserved_bytes": 918552576,
+  "memory_scope": "PyTorch CUDA allocator; excludes driver and other processes",
+  "inference": {
+    "batch_size": 1,
+    "warmup": 5,
+    "repeats": 20,
+    "median_ms": 5.802850006148219,
+    "mean_ms": 6.115065002813935,
+    "scope": "model only; excludes disk I/O and preprocessing; CUDA synchronized"
+  },
+  "checkpoint_reload_exact": true,
+  "checkpoint_reload_max_abs_error": 0.0,
+  "limitations": [
+    "One epoch and one seed; capacity/stability pilot, not the planned 20-epoch comparison.",
+    "Validation only, four Case groups; no test evaluation or clinical claim.",
+    "History metrics pool pixels; equal-Case scores are reported separately, pooling weeks within each Case.",
+    "Padding included in loss and metrics; physical-space boundaries not established.",
+    "Elapsed training time includes post-epoch validation and checkpoint saving, excludes initial validation and final reload/inference checks.",
+    "Hardware timings are separate laptop observations, not controlled cross-model benchmarks.",
+    "CUDA cross-entropy emitted a nondeterminism warning; seed does not guarantee exact retraining.",
+    "Training scores accumulate during parameter updates, not final-model training-set evaluation."
+  ],
+  "provenance": {
+    "implementation_commit": "77b9aedfc9d22a589613232666d38a551e4ee1b1",
+    "source_sha256": {
+      "train.py": "4fd13e7c54e806672cd7af17ef216a28291870cefcf8de523b11b07214bdbe14",
+      "dataset.py": "31111039daac26b2832244eed96e9c19728eacfdbf7df73277b7692840ec8285",
+      "modules.py": "e1be1efb5e1a389ff7c59fae0e19dc0cb77218ae97be0b30e38c8b90f4adc5ee",
+      "metrics.py": "fc9929c523aabe602383d5f39e4cbb2c8a9dd1bb35a7e996e7d43aaf64c5e158",
+      "evaluate_cases.py": "b4ea081f38d3c3a081bedaddb1a581c23a1a4b85918799a6a90958f828b8cc06",
+      "labels.json": "a48cf3cf50047ef1e31ad9b92585f78b1b748e72b6c20b3df81b0eb07c81f7b7"
+    },
+    "private_summary_sha256": "5e533926696d20c1264ba55c475118313ce127366959c0b419d61f2657682996",
+    "checkpoint_sha256": "02576598fd54aef54fb47ddc48e44ed558e21b5fac2bf10b0670ebb1bb03affe",
+    "case_evaluation": "results/pilot_improved_unet_cases.json",
+    "baseline_pilot": "results/pilot_unet.json",
+    "matched_baseline_pilot_configuration_verified": true,
+    "config_samples_note": "Synthetic-only default; real run used all 11460 training slices."
+  },
+  "validation_examples": {
+    "private_grid": "runs/real_improved_unet_pilot/case_examples/prostate_examples.png",
+    "selection_policy": "For each validation Case, take lower median of prostate-positive slices sorted by ground-truth prostate area, breaking ties by manifest index; no model scores used.",
+    "examples": [
+      {
+        "case_alias": "Case 01",
+        "slice_dice": 0.9004037685060565,
+        "false_positive_pixels": 90,
+        "false_negative_pixels": 58
+      },
+      {
+        "case_alias": "Case 02",
+        "slice_dice": 0.8917486752460257,
+        "false_positive_pixels": 63,
+        "false_negative_pixels": 80
+      },
+      {
+        "case_alias": "Case 03",
+        "slice_dice": 0.44761904761904764,
+        "false_positive_pixels": 3,
+        "false_negative_pixels": 113
+      },
+      {
+        "case_alias": "Case 04",
+        "slice_dice": 0.788135593220339,
+        "false_positive_pixels": 0,
+        "false_negative_pixels": 150
+      }
+    ],
+    "same_selection_as_formal_baseline": true,
+    "interpretation": "Selected positive slices only, not representative of all slices or a complete failure analysis; CPU inference."
+  }
+}

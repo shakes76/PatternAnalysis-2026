@@ -1,0 +1,281 @@
+{
+  "case_count": 3,
+  "slice_count": 540,
+  "cases": [
+    {
+      "case_alias": "Case 01",
+      "slices": 420,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.999505556363961,
+          "iou": 0.9990116014353021,
+          "support_pixels": 15974190
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9839103306807766,
+          "iou": 0.968330217686391,
+          "support_pixels": 9411854
+        },
+        {
+          "class_index": 2,
+          "dice": 0.930041389714079,
+          "iou": 0.8692311840600522,
+          "support_pixels": 1688203
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9668158828323505,
+          "iou": 0.9357634005086727,
+          "support_pixels": 331582
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8657455119152131,
+          "iou": 0.7632727231937543,
+          "support_pixels": 81313
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8537622868211981,
+          "iou": 0.7448387686124053,
+          "support_pixels": 37978
+        }
+      ],
+      "macro_foreground_dice": 0.9200550803927235
+    },
+    {
+      "case_alias": "Case 02",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9985749741351037,
+          "iou": 0.9971540038882779,
+          "support_pixels": 2292559
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9778345331707263,
+          "iou": 0.9566303743404084,
+          "support_pixels": 1312868
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9115720358855656,
+          "iou": 0.8375125097297899,
+          "support_pixels": 240636
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9487028173015977,
+          "iou": 0.9024116424116424,
+          "support_pixels": 65388
+        },
+        {
+          "class_index": 4,
+          "dice": 0.8892396322455905,
+          "iou": 0.8005683836589698,
+          "support_pixels": 13973
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8452931523198568,
+          "iou": 0.7320413436692507,
+          "support_pixels": 6736
+        }
+      ],
+      "macro_foreground_dice": 0.9145284341846673
+    },
+    {
+      "case_alias": "Case 03",
+      "slices": 60,
+      "per_class": [
+        {
+          "class_index": 0,
+          "dice": 0.9993448137352217,
+          "iou": 0.9986904854463925,
+          "support_pixels": 2288810
+        },
+        {
+          "class_index": 1,
+          "dice": 0.9843141993957704,
+          "iou": 0.9691128878735961,
+          "support_pixels": 1358875
+        },
+        {
+          "class_index": 2,
+          "dice": 0.9340617526704575,
+          "iou": 0.8762812996067357,
+          "support_pixels": 239060
+        },
+        {
+          "class_index": 3,
+          "dice": 0.9644725134014801,
+          "iou": 0.9313828226516326,
+          "support_pixels": 22681
+        },
+        {
+          "class_index": 4,
+          "dice": 0.7682685456416752,
+          "iou": 0.6237305566268158,
+          "support_pixels": 7413
+        },
+        {
+          "class_index": 5,
+          "dice": 0.8257271552777681,
+          "iou": 0.7031816830211121,
+          "support_pixels": 15321
+        }
+      ],
+      "macro_foreground_dice": 0.8953688332774302
+    }
+  ],
+  "pixel_pooled": {
+    "per_class": [
+      {
+        "class_index": 0,
+        "dice": 0.9993839832981404,
+        "iou": 0.9987687250821948,
+        "support_pixels": 20555559
+      },
+      {
+        "class_index": 1,
+        "dice": 0.983291945988741,
+        "iou": 0.9671330350038242,
+        "support_pixels": 12083597
+      },
+      {
+        "class_index": 2,
+        "dice": 0.9284921726182023,
+        "iou": 0.8665285953971512,
+        "support_pixels": 2167899
+      },
+      {
+        "class_index": 3,
+        "dice": 0.9637668895094638,
+        "iou": 0.9300676457377741,
+        "support_pixels": 419651
+      },
+      {
+        "class_index": 4,
+        "dice": 0.8624877029021151,
+        "iou": 0.7582227507364666,
+        "support_pixels": 102699
+      },
+      {
+        "class_index": 5,
+        "dice": 0.8460252600297177,
+        "iou": 0.7331401899243521,
+        "support_pixels": 60035
+      }
+    ],
+    "macro_foreground_dice": 0.9168127942096479
+  },
+  "case_macro_per_class": [
+    {
+      "class_index": 0,
+      "mean_dice": 0.9991417814114287,
+      "defined_dice_cases": 3,
+      "mean_iou": 0.9982853635899909,
+      "defined_iou_cases": 3
+    },
+    {
+      "class_index": 1,
+      "mean_dice": 0.9820196877490911,
+      "defined_dice_cases": 3,
+      "mean_iou": 0.9646911599667986,
+      "defined_iou_cases": 3
+    },
+    {
+      "class_index": 2,
+      "mean_dice": 0.9252250594233674,
+      "defined_dice_cases": 3,
+      "mean_iou": 0.8610083311321926,
+      "defined_iou_cases": 3
+    },
+    {
+      "class_index": 3,
+      "mean_dice": 0.9599970711784761,
+      "defined_dice_cases": 3,
+      "mean_iou": 0.9231859551906493,
+      "defined_iou_cases": 3
+    },
+    {
+      "class_index": 4,
+      "mean_dice": 0.8410845632674929,
+      "defined_dice_cases": 3,
+      "mean_iou": 0.7291905544931799,
+      "defined_iou_cases": 3
+    },
+    {
+      "class_index": 5,
+      "mean_dice": 0.8415941981396077,
+      "defined_dice_cases": 3,
+      "mean_iou": 0.7266872651009226,
+      "defined_iou_cases": 3
+    }
+  ],
+  "prostate_case_dice": {
+    "mean": 0.8415941981396077,
+    "median": 0.8452931523198568,
+    "std_population": 0.01174035339289364,
+    "min": 0.8257271552777681,
+    "max": 0.8537622868211981,
+    "defined_cases": 3,
+    "undefined_cases": 0
+  },
+  "model": "unet",
+  "epoch": 5,
+  "split": "test",
+  "label_values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "prostate_raw_label": 5,
+  "prostate_class_index": 5,
+  "image_size": 256,
+  "resize_mode": "pad",
+  "batch_size": 4,
+  "device": "cuda",
+  "test_evaluated": true,
+  "manifest_sha256": "5ad6cc420967afc51ec60d0772cfa8c3ff12332db3efe25437693777494c04d3",
+  "checkpoint_sha256": "d4dc369bcfdd279e5337c12c4e2d454e88a9a957771bb17b14e84b8813ee7fd7",
+  "evaluator_sha256": "cc77af8a2276f3b0686b361524c2b6213ef9c97bfd90ecb6e2d0b205a0ba7074",
+  "dependency_sha256": {
+    "dataset.py": "31111039daac26b2832244eed96e9c19728eacfdbf7df73277b7692840ec8285",
+    "modules.py": "e1be1efb5e1a389ff7c59fae0e19dc0cb77218ae97be0b30e38c8b90f4adc5ee",
+    "metrics.py": "fc9929c523aabe602383d5f39e4cbb2c8a9dd1bb35a7e996e7d43aaf64c5e158",
+    "predict.py": "1a64134926c8c81cac06fc1b6443c5b4e2baa3b2062f22f5c096bc039b378278"
+  },
+  "aggregation": "Sum confusion matrices across every slice and week of each manifest patient_id (Case), then average defined Case scores equally.",
+  "empty_policy": "Both truth and prediction empty: null, excluded from mean with count reported. One empty: zero.",
+  "limitations": [
+    "Case grouping follows the adopted pseudonymous dataset convention.",
+    "Weeks are pooled within each Case; not a per-scan average or reconstructed 3D volume metric.",
+    "Metrics include the padded input grid; not physical-space boundary measurements.",
+    "Held-out test evaluation of a previously selected checkpoint; few Cases and one seed, not a clinical claim."
+  ],
+  "provenance": {
+    "evaluation_commit": "929bd24d91473505127f7145d6a0da4c2029c6c5",
+    "protocol": "TEST_PROTOCOL.md",
+    "protocol_sha256": "0b0da05920e97372cd1b285775f862ce27567e32ebbc9edec67fb5605ee048d6",
+    "training_record": "results/formal_unet.json",
+    "private_summary_sha256": "0152d81f1cc13242d97de020c0203f1d092d8f0d8d367ce940df2897ce22d238",
+    "checkpoint_unchanged_from_frozen_selection": true,
+    "metrics_recomputed_from_private_confusions": true,
+    "clinical_performance_claim": false,
+    "test_used_to_change_checkpoint_or_hyperparameters": false
+  },
+  "assignment_target": {
+    "prostate_dice_threshold": 0.75,
+    "aggregation_not_explicitly_prescribed_in_assignment": true,
+    "pixel_pooled_meets_threshold": true,
+    "equal_case_mean_meets_threshold": true
+  }
+}
