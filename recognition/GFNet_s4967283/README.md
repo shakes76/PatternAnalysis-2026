@@ -363,10 +363,15 @@ patient accuracy.
 1. **Decide at patient level, not slice level.** Average the 20 slice
    probabilities. It is the clinically meaningful unit and it is worth 3.1
    points for this model, 0.7381 to 0.7689.
-2. **Move the AD decision threshold below 0.50.** On the baseline, a threshold
-   of 0.10 saves 673 missed AD cases at no cost in overall accuracy. A missed case is the expensive error in screening. The error autopsy
-   makes this urgent. Every one of the worst total failures, for every model
-   tested, is a patient who has AD.
+2. **Use an AD threshold of 0.43 at slice level, and 0.50 everywhere else.**
+   The 0.43 is fitted on validation and then checked on test, where it gains
+   1.3 points of accuracy and misses 252 fewer AD cases than the default. A
+   missed case is the expensive error in screening, and the error autopsy
+   makes this urgent: every one of the worst total failures, for every model
+   tested, is a patient who has AD. An earlier version of this report
+   recommended 0.10, which was fitted on test predictions. That figure is
+   withdrawn. Thresholds fitted on validation land between 0.43 and 0.62, and
+   only the GFNet slice-level one survives the move to test.
 3. **Do not apply temperature scaling to this model.** Its fitted temperature
    is 0.75, so it is mildly underconfident, and scaling makes its calibration
    error worse, from 0.0614 to 0.1056. Temperature scaling corrects
@@ -482,7 +487,9 @@ evidence and the fix I would apply with more time.
 
 **The validation-to-test gap is unexplained.** It is 11 to 16 points depending
 on the model. Folder statistics, subject leakage and memorisation were each
-tested and none accounts for it. Mixup is the strongest of those tests. It cut training accuracy from
+tested and none accounts for it. The threshold experiment is a fourth test of
+it: every decision threshold fitted on validation lands near the default, and
+three of the four fail to transfer to test at all. Mixup is the strongest of those tests. It cut training accuracy from
 0.9954 to 0.7759 and stopped validation loss rising, so the memorisation was
 genuinely removed. Test accuracy did not improve. I am
 recording the gap as open rather than attributing it to a cause I cannot

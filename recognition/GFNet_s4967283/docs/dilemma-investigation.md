@@ -234,10 +234,44 @@ I measured this on the baseline.
 | 0.50 (default) | 0.5390 | 0.8492 | 0.9059 | 0.7241 | 2,056 |
 | 0.60 | 0.5074 | 0.8628 | 0.9207 | 0.7159 | 2,197 |
 
-At a threshold of 0.10 the model misses 1,383 AD slices and not 2,056. That is
-**673 fewer missed cases**, and accuracy goes slightly up and not down.
+The table above sweeps the **test** predictions, and on an older baseline than
+the one now reported. Both code reviewers pointed out that choosing an
+operating point this way is selection on the test set, and they were right.
+The sweep shows that the threshold matters. It cannot be used to pick one.
 
-The default of 0.5 is the wrong operating point for a screening tool.
+### Fitting the threshold properly
+
+`analysis/fit_threshold.py` sweeps the threshold on **validation only**, picks
+the value with the best Youden J, which is sensitivity plus specificity minus
+one, and then reports what that value does on test. The test row is a check on
+a decision already made rather than the decision itself.
+
+Youden J is the choice because it weighs both classes equally whatever their
+sizes, and it is the point on the ROC curve furthest above the chance line, so
+it sits with the AUROC reported in the results.
+
+| Model | Level | Fitted on validation | Test accuracy at 0.50 | Test accuracy at the fitted value | AD missed, 0.50 to fitted |
+|---|---|---|---|---|---|
+| GFNet, recommended | slice | **0.43** | 0.7382 | **0.7509** | 1,742 to **1,490** |
+| GFNet, recommended | patient | 0.53 | 0.7711 | 0.7489 | 81 to 91 |
+| BaselineCNN | slice | 0.62 | 0.7421 | 0.7370 | 1,823 to 1,956 |
+| BaselineCNN | patient | 0.62 | 0.7511 | 0.7422 | 93 to 102 |
+
+**Only one of the four transfers.** GFNet at slice level with a threshold of
+0.43 gains 1.3 points of accuracy on test, lifts AD recall from 0.6094 to
+0.6659, and misses 252 fewer AD cases. The other three do worse on test than
+the default does.
+
+This is the validation-to-test gap again, now in threshold space. Every
+threshold fitted on validation lands between 0.43 and 0.62, close to the
+default. The 0.10 in the sweep above came from the test set and nothing
+fitted honestly goes near it. The cohort difference that makes validation
+accuracy 11 to 16 points higher than test also makes validation a poor guide
+to where the decision boundary belongs.
+
+So the earlier recommendation of 0.10 is withdrawn. The operating point this
+report fixes is **0.43, for GFNet at slice level, fitted on validation**.
+Everything else stays at 0.50.
 
 Note what this does not do. Accuracy stays near 0.73 at every threshold. The
 threshold moves errors between the classes. It does not add power to separate
