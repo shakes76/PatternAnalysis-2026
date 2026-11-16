@@ -221,7 +221,7 @@ Each figure shows MRI, GT prostate, prediction and FP/FN overlay, with U-Net
 above Improved. White is prostate, red is false positive, blue is false negative.
 All panels share a crop covering the union of GT and both predictions with context;
 this is display-only and inference still uses the complete padded slice. Published
-figures use aliases without source identifiers, with explicit user authorization.
+figures use Case aliases and omit source identifiers.
 
 ### F1: complete loss of a five-pixel transition target
 
@@ -296,8 +296,8 @@ Training time excludes initial validation and final reload/inference checks.
 Batch-one inference used five warmups and 20 synchronized repeats, excluding
 I/O/preprocessing. Those separate sessions cannot establish a universal speed ratio.
 
-Per-Case timing was repeated after the user stopped gaming. The initial
-contended measurements remain archived. Each model/Case uses three repeats,
+Per-Case timing was repeated after the competing gaming workload was stopped.
+The initial contended measurements remain archived. Each model/Case uses three repeats,
 five warmup forwards, batch 4 and alternating execution order. Median seconds:
 
 | Test Case / slices | U-Net pipeline | Improved pipeline | U-Net forward | Improved forward |
@@ -313,7 +313,8 @@ seven weeks, so it is not one scan. No GT files are read for timing. OS cache is
 not flushed; absence of all background GPU work was not continuously verified.
 Predictions match across repeats and the contended run. Full ranges and scope:
 [current benchmark](results/test_case_benchmark_game_closed.json),
-[benchmark report](CASE_BENCHMARK.md).
+[initial contended benchmark](results/test_case_benchmark.json) and
+[measurement protocol](BENCHMARK_PROTOCOL.md).
 
 **Recommendation:** keep standard U-Net as the resource-conscious research
 default. Improved offers small aggregate overlap gains but more parameters and
@@ -402,10 +403,11 @@ additionally checked all pairs, exact selected-checkpoint reload, unchanged
 weights, matching pooled/Case scores, matching boundary-run test scores and
 repeat prediction hashes. No clinical validation is claimed.
 
-Detailed stage records remain available in [training plan](TRAINING_PLAN.md),
-[baseline report](FORMAL_UNET.md), [Improved report](FORMAL_IMPROVED_UNET.md),
-[test report](TEST_RESULTS.md) and [data access notes](DATA_ACCESS.md).
-Historical claims there describe their original stages; this report is the final synthesis.
+This README is the single technical report. Supporting documents are limited to
+[data access](DATA_ACCESS.md), the frozen [test protocol](TEST_PROTOCOL.md),
+the [timing protocol](BENCHMARK_PROTOCOL.md) and the required feasibility source.
+The `results/` JSON files retain experiment configurations, metrics and provenance;
+superseded stage narratives and personal consultation notes remain in Git history.
 
 ## 7. Historical one-page feasibility review
 
@@ -499,7 +501,7 @@ underlying imaging/contouring work [4]. The course terms prohibit participant
 identification/contact and commercial use, require acknowledgement and a listed
 publication citation, and do not guarantee data correctness. The original
 release's separately documented CC BY-NC-ND 4.0 licence is recorded in
-[DATA_ACCESS.md](DATA_ACCESS.md). The report distributes only authorized derived
+[DATA_ACCESS.md](DATA_ACCESS.md). The report includes derived
 illustrations and aggregate records; raw datasets, original IDs and weights remain
 outside Git. Figures are research analysis, not clinical recommendations.
 
@@ -531,13 +533,14 @@ clinical validation was performed.
 The student remains responsible for understanding, reviewing and defending all
 code, formulas, metadata and claims. Automated checks and AI assistance do not
 replace that responsibility. Source data and patient identifiers were not sent
-to an external image-generation service. The student explicitly authorized
-publication of the five anonymized derived MRI figures and this illustrated report.
+to an external image-generation service. The five derived MRI figures use Case
+aliases and omit source identifiers; data acknowledgement is provided above.
 
 ## 10. Submission and review follow-up
 
 The code and report belong on `qinyuan666/PatternAnalysis-2026:topic-recognition`,
-with the course PR targeting `shakes76/PatternAnalysis-2026:topic-recognition`.
+with [course PR #23](https://github.com/shakes76/PatternAnalysis-2026/pull/23)
+targeting `shakes76/PatternAnalysis-2026:topic-recognition`.
 The PDF is generated directly from this README and its figures:
 
 ```bash
@@ -548,4 +551,7 @@ python build_report_pdf.py --source README.md --output final_report.pdf
 Submit `final_report.pdf` through the course Turnitin assessment. A GitHub PR
 does not replace that upload. After teaching-team feedback is released, review
 the comments, commit requested changes and respond within the course's specified
-window. Those future interactions cannot be claimed complete in advance.
+window. Review revisions consolidate the report, scope repository changes to
+this project directory and explain key implementation choices in inline comments.
+These documentation revisions do not change the models, frozen experiments or
+reported numerical results. Review acceptance and marks remain with the teaching team.
