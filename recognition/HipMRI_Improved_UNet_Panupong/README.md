@@ -1,4 +1,4 @@
-# HipMRI 2D Improved U-Net - Panupong
+# HipMRI 2D Improved U-Net - Panupong Pakwiset (s48472645)
 
 This COMP3710 project segments the prostate, together with the body, bones, bladder and rectum, in 2D slices of male pelvic MRI from the HipMRI study. It compares two networks implemented from scratch in PyTorch: a 2D adaptation of the Improved U-Net of Isensee et al. (2018), the chosen Normal-difficulty model, and a standard 2D U-Net (Ronneberger et al., 2015) as the baseline. Both models were trained under the same rules on the course's Rangpur cluster and tested once on the supplied test split. **Both exceed the target prostate test Dice of 0.75:** 0.8858 for the baseline and 0.8738 for the Improved U-Net. The report then investigates the HipMRI open research dilemma: where the remaining errors are, whether three-slice (2.5D) context removes them (in a single training run it did not fix the outermost slice of the gland), and which model to recommend.
 
@@ -151,7 +151,7 @@ These rules were set before any training:
 
 ### Data pipeline check
 
-`python dataset.py` was run on the course copy of the data on Rangpur (node `a100-6`, code at commit `92f51d4`, 95 s; console output supplied by the user):
+`python dataset.py` was run on the course copy of the data on Rangpur (node `a100-6`, code at commit `92f51d4`, 95 s; console output from my run):
 
 | Split | Pairs | Cases | Series | Prostate-positive slices |
 | --- | ---: | ---: | ---: | ---: |
@@ -176,7 +176,7 @@ Both models were trained from scratch with identical settings, so the comparison
 - **Fallback rule (fixed in advance):** switch to Dice plus cross-entropy only if training loss fell by less than 10% between epochs 1 and 5, or if validation prostate Dice was below 0.3 at epoch 5.
 - **Test protocol:** the test split is evaluated only with `--test`, after the full epoch budget and after the training curves have been reviewed, once for the best and once for the last checkpoint.
 
-Both runs were done on Rangpur node `a100-6` (NVIDIA A100-PCIE-40GB), with code at commit `92f51d4`. The values below come from each run's `history.json` and `config.json` and from the Slurm logs, which the user copied back from Rangpur.
+Both runs were done on Rangpur node `a100-6` (NVIDIA A100-PCIE-40GB), with code at commit `92f51d4`. The values below come from each run's `history.json` and `config.json` and from the Slurm logs, which I copied back from Rangpur.
 
 ### Training and validation results
 
@@ -201,7 +201,7 @@ Training curves (loss and validation Dice per epoch): [baseline](figures/curves_
 
 ## 5. Test results
 
-Each model was evaluated in a single test run, after 40 epochs of training and after its training curves had been reviewed. The run scored the two checkpoints fixed before training: the best-validation checkpoint and the last-epoch checkpoint. The runs used `train.py --resume --test` on Rangpur node `a100-5` (NVIDIA A100-PCIE-40GB), with code at commit `92f51d4`: job 683766 for the baseline and job 683765 for the Improved U-Net. The user ran the jobs and copied back the logs and `test_metrics_*.json` files, and the values below come from those files.
+Each model was evaluated in a single test run, after 40 epochs of training and after its training curves had been reviewed. The run scored the two checkpoints fixed before training: the best-validation checkpoint and the last-epoch checkpoint. The runs used `train.py --resume --test` on Rangpur node `a100-5` (NVIDIA A100-PCIE-40GB), with code at commit `92f51d4`: job 683766 for the baseline and job 683765 for the Improved U-Net. I ran the jobs and copied back the logs and `test_metrics_*.json` files, and the values below come from those files.
 
 The test split has 540 slices from 9 case/week series of 3 cases (040-042). Prostate appears in 195 slices and in every series.
 
@@ -267,7 +267,7 @@ The last-epoch checkpoints (epoch 40) were also tested, as planned before traini
 
 ### Example inputs and outputs
 
-`predict.py` reloads the validation-selected checkpoints and the test split, predicts every test slice and draws the figures below. It was first run on Rangpur as job 685612 (node `a100-4`, NVIDIA A100-PCIE-40GB, code at commit `b7d4fba`, 1 min 7 s). The figures shown here come from a later run, job 690027 (node `a100-7`, code at commit `bb98a72`, 1 min 6 s), which added a difference overlay after each prediction; it selected the same slices, with the same slice Dice values, and reproduced the saved test Dice to four decimal places. The user ran both jobs and copied the outputs back.
+`predict.py` reloads the validation-selected checkpoints and the test split, predicts every test slice and draws the figures below. It was first run on Rangpur as job 685612 (node `a100-4`, NVIDIA A100-PCIE-40GB, code at commit `b7d4fba`, 1 min 7 s). The figures shown here come from a later run, job 690027 (node `a100-7`, code at commit `bb98a72`, 1 min 6 s), which added a difference overlay after each prediction; it selected the same slices, with the same slice Dice values, and reproduced the saved test Dice to four decimal places. I ran both jobs and copied the outputs back.
 
 **Consistency check.** The test prostate Dice recomputed by `predict.py` was 0.8858 for the baseline and 0.8738 for the Improved U-Net. These agree with the values saved by `train.py` when rounded to four decimal places. The absolute differences are about 0.00001: 8e-6 for the baseline and 1.5e-5 (job 685612) or 1.9e-5 (job 690027) for the Improved U-Net. This indicates that the reloaded models and the preprocessing match the test evaluation. The tiny difference is consistent with non-deterministic GPU arithmetic: `cudnn.benchmark` is on, mixed precision is used, and these runs were on different A100 nodes from the test evaluation (`a100-5`). This cause was not tested separately.
 
@@ -310,7 +310,7 @@ All measurements were made on an NVIDIA A100-PCIE-40GB on Rangpur. Training valu
 - At batch size 1, it is about 2.4 times slower. A likely reason is that it has more, but much smaller, layers: 29 convolutions and 91 registered layer modules in total, against 23 and 61 for the baseline. With one small slice at a time, the fixed cost of launching each GPU operation probably outweighs the arithmetic. This explanation was not measured separately.
 - The job time also includes one-time dataset loading and the per-epoch checkpoint, history and plot saving. Most of the larger baseline overhead is probably from writing its larger checkpoints: about 0.5 GB per epoch, against about 0.05 GB for Improved. This overhead was not timed separately.
 
-**Preliminary Colab T4 timing runs (21 October 2026).** Before the final training, both models were run for 100 training batches followed by one validation pass on a Colab Tesla T4 (15,360 MiB; Python 3.13.15, PyTorch 2.11.0+cu130), with batch size 16, AMP and seed 42. The user supplied the console outputs; the underlying run artifacts were not independently inspected. All 11,460 / 660 / 540 pairs also passed the pipeline checks there.
+**Preliminary Colab T4 timing runs (21 October 2026).** Before the final training, both models were run for 100 training batches followed by one validation pass on a Colab Tesla T4 (15,360 MiB; Python 3.13.15, PyTorch 2.11.0+cu130), with batch size 16, AMP and seed 42. The measurements below are based on the console outputs from my runs; the underlying run artifacts were not independently inspected. All 11,460 / 660 / 540 pairs also passed the pipeline checks there.
 
 | Colab T4 timing measurement | Baseline U-Net | Improved U-Net |
 | --- | ---: | ---: |
@@ -348,7 +348,7 @@ What the failures show:
 - **The neighbouring organs are still found.** On the largest miss (040 / week 0 / 37, Figure 3, first row), both models still segment the rectum and the bladder near the prostate, and neither predicts any prostate. Judged from the figure, the rectum prediction extends into the side of the prostate that touches the rectum (roughly a quarter to a third of it). The rest of the thin prostate strip is labelled as body. On this slice, the models find the anatomy around the prostate but do not separate the thin end of the gland from the rectum and the tissue next to it.
 - **Why the 3D Dice stays high.** These edge slices contain few prostate pixels in total, so they lower the per-series 3D Dice only a little. This is why the 3D Dice stays above 0.85 while the slice-level mean is lower.
 
-**Boundary analysis.** To test whether these failures are systematic, a boundary analysis was added to `predict.py`. It was run on Rangpur as job 685882 (node `a100-8`, NVIDIA A100-PCIE-40GB, code at commit `65b1b63`, 1 min 5 s) with the same validation-selected checkpoints; the user ran the job and copied the outputs back. The run reproduced the saved test Dice (0.8858 and 0.8738) and the same five failure cases. Its comparison and failure figures are byte-identical to those of job 685612, so the displayed slices were predicted identically. Elsewhere in the test split a few pixels differed: the recomputed baseline Dice differs from job 685612 in the sixth decimal place, which is consistent with non-deterministic GPU arithmetic. Job 690027, which drew Figures 2 and 3, printed the same boundary results as job 685882 at the printed precision; the saved full-precision values differ by less than 2e-5, again consistent with non-deterministic GPU arithmetic.
+**Boundary analysis.** To test whether these failures are systematic, a boundary analysis was added to `predict.py`. It was run on Rangpur as job 685882 (node `a100-8`, NVIDIA A100-PCIE-40GB, code at commit `65b1b63`, 1 min 5 s) with the same validation-selected checkpoints; I ran the job and copied the outputs back. The run reproduced the saved test Dice (0.8858 and 0.8738) and the same five failure cases. Its comparison and failure figures are byte-identical to those of job 685612, so the displayed slices were predicted identically. Elsewhere in the test split a few pixels differed: the recomputed baseline Dice differs from job 685612 in the sixth decimal place, which is consistent with non-deterministic GPU arithmetic. Job 690027, which drew Figures 2 and 3, printed the same boundary results as job 685882 at the printed precision; the saved full-precision values differ by less than 2e-5, again consistent with non-deterministic GPU arithmetic.
 
 HD95 is in pixels and position in the gland is counted in slices, because the NIfTI spacing ([1, 1]) has no known units.
 
@@ -404,7 +404,7 @@ The failure analysis suggests a cause: at the ends of the gland, a single 2D sli
 - The slice order was checked first. On validation, the mean absolute difference between normalised neighbouring slices is 0.176, against 0.460 for slices five apart, which is consistent with slices stored in anatomical order. With 2.5D input switched off, the data pipeline produces exactly the same samples as before (checked on all validation and test slices and 600 augmented training slices).
 - This experiment was designed after the test failure analysis had been seen, so its test result is secondary and post hoc. The primary results in Section 5 are unchanged.
 
-**Runs.** Training was job 690028 (node `a100-7`, code at commit `bb98a72`, 24 Oct 2026, 05:34-05:55). The validation analysis of all three models was `predict.py` job 696531 (node `a100-9`, 25 Oct 2026, 22:28-22:30), which recomputed each model's saved validation Dice to within 2e-5. The user ran the jobs and copied the outputs back.
+**Runs.** Training was job 690028 (node `a100-7`, code at commit `bb98a72`, 24 Oct 2026, 05:34-05:55). The validation analysis of all three models was `predict.py` job 696531 (node `a100-9`, 25 Oct 2026, 22:28-22:30), which recomputed each model's saved validation Dice to within 2e-5. I ran the jobs and copied the outputs back.
 
 **Validation results** (254 validation slices with prostate in 11 series, so 22 slices at each distance 0, 1 and 2; best checkpoints):
 
@@ -525,7 +525,7 @@ The test split is evaluated only with `--test`, after the full epoch budget. It 
 
 ### Run provenance
 
-Every Rangpur result in this report comes from these runs. The user submitted all Slurm jobs and copied the outputs back. The other reported numbers come from the Colab T4 timing runs of 21 October 2026, run by the user (Section 6.2), from the local full-dataset audit of 21 October 2026, run by the AI (Sections 1 and 2.6), and from the local model-free checks of the 2.5D data option on 23 October 2026, run by the AI (slice order and unchanged 2D samples, Section 6.4). Times are in AEST (UTC+10).
+Every Rangpur result in this report comes from these runs. I submitted all Slurm jobs and copied the outputs back. The other reported numbers come from the Colab T4 timing runs of 21 October 2026, run by me (Section 6.2), from the local full-dataset audit of 21 October 2026, run by the AI (Sections 1 and 2.6), and from the local model-free checks of the 2.5D data option on 23 October 2026, run by the AI (slice order and unchanged 2D samples, Section 6.4). Times are in AEST (UTC+10).
 
 | Run | Slurm job | Node | Code commit | Date and time |
 | --- | --- | --- | --- | --- |
@@ -605,7 +605,7 @@ AI assistance (Anthropic Claude, through Claude Code) was used for the following
 - drafting `dataset.py`, `modules.py`, `metrics.py`, `train.py` and `predict.py`;
 - preparing the Rangpur environment-setup and Slurm job scripts (kept outside this repository);
 - drafting this documentation, including its reorganisation into the final report structure (23 October 2026);
-- suggesting, at the user's request for further experiments, the difference overlays and the 2.5D follow-up of Section 6.4, and drafting their code and pre-specified evaluation plan (23 October 2026; the user chose which to do);
+- suggesting, at my request for further experiments, the difference overlays and the 2.5D follow-up of Section 6.4, and drafting their code and pre-specified evaluation plan (23 October 2026; I chose which to do);
 - writing the matplotlib script that draws the architecture diagram (Figure 1), kept outside this repository.
 
 The AI-suggested code was verified in four ways:
@@ -616,6 +616,6 @@ The AI-suggested code was verified in four ways:
 - running synthetic end-to-end training/resume/test checks on random data (on CPU, and for the 2.5D option also on the local laptop GPU);
 - for the 2.5D option, checking on the local copy of the data, without any model, that the 2D samples are unchanged and that the neighbouring slices come from the right series.
 
-OpenAI Codex also assisted with the Colab execution guidance and the Colab T4 timing update (21 October 2026), using the console outputs supplied by the user. OpenAI ChatGPT suggested the papers behind the future-work directions in Section 6.6, and Perplexity suggested the related papers cited in Sections 6.1, 6.3 and 6.6 (Litjens et al., Rodrigues et al., Zhang et al.) (23 October 2026). Claude Code checked those references and the cited numbers against the papers and Crossref, arXiv, PMC and PMLR, and drafted the text. Claude Code summarised the Rangpur run files supplied by the user for the training, test, prediction, boundary-analysis and 2.5D results, and described the figures. It also drafted the answer to the research dilemma and the engineering recommendation, which the user reviewed. The HD95 code was checked against a NumPy brute-force reference on synthetic masks, and the figure files of `predict.py` jobs 685612 and 685882 were byte-compared locally, as were the repository copies of Figures 2-3 with the job 690027 outputs. The architecture diagram was checked against the layer definitions in `modules.py`.
+OpenAI Codex also assisted with the Colab execution guidance and the Colab T4 timing update (21 October 2026), using the console outputs I supplied. OpenAI ChatGPT suggested the papers behind the future-work directions in Section 6.6, and Perplexity suggested the related papers cited in Sections 6.1, 6.3 and 6.6 (Litjens et al., Rodrigues et al., Zhang et al.) (23 October 2026). Claude Code checked those references and the cited numbers against the papers and Crossref, arXiv, PMC and PMLR, and drafted the text. Claude Code summarised the Rangpur run files I supplied for the training, test, prediction, boundary-analysis and 2.5D results, and described the figures. It also drafted the answer to the research dilemma and the engineering recommendation, which I reviewed. The HD95 code was checked against a NumPy brute-force reference on synthetic masks, and the figure files of `predict.py` jobs 685612 and 685882 were byte-compared locally, as were the repository copies of Figures 2-3 with the job 690027 outputs. The architecture diagram was checked against the layer definitions in `modules.py`.
 
-All training, validation, test and prediction results (the Colab timing runs and the Rangpur jobs) come from runs the user executed. The AI did not train, evaluate or run inference with the reported models. It ran only local checks: the mask comparison, the dataset audit, the model-free data checks of the 2.5D option, the synthetic checks on random data (including the HD95 reference check), a layer and parameter count of the untrained models, the byte-comparison of the `predict.py` figure files, and the script that draws Figure 1 (which builds no model). The AI derived summary figures such as gaps, counts and pixel medians from the result files the user supplied, and the derived per-series inference times in Section 6.2.
+All training, validation, test and prediction results (the Colab timing runs and the Rangpur jobs) come from runs I executed. The AI did not train, evaluate or run inference with the reported models. It ran only local checks: the mask comparison, the dataset audit, the model-free data checks of the 2.5D option, the synthetic checks on random data (including the HD95 reference check), a layer and parameter count of the untrained models, the byte-comparison of the `predict.py` figure files, and the script that draws Figure 1 (which builds no model). The AI derived summary figures such as gaps, counts and pixel medians from the result files I supplied, and the derived per-series inference times in Section 6.2.
