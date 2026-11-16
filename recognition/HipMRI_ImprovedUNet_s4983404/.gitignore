@@ -1,0 +1,7 @@
+__pycache__/
+*.pt
+*.pth
+runs/
+data/
+*.nii
+*.nii.gz
