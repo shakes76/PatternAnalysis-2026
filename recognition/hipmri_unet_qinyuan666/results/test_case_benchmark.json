@@ -369,7 +369,7 @@
     "fixed_test_checkpoint_hashes_verified": true,
     "medians_and_ranges_recomputed": true,
     "other_gpu_workloads_verified_absent": false,
-    "post_run_user_report": "User confirmed gaming or other GPU work during this benchmark.",
+    "post_run_workload_observation": "Concurrent gaming or other GPU work was reported during this benchmark.",
     "competing_gpu_workload_user_confirmed": true,
     "suitable_for_uncontended_model_speed_comparison": false,
     "rerun_without_competing_gpu_work_required": true,

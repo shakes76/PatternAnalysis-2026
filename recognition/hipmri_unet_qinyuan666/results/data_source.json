@@ -188,7 +188,7 @@
     "full_course_label_semantics_verified": false
   },
   "course_acquisition": {
-    "user_reported_transfer_complete": true,
+    "researcher_reported_transfer_complete": true,
     "transfer_methods": [
       "scp",
       "sftp_recursive_resume"
@@ -227,7 +227,7 @@
     "model": "unet",
     "epochs": 1,
     "summary": "results/pilot_unet.json",
-    "notes": "REAL_DATA_PILOT.md",
+    "notes": "README.md#2-models-learning-principles-and-fixed-experiment",
     "checkpoint_reload_exact": true,
     "validation_prediction_examples_checked": 4,
     "test_set_model_evaluation_performed": false,
@@ -242,7 +242,7 @@
     "selection_rule": "Minimum validation CE plus foreground soft Dice loss",
     "summary": "results/formal_unet.json",
     "case_validation_summary": "results/formal_unet_cases.json",
-    "notes": "FORMAL_UNET.md",
+    "notes": "README.md#2-models-learning-principles-and-fixed-experiment",
     "checkpoint_reload_exact": true,
     "case_confusions_reproduce_pooled_validation_scores": true,
     "validation_positive_examples_checked": 4,
@@ -253,7 +253,7 @@
     "epochs_completed": 1,
     "summary": "results/pilot_improved_unet.json",
     "case_validation_summary": "results/pilot_improved_unet_cases.json",
-    "notes": "IMPROVED_UNET_PILOT.md",
+    "notes": "README.md#2-models-learning-principles-and-fixed-experiment",
     "checkpoint_reload_exact": true,
     "case_confusions_reproduce_pooled_validation_scores": true,
     "validation_positive_examples_checked": 4,
@@ -268,7 +268,7 @@
     "selection_rule": "Minimum validation CE plus foreground soft Dice loss",
     "summary": "results/formal_improved_unet.json",
     "case_validation_summary": "results/formal_improved_unet_cases.json",
-    "notes": "FORMAL_IMPROVED_UNET.md",
+    "notes": "README.md#2-models-learning-principles-and-fixed-experiment",
     "checkpoint_reload_exact": true,
     "case_confusions_reproduce_pooled_validation_scores": true,
     "validation_positive_examples_checked": 4,

@@ -369,7 +369,7 @@
     "fixed_test_checkpoint_hashes_verified": true,
     "medians_and_ranges_recomputed": true,
     "other_gpu_workloads_verified_absent": false,
-    "user_reported_game_stopped_before_run": true,
+    "researcher_reported_game_stopped_before_run": true,
     "other_gpu_workloads_independently_monitored_throughout": false,
     "pre_run_gpu_snapshot": {
       "gpu_utilization_percent": 16,
