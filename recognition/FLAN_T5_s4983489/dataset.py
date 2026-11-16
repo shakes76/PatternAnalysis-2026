@@ -1,5 +1,9 @@
 """Load and tokenize LaymanRRG data for FLAN-T5 training."""
 
+import argparse
+import json
+from pathlib import Path
+
 from datasets import load_dataset
 from transformers import AutoTokenizer, DataCollatorForSeq2Seq
 
@@ -14,6 +18,40 @@ TASK_PREFIX = (
 def load_data():
     """Load the official train, validation and test splits."""
     return load_dataset(DATASET_NAME)
+
+
+def audit_overlap(train_data, validation_data):
+    """Compare exact, unmodified report texts and targets across the two splits."""
+    training_targets = {}
+    for row in train_data:
+        training_targets.setdefault(row["radiology_report"], set()).add(row["layman_report"])
+
+    shared_reports = set()
+    identical_targets = 0
+    unseen_indices = []
+    for index, row in enumerate(validation_data):
+        report = row["radiology_report"]
+        if report in training_targets:
+            shared_reports.add(report)
+            identical_targets += row["layman_report"] in training_targets[report]
+        else:
+            unseen_indices.append(index)
+
+    overlapping = len(validation_data) - len(unseen_indices)
+    summary = {
+        "train_reports": len(train_data),
+        "validation_reports": len(validation_data),
+        "overlapping_validation_reports": overlapping,
+        "unseen_validation_reports": len(unseen_indices),
+        "unique_shared_reports": len(shared_reports),
+        "overlapping_validation_reports_with_identical_target": identical_targets,
+        "overlapping_validation_reports_without_identical_target": overlapping - identical_targets,
+        "training_unique_reports_with_multiple_targets": sum(
+            len(targets) > 1 for targets in training_targets.values()
+        ),
+    }
+    # Indices refer to the supplied validation split and preserve its row order.
+    return summary, unseen_indices
 
 
 def tokenize_data(data, tokenizer, max_input_length=512, max_target_length=512):
@@ -42,8 +80,20 @@ def tokenize_data(data, tokenizer, max_input_length=512, max_target_length=512):
     )
 
 
-if __name__ == "__main__":
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--audit-output", help="Write an overlap audit to a new JSON file")
+    args = parser.parse_args()
     data = load_data()
+
+    if args.audit_output is not None:
+        summary, unseen_indices = audit_overlap(data["train"], data["validation"])
+        with Path(args.audit_output).open("x", encoding="utf-8") as file:
+            json.dump(
+                {**summary, "unseen_validation_indices": unseen_indices}, file, indent=2
+            )
+        print(json.dumps(summary, indent=2))
+        return
 
     for split_name, split in data.items():
         print(f"{split_name}: {len(split)} samples")
@@ -64,3 +114,7 @@ if __name__ == "__main__":
     for name, tensor in batch.items():
         print(f"{name}: {tuple(tensor.shape)}")
     print(f"Ignored target padding positions: {(batch['labels'] == -100).sum().item()}")
+
+
+if __name__ == "__main__":
+    main()

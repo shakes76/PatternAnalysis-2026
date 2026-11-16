@@ -6,7 +6,7 @@ COMP3710 (Hard difficulty), Junrong Tang (s4983489)
 
 This project uses FLAN-T5 to rewrite radiology reports in plain English for patients. The aim is roughly a sixth-grade reading level without losing clinical findings, anatomical details, negation or uncertainty. I compare a zero-shot baseline with full fine-tuning and LoRA fine-tuning using ROUGE scores, resource measurements and a four-case review of generated reports. The model receives report text only, not medical images.
 
-`google/flan-t5-base` is an instruction-tuned encoder-decoder transformer. The encoder processes the instruction and report using self-attention. The decoder generates the explanation using causal self-attention and cross-attention to the encoder output. Fine-tuning uses teacher forcing with token-level cross-entropy loss. The zero-shot baseline leaves the model unchanged. Full fine-tuning updates all weights, while LoRA freezes the base model and trains low-rank updates in the attention layers. The implementation uses PyTorch, Transformers, PEFT and Accelerate.
+`google/flan-t5-base` is an instruction-tuned encoder-decoder transformer. The encoder processes the instruction and report using self-attention. The decoder generates the explanation using causal self-attention and cross-attention to the encoder output. Fine-tuning uses teacher forcing with token-level cross-entropy loss. The zero-shot baseline leaves the model unchanged. Full fine-tuning updates all weights, while LoRA freezes the base model and trains low-rank updates in the attention layers. The implementation uses PyTorch, Transformers and PEFT.
 
 [Chung et al.](https://arxiv.org/abs/2210.11416) report better held-out benchmark performance after instruction tuning, although this does not directly measure performance on radiology reports. [Hu et al.](https://arxiv.org/abs/2106.09685) describe low-rank updates as `W = W₀ + (α/r)BA` and discuss limitations of small ranks. These updates can be merged into the base weights for inference, but the adapter in this project is kept separate.
 
@@ -23,6 +23,8 @@ The official [BioLaySumm LaymanRRG dataset](https://huggingface.co/datasets/BioL
 | Test | 10,537 | Generation, timing and source-grounded error analysis |
 
 The split sizes were checked after loading. Only the training split is used for parameter updates. ROUGE is computed on the official validation split, as required by the assessment. Test references are not public, so test reports are used for generation and comparison with the source text, not reference-based scoring.
+
+An exact-text audit found that **4,504 validation reports (45.04%)** also occur in the training split, leaving **5,496 unseen reports**. Of the overlapping validation records, **2,370** also have an identical target summary in training; the other **2,134** do not. Within training, **12,150 distinct source texts** have more than one target summary. These comparisons use complete source and target strings, without normalization or truncation. I retained the official splits and report additional scores on the unseen subset below, following the Ed clarification.
 
 `radiology_report` is the input and `layman_report` the target. Source and image identifiers are retained for auditing, but images are not loaded. Each report follows this prompt and a newline:
 
@@ -46,13 +48,15 @@ Inputs and targets are tokenized separately and truncated to 512 tokens each, in
 4. Explain medical terms clearly without unexplained jargon or repeated wording in the audited outputs.
 5. Complete each formal job within 12 hours on one 40 GB A100 and save weights that can be reloaded for inference.
 
-**Initial feasibility evidence.** Data checks confirmed split sizes and the availability of validation references. Small CPU tests checked tokenization, padding masks, finite loss values and LoRA adapter gradients while the base weights remained frozen. A save-and-reload test produced matching predictions.
+**Initial feasibility evidence.** Data checks confirmed split sizes and the availability of validation references.
 
 **Budget, risks and fallback.** The budget was one A100 GPU with a 12-hour limit per job. The main risks were slow validation, 512-token truncation and clinically inaccurate summaries. I planned to save a checkpoint after each epoch and reduce the number of epochs for both fine-tuning methods if runtime became a problem. The validation set would remain unchanged. A source-based review was needed because ROUGE cannot detect every factual error.
 
 **Experimental plan.** Train both adapted models for two epochs with seed 42, compare them against the zero-shot baseline using the same prompt and decoding method, profile compute use, and inspect four test reports for clinical errors.
 
 ## Experimental Design
+
+The reported results come from the original `Seq2SeqTrainer` runs, before the training and evaluation loops were rewritten in PyTorch.
 
 All methods used the same checkpoint, prompt, validation reports and greedy decoding. Formal runs used one NVIDIA A100-PCIE-40GB and two CPU cores on Rangpur, with a 12-hour limit per job. Both adaptations used the complete training split:
 
@@ -91,6 +95,18 @@ Scores are mean per-example ROUGE F1 on a **0 to 100 scale**, with Porter stemmi
 *Scores come from saved validation outputs. Each method was evaluated in one run.*
 
 Both adapted models scored much higher than the baseline. Full fine-tuning exceeded LoRA fine-tuning by **3.74 ROUGE-L points**. From epoch one to two, validation loss decreased from **0.5449 to 0.5123** for full fine-tuning and from **0.7630 to 0.7206** for LoRA fine-tuning. ROUGE-L increased from **69.11 to 69.71** and **65.14 to 65.97**, respectively.
+
+### Unseen-Report Evaluation
+
+I rescored the saved predictions on the same **5,496 validation reports whose complete source text does not occur in training**. All three prediction files were checked against the official validation sources, references and identifiers before selecting the subset. This analysis uses the original model outputs and required no new training or generation.
+
+| Method | ROUGE-1 | ROUGE-2 | ROUGE-L | ROUGE-Lsum |
+| --- | ---: | ---: | ---: | ---: |
+| Baseline | 14.28 | 5.16 | 12.49 | 13.20 |
+| Full fine-tuning | **71.22** | **50.85** | **64.95** | **67.81** |
+| LoRA fine-tuning | 67.06 | 44.82 | 60.08 | 63.38 |
+
+Full fine-tuning still leads on unseen reports. On overlapping reports, ROUGE-L is **75.51** for full fine-tuning and **73.15** for LoRA fine-tuning, compared with **64.95** and **60.08** on unseen reports. The full-validation scores therefore give a more favourable picture than the unseen subset. Report difficulty also differs between subsets, so this gap alone does not establish how much was caused by memorisation. Here, unseen refers to exact report text, not verified patient-level independence.
 
 ### Resource Use and Inference
 
@@ -222,7 +238,7 @@ The feasibility criteria can now be checked against the completed experiments:
 
 | Criterion | Outcome | Evidence                                                                                                                                      |
 | --- | --- |-----------------------------------------------------------------------------------------------------------------------------------------------|
-| 1. Data and evaluation separation | Met for the official record-level splits | Training uses the training split, and all three methods use the same validation reports. Patient-level overlap was not independently checked. |
+| 1. Data and evaluation separation | Partially met | Official splits were retained, but 4,504 validation reports also occur in training. The same 5,496 unseen reports are scored separately for all methods. |
 | 2. Higher ROUGE than zero-shot | Met | Both adapted models improve all four reported ROUGE metrics.                                                                                  |
 | 3. Clinical faithfulness in four cases | Not met | Both adapted methods introduce unsupported clinical interpretations, and some important details are omitted or changed.                       |
 | 4. Clear, non-repetitive explanations | Not met | The LoRA fine-tuning output in Case 1 repeats “pleural,” and some terms remain inaccurate or unclear. Reading grade was not measured.         |
@@ -238,10 +254,12 @@ The selected cases were not independently assessed by a clinician. I did not mea
 
 | File | Purpose |
 | --- | --- |
-| `dataset.py` | Load official splits and tokenize source/target pairs |
+| `dataset.py` | Load official splits, audit source/target overlap and tokenize pairs |
 | `modules.py` | Load FLAN-T5, configure LoRA fine-tuning and count parameters |
-| `train.py` | Evaluate/train models and save predictions, metrics, weights and curves |
+| `train.py` | Run explicit training and evaluation loops; save predictions, metrics, weights and curves |
 | `predict.py` | Reload a run, generate explanations and measure inference |
+
+The training loop explicitly runs forward passes, backpropagation, gradient accumulation, gradient clipping, AdamW updates and linear learning-rate decay. It averages the losses over the actual number of microbatches in each update, including the final partial group. Evaluation uses `model.eval()` and `torch.inference_mode()`. References are used for loss and ROUGE, while generation receives only source tokens and their attention masks. The final epoch is saved without validation-based checkpoint selection.
 
 ### Environment
 
@@ -288,9 +306,12 @@ python recognition/FLAN_T5_s4983489/predict.py \
 python recognition/FLAN_T5_s4983489/predict.py \
     --run-dir ../runs/full --split test --samples 100 --device cuda \
     --output ../runs/full/inference-test100.json
+
+python recognition/FLAN_T5_s4983489/dataset.py \
+    --audit-output ../runs/overlap-audit.json
 ```
 
-Training defaults match the experiment table and use complete official splits. Each run saves its configuration, metrics and validation predictions. Fine-tuning also saves `model/`, the latest epoch checkpoint, `trainer_state.json` and `training_curves.png` with loss and four ROUGE curves. Checkpoints are written after epoch validation. The CLI does not support resuming a run.
+Training defaults match the experiment table and use complete official splits on one CPU or CUDA device. Each run saves its configuration, overlap audit, validation predictions and ROUGE scores for both the full validation set and unseen reports. Fine-tuning saves the latest epoch's weights in `model/`, optimizer and scheduler states in `checkpoint.pt`, and losses and metrics in `training_history.json` and `training_curves.png`. Checkpoints are written after epoch validation. The CLI does not support resuming a run.
 
 Prediction requires the run configuration and, for adapted models, its saved `model/`. The custom input above corresponds to Case 3. Use `--split validation` to generate and score validation reports. Test and custom text have no reference-based ROUGE. Sampling uses the saved seed. `--output` needs a new file in an existing directory. Without it, the result is printed. `--help` lists the remaining options.
 
@@ -302,6 +323,7 @@ Records are kept outside Git. Local paths are relative to the repository root. R
 | --- | --- |
 | Local baseline results | `../runs/rangpur-20261003/` |
 | Local fine-tuning results | `../runs/rangpur-20261004-epochs2/` |
+| Overlap audit and saved-output subset scores | `../runs/overlap-audit-20261116/` |
 | Remote baseline and original logs | `/home/Student/s4983489/comp3710-ass2/runs/20261003-formal/` |
 | Remote fine-tuned weights and checkpoints | `/home/Student/s4983489/comp3710-ass2/runs/20261004-epochs2/{full,lora}/` |
 
@@ -309,7 +331,7 @@ Trained weights and checkpoints are stored on Rangpur and are not included in th
 
 ## Artificial Intelligence Usage Disclosure
 
-I used OpenAI Codex to assist with literature review, debugging and experiment execution. I wrote the initial implementation and used ChatGPT to review and edit the wording and clinical error discussion in this README. The implementation was checked with small CPU tests for tokenization, padding masks, adapter gradients and model save/reload behaviour. Experimental scores were taken from saved validation outputs, and the reported clinical examples were compared with their source reports. I am responsible for checking the final code, measurements and conclusions.
+I used OpenAI Codex to assist with literature review, debugging, experiment execution and the manual-loop revision. I wrote the initial implementation and used ChatGPT to review and edit the wording and clinical error discussion in this README. I checked data preprocessing, parameter updates, evaluation and model save/reload behaviour. Experimental scores were taken from saved validation outputs, and the reported clinical examples were compared with their source reports. I am responsible for checking the final code, measurements and conclusions.
 
 ## References
 
@@ -319,3 +341,4 @@ I used OpenAI Codex to assist with literature review, debugging and experiment e
 4. [BioLaySumm LaymanRRG dataset](https://huggingface.co/datasets/BioLaySumm/BioLaySumm2025-LaymanRRG-opensource-track) and [FLAN-T5-base model card](https://huggingface.co/google/flan-t5-base).
 5. Hugging Face documentation: [Datasets loading](https://huggingface.co/docs/datasets/loading), [summarisation](https://huggingface.co/docs/transformers/tasks/summarization), [Trainer](https://huggingface.co/docs/transformers/main_classes/trainer), [generation](https://huggingface.co/docs/transformers/main_classes/text_generation), [PEFT](https://huggingface.co/docs/peft/main/en/quicktour) and [checkpoint format](https://huggingface.co/docs/peft/developer_guides/checkpoint).
 6. Google Research, [ROUGE implementation](https://github.com/google-research/google-research/tree/master/rouge).
+7. Course Ed clarification, [Radiology Report Summarisation Task Clarification](https://edstem.org/au/courses/38242/discussion/3634865).
