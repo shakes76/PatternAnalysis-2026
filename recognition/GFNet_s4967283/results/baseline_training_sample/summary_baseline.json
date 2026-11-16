@@ -1,0 +1,53 @@
+{
+  "model": "baseline",
+  "arguments": {
+    "model": "baseline",
+    "epochs": 3,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "data_root": "/home/groups/comp3710/ADNI/AD_NC",
+    "output_dir": "outputs",
+    "num_workers": 4,
+    "seed": 42
+  },
+  "trainable_parameters": 421474,
+  "best_epoch": 2,
+  "best_validation_accuracy": 0.7838509316770186,
+  "test_metrics": {
+    "accuracy": 0.7081111111111111,
+    "per_class": {
+      "NC": {
+        "precision": 0.7151856017997751,
+        "recall": 0.7002202643171807,
+        "f1": 0.7076238174735671,
+        "true_positives": 3179,
+        "false_positives": 1266,
+        "false_negatives": 1361
+      },
+      "AD": {
+        "precision": 0.7012074643249177,
+        "recall": 0.7161434977578476,
+        "f1": 0.7085967831392124,
+        "true_positives": 3194,
+        "false_positives": 1361,
+        "false_negatives": 1266
+      }
+    },
+    "macro_f1": 0.7081103003063898
+  },
+  "resources": {
+    "peak_vram_gb": 2.3243184089660645,
+    "total_training_seconds": 107.36150932312012,
+    "mean_epoch_seconds": 35.65183424949646,
+    "inference": {
+      "images_per_second": 12374.574438169875,
+      "milliseconds_per_image": 0.08081085979938507
+    },
+    "device": "NVIDIA A100-PCIE-40GB"
+  },
+  "versions": {
+    "torch": "2.14.0+cu130",
+    "cuda": "13.0"
+  }
+}
