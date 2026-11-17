@@ -1,0 +1,19 @@
+
+__pycache__/
+*.pyc
+
+.vscode/
+
+# weights and data must never be committed
+*.pth
+*.tar.gz
+OASIS/*
+
+
+# Draw.io Backups
+*.drawio.bkp
+*.dtmp
+.*.bkp
+
+# Root files that should not be committed
+Task Sheet.pdf
