@@ -1,0 +1,15 @@
+# Libraries imported by process2D.py and process3D.py
+numpy
+nibabel
+tqdm
+matplotlib>=3.9
+pandas
+# MVP 3D U-Net
+scipy
+# CUDA 13.0 build for the NVIDIA environment
+--find-links https://download.pytorch.org/whl/cu130/torch/
+torch==2.14.1+cu130
+# residual 3D pipeline; retain the soft Dice implementation
+torchmetrics==1.6.1
+scikit-learn>=1.6,<1.9
+
