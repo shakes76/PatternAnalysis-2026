@@ -4,9 +4,9 @@ COMP3710 (Hard difficulty), Junrong Tang (s4983489)
 
 ## Problem and Approach
 
-This project uses FLAN-T5 to rewrite radiology reports in plain English for patients. The aim is roughly a sixth-grade reading level without losing clinical findings, anatomical details, negation or uncertainty. I compare a zero-shot baseline with full fine-tuning and LoRA fine-tuning using ROUGE scores, resource measurements and a four-case review of generated reports. The model receives report text only, not medical images.
+This project uses FLAN-T5 to rewrite radiology reports in plain English for patients. The aim is roughly a sixth-grade reading level without losing clinical findings, anatomical details, negation or uncertainty. I compare a zero-shot baseline with full fine-tuning and LoRA fine-tuning using ROUGE scores, reading-grade estimates, resource measurements and a four-case review of generated reports. The model receives report text only, not medical images.
 
-`google/flan-t5-base` is an instruction-tuned encoder-decoder transformer. The encoder processes the instruction and report using self-attention. The decoder generates the explanation using causal self-attention and cross-attention to the encoder output. Fine-tuning uses teacher forcing with token-level cross-entropy loss. The zero-shot baseline leaves the model unchanged. Full fine-tuning updates all weights, while LoRA freezes the base model and trains low-rank updates in the attention layers. The implementation uses PyTorch, Transformers and PEFT.
+`google/flan-t5-base` is an instruction-tuned encoder-decoder transformer. The encoder processes the instruction and report using self-attention. The decoder generates the explanation using causal self-attention and cross-attention to the encoder output. Fine-tuning uses teacher forcing with token-level cross-entropy loss. The zero-shot baseline leaves the model unchanged. Full fine-tuning updates all weights, while LoRA fine-tuning freezes the base model and trains low-rank updates in the attention layers. The implementation uses PyTorch, Transformers and PEFT.
 
 [Chung et al.](https://arxiv.org/abs/2210.11416) report better held-out benchmark performance after instruction tuning, although this does not directly measure performance on radiology reports. [Hu et al.](https://arxiv.org/abs/2106.09685) describe low-rank updates as `W = W₀ + (α/r)BA` and discuss limitations of small ranks. These updates can be merged into the base weights for inference, but the adapter in this project is kept separate.
 
@@ -18,7 +18,7 @@ The official [BioLaySumm LaymanRRG dataset](https://huggingface.co/datasets/BioL
 
 | Split | Reports | Use |
 | --- | ---: | --- |
-| Training | 150,454 | Full and LoRA fine-tuning |
+| Training | 150,454 | Full fine-tuning and LoRA fine-tuning |
 | Validation | 10,000 | ROUGE and validation loss (all references are non-empty) |
 | Test | 10,537 | Generation, timing and source-grounded error analysis |
 
@@ -38,7 +38,7 @@ Inputs and targets are tokenized separately and truncated to 512 tokens each, in
 
 **User need and scope.** Technical radiology language can be difficult for patients to understand. The prototype aims to explain findings clearly while preserving the original qualifications. It does not interpret images or make new diagnoses.
 
-**Model choice and course concepts.** I selected FLAN-T5-base for text-to-text generation and compare its zero-shot outputs with full fine-tuning and rank-8 LoRA on BioLaySumm LaymanRRG. This Hard-difficulty design uses encoder-decoder attention, transfer learning and supervised sequence prediction to investigate whether better ROUGE scores also mean more faithful explanations.
+**Model choice and course concepts.** I selected FLAN-T5-base for text-to-text generation and compare its zero-shot outputs with full fine-tuning and rank-8 LoRA fine-tuning on BioLaySumm LaymanRRG. This Hard-difficulty design uses encoder-decoder attention, transfer learning and supervised sequence prediction to investigate whether better ROUGE scores also mean more faithful explanations.
 
 **Five testable acceptance criteria.**
 
@@ -56,7 +56,6 @@ Inputs and targets are tokenized separately and truncated to 512 tokens each, in
 
 ## Experimental Design
 
-The reported results come from the original `Seq2SeqTrainer` runs, before the training and evaluation loops were rewritten in PyTorch.
 
 All methods used the same checkpoint, prompt, validation reports and greedy decoding. Formal runs used one NVIDIA A100-PCIE-40GB and two CPU cores on Rangpur, with a 12-hour limit per job. Both adaptations used the complete training split:
 
@@ -92,13 +91,13 @@ Scores are mean per-example ROUGE F1 on a **0 to 100 scale**, with Porter stemmi
 
 ![Baseline, full fine-tuning and LoRA fine-tuning compared on four validation ROUGE metrics, using a shared 0 to 100 scale](figures/rouge_comparison.png)
 
-*Scores come from saved validation outputs. Each method was evaluated in one run.*
+*Each method was evaluated in one run.*
 
 Both adapted models scored much higher than the baseline. Full fine-tuning exceeded LoRA fine-tuning by **3.74 ROUGE-L points**. From epoch one to two, validation loss decreased from **0.5449 to 0.5123** for full fine-tuning and from **0.7630 to 0.7206** for LoRA fine-tuning. ROUGE-L increased from **69.11 to 69.71** and **65.14 to 65.97**, respectively.
 
 ### Unseen-Report Evaluation
 
-I rescored the saved predictions on the same **5,496 validation reports whose complete source text does not occur in training**. All three prediction files were checked against the official validation sources, references and identifiers before selecting the subset. This analysis uses the original model outputs and required no new training or generation.
+I rescored the saved predictions on the same **5,496 validation reports whose complete source text does not occur in training**. All three prediction files were checked against the official validation sources, references and identifiers before selecting the subset.
 
 | Method | ROUGE-1 | ROUGE-2 | ROUGE-L | ROUGE-Lsum |
 | --- | ---: | ---: | ---: | ---: |
@@ -107,6 +106,22 @@ I rescored the saved predictions on the same **5,496 validation reports whose co
 | LoRA fine-tuning | 67.06 | 44.82 | 60.08 | 63.38 |
 
 Full fine-tuning still leads on unseen reports. On overlapping reports, ROUGE-L is **75.51** for full fine-tuning and **73.15** for LoRA fine-tuning, compared with **64.95** and **60.08** on unseen reports. The full-validation scores therefore give a more favourable picture than the unseen subset. Report difficulty also differs between subsets, so this gap alone does not establish how much was caused by memorisation. Here, unseen refers to exact report text, not verified patient-level independence.
+
+### Readability
+
+Flesch–Kincaid grade estimates reading difficulty from sentence length and syllables per word. I calculated it separately for each report using `textstat==0.7.13` with US English settings. The table covers all 10,000 validation reports and their saved outputs.
+
+| Text | Mean words | Mean grade | Grade ≤6 (%) |
+| --- | ---: | ---: | ---: |
+| Original report | 23.32 | 13.79 | 2.69 |
+| Reference summary | 38.60 | 7.45 | 31.13 |
+| Zero-shot baseline | 10.61 | 13.64 | 12.53 |
+| Full fine-tuning | 36.10 | 7.40 | 32.94 |
+| LoRA fine-tuning | 35.50 | 7.29 | 33.72 |
+
+The baseline produced 13 outputs with no countable words. These are included in mean word count but excluded from grade statistics; all other rows have 10,000 grade scores.
+
+Both fine-tuning methods bring the estimated reading level close to the reference summaries, but their mean grades remain above six and only about a third of outputs meet that target. On the 5,496 unseen reports, mean grades are similar: **7.36** for full fine-tuning and **7.30** for LoRA fine-tuning. These estimates describe word and sentence structure, not medical accuracy or patient comprehension. Shorter text can also omit findings, as the baseline cases below show.
 
 ### Resource Use and Inference
 
@@ -156,7 +171,7 @@ Source: **PadChest**. Identifier: `216840111366964013590140476722013044085724775
 
 > The images of the lingular and right basal areas are consistent with bronchiectasis and COPD. A small nodule of small size is seen in the left parahilar region. There is an increase in thickening of the pleural pleural pleural pleural thickening on the left. It is recommended to have a full study with a chest CT scan.
 
-**Analysis.** The baseline keeps the CT recommendation but omits bronchiectasis, COPD, the small nodule and pleural thickening. LoRA retains more findings, but repeats “pleural” four times and drops the “apical” location of the thickening. Full fine-tuning avoids the repetition and explains pleural thickening in simpler language. However, it describes the lingular region as “the left lower lung,” even though the lingula is part of the left upper lobe. This makes the location less anatomically accurate. The two adapted outputs have different weaknesses despite covering more of the report than the baseline.
+**Analysis.** This report combines several technical terms with precise anatomical locations. The baseline retains only the CT recommendation, so its brevity comes from omitted findings. LoRA fine-tuning keeps more information but leaves “bronchiectasis” and “parahilar” unexplained, repeats “pleural” four times and loses the “apical” location. Full fine-tuning replaces “pleural” with the more accessible “lung coverings,” yet changes “lingular” to “left lower lung,” although the lingula belongs to the left upper lobe. Here, replacing a technical location with familiar words changes the anatomy. Repetition and retained jargon make reading harder, while inaccurate substitutions make simpler wording misleading.
 
 ### Case 2: Unsupported fluid findings and omissions
 
@@ -178,7 +193,7 @@ Source: **BIMCV-COVID19**. Identifier: `ses-E67984`.
 
 > The chest x-ray taken from the front shows signs of fluid buildup in the lower right part of the lung and a thickening of the lung tissue at the top. There are also signs of fluid buildup in the outer parts of the lungs. A skin fold is seen over the right side of the chest.
 
-**Analysis.** The baseline gives almost no clinical information beyond the type of examination. The source defines EPO as “extrapleural opacity,” but full fine-tuning changes it to “fluid buildup outside the lung.” LoRA also introduces fluid in both the lower right lung and the outer lung region, although no fluid is reported. It does not retain the chronic parenchymal changes or the possible inflammatory or infectious origin of the consolidation. These are unsupported additions and omissions, not just differences in wording.
+**Analysis.** The source explicitly expands EPO as “extrapleural opacity,” yet both adapted outputs replace this finding with “fluid buildup.” The failure occurs when the explanation names a substance that the original imaging description did not identify. LoRA fine-tuning also applies this interpretation to the lower-right consolidation and omits its possible inflammatory or infectious origin and the chronic changes. “Fluid buildup” is more familiar wording than “extrapleural opacity,” but it makes an unsupported interpretation sound straightforward. Full fine-tuning retains more of the source's qualifications while still making this substitution. The baseline contains no fluid claim, but returning only the examination type removes all the findings.
 
 ### Case 3: Negation, uncertainty and diagnostic meaning
 
@@ -200,7 +215,7 @@ Source: **BIMCV-COVID19**. Identifier: `ses-E46467`.
 
 > There are no clear signs of lung infections, but there might be a possible cloudiness at the bottom right part of the lung that should be checked over time.
 
-**Analysis.** The source reports no clear pulmonary infiltrates, but separately notes a questionable right basal opacity requiring follow-up. The baseline turns the qualified negative into an affirmative statement and omits both the uncertainty and follow-up. Both fine-tuned outputs preserve the negative wording, uncertain opacity and recommendation for later assessment. However, they replace the imaging term “pulmonary infiltrates” with “lung infections.” An infiltrate is not necessarily an infection, so this introduces a more specific clinical interpretation than the source supports. The phrase “might be a possible” is also needlessly repetitive.
+**Analysis.** The sentence combines a qualified negative (“No clear”) with a separate uncertain finding and follow-up. The baseline retains “pulmonary infiltrate” but loses the negation, turning it into an affirmative finding and dropping the follow-up. Both fine-tuned outputs handle these qualifications better, preserving the negative wording, uncertainty and later assessment. Their remaining error is a narrowing of meaning when “infiltrates” becomes “infections,” a more specific interpretation than the source supports. “Cloudiness at the bottom right” is easier to read than “right basal opacity,” but this useful simplification sits alongside a change in diagnostic meaning. “Might be a possible” also expresses uncertainty redundantly.
 
 ### Case 4: Incorrect medical explanation and examination scope
 
@@ -222,17 +237,17 @@ Source: **BIMCV-COVID19**. Identifier: `ses-E28411`.
 
 > The patient is a 22-year-old woman who has a severe appendicitis. She has a positive PCR test for coronavirus. She wanted to have an examination done. The examination was not very good because both the top parts of the lungs are not included. The lungs look clear without any signs of pneumonia or other lung infections. There is no fluid around the lungs. The heart and the areas where the lungs connect to the heart are normal in shape and size.
 
-**Analysis.** The baseline omits the lung findings and the fact that both lung apices were excluded. Full fine-tuning retains that examination limit, but incorrectly defines appendicitis as “a type of apex infection.” Appendicitis is inflammation of the appendix, not an infection of the lung apex. LoRA changes “acute appendicitis” to “severe appendicitis,” adding a severity judgment absent from the source. It also turns “requested examination performed” into a statement about what the patient wanted. Although LoRA notes that the apices were not imaged, it later says “The lungs look clear” without limiting that conclusion to the visible tissue. Full fine-tuning makes the imaging limit clearer, but its incorrect explanation of appendicitis is a serious factual error.
+**Analysis.** The source limits its negative findings to the visible lung tissue. LoRA fine-tuning mentions the missing apices but then says “The lungs look clear,” separating the limitation from the conclusion it constrains. It also changes “acute” to “severe,” adding an unsupported judgment. Full fine-tuning preserves the examination scope through “The lung tissue that can be seen,” and “top parts” makes “apices” easier to understand. However, its added definition of appendicitis as “a type of apex infection” is false. Appendicitis is inflammation of the appendix. The definition sounds explanatory while changing the medical meaning. This case shows why both added definitions and the links between qualifications and conclusions need checking, even when individual sentences read fluently.
 
 ### What the Cases Show
 
-Fine-tuning improves coverage compared with the zero-shot baseline, but the longer, more fluent summaries introduce their own errors. The audited outputs contain unsupported fluid or infection interpretations, inaccurate anatomical wording and changes to severity or examination scope. Some of these errors occur in the full fine-tuned model even though it has the highest validation ROUGE scores.
+Within these four cases, baseline omission recurs, while both adapted models repeatedly replace technical imaging terms with more specific fluid or infection interpretations. The repeated “pleural” sequence, by comparison, appears in only one of these four cases. Better coverage and more familiar wording coexist with lost qualifications, false explanations and changed locations. Some of these errors occur in the full fine-tuned model even though it has the highest validation ROUGE scores.
 
 ROUGE measures textual overlap rather than clinical correctness. These cases illustrate possible failures but do not establish their frequency or which fine-tuning method is clinically safer.
 
 ## Recommendation and Limitations
 
-Full fine-tuning achieved the highest validation ROUGE scores and the higher measured generation throughput of the two adapted models (**64.04** versus **48.94 tokens/second**). LoRA used **38.4%** less peak allocated training VRAM and saved a **3.56 MB** adapter instead of **990.35 MB** of full-model weights (decimal MB). The adapter still needs the base model for inference. These results favour full fine-tuning for quality-focused follow-up experiments and LoRA when training memory and storage are tighter. They do not demonstrate a clinical safety advantage for either model.
+Full fine-tuning achieved the highest validation ROUGE scores and the higher measured generation throughput of the two adapted models (**64.04** versus **48.94 tokens/second**). LoRA fine-tuning used **38.4%** less peak allocated training VRAM and saved a **3.56 MB** adapter instead of **990.35 MB** of full-model weights (decimal MB). The adapter still needs the base model for inference. These results favour full fine-tuning for quality-focused follow-up experiments and LoRA fine-tuning when training memory and storage are tighter. They do not demonstrate a clinical safety advantage for either model.
 
 The feasibility criteria can now be checked against the completed experiments:
 
@@ -241,14 +256,14 @@ The feasibility criteria can now be checked against the completed experiments:
 | 1. Data and evaluation separation | Partially met | Official splits were retained, but 4,504 validation reports also occur in training. The same 5,496 unseen reports are scored separately for all methods. |
 | 2. Higher ROUGE than zero-shot | Met | Both adapted models improve all four reported ROUGE metrics.                                                                                  |
 | 3. Clinical faithfulness in four cases | Not met | Both adapted methods introduce unsupported clinical interpretations, and some important details are omitted or changed.                       |
-| 4. Clear, non-repetitive explanations | Not met | The LoRA fine-tuning output in Case 1 repeats “pleural,” and some terms remain inaccurate or unclear. Reading grade was not measured.         |
+| 4. Clear, non-repetitive explanations | Not met | Case 1 contains repeated or unexplained terms. Mean reading grades are 7.40 and 7.29, above the sixth-grade aim. |
 | 5. Resource budget and saved models | Met | Both formal training jobs completed within 12 hours on one A100, and the saved models were reloaded.                                          |
 
 **Engineering recommendation.** Neither model should generate summaries for patients without review. A safer workflow would compare each draft with its source report before release, checking anatomical location, findings, negation, uncertainty and severity. It should also flag missing findings, follow-up advice and examination limits, as well as repeated or unexplained technical terms. A summary with a possible clinical contradiction or omission should be sent to a qualified reviewer. These checks are proposed safeguards, not features implemented or validated in this prototype.
 
-**Limitations.** The experiments used one checkpoint, one seed and one prompt. Full fine-tuning and LoRA used different learning rates, with no hyperparameter or rank search. Inference timings were measured once without warm-up. Longer reports may be affected by the 512-token input limit, although the four audited examples were not truncated.
+**Limitations.** The experiments used one checkpoint, one seed and one prompt. Full fine-tuning and LoRA fine-tuning used different learning rates, with no hyperparameter or rank search. Inference timings were measured once without warm-up. Longer reports may be affected by the 512-token input limit, although the four audited examples were not truncated.
 
-The selected cases were not independently assessed by a clinician. I did not measure reading grade, patient comprehension or clinical outcomes. Patient-level independence between official dataset splits and possible pretraining contamination were not verified. A representative test sample with clinician-labelled factual errors and a measured readability score would be needed before judging clinical reliability or testing a confidence-based review rule.
+Patient comprehension and clinical outcomes were not measured. Patient-level independence between official dataset splits and possible pretraining contamination were not verified. A representative sample with clinician-labelled factual errors and patient comprehension testing would be needed to assess clinical reliability beyond these four cases and reading-grade estimates.
 
 ## Implementation and Reproduction
 
@@ -258,6 +273,7 @@ The selected cases were not independently assessed by a clinician. I did not mea
 | `modules.py` | Load FLAN-T5, configure LoRA fine-tuning and count parameters |
 | `train.py` | Run explicit training and evaluation loops; save predictions, metrics, weights and curves |
 | `predict.py` | Reload a run, generate explanations and measure inference |
+| `evaluate.py` | Re-score saved validation predictions for overlap subsets and readability |
 
 The training loop explicitly runs forward passes, backpropagation, gradient accumulation, gradient clipping, AdamW updates and linear learning-rate decay. It averages the losses over the actual number of microbatches in each update, including the final partial group. Evaluation uses `model.eval()` and `torch.inference_mode()`. References are used for loss and ROUGE, while generation receives only source tokens and their attention masks. The final epoch is saved without validation-based checkpoint selection.
 
@@ -315,6 +331,22 @@ Training defaults match the experiment table and use complete official splits on
 
 Prediction requires the run configuration and, for adapted models, its saved `model/`. The custom input above corresponds to Case 3. Use `--split validation` to generate and score validation reports. Test and custom text have no reference-based ROUGE. Sampling uses the saved seed. `--output` needs a new file in an existing directory. Without it, the result is printed. `--help` lists the remaining options.
 
+### Saved-Output Evaluation
+
+`evaluate.py` checks saved predictions against the official validation sources, references and identifiers in order. It reports full, unseen and overlapping-subset ROUGE, plus readability for the full and unseen sets.
+
+The readability analysis used Python 3.12.13, `textstat==0.7.13`, `pyphen==0.18.1` and `nltk==3.10.0`. With the dependencies above installed, run:
+
+```bash
+python -m pip install textstat==0.7.13 pyphen==0.18.1
+python -m nltk.downloader cmudict
+python recognition/FLAN_T5_s4983489/evaluate.py \
+    --run-dirs ../runs/baseline ../runs/full ../runs/lora \
+    --output ../runs/validation_analysis.json
+```
+
+Each run directory must contain `predictions.jsonl` for the complete official validation set. The output must be a new file in an existing directory. Reading grades use textstat's default word, syllable and sentence counting, without clipping negative grades. Outputs with no countable words are excluded from grade statistics and reported separately.
+
 ### Experiment Records
 
 Records are kept outside Git. Local paths are relative to the repository root. Remote paths refer to my Rangpur account.
@@ -324,6 +356,7 @@ Records are kept outside Git. Local paths are relative to the repository root. R
 | Local baseline results | `../runs/rangpur-20261003/` |
 | Local fine-tuning results | `../runs/rangpur-20261004-epochs2/` |
 | Overlap audit and saved-output subset scores | `../runs/overlap-audit-20261116/` |
+| Combined ROUGE/readability analysis and its environment record | `../runs/evaluation-20261117/` |
 | Remote baseline and original logs | `/home/Student/s4983489/comp3710-ass2/runs/20261003-formal/` |
 | Remote fine-tuned weights and checkpoints | `/home/Student/s4983489/comp3710-ass2/runs/20261004-epochs2/{full,lora}/` |
 
@@ -331,7 +364,7 @@ Trained weights and checkpoints are stored on Rangpur and are not included in th
 
 ## Artificial Intelligence Usage Disclosure
 
-I used OpenAI Codex to assist with literature review, debugging, experiment execution and the manual-loop revision. I wrote the initial implementation and used ChatGPT to review and edit the wording and clinical error discussion in this README. I checked data preprocessing, parameter updates, evaluation and model save/reload behaviour. Experimental scores were taken from saved validation outputs, and the reported clinical examples were compared with their source reports. I am responsible for checking the final code, measurements and conclusions.
+I used OpenAI Codex to assist with literature review, debugging, experiment execution, the manual-loop revision and saved-output analysis. I wrote the initial implementation and used ChatGPT to review and edit the wording and clinical error discussion in this README. I checked data preprocessing, parameter updates, evaluation and model save/reload behaviour. I checked the scores against saved predictions and compared the clinical examples with their source reports. I am responsible for checking the final code, measurements and conclusions.
 
 ## References
 
@@ -342,3 +375,4 @@ I used OpenAI Codex to assist with literature review, debugging, experiment exec
 5. Hugging Face documentation: [Datasets loading](https://huggingface.co/docs/datasets/loading), [summarisation](https://huggingface.co/docs/transformers/tasks/summarization), [Trainer](https://huggingface.co/docs/transformers/main_classes/trainer), [generation](https://huggingface.co/docs/transformers/main_classes/text_generation), [PEFT](https://huggingface.co/docs/peft/main/en/quicktour) and [checkpoint format](https://huggingface.co/docs/peft/developer_guides/checkpoint).
 6. Google Research, [ROUGE implementation](https://github.com/google-research/google-research/tree/master/rouge).
 7. Course Ed clarification, [Radiology Report Summarisation Task Clarification](https://edstem.org/au/courses/38242/discussion/3634865).
+8. [Textstat documentation](https://github.com/textstat/textstat), Flesch–Kincaid grade and text statistics.
