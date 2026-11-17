@@ -1,0 +1,70 @@
+{
+  "dataset": "recorded COMP3710 ADNI JPEG subset",
+  "metadata_sha256": "600f1d18a51057e688d8efebaab8a71e53e75aa86f40e5ab2ecb2101307817a4",
+  "mapping_rule": "JPEG prefix = exact metadata root key; one matching subject token across raw/masked/c1-c5",
+  "manifest_sha256": {
+    "train.csv": "90e42891babac142ba0693afc4d23e142c018c3a8dc274032552268f3e580be9",
+    "validation.csv": "7b0755f4a7a561e501f8142a92f64356e4ebcd20c874404e66cd4e74b80eee99",
+    "test.csv": "55f5dd35078a67af0c33d36c587047856aad5f0ba1720579d3f8b049a0337db7"
+  },
+  "counts": {
+    "train": {
+      "candidate_subjects": 476,
+      "scans": 1061,
+      "images": 21220,
+      "by_class": {
+        "NC": {
+          "candidate_subjects": 321,
+          "scans": 544,
+          "images": 10880
+        },
+        "AD": {
+          "candidate_subjects": 155,
+          "scans": 517,
+          "images": 10340
+        }
+      }
+    },
+    "validation": {
+      "candidate_subjects": 102,
+      "scans": 233,
+      "images": 4660,
+      "by_class": {
+        "NC": {
+          "candidate_subjects": 69,
+          "scans": 130,
+          "images": 2600
+        },
+        "AD": {
+          "candidate_subjects": 33,
+          "scans": 103,
+          "images": 2060
+        }
+      }
+    },
+    "test": {
+      "candidate_subjects": 102,
+      "scans": 232,
+      "images": 4640,
+      "by_class": {
+        "NC": {
+          "candidate_subjects": 69,
+          "scans": 109,
+          "images": 2180
+        },
+        "AD": {
+          "candidate_subjects": 33,
+          "scans": 123,
+          "images": 2460
+        }
+      }
+    }
+  },
+  "approval_provenance": {
+    "basis": "User previously confirmed patient-identifier semantics and reported tutor approval for these exact assignments.",
+    "consultation_date": null,
+    "verbatim_feedback": null,
+    "independently_authenticated": false,
+    "new_approval_granted": false
+  }
+}

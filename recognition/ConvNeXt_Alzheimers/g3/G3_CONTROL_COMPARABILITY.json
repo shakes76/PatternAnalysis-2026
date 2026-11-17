@@ -1,0 +1,28 @@
+{
+  "format_version": 1,
+  "mode": "REUSE_G2",
+  "fixed_before_new_outcomes": true,
+  "fresh_U3_permitted": false,
+  "historical_control": "G2 seed42 selected20 completed28",
+  "source_revision": "500bfe84168af9b7f6d59634276802765fdacbc4",
+  "historical_receipts_checked": true,
+  "all_30_order_and_angle_arrays_match": true,
+  "old_E0_file_available": false,
+  "initial_digest_consistency_not_old_tensor_observation": true,
+  "feature": "exact original linear-head input after per-slice spatial mean and final LayerNorm",
+  "new_uniform_execution_path": false,
+  "new_attention_execution_only": true,
+  "synthetic_checks": "see committed test_g3.py and implementation handback for actual execution outcomes",
+  "synthetic_verification": {
+    "status": "PASSED",
+    "new_G3_tests": 15,
+    "inherited_G012_tests": 35,
+    "total": 50,
+    "command": "python -B -m unittest g3.test_g3 g012.test_g012 -v",
+    "no_real_MRI_execution": true
+  },
+  "real_data_compatibility_inference_required": false,
+  "user_G3_training_only_smoke_required": true,
+  "user_smoke_status": "PENDING_NOT_EXECUTED",
+  "failed_smoke_action": "STOP; preserve evidence; do not silently switch control mode"
+}

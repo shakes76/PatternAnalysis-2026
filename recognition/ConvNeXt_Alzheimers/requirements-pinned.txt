@@ -1,0 +1,8 @@
+# Observed top-level environment, not a complete transitive lock.
+# CUDA wheels require the matching official PyTorch cu126 wheel index.
+torch==2.7.1+cu126
+torchvision==0.22.1+cu126
+numpy==2.2.6
+Pillow==11.2.1
+scikit-learn==1.6.1
+matplotlib==3.10.3

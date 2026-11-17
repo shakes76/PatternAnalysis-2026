@@ -1,0 +1,186 @@
+{
+  "format_version": 1,
+  "purpose": "FIXED_REVISED_TEST_EVALUATION_PREVIOUS_COHORT_EXPOSURE_DISCLOSED",
+  "models": {
+    "cnn": {
+      "name": "Regularized CNN (epoch 14)",
+      "selected_epoch": 14,
+      "configuration": {
+        "model": "baseline",
+        "batch_size": 8,
+        "accumulation_steps": 4,
+        "epochs": 30,
+        "min_epochs": 12,
+        "patience": 8,
+        "learning_rate": 0.0003,
+        "min_learning_rate": 1e-06,
+        "warmup_epochs": 3,
+        "weight_decay": 0.05,
+        "gradient_clip_norm": 5.0,
+        "seed": 42,
+        "num_workers": 0,
+        "device": "cuda",
+        "budget_seconds": 10800.0
+      },
+      "parameters": 359922,
+      "input_hashes": {
+        "run_summary_sha256": "88869665cc1db9f4f4fcc14328e04e1ff7602fc6fde213d998c38863f4106af4",
+        "checkpoint_sha256": "26bf59f96b1c9da87df0db93b87f266e5e2b3cb02652b527b42bb1d8e9877e36",
+        "validation_predictions_sha256": "2cad897abc15944744895163600b21d1b76e2b731a88fa9c4f4d76ef6eeda3a0"
+      },
+      "temperature": 1.613427788322983,
+      "reference_confidence_threshold": 0.85
+    },
+    "a1": {
+      "name": "ConvNeXt A1 (seed 42, epoch 13)",
+      "selected_epoch": 13,
+      "configuration": {
+        "recipe": "scratch_augmented",
+        "seed": 42,
+        "epochs": 30,
+        "min_epochs": 12,
+        "patience": 8,
+        "batch_size": 8,
+        "accumulation_steps": 4,
+        "rotation_degrees": 5.0,
+        "learning_rate": 0.0003,
+        "min_lr": 1e-06,
+        "weight_decay": 0.05,
+        "warmup_epochs": 3,
+        "head_only_epochs": 2,
+        "transfer_backbone_lr": 1e-05,
+        "gradient_clip": 5.0,
+        "device": "cuda",
+        "workers": 0
+      },
+      "parameters": 27818594,
+      "input_hashes": {
+        "run_summary_sha256": "f215d620aefa313ca2b02d8687487c4fbfaaa0fd3d112d1641e7df634b9f29f2",
+        "checkpoint_sha256": "efde4d21993085119d3ef1bc0efb88f837954c187c95b036373cd00e59d4d5ef",
+        "validation_predictions_sha256": "165cdc9de729698928fa22057e05bd6f578704c9ab81537fc5ae80c69924a9f2"
+      },
+      "temperature": 1.855359764280054,
+      "reference_confidence_threshold": 0.75
+    }
+  },
+  "manifest_sha256": {
+    "train.csv": "90e42891babac142ba0693afc4d23e142c018c3a8dc274032552268f3e580be9",
+    "validation.csv": "7b0755f4a7a561e501f8142a92f64356e4ebcd20c874404e66cd4e74b80eee99",
+    "test.csv": "55f5dd35078a67af0c33d36c587047856aad5f0ba1720579d3f8b049a0337db7"
+  },
+  "test_counts": {
+    "patients": 102,
+    "scans": 232,
+    "images": 4640,
+    "patients_NC": 69,
+    "patients_AD": 33
+  },
+  "preprocessing": {
+    "source": {
+      "mode": "L",
+      "width": 256,
+      "height": 240
+    },
+    "input_channels": 1,
+    "output_height": 224,
+    "output_width": 224,
+    "resize": "Pillow bilinear, preserve aspect ratio; 256x240 -> 224x210",
+    "padding": "7 black pixels at the top and bottom, before normalization",
+    "scale": "float32: (pixel / 255.0 - 0.5) / 0.5; nominal range [-1,1]",
+    "fitted_dataset_statistics": false,
+    "training_rotation_degrees": 0.0,
+    "validation_test_rotation_degrees": 0.0,
+    "horizontal_vertical_flips": false,
+    "cropping": false
+  },
+  "model_labels": {
+    "NC": 0,
+    "AD": 1
+  },
+  "configuration": {
+    "device": "cuda",
+    "batch_size": 8,
+    "workers": 0,
+    "seed_for_inference": 42,
+    "precision": "float32; mixed precision and TF32 disabled",
+    "primary_unit": "patient",
+    "secondary_units": [
+      "scan",
+      "slice"
+    ],
+    "diagnostic_threshold": 0.5,
+    "aggregation": "mean of scan means of slice P(AD)",
+    "temperature_applied_to": "patient probability log odds only",
+    "accuracy_target": 0.8,
+    "bootstrap_repeats": 5000,
+    "bootstrap_seed": 2026,
+    "policies_reported_without_selection": [
+      "reference",
+      "strict_cn",
+      "no_auto_cn"
+    ],
+    "strict_CN_maximum_calibrated_p_AD": 0.05,
+    "failure_cases_maximum": 5,
+    "failure_selection": "Unique patients: confident A1 FN; confident A1 FP; A1 error corrected by CNN; low-confidence A1 error; remaining confident errors; CNN errors if needed.",
+    "case_scan_selection": "scan probability nearest patient probability; scan ID breaks ties",
+    "case_slice_positions": [
+      0.25,
+      0.5,
+      0.75
+    ]
+  },
+  "environment": {
+    "python": "3.11.9",
+    "torch": "2.7.1+cu126",
+    "numpy": "2.2.6",
+    "pillow": "11.2.1",
+    "sklearn": "1.6.1",
+    "platform": "Windows",
+    "device": "cuda",
+    "cuda_build": "12.6",
+    "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU"
+  },
+  "source_code_sha256": {
+    "dataset.py": "5e6bc17a8cc3d9013b3934719b92d083e1c39abfae5820dfc4a05d8f19e8a8ff",
+    "modules.py": "f9e87782438a22829b962d97fc39b651b4fd0f25dcd2468188b9ec0a238a1cbf",
+    "training_utils.py": "df49b42613853aebf6415926f5b9f5c9621ef3311c2addb9b136ca8fa0286409",
+    "train.py": "126752de5179adb2f65221c1281332429aa15a425ccfb8419bbcc7fca1cf761c",
+    "train_experiment.py": "0ed63f650ab2cbf85155036b5d9dacb6c0a465856071d80d61eb0ef1e7dea953",
+    "check_experiment.py": "921b1b5c7fbb546834b590fd6639327c631bc96eebe0ee793ea99af4f764fe1b",
+    "modules_v2.py": "eaac754ae1665fc712ea8d1b4e747038647b47deeeeec3aff2536f37b38403e9",
+    "train_convnext_v2.py": "df83692702e41bbbd9d994862b13d89ac31c77a4eb6c2befabcb83e0a6f6175f",
+    "V2_EXPERIMENT_PLAN.md": "8e980f02e32da1fad603286888cc124af3853650bca20499caecc03434bb2625",
+    "confidence_analysis.py": "71d23dd631828c5ff82f1b5571bf716f1c8f835a58459dee0a22f61d3ce979c6",
+    "analyse_confidence.py": "075ea6af0868bf1c4977ac607030a64064f0e910bd8455caaf7f290db03b43b5",
+    "CONFIDENCE_METHOD.md": "0b9308d4963e45e6943ebf2c68a26a51fed82a03e4e5aa209e04a0ba4989b180",
+    "tests_confidence/test_confidence.py": "aacd51caa0b11103c8cf769dc3f846a333cf6e120d7590885b367853cdecb888",
+    "selected_a1.py": "184133e0ecafca66b151d9cb1485cfba54b89a79b5935ae41c821cd1598e0c2d",
+    "A1_CONFIDENCE_METHOD.md": "f3038f0d8999e6aad0207d181f06661864c43af4a043a6bd0eaf3dbc4a75f69b",
+    "tests_selected_a1/test_selected_a1.py": "e89cd79233a76a9f4719254282814715f1692012a3cab678cd585662949e6f6d",
+    "negative_policy.py": "2935f8825e4e42308616e503d446471cfd530f035a2e343b54cdc2d4bc4b5727",
+    "NEGATIVE_POLICY_METHOD.md": "ed95ea6fc90d2f1a304cf082c620f9322a0ce3f4d4656bdb9ad44627e2003ef9",
+    "tests_negative_policy/test_negative_policy.py": "58e8ad990f1d2bcd07877c6c15ecf91cc4298cabd2e441689eb201b84e461bec",
+    "predict.py": "3983400df24a9d855fb2a86f7946336a4f8b975d0465b244879ca5c60049f9e4",
+    "revised_evaluation.py": "32052775ba56035f858ad3f0b1a22ce41d42929a8cf06a860036aadb42450372",
+    "REVISED_EVALUATION_METHOD.md": "02dbaf0c5cf031b3ad4abac6ef436b6ff447efae9760adaef20a6f1f43cdfe03",
+    "tests_revised/test_revised_evaluation.py": "9e3f9a2616c400f5795627883a1333777933375b8c467e9e75c71f002046ba8b",
+    "final_evaluation.py": "24b9b5002cf36ba2ce9edb43a6b6ee01c9930b054ca8a4d48117f6f045027085"
+  },
+  "development_evidence_sha256": {
+    "a1_selection": "df1ec7cd2b0dd307ca9e65fb7155061f5aa12d456440604d9024fbc3ad9579d0",
+    "a1_confidence": "06096f42a9698c5e2b4552d9691437583f9d0a881e37333d3c720d963b789efc",
+    "a1_rules": "f252f6c5eec90d4df5c52767595d62c2e7982f48619ec33562b2566e8d8be78b",
+    "negative_plan": "5c19d0cafa649bce5ef99349beb81690c58793b08246031c136d3315019003fa",
+    "negative_summary": "53fbce3c660e280663488992c4a7700633de0596aaa03194f220dfa1e693c50f",
+    "negative_rules": "a2c2bf16e0be82311dd5b8dbd6d37cd82a5fbc249bf0d623dcf8158962abb153",
+    "version1_summary": "e6e68d75ae500f451d24d33cc64e0173280ef511873b42cb0cb667e0475afe29"
+  },
+  "audit_inventory_sha256": "6bf45198442cfe07a765df89bd0836ca7b0a5b240092f3dea68c61cb42faec36",
+  "test_image_hash_map_sha256": "9c8e8c99c02182fbb84f33dea913894e97ddd51d85a18a241f5ec3322818a74d",
+  "prior_test_exposure_disclosed": true,
+  "fresh_independent_test": false,
+  "no_training_calibration_fitting_or_policy_search": true,
+  "no_automatic_clinical_clearance_recommended": true,
+  "manual_failure_analysis_required": true,
+  "caution": "Research prototype, not a clinical diagnostic system. This is a revised evaluation on the SAME patient-independent test cohort previously evaluated for Version 1, not a new untouched independent test. Later development used repeatedly consulted training/validation evidence; prior test exposure remains a limitation. Model, temperature, diagnosis cutoff and all three policies were fixed before this revised inference. Do not select another model/policy or tune using these results. Referrals are not correct diagnoses; no clinician accuracy is assumed."
+}
