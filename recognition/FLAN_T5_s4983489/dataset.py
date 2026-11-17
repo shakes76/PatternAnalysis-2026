@@ -2,6 +2,8 @@
 
 import argparse
 import json
+import math
+import random
 from pathlib import Path
 
 from datasets import load_dataset
@@ -52,6 +54,44 @@ def audit_overlap(train_data, validation_data):
     }
     # Indices refer to the supplied validation split and preserve its row order.
     return summary, unseen_indices
+
+
+def prepare_splits(data, seed=42, dev_fraction=0.05):
+    """Keep official validation for final evaluation and split training by report text."""
+    original_train, final = data["train"], data["validation"]
+    reports = list(original_train["radiology_report"])
+    final_reports = set(final["radiology_report"])
+    remaining_reports = sorted(set(reports) - final_reports)
+    random.Random(seed).shuffle(remaining_reports)
+
+    # Keep every target variant of a source report in the same partition.
+    development_count = math.ceil(len(remaining_reports) * dev_fraction)
+    development_reports = set(remaining_reports[:development_count])
+    training_reports = set(remaining_reports[development_count:])
+    train_indices = [index for index, report in enumerate(reports) if report in training_reports]
+    development_indices = [
+        index for index, report in enumerate(reports) if report in development_reports
+    ]
+    train = original_train.select(train_indices)
+    development = original_train.select(development_indices)
+
+    audit = {
+        "seed": seed,
+        "development_fraction": dev_fraction,
+        "original_train_rows": len(original_train),
+        "removed_train_rows": len(original_train) - len(train) - len(development),
+        "removed_train_unique_reports": len(set(reports) & final_reports),
+        "train_rows": len(train),
+        "development_rows": len(development),
+        "final_rows": len(final),
+        "train_unique_reports": len(training_reports),
+        "development_unique_reports": len(development_reports),
+        "final_unique_reports": len(final_reports),
+        "train_development_shared_reports": len(training_reports & development_reports),
+        "train_final_shared_reports": len(training_reports & final_reports),
+        "development_final_shared_reports": len(development_reports & final_reports),
+    }
+    return train, development, final, audit
 
 
 def tokenize_data(data, tokenizer, max_input_length=512, max_target_length=512):

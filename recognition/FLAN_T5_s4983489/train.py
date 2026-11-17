@@ -16,7 +16,7 @@ from transformers import (
     set_seed,
 )
 
-from dataset import audit_overlap, load_data, tokenize_data
+from dataset import load_data, prepare_splits, tokenize_data
 from modules import count_parameters, load_model
 
 matplotlib.use("Agg")  # Save plots without requiring a display.
@@ -65,13 +65,19 @@ def train_one_epoch(model, loader, optimizer, scheduler, accumulation_steps):
             scheduler.step()
             optimizer.zero_grad(set_to_none=True)
             updates += 1
+            if updates % 250 == 0 or batch_index + 1 == len(loader):
+                print(json.dumps({
+                    "optimizer_updates": updates,
+                    "training_reports": reports,
+                    "train_loss": total_loss / reports,
+                }), flush=True)
 
     return total_loss / reports, updates
 
 
 @torch.inference_mode()
-def evaluate(model, tokenizer, loader, references, unseen_indices):
-    """Evaluate loss and source-only generation in validation order, without gradients."""
+def evaluate(model, tokenizer, loader, references, unseen_indices=None):
+    """Evaluate loss and source-only generation in loader order, without gradients."""
     model.eval()
     if model.device.type == "cuda":
         torch.cuda.synchronize(model.device)
@@ -95,9 +101,10 @@ def evaluate(model, tokenizer, loader, references, unseen_indices):
     metrics = {
         "eval_loss": total_loss / reports,
         "eval_reports": reports,
-        "eval_unseen_reports": len(unseen_indices),
         **{f"eval_{name}": score for name, score in calculate_rouge(predictions, references).items()},
     }
+    if unseen_indices is not None:
+        metrics["eval_unseen_reports"] = len(unseen_indices)
     # An empty unseen subset has no ROUGE score; its count is still recorded above.
     if unseen_indices:
         unseen_scores = calculate_rouge(
@@ -112,10 +119,10 @@ def evaluate(model, tokenizer, loader, references, unseen_indices):
 
 
 def plot_history(history, output_path):
-    """Plot training/validation loss and four validation ROUGE scores by epoch."""
+    """Plot training/development loss and development ROUGE scores by epoch."""
     training = [entry for entry in history if "loss" in entry]
-    validation = [entry for entry in history if "eval_loss" in entry]
-    epochs = [entry["epoch"] for entry in validation]
+    development = [entry for entry in history if "dev_loss" in entry]
+    epochs = [entry["epoch"] for entry in development]
     figure, axes = plt.subplots(1, 2, figsize=(11, 4))
     axes[0].plot(
         [entry["epoch"] for entry in training],
@@ -123,13 +130,13 @@ def plot_history(history, output_path):
         marker="o", label="Training",
     )
     axes[0].plot(
-        epochs, [entry["eval_loss"] for entry in validation],
-        marker="o", label="Validation",
+        epochs, [entry["dev_loss"] for entry in development],
+        marker="o", label="Development",
     )
     axes[0].set_ylabel("Loss")
     for name in ROUGE_TYPES:
         axes[1].plot(
-            epochs, [entry[f"eval_{name}"] for entry in validation],
+            epochs, [entry[f"dev_{name}"] for entry in development],
             marker="o", label=name,
         )
     axes[1].set_ylabel("ROUGE F1 (0–100)")
@@ -153,8 +160,9 @@ def parse_args():
     parser.add_argument("--gradient-accumulation-steps", type=int, default=8)
     parser.add_argument("--max-input-length", type=int, default=512)
     parser.add_argument("--max-target-length", type=int, default=512)
+    parser.add_argument("--dev-fraction", type=float, default=0.05)
     parser.add_argument("--train-samples", type=int, help="Limit training samples for a small test run")
-    parser.add_argument("--eval-samples", type=int, help="Limit evaluation samples for a small test run")
+    parser.add_argument("--eval-samples", type=int, help="Limit each evaluation split for a small test run")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
         "--device", choices=["cpu", "cuda"],
@@ -168,25 +176,30 @@ def main():
     set_seed(args.seed)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True)
-    config = {**vars(args), "training_loop": "manual_pytorch"}
+    config = {
+        **vars(args), "training_loop": "manual_pytorch",
+        "evaluation_protocol": "grouped_development_final_validation",
+    }
     (output_dir / "run_config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
 
     data = load_data()
-    raw_train, raw_eval = data["train"], data["validation"]
-    # Sample within each official split to keep training and validation separate.
+    raw_train, raw_dev, raw_eval, audit = prepare_splits(data, args.seed, args.dev_fraction)
+    # Optional small runs sample only after the disjoint partitions are fixed.
     if args.train_samples is not None:
         raw_train = raw_train.shuffle(seed=args.seed).select(range(args.train_samples))
     if args.eval_samples is not None:
+        raw_dev = raw_dev.shuffle(seed=args.seed).select(range(args.eval_samples))
         raw_eval = raw_eval.shuffle(seed=args.seed).select(range(args.eval_samples))
 
-    audit, unseen_indices = audit_overlap(raw_train, raw_eval)
+    audit.update(
+        used_train_rows=len(raw_train), used_development_rows=len(raw_dev),
+        used_final_rows=len(raw_eval),
+    )
     (output_dir / "dataset_audit.json").write_text(
-        json.dumps({**audit, "unseen_validation_indices": unseen_indices}, indent=2), encoding="utf-8"
+        json.dumps(audit, indent=2), encoding="utf-8"
     )
+    print(json.dumps(audit, indent=2), flush=True)
     tokenizer = AutoTokenizer.from_pretrained(args.model_name)
-    eval_data = tokenize_data(
-        raw_eval, tokenizer, args.max_input_length, args.max_target_length
-    )
     model = load_model(args.model_name, use_lora=args.mode == "lora")
     device = torch.device(args.device)
     model.to(device)
@@ -198,23 +211,23 @@ def main():
     model.generation_config.do_sample = False
     total, trainable = count_parameters(model)
     collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model, label_pad_token_id=-100)
-    eval_loader = DataLoader(
-        eval_data, batch_size=args.batch_size, shuffle=False, collate_fn=collator,
-    )
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats(device)
 
-    if args.mode == "baseline":
-        metrics, predictions = evaluate(
-            model, tokenizer, eval_loader, raw_eval["layman_report"], unseen_indices,
-        )
-    else:
+    training_metrics = {}
+    if args.mode != "baseline":
         train_data = tokenize_data(
             raw_train, tokenizer, args.max_input_length, args.max_target_length
+        )
+        dev_data = tokenize_data(
+            raw_dev, tokenizer, args.max_input_length, args.max_target_length
         )
         train_loader = DataLoader(
             train_data, batch_size=args.batch_size, shuffle=True, collate_fn=collator,
             generator=torch.Generator().manual_seed(args.seed),
+        )
+        dev_loader = DataLoader(
+            dev_data, batch_size=args.batch_size, shuffle=False, collate_fn=collator,
         )
         parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
         optimizer = torch.optim.AdamW(parameters, lr=args.learning_rate, weight_decay=0.0)
@@ -228,17 +241,12 @@ def main():
         start = perf_counter()
 
         for epoch in range(1, args.epochs + 1):
+            print(json.dumps({"epoch": epoch, "phase": "training"}), flush=True)
             loss, updates = train_one_epoch(
                 model, train_loader, optimizer, scheduler, args.gradient_accumulation_steps,
             )
             global_step += updates
-            metrics, predictions = evaluate(
-                model, tokenizer, eval_loader, raw_eval["layman_report"], unseen_indices,
-            )
-            metrics.update(epoch=epoch, global_step=global_step, train_loss=loss)
-            history.extend([{"epoch": epoch, "loss": loss}, dict(metrics)])
-
-            # Keep the latest epoch's weights and optimizer state in this new run directory.
+            # Save trained weights before generation, which can be slow on long reports.
             model_dir = output_dir / "model"
             model.save_pretrained(model_dir)
             tokenizer.save_pretrained(model_dir)
@@ -252,17 +260,37 @@ def main():
                 },
                 output_dir / "checkpoint.pt",
             )
+            print(json.dumps({"epoch": epoch, "phase": "development"}), flush=True)
+            dev_metrics, _ = evaluate(model, tokenizer, dev_loader, raw_dev["layman_report"])
+            dev_metrics = {name.replace("eval_", "dev_", 1): value
+                           for name, value in dev_metrics.items()}
+            dev_metrics.update(epoch=epoch, global_step=global_step)
+            history.extend([{"epoch": epoch, "loss": loss}, dev_metrics])
             (output_dir / "training_history.json").write_text(
                 json.dumps(history, indent=2), encoding="utf-8"
             )
-            print(json.dumps(metrics, indent=2), flush=True)
+            print(json.dumps(dev_metrics, indent=2), flush=True)
 
         if device.type == "cuda":
             torch.cuda.synchronize(device)
-        metrics["train_runtime"] = perf_counter() - start
+        training_metrics = {
+            "train_runtime": perf_counter() - start, "train_loss": loss,
+            "epoch": args.epochs, "global_step": global_step,
+        }
         plot_history(history, output_dir / "training_curves.png")
 
+    # Official validation is evaluated once, after the fixed training schedule ends.
+    print(json.dumps({"phase": "final_validation"}), flush=True)
+    eval_data = tokenize_data(
+        raw_eval, tokenizer, args.max_input_length, args.max_target_length
+    )
+    eval_loader = DataLoader(
+        eval_data, batch_size=args.batch_size, shuffle=False, collate_fn=collator,
+    )
+    metrics, predictions = evaluate(model, tokenizer, eval_loader, raw_eval["layman_report"])
+    metrics.update(training_metrics)
     metrics.update(
+        evaluation_split="official_validation",
         total_parameters=total,
         trainable_parameters=trainable,
         device=str(device),
