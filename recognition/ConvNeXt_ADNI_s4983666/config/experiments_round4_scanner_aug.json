@@ -1,0 +1,59 @@
+{
+  "name": "round4_scanner_aug",
+  "description": "Same recipe as round3_cv_final_epoch (80 epochs, final-epoch weights, seed 3710) with the 'scanner' augmentation profile (bias field, noise, blur/sharpen, wider gain/gamma). Folds 4 and 5 are used because their validation sets hold the most AD scans acquired 2017-2019 (24 and 26), the group affected by the acquisition confound; the folds were chosen by this count, not by model scores. Primary outcome: scan AUROC on validation scans acquired 2017-2019.",
+  "common": {
+    "epochs": 80,
+    "batch_size": 32,
+    "lr": 0.0001,
+    "weight_decay": 0.05,
+    "lr_schedule": "warmup_cosine",
+    "warmup_epochs": 3,
+    "image_height": 240,
+    "image_width": 256,
+    "augmentation": "scanner",
+    "ema_decay": 0.999,
+    "context_slices": 3,
+    "seed": 3710,
+    "workers": 4,
+    "threads": 4,
+    "device": "cuda"
+  },
+  "cases": [
+    {
+      "id": "SA_tiny_context_fold4",
+      "purpose": "Scanner-style augmentation, ConvNeXt-Tiny, fold 4; compare with CV_tiny_context_fold4 of round3_cv_final_epoch.",
+      "args": {
+        "model": "convnext_tiny",
+        "fold": 4
+      }
+    },
+    {
+      "id": "SA_tiny_context_fold5",
+      "purpose": "Scanner-style augmentation, ConvNeXt-Tiny, fold 5; compare with CV_tiny_context_fold5 of round3_cv_final_epoch.",
+      "args": {
+        "model": "convnext_tiny",
+        "fold": 5
+      }
+    },
+    {
+      "id": "SA_cnn_context_fold4",
+      "purpose": "Scanner-style augmentation, baseline CNN, fold 4; compare with CV_cnn_context_fold4 of round3_cv_final_epoch.",
+      "args": {
+        "model": "cnn",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "fold": 4
+      }
+    },
+    {
+      "id": "SA_cnn_context_fold5",
+      "purpose": "Scanner-style augmentation, baseline CNN, fold 5; compare with CV_cnn_context_fold5 of round3_cv_final_epoch.",
+      "args": {
+        "model": "cnn",
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "fold": 5
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+# Local Python environments and generated caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Operating-system and local credential files.
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Course data and generated patient-level manifests stay outside Git.
+ADNI/
+!figures/adni/
+!figures/adni/*.png
+AD_NC/
+data/
+datasets/
+adni_splits*/
+meta_data_with_label.json
+*.csv
+*.jpg
+*.jpeg
+*.nii
+*.nii.gz
+
+# Training outputs, experiment results, and derived data.
+checkpoints/
+outputs/
+results/
+runs/
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.npy
+*.npz
+*.pkl
+
+# The supplied coursework brief is reference material, not project source.
+COMP3710_Report_2026*.pdf
+
+# Batch-job logs.
+*.out
+slurm-*.out

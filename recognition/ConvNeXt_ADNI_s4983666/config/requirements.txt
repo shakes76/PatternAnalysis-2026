@@ -1,0 +1,2 @@
+# M0 audit-only environment, verified locally with Python 3.12.14.
+Pillow==12.3.0

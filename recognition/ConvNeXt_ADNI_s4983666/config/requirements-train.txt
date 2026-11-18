@@ -1,0 +1,7 @@
+# Install a PyTorch CUDA build compatible with the cluster driver if needed.
+# Rangpur A100 runs recorded Python 3.11.15, torch==2.13.0 (CUDA 13.0),
+# Pillow==12.3.0, and matplotlib==3.11.1 in each run's config.json.
+# The pins below define a portable local CPU reference environment for tests:
+-r requirements.txt
+torch==2.6.0
+matplotlib==3.9.4

@@ -1,0 +1,57 @@
+{
+  "name": "round5_imagenet_pretrained",
+  "description": "ConvNeXt-Tiny initialised from the authors' ImageNet-1k weights (convnext_tiny_1k_224_ema.pth, Liu et al. 2022; SHA-256 14f3164e3ea6ac32ab3f574f528ce817696c9176fad4221e0a77a905a7360595), three-slice context as RGB, fine-tuned for 40 epochs at peak LR 5e-5 with final-epoch weights. Folds 4 and 5 as in round 4, with the strong and the scanner augmentation profiles. Primary outcomes: validation slice accuracy and scan AUROC on scans acquired 2017-2019.",
+  "common": {
+    "epochs": 40,
+    "batch_size": 32,
+    "lr": 5e-05,
+    "weight_decay": 0.05,
+    "lr_schedule": "warmup_cosine",
+    "warmup_epochs": 3,
+    "image_height": 240,
+    "image_width": 256,
+    "augmentation": "strong",
+    "ema_decay": 0.999,
+    "context_slices": 3,
+    "seed": 3710,
+    "workers": 4,
+    "threads": 4,
+    "device": "cuda",
+    "model": "convnext_tiny_in1k",
+    "pretrained_weights": "~/comp3710/pretrained/convnext_tiny_1k_224_ema.pth"
+  },
+  "cases": [
+    {
+      "id": "PT_tiny_strong_fold4",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny fine-tuned, strong augmentation, fold 4; compare with CV_tiny_context_fold4 (round 3)",
+      "args": {
+        "augmentation": "strong",
+        "fold": 4
+      }
+    },
+    {
+      "id": "PT_tiny_strong_fold5",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny fine-tuned, strong augmentation, fold 5; compare with CV_tiny_context_fold5 (round 3)",
+      "args": {
+        "augmentation": "strong",
+        "fold": 5
+      }
+    },
+    {
+      "id": "PT_tiny_scanner_fold4",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny fine-tuned, scanner augmentation, fold 4; compare with SA_tiny_context_fold4 (round 4)",
+      "args": {
+        "augmentation": "scanner",
+        "fold": 4
+      }
+    },
+    {
+      "id": "PT_tiny_scanner_fold5",
+      "purpose": "ImageNet-1k ConvNeXt-Tiny fine-tuned, scanner augmentation, fold 5; compare with SA_tiny_context_fold5 (round 4)",
+      "args": {
+        "augmentation": "scanner",
+        "fold": 5
+      }
+    }
+  ]
+}
