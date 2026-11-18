@@ -1,0 +1,35 @@
+{
+  "source": "User-supplied frozen experiment manifests, 2026-11-14",
+  "preservation": "CSV files copied byte-for-byte; original columns and row order retained",
+  "checks": {
+    "metadata_valid": true,
+    "image_patient_lesion_separation": true,
+    "known_duplicate_pairs": "PASSED: all endpoints present, no cross-split pairs or conflicting labels"
+  },
+  "splits": {
+    "train": {
+      "images": 23188,
+      "melanomas": 403,
+      "patients": 1438,
+      "sha256": "757ab849651c2ca6346e43d490bbe1e208bdc6d7808ee64b4252c6e2f03498e9"
+    },
+    "val": {
+      "images": 4938,
+      "melanomas": 92,
+      "patients": 309,
+      "sha256": "eb45c8222e7074b99f9df1f18da76b5270ce6fdc1056886d8bdd851518730759"
+    },
+    "test": {
+      "images": 5000,
+      "melanomas": 89,
+      "patients": 309,
+      "sha256": "58812bb02bf06989574bafcdbba6cb4fdf8fdf3ff3e796f83cdb860c68c93043"
+    }
+  },
+  "duplicates": {
+    "file": "../ISIC_2020_Training_Duplicates.csv",
+    "pairs": 425,
+    "sha256": "ddfd6c2d42430bd3581f3b2116bdb1433462a7109c715a02bf7f51115fcfabce",
+    "preservation": "Copied byte-for-byte from user-supplied CSV"
+  }
+}

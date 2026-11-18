@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+
+# User-provided ISIC images and experiment artifacts (keep frozen CSVs tracked).
+*.jpg
+*.jpeg
+*.JPG
+*.JPEG
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.pt
+*.pth
+*.ckpt
+**/DATA/
+**/datasets/
+**/ISIC2020_images/
+**/isic2020/
+**/isic_runs/
+**/runs/
+**/checkpoints/
+**/results/
