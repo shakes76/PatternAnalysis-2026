@@ -1,0 +1,21 @@
+100% 27/27 [00:07<00:00,  3.72it/s]
+100% 27/27 [00:03<00:00,  7.45it/s]
+Test volumes: 27
+saved 3D_Model/predictions/unet3d_prediction_0.png
+saved 3D_Model/predictions/unet3d_prediction_1.png
+saved 3D_Model/predictions/unet3d_prediction_2.png
+Test Background: DSC 0.9978 | IoU 0.9957
+Test Body: DSC 0.9880 | IoU 0.9763
+Test Bone: DSC 0.9267 | IoU 0.8635
+Test Bladder: DSC 0.9591 | IoU 0.9216
+Test Rectum: DSC 0.8821 | IoU 0.7916
+Test Prostate: DSC 0.8602 | IoU 0.7562
+Min class DSC: 0.8602 | Mean DSC: 0.9356 | Mean IoU: 0.8842
+
+Prostate by region (5 slices at each end):
+whole: DSC 0.8602 | IoU 0.7562
+ apex: DSC 0.8418 | IoU 0.7455
+ base: DSC 0.7630 | IoU 0.6275
+
+Inference time per case (cuda): 0.127 ± 0.000 s
+Peak GPU VRAM: 8085 MB
