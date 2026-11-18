@@ -16,7 +16,7 @@ htmlcov/
 !.env.example
 
 # Course data and generated patient-level manifests stay outside Git.
-/ADNI/
+ADNI/
 !figures/adni/
 !figures/adni/*.png
 AD_NC/
@@ -30,9 +30,10 @@ meta_data_with_label.json
 *.nii
 *.nii.gz
 
-# Training outputs and derived data.
+# Training outputs, experiment results, and derived data.
 checkpoints/
 outputs/
+results/
 runs/
 wandb/
 *.pt
@@ -43,7 +44,7 @@ wandb/
 *.pkl
 
 # The supplied coursework brief is reference material, not project source.
-COMP3710_Report_2026_draft_v2.pdf
+COMP3710_Report_2026*.pdf
 
 # Batch-job logs.
 *.out
