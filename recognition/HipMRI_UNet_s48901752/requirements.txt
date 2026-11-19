@@ -1,0 +1,9 @@
+# Versions used for local testing (Python 3.11.17, macOS): torch 2.14.1,
+# numpy 2.4.6, pandas 3.0.6, nibabel 5.4.2, matplotlib 3.11.2, pytest 9.1.1.
+# On Rangpur, install a CUDA build of torch matching the cluster driver.
+torch>=2.2
+numpy>=1.26
+pandas>=2.2
+nibabel>=5.2
+matplotlib>=3.8
+pytest>=8.0

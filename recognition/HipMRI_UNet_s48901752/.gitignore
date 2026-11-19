@@ -1,0 +1,17 @@
+# Experiment outputs, checkpoints and logs (never commit model files)
+runs/
+predictions/
+slurm/logs/*
+!slurm/logs/.gitkeep
+*.pt
+*.pth
+
+# Data (never commit datasets or manifests with cluster paths)
+data/
+*.nii
+*.nii.gz
+metadata.csv
+
+# Python
+__pycache__/
+.pytest_cache/
