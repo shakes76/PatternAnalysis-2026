@@ -1,0 +1,23 @@
+Epoch 001 Train Loss 1.8723 Val Loss 1.6696 Epoch Time 145.15s Dice 0.0862
+Saved model (Dice=0.0862)
+
+Per-Class Dice Scores
+class 0: 0.0022
+class 1: 0.3979
+class 2: 0.0613
+class 3: 0.0546
+class 4: 0.0096
+class 5: 0.0007
+
+Overall Dice Score: 0.0877
+
+Per-Class IoU Scores
+class 0: 0.0011
+class 1: 0.2484
+class 2: 0.0316
+class 3: 0.0281
+class 4: 0.0048
+class 5: 0.0004
+Overall: 0.0524
+
+Average Inference Time: 5.5103s

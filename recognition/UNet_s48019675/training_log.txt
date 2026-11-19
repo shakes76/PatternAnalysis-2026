@@ -1,0 +1,303 @@
+Epoch 001 Train Loss 1.5227 Val Loss 1.5377 Dice 0.1174
+Saved model (Dice=0.1174)
+Epoch 002 Train Loss 1.4099 Val Loss 1.5276 Dice 0.1564
+Saved model (Dice=0.1564)
+Epoch 003 Train Loss 1.3432 Val Loss 1.5008 Dice 0.3480
+Saved model (Dice=0.3480)
+Epoch 004 Train Loss 1.3022 Val Loss 1.4569 Dice 0.4624
+Saved model (Dice=0.4624)
+Epoch 005 Train Loss 1.2685 Val Loss 1.3944 Dice 0.5852
+Saved model (Dice=0.5852)
+Epoch 006 Train Loss 1.2394 Val Loss 1.3537 Dice 0.6222
+Saved model (Dice=0.6222)
+Epoch 007 Train Loss 1.2085 Val Loss 1.3149 Dice 0.6970
+Saved model (Dice=0.6970)
+Epoch 008 Train Loss 1.1824 Val Loss 1.3744 Dice 0.5322
+Epoch 009 Train Loss 1.1544 Val Loss 1.2621 Dice 0.6823
+Epoch 010 Train Loss 1.1275 Val Loss 1.2630 Dice 0.6534
+Epoch 011 Train Loss 1.0986 Val Loss 1.1776 Dice 0.7570
+Saved model (Dice=0.7570)
+Epoch 012 Train Loss 1.0767 Val Loss 1.2906 Dice 0.5456
+Epoch 013 Train Loss 1.0587 Val Loss 1.2361 Dice 0.6204
+Epoch 014 Train Loss 1.0239 Val Loss 1.1652 Dice 0.7102
+Epoch 015 Train Loss 0.9998 Val Loss 1.2156 Dice 0.6125
+Epoch 016 Train Loss 0.9845 Val Loss 1.1794 Dice 0.6593
+Epoch 017 Train Loss 0.9581 Val Loss 1.1635 Dice 0.6743
+Epoch 018 Train Loss 0.9377 Val Loss 1.1199 Dice 0.7310
+Epoch 019 Train Loss 0.9175 Val Loss 1.0427 Dice 0.8222
+Saved model (Dice=0.8222)
+Epoch 020 Train Loss 0.9025 Val Loss 1.0797 Dice 0.7445
+Average Dice Score: 0.7834
+Epoch 001 Train Loss 1.4145 Val Loss 1.5230 Dice 0.1552 Time 15.29s
+Saved model (Dice=0.1552)
+Epoch 002 Train Loss 1.2441 Val Loss 1.4894 Dice 0.4924 Time 14.04s
+Saved model (Dice=0.4924)
+Epoch 003 Train Loss 1.1442 Val Loss 1.3458 Dice 0.4978 Time 14.23s
+Saved model (Dice=0.4978)
+Epoch 004 Train Loss 1.0659 Val Loss 1.2630 Dice 0.5658 Time 15.15s
+Saved model (Dice=0.5658)
+Epoch 005 Train Loss 1.0005 Val Loss 1.1726 Dice 0.6672 Time 15.20s
+Saved model (Dice=0.6672)
+Epoch 006 Train Loss 0.9407 Val Loss 1.1390 Dice 0.6707 Time 14.64s
+Saved model (Dice=0.6707)
+Epoch 007 Train Loss 0.8847 Val Loss 1.0879 Dice 0.7031 Time 15.27s
+Saved model (Dice=0.7031)
+Epoch 008 Train Loss 0.8356 Val Loss 1.1056 Dice 0.6693 Time 15.04s
+Epoch 009 Train Loss 0.7929 Val Loss 0.9840 Dice 0.7594 Time 15.38s
+Saved model (Dice=0.7594)
+Epoch 010 Train Loss 0.7489 Val Loss 1.0142 Dice 0.7246 Time 15.23s
+Class 0 Max: 0.9926 Mean: 0.2034
+Class 1 Max: 0.9566 Mean: 0.5808
+Class 2 Max: 0.9694 Mean: 0.2562
+Class 3 Max: 0.9976 Mean: 0.2324
+Class 4 Max: 0.3498 Mean: 0.1889
+Class 5 Max: 0.3784 Mean: 0.2099
+Class 0 Max: 0.9923 Mean: 0.1968
+Class 1 Max: 0.9580 Mean: 0.5917
+Class 2 Max: 0.9677 Mean: 0.2502
+Class 3 Max: 0.9974 Mean: 0.2339
+Class 4 Max: 0.3504 Mean: 0.1901
+Class 5 Max: 0.3899 Mean: 0.2111
+Class 0 Max: 0.9936 Mean: 0.2090
+Class 1 Max: 0.9507 Mean: 0.5417
+Class 2 Max: 0.9706 Mean: 0.2943
+Class 3 Max: 0.9975 Mean: 0.2379
+Class 4 Max: 0.3455 Mean: 0.1860
+Class 5 Max: 0.3893 Mean: 0.2089
+Class 0 Max: 0.9934 Mean: 0.2066
+Class 1 Max: 0.9487 Mean: 0.5409
+Class 2 Max: 0.9682 Mean: 0.2968
+Class 3 Max: 0.9979 Mean: 0.2367
+Class 4 Max: 0.3396 Mean: 0.1849
+Class 5 Max: 0.3859 Mean: 0.2074
+Class 0 Max: 0.9935 Mean: 0.2044
+Class 1 Max: 0.9503 Mean: 0.5387
+Class 2 Max: 0.9624 Mean: 0.3013
+Class 3 Max: 0.9981 Mean: 0.2354
+Class 4 Max: 0.3409 Mean: 0.1838
+Class 5 Max: 0.3850 Mean: 0.2061
+Class 0 Max: 0.9937 Mean: 0.2023
+Class 1 Max: 0.9540 Mean: 0.5413
+Class 2 Max: 0.9532 Mean: 0.2992
+Class 3 Max: 0.9983 Mean: 0.2350
+Class 4 Max: 0.3424 Mean: 0.1827
+Class 5 Max: 0.3959 Mean: 0.2059
+Class 0 Max: 0.9938 Mean: 0.1994
+Class 1 Max: 0.9551 Mean: 0.5429
+Class 2 Max: 0.9580 Mean: 0.2988
+Class 3 Max: 0.9985 Mean: 0.2335
+Class 4 Max: 0.3506 Mean: 0.1810
+Class 5 Max: 0.3810 Mean: 0.2048
+Class 0 Max: 0.9937 Mean: 0.1964
+Class 1 Max: 0.9455 Mean: 0.5479
+Class 2 Max: 0.9603 Mean: 0.2939
+Class 3 Max: 0.9987 Mean: 0.2319
+Class 4 Max: 0.3449 Mean: 0.1794
+Class 5 Max: 0.3837 Mean: 0.2038
+Class 0 Max: 0.9938 Mean: 0.1961
+Class 1 Max: 0.9458 Mean: 0.5472
+Class 2 Max: 0.9566 Mean: 0.2957
+Class 3 Max: 0.9987 Mean: 0.2313
+Class 4 Max: 0.3372 Mean: 0.1791
+Class 5 Max: 0.3828 Mean: 0.2037
+Class 0 Max: 0.9940 Mean: 0.1958
+Class 1 Max: 0.9450 Mean: 0.5435
+Class 2 Max: 0.9571 Mean: 0.3006
+Class 3 Max: 0.9987 Mean: 0.2305
+Class 4 Max: 0.3468 Mean: 0.1783
+Class 5 Max: 0.3841 Mean: 0.2033
+Class 0 Max: 0.9940 Mean: 0.1934
+Class 1 Max: 0.9446 Mean: 0.5522
+Class 2 Max: 0.9575 Mean: 0.2924
+Class 3 Max: 0.9986 Mean: 0.2299
+Class 4 Max: 0.3424 Mean: 0.1778
+Class 5 Max: 0.3845 Mean: 0.2037
+
+Per-Class Dice Scores
+class 0: 0.2219
+class 0 IoU: 0.1110
+class 1: 0.7128
+class 1 IoU: 0.1469
+Overall IoU: 0.1289
+Average Dice Score: 0.8037
+Average Inference Time per Image: 0.2302 seconds
+Epoch 001 Train Loss 1.4187 Val Loss 1.4701 Dice 0.4894 Time 13.89s
+Saved model (Dice=0.4894)
+Epoch 002 Train Loss 1.2673 Val Loss 1.4406 Dice 0.5725 Time 14.63s
+Saved model (Dice=0.5725)
+Epoch 003 Train Loss 1.1934 Val Loss 1.2256 Dice 0.7686 Time 14.08s
+Saved model (Dice=0.7686)
+Epoch 004 Train Loss 1.1136 Val Loss 1.2764 Dice 0.5557 Time 15.61s
+Epoch 005 Train Loss 1.0416 Val Loss 1.4135 Dice 0.2953 Time 17.80s
+Epoch 006 Train Loss 0.9770 Val Loss 1.6057 Dice 0.2863 Time 16.44s
+Epoch 007 Train Loss 0.9229 Val Loss 1.4186 Dice 0.4355 Time 17.02s
+Epoch 008 Train Loss 0.8658 Val Loss 1.2906 Dice 0.4429 Time 14.57s
+Epoch 009 Train Loss 0.8155 Val Loss 1.2257 Dice 0.5188 Time 15.69s
+Epoch 010 Train Loss 0.7642 Val Loss 1.1256 Dice 0.5884 Time 15.52s
+Class 0 Max: 0.9232 Mean: 0.3438
+Class 1 Max: 0.8090 Mean: 0.5431
+Class 2 Max: 0.6197 Mean: 0.3830
+Class 3 Max: 0.9999 Mean: 0.4081
+Class 4 Max: 0.7317 Mean: 0.4641
+Class 5 Max: 0.4875 Mean: 0.3652
+Class 0 Max: 0.9127 Mean: 0.3342
+Class 1 Max: 0.8165 Mean: 0.5531
+Class 2 Max: 0.6178 Mean: 0.3847
+Class 3 Max: 0.9999 Mean: 0.4097
+Class 4 Max: 0.7313 Mean: 0.4679
+Class 5 Max: 0.4815 Mean: 0.3666
+Class 0 Max: 0.9387 Mean: 0.3357
+Class 1 Max: 0.8131 Mean: 0.5451
+Class 2 Max: 0.6222 Mean: 0.3853
+Class 3 Max: 0.9999 Mean: 0.4101
+Class 4 Max: 0.7418 Mean: 0.4660
+Class 5 Max: 0.4784 Mean: 0.3653
+Class 0 Max: 0.9396 Mean: 0.3346
+Class 1 Max: 0.8036 Mean: 0.5458
+Class 2 Max: 0.6315 Mean: 0.3843
+Class 3 Max: 0.9999 Mean: 0.4111
+Class 4 Max: 0.7504 Mean: 0.4667
+Class 5 Max: 0.4798 Mean: 0.3657
+Class 0 Max: 0.9411 Mean: 0.3342
+Class 1 Max: 0.8174 Mean: 0.5464
+Class 2 Max: 0.6338 Mean: 0.3840
+Class 3 Max: 0.9999 Mean: 0.4108
+Class 4 Max: 0.7525 Mean: 0.4662
+Class 5 Max: 0.4848 Mean: 0.3657
+Class 0 Max: 0.9429 Mean: 0.3341
+Class 1 Max: 0.8074 Mean: 0.5466
+Class 2 Max: 0.6243 Mean: 0.3836
+Class 3 Max: 0.9999 Mean: 0.4105
+Class 4 Max: 0.7566 Mean: 0.4658
+Class 5 Max: 0.4862 Mean: 0.3657
+Class 0 Max: 0.9441 Mean: 0.3336
+Class 1 Max: 0.8153 Mean: 0.5460
+Class 2 Max: 0.6227 Mean: 0.3840
+Class 3 Max: 1.0000 Mean: 0.4112
+Class 4 Max: 0.7610 Mean: 0.4659
+Class 5 Max: 0.4850 Mean: 0.3656
+Class 0 Max: 0.9448 Mean: 0.3331
+Class 1 Max: 0.8207 Mean: 0.5465
+Class 2 Max: 0.6276 Mean: 0.3840
+Class 3 Max: 1.0000 Mean: 0.4108
+Class 4 Max: 0.7631 Mean: 0.4657
+Class 5 Max: 0.4885 Mean: 0.3656
+Class 0 Max: 0.9463 Mean: 0.3330
+Class 1 Max: 0.8154 Mean: 0.5474
+Class 2 Max: 0.6321 Mean: 0.3832
+Class 3 Max: 1.0000 Mean: 0.4101
+Class 4 Max: 0.7622 Mean: 0.4651
+Class 5 Max: 0.4930 Mean: 0.3656
+Class 0 Max: 0.9488 Mean: 0.3343
+Class 1 Max: 0.8119 Mean: 0.5485
+Class 2 Max: 0.6370 Mean: 0.3835
+Class 3 Max: 1.0000 Mean: 0.4087
+Class 4 Max: 0.7600 Mean: 0.4648
+Class 5 Max: 0.4941 Mean: 0.3661
+Class 0 Max: 0.9496 Mean: 0.3359
+Class 1 Max: 0.8064 Mean: 0.5508
+Class 2 Max: 0.6251 Mean: 0.3833
+Class 3 Max: 1.0000 Mean: 0.4075
+Class 4 Max: 0.7559 Mean: 0.4649
+Class 5 Max: 0.4965 Mean: 0.3674
+
+Per-Class Dice Scores
+class 0: 0.2286
+class 0 IoU: 0.1143
+class 1: 0.7745
+class 1 IoU: 0.1519
+Overall IoU: 0.1331
+Average Dice Score: 0.7319
+Average Inference Time per Image: 0.2484 seconds
+Epoch 001 Train Loss 1.3575 Val Loss 1.4690 Dice 0.5405 Time 13.36s
+Saved model (Dice=0.5405)
+Epoch 002 Train Loss 1.2090 Val Loss 1.3139 Dice 0.7918 Time 13.26s
+Saved model (Dice=0.7918)
+Epoch 003 Train Loss 1.1146 Val Loss 1.2573 Dice 0.6294 Time 12.78s
+Epoch 004 Train Loss 1.0401 Val Loss 1.1409 Dice 0.7357 Time 13.78s
+Epoch 005 Train Loss 0.9821 Val Loss 1.1911 Dice 0.5994 Time 14.25s
+Class 0 Max: 0.6515 Mean: 0.3385
+Class 1 Max: 0.7016 Mean: 0.5283
+Class 2 Max: 0.7234 Mean: 0.4660
+Class 3 Max: 1.0000 Mean: 0.4848
+Class 4 Max: 0.4555 Mean: 0.3262
+Class 5 Max: 0.5093 Mean: 0.3865
+Class 0 Max: 0.6311 Mean: 0.3335
+Class 1 Max: 0.7014 Mean: 0.5314
+Class 2 Max: 0.7241 Mean: 0.4641
+Class 3 Max: 1.0000 Mean: 0.4845
+Class 4 Max: 0.4552 Mean: 0.3247
+Class 5 Max: 0.5080 Mean: 0.3853
+Class 0 Max: 0.6824 Mean: 0.3380
+Class 1 Max: 0.7071 Mean: 0.5211
+Class 2 Max: 0.7178 Mean: 0.4675
+Class 3 Max: 1.0000 Mean: 0.4904
+Class 4 Max: 0.4560 Mean: 0.3255
+Class 5 Max: 0.5149 Mean: 0.3858
+Class 0 Max: 0.6812 Mean: 0.3375
+Class 1 Max: 0.7053 Mean: 0.5219
+Class 2 Max: 0.7177 Mean: 0.4665
+Class 3 Max: 1.0000 Mean: 0.4900
+Class 4 Max: 0.4596 Mean: 0.3249
+Class 5 Max: 0.5124 Mean: 0.3857
+Class 0 Max: 0.6902 Mean: 0.3387
+Class 1 Max: 0.7032 Mean: 0.5220
+Class 2 Max: 0.7113 Mean: 0.4661
+Class 3 Max: 1.0000 Mean: 0.4896
+Class 4 Max: 0.4576 Mean: 0.3253
+Class 5 Max: 0.5143 Mean: 0.3861
+Class 0 Max: 0.6993 Mean: 0.3409
+Class 1 Max: 0.7031 Mean: 0.5222
+Class 2 Max: 0.7076 Mean: 0.4660
+Class 3 Max: 1.0000 Mean: 0.4884
+Class 4 Max: 0.4573 Mean: 0.3266
+Class 5 Max: 0.5144 Mean: 0.3870
+Class 0 Max: 0.7128 Mean: 0.3418
+Class 1 Max: 0.7038 Mean: 0.5213
+Class 2 Max: 0.7084 Mean: 0.4666
+Class 3 Max: 1.0000 Mean: 0.4888
+Class 4 Max: 0.4588 Mean: 0.3271
+Class 5 Max: 0.5136 Mean: 0.3873
+Class 0 Max: 0.7144 Mean: 0.3429
+Class 1 Max: 0.6990 Mean: 0.5202
+Class 2 Max: 0.7103 Mean: 0.4673
+Class 3 Max: 1.0000 Mean: 0.4893
+Class 4 Max: 0.4567 Mean: 0.3276
+Class 5 Max: 0.5175 Mean: 0.3877
+Class 0 Max: 0.7283 Mean: 0.3451
+Class 1 Max: 0.6997 Mean: 0.5197
+Class 2 Max: 0.7088 Mean: 0.4677
+Class 3 Max: 1.0000 Mean: 0.4889
+Class 4 Max: 0.4568 Mean: 0.3287
+Class 5 Max: 0.5159 Mean: 0.3884
+Class 0 Max: 0.7359 Mean: 0.3472
+Class 1 Max: 0.7004 Mean: 0.5206
+Class 2 Max: 0.7058 Mean: 0.4674
+Class 3 Max: 1.0000 Mean: 0.4875
+Class 4 Max: 0.4582 Mean: 0.3300
+Class 5 Max: 0.5169 Mean: 0.3893
+Class 0 Max: 0.7383 Mean: 0.3501
+Class 1 Max: 0.7015 Mean: 0.5226
+Class 2 Max: 0.7029 Mean: 0.4666
+Class 3 Max: 1.0000 Mean: 0.4854
+Class 4 Max: 0.4573 Mean: 0.3317
+Class 5 Max: 0.5166 Mean: 0.3909
+
+Per-Class Dice Scores
+class 0: 0.1490
+class 0 IoU: 0.0745
+class 1: 0.8235
+class 1 IoU: 0.1555
+Overall IoU: 0.1150
+Average Dice Score: 0.7492
+Average Inference Time per Image: 0.2282 seconds
+Epoch 001 Train Loss 1.4632 Val Loss 1.5461 Dice 0.1807 Time 13.59s
+Saved model (Dice=0.1807)
+Epoch 002 Train Loss 1.3133 Val Loss 1.5261 Dice 0.4514 Time 16.18s
+Saved model (Dice=0.4514)
+Epoch 003 Train Loss 1.2443 Val Loss 1.2749 Dice 0.6762 Time 14.27s
+Saved model (Dice=0.6762)
+Epoch 004 Train Loss 1.1775 Val Loss 1.2348 Dice 0.7237 Time 14.21s
+Saved model (Dice=0.7237)
+Epoch 005 Train Loss 1.1000 Val Loss 1.1760 Dice 0.7636 Time 13.62s
+Saved model (Dice=0.7636)
