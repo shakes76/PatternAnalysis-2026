@@ -13,7 +13,7 @@ print("Using device: ", device)
 
 def predict_3d():
     # Create Database
-    database = HipMRI3D(early_stop=5)
+    database = HipMRI3D()
     train_set, val_set, test_set = get_training_test_split(database, test_size=0.2, val_size=0.1)
     train_loader = DataLoader(train_set, batch_size=1, shuffle=True)
     val_loader = DataLoader(val_set, batch_size=1, shuffle=False)
@@ -85,7 +85,7 @@ def batch_output_to_3d_volume_batch(batch : torch.Tensor):
 
 def predict_2d():
     # Create Database
-    database = HipMRI3D(early_stop=5)
+    database = HipMRI3D()
     train_set, val_set, test_set = get_training_test_split(database, test_size=0.2, val_size=0.1)
     train_loader = DataLoader(train_set, batch_size=1, shuffle=True)
     val_loader = DataLoader(val_set, batch_size=1, shuffle=False)
@@ -130,11 +130,12 @@ def predict_2d():
 
     with torch.inference_mode():
         for i, (image, label) in enumerate(test_loader):
+            # Note: val loader only has batch-size = 1
             print("{}/{} Test Batches".format(i+1, number_of_tests))
             image = image.to(device)
             label = label.to(device).long()
 
-            output = batch_output_to_3d_volume_batch(model(volume_to_2d_batch(images[0])))
+            output = batch_output_to_3d_volume_batch(model(volume_to_2d_batch(image[0])))
 
             sum_dice_per_class, no_in_batch = calculate_descrete_dsc(output, label)
             sum_IoU_per_class, _ = calculate_intersection_over_union(output, label)

@@ -22,7 +22,7 @@ def transform_training_data(images, labels):
 
 
 def train_3d():
-    print("Starting...")
+    print("Starting... 3D")
     # Hyper Parameters
     batch_size = 8
     learning_rate = 0.01
@@ -60,6 +60,8 @@ def train_3d():
     optimizer.zero_grad()
     for epoch in range(num_epochs):
         model.train()
+        total_loss_sum = torch.tensor(0.0, device=device, dtype=torch.float32)
+        total_loss_count = 0
         for i, (images, labels) in enumerate(train_loader):
             # Load Data
             images = images.to(device)
@@ -82,6 +84,9 @@ def train_3d():
             if i == 0 and epoch == 0:
                 print("First Loss: {:.5f}".format(loss.item() * batch_size), flush=True)
 
+            total_loss_sum += loss.item()
+            total_loss_count += 1
+
         # Save the model every tenth epoch
         if (epoch + 1) % 10 == 0:
             torch.save(model.state_dict(), 'parameters_3d_epoch_{}.pth'.format(epoch))
@@ -103,10 +108,11 @@ def train_3d():
 
         total_sum = total_sum / total_validation_samples
         validation_scores.append(total_sum[5].item())
-        loss_scores.append(loss.item())
+        total_loss_sum = total_loss_sum / total_loss_count
+        loss_scores.append(total_loss_sum.item())
 
         print("Epoch [{}/{}],  Loss: {:.5f}, Validation: {} Time: {} secs"
-            .format(epoch+1, num_epochs, loss.item(), total_sum, time.time() - start), flush=True)
+            .format(epoch+1, num_epochs, total_loss_sum.item(), total_sum, time.time() - start), flush=True)
 
     torch.save(model.state_dict(), 'final_parameters_3d.pth')
 
@@ -127,7 +133,7 @@ def batch_output_to_3d_volume_batch(batch : torch.Tensor):
     return batch.permute(1, 2, 0, 3)[None,:,:,:,:]
 
 def train_2d():
-    print("Starting...")
+    print("Starting... 2D")
     # Hyper Parameters
     batch_size = 8
     learning_rate = 0.01
@@ -165,7 +171,10 @@ def train_2d():
     optimizer.zero_grad()
     for epoch in range(num_epochs):
         model.train()
+        total_loss_sum = torch.tensor(0.0, device=device, dtype=torch.float32)
+        total_loss_count = 0
         for i, (images, labels) in enumerate(train_loader):
+            # Note: train_loader only has batch-size = 1
             # Load Data
             images = images.to(device)
             labels = labels.to(device)
@@ -187,6 +196,9 @@ def train_2d():
             if i == 0 and epoch == 0:
                 print("First Loss: {:.5f}".format(loss.item() * batch_size), flush=True)
 
+            total_loss_sum += loss.item()
+            total_loss_count += 1
+
         # Save the model every tenth epoch
         if (epoch + 1) % 10 == 0:
             torch.save(model.state_dict(), 'parameters_2d_epoch_{}.pth'.format(epoch))
@@ -197,10 +209,11 @@ def train_2d():
 
         with torch.inference_mode():
             for i, (image, label) in enumerate(val_loader):
+                # Note: val_loader only has batch-size = 1
                 image = image.to(device)
                 label = label.to(device).long()
 
-                predictions = batch_output_to_3d_volume_batch(model(volume_to_2d_batch(images[0])))
+                predictions = batch_output_to_3d_volume_batch(model(volume_to_2d_batch(image[0])))
 
                 sum_dice_per_class, no_in_batch = calculate_descrete_dsc(predictions, label)
                 total_sum += sum_dice_per_class
@@ -208,10 +221,11 @@ def train_2d():
 
         total_sum = total_sum / total_validation_samples
         validation_scores.append(total_sum[5].item())
-        loss_scores.append(loss.item())
+        total_loss_sum = total_loss_sum / total_loss_count
+        loss_scores.append(total_loss_sum.item())
 
         print("Epoch [{}/{}],  Loss: {:.5f}, Validation: {} Time: {} secs"
-            .format(epoch+1, num_epochs, loss.item(), total_sum, time.time() - start), flush=True)
+            .format(epoch+1, num_epochs, total_loss_sum.item(), total_sum, time.time() - start), flush=True)
 
     torch.save(model.state_dict(), 'final_parameters_2d.pth')
 

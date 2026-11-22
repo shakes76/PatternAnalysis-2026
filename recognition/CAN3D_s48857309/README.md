@@ -129,11 +129,11 @@ The final CAN3D model was trained with 100 epochs using the Adam optimiser, a le
 The final CAN2D model was trained on only 70 epochs, but with identical optimiser, loss, batch size, and learning rate.
 
 ## Examples and Plots
-The final model gave the following output predictions.
+The final model gave the following output predictions. The following image was sampled from the hold-out set.
 
 ![3D prediction example](prediction_example_3d.png)
 
-In this diagram above, yellow indicates the prostate. The left-most image shows a particular slice of an MRI taken from a 3D volume. The middle shows the expert-labelled segmentation, and the right shows the CAN3D model segmentation. We can see that the models prediction has a few spots that are incorrectly classified as background which contribute to some of the noise of the prediction. We see that in this case, the prediction for the bone class is actually more realistic than the expert labelling, since we see in our model's prediction, a continuous bone region, while on the expert-classified segmentation, the upper left corner shows some artifacts.
+In this diagram above, yellow indicates the prostate. The left-most image shows a particular slice of an MRI taken from a 3D volume. The middle shows the expert-labelled segmentation, and the right shows the CAN3D model segmentation. We can see that the models prediction has a few spots that are incorrectly classified as background which contribute to some of the noise of the prediction. Otherwise, we see that our prediction is overall less sharp, though it fits fairly well across the board.
 
 While training the model, we saw the validation loss curve below:
 
@@ -176,12 +176,12 @@ The final testing accuracy of the CAN3D and CAN2D model are displayed below for 
 | ----- | --------- | ---------- | ---- | ----- | ------- | ------ | -------- | -- |
 | CAN3D | Dice Coefficient | 0.9787 | 0.9668 | 0.8577 | 0.8227 | 0.7785 | 0.7792 | 0.8639 |
 | | Intersection/Union | 0.9787| 0.9359 | 0.7515 | 0.7084 | 0.6484 | 0.6506 | 0.7789 |
-| CAN2D | Dice Coefficient | 0.9330 | 0.8401 | 0.5464 | 0.3323 | 0.2536 | 0.3205 | 0.5377 |
-| |Intersection/Union | 0.8748 | 0.7265 | 0.3847 | 0.2121 | 0.1537 | 0.2091 | 0.4268 |
+| CAN2D | Dice Coefficient | 0.9913 | 0.9667 | 0.8292 | 0.8240 | 0.7982 | 0.7615 | 0.8618 |
+| |Intersection/Union | 0.9827 | 0.9355 | 0.7089 | 0.7091 | 0.6686 | 0.6304 | 0.7725 |
 
-We can see that the 3D model massively outperforms the CAN2D model on this problem. See also that CAN3D reached a Dice Coefficient greater than 0.7 across the board.
+We can see that the 3D model performs similarly to the CAN2D model on this problem. In this case, on the target class (prostate), CAN2D performs marginally worse, though the difference is likely statistically insignificant. See also that CAN3D reached a Dice Coefficient greater than 0.7 across the board.
 
-Below is the validation curve for the CAN2D model. Compared to the validation curve shown ealier for CAN3D, we see that it is much more unstable during training.
+Below is the validation curve for the CAN2D model. Compared to the validation curve shown ealier for CAN3D, we see that they are very similar in terms of their trajectory.
 
 ![Validation curves 2D](validation_curves_2d.png)
 
@@ -240,13 +240,13 @@ This image is an error around the base of the prostate. We again see that the mo
 This is a central slice taken from a typical patient (no enlarged prostate). We see false positives around the boundary of the prostate, with similar errors for both the 2D and 3D model, with the 3D model being negligibly better in this case.
 
 #### Error Autopsy Summary
-We see that the most catastrophic errors occur near the boundary of the prostate, as we usually expected. It does not seem that there is a clear advantage of the 3D model over the 2D model, since both models exhibit catastrphic failures in some cases. This is especially surprising, since the quantitative metrics for accuracy were much higher for the CAN3D model. 
+We see that the most catastrophic errors occur near the boundary of the prostate, as we usually expected. It does not seem that there is a clear advantage of the 3D model over the 2D model, since both models exhibit catastrphic failures in some cases. This is unsurprising, since the quantitative metrics for accuracy between CAN2D and CAN3D were similar similar. 
 
 For the CAN3D model, in the cases above, we do not see any false-negatives. Most errors are false-positives, meaning that the model predicted the prostate to be in a location that it was not. This indicates that the usual mode of failure for the CAN3D model is to overestimate the area of the prostate, and bleed through the boundary, rather than underestimate the size.
 
 ### Conclusions, Recommendations and Trade-Offs
 #### Summary
-Overall, there was a quantitative advantage for CAN3D compared to CAN2D, where the CAN3D model achieved a far greater Dice Coefficient and Intersection over Union score than the CAN2D model, despite using similar training parameters. Based on this implementation, there does not seem to be a major performance disadvantage for the CAN3D model, where both models took similar training time, inference time, and memory usage. For this implementation, CAN3D beats CAN2D overall on all performance metrics. However, from qualatative analysis, we found that the error conditions for the models are quite similar.
+Overall, there does not seem to be an advantage of CAN3D compared to CAN2D, where the CAN3D model achieved a Dice-Coefficient and Intersection of Union that were similar. Based on this implementation, there does not seem to be a major performance disadvantage for the CAN3D model, where both models took similar training time, inference time, and memory usage. For this implementation, CAN3D beats CAN2D on most performance metrics, in particular, inference time, and memory usage. From qualatative analysis, we found that the error conditions for the models were also quite similar.
 
 My stated acceptance criteria for the models stated in the Feasibility report were:
 * Segmentation of the model visually shows reasonable gains on base and apex slices compared to the 2D baseline.
@@ -260,9 +260,9 @@ The first three acceptance criteria are not satisfied. From the case analysis of
 However, the last two criteria have been shown for the CAN3D model, where we see an overall Dice-coefficient of greater than 0.86, and a Dice-coefficient for the target class (prostate) of approximately 0.78.
 
 #### Recommendations and Trade-Offs
-There does not seem to be any significant negative trade-off for CAN3D for this implementation, since it performs superior to the CAN2D model, and infers faster, uses less memory, and trains in a similar amount of time. I recommend continuing to pursue true 3D techniques. I would recommend against using this model in a clinical setting without heavy huan oversight, since the CAN3D model does not fundementally solve the catestrophic errors of the 2D model.
+There does not seem to be any significant negative trade-off for CAN3D for this implementation, since it performs equal to the CAN2D model, and infers faster, uses less memory, and trains in a similar amount of time. I recommend continuing to refine the baseline model rather than pursue the current true 3D techniques, since they only perform marginally better at prediction given the current architecture, and implementation changes in the CAN2D model are likely to result in runtime performance improvements beyond what was shown. I would recommend against using this model in a clinical setting without heavy human oversight, since the CAN3D model does not fundementally solve the catestrophic errors of the 2D model.
 
-For future investigations, I would consider attempting different implementations of the CAN2D model which may use less memory, for example, by performing downsampling to reduce memory requirements in intermediate layers, or infering one slice at a time, and combining them at the end, rather than feeding the entire volume as a batch at once. The one-slice-at-a-time optimisation would be impossible in CAN3D, since it requires full access to the entire volume during inference. This would show more clearly the difference in memory use between the two models, which would create a clearer trade-off and potential advantage for CAN2D.
+For future investigations, I would consider attempting different implementations of the CAN2D model which may use less memory, for example, by performing downsampling to reduce memory requirements in intermediate layers, or infering one slice at a time, and combining them at the end, rather than feeding the entire volume as a batch at once. The one-slice-at-a-time optimisation would be impossible in CAN3D, since it requires full access to the entire volume during inference. This would show more clearly the difference in memory use between the two models, which would create a clearer advantage for CAN2D.
 
 In future, I would try performing more experiments involving comparing how the balance between Focal Loss and Dice Squared Loss effects boundary errors. Potentially incorporating a loss function which is more sensitive to false positives near the boundaries, and would correct for the bias of the models to overestimate rather than underestimate the prostate boundary.
 
