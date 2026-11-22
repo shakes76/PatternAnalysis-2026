@@ -45,7 +45,17 @@ In line with project requirements, a pretrained YOLOv8.n model was utilised via 
 
 
 ## Data Splits
-Training, validation and testing splits were already provided as part of the ISIC2017 data. A link to this data and the steps required for its organisation will be linked in the reproducibility section
+Training, validation and testing splits were already provided as part of the ISIC2017 data. A link to this data and the steps required for its organisation will be linked in the reproducibility section. 
+
+A summary of the data distribution for each ISIC2017 split is as follows:
+| --- | Train | Validation | Test |
+| --- | --- | --- | --- |
+| Melanoma | 374 | 30 | 117 |
+| Seborrheic keratosis | 254 | 42 | 90 |
+| Nevus | 1372 | 78 | 393 |
+| **TOTAL** | 2000 | 150 | 600 |
+
+
 
 # Reproducibility
 In order to reproduce the results obtained within this repository, follow the below framework. Note that ultralytics is natively built on top of PyTorch, and framework is based on the assumption Rangpur (UQ HPC) is being utilized.
