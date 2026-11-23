@@ -1,0 +1,154 @@
+{
+  "format_version": 1,
+  "status": "FROZEN_BEFORE_FINAL_TEST",
+  "created_utc": "2026-10-24T00:09:45.192392+00:00",
+  "models": {
+    "cnn": {
+      "name": "Regularized CNN",
+      "selected_epoch": 14,
+      "checkpoint_sha256": "26bf59f96b1c9da87df0db93b87f266e5e2b3cb02652b527b42bb1d8e9877e36",
+      "temperature": 1.613427788322983,
+      "diagnostic_threshold": 0.5,
+      "confidence_threshold": 0.85,
+      "refer_all": false,
+      "fit_partition": "validation",
+      "fit_patients": 102,
+      "training_resources": {
+        "parameters": 359922,
+        "training_loop_seconds": 1609.028074700036,
+        "gpu_memory": {
+          "peak_allocated_gib": 0.11696767807006836,
+          "peak_reserved_gib": 0.166015625,
+          "note": "PyTorch process allocator peaks, not total VRAM used by Windows/other processes."
+        },
+        "model_only_inference": {
+          "batch_size": 1,
+          "repeats": 50,
+          "warmup": 10,
+          "median_ms_per_slice": 0.8052500197663903,
+          "p95_ms_per_slice": 0.8132000220939517,
+          "scope": "Forward pass only, tensor already on device; not patient/end-to-end latency."
+        }
+      }
+    },
+    "convnext": {
+      "name": "ConvNeXt-Tiny",
+      "selected_epoch": 11,
+      "checkpoint_sha256": "9e3c455a6a1f17505b13fe2d61bee5dbcf0131603f7ebaf405780daf2c96de97",
+      "temperature": 1.7048542769320942,
+      "diagnostic_threshold": 0.5,
+      "confidence_threshold": null,
+      "refer_all": true,
+      "fit_partition": "validation",
+      "fit_patients": 102,
+      "training_resources": {
+        "parameters": 27818594,
+        "training_loop_seconds": 5262.3780332999995,
+        "gpu_memory": {
+          "peak_allocated_gib": 1.3108057975769043,
+          "peak_reserved_gib": 1.392578125,
+          "note": "PyTorch process allocator peaks, not total VRAM used by Windows/other processes."
+        },
+        "model_only_inference": {
+          "batch_size": 1,
+          "repeats": 50,
+          "warmup": 10,
+          "median_ms_per_slice": 9.246149999853515,
+          "p95_ms_per_slice": 14.084000000366359,
+          "scope": "Forward pass only, tensor already on device; not patient/end-to-end latency."
+        }
+      }
+    }
+  },
+  "manifest_sha256": {
+    "train.csv": "90e42891babac142ba0693afc4d23e142c018c3a8dc274032552268f3e580be9",
+    "validation.csv": "7b0755f4a7a561e501f8142a92f64356e4ebcd20c874404e66cd4e74b80eee99",
+    "test.csv": "55f5dd35078a67af0c33d36c587047856aad5f0ba1720579d3f8b049a0337db7"
+  },
+  "preprocessing": {
+    "source": {
+      "mode": "L",
+      "width": 256,
+      "height": 240
+    },
+    "input_channels": 1,
+    "output_height": 224,
+    "output_width": 224,
+    "resize": "Pillow bilinear, preserve aspect ratio; 256x240 -> 224x210",
+    "padding": "7 black pixels at the top and bottom, before normalization",
+    "scale": "float32: (pixel / 255.0 - 0.5) / 0.5; nominal range [-1,1]",
+    "fitted_dataset_statistics": false,
+    "training_rotation_degrees": 0.0,
+    "validation_test_rotation_degrees": 0.0,
+    "horizontal_vertical_flips": false,
+    "cropping": false
+  },
+  "test_counts": {
+    "candidate_subjects": 102,
+    "scans": 232,
+    "images": 4640,
+    "by_class": {
+      "NC": {
+        "candidate_subjects": 69,
+        "scans": 109,
+        "images": 2180
+      },
+      "AD": {
+        "candidate_subjects": 33,
+        "scans": 123,
+        "images": 2460
+      }
+    }
+  },
+  "source_code_sha256": {
+    "dataset.py": "5e6bc17a8cc3d9013b3934719b92d083e1c39abfae5820dfc4a05d8f19e8a8ff",
+    "modules.py": "f9e87782438a22829b962d97fc39b651b4fd0f25dcd2468188b9ec0a238a1cbf",
+    "training_utils.py": "df49b42613853aebf6415926f5b9f5c9621ef3311c2addb9b136ca8fa0286409",
+    "train.py": "126752de5179adb2f65221c1281332429aa15a425ccfb8419bbcc7fca1cf761c",
+    "train_experiment.py": "0ed63f650ab2cbf85155036b5d9dacb6c0a465856071d80d61eb0ef1e7dea953",
+    "check_experiment.py": "921b1b5c7fbb546834b590fd6639327c631bc96eebe0ee793ea99af4f764fe1b",
+    "confidence_analysis.py": "71d23dd631828c5ff82f1b5571bf716f1c8f835a58459dee0a22f61d3ce979c6",
+    "analyse_confidence.py": "075ea6af0868bf1c4977ac607030a64064f0e910bd8455caaf7f290db03b43b5",
+    "CONFIDENCE_METHOD.md": "0b9308d4963e45e6943ebf2c68a26a51fed82a03e4e5aa209e04a0ba4989b180",
+    "tests_confidence/test_confidence.py": "aacd51caa0b11103c8cf769dc3f846a333cf6e120d7590885b367853cdecb888",
+    "predict.py": "bd6e68444ad9f9185a774f359ff1cf110105e10dcb17addc03ded13f03607d17",
+    "final_evaluation.py": "24b9b5002cf36ba2ce9edb43a6b6ee01c9930b054ca8a4d48117f6f045027085",
+    "FINAL_EVALUATION_METHOD.md": "56dc09b2ec2dd54c39cfb9184b9fb29b2997dd643c9e38f7491bbb821e507359",
+    "tests_final/test_final_evaluation.py": "9e69921abb3fa70b742200eb1dddccd3110580bc6683c9ab3edf09007eddee76"
+  },
+  "software_versions": {
+    "python": "3.11.9",
+    "torch": "2.7.1+cu126",
+    "numpy": "2.2.6",
+    "pillow": "11.2.1",
+    "sklearn": "1.6.1"
+  },
+  "step9_summary_sha256": "dfcd73991c4bed86a815f9542c2e1cb7937bbf18f0545bc064406127acd451e7",
+  "operating_rules_sha256": "8cbb8d2f7398d0e933d62474ff9cef04d484501e48304ce50d17480cac29db21",
+  "prior_audit_inventory_sha256": "6bf45198442cfe07a765df89bd0836ca7b0a5b240092f3dea68c61cb42faec36",
+  "configuration": {
+    "device": "cuda",
+    "batch_size": 8,
+    "num_workers": 0,
+    "seed": 42,
+    "precision": "float32; no mixed precision or TF32",
+    "diagnostic_threshold": 0.5,
+    "patient_aggregation": "mean of scan means of slice P(AD)",
+    "temperature_application": "patient aggregate log-odds only; not slice/scan calibration",
+    "accuracy_target": 0.8,
+    "primary_unit": "patient",
+    "secondary_units": [
+      "scan",
+      "slice"
+    ],
+    "paired_accuracy_bootstrap_replicates": 5000,
+    "paired_accuracy_bootstrap_seed": 2026,
+    "failure_selection": "Up to 5 unique patients: confident ConvNeXt FN; confident FP; error corrected by CNN; lowest-confidence remaining error; highest-confidence remaining errors; then CNN errors if needed.",
+    "case_scan_choice": "scan probability nearest the patient probability; scan ID breaks ties",
+    "case_slices": "ordered slice positions 25%, 50%, 75%; images stay private"
+  },
+  "test_used_for_fitting": false,
+  "no_post_test_tuning": true,
+  "caution": "Research prototype, not a clinical diagnostic system. One development/test split and one training seed do not establish clinical validity or generalisation to other sites. The held-out test is now exposed: do not tune, refit temperatures, change referral cutoffs, swap checkpoints, or change the patient split using these results.",
+  "manual_failure_review_required": true
+}

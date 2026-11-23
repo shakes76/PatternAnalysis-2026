@@ -1,0 +1,16 @@
+{
+  "git_revision": "b67bb1327c744fdd9a30fea439efc4a5005fca27",
+  "sha256": {
+    "check_baseline.py": "3ac072d861cce2848694caa1fc03e4068d83719c63c23655388eb5889809d7af",
+    "check_experiment.py": "921b1b5c7fbb546834b590fd6639327c631bc96eebe0ee793ea99af4f764fe1b",
+    "confidence_analysis.py": "71d23dd631828c5ff82f1b5571bf716f1c8f835a58459dee0a22f61d3ce979c6",
+    "dataset.py": "5e6bc17a8cc3d9013b3934719b92d083e1c39abfae5820dfc4a05d8f19e8a8ff",
+    "modules.py": "f9e87782438a22829b962d97fc39b651b4fd0f25dcd2468188b9ec0a238a1cbf",
+    "modules_v2.py": "eaac754ae1665fc712ea8d1b4e747038647b47deeeeec3aff2536f37b38403e9",
+    "train.py": "126752de5179adb2f65221c1281332429aa15a425ccfb8419bbcc7fca1cf761c",
+    "training_utils.py": "df49b42613853aebf6415926f5b9f5c9621ef3311c2addb9b136ca8fa0286409",
+    "train_convnext_v2.py": "df83692702e41bbbd9d994862b13d89ac31c77a4eb6c2befabcb83e0a6f6175f",
+    "train_experiment.py": "0ed63f650ab2cbf85155036b5d9dacb6c0a465856071d80d61eb0ef1e7dea953",
+    "V2_EXPERIMENT_PLAN.md": "8e980f02e32da1fad603286888cc124af3853650bca20499caecc03434bb2625"
+  }
+}

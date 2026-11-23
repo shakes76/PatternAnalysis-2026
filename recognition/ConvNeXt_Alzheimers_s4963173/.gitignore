@@ -1,0 +1,21 @@
+# Python caches and local environment
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+/.venv/
+
+# Local datasets and experiment output
+/data/
+/datasets/
+/ADNI/
+/outputs/
+/runs/
+/checkpoints/
+/weights/
+PRIVATE_*
+*.pt
+*.pth
+*.pth.tar
+*.ckpt
+*.safetensors
