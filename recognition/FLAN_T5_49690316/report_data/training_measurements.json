@@ -1,0 +1,19 @@
+{
+  "provenance": "Transcribed from the full-data metrics.jsonl records and sacct output supplied by the student on 25 October 2026; verify against the retained Rangpur logs before submission.",
+  "training_examples": 142801,
+  "development_examples": 7515,
+  "lora": {
+    "job_id": 686622,
+    "job_seconds": 22748,
+    "training_loss": [1.4423366747361845, 1.3239810525883173, 1.304390883554843],
+    "development_loss": [1.0530719918641145, 1.0365359125526636, 1.013609738702453],
+    "peak_cuda_allocated_gib": [5.254316806793213, 5.253816604614258, 5.257449150085449]
+  },
+  "full": {
+    "job_id": 686623,
+    "job_seconds": 28318,
+    "training_loss": [0.922890233568795, 0.7106288396707624, 0.6460392372024024],
+    "development_loss": [0.6456888141052437, 0.5935622328506799, 0.5560716654729875],
+    "peak_cuda_allocated_gib": [6.155459880828857, 6.155524730682373, 6.157541275024414]
+  }
+}
