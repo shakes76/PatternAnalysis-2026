@@ -1,0 +1,6 @@
+{
+  "best_val_prostate_dice": 0.8341295701861617,
+  "completed_epochs": 13,
+  "smoke_only": false,
+  "test_evaluated": false
+}

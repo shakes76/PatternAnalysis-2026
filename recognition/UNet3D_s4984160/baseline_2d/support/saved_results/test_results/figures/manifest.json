@@ -1,0 +1,29 @@
+{
+  "figures": [
+    {
+      "case": "B037_Week0_LFOV.nii.gz",
+      "cache_file": "B037_Week0_LFOV.npz",
+      "figure": "B037_Week0_LFOV.png"
+    },
+    {
+      "case": "L011_Week2_LFOV.nii.gz",
+      "cache_file": "L011_Week2_LFOV.npz",
+      "figure": "L011_Week2_LFOV.png"
+    },
+    {
+      "case": "H017_Week3_LFOV.nii.gz",
+      "cache_file": "H017_Week3_LFOV.npz",
+      "figure": "H017_Week3_LFOV.png"
+    },
+    {
+      "case": "K042_Week0_LFOV.nii.gz",
+      "cache_file": "K042_Week0_LFOV.npz",
+      "figure": "K042_Week0_LFOV.png"
+    },
+    {
+      "case": "H007_Week0_LFOV.nii.gz",
+      "cache_file": "H007_Week0_LFOV.npz",
+      "figure": "H007_Week0_LFOV.png"
+    }
+  ]
+}

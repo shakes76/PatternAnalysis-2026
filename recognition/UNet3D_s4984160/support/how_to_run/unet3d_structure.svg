@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760">
+<rect width="1100" height="760" fill="white"/>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#334155"/></marker></defs>
+<style>text{font-family:Arial,sans-serif;fill:#172b4d} .title{font-size:26px;font-weight:bold}.label{font-size:18px}.small{font-size:15px}</style>
+<text x="550" y="38" text-anchor="middle" class="title">3D U-Net: trained network structure</text>
+<text x="550" y="68" text-anchor="middle" class="small">Full-volume example; sizes shown as D × H × W</text>
+<rect x="40" y="95" width="250" height="60" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+<text x="165.0" y="120" text-anchor="middle" class="label">MRI: 1 channel</text>
+<text x="165.0" y="142" text-anchor="middle" class="label">64 × 128 × 128</text>
+<path d="M165 155 L165 185" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<rect x="40" y="185" width="250" height="65" rx="8" fill="#dbeafe" stroke="#64748b"/>
+<text x="165.0" y="210" text-anchor="middle" class="label">Encoder: 8 channels</text>
+<text x="165.0" y="232" text-anchor="middle" class="label">64 × 128 × 128</text>
+<rect x="770" y="185" width="290" height="65" rx="8" fill="#dcfce7" stroke="#64748b"/>
+<text x="915.0" y="210" text-anchor="middle" class="label">Concat 8+8 → DoubleConv → 8</text>
+<text x="915.0" y="232" text-anchor="middle" class="label">64 × 128 × 128</text>
+<path d="M290 217 L770 217" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)" stroke-dasharray="6 4"/>
+<text x="530" y="207" text-anchor="middle" class="small">Skip connection: 8 channels</text>
+<path d="M165 250 L165 325" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<text x="165" y="288" text-anchor="middle" class="small">MaxPool3d / 2</text>
+<path d="M915 325 L915 250" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<text x="915" y="288" text-anchor="middle" class="small">Up-conv 16 → 8; ×2</text>
+<rect x="40" y="325" width="250" height="65" rx="8" fill="#dbeafe" stroke="#64748b"/>
+<text x="165.0" y="350" text-anchor="middle" class="label">Encoder: 16 channels</text>
+<text x="165.0" y="372" text-anchor="middle" class="label">32 × 64 × 64</text>
+<rect x="770" y="325" width="290" height="65" rx="8" fill="#dcfce7" stroke="#64748b"/>
+<text x="915.0" y="350" text-anchor="middle" class="label">Concat 16+16 → DoubleConv → 16</text>
+<text x="915.0" y="372" text-anchor="middle" class="label">32 × 64 × 64</text>
+<path d="M290 357 L770 357" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)" stroke-dasharray="6 4"/>
+<text x="530" y="347" text-anchor="middle" class="small">Skip connection: 16 channels</text>
+<path d="M165 390 L165 465" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<text x="165" y="428" text-anchor="middle" class="small">MaxPool3d / 2</text>
+<path d="M915 465 L915 390" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<text x="915" y="428" text-anchor="middle" class="small">Up-conv 32 → 16; ×2</text>
+<rect x="40" y="465" width="250" height="65" rx="8" fill="#dbeafe" stroke="#64748b"/>
+<text x="165.0" y="490" text-anchor="middle" class="label">Encoder: 32 channels</text>
+<text x="165.0" y="512" text-anchor="middle" class="label">16 × 32 × 32</text>
+<rect x="770" y="465" width="290" height="65" rx="8" fill="#dcfce7" stroke="#64748b"/>
+<text x="915.0" y="490" text-anchor="middle" class="label">Concat 32+32 → DoubleConv → 32</text>
+<text x="915.0" y="512" text-anchor="middle" class="label">16 × 32 × 32</text>
+<path d="M290 497 L770 497" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)" stroke-dasharray="6 4"/>
+<text x="530" y="487" text-anchor="middle" class="small">Skip connection: 32 channels</text>
+<rect x="390" y="590" width="320" height="65" rx="8" fill="#fef3c7" stroke="#64748b"/>
+<text x="550.0" y="615" text-anchor="middle" class="label">Bottleneck: 64 channels</text>
+<text x="550.0" y="637" text-anchor="middle" class="label">8 × 16 × 16</text>
+<path d="M165 530 L165 622 L390 622" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+<text x="240" y="575" text-anchor="middle" class="small">MaxPool3d / 2</text>
+<path d="M710 622 L915 622 L915 530" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+<text x="915" y="575" text-anchor="middle" class="small">Up-conv 64 → 32; ×2</text>
+<path d="M915 185 L915 155" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<rect x="770" y="95" width="290" height="60" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+<text x="915.0" y="120" text-anchor="middle" class="label">1×1×1 Conv: 8 → 6 logits</text>
+<text x="915.0" y="142" text-anchor="middle" class="label">Argmax → labels 0–5</text>
+<text x="550" y="700" text-anchor="middle" class="small">DoubleConv: [3×3×3 Conv → InstanceNorm3d (affine) → ReLU] × 2</text>
+<text x="550" y="727" text-anchor="middle" class="small">Up-conv: ConvTranspose3d, kernel 2, stride 2. Skip features concatenate along channels.</text>
+</svg>

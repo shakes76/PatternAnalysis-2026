@@ -1,0 +1,57 @@
+{
+  "init_checkpoint": "results/scratch_fast_v1/last_model.pt",
+  "output_dir": "results/refine_v2",
+  "epochs": 100,
+  "lr": 0.0005,
+  "workers": 0,
+  "threads": 1,
+  "max_train_batches": 0,
+  "max_val_cases": 0,
+  "seed": 42,
+  "base_channels": 8,
+  "normalization": "instance",
+  "target_shape": [
+    64,
+    128,
+    128
+  ],
+  "full_probability": 0.5,
+  "rectum_crop_probability": 0.25,
+  "prostate_crop_probability": 0.25,
+  "crop_shape": [
+    32,
+    64,
+    64
+  ],
+  "ce_weight_rule": "sqrt(train_body_count/train_class_count), clamp [0.25,25]",
+  "foreground_dice_weights": [
+    1,
+    1,
+    1,
+    2,
+    2
+  ],
+  "split": "patient_seed42",
+  "scheduler_start_epoch": 30,
+  "scheduler_min_prostate_dice": 0.05,
+  "scheduler_patience": 10,
+  "min_early_stop_epoch": 60,
+  "early_stop_patience": 25,
+  "source_epoch": 15,
+  "train_voxel_counts": [
+    90713394,
+    55082268,
+    5058198,
+    821155,
+    212762,
+    155743
+  ],
+  "ce_weights": [
+    0.7792381644248962,
+    1.0,
+    3.299954891204834,
+    8.190177917480469,
+    16.090105056762695,
+    18.806224822998047
+  ]
+}

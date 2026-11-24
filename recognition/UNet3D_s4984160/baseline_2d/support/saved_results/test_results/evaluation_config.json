@@ -1,0 +1,13 @@
+{
+  "checkpoint": "results/frozen_epoch5_716367/best_model.pt",
+  "expected_sha256": "3a666e057827897d294d9df9604ac325617fa874bf541402011537847024174b",
+  "reference_checkpoint": "../UNet3D_s4984160/results/refine_v2/best_model.pt",
+  "reference_sha256": "77ecc9f051d5d1213c2e62474d582050fe5b425a08182e3d2becc73540737156",
+  "reference_code_dir": "../UNet3D_s4984160/evaluation_refine_v2_final",
+  "reference_results": "../UNet3D_s4984160/results/final_test_refine_v2",
+  "split_manifest": "baseline2d_v1/patient_split.json",
+  "data_dir": "/home/groups/comp3710/HipMRI_Study_open",
+  "output_dir": "results/final_test_716656",
+  "batch_size": 16,
+  "threads": 1
+}

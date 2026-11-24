@@ -1,0 +1,12 @@
+{
+  "scratch_epochs": 15,
+  "refinement_epochs": 11,
+  "selected_cumulative_epoch": 26,
+  "selected_refine_epoch": 11,
+  "selected_val_dice": 0.7559718762875678,
+  "sources_sha256": {
+    "scratch_history.csv": "55abd794f82c35edc8cb61e0ed5921ccb1f376a9700a88f055f25d353e07227e",
+    "refine_history.csv": "042377569da924ff250c9f5bdbcb6919b02c02304c1ed36ed4f9b19333586cba"
+  },
+  "note": "No validation-loss series exists; phase loss weights differ. No training performed."
+}
