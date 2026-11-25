@@ -1,0 +1,8 @@
+# Python 3.11.15 is required but is not a pip package: create the environment first, e.g.
+#   conda create -n torch python=3.11.15
+# The CUDA 13.0 build of PyTorch is served from the PyTorch package index:
+--extra-index-url https://download.pytorch.org/whl/cu130
+torch==2.13.0+cu130
+numpy==2.4.6
+nibabel==5.4.2
+matplotlib==3.11.2
