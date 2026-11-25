@@ -17,15 +17,15 @@ TimeGAN extends the traditional adversarial network model with supervised tempor
 ## 2 Data and preprocessing
 The dataset covers the 21st of June 2012 and contains 269748 AMZN snapshots with 10 bid and 10 ask levels with price and quantity for each, supplying 20 prices and 20 volumes for 40 features. We transform prices into per-level log returns and volume is scaled according to the function:
 
-![alt text](image-8.png)
+![Log-one-plus-volume transformation](figures/log_volume_transform.png)
 
 Afterwards, all 40 features undergo min-max scaling on a per-feature basis according to:
 
-![alt text](image-9.png)
+![Min-max scaling fitted on training data](figures/training_minmax_scaling.png)
 
 This is because log returns are small and volumes can be much larger, so no scaling can result in volume errors dominating the reconstruction loss. By mapping training values from 0 to 1, we can assist optimization by reducing differences and matching the sigmoid output range of the TimeGAN.
 
-Feature scaling is computed on the training data only and we do not clip held-out values. This is done to prevent information leakages as using later data to scale would mean future information can influence data preprocessing. Not clipping can preserve extreme values and distribution shifts. A chronological 70/15/15% split uses the following session times respectively: training time 09:30-14:03, validation 14:03-15:01:30, and test time 15:01:30-16:00. Each window update contains 32 market messages with a stride of 32, which leaves 1080 eligible windows for validation, with the final partition being excluded from evaluation metrics, but measured on its own in section 7.
+Feature scaling is computed on the training data only and we do not clip held-out values. This is done to prevent information leakages as using later data to scale would mean future information can influence data preprocessing. Not clipping can preserve extreme values and distribution shifts. A chronological 70/15/15% split uses the following session times respectively: training time 09:30-14:03, validation 14:03-15:01:30, and test time 15:01:30-16:00. Each window update contains 32 market messages with a stride of 32, which leaves 1080 eligible windows for validation, with the final partition excluded from training and model selection and evaluated separately in Section 7.
 
 We split the data chronologically prior to constructing windows within each partition. Each step is an orderbook update so temporal updates are interpreted on the event times.
 
@@ -34,11 +34,15 @@ As mentioned, the baseline comparison is a stochastic vector AR (VAR) model with
 
 The TimeGAN model combines adversarial generation networks with the supervised learning extension of temporal relationships (Yoon, Jarrett and van der Schaar, 2019). Its embedder converts real sequences into a learnt latent representation, while original features are reconstructed from the recovery network. The generator produces synthetic latent sequences from random noise and then the discriminator learns to distinguish these from the real encoded sequences. Then, a supervisor learns to predict the laten statues which encourages the generated sequences to preserve temporal relationships. The combination of reconstruction, temporal supervision and adversarial training can output realistic sequences.
 
+![Implemented TimeGAN architecture with shared embedder, recovery, generator, supervisor and discriminator](figures/timegan_architecture.png)
+
+Architecture: repeated supervisor and recovery boxes share weights. The no-supervision ablation retains the supervisor in the generation path but removes its warm-up and temporal losses.
+
 For the PyTorch TimeGAN, 5 networks are used for the recurrent implementation, including the embedder, recovery, generator, supervisor and discriminator (Yoon, Jarrett and van der Schaar, 2019). Each warmup for the reconstruction, supervisor and joint adversarial training contain 5000 updates, and the main experiments use 3 GRU layers per network (apart from the two-layer supervisor), with hidden widths of 24, 128 batch-size, and 0.001 learning rate. 
 
 Extended modelling also includes gentle and moderate ordering penalties to the reconstruction and generator losses. Once the decoder returns the prices, gaps below $0.01 across the bid-ask spread and adjacent levels are penalised. The penalty increases linearly depending on the shortfall. Weights of 0.001 and 0.01 respectively are used for gentle and moderate comparisons, and works according to the following equation:
 
-![alt text](image-10.png)
+![Ordering penalty over nineteen price gaps](figures/ordering_penalty_equation.png)
 
 This extension encourages valid ordering without brute-forcing order book validity. Later, the ladder decoder uses positive gaps to build the prices which ensures that the bid/ask level ordering remains structurally valid. Additionally, we use a separate experiment removing the supervisor pretraining and joint temporal-loss terms to reduce the training budget.
 For the generation process, 40-dimensional uniform noise is passed through each of the generator, supervisor and recovery networks, and the discriminator evaluates latent sequences. The joint objectives combine each of the adversarial, reconstruction and supervision losses, comparing batch means and standard deviations. Each joint cycle has 2 generator and supervisor updates as well as 2 embedder and recovery updates before each discriminator opportunity and is only applied if loss exceeds 0.15 (Yoon, Jarrett and van der Schaar, 2019).
@@ -59,29 +63,34 @@ Distributions for the spreads and mid-price returns use the histogram bins gener
 
 The depth SSIM will use 10x32 bid and ask using training-derive global log-volume scaling and a 7x7 window with a fixed data range (Wang et al., 2004). The scores are averaged over the windows, with course project brief targets being KL ≤ 0.1 and SSIM > 0.6, alongside orderbook validity requirements; however, future orderbook sequences can be realistic without resembling the observed validation future, so the required diagnostics are measured with spread and return distributions to analyse statistical similarity, and random inputs will be used to assess diversity (Wang et al., 2004).
 
-We use generation seeds 42, 43, and 44 and measure sampling variation across seeds to evaluate checkpoints from the trained models. A volume-conditioning test is used to assess whether providing initial orderbook volumes improves generated-sequence quality. Therefore, initialised volume models are compared against a model with no starting volume (set to zero). To determine improvements, the volume-conditioned version must increase SSIM by at least 0.05, fail to increase the invalid-book results, avoid worsening spread/return KL, and limit autocorrelation error to 5% increases. Finally, to assess output diversity, starting conditions remain fixed with randomised inputs, requiring the resulting price/volume standard deviations to reach at minimum 10% of the reference model.
+We use generation seeds 42, 43, and 44 and measure sampling variation across seeds to evaluate checkpoints from the trained models. A volume-conditioning test is used to assess whether providing initial orderbook volumes improves generated-sequence quality. Therefore, initialised volume models are compared against a model with no starting volume (set to zero). To pass the improvement screen, the volume-conditioned version must increase SSIM by at least 0.05, avoid increasing the invalid-book proportion, and limit each increase in spread KL, return KL and autocorrelation error to at most 5% relative to the zero-volume control. To assess output diversity, starting conditions remain fixed while random inputs vary. Both price and volume standard deviations must reach at least 10% of the corresponding global real-validation standard deviation in every fixed case.
 
-Finally, noise ratios (scaled between 0 and 1) compare how generated future sequences differ for both prices and volumes. We quantify variability using 128 generated sequences with matching context. We average ratios across the selected generation seeds for each case. These results will allow us to assess whether a model ignores or is impacted by its random input.
+Finally, noise ratios compare variability across 128 generated sequences with matching context against global real-validation variability, separately for prices and volumes. These ratios are not restricted to the range 0 to 1. We average ratios across generation seeds within each fixed case to assess whether the model responds to its random input.
 
 ## 5 Main validation results
-The reference TimeGAN model manages to improve orderbook validity and overall bid-ask spread logic when compared to the baseline VAR(2) model; however, it performs worse on return KL, autocorrelation error, and SSIM. The gentle ordering penalty managed to reduce orderbook invalidity rates by approximately 33 percentage points, while the spread KL rose from 0.0745 to 0.2662. Further, removing temporal supervision worsened the mean orderbook invalidity and autocorrelation error. Overall, it is conclusive to retain supervision; however, the strong variation across different training seeds limits the strength of the outcome.
+The reference TimeGAN model manages to improve orderbook validity and overall bid-ask spread logic when compared to the baseline VAR(2) model; however, it performs worse on return KL, autocorrelation error, and SSIM. The gentle ordering penalty managed to reduce orderbook invalidity rates by approximately 33 percentage points, while the spread KL rose from 0.0745 to 0.2662. Further, removing temporal supervision worsened the mean orderbook invalidity and autocorrelation error. Overall, these results favour retaining supervision within the tested settings; however, the strong variation across different training seeds limits the strength of the outcome.
 
-![alt text](image-1.png)
+| Model | Invalid % | Spread KL | Return KL | ACF error | SSIM |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| VAR baseline | 93.02 | 0.1678 | 0.5327 | 0.0295 | 0.1512 |
+| Reference | 72.06 | 0.0745 | 0.7746 | 0.1254 | 0.1157 |
+| Gentle penalty | 39.40 | 0.2662 | 0.7444 | 0.1023 | 0.1229 |
+| No supervision | 80.83 | 0.0989 | 0.8160 | 0.3667 | 0.1119 |
 
 Table 1: Validation-selected results. Here, the TimeGAN averages three fits and three generation seeds per fit and the VAR uses one fitted model.
 
-![alt text](image.png) 
+![Validation model comparison across training seeds](figures/validation_model_comparison.png)
 
 Figure 1: Penalty comparisons: Here, the dots represent training seeds and the diamonds and bars show their mean and sample SD. Each fit averages three generation seeds.
 
 All quality targets are not met by any of the historical settings. Based on a low average error, the VAR model’s low autocorrelation does not fully demonstrate realistic volatility clustering as the shuffled real returns score 0.0301 which is close to VAR’s 0.0295. Total training budgets differ slightly as the comparison covers 1-10 event lags, and the no-supervision model omits any supervisor warm-ups.
 
-The final volume-conditioning research experiment achieves a final SSIM of 0.2829 which is analysed further in Section 7. Both models use 19 measured price-gap context features and historical models use the starting prices to reconstruct price paths, while the matched only receives a starting volume. The SSIM improvement is measured against its own matched zero-volume models. The difference in architecture, training budgets and seeds prevent all experiments from being pure repetitions.
+The final volume-conditioning research experiment achieves a final SSIM of 0.2829 which is analysed further in Section 7. Both models use 19 measured price-gap context features and historical models use the starting prices to reconstruct price paths, while only the matched model receives the actual starting volumes. The SSIM improvement is measured against its own matched zero-volume models. The difference in architecture, training budgets and seeds prevent all experiments from being pure repetitions.
 
 ## 6 Failure cases and diagnostic studies
 The 3 historical gentle penalty cases each show different sources of failure in depth similarity metrics. Windows 1, 540 and 1080 show orderbook invalidity figures of 84.375%, 59.375% and 0% respectively with SSIM results of -0.1025, 0.1641, and 0.1964 respectively. All the 620 inter-update volume entries change depending on the generation case, versus 49, 92, and 65 real changes. The 3rd case has valid orderbooks but poor depth similarity. The below Figure 2 shows the mismatches in depth.
 
-![alt text](image-2.png)
+![Three validation failure cases](figures/validation_failure_cases.png)
 
 Figure 2: Validation case results with training seed 2026 and generation seed 42. The colours expose sparse real changes and continuously varying generated volumes.
 
@@ -92,55 +101,75 @@ The diagnostic evidence here shows that compared to real orderbook updates, our 
 ## 7 Completed starting volume experiment
 The last pair tests access to 20 given starting volumes, alongside the known 19 price-gap context features. Both of the following models use a hidden width of 48, with learning rates of 0.0003, 230393 parameters, a ladder decoder, and 4000 updates per stage. Volume-input positions are set to zero for the control, so that the initial weights and sampled noise streams match, with each model uses one training seed and 3 generation seeds. 
 
-![alt text](image-3.png)
+| Volume inputs | Invalid % | Spread KL | Return KL | ACF error | SSIM |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Set to zero | 0.00 | 0.1413 | 0.9994 | 0.1471 | 0.1788 |
+| Actual volumes | 0.00 | 0.0854 | 0.5113 | 0.3521 | 0.2829 |
 
-Table 2: Update 4000 (Final paired validation results). Each row averages the three training seeds.
+Table 2: Update 4000 (Final paired validation results). Each row averages three generation seeds, with one training seed per model.
 
 The starting volumes improved the final SSIM with an absolute gain of 0.1041 from 0.1788 to 0.2829. The spread KL and return KL dropped from 0.1413 to 0.0854 and 0.9994 to 0.5113 respectively, with both models measuring zero invalid orderbooks (primarily due to their shared ordering decoder); however, autocorrelation errors rose from 0.1471 to 0.3521, and the noise ratio in case 1 was just below 0.1 at 0.098854. The overall improvement screen therefore fails to pass, and while the spread KL and book validity targets are met, the return KL and SSIM targets are not. Therefore, we fail to establish confidently realistic market dynamics.
 
-![alt text](image-4.png) 
+![Final volume-conditioning comparison](figures/volume_conditioning_comparison.png)
 
 Figure 3: Final comparison. The error bars show generation-seed SD for one training seed per arm.
 
 ### Final depth examples and volume dynamics
 The below Figure 4 quantifies the same 3 validation windows for the real books against both final models using generation seed 42. The matched-volume SSIM for windows 1, 540, and 1080 manage to reach 0.4041, 0.4130 and 0.2818 respectively. All 3 retain orderbook validity but are still below the SSIM target of 0.6. Having starting volumes improves the depth profile relative to the control with volume inputs set to zero. The generated sequences still change volume too continuously to conclude realism.
  
-![alt text](image-5.png)
+![Final real and generated depth examples](figures/volume_depth_examples.png)
 
 Figure 4: Results at update 4000 with training seed 2026 and generation seed 42.
 
-Compared with the real model’s validation sequence, the final matched model’s volume still changes almost every update, compared with real validation sequences of ~11.44%. While the change count includes miniscule volume changes, the mean absolute log-volume change remains around 2.1 times the real value. When known starting volumes are used, the model achieves a SSIM of 0.4431. Subsequently, averaging transformed depth maps across validation windows (for each side and generation seed separately, we achieve a SSIM score of 0.9177. This, however, describes the average depth pattern and should not replace the primary per-window score of 0.2829 as conclusive evidence.
+The final matched model changes almost every volume cell between updates, compared with ~11.44% of cells in real validation sequences. While the change count includes miniscule volume changes, the mean absolute log-volume change remains around 2.1 times the real value. Separately, holding all known starting volumes constant through each future window produces SSIM 0.4431. This is a deterministic persistence diagnostic, not a TimeGAN result or a generator of alternative futures. For the final volume-conditioned TimeGAN, averaging transformed depth maps across validation windows, separately for each side and generation seed, gives supplementary SSIM 0.9177. That describes the average depth pattern and cannot replace the primary per-window score of 0.2829.
 
 Both validation-selected checkpoints are used as secondary results and occur at the 3000th update. At update 4000, the model’s SSIM declines from 0.3140 to 0.2829, while the generator (minibatch) loss declines from 9.1103 to 8.2715. Evidently, lower training loss did not result in improvements in SSIM, but does not show overfitting. 
 
-Between the fitted models, the different generation seeds used quantified minimal relative differences. All 3 seeds showed improvements in SSIM and distributional similarity, with worsened autocorrelation errors. Standard deviation results varied around 0.3% of the mean for the volume-conditioned and zero-volume models. These findings were therefore consistent across the sampled outputs.
+Between the fitted models, the different generation seeds used quantified minimal relative differences. All 3 seeds showed improvements in SSIM and distributional similarity, with worsened autocorrelation errors. For final validation SSIM, the generation-seed standard deviation was approximately 0.26% of the mean for the volume-conditioned model and 0.45% for the zero-volume control. These figures measure sampling variation from the fitted models, not uncertainty from retraining. These findings were therefore consistent across the sampled outputs.
 
 ### Final Partition Evaluation
-A final held-out evaluation tested the models on an additional 1838 windows between 15:01:30-16:00, with no additional training or tuning. The SSIM improved from 0.1550 to 0.2716 for the zero-volume control and volume-conditioned models respectively; however, this was still slightly lower than the validation score of 0.2829. Further, spread KL increased from 0.0854 to 0.1128, above the 0.1 target. Return KL stayed high at 0.5178 with autocorrelation error worsening to 0.2739. Overall, the results show the benefit of including starting information; however, fail to establish reliable results for a realistic simulation. 
+A final held-out evaluation tested the models on an additional 1838 windows between 15:01:30-16:00, with no additional training or tuning. The SSIM improved from 0.1550 to 0.2716 for the zero-volume control and volume-conditioned models respectively; however, this was still slightly lower than the validation score of 0.2829. Further, spread KL increased from 0.0854 to 0.1128, above the 0.1 target. Return KL stayed high at 0.5178. The matched model’s test autocorrelation error was 0.2739, lower than its validation error of 0.3521 but higher than the zero-volume control’s test error of 0.1416. Overall, the results show the benefit of including starting information; however, fail to establish reliable results for a realistic simulation.
 
 Ultimately, the limitation in the data may reflect the differences in performance across the validation and final partitions. These differences can reflect liquidity, volatility, and order dynamics changing throughout the trading day; however, only one day of data limits the ability to establish this reliably.
 
 ## 8 Feasibility and limitations
 After earlier efficiency testing in the preprocessing phase, the native i7-13650HX CPU was used over the RTX 4060 for execution. Table 3 below displays the recorded fit and generation times for all 1080 windows. The no-supervision mean-time is slightly faster due to the omittance of the supervisor warmup. The final conditioned model parts take around 109 minutes due to the large absolute size compared with the other models. The results support reproducibility with the saved settings, including the source hashes, training states and checkpoints.
 
-![alt text](image-6.png)
+| Setting | Parameters | Fit minutes | Generation ms |
+| --- | ---: | ---: | ---: |
+| Reference mean | 54,521 | 66.65 | 136.27 |
+| Gentle mean | 54,521 | 67.45 | 172.62 |
+| No supervision mean | 54,521 | 51.46 | 152.40 |
+| Volume zero | 230,393 | 108.27 | 326.90 |
+| Volume matched | 230,393 | 109.09 | 273.08 |
 
 Table 3: Recorded CPU resources averaging over three training seeds with final volume rows use one training seed each.
 
 Early synthetic batch tests of the reference GRU resulted in 4.632 and 6.950 second updates on the CPU and GPU threads respectively, with two underlying warmups and 5 timed updates, hence why the CPU was selected for training. Table 4 below also displays an efficiency comparison between the CPU and GPU.
 
-![alt text](image-7.png)
+| Measurement | CPU | RTX 4060 GPU |
+| --- | ---: | ---: |
+| Joint training cycle (s) | 1.888 ± 0.112 | 1.395 ± 0.113 |
+| Training process peak RAM (MiB) | 834.21 | 1438.68 |
+| Training GPU allocated peak (MiB) | Not applicable | 148.24 |
+| Generation of 1,080 windows (ms) | 420.81 ± 52.93 | 447.46 ± 7.13 |
 
-Table 4: Resource profiling for CPU and GPU comparison. Displays mean sample standard deviation among timings and memory usage.
+Table 4: Short CPU and GPU resource profile. Timings show mean ± sample standard deviation over five joint training cycles or three generation calls; memory figures are measured peaks during this short profile, not full-run training peaks.
 
 Evidently, GPU joint-training cycles took ~26.1% less time compared to the CPU for the larger final model, with similar generation latency results. The comparisons differ slightly as the earlier benchmarks use different models and CPU thread counts, and data preprocessing is excluded. 
 
-Overall, the use of a single stock, trading day, and training seed for the final comparison limits generalisation. Other limitations include unscored test partitions (being the final hour ~15% of trading) and the short event-time windows limiting volatility clustering analysis to a short-term horizon. Additional days of AMZN data would limit the intra-day temporal trading impact as volume tends to cluster around the opening and closing of the market, helping quantify generalisation across days.
+Overall, the use of a single stock, trading day, and training seed for the final comparison limits generalisation. The final test partition (15:01:30–16:00, the last 15% of the session by clock time) was evaluated once after model selection, but remains part of the same trading day. Short event-time windows limit volatility-clustering analysis to a short-term horizon. Additional days of AMZN data would allow assessment of robustness across different liquidity and volatility conditions; they would not by themselves remove intraday effects.
 
 ## 9 Conclusion
 Ultimately, the historical results favour retaining temporal supervision within the tested settings, while the final matched pair-models with start-volume information improve the SSIM scores. Unfortunately, no model was able to fully meet all criteria jointly. The final model was able to achieve a SSIM score of 0.2829 with no orderbook violations; however, the return fidelity, temporal dependence and output diversity are not sufficient to allow for reliable execution-strategy backtesting. In direct response to the proposed research question, the results back only a partial improvement over the baseline VAR model in terms of simulation reliability. While the reference TimeGAN was able to improve orderbook validity, its performance was worse than the VAR(2) in terms of return similarities, autocorrelation and SSIM results. While the ladder decoder managed to achieve 100% valid orderbooks, it was not enough to establish realistic market dynamics. 
 
 As the current results support further experimentation and research, primary next steps for improvement include modelling sparse volume transitions and temporal dependence, as well as assessing independent training seeds and additional training days.
+
+### Engineering recommendation for the manager
+Retain this implementation as an offline research and teaching prototype. It can demonstrate TimeGAN and supply synthetic input for checking file handling, visualisation and software pipelines. Do not approve it for strategy ranking, execution backtesting, fill or slippage estimation, risk-limit calibration, or live-trading decisions: the recorded distributional, temporal and diversity failures remain material despite valid price ordering.
+
+For any permitted offline use, users should clearly label outputs as synthetic and unvalidated, retain checkpoint, seed and conditioning information, isolate the workflow from trading systems, and check finiteness and structural validity before consuming a batch. Failed checks should stop that use and be recorded without silently repairing outputs or excluding failures from quality statistics. These are recommended downstream safeguards, not a deployment approval or controls fully implemented by the inference command. Broader use would require meeting the predeclared statistical and diversity criteria across additional days and independent training seeds, plus separate validation of tick sizes, integer quantities, event timing, queue behaviour and fill realism.
+
 
 ## Artificial Intelligence Usage Disclosure
 OpenAI’s ChatGPT was used in assistance with writing code for the python scripts and Jupyter notebooks. This assisted in the implementation and diagnostics of the research question and helped with recovering saved experiments for the purpose of analysis. It also assisted in debugging and regression tests for checkpoint audits and replays. The implementation was checked using automated tests with checkpoint audits and replay comparisons, with results being crosschecked with the efficiency of ChatGPT.
@@ -193,33 +222,36 @@ https://proceedings.neurips.cc/paper_files/paper/2019/file/c9efe5f26cd17ba6216bb
 
 ## Appendix 2: Usage Instructions
 
-## Reproducibility and usage
-I used Python 3.12.14, PyTorch 2.8.0+cu128, NumPy 2.2.6, SciPy 1.16.3 and Matplotlib 3.10.7 for this project. Commands can be run from recognition/timegan_spagheddy7 in a Python environment. Ensure the following dependencies are installed:
+### Files and saved results
+This README contains the final report, results and feasibility review. Its images are in `figures/`. The implementation entry points are `modules.py` (models), `dataset.py` (preprocessing), `train.py` (fitting) and `predict.py` (inference). The remaining Python files provide evaluation, tuning, reporting and regression tests.
 
+The original notebooks, detailed JSON reports and duplicate documents are preserved in a separate local archive rather than included in the submission. Reading the results in this README requires no training or dependencies. Raw market data and model weights are not distributed with the code.
+
+### Environment
+The recorded environment used Python 3.12.14, PyTorch 2.8.0+cu128, NumPy 2.2.6, SciPy 1.16.3 and Matplotlib 3.10.7. From this project folder, install the recorded dependencies:
+
+```powershell
 python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
+python -m pip install -r requirements.txt
+```
 
-python -m pip install -r requirements-notebook.txt
+### Optional example generation
+With a locally saved final checkpoint, generate 64 sequences using its stored training contexts:
 
-## Viewing results
-To view results, open ar_results.ipynb and timegan_results.ipynb to view the currently saved tables and figures with no retraining and runs needed. Further numerical and graphical results along with settings are stored under reports/ar and reports/timegan.
+```powershell
+python predict.py --model timegan --checkpoint outputs/timegan/experiments/volume_recovery_matched_s2026/joint_last.pt --num-sequences 64 --seed 42 --device cpu --threads 1
+```
 
-## Optional example generation
-Synthetic sequences can be generated using the following code (as long as the locally saved final checkpoint is available):
+Generated arrays, summaries and previews are written under `outputs/`, which is excluded from Git. This example demonstrates inference; it does not repeat validation or held-out test scoring. Run `python train.py --help`, `python tune_ar.py --help` and `python tune_timegan.py --help` for fitting options. New fits require the raw LOBSTER files and a matching baseline report or compact comparison contract produced by `tune_ar.py`; these generated files also live under `outputs/`.
 
-python predict.py --model timegan `
+### Verification
+The regression suite uses synthetic and temporary test data:
 
-    --checkpoint outputs/timegan/experiments/volume_recovery_matched_s2026/joint_last.pt `
-
-    --num-sequences 64 --seed 42 --device cpu --threads 1
-
-This saves all of the generated arrays, summaries and previews under outputs/timegan, demonstrating the generating from training contexts. Some raw data and model checkpoints are not included in the git so some inferences require locally available weights, which are saved and viewable in the notebook.
-
-## Verification
-Automated verification checks can be run with:
-
+```powershell
 python -m unittest discover -s . -p "test_*.py" -v
+```
 
-The seeds, configurations and source hashes support the reproducibility of results, with validation using generation seeds 42, 43 and 44. 
+Recorded seeds, configurations and source hashes describe the original experiments. Historical results remain unchanged by the submission cleanup; rerunning their exact audits requires the corresponding archived source and local checkpoints. Generation seeds 42, 43 and 44 quantify sampling variation, not uncertainty from retraining.
 
 ## Artificial Intelligence Usage Disclosure
 OpenAI’s ChatGPT was used in assistance with writing code for the python scripts and Jupyter notebooks. This assisted in the implementation and diagnostics of the research question and helped with recovering saved experiments for the purpose of analysis. It also assisted in debugging and regression tests for checkpoint audits and replays. The implementation was checked using automated tests with checkpoint audits and replay comparisons, with results being crosschecked with the efficiency of ChatGPT.

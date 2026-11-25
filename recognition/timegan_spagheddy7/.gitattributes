@@ -1,3 +1,0 @@
-# Preserve the exact held-out evidence hash across Git checkouts.
-reports/test/final_test_20261106.json -text
-reports/resources/resource_profile_20261105.json -text
