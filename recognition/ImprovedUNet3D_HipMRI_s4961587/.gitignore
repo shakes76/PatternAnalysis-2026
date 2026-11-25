@@ -1,0 +1,21 @@
+# Model weights: large, never committed (spec: no model files)
+*.pt
+*.pth
+checkpoints/
+
+# Medical data: never committed (data-use agreement + spec)
+*.nii
+*.nii.gz
+data/
+
+# Slurm logs
+*.out
+*.err
+
+# Python / notebook / macOS clutter
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+
+# Tests
+*smoke*

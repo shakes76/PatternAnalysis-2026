@@ -1,0 +1,78 @@
+1. ORGAN-INTERFACE ERRORS (test set, mean ± std over 35 scans; median in brackets)
+  leak_bladder_ml
+    2D U-Net       0.75 ±  1.32  (median  0.03)
+    3D U-Net       0.12 ±  0.30  (median  0.00)
+    Improved 3D    0.11 ±  0.23  (median  0.00)
+  leak_bladder_pct
+    2D U-Net       2.99 ±  5.25  (median  0.10)
+    3D U-Net       0.53 ±  1.42  (median  0.00)
+    Improved 3D    0.46 ±  1.08  (median  0.00)
+  lost_bladder_ml
+    2D U-Net       0.70 ±  1.08  (median  0.35)
+    3D U-Net       0.24 ±  0.39  (median  0.09)
+    Improved 3D    0.29 ±  0.46  (median  0.12)
+  leak_rectum_ml
+    2D U-Net       0.08 ±  0.16  (median  0.00)
+    3D U-Net       0.01 ±  0.03  (median  0.00)
+    Improved 3D    0.03 ±  0.12  (median  0.00)
+  leak_rectum_pct
+    2D U-Net       0.28 ±  0.61  (median  0.00)
+    3D U-Net       0.02 ±  0.11  (median  0.00)
+    Improved 3D    0.12 ±  0.46  (median  0.00)
+  lost_rectum_ml
+    2D U-Net       0.01 ±  0.04  (median  0.00)
+    3D U-Net       0.01 ±  0.04  (median  0.00)
+    Improved 3D    0.01 ±  0.04  (median  0.00)
+  apex_extent_mm
+    2D U-Net       0.71 ±  4.35  (median  0.00)  |mean abs|  3.39
+    3D U-Net       1.69 ± 13.43  (median  0.00)  |mean abs|  4.01
+    Improved 3D    0.89 ±  3.99  (median  0.00)  |mean abs|  2.67
+  base_extent_mm
+    2D U-Net       8.29 ± 18.84  (median  0.00)  |mean abs|  9.36
+    3D U-Net       4.90 ± 12.26  (median  0.00)  |mean abs|  5.62
+    Improved 3D    1.69 ±  4.62  (median  0.00)  |mean abs|  2.94
+
+2. TEST RESULTS FOR ALL THREE SEEDS (mean over 35 scans per seed)
+  unet2d_v1              Dice 0.787 | apex 0.766 mid 0.858 base 0.775 | HD95 6.79 mm
+  unet2d_v1_s1           Dice 0.778 | apex 0.750 mid 0.845 base 0.742 | HD95 6.14 mm
+  unet2d_v1_s2           Dice 0.777 | apex 0.741 mid 0.845 base 0.732 | HD95 6.38 mm
+  2D U-Net (3 seeds)     Dice 0.781 ± 0.005 | apex 0.752 ± 0.010 mid 0.849 ± 0.006 base 0.750 ± 0.019 | HD95 6.44 ± 0.27 mm
+
+  unet3d_baseline_v2     Dice 0.842 | apex 0.805 mid 0.898 base 0.813 | HD95 5.29 mm
+  unet3d_baseline_s1     Dice 0.845 | apex 0.805 mid 0.897 base 0.822 | HD95 5.09 mm
+  unet3d_baseline_s2     Dice 0.840 | apex 0.837 mid 0.892 base 0.790 | HD95 5.10 mm
+  3D U-Net (3 seeds)     Dice 0.842 ± 0.002 | apex 0.816 ± 0.015 mid 0.896 ± 0.002 base 0.809 ± 0.014 | HD95 5.16 ± 0.09 mm
+
+  improved_v1            Dice 0.849 | apex 0.839 mid 0.896 base 0.805 | HD95 4.75 mm
+  improved_v1_s1         Dice 0.839 | apex 0.844 mid 0.889 base 0.796 | HD95 5.13 mm
+  improved_v1_s2         Dice 0.850 | apex 0.828 mid 0.907 base 0.822 | HD95 5.25 mm
+  Improved 3D (3 seeds)  Dice 0.846 ± 0.005 | apex 0.837 ± 0.006 mid 0.897 ± 0.007 base 0.807 ± 0.011 | HD95 5.04 ± 0.21 mm
+
+3. PER-PATIENT PROSTATE DICE (each patient's scans averaged first)
+  2D U-Net     7 patients | Dice 0.798 ± 0.059 | apex 0.707 | base 0.782
+    J026 (8 scans) 0.843, K008 (1 scans) 0.769, K018 (8 scans) 0.714, S028 (1 scans) 0.797, T009 (1 scans) 0.883, T014 (8 scans) 0.732, V027 (8 scans) 0.849
+  3D U-Net     7 patients | Dice 0.844 ± 0.046 | apex 0.762 | base 0.820
+    J026 (8 scans) 0.875, K008 (1 scans) 0.776, K018 (8 scans) 0.819, S028 (1 scans) 0.863, T009 (1 scans) 0.903, T014 (8 scans) 0.788, V027 (8 scans) 0.884
+  Improved 3D  7 patients | Dice 0.850 ± 0.032 | apex 0.807 | base 0.818
+    J026 (8 scans) 0.884, K008 (1 scans) 0.816, K018 (8 scans) 0.818, S028 (1 scans) 0.843, T009 (1 scans) 0.893, T014 (8 scans) 0.815, V027 (8 scans) 0.878
+
+4. REVIEW FLAGS (README Section 8.3)
+  training prostate volume range: 232-3333 voxels (downsampled grid, 141 scans)
+  2D U-Net     flagged 6/35 scans | mean Dice flagged 0.742 vs not flagged 0.797
+      K008_Week0   Dice 0.769  (2 components)
+      T014_Week2   Dice 0.671  (2 components)
+      T014_Week3   Dice 0.698  (3 components)
+      T014_Week4   Dice 0.712  (2 components)
+      J026_Week6   Dice 0.787  (3 components)
+      V027_Week0   Dice 0.814  (2 components)
+    autopsy cases caught: ['K008_Week0', 'T014_Week2']
+  3D U-Net     flagged 4/35 scans | mean Dice flagged 0.830 vs not flagged 0.844
+      J026_Week0   Dice 0.855  (2 components)
+      J026_Week1   Dice 0.820  (2 components)
+      V027_Week0   Dice 0.804  (3 components)
+      K018_Week6   Dice 0.841  (4 components)
+    autopsy cases caught: none
+  Improved 3D  flagged 2/35 scans | mean Dice flagged 0.862 vs not flagged 0.848
+      J026_Week0   Dice 0.888  (2 components)
+      J026_Week1   Dice 0.836  (2 components)
+    autopsy cases caught: none

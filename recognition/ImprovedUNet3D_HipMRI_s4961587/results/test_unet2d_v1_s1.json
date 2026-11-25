@@ -1,0 +1,1507 @@
+{
+ "summary": {
+  "run": "unet2d_v1_s1",
+  "n_test_volumes": 35,
+  "dice": {
+   "background": {
+    "mean": 0.9960834758622306,
+    "std": 0.002698425502898058,
+    "n": 35
+   },
+   "body": {
+    "mean": 0.9812178986413138,
+    "std": 0.007468789493309842,
+    "n": 35
+   },
+   "bone": {
+    "mean": 0.9109036002840315,
+    "std": 0.0137564413439118,
+    "n": 35
+   },
+   "bladder": {
+    "mean": 0.9235185435840062,
+    "std": 0.05481641872040006,
+    "n": 35
+   },
+   "rectum": {
+    "mean": 0.822484953062875,
+    "std": 0.08153847369492088,
+    "n": 35
+   },
+   "prostate": {
+    "mean": 0.7775782363755362,
+    "std": 0.08213273761784506,
+    "n": 35
+   }
+  },
+  "iou": {
+   "background": {
+    "mean": 0.9922117998920637,
+    "std": 0.00531633148557002,
+    "n": 35
+   },
+   "body": {
+    "mean": 0.9632319149614247,
+    "std": 0.014131630827868748,
+    "n": 35
+   },
+   "bone": {
+    "mean": 0.8366761190367787,
+    "std": 0.023071115095825774,
+    "n": 35
+   },
+   "bladder": {
+    "mean": 0.8623123136013581,
+    "std": 0.0867660868666028,
+    "n": 35
+   },
+   "rectum": {
+    "mean": 0.7059948457976652,
+    "std": 0.1088168101731523,
+    "n": 35
+   },
+   "prostate": {
+    "mean": 0.6432108616378157,
+    "std": 0.10611084783435522,
+    "n": 35
+   }
+  },
+  "prostate_hd95_mm": {
+   "mean": 6.1438744607618885,
+   "std": 2.3081401552746894,
+   "n": 35
+  },
+  "prostate_dice_thirds": {
+   "apex": {
+    "mean": 0.7503552910850669,
+    "std": 0.14522801238847527,
+    "n": 35
+   },
+   "mid": {
+    "mean": 0.8449305742713494,
+    "std": 0.07517519372723151,
+    "n": 35
+   },
+   "base": {
+    "mean": 0.7416616853752207,
+    "std": 0.1457931469155318,
+    "n": 35
+   }
+  },
+  "interface": {
+   "leak_bladder_ml": {
+    "mean": 0.36643582335357283,
+    "std": 0.6948966710586465,
+    "n": 35
+   },
+   "leak_bladder_pct": {
+    "mean": 1.6464252573471885,
+    "std": 3.1267559622357277,
+    "n": 35
+   },
+   "lost_bladder_ml": {
+    "mean": 0.8223430833087435,
+    "std": 1.0910565541798194,
+    "n": 35
+   },
+   "leak_rectum_ml": {
+    "mean": 0.050087378279505566,
+    "std": 0.09956822434597953,
+    "n": 35
+   },
+   "leak_rectum_pct": {
+    "mean": 0.22032816375412115,
+    "std": 0.4401162588772463,
+    "n": 35
+   },
+   "lost_rectum_ml": {
+    "mean": 0.0017410857336861746,
+    "std": 0.01015218715792552,
+    "n": 35
+   },
+   "apex_extent_mm": {
+    "mean": -0.26742523738316126,
+    "std": 4.372544460459651,
+    "n": 35
+   },
+   "base_extent_mm": {
+    "mean": 2.4068536485944474,
+    "std": 7.789667059236879,
+    "n": 35
+   }
+  },
+  "infer_ms": {
+   "mean": 10.83500725882394,
+   "std": 0.027630220958644928,
+   "n": 35
+  },
+  "peak_vram_gb": 0.337641984
+ },
+ "per_volume": [
+  {
+   "case": "K008_Week0",
+   "dice": {
+    "background": 0.9934877753257751,
+    "body": 0.9794672131538391,
+    "bone": 0.895903468132019,
+    "bladder": 0.9354715943336487,
+    "rectum": 0.7805825471878052,
+    "prostate": 0.748971164226532
+   },
+   "iou": {
+    "background": 0.9870598200109638,
+    "body": 0.9597606522576995,
+    "bone": 0.8114358140553819,
+    "bladder": 0.8787662117368128,
+    "rectum": 0.6401274193572039,
+    "prostate": 0.5986841732256866
+   },
+   "prostate_dice": 0.7489711934156379,
+   "prostate_hd95_mm": 12.223232857333185,
+   "prostate_dice_thirds": {
+    "apex": 0.14326647564469913,
+    "mid": 0.8710010319917441,
+    "base": 0.8899521531100478
+   },
+   "interface": {
+    "leak_bladder_ml": 0.15424780547618866,
+    "leak_bladder_pct": 0.4444444444444444,
+    "lost_bladder_ml": 0.038561951369047165,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -9.3599853515625,
+    "base_extent_mm": 31.199951171875
+   },
+   "infer_ms": 10.854244232177734,
+   "prostate_gt_voxels": 1287,
+   "prostate_pred_voxels": 900
+  },
+  {
+   "case": "T014_Week0",
+   "dice": {
+    "background": 0.9950166344642639,
+    "body": 0.9816684126853943,
+    "bone": 0.9173843264579773,
+    "bladder": 0.9516823291778564,
+    "rectum": 0.8486309051513672,
+    "prostate": 0.8080667853355408
+   },
+   "iou": {
+    "background": 0.9900826905068632,
+    "body": 0.9639968207940066,
+    "bone": 0.8473776510703438,
+    "bladder": 0.9078186466431489,
+    "rectum": 0.7370624319761981,
+    "prostate": 0.6779463609150446
+   },
+   "prostate_dice": 0.808066759388039,
+   "prostate_hd95_mm": 4.861359120657514,
+   "prostate_dice_thirds": {
+    "apex": 0.7093333333333334,
+    "mid": 0.8628099173553719,
+    "base": 0.8165938864628821
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 1.1428810238838196,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -6.239990234375,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.864734649658203,
+   "prostate_gt_voxels": 824,
+   "prostate_pred_voxels": 614
+  },
+  {
+   "case": "T014_Week1",
+   "dice": {
+    "background": 0.9974740147590637,
+    "body": 0.983911395072937,
+    "bone": 0.903610110282898,
+    "bladder": 0.9548623561859131,
+    "rectum": 0.8847954869270325,
+    "prostate": 0.787401556968689
+   },
+   "iou": {
+    "background": 0.9949607585676111,
+    "body": 0.9683322795885151,
+    "bone": 0.8241685907155287,
+    "bladder": 0.9136235421597422,
+    "rectum": 0.7933930293098989,
+    "prostate": 0.6493506250925948
+   },
+   "prostate_dice": 0.7874015748031497,
+   "prostate_hd95_mm": 6.239999771118164,
+   "prostate_dice_thirds": {
+    "apex": 0.7565217391304347,
+    "mid": 0.905829596412556,
+    "base": 0.8193384223918575
+   },
+   "interface": {
+    "leak_bladder_ml": 0.8802611981809604,
+    "leak_bladder_pct": 4.3478260869565215,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.07042089585447683,
+    "leak_rectum_pct": 0.34782608695652173,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -3.119999885559082,
+    "base_extent_mm": 6.239999771118164
+   },
+   "infer_ms": 10.883808135986328,
+   "prostate_gt_voxels": 568,
+   "prostate_pred_voxels": 575
+  },
+  {
+   "case": "T014_Week2",
+   "dice": {
+    "background": 0.9952324032783508,
+    "body": 0.9834186434745789,
+    "bone": 0.9178725481033325,
+    "bladder": 0.9460300207138062,
+    "rectum": 0.88273686170578,
+    "prostate": 0.7411865592002869
+   },
+   "iou": {
+    "background": 0.9905100508073611,
+    "body": 0.9673782006349307,
+    "bone": 0.8482111293771895,
+    "bladder": 0.8975872551460237,
+    "rectum": 0.7900885936803548,
+    "prostate": 0.5887977798595935
+   },
+   "prostate_dice": 0.7411865864144453,
+   "prostate_hd95_mm": 6.239990234375,
+   "prostate_dice_thirds": {
+    "apex": 0.5263157894736842,
+    "mid": 0.8912579957356077,
+    "base": 0.8807339449541285
+   },
+   "interface": {
+    "leak_bladder_ml": 2.394306799769401,
+    "leak_bladder_pct": 10.725552050473187,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -6.239990234375,
+    "base_extent_mm": 6.239990234375
+   },
+   "infer_ms": 10.811090469360352,
+   "prostate_gt_voxels": 529,
+   "prostate_pred_voxels": 634
+  },
+  {
+   "case": "T014_Week3",
+   "dice": {
+    "background": 0.9956750869750977,
+    "body": 0.9855305552482605,
+    "bone": 0.9238858819007874,
+    "bladder": 0.8628384470939636,
+    "rectum": 0.9065679907798767,
+    "prostate": 0.7350876927375793
+   },
+   "iou": {
+    "background": 0.9913874225983775,
+    "body": 0.971473867790507,
+    "bone": 0.8585389470892616,
+    "bladder": 0.7587650539969143,
+    "rectum": 0.8291032118462263,
+    "prostate": 0.5811372760918808
+   },
+   "prostate_dice": 0.7350877192982456,
+   "prostate_hd95_mm": 7.0868101791793725,
+   "prostate_dice_thirds": {
+    "apex": 0.7586206896551724,
+    "mid": 0.8746666666666667,
+    "base": 0.8619854721549637
+   },
+   "interface": {
+    "leak_bladder_ml": 1.9717820703983304,
+    "leak_bladder_pct": 8.34575260804769,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -3.1199951171875,
+    "base_extent_mm": 28.0799560546875
+   },
+   "infer_ms": 10.853052139282227,
+   "prostate_gt_voxels": 469,
+   "prostate_pred_voxels": 671
+  },
+  {
+   "case": "T014_Week4",
+   "dice": {
+    "background": 0.9977148771286011,
+    "body": 0.9875975847244263,
+    "bone": 0.9176316261291504,
+    "bladder": 0.8901454210281372,
+    "rectum": 0.8871657848358154,
+    "prostate": 0.7255985140800476
+   },
+   "iou": {
+    "background": 0.995440174019839,
+    "body": 0.9754990405229371,
+    "bone": 0.8477997401637347,
+    "bladder": 0.802037886668668,
+    "rectum": 0.7972128936608275,
+    "prostate": 0.5693641463045374
+   },
+   "prostate_dice": 0.7255985267034991,
+   "prostate_hd95_mm": 9.16946452567408,
+   "prostate_dice_thirds": {
+    "apex": 0.6260869565217392,
+    "mid": 0.8967391304347826,
+    "base": 0.9168646080760094
+   },
+   "interface": {
+    "leak_bladder_ml": 2.1126236468553543,
+    "leak_bladder_pct": 9.6,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.17605197057127953,
+    "leak_rectum_pct": 0.8,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -3.1199951171875,
+    "base_extent_mm": 9.3599853515625
+   },
+   "infer_ms": 10.868549346923828,
+   "prostate_gt_voxels": 461,
+   "prostate_pred_voxels": 625
+  },
+  {
+   "case": "T014_Week5",
+   "dice": {
+    "background": 0.9975069761276245,
+    "body": 0.9881163239479065,
+    "bone": 0.9286655187606812,
+    "bladder": 0.9139655828475952,
+    "rectum": 0.893211305141449,
+    "prostate": 0.7208872437477112
+   },
+   "iou": {
+    "background": 0.9950263516792455,
+    "body": 0.9765117743603531,
+    "bone": 0.8668306070821147,
+    "bladder": 0.8415622639695194,
+    "rectum": 0.807029660937766,
+    "prostate": 0.5635838124700284
+   },
+   "prostate_dice": 0.7208872458410351,
+   "prostate_hd95_mm": 9.16946452567408,
+   "prostate_dice_thirds": {
+    "apex": 0.8834355828220859,
+    "mid": 0.9042553191489362,
+    "base": 0.7437185929648241
+   },
+   "interface": {
+    "leak_bladder_ml": 2.042202858626842,
+    "leak_bladder_pct": 8.88208269525268,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 6.239990234375
+   },
+   "infer_ms": 10.835886001586914,
+   "prostate_gt_voxels": 429,
+   "prostate_pred_voxels": 653
+  },
+  {
+   "case": "T014_Week6",
+   "dice": {
+    "background": 0.9965894222259521,
+    "body": 0.9875888228416443,
+    "bone": 0.9336172342300415,
+    "bladder": 0.9353479743003845,
+    "rectum": 0.8921501636505127,
+    "prostate": 0.7604562640190125
+   },
+   "iou": {
+    "background": 0.9932020294591396,
+    "body": 0.9754819436245429,
+    "bone": 0.8754991774046006,
+    "bladder": 0.8785480623922531,
+    "rectum": 0.8052988179248789,
+    "prostate": 0.6134969198300854
+   },
+   "prostate_dice": 0.7604562737642585,
+   "prostate_hd95_mm": 6.240020751953125,
+   "prostate_dice_thirds": {
+    "apex": 0.7789473684210526,
+    "mid": 0.8535353535353535,
+    "base": 0.7696078431372549
+   },
+   "interface": {
+    "leak_bladder_ml": 0.9154747242107988,
+    "leak_bladder_pct": 4.577464788732394,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -3.1200103759765625,
+    "base_extent_mm": 6.240020751953125
+   },
+   "infer_ms": 10.874509811401367,
+   "prostate_gt_voxels": 484,
+   "prostate_pred_voxels": 568
+  },
+  {
+   "case": "T014_Week7",
+   "dice": {
+    "background": 0.995008647441864,
+    "body": 0.9844639301300049,
+    "bone": 0.924201250076294,
+    "bladder": 0.9470206499099731,
+    "rectum": 0.8896463513374329,
+    "prostate": 0.7878788113594055
+   },
+   "iou": {
+    "background": 0.990066874614531,
+    "body": 0.9694032140641071,
+    "bone": 0.8590837739324728,
+    "bladder": 0.8993724804090465,
+    "rectum": 0.8012279262638723,
+    "prostate": 0.6500000319629914
+   },
+   "prostate_dice": 0.7878787878787878,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.7712418300653595,
+    "mid": 0.9212827988338192,
+    "base": 0.7528089887640449
+   },
+   "interface": {
+    "leak_bladder_ml": 0.8802598528563975,
+    "leak_bladder_pct": 5.241090146750524,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 3.1199951171875
+   },
+   "infer_ms": 10.802745819091797,
+   "prostate_gt_voxels": 414,
+   "prostate_pred_voxels": 477
+  },
+  {
+   "case": "J026_Week0",
+   "dice": {
+    "background": 0.9979028105735779,
+    "body": 0.9833579063415527,
+    "bone": 0.9045932292938232,
+    "bladder": 0.9560821056365967,
+    "rectum": 0.8147581219673157,
+    "prostate": 0.8589580655097961
+   },
+   "iou": {
+    "background": 0.995814399145012,
+    "body": 0.9672606637827483,
+    "bone": 0.8258057677611929,
+    "bladder": 0.9158594855006579,
+    "rectum": 0.6874192829903094,
+    "prostate": 0.7527839595952821
+   },
+   "prostate_dice": 0.8589580686149937,
+   "prostate_hd95_mm": 3.125,
+   "prostate_dice_thirds": {
+    "apex": 0.84375,
+    "mid": 0.8963730569948186,
+    "base": 0.7966101694915254
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.24374961853027344,
+    "leak_rectum_ml": 0.1523435115814209,
+    "leak_rectum_pct": 0.6738544474393531,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.799169540405273,
+   "prostate_gt_voxels": 832,
+   "prostate_pred_voxels": 742
+  },
+  {
+   "case": "J026_Week1",
+   "dice": {
+    "background": 0.9988157153129578,
+    "body": 0.9831815958023071,
+    "bone": 0.8973968625068665,
+    "bladder": 0.9424530863761902,
+    "rectum": 0.88571697473526,
+    "prostate": 0.8146452903747559
+   },
+   "iou": {
+    "background": 0.9976342323682948,
+    "body": 0.966919551950944,
+    "bone": 0.8138892698484227,
+    "bladder": 0.8911690575945828,
+    "rectum": 0.7948761263098525,
+    "prostate": 0.6872586608546146
+   },
+   "prostate_dice": 0.8146453089244852,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.8354430379746836,
+    "mid": 0.8682634730538922,
+    "base": 0.7088607594936709
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.6689974881708621,
+    "leak_rectum_ml": 0.0352103941142559,
+    "leak_rectum_pct": 0.16,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 3.1199951171875,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.815620422363281,
+   "prostate_gt_voxels": 686,
+   "prostate_pred_voxels": 625
+  },
+  {
+   "case": "J026_Week2",
+   "dice": {
+    "background": 0.9976694583892822,
+    "body": 0.986211895942688,
+    "bone": 0.9210222959518433,
+    "bladder": 0.9407693147659302,
+    "rectum": 0.7566574811935425,
+    "prostate": 0.8169440031051636
+   },
+   "iou": {
+    "background": 0.9953497543695063,
+    "body": 0.9727988442513179,
+    "bone": 0.8536064206853493,
+    "bladder": 0.8881628222071739,
+    "rectum": 0.6085672047312379,
+    "prostate": 0.6905370542471312
+   },
+   "prostate_dice": 0.8169440242057489,
+   "prostate_hd95_mm": 4.750873686097116,
+   "prostate_dice_thirds": {
+    "apex": 0.9078947368421053,
+    "mid": 0.8369905956112853,
+    "base": 0.7780979827089337
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 3.1199951171875
+   },
+   "infer_ms": 10.806798934936523,
+   "prostate_gt_voxels": 650,
+   "prostate_pred_voxels": 672
+  },
+  {
+   "case": "J026_Week3",
+   "dice": {
+    "background": 0.9974735379219055,
+    "body": 0.9863197803497314,
+    "bone": 0.927399754524231,
+    "bladder": 0.9092437028884888,
+    "rectum": 0.7664613723754883,
+    "prostate": 0.8516687154769897
+   },
+   "iou": {
+    "background": 0.9949598096934869,
+    "body": 0.9730088061598196,
+    "bone": 0.8646275799730663,
+    "bladder": 0.833590147768392,
+    "rectum": 0.6213517397922934,
+    "prostate": 0.7416576792390994
+   },
+   "prostate_dice": 0.8516687268232386,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.8604651162790697,
+    "mid": 0.8339869281045752,
+    "base": 0.8722986247544204
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.10563118234276771,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.823488235473633,
+   "prostate_gt_voxels": 876,
+   "prostate_pred_voxels": 742
+  },
+  {
+   "case": "J026_Week4",
+   "dice": {
+    "background": 0.9945353865623474,
+    "body": 0.9793291687965393,
+    "bone": 0.909926176071167,
+    "bladder": 0.9542969465255737,
+    "rectum": 0.8211342692375183,
+    "prostate": 0.827534019947052
+   },
+   "iou": {
+    "background": 0.9891301725299526,
+    "body": 0.9594955972650105,
+    "bone": 0.8347381214894422,
+    "bladder": 0.9125888495351057,
+    "rectum": 0.6965460508436484,
+    "prostate": 0.7058064234065716
+   },
+   "prostate_dice": 0.8275340393343419,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.7846607669616519,
+    "mid": 0.8487654320987654,
+    "base": 0.8553846153846154
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0704207882285118,
+    "leak_bladder_pct": 0.315955766192733,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -3.1199951171875,
+    "base_extent_mm": 3.1199951171875
+   },
+   "infer_ms": 10.807991027832031,
+   "prostate_gt_voxels": 689,
+   "prostate_pred_voxels": 633
+  },
+  {
+   "case": "J026_Week5",
+   "dice": {
+    "background": 0.9925711154937744,
+    "body": 0.9722394943237305,
+    "bone": 0.9086028337478638,
+    "bladder": 0.9594365358352661,
+    "rectum": 0.7409809231758118,
+    "prostate": 0.8569527864456177
+   },
+   "iou": {
+    "background": 0.9852517937087605,
+    "body": 0.9459786486774893,
+    "bone": 0.832513462416263,
+    "bladder": 0.9220355786808363,
+    "rectum": 0.5885382809646527,
+    "prostate": 0.7497090026411641
+   },
+   "prostate_dice": 0.8569527611443779,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.8874734607218684,
+    "mid": 0.9069148936170213,
+    "base": 0.6714285714285714
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 1.5844677351415155,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": -3.1199951171875
+   },
+   "infer_ms": 10.816574096679688,
+   "prostate_gt_voxels": 792,
+   "prostate_pred_voxels": 711
+  },
+  {
+   "case": "J026_Week6",
+   "dice": {
+    "background": 0.9945741295814514,
+    "body": 0.9782489538192749,
+    "bone": 0.9157305955886841,
+    "bladder": 0.8313740491867065,
+    "rectum": 0.6440383195877075,
+    "prostate": 0.856733500957489
+   },
+   "iou": {
+    "background": 0.9892068215505737,
+    "body": 0.957423980602653,
+    "bone": 0.8445600252696083,
+    "bladder": 0.7114115929122746,
+    "rectum": 0.474967935223569,
+    "prostate": 0.7493733977817122
+   },
+   "prostate_dice": 0.8567335243553008,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.903370786516854,
+    "mid": 0.8882175226586103,
+    "base": 0.7436823104693141
+   },
+   "interface": {
+    "leak_bladder_ml": 0.9154702469706535,
+    "leak_bladder_pct": 3.5665294924554183,
+    "lost_bladder_ml": 0.0,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 12.47998046875
+   },
+   "infer_ms": 10.800838470458984,
+   "prostate_gt_voxels": 667,
+   "prostate_pred_voxels": 729
+  },
+  {
+   "case": "J026_Week7",
+   "dice": {
+    "background": 0.9966713190078735,
+    "body": 0.9811602234840393,
+    "bone": 0.9060682654380798,
+    "bladder": 0.9625562429428101,
+    "rectum": 0.5399719476699829,
+    "prostate": 0.8816738724708557
+   },
+   "iou": {
+    "background": 0.9933647247304145,
+    "body": 0.9630171947538494,
+    "bone": 0.8282676485301226,
+    "bladder": 0.9278153503696378,
+    "rectum": 0.36983669375958705,
+    "prostate": 0.788387082057044
+   },
+   "prostate_dice": 0.8816738816738817,
+   "prostate_hd95_mm": 3.359375,
+   "prostate_dice_thirds": {
+    "apex": 0.8346456692913385,
+    "mid": 0.9214814814814815,
+    "base": 0.8545454545454545
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.42252472937107083,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.837078094482422,
+   "prostate_gt_voxels": 733,
+   "prostate_pred_voxels": 653
+  },
+  {
+   "case": "T009_Week0",
+   "dice": {
+    "background": 0.9974741339683533,
+    "body": 0.9855948090553284,
+    "bone": 0.9145998954772949,
+    "bladder": 0.9712107181549072,
+    "rectum": 0.8883705139160156,
+    "prostate": 0.8853658437728882
+   },
+   "iou": {
+    "background": 0.9949609957862833,
+    "body": 0.9715987436317105,
+    "bone": 0.8426384811152031,
+    "bladder": 0.9440326948323949,
+    "rectum": 0.7991606241442382,
+    "prostate": 0.7943107061869822
+   },
+   "prostate_dice": 0.8853658536585366,
+   "prostate_hd95_mm": 4.415879813952577,
+   "prostate_dice_thirds": {
+    "apex": 0.79296875,
+    "mid": 0.9402637703646237,
+    "base": 0.849772382397572
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.24374961853027344,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.818004608154297,
+   "prostate_gt_voxels": 1250,
+   "prostate_pred_voxels": 1210
+  },
+  {
+   "case": "V027_Week0",
+   "dice": {
+    "background": 0.998127818107605,
+    "body": 0.9824346303939819,
+    "bone": 0.8947967886924744,
+    "bladder": 0.9623727202415466,
+    "rectum": 0.9143845438957214,
+    "prostate": 0.7865079641342163
+   },
+   "iou": {
+    "background": 0.9962626332455728,
+    "body": 0.9654756930007965,
+    "bone": 0.8096219586928931,
+    "bladder": 0.9274743821939366,
+    "rectum": 0.8422729602404356,
+    "prostate": 0.6481360741466018
+   },
+   "prostate_dice": 0.7865079365079365,
+   "prostate_hd95_mm": 6.25,
+   "prostate_dice_thirds": {
+    "apex": 0.4485294117647059,
+    "mid": 0.8357203032855939,
+    "base": 0.8180961357210179
+   },
+   "interface": {
+    "leak_bladder_ml": 0.03046870231628418,
+    "leak_bladder_pct": 0.0998003992015968,
+    "lost_bladder_ml": 0.9749984741210938,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -9.3599853515625,
+    "base_extent_mm": -3.1199951171875
+   },
+   "infer_ms": 10.803699493408203,
+   "prostate_gt_voxels": 1518,
+   "prostate_pred_voxels": 1002
+  },
+  {
+   "case": "V027_Week1",
+   "dice": {
+    "background": 0.9962379932403564,
+    "body": 0.9833208918571472,
+    "bone": 0.915751039981842,
+    "bladder": 0.9653618931770325,
+    "rectum": 0.8860135674476624,
+    "prostate": 0.7947817444801331
+   },
+   "iou": {
+    "background": 0.9925041857844608,
+    "body": 0.9671890412436621,
+    "bone": 0.844594805944297,
+    "bladder": 0.9330430483962557,
+    "rectum": 0.7953540021287785,
+    "prostate": 0.6594504695228887
+   },
+   "prostate_dice": 0.7947817360762669,
+   "prostate_hd95_mm": 4.750873686097116,
+   "prostate_dice_thirds": {
+    "apex": 0.7455429497568882,
+    "mid": 0.8401727861771058,
+    "base": 0.7688888888888888
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.2816831529140472,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -3.1199951171875,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.818958282470703,
+   "prostate_gt_voxels": 1077,
+   "prostate_pred_voxels": 916
+  },
+  {
+   "case": "V027_Week2",
+   "dice": {
+    "background": 0.9974609613418579,
+    "body": 0.9864327311515808,
+    "bone": 0.9222308993339539,
+    "bladder": 0.9646788835525513,
+    "rectum": 0.9042995572090149,
+    "prostate": 0.8287292718887329
+   },
+   "iou": {
+    "background": 0.9949347834643117,
+    "body": 0.9732286760525843,
+    "bone": 0.8556850430802183,
+    "bladder": 0.9317678044302855,
+    "rectum": 0.825316411213241,
+    "prostate": 0.7075471554088102
+   },
+   "prostate_dice": 0.8287292817679558,
+   "prostate_hd95_mm": 4.750873686097116,
+   "prostate_dice_thirds": {
+    "apex": 0.7331786542923434,
+    "mid": 0.8819561551433389,
+    "base": 0.7891891891891892
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 1.091522217541933,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -6.239990234375,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.832548141479492,
+   "prostate_gt_voxels": 1254,
+   "prostate_pred_voxels": 918
+  },
+  {
+   "case": "V027_Week3",
+   "dice": {
+    "background": 0.998375654220581,
+    "body": 0.9876866340637207,
+    "bone": 0.9270521402359009,
+    "bladder": 0.9511322975158691,
+    "rectum": 0.8308270573616028,
+    "prostate": 0.8404516577720642
+   },
+   "iou": {
+    "background": 0.996756576881815,
+    "body": 0.9756728176262085,
+    "bone": 0.8640234768162218,
+    "bladder": 0.9068181766520355,
+    "rectum": 0.7106109173949312,
+    "prostate": 0.72480950311846
+   },
+   "prostate_dice": 0.8404516445753559,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.7478260869565218,
+    "mid": 0.8755458515283843,
+    "base": 0.8791208791208791
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0704207882285118,
+    "leak_bladder_pct": 0.2242152466367713,
+    "lost_bladder_ml": 0.35210394114255905,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": -3.1199951171875,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.840177536010742,
+   "prostate_gt_voxels": 1145,
+   "prostate_pred_voxels": 892
+  },
+  {
+   "case": "V027_Week4",
+   "dice": {
+    "background": 0.9963151812553406,
+    "body": 0.9827743172645569,
+    "bone": 0.9251622557640076,
+    "bladder": 0.9660725593566895,
+    "rectum": 0.901543378829956,
+    "prostate": 0.8751779794692993
+   },
+   "iou": {
+    "background": 0.9926574185922865,
+    "body": 0.9661320333770552,
+    "bone": 0.8607459690779877,
+    "bladder": 0.9343717183437924,
+    "rectum": 0.8207364418903118,
+    "prostate": 0.7780590737869648
+   },
+   "prostate_dice": 0.8751779781680114,
+   "prostate_hd95_mm": 3.359375,
+   "prostate_dice_thirds": {
+    "apex": 0.8575712143928036,
+    "mid": 0.9012605042016807,
+    "base": 0.8483606557377049
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0704207882285118,
+    "leak_bladder_pct": 0.21119324181626187,
+    "lost_bladder_ml": 1.3732053704559801,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.91766357421875,
+   "prostate_gt_voxels": 1160,
+   "prostate_pred_voxels": 947
+  },
+  {
+   "case": "V027_Week5",
+   "dice": {
+    "background": 0.9985194802284241,
+    "body": 0.9866214394569397,
+    "bone": 0.9181661009788513,
+    "bladder": 0.9724335670471191,
+    "rectum": 0.841911792755127,
+    "prostate": 0.8394925594329834
+   },
+   "iou": {
+    "background": 0.9970433378536138,
+    "body": 0.9735961247573841,
+    "bone": 0.8487126367639384,
+    "bladder": 0.9463461785654789,
+    "rectum": 0.7269841688122018,
+    "prostate": 0.7233840388156517
+   },
+   "prostate_dice": 0.839492553778268,
+   "prostate_hd95_mm": 4.58473226283704,
+   "prostate_dice_thirds": {
+    "apex": 0.8093023255813954,
+    "mid": 0.8696682464454977,
+    "base": 0.8163265306122449
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0352103941142559,
+    "leak_bladder_pct": 0.11918951132300358,
+    "lost_bladder_ml": 0.21126236468553541,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.868072509765625,
+   "prostate_gt_voxels": 974,
+   "prostate_pred_voxels": 839
+  },
+  {
+   "case": "V027_Week6",
+   "dice": {
+    "background": 0.9989011287689209,
+    "body": 0.9894546866416931,
+    "bone": 0.927037239074707,
+    "bladder": 0.9555714726448059,
+    "rectum": 0.8166090250015259,
+    "prostate": 0.8661670088768005
+   },
+   "iou": {
+    "background": 0.9978046699229063,
+    "body": 0.9791294596711115,
+    "bone": 0.8639975895111739,
+    "bladder": 0.9149227999972378,
+    "rectum": 0.6900585201797562,
+    "prostate": 0.7639282113486191
+   },
+   "prostate_dice": 0.8661670235546038,
+   "prostate_hd95_mm": 3.359375,
+   "prostate_dice_thirds": {
+    "apex": 0.8272425249169435,
+    "mid": 0.9126891734575088,
+    "base": 0.8255528255528255
+   },
+   "interface": {
+    "leak_bladder_ml": 0.2816831529140472,
+    "leak_bladder_pct": 0.9237875288683602,
+    "lost_bladder_ml": 0.6689974881708621,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.833501815795898,
+   "prostate_gt_voxels": 1002,
+   "prostate_pred_voxels": 866
+  },
+  {
+   "case": "V027_Week7",
+   "dice": {
+    "background": 0.9952566623687744,
+    "body": 0.9808357357978821,
+    "bone": 0.923297643661499,
+    "bladder": 0.9533855319023132,
+    "rectum": 0.8744365572929382,
+    "prostate": 0.8595317602157593
+   },
+   "iou": {
+    "background": 0.9905581108058732,
+    "body": 0.9623921974597074,
+    "bone": 0.8575235655667373,
+    "bladder": 0.9109233256016179,
+    "rectum": 0.7768878448911373,
+    "prostate": 0.7536656701447202
+   },
+   "prostate_dice": 0.8595317725752508,
+   "prostate_hd95_mm": 3.359375,
+   "prostate_dice_thirds": {
+    "apex": 0.7822014051522248,
+    "mid": 0.8989298454221165,
+    "base": 0.8593155893536122
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.739421892631799,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.858535766601562,
+   "prostate_gt_voxels": 1002,
+   "prostate_pred_voxels": 792
+  },
+  {
+   "case": "S028_Week0",
+   "dice": {
+    "background": 0.9954139590263367,
+    "body": 0.9824544191360474,
+    "bone": 0.9029330015182495,
+    "bladder": 0.9539027810096741,
+    "rectum": 0.8495968580245972,
+    "prostate": 0.816772997379303
+   },
+   "iou": {
+    "background": 0.9908697895717953,
+    "body": 0.9655139166364313,
+    "bone": 0.8230427155021833,
+    "bladder": 0.9118681932166531,
+    "rectum": 0.7385209819278837,
+    "prostate": 0.6902927296032417
+   },
+   "prostate_dice": 0.8167730173199635,
+   "prostate_hd95_mm": 6.239990234375,
+   "prostate_dice_thirds": {
+    "apex": 0.9053708439897699,
+    "mid": 0.893687707641196,
+    "base": 0.6043405676126878
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 3.382025957107544,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 0.0,
+    "base_extent_mm": -3.1199951171875
+   },
+   "infer_ms": 10.799169540405273,
+   "prostate_gt_voxels": 1271,
+   "prostate_pred_voxels": 923
+  },
+  {
+   "case": "K018_Week0",
+   "dice": {
+    "background": 0.9837367534637451,
+    "body": 0.9483107924461365,
+    "bone": 0.8792822957038879,
+    "bladder": 0.9594249129295349,
+    "rectum": 0.7601641416549683,
+    "prostate": 0.6897205114364624
+   },
+   "iou": {
+    "background": 0.9679940279417067,
+    "body": 0.901702504537271,
+    "bone": 0.784570719578431,
+    "bladder": 0.922014110130781,
+    "rectum": 0.6131167577857096,
+    "prostate": 0.5263919014656977
+   },
+   "prostate_dice": 0.689720511605874,
+   "prostate_hd95_mm": 8.831759627905154,
+   "prostate_dice_thirds": {
+    "apex": 0.7828947368421053,
+    "mid": 0.7338129496402878,
+    "base": 0.5576519916142557
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.6093740463256836,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 6.239990234375,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.811090469360352,
+   "prostate_gt_voxels": 1318,
+   "prostate_pred_voxels": 793
+  },
+  {
+   "case": "K018_Week1",
+   "dice": {
+    "background": 0.9980427622795105,
+    "body": 0.9842413067817688,
+    "bone": 0.9133523106575012,
+    "bladder": 0.9036334753036499,
+    "rectum": 0.8385093212127686,
+    "prostate": 0.6902734041213989
+   },
+   "iou": {
+    "background": 0.9960931711518102,
+    "body": 0.9689715809011629,
+    "bone": 0.8405229400617841,
+    "bladder": 0.824207466160936,
+    "rectum": 0.7219251402760258,
+    "prostate": 0.5270362580202048
+   },
+   "prostate_dice": 0.6902734199910354,
+   "prostate_hd95_mm": 9.375,
+   "prostate_dice_thirds": {
+    "apex": 0.7614678899082569,
+    "mid": 0.7113513513513513,
+    "base": 0.6642512077294686
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 0.45703500509262085,
+    "leak_rectum_ml": 0.12187600135803223,
+    "leak_rectum_pct": 0.4854368932038835,
+    "lost_rectum_ml": 0.06093800067901611,
+    "apex_extent_mm": 6.24005126953125,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.817766189575195,
+   "prostate_gt_voxels": 1407,
+   "prostate_pred_voxels": 824
+  },
+  {
+   "case": "K018_Week2",
+   "dice": {
+    "background": 0.9977039098739624,
+    "body": 0.979422926902771,
+    "bone": 0.8900040984153748,
+    "bladder": 0.8198294043540955,
+    "rectum": 0.7018722891807556,
+    "prostate": 0.6362715363502502
+   },
+   "iou": {
+    "background": 0.9954183396530084,
+    "body": 0.9596756116913697,
+    "bone": 0.8018084545580834,
+    "bladder": 0.6946702513846355,
+    "rectum": 0.5406804610447813,
+    "prostate": 0.46656761467557495
+   },
+   "prostate_dice": 0.6362715298885512,
+   "prostate_hd95_mm": 10.000888114892328,
+   "prostate_dice_thirds": {
+    "apex": 0.7794361525704809,
+    "mid": 0.6714628297362111,
+    "base": 0.46790890269151136
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 2.6408053888008,
+    "leak_rectum_ml": 0.211264431104064,
+    "leak_rectum_pct": 0.846262341325811,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 6.24005126953125,
+    "base_extent_mm": -3.120025634765625
+   },
+   "infer_ms": 10.81991195678711,
+   "prostate_gt_voxels": 1265,
+   "prostate_pred_voxels": 709
+  },
+  {
+   "case": "K018_Week3",
+   "dice": {
+    "background": 0.9981937408447266,
+    "body": 0.9814344048500061,
+    "bone": 0.9022682309150696,
+    "bladder": 0.8337372541427612,
+    "rectum": 0.7599411010742188,
+    "prostate": 0.6104928255081177
+   },
+   "iou": {
+    "background": 0.9963939950688739,
+    "body": 0.9635456071982091,
+    "bone": 0.8219387070005277,
+    "bladder": 0.7148794361342125,
+    "rectum": 0.6128266179392999,
+    "prostate": 0.439359246728153
+   },
+   "prostate_dice": 0.6104928457869634,
+   "prostate_hd95_mm": 10.078125,
+   "prostate_dice_thirds": {
+    "apex": 0.7487520798668885,
+    "mid": 0.6692307692307692,
+    "base": 0.38626609442060084
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 2.0774132527410982,
+    "leak_rectum_ml": 0.42252472937107083,
+    "leak_rectum_pct": 1.875,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 6.239990234375,
+    "base_extent_mm": -3.1199951171875
+   },
+   "infer_ms": 10.843753814697266,
+   "prostate_gt_voxels": 1247,
+   "prostate_pred_voxels": 640
+  },
+  {
+   "case": "K018_Week4",
+   "dice": {
+    "background": 0.9964807033538818,
+    "body": 0.9761093258857727,
+    "bone": 0.8954159021377563,
+    "bladder": 0.7130107879638672,
+    "rectum": 0.7264297008514404,
+    "prostate": 0.580987811088562
+   },
+   "iou": {
+    "background": 0.9929860907351158,
+    "body": 0.9533335448437495,
+    "bone": 0.8106362420667644,
+    "bladder": 0.5540145801500698,
+    "rectum": 0.5703883808668372,
+    "prostate": 0.40943116319124306
+   },
+   "prostate_dice": 0.580987785448752,
+   "prostate_hd95_mm": 8.133964069529618,
+   "prostate_dice_thirds": {
+    "apex": 0.5597826086956522,
+    "mid": 0.7066817667044167,
+    "base": 0.42649434571890144
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 5.07029675245285,
+    "leak_rectum_ml": 0.31689354702830314,
+    "leak_rectum_pct": 1.4539579967689822,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 3.1199951171875,
+    "base_extent_mm": -6.239990234375
+   },
+   "infer_ms": 10.862588882446289,
+   "prostate_gt_voxels": 1264,
+   "prostate_pred_voxels": 619
+  },
+  {
+   "case": "K018_Week5",
+   "dice": {
+    "background": 0.9953393936157227,
+    "body": 0.972305417060852,
+    "bone": 0.8821843266487122,
+    "bladder": 0.9111940264701843,
+    "rectum": 0.8320251107215881,
+    "prostate": 0.6429342031478882
+   },
+   "iou": {
+    "background": 0.9907220282060215,
+    "body": 0.9461034758791022,
+    "bone": 0.7892037548586729,
+    "bladder": 0.8368745659212095,
+    "rectum": 0.7123655811090448,
+    "prostate": 0.4737678929343415
+   },
+   "prostate_dice": 0.6429341963322546,
+   "prostate_hd95_mm": 8.133964069529618,
+   "prostate_dice_thirds": {
+    "apex": 0.7258320126782885,
+    "mid": 0.7423469387755102,
+    "base": 0.40860215053763443
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 1.478836552798748,
+    "leak_rectum_ml": 0.0,
+    "leak_rectum_pct": 0.0,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 9.3599853515625,
+    "base_extent_mm": -6.239990234375
+   },
+   "infer_ms": 10.82921028137207,
+   "prostate_gt_voxels": 1175,
+   "prostate_pred_voxels": 679
+  },
+  {
+   "case": "K018_Week6",
+   "dice": {
+    "background": 0.9946592450141907,
+    "body": 0.972798228263855,
+    "bone": 0.8949289917945862,
+    "bladder": 0.8968807458877563,
+    "rectum": 0.7850944399833679,
+    "prostate": 0.7298887968063354
+   },
+   "iou": {
+    "background": 0.9893752342987733,
+    "body": 0.9470371401517943,
+    "bone": 0.8098384494295178,
+    "bladder": 0.8130406051243646,
+    "rectum": 0.6462184928782613,
+    "prostate": 0.5746652694433743
+   },
+   "prostate_dice": 0.7298888162197514,
+   "prostate_hd95_mm": 6.71875,
+   "prostate_dice_thirds": {
+    "apex": 0.7157894736842105,
+    "mid": 0.7554179566563467,
+    "base": 0.7235494880546075
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 1.3732053704559801,
+    "leak_rectum_ml": 0.0704207882285118,
+    "leak_rectum_pct": 0.3284072249589491,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 3.1199951171875,
+    "base_extent_mm": 0.0
+   },
+   "infer_ms": 10.84280014038086,
+   "prostate_gt_voxels": 920,
+   "prostate_pred_voxels": 609
+  },
+  {
+   "case": "K018_Week7",
+   "dice": {
+    "background": 0.9927628636360168,
+    "body": 0.9685818552970886,
+    "bone": 0.8996508717536926,
+    "bladder": 0.8757396340370178,
+    "rectum": 0.839737594127655,
+    "prostate": 0.6610455513000488
+   },
+   "iou": {
+    "background": 0.98562972689806,
+    "body": 0.9390777739091238,
+    "bone": 0.8176049297985271,
+    "bladder": 0.7789473511208459,
+    "rectum": 0.7237479986230331,
+    "prostate": 0.49370279320695826
+   },
+   "prostate_dice": 0.6610455311973018,
+   "prostate_hd95_mm": 8.133964069529618,
+   "prostate_dice_thirds": {
+    "apex": 0.7272727272727273,
+    "mid": 0.75,
+    "base": 0.5319587628865979
+   },
+   "interface": {
+    "leak_bladder_ml": 0.0,
+    "leak_bladder_pct": 0.0,
+    "lost_bladder_ml": 1.5492573410272596,
+    "leak_rectum_ml": 0.17605197057127953,
+    "leak_rectum_pct": 0.7407407407407407,
+    "lost_rectum_ml": 0.0,
+    "apex_extent_mm": 6.239990234375,
+    "base_extent_mm": -3.1199951171875
+   },
+   "infer_ms": 10.851621627807617,
+   "prostate_gt_voxels": 1104,
+   "prostate_pred_voxels": 675
+  }
+ ]
+}
