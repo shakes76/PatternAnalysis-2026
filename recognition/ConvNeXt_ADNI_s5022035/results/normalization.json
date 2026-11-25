@@ -1,0 +1,132 @@
+{
+  "source_job": 719449,
+  "split": "validation",
+  "models": {
+    "fixed": {
+      "slice_metrics": {
+        "slices": 4300,
+        "accuracy": 0.7265116279069768,
+        "per_class": {
+          "NC": {
+            "precision": 0.7872727272727272,
+            "recall": 0.7098360655737705,
+            "f1": 0.746551724137931
+          },
+          "AD": {
+            "precision": 0.6628571428571428,
+            "recall": 0.7483870967741936,
+            "f1": 0.703030303030303
+          }
+        },
+        "macro_f1": 0.724791013584117,
+        "auroc": 0.7975711704565486,
+        "pr_auc_AD_average_precision": 0.7271504573816894
+      },
+      "acquisition_strata": [
+        {
+          "class": "NC",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 69,
+          "scans": 122,
+          "slices": 2440,
+          "correct_class_recall": 0.7098360655737705
+        },
+        {
+          "class": "AD",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 12,
+          "scans": 19,
+          "slices": 380,
+          "correct_class_recall": 0.6289473684210526
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "accelerated",
+          "subjects": 5,
+          "scans": 9,
+          "slices": 180,
+          "correct_class_recall": 0.9444444444444444
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "non-accelerated",
+          "subjects": 20,
+          "scans": 65,
+          "slices": 1300,
+          "correct_class_recall": 0.7561538461538462
+        }
+      ],
+      "normalization": {
+        "mean": 0.5,
+        "std": 0.5
+      }
+    },
+    "training_statistics": {
+      "slice_metrics": {
+        "slices": 4300,
+        "accuracy": 0.7209302325581395,
+        "per_class": {
+          "NC": {
+            "precision": 0.7406832298136646,
+            "recall": 0.7819672131147541,
+            "f1": 0.7607655502392344
+          },
+          "AD": {
+            "precision": 0.691415313225058,
+            "recall": 0.6408602150537634,
+            "f1": 0.6651785714285714
+          }
+        },
+        "macro_f1": 0.712972060833903,
+        "auroc": 0.794035783536048,
+        "pr_auc_AD_average_precision": 0.7290084536342639
+      },
+      "acquisition_strata": [
+        {
+          "class": "NC",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 69,
+          "scans": 122,
+          "slices": 2440,
+          "correct_class_recall": 0.7819672131147541
+        },
+        {
+          "class": "AD",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 12,
+          "scans": 19,
+          "slices": 380,
+          "correct_class_recall": 0.42894736842105263
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "accelerated",
+          "subjects": 5,
+          "scans": 9,
+          "slices": 180,
+          "correct_class_recall": 0.8
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "non-accelerated",
+          "subjects": 20,
+          "scans": 65,
+          "slices": 1300,
+          "correct_class_recall": 0.6807692307692308
+        }
+      ],
+      "normalization": {
+        "mean": 0.1159952504260093,
+        "std": 0.22312088200543034
+      }
+    }
+  }
+}

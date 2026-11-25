@@ -1,0 +1,377 @@
+{
+  "source_job": 719057,
+  "split": "test",
+  "split_protocol": "subject_70_15_15",
+  "seed": 42,
+  "temperature": 1.0,
+  "models": {
+    "baseline": {
+      "slice_metrics": {
+        "slices": 4400,
+        "accuracy": 0.7579545454545454,
+        "per_class": {
+          "NC": {
+            "precision": 0.7977839335180056,
+            "recall": 0.6728971962616822,
+            "f1": 0.7300380228136882
+          },
+          "AD": {
+            "precision": 0.7302504816955684,
+            "recall": 0.838495575221239,
+            "f1": 0.780638516992791
+          }
+        },
+        "macro_f1": 0.7553382699032396,
+        "auroc": 0.8186632619303614,
+        "pr_auc_AD_average_precision": 0.7724241117741422
+      },
+      "meets_80_percent_overall_accuracy": false,
+      "confusion_matrix_rows_true_NC_AD_cols_pred_NC_AD": [
+        [
+          1440,
+          700
+        ],
+        [
+          365,
+          1895
+        ]
+      ],
+      "acquisition_strata": [
+        {
+          "class": "NC",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 69,
+          "scans": 107,
+          "slices": 2140,
+          "correct_class_recall": 0.6728971962616822
+        },
+        {
+          "class": "AD",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 10,
+          "scans": 15,
+          "slices": 300,
+          "correct_class_recall": 0.6733333333333333
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "accelerated",
+          "subjects": 2,
+          "scans": 2,
+          "slices": 40,
+          "correct_class_recall": 1.0
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "non-accelerated",
+          "subjects": 23,
+          "scans": 96,
+          "slices": 1920,
+          "correct_class_recall": 0.8609375
+        }
+      ],
+      "reliability": {
+        "slices": 4400,
+        "patients": 102,
+        "metrics": {
+          "accuracy": 0.7579545454545454,
+          "recall_NC": 0.6728971962616822,
+          "recall_AD": 0.838495575221239,
+          "macro_f1": 0.7553382699032396,
+          "brier": 0.17291626662653456,
+          "nll": 0.542682441880355
+        },
+        "auroc": 0.8186632619303614,
+        "patient_clustered_95_percentile_intervals": {
+          "accuracy": [
+            0.6838744319643317,
+            0.821328582907922
+          ],
+          "recall_NC": [
+            0.5752264089121887,
+            0.7626202794201793
+          ],
+          "recall_AD": [
+            0.7367261904761905,
+            0.9143442622950819
+          ],
+          "macro_f1": [
+            0.6814173180348615,
+            0.8171959164191467
+          ],
+          "brier": [
+            0.13516836031103702,
+            0.218886436295312
+          ],
+          "nll": [
+            0.43647361194837175,
+            0.6713363797273675
+          ]
+        },
+        "calibration": {
+          "AD_probability_ece": 0.0730138347014277,
+          "bins": [
+            {
+              "lower": 0.0,
+              "upper": 0.1,
+              "count": 270,
+              "mean_probability_AD": 0.06432661441051298,
+              "fraction_AD": 0.07407407407407407
+            },
+            {
+              "lower": 0.1,
+              "upper": 0.2,
+              "count": 357,
+              "mean_probability_AD": 0.15263155238384626,
+              "fraction_AD": 0.03361344537815126
+            },
+            {
+              "lower": 0.2,
+              "upper": 0.3,
+              "count": 400,
+              "mean_probability_AD": 0.24763804137706757,
+              "fraction_AD": 0.1225
+            },
+            {
+              "lower": 0.3,
+              "upper": 0.4,
+              "count": 361,
+              "mean_probability_AD": 0.34838849124485766,
+              "fraction_AD": 0.30193905817174516
+            },
+            {
+              "lower": 0.4,
+              "upper": 0.5,
+              "count": 417,
+              "mean_probability_AD": 0.4500415982674066,
+              "fraction_AD": 0.4196642685851319
+            },
+            {
+              "lower": 0.5,
+              "upper": 0.6,
+              "count": 418,
+              "mean_probability_AD": 0.5521074289625342,
+              "fraction_AD": 0.5239234449760766
+            },
+            {
+              "lower": 0.6,
+              "upper": 0.7,
+              "count": 452,
+              "mean_probability_AD": 0.6483272052971663,
+              "fraction_AD": 0.6128318584070797
+            },
+            {
+              "lower": 0.7,
+              "upper": 0.8,
+              "count": 507,
+              "mean_probability_AD": 0.7512422483818536,
+              "fraction_AD": 0.8441814595660749
+            },
+            {
+              "lower": 0.8,
+              "upper": 0.9,
+              "count": 623,
+              "mean_probability_AD": 0.850807660177087,
+              "fraction_AD": 0.8218298555377207
+            },
+            {
+              "lower": 0.9,
+              "upper": 1.0,
+              "count": 595,
+              "mean_probability_AD": 0.9456313135243264,
+              "fraction_AD": 0.7714285714285715
+            }
+          ]
+        }
+      }
+    },
+    "paper_tiny": {
+      "slice_metrics": {
+        "slices": 4400,
+        "accuracy": 0.7497727272727273,
+        "per_class": {
+          "NC": {
+            "precision": 0.7442407146215326,
+            "recall": 0.7397196261682243,
+            "f1": 0.7419732833372393
+          },
+          "AD": {
+            "precision": 0.7549494060712715,
+            "recall": 0.7592920353982301,
+            "f1": 0.757114493712773
+          }
+        },
+        "macro_f1": 0.7495438885250061,
+        "auroc": 0.8283615912662311,
+        "pr_auc_AD_average_precision": 0.8374780387598872
+      },
+      "meets_80_percent_overall_accuracy": false,
+      "confusion_matrix_rows_true_NC_AD_cols_pred_NC_AD": [
+        [
+          1583,
+          557
+        ],
+        [
+          544,
+          1716
+        ]
+      ],
+      "acquisition_strata": [
+        {
+          "class": "NC",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 69,
+          "scans": 107,
+          "slices": 2140,
+          "correct_class_recall": 0.7397196261682243
+        },
+        {
+          "class": "AD",
+          "era": "2017+",
+          "sequence": "accelerated",
+          "subjects": 10,
+          "scans": 15,
+          "slices": 300,
+          "correct_class_recall": 0.6366666666666667
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "accelerated",
+          "subjects": 2,
+          "scans": 2,
+          "slices": 40,
+          "correct_class_recall": 1.0
+        },
+        {
+          "class": "AD",
+          "era": "pre-2017",
+          "sequence": "non-accelerated",
+          "subjects": 23,
+          "scans": 96,
+          "slices": 1920,
+          "correct_class_recall": 0.7734375
+        }
+      ],
+      "reliability": {
+        "slices": 4400,
+        "patients": 102,
+        "metrics": {
+          "accuracy": 0.7497727272727273,
+          "recall_NC": 0.7397196261682243,
+          "recall_AD": 0.7592920353982301,
+          "macro_f1": 0.7495438885250061,
+          "brier": 0.17414808786097605,
+          "nll": 0.5412566672706793
+        },
+        "auroc": 0.8283615912662311,
+        "patient_clustered_95_percentile_intervals": {
+          "accuracy": [
+            0.6760630564291092,
+            0.8110739087301586
+          ],
+          "recall_NC": [
+            0.6561800104038589,
+            0.8139843517692535
+          ],
+          "recall_AD": [
+            0.6360022522522523,
+            0.85
+          ],
+          "macro_f1": [
+            0.6758226830123801,
+            0.8105629036095243
+          ],
+          "brier": [
+            0.13258413232474292,
+            0.22456097920402635
+          ],
+          "nll": [
+            0.41942046211815476,
+            0.6866891044940314
+          ]
+        },
+        "calibration": {
+          "AD_probability_ece": 0.06673177771098297,
+          "bins": [
+            {
+              "lower": 0.0,
+              "upper": 0.1,
+              "count": 958,
+              "mean_probability_AD": 0.03985426776387704,
+              "fraction_AD": 0.13569937369519833
+            },
+            {
+              "lower": 0.1,
+              "upper": 0.2,
+              "count": 410,
+              "mean_probability_AD": 0.14289168261173296,
+              "fraction_AD": 0.24878048780487805
+            },
+            {
+              "lower": 0.2,
+              "upper": 0.3,
+              "count": 267,
+              "mean_probability_AD": 0.2508930785490779,
+              "fraction_AD": 0.3445692883895131
+            },
+            {
+              "lower": 0.3,
+              "upper": 0.4,
+              "count": 236,
+              "mean_probability_AD": 0.34637760383597876,
+              "fraction_AD": 0.3813559322033898
+            },
+            {
+              "lower": 0.4,
+              "upper": 0.5,
+              "count": 256,
+              "mean_probability_AD": 0.44725891819689423,
+              "fraction_AD": 0.5078125
+            },
+            {
+              "lower": 0.5,
+              "upper": 0.6,
+              "count": 259,
+              "mean_probability_AD": 0.5533644750311568,
+              "fraction_AD": 0.5482625482625483
+            },
+            {
+              "lower": 0.6,
+              "upper": 0.7,
+              "count": 310,
+              "mean_probability_AD": 0.6517274625839725,
+              "fraction_AD": 0.5903225806451613
+            },
+            {
+              "lower": 0.7,
+              "upper": 0.8,
+              "count": 417,
+              "mean_probability_AD": 0.7515216961467295,
+              "fraction_AD": 0.6762589928057554
+            },
+            {
+              "lower": 0.8,
+              "upper": 0.9,
+              "count": 573,
+              "mean_probability_AD": 0.8552251911704245,
+              "fraction_AD": 0.7696335078534031
+            },
+            {
+              "lower": 0.9,
+              "upper": 1.0,
+              "count": 714,
+              "mean_probability_AD": 0.9479441954976037,
+              "fraction_AD": 0.9355742296918768
+            }
+          ]
+        }
+      }
+    }
+  }
+}

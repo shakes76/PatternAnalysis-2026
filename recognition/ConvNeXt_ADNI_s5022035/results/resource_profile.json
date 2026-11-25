@@ -1,0 +1,63 @@
+{
+  "source_job": 718436,
+  "split": "validation",
+  "environment": {
+    "python": "3.11.13 (main, Apr 28 2026, 01:55:19) [GCC 8.5.0 20210514 (Red Hat 8.5.0-28)]",
+    "packages": {
+      "torch": "2.7.1+cu118",
+      "torchvision": "0.22.1+cu118",
+      "numpy": "2.4.6",
+      "scikit-learn": "1.9.1",
+      "Pillow": "12.3.0",
+      "matplotlib": "3.11.2"
+    },
+    "cuda_runtime": "11.8",
+    "cudnn": 90100
+  },
+  "validation": {
+    "slices": 4300,
+    "subjects": 102,
+    "subjects_by_class": {
+      "NC": 69,
+      "AD": 33
+    }
+  },
+  "models": {
+    "baseline": {
+      "parameters": 389314,
+      "validation_pipeline_latency": {
+        "median_batch_ms": 10.67828107625246,
+        "p95_batch_ms": 11.273970827460289,
+        "amortized_ms_per_slice": 1.3518993044489056,
+        "measured_batches": 537,
+        "measured_slices": 4292,
+        "workers": 0,
+        "warmup_batches": 1
+      },
+      "inference_peak_allocated_MiB": 111.15087890625,
+      "training_step_peak": {
+        "peak_allocated_MiB": 287.5419921875,
+        "peak_reserved_MiB": 422.0,
+        "measured_steps": 3
+      }
+    },
+    "convnext": {
+      "parameters": 27818594,
+      "validation_pipeline_latency": {
+        "median_batch_ms": 16.736156307160854,
+        "p95_batch_ms": 17.23884716629982,
+        "amortized_ms_per_slice": 1.9878178816687972,
+        "measured_batches": 537,
+        "measured_slices": 4292,
+        "workers": 0,
+        "warmup_batches": 1
+      },
+      "inference_peak_allocated_MiB": 216.6279296875,
+      "training_step_peak": {
+        "peak_allocated_MiB": 1199.44482421875,
+        "peak_reserved_MiB": 1444.0,
+        "measured_steps": 3
+      }
+    }
+  }
+}
