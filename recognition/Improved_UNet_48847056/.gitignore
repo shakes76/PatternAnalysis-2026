@@ -1,0 +1,6 @@
+HipMRI_Study_open
+.venv*
+__pycache__
+view.png
+view.py
+modules temp copy.py
