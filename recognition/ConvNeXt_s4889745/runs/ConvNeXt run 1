@@ -1,0 +1,17 @@
+Architecture: ConvNeXt-T
+Depths: (3, 3, 9, 3)
+Channels: (96, 192, 384, 768)
+
+Optimizer: AdamW
+LR: 1e-4
+Weight decay: 0.05
+Scheduler: CosineAnnealingLR
+Epochs: 30
+
+Best validation accuracy: 80.40%
+Best epoch: 12
+Macro-F1: 80.39%
+AUROC: 85.75%
+
+Observation:
+Strong overfitting occurred after the early epochs.

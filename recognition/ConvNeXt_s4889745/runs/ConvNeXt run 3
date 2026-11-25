@@ -1,0 +1,19 @@
+Architecture: ConvNeXt-T
+Depths: (3, 3, 9, 3)
+Channels: (96, 192, 384, 768)
+
+Optimizer: AdamW
+LR: 1e-4
+Weight decay: 0.05
+Scheduler: CosineAnnealingLR
+Epochs: 30
+
+Best validation accuracy: 81.93%
+Best epoch: 29
+Macro-F1: 81.93%
+AUROC: 88.50%
+
+Observation:
+That is still some overfitting, but it is much healthier.
+
+The validation loss is no longer exploding, and the gap between train and validation performance is substantially smaller.
