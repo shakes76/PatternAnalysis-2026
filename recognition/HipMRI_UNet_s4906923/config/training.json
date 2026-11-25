@@ -1,0 +1,25 @@
+{
+  "seed": 371017,
+  "epochs": 50,
+  "validation_every": 5,
+  "batch_size": 2,
+  "patches_per_patient": 10,
+  "patch_xyz": [
+    64,
+    64,
+    32
+  ],
+  "learning_rate": 0.001,
+  "weight_decay": 0.0,
+  "ce_fraction": 0.5,
+  "class_weights": [
+    1.453871,
+    1.0,
+    2.617199,
+    4.498586,
+    8.893215,
+    9.69995
+  ],
+  "scheduler": "none",
+  "checkpoint_selection": "patient_equal_small_organ_dice; validation only; earlier tie"
+}

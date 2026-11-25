@@ -1,0 +1,40 @@
+# Project-local ignore rules (kept inside this folder so the shared
+# repository root is unaffected).
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.venv-*/
+venv/
+env/
+.conda/
+
+# Raw data: HipMRI volumes must stay outside Git
+data/
+dataset/
+datasets/
+*.nii
+*.nii.gz
+
+# Model weights, checkpoints and run outputs
+*.pt
+*.pth
+*.ckpt
+checkpoints/
+outputs/
+runs/
+wandb/
+lightning_logs/
+experiment_store.zip
+.writer.lock
+
+# Temporary and OS files
+tmp/
+*.tmp
+*.log
+.DS_Store
+Thumbs.db

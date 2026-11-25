@@ -1,0 +1,40 @@
+{
+  "source_sha256": "80047fcb5ebcf0522ab216b3e0adff2674386c2229216c9eeacb1001fe35aa87",
+  "scope": "Previously evaluated Test predictions; descriptive analysis only",
+  "aggregation": "Mean across visits within each patient, then equal mean across six patients; OAR counts pooled within patient before calculating the rate",
+  "definitions": {
+    "apex_central_base_slice_dice": "Mean GT-positive slice Dice in physically ordered inferior 20%, central region, superior 20%; geometric proxies, not clinician-annotated endpoints",
+    "visits_with_internal_prostate_gap_fraction": "Fraction of visits with an empty predicted Z slice between nonempty predicted prostate slices; patient-equal mean",
+    "area_transition_absolute_error": "Absolute difference between mean normalized adjacent-area changes of prediction and GT, on GT-positive adjacent pairs; mean within patient then across patients; dimensionless proxy",
+    "true_oar_labelled_prostate_fraction": "GT Bladder/Rectum voxels predicted as Prostate divided by all GT Bladder/Rectum voxels, pooled within patient then averaged; not a wall-specific or dose metric"
+  },
+  "models": {
+    "2D": {
+      "apex_slice_dice": 0.5185827667562004,
+      "central_slice_dice": 0.7124700542988333,
+      "base_slice_dice": 0.34725738963676084,
+      "prediction_internal_gap_visit_fraction": 0.4375,
+      "truth_internal_gap_visit_fraction": 0.0,
+      "area_transition_absolute_error": 0.1952624108586443,
+      "true_oar_labelled_prostate_fraction": 0.0038634285550848985
+    },
+    "Standard": {
+      "apex_slice_dice": 0.7544270170632524,
+      "central_slice_dice": 0.78236159419396,
+      "base_slice_dice": 0.5097250939397167,
+      "prediction_internal_gap_visit_fraction": 0.0,
+      "truth_internal_gap_visit_fraction": 0.0,
+      "area_transition_absolute_error": 0.06852101862131006,
+      "true_oar_labelled_prostate_fraction": 0.0048498404233176095
+    },
+    "v3": {
+      "apex_slice_dice": 0.7522791855759277,
+      "central_slice_dice": 0.7931443700092426,
+      "base_slice_dice": 0.5068618878133583,
+      "prediction_internal_gap_visit_fraction": 0.08333333333333333,
+      "truth_internal_gap_visit_fraction": 0.0,
+      "area_transition_absolute_error": 0.07203309446976104,
+      "true_oar_labelled_prostate_fraction": 0.005804512923781524
+    }
+  }
+}

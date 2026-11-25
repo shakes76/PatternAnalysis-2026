@@ -1,0 +1,15 @@
+{
+  "scope": "Existing local Windows CPU verification environment; not a clean installation test or historical CUDA environment",
+  "date": "2026-10-22",
+  "python": "3.11.16",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "packages": {
+    "torch": "2.13.0+cpu",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "nibabel": "5.4.2",
+    "matplotlib": "3.11.0"
+  },
+  "cuda_available": false,
+  "tests_passed": 9
+}

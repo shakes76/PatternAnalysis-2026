@@ -1,0 +1,4 @@
+# Preserve source/evidence byte hashes across Windows and Rangpur.
+* -text
+*.pdf binary
+*.png binary
