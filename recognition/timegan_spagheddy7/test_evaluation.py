@@ -24,7 +24,7 @@ class EvaluationChecks(unittest.TestCase):
         from ar_report import load_report
         with tempfile.TemporaryDirectory() as folder, patch("ar_report.source_fingerprint",return_value="current"):
             project = Path(folder)
-            report_dir = project/"reports/ar"
+            report_dir = project/"outputs/ar"
             report_dir.mkdir(parents=True)
             figure = report_dir/"figure.png"
             figure.write_bytes(b"saved figure")
@@ -40,6 +40,12 @@ class EvaluationChecks(unittest.TestCase):
             for newline in (b"\n",b"\r\n"):
                 path.write_bytes(content.replace(b"\n",newline))
                 self.assertEqual(load_report(project,historical_sha256=expected),report)
+            archived = project / "archived_report.json"
+            archived.write_bytes(content)
+            (project / "figure.png").write_bytes(figure.read_bytes())
+            self.assertEqual(load_report(project, historical_sha256=expected, report_path=archived), report)
+            with self.assertRaises(ValueError):
+                load_report(project, report_path=archived)
             path.write_bytes(content.replace(b'"old"',b'"changed"'))
             with self.assertRaises(ValueError):
                 load_report(project,historical_sha256=expected)

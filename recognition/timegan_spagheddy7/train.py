@@ -345,10 +345,33 @@ def reconstruction_check(values, architecture, device, steps=600, contexts=None,
                 passed=bool(after < min(.5 * before, constant)), scope="Training-only reconstruction check; independent model discarded.")
 
 
+def load_ar_baseline(signature, baseline_report=None, anchor_conditioned=False):
+    """Read a generated compact contract or an explicitly supplied full AR report."""
+    filename = "anchor_conditioned_contract.json" if anchor_conditioned else "baseline_contract.json"
+    path = Path(baseline_report) if baseline_report is not None else PROJECT_DIR / "outputs/ar" / filename
+    try:
+        baseline = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as error:
+        mode = " --anchor-conditioned" if anchor_conditioned else ""
+        raise FileNotFoundError(
+            f"AR baseline contract not found: {path}. Run python tune_ar.py --data-dir DATA{mode} "
+            "first, or supply --baseline-report PATH to a matching AR report/contract."
+        ) from error
+    if signature != baseline.get("comparison_signature"):
+        raise ValueError("AR and TimeGAN comparison contracts differ; resolve the discrepancy before training.")
+    required = ("candidates", "original_candidate", "selected_candidate")
+    if any(key not in baseline for key in required):
+        raise ValueError("AR baseline must include candidate results and original/selected candidate identifiers.")
+    names = {row["candidate"] for row in baseline["candidates"]}
+    if not {baseline["original_candidate"], baseline["selected_candidate"]}.issubset(names):
+        raise ValueError("AR baseline is missing its original or selected candidate results.")
+    return baseline
+
+
 def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=1000, supervised_steps=1000, joint_steps=1000,
                 eval_every=250, seed=2026, batch_size=128, hidden=24, layers=3, learning_rate=1e-3, device="auto", sanity_steps=600, threads=4,
                 structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none", price_decoder="none", volume_conditioning="none",
-                training_state_every=0, resume_state=None, stop_request=None, training_deadline=None, replay_checkpoint=None, replay_step=None):
+                training_state_every=0, resume_state=None, stop_request=None, training_deadline=None, replay_checkpoint=None, replay_step=None, baseline_report=None):
     """Reference-structure experiment; fixed validation selection, no test scoring."""
     if min(embedding_steps, supervised_steps, joint_steps, eval_every, batch_size, sanity_steps, threads) < 1 or not 0 <= seed < 2**63 - 1000:
         raise ValueError("Use positive training budgets and a valid seed.")
@@ -377,7 +400,7 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
         total_memory = torch.cuda.get_device_properties(0).total_memory
         torch.cuda.set_per_process_memory_fraction(min(7 * 1024**3 / total_memory, 1.0))
     output_dir = Path(output_dir or PROJECT_DIR / "outputs/timegan")
-    report_path = Path(report_path or PROJECT_DIR / "reports/timegan/results.json")
+    report_path = Path(report_path or output_dir / "results.json")
     output_dir.mkdir(parents=True, exist_ok=True)
     report_path.parent.mkdir(parents=True, exist_ok=True)
     resumed = None if resume_state is None else torch.load(resume_state, map_location="cpu", weights_only=True)
@@ -411,12 +434,10 @@ def fit_timegan(data_dir, output_dir=None, report_path=None, embedding_steps=100
     validation_context = anchor_context(anchors, context_scaler, anchor_conditioning, volumes=validation_volumes, volume_mode=volume_conditioning)
     spec, protocol = metric_specification(training), comparison_protocol(context_scaler=context_scaler, volume_mode=volume_conditioning)
     signature = comparison_signature(protocol, spec, starts + validation.raw_offset, audit["files"], scaler.to_dict())
-    ar = json.loads((PROJECT_DIR / "reports/ar" / ("results.json" if context_scaler is None else "anchor_conditioned.json")).read_text(encoding="utf-8"))
     # Preserve the historical data/metric contract, while explicitly separating the richer input budget.
     base_protocol = protocol if training_volumes is None else comparison_protocol(context_scaler=fit_anchor_context(training_anchors.numpy()))
     base_signature = comparison_signature(base_protocol, spec, starts + validation.raw_offset, audit["files"], scaler.to_dict())
-    if base_signature != ar["comparison_signature"]:
-        raise ValueError("AR and TimeGAN comparison contracts differ; resolve the discrepancy before training.")
+    ar = load_ar_baseline(base_signature, baseline_report, anchor_conditioned=context_scaler is not None)
     reference = ValidationEvaluator(real, anchors, spec)
     reference_feature_std = np.stack([validation.features[s:s + 32] for s in starts]).reshape(-1, 40).std(axis=0).tolist()
     loading_seconds = perf_counter() - started
@@ -879,6 +900,7 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--checkpoint", type=Path, default=PROJECT_DIR / "outputs/ar/model.pt")
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--baseline-report", type=Path, help="TimeGAN: explicit AR report or compact contract; defaults to generated outputs/ar/*_contract.json.")
     parser.add_argument("--sequence-length", type=int, default=32)
     parser.add_argument("--ridge", type=float, default=1e-4)
     parser.add_argument("--lags", type=int, default=1)
@@ -910,7 +932,7 @@ def main():
         report = fit_timegan(args.data_dir, args.output_dir, args.report, args.embedding_steps, args.supervised_steps,
                             args.joint_steps, args.eval_every, args.seed, args.batch_size, args.hidden, args.layers,
                             args.learning_rate, args.device, args.sanity_steps, args.threads, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning, args.price_decoder, args.volume_conditioning,
-                            args.training_state_every, args.resume_state, args.stop_request, args.training_deadline, args.replay_checkpoint, args.replay_step)
+                            args.training_state_every, args.resume_state, args.stop_request, args.training_deadline, args.replay_checkpoint, args.replay_step, baseline_report=args.baseline_report)
         if report.get("status") == "incomplete":
             print(f"TimeGAN incomplete; resumable state saved after {report['stage']} {report['step']}.")
             return

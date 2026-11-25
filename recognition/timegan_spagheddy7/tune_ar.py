@@ -63,6 +63,23 @@ def evaluate_candidate(model, base_row, histories, seeds, length, scaler, anchor
     return row, runs, curves, distributions, preview
 
 
+def write_baseline_contract(report, report_path, anchor_conditioned=False):
+    """Keep only the shared comparison contract and the two reported AR baselines."""
+    report_path = Path(report_path)
+    filename = "anchor_conditioned_contract.json" if anchor_conditioned else "baseline_contract.json"
+    contract_path = report_path.with_name(filename)
+    if contract_path.resolve() == report_path.resolve():
+        raise ValueError("The full AR report must have a different name from its compact baseline contract.")
+    names = {report["original_candidate"], report["selected_candidate"]}
+    contract = dict(format_version=1, artifact_type="ar_timegan_baseline_contract",
+                    comparison_protocol=report["comparison_protocol"], comparison_signature=report["comparison_signature"],
+                    original_candidate=report["original_candidate"], selected_candidate=report["selected_candidate"],
+                    candidates=[row for row in report["candidates"] if row["candidate"] in names],
+                    source_report=report_path.name, source_report_sha256=sha256_file(report_path))
+    write_json(contract_path, contract)
+    return contract_path
+
+
 def run_grid(data_dir, lags=(1, 2, 4), ridges=(1e-6, 1e-4, 1e-2), seeds=(42, 43, 44),
              sequence_length=32, threads=4, report_path=None, output_dir=None, render=True):
     if not lags or len(set(lags)) != len(lags) or any(not isinstance(p, int) or p < 1 for p in lags):
@@ -78,8 +95,8 @@ def run_grid(data_dir, lags=(1, 2, 4), ridges=(1e-6, 1e-4, 1e-2), seeds=(42, 43,
     if 1 not in lags or 1e-4 not in ridges:
         raise ValueError("Keep the original VAR(1), ridge=1e-4, in the comparison grid.")
     torch.set_num_threads(threads)
-    report_path = Path(report_path or PROJECT_DIR / "reports/ar/results.json")
-    output_dir = Path(output_dir or PROJECT_DIR / "outputs/ar/tuning")
+    report_path = Path(report_path or PROJECT_DIR / "outputs/ar/results.json")
+    output_dir = Path(output_dir or PROJECT_DIR / "outputs/ar/tuning").resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     started = perf_counter()
     datasets, scaler, audit = prepare_datasets(data_dir, sequence_length, sequence_length)
@@ -181,7 +198,7 @@ def run_grid(data_dir, lags=(1, 2, 4), ridges=(1e-6, 1e-4, 1e-2), seeds=(42, 43,
             "KL depends on the declared binning and smoothing; 32-update ACF only measures short event-time dependence.",
             "Depth SSIM uses fixed chronological pairing and the declared 7x7 uniform-window variant. It measures volumes, not price validity.",
             "Teacher-forced one-step validation MSE is a separate observed-history diagnostic, not main generation performance.",
-            "Final test comparison is pending. TimeGAN validation experiments are recorded separately in timegan_results.ipynb.",
+            "This run evaluates validation only. TimeGAN experiments write separate reports under outputs/timegan.",
             "The lowest invalid rate is ranked first even when another candidate has lower KL or one-step MSE.",
             "Candidate fit time includes an equal share of the order's SVD setup plus its own ridge solve/residual calculation.",
             "Rollout timing excludes decoding and IO. Historical refactor timings cover one observed-history grid without SSIM, not the new two-protocol run.",
@@ -198,15 +215,16 @@ def run_grid(data_dir, lags=(1, 2, 4), ridges=(1e-6, 1e-4, 1e-2), seeds=(42, 43,
         report["example_diagnostics"] = example_diagnostics(report, previews[protocol["id"]])
         report["figures"] = save_figures(report, previews[protocol["id"]], report_path.parent)
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    write_json(report_path, report)
+    write_baseline_contract(report, report_path)
     return report
 
 
 def run_conditioned_baseline(data_dir, report_path=None, output_dir=None, threads=4):
     """Fixed VARX(2), ridge 0.01, with a zero-context control; no new grid or test scoring."""
     torch.set_num_threads(threads)
-    report_path = Path(report_path or PROJECT_DIR / "reports/ar/anchor_conditioned.json")
-    output_dir = Path(output_dir or PROJECT_DIR / "outputs/ar/anchor_conditioned")
+    report_path = Path(report_path or PROJECT_DIR / "outputs/ar/anchor_conditioned.json")
+    output_dir = Path(output_dir or PROJECT_DIR / "outputs/ar/anchor_conditioned").resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     if report_path.exists():
         raise ValueError("Conditional AR report exists; preserve it and choose a new destination.")
@@ -245,7 +263,11 @@ def run_conditioned_baseline(data_dir, report_path=None, output_dir=None, thread
         difference = float(np.abs(replay-preview).max())
         if difference != 0:
             raise RuntimeError("Conditional AR checkpoint did not replay exactly.")
-        row.update(checkpoint=path.relative_to(PROJECT_DIR).as_posix(), checkpoint_sha256=sha256_file(path), reload_max_abs_difference=difference)
+        try:
+            checkpoint_reference = path.relative_to(PROJECT_DIR.resolve())
+        except ValueError:
+            checkpoint_reference = path  # Explicit external outputs retain a usable absolute reference.
+        row.update(checkpoint=checkpoint_reference.as_posix(), checkpoint_sha256=sha256_file(path), reload_max_abs_difference=difference)
         np.savez_compressed(output_dir/f"{mode}_examples.npz", real=real[:3], generated=preview, anchors=anchors[:3])
         rows.append(row); all_runs.extend(runs); replays[mode] = difference
         print(mode, "invalid", row["invalid_rate_mean"], "return KL", row["kl_mid_return_mean"], flush=True)
@@ -259,6 +281,7 @@ def run_conditioned_baseline(data_dir, report_path=None, output_dir=None, thread
             "This is a new conditioning protocol. Historical anchor-only scores remain supplementary, not an equal-information comparison.",
             "Context does not guarantee valid prices; no clipping, sorting, rounding or repair is used."])
     write_json(report_path, report)
+    write_baseline_contract(report, report_path, anchor_conditioned=True)
     return report
 
 
@@ -269,13 +292,16 @@ def main():
     parser.add_argument("--ridges", type=float, nargs="+", default=DEFAULT_GRID["ridges"])
     parser.add_argument("--seeds", type=int, nargs="+", default=DEFAULT_GRID["seeds"])
     parser.add_argument("--threads", type=int, default=4)
+    parser.add_argument("--report", type=Path, help="Full local report; a compact baseline contract is also written beside it (default: outputs/ar).")
+    parser.add_argument("--output-dir", type=Path, help="Checkpoint and example directory (default: outputs/ar/tuning or outputs/ar/anchor_conditioned).")
     parser.add_argument("--anchor-conditioned", action="store_true", help="Run the fixed VARX baseline and its zero-context control.")
     args = parser.parse_args()
     if args.anchor_conditioned:
-        run_conditioned_baseline(args.data_dir, threads=args.threads)
+        run_conditioned_baseline(args.data_dir, report_path=args.report, output_dir=args.output_dir, threads=args.threads)
         return
-    report = run_grid(args.data_dir, args.lags, args.ridges, args.seeds, threads=args.threads)
-    print(f"Selected {report['selected_candidate']} under {report['protocol_id']}; saved reports/ar/results.json (validation only).")
+    report_path = args.report or PROJECT_DIR / "outputs/ar/results.json"
+    report = run_grid(args.data_dir, args.lags, args.ridges, args.seeds, threads=args.threads, report_path=report_path, output_dir=args.output_dir)
+    print(f"Selected {report['selected_candidate']} under {report['protocol_id']}; saved {report_path} and its baseline contract (validation only).")
 
 
 if __name__ == "__main__":

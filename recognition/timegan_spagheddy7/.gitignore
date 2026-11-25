@@ -1,6 +1,8 @@
 # Raw data, derived arrays, weights, and local environments are not submissions.
 /data/
 /outputs/
+# Legacy generated report location; new runs use outputs/.
+/reports/
 /checkpoints/
 /.venv/
 *.csv

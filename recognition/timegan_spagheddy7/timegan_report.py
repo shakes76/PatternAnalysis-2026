@@ -417,7 +417,11 @@ def analyse_conditioning(data_dir, matched_run, zero_run, destination, baseline_
     Read each CSV pair once and reuse the prepared data for reconstruction.
     Saved training timings remain historical; this function never calls fit().
     """
-    baseline_path = baseline_path or PROJECT_DIR / "reports/ar/anchor_conditioned.json"
+    baseline_path = Path(baseline_path) if baseline_path is not None else PROJECT_DIR / "outputs/ar/anchor_conditioned.json"
+    ar = json.loads(baseline_path.read_text(encoding="utf-8"))
+    if not {"comparison_signature", "candidates", "context_scaler", "metric_specification"}.issubset(ar):
+        raise ValueError("Conditioning diagnostics require a full conditioned AR report, not a compact training contract. "
+                         "Use the anchor_conditioned.json report produced by tune_ar.py --anchor-conditioned.")
     torch.set_num_threads(1)
     destination = Path(destination)
     if destination.exists() and any(destination.iterdir()):
@@ -427,7 +431,7 @@ def analyse_conditioning(data_dir, matched_run, zero_run, destination, baseline_
     check_conditioning_pair(runs)
     if runs["zero"]["source_files"] != timegan_code_hashes():
         raise ValueError("Model sources differ from these runs; use their archived source or new fits.")
-    previous_path = PROJECT_DIR / "reports/timegan/conditioning.json"
+    previous_path = PROJECT_DIR / "outputs/timegan/conditioning.json"
     previous = json.loads(previous_path.read_text(encoding="utf-8")) if previous_path.exists() else {}
     plan = dict(protocol="anchor_conditioned_v1", training_seeds=[runs["zero"]["config"]["training_seed"]],
                 generation_seeds=runs["zero"]["config"]["generation_seeds"], settings=runs["zero"]["config"],
@@ -439,7 +443,6 @@ def analyse_conditioning(data_dir, matched_run, zero_run, destination, baseline_
     actual_features = np.stack([validation.features[s:s + 32] for s in starts])
     real_sd = actual_features.reshape(-1, 40).std(0)
     case_indices = np.array([0, (len(starts) - 1) // 2, len(starts) - 1])
-    ar = json.loads(Path(baseline_path).read_text(encoding="utf-8"))
     result = dict(scope=f"Pilot: one training seed ({plan['training_seeds'][0]}) per mode; generation-seed variation is not retraining uncertainty.",
         plan=plan, comparison=[], final_comparison=[], reconstruction_rows=[], noise_rows=[], shifted_context_rows=[], cases=[], resources=[], figures={},
         verification=dict(checkpoint_replays={}, final_checkpoints_replayed=True, finite_outputs=True, test_evaluated=False),

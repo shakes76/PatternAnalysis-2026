@@ -261,7 +261,7 @@ def main():
     parser.add_argument("--stride", type=int, default=32)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--require-cuda", action="store_true")
-    parser.add_argument("--output-dir", type=Path, default=PROJECT_DIR / "reports")
+    parser.add_argument("--output-dir", type=Path, default=PROJECT_DIR / "outputs/data_audit")
     args = parser.parse_args()
     print("Auditing raw data and preparing chronological windows...", flush=True)
     datasets, scaler, report = prepare_datasets(args.data_dir, args.sequence_length, args.stride)
@@ -293,7 +293,7 @@ def main():
         "batch_memory_mib": features.numel() * features.element_size() / 2**20,
         "scope": "Minibatch transfer and finite-value check only; no TimeGAN training benchmark.",
     }
-    report["status"] = "data and device checks passed; models and feasibility review not yet implemented"
+    report["status"] = "data and device checks passed; this command does not train or benchmark models"
     report["limitations"] = [
         "One stock on one trading day; later intraday performance is not cross-day generalisation.",
         "Event-time sequences do not model event-arrival times; anchors are supplied rather than generated.",
@@ -301,7 +301,7 @@ def main():
         "Training-only min-max scaling can place future values outside [0, 1]; these are not clipped.",
     ]
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    save_training_preview(datasets["train"], PROJECT_DIR / "figures" / "training_data_preview.png")
+    save_training_preview(datasets["train"], args.output_dir / "training_data_preview.png")
     report_path = args.output_dir / "data_audit.json"
     report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"splits": report["splits"], "round_trip": report["training_round_trip"], "device": report["device_check"]}, indent=2))

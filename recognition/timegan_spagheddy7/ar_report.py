@@ -14,10 +14,11 @@ def source_fingerprint(project=None):
     return hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest()
 
 
-def load_report(project, historical_sha256=None):
+def load_report(project, historical_sha256=None, report_path=None):
     """Read current or explicitly pinned historical results; normalise text line endings."""
-    folder = Path(project) / "reports/ar"
-    content = (folder / "results.json").read_text(encoding="utf-8").encode()
+    path = Path(report_path) if report_path is not None else Path(project) / "outputs/ar/results.json"
+    folder = path.parent
+    content = path.read_text(encoding="utf-8").encode()
     report = json.loads(content)
     historical_match = historical_sha256 is not None and hashlib.sha256(content).hexdigest() == historical_sha256
     if report.get("format_version") != 3 or (report["source_fingerprint"] != source_fingerprint(project) and not historical_match):

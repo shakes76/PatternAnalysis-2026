@@ -127,7 +127,7 @@ def run_reconstruction(data_dir, output, hidden=24, steps=5000, seed=2026, balan
 
 def run_candidate(data_dir, name, hidden=24, learning_rate=.001, embedding_steps=1000, supervised_steps=1000,
                   joint_steps=1000, seed=2026, eval_every=250, structure_weight=0., balance_reconstruction=False, balance_power=1., no_supervision=False, anchor_conditioning="none", price_decoder="none", volume_conditioning="none",
-                  training_state_every=0, resume_state=None, stop_request=None, training_deadline=None, replay_checkpoint=None, replay_step=None):
+                  training_state_every=0, resume_state=None, stop_request=None, training_deadline=None, replay_checkpoint=None, replay_step=None, baseline_report=None):
     if not name or any(c not in "abcdefghijklmnopqrstuvwxyz0123456789_-" for c in name):
         raise ValueError("Use a simple lowercase experiment name.")
     output = PROJECT_DIR / "outputs/timegan/experiments" / name
@@ -150,7 +150,7 @@ def run_candidate(data_dir, name, hidden=24, learning_rate=.001, embedding_steps
                             seed=seed, eval_every=eval_every, device="cpu", threads=1, structure_weight=structure_weight,
                             balance_reconstruction=balance_reconstruction, balance_power=balance_power, no_supervision=no_supervision, anchor_conditioning=anchor_conditioning, price_decoder=price_decoder, volume_conditioning=volume_conditioning,
                             training_state_every=training_state_every, resume_state=resume_state, stop_request=stop_request,
-                            training_deadline=training_deadline, replay_checkpoint=replay_checkpoint, replay_step=replay_step)
+                            training_deadline=training_deadline, replay_checkpoint=replay_checkpoint, replay_step=replay_step, baseline_report=baseline_report)
         if report.get("status") == "incomplete":
             return report
     collect_summary()
@@ -159,7 +159,7 @@ def run_candidate(data_dir, name, hidden=24, learning_rate=.001, embedding_steps
 
 def collect_summary():
     """Rebuild from completed reports, retaining historical diagnostics and all attempts."""
-    summary_path = PROJECT_DIR / "reports/timegan/tuning.json"
+    summary_path = PROJECT_DIR / "outputs/timegan/tuning.json"
     for attempt in range(5):
         try:
             summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else dict(
@@ -185,14 +185,16 @@ def collect_summary():
     return summary
 
 
-def refresh_notebook():
-    """Refresh the existing report; no additional results notebook."""
+def refresh_notebook(notebook_path):
+    """Execute an explicitly restored archival notebook in the project directory."""
+    path = Path(notebook_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"Notebook not found: {path}. Restore the archived notebook and pass its path explicitly.")
     import asyncio
     import nbformat
     from nbclient import NotebookClient
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    path = PROJECT_DIR / "timegan_results.ipynb"
     notebook = nbformat.read(path, as_version=4)
     NotebookClient(notebook, timeout=180, startup_timeout=30, kernel_name="python3", resources={"metadata": {"path": str(PROJECT_DIR)}}).execute()
     nbformat.write(notebook, path)
@@ -209,9 +211,11 @@ def main():
     parser.add_argument("--matched-run", type=Path, default=PROJECT_DIR / "outputs/timegan/experiments/context_matched_s2026")
     parser.add_argument("--zero-run", type=Path, default=PROJECT_DIR / "outputs/timegan/experiments/context_zero_s2026")
     parser.add_argument("--report-dir", type=Path, default=PROJECT_DIR / "outputs/timegan/conditioning_reproduced")
-    parser.add_argument("--refresh-notebook", action="store_true", help="Refresh cached report outputs only.")
+    parser.add_argument("--refresh-notebook", action="store_true", help="Execute an explicitly restored archival notebook; requires --notebook PATH.")
+    parser.add_argument("--notebook", type=Path, help="Notebook restored from the evidence archive; only with --refresh-notebook.")
+    parser.add_argument("--baseline-report", type=Path, help="Training accepts a full AR report or compact contract (default: outputs/ar/*_contract.json); --conditioning-report requires a FULL conditioned AR report with context_scaler and metric_specification (default: outputs/ar/anchor_conditioned.json).")
     parser.add_argument("--checkpoint", type=Path, default=PROJECT_DIR / "outputs/timegan/selected.pt")
-    parser.add_argument("--diagnostic-output", type=Path, default=PROJECT_DIR / "reports/timegan/diagnostics.json")
+    parser.add_argument("--diagnostic-output", type=Path, default=PROJECT_DIR / "outputs/timegan/diagnostics.json")
     parser.add_argument("--name")
     parser.add_argument("--hidden", type=int, default=24)
     parser.add_argument("--learning-rate", type=float, default=.001)
@@ -229,6 +233,10 @@ def main():
     parser.add_argument("--volume-conditioning", choices=("none", "zero", "matched"), default="none", help="Labelled extension: starting volumes or same-dimension zero-volume control; requires matched price context.")
     add_training_state_arguments(parser)
     args = parser.parse_args()
+    if args.notebook is not None and not args.refresh_notebook:
+        parser.error("--notebook requires --refresh-notebook.")
+    if args.refresh_notebook and (args.notebook is None or not args.notebook.is_file()):
+        parser.error("--refresh-notebook requires --notebook PATH to a restored archival notebook; notebooks are not part of the clean submission.")
     if args.reconstruction_only:
         if args.data_dir is None or args.probe_output is None or args.name or args.diagnose or args.refresh_notebook or args.conditioning_report or args.structure_weight or args.no_supervision or args.anchor_conditioning != "none" or args.price_decoder != "none" or args.volume_conditioning != "none":
             parser.error("Reconstruction-only needs --data-dir and a fresh --probe-output, separately from other modes.")
@@ -243,12 +251,12 @@ def main():
         if args.name or args.diagnose or (args.refresh_notebook and args.conditioning_report):
             parser.error("Run report commands separately from training or other diagnostics.")
     if args.refresh_notebook:
-        refresh_notebook()
+        refresh_notebook(args.notebook)
         return
     if args.data_dir is None:
         parser.error("--data-dir is required for training and diagnostics.")
     if args.conditioning_report:
-        report = analyse_conditioning(args.data_dir, args.matched_run, args.zero_run, args.report_dir)
+        report = analyse_conditioning(args.data_dir, args.matched_run, args.zero_run, args.report_dir, baseline_path=args.baseline_report)
         print(report["conclusion"])
         print(f"Saved report: {args.report_dir / 'conditioning.json'}")
         return
@@ -260,7 +268,7 @@ def main():
     if args.name:
         report = run_candidate(args.data_dir, args.name, args.hidden, args.learning_rate, args.embedding_steps,
                                args.supervised_steps, args.joint_steps, args.seed, args.eval_every, args.structure_weight, args.balance_reconstruction, args.balance_power, args.no_supervision, args.anchor_conditioning, args.price_decoder, args.volume_conditioning,
-                               args.training_state_every, args.resume_state, args.stop_request, args.training_deadline, args.replay_checkpoint, args.replay_step)
+                               args.training_state_every, args.resume_state, args.stop_request, args.training_deadline, args.replay_checkpoint, args.replay_step, baseline_report=args.baseline_report)
         if report.get("status") == "incomplete":
             print(args.name, "incomplete", report["stage"], report["step"], "full state saved", flush=True)
         else:
