@@ -44,7 +44,7 @@ a bilinear Upsampler2D followed by two more convolutions a 3x3 then a 1x1 and th
 segmentation heads which are then Upscaled as well (Deep Supervision).
 
 This is a visual representation of the U-Net structure in Isensee et al. (2017)[2]:
-![Isensee UNet.png](segmentation%20UNET%2046481698/plots/Isensee%20UNet.png)
+![Isensee UNet.png](plots/Isensee%20UNet.png)
 
 ### Files
 
@@ -137,7 +137,7 @@ Figures 1 and 2, The training curves for the Basic 2D U-Net and Improved 2D U-Ne
 
 |Basic U-Net|Improved U-Net|
 |---|---|
-|![training_curves.png](segmentation%20UNET%2046481698/plots/Basic%20UNet/training_curves.png)|![training_curves.png](segmentation%20UNET%2046481698/plots/Improved%20UNet/training_curves.png)|
+|![training_curves.png](plots/Basic%20UNet/training_curves.png)|![training_curves.png](plots/Improved%20UNet/training_curves.png)|
 
 Through the two graphs above, There are two major differences in the training of the models.
 While the basic 2D U-Net has a steady curve, so the training is steady. Compared to the Improved U-Net which has a
@@ -189,7 +189,7 @@ less than the Basic U-Net. This may make the model much better computational muc
 ## Prostate Failure Cases
 
 Figure 3, Improved U-Net Model Performance on Slices
-![class_balance_test.png](segmentation%20UNET%2046481698/plots/Improved%20UNet/class_balance_test.png)
+![class_balance_test.png](plots/Improved%20UNet/class_balance_test.png)
 
 As seen in the first row of Figure 3, the most accurate prediction occurs during a middle slice where the prostate has
 the most pixels it will have. There is still some over-contouring and under-contouring resulting in the prostate prediction
@@ -218,6 +218,49 @@ One such benefit is a lower computational peak cost allowing the model to be run
 much more open. Allowing many more people to use it even in situations where higher spec hardware may be harder to come by.
 In that respect I do tacitly recommend this model in this specific circumstance. Otherwise the standard U-Net is still more
 accurate in its predictions than my model.
+
+## Disclosure
+
+---
+
+Claude was used to summarise and broadly interpret Isensee's U-Net and simplify the discription of the model, into its
+main components.
+
+## Dependencies
+
+---
+
+dataset.py:
+- torch 2.4.1
+- numpy 2.5.4
+- nibabel 5.4.2
+
+modules.py:
+- torch 2.4.1
+
+train.py:
+- torch 2.4.1
+- matplotlib 3.11.2
+- tqdm 4.70.1
+
+predict.py:
+- torch 2.4.1
+- numpy 2.5.4
+- matplotlib 3.11.2
+- tqdm 4.70.1
+
+## Commands Used
+
+---
+
+Train base model:
+python train.py --data_path /home/groups/comp3710/HipMRI_Study_open/keras_slices_data --full
+
+Train improved model:
+python train.py --data_path /home/groups/comp3710/HipMRI_Study_open/keras_slices_data --unet --full
+
+Class balance and prediction:
+python predict.py --data_path /home/groups/comp3710/HipMRI_Study_open/keras_slices_data --mode balance
 
 ## References
 
