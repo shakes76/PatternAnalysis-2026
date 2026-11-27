@@ -1,0 +1,373 @@
+Getting datasets...
+Getting preparing dataloaders...
+Configuring ConvNeXt model...
+Training ConvNext...
+Training on: cuda
+Epochs: 15
+==============================
+Epoch [1/15] | Train loss: 0.7013 | Train acc: 53.59% | Val loss: 0.6495 | Val acc: 64.91%
+Epoch [2/15] | Train loss: 0.6164 | Train acc: 66.14% | Val loss: 0.5754 | Val acc: 72.15%
+Epoch [3/15] | Train loss: 0.5744 | Train acc: 70.45% | Val loss: 0.5460 | Val acc: 73.15%
+Epoch [4/15] | Train loss: 0.5587 | Train acc: 71.53% | Val loss: 0.5290 | Val acc: 74.95%
+Epoch [5/15] | Train loss: 0.5429 | Train acc: 72.58% | Val loss: 0.5376 | Val acc: 74.12%
+Epoch [6/15] | Train loss: 0.5341 | Train acc: 73.37% | Val loss: 0.5254 | Val acc: 74.26%
+Epoch [7/15] | Train loss: 0.5235 | Train acc: 74.13% | Val loss: 0.5107 | Val acc: 75.72%
+Epoch [8/15] | Train loss: 0.5134 | Train acc: 75.22% | Val loss: 0.4858 | Val acc: 77.66%
+Epoch [9/15] | Train loss: 0.5011 | Train acc: 75.78% | Val loss: 0.4857 | Val acc: 77.41%
+Epoch [10/15] | Train loss: 0.4937 | Train acc: 76.35% | Val loss: 0.5577 | Val acc: 71.92%
+Epoch [11/15] | Train loss: 0.4894 | Train acc: 76.62% | Val loss: 0.4717 | Val acc: 78.38%
+Epoch [12/15] | Train loss: 0.4772 | Train acc: 77.45% | Va l loss: 0.4656 | Val acc: 78.84%
+Epoch [13/15] | Train loss: 0.4709 | Train acc: 77.77% | Val loss: 0.4884 | Val acc: 77.57%
+Epoch [14/15] | Train loss: 0.4638 | Train acc: 78.53% | Val loss: 0.4632 | Val acc: 78.96%
+Epoch [15/15] | Train loss: 0.4507 | Train acc: 79.22% | Val loss: 0.4467 | Val acc: 80.76%
+
+Saved model from epoch #15
+Saved learning curves: Models/convnext_plots/learning_curves.png
+
+Validation metrics:
+NC precision: 0.8455
+AD precision: 0.7738
+NC recall:    0.7696
+AD recall:    0.8486
+Macro-F1:     0.8076
+AUROC:        0.8706
+------------------------------
+Resource usage details for: train_model
+
+Training runtime: 1885.22 seconds
+Peak GPU memory allocated: 4840.33 MB
+Peak GPU memory reserved:  5138.00 MB
+Configuring CNN model...
+Training CNN...
+Training on: cuda
+Epochs: 15
+==============================
+Epoch [1/15] | Train loss: 0.6928 | Train acc: 51.55% | Val loss: 0.6898 | Val acc: 54.28%
+Epoch [2/15] | Train loss: 0.6736 | Train acc: 58.68% | Val loss: 0.6426 | Val acc: 64.07%
+Epoch [3/15] | Train loss: 0.6302 | Train acc: 64.50% | Val loss: 0.6414 | Val acc: 64.54%
+Epoch [4/15] | Train loss: 0.6107 | Train acc: 66.62% | Val loss: 0.6060 | Val acc: 65.81%
+Epoch [5/15] | Train loss: 0.5984 | Train acc: 67.67% | Val loss: 0.6220 | Val acc: 64.31%
+Epoch [6/15] | Train loss: 0.5807 | Train acc: 69.30% | Val loss: 0.5688 | Val acc: 69.00%
+Epoch [7/15] | Train loss: 0.5621 | Train acc: 70.62% | Val loss: 0.5466 | Val acc: 70.76%
+Epoch [8/15] | Train loss: 0.5366 | Train acc: 73.02% | Val loss: 0.5305 | Val acc: 72.27%
+Epoch [9/15] | Train loss: 0.5197 | Train acc: 74.53% | Val loss: 0.5072 | Val acc: 74.00%
+Epoch [10/15] | Train loss: 0.4989 | Train acc: 76.20% | Val loss: 0.5292 | Val acc: 75.00%
+Epoch [11/15] | Train loss: 0.4932 | Train acc: 76.75% | Val loss: 0.4984 | Val acc: 73.50%
+Epoch [12/15] | Train loss: 0.4816 | Train acc: 77.24% | Val loss: 0.4966 | Val acc: 75.76%
+Epoch [13/15] | Train loss: 0.4682 | Train acc: 78.38% | Val loss: 0.4878 | Val acc: 77.41%
+Epoch [14/15] | Train loss: 0.4641 | Train acc: 78.65% | Val loss: 0.4723 | Val acc: 77.55%
+Epoch [15/15] | Train loss: 0.4512 | Train acc: 79.44% | Val loss: 0.4960 | Val acc: 76.18%
+
+Saved model from epoch #14
+Saved learning curves: Models/cnn_plots/learning_curves.png
+
+Validation metrics:
+NC precision: 0.8095
+AD precision: 0.7447
+NC recall:    0.7415
+AD recall:    0.8120
+Macro-F1:     0.7755
+AUROC:        0.8608
+------------------------------
+Resource usage details for: train_model
+
+Training runtime: 928.79 seconds
+Peak GPU memory allocated: 840.52 MB
+Peak GPU memory reserved:  6042.00 MB
+Loading test dataset...
+Loading ConvNeXt...
+Evaluating ConvNeXt...
+
+============================================================
+ EVALUATION RESULTS: ConvNeXt
+============================================================
+MRI slices evaluated: 9000
+
+------------------------------------------------------------
+CLASSIFICATION METRICS
+------------------------------------------------------------
+Accuracy:       0.6859
+Macro-F1:       0.6856
+AUROC:          0.7535
+Average Prec.:  0.7361
+
+Per-class metrics:
+Class         Precision       Recall     F1-score
+NC               0.6812       0.7093       0.6949
+AD               0.6911       0.6621       0.6763
+
+Confusion matrix:
+                Predicted NC    Predicted AD
+Actual NC               3220            1320
+Actual AD               1507            2953
+
+------------------------------------------------------------
+CONFIDENCE METRICS
+------------------------------------------------------------
+Confidence threshold:      90%
+Coverage:                  21.02%
+High-confidence accuracy: 0.8319
+
+------------------------------------------------------------
+COMPUTATIONAL METRICS
+------------------------------------------------------------
+Total parameters:       27,818,594
+Trainable parameters:   27,818,594
+Inference runtime:      22.13 s
+Latency per slice:      2.46 ms
+Throughput:             406.75 slices/s
+Peak GPU allocated:     574.63 MB
+Peak GPU reserved:      778.00 MB
+
+============================================================
+
+Saved plot: Models/evaluation/convnext/confusion_matrix.png
+Saved plot: Models/evaluation/convnext/roc_curve.png
+Saved plot: Models/evaluation/convnext/precision_recall_curve.png
+Saved plot: Models/evaluation/convnext/prediction_distribution.png
+Saved plot: Models/evaluation/convnext/confidence_coverage.png
+
+============================================================
+ FAILURE CASES: ConvNeXt
+============================================================
+
+FALSE POSITIVES (5 shown)
+------------------------------------------------------------
+
+Case 1
+  Patient ID:       1421785
+  Image:            1421785_101.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9376
+  Error confidence: 0.9376
+
+Case 2
+  Patient ID:       1243833
+  Image:            1243833_80.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9241
+  Error confidence: 0.9241
+
+Case 3
+  Patient ID:       1214021
+  Image:            1214021_96.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9198
+  Error confidence: 0.9198
+
+Case 4
+  Patient ID:       1214021
+  Image:            1214021_95.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9167
+  Error confidence: 0.9167
+
+Case 5
+  Patient ID:       1243833
+  Image:            1243833_81.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9164
+  Error confidence: 0.9164
+
+FALSE NEGATIVES (5 shown)
+------------------------------------------------------------
+
+Case 1
+  Patient ID:       985197
+  Image:            985197_94.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0008
+  Error confidence: 0.9992
+
+Case 2
+  Patient ID:       985197
+  Image:            985197_105.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0008
+  Error confidence: 0.9992
+
+Case 3
+  Patient ID:       985197
+  Image:            985197_106.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0008
+  Error confidence: 0.9992
+
+Case 4
+  Patient ID:       985197
+  Image:            985197_95.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0009
+  Error confidence: 0.9991
+
+Case 5
+  Patient ID:       985197
+  Image:            985197_103.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0009
+  Error confidence: 0.9991
+
+============================================================
+
+
+ConvNeXt stuff done =====================
+
+
+Loading CNN...
+Evaluating CNN...
+
+============================================================
+ EVALUATION RESULTS: CNN
+============================================================
+MRI slices evaluated: 9000
+
+------------------------------------------------------------
+CLASSIFICATION METRICS
+------------------------------------------------------------
+Accuracy:       0.7212
+Macro-F1:       0.7205
+AUROC:          0.7982
+Average Prec.:  0.8015
+
+Per-class metrics:
+Class         Precision       Recall     F1-score
+NC               0.7069       0.7643       0.7345
+AD               0.7385       0.6774       0.7066
+
+Confusion matrix:
+                Predicted NC    Predicted AD
+Actual NC               3470            1070
+Actual AD               1439            3021
+
+------------------------------------------------------------
+CONFIDENCE METRICS
+------------------------------------------------------------
+Confidence threshold:      90%
+Coverage:                  19.39%
+High-confidence accuracy: 0.9014
+
+------------------------------------------------------------
+COMPUTATIONAL METRICS
+------------------------------------------------------------
+Total parameters:       92,930
+Trainable parameters:   92,930
+Inference runtime:      12.99 s
+Latency per slice:      1.44 ms
+Throughput:             692.87 slices/s
+Peak GPU allocated:     435.98 MB
+Peak GPU reserved:      442.00 MB
+
+============================================================
+
+Saved plot: Models/evaluation/cnn/confusion_matrix.png
+Saved plot: Models/evaluation/cnn/roc_curve.png
+Saved plot: Models/evaluation/cnn/precision_recall_curve.png
+Saved plot: Models/evaluation/cnn/prediction_distribution.png
+Saved plot: Models/evaluation/cnn/confidence_coverage.png
+
+============================================================
+ FAILURE CASES: CNN
+============================================================
+
+FALSE POSITIVES (5 shown)
+------------------------------------------------------------
+
+Case 1
+  Patient ID:       1293823
+  Image:            1293823_97.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9881
+  Error confidence: 0.9881
+
+Case 2
+  Patient ID:       1280292
+  Image:            1280292_92.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9805
+  Error confidence: 0.9805
+
+Case 3
+  Patient ID:       1331222
+  Image:            1331222_91.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9779
+  Error confidence: 0.9779
+
+Case 4
+  Patient ID:       1280292
+  Image:            1280292_93.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9740
+  Error confidence: 0.9740
+
+Case 5
+  Patient ID:       1331222
+  Image:            1331222_90.jpeg
+  True label:       NC
+  Predicted label:  AD
+  AD probability:   0.9723
+  Error confidence: 0.9723
+
+FALSE NEGATIVES (5 shown)
+------------------------------------------------------------
+
+Case 1
+  Patient ID:       1175051
+  Image:            1175051_90.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0005
+  Error confidence: 0.9995
+
+Case 2
+  Patient ID:       1175051
+  Image:            1175051_103.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0014
+  Error confidence: 0.9986
+
+Case 3
+  Patient ID:       1175051
+  Image:            1175051_93.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0016
+  Error confidence: 0.9984
+
+Case 4
+  Patient ID:       1413656
+  Image:            1413656_97.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0018
+  Error confidence: 0.9982
+
+Case 5
+  Patient ID:       1175051
+  Image:            1175051_89.jpeg
+  True label:       AD
+  Predicted label:  NC
+  AD probability:   0.0026
+  Error confidence: 0.9974
+
+============================================================
+
+
+CNN stuff done =====================
+
+

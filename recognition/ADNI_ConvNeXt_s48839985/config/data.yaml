@@ -1,0 +1,15 @@
+---
+# Dataset info 
+adni-dir: "/home/groups/comp3710/ADNI/AD_NC"
+image-extension: ".jpeg"
+
+num-classifications: 2
+nc-label: 0 # Normal control
+ad-label: 1 # Alzheimer's disease
+
+nc-name: "NC"
+ad-name: "AD"
+
+# Split configuration
+random-state: 42
+validation-split: 0.2

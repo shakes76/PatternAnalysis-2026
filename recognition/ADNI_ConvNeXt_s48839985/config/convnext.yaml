@@ -1,0 +1,26 @@
+---
+# Data interpretation
+save-path-root: "Models/"
+batch-size: 32
+epochs: 15
+
+# Model settings
+drop-path-rate: 0.5
+layer-scale-init-val: 0.000001
+depths: [3, 3, 9, 3]
+dims: [96, 192, 384, 768]
+
+learning-rate: 0.0001
+weight-decay: 0.1
+confidence-threshold: 0.9
+
+# Image transform configuration
+random-affine:
+  degrees: 5
+  translate: [0.03, 0.03]
+  scale: [0.97, 1.03] 
+  fill: 0
+
+colour-jitter:
+  brightness: 0.1
+  contrast: 0.1
